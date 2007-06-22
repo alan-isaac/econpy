@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>Open-Databank Format</title>
+<meta name="author" content="Alan G. Isaac" />
+<meta name="date" content="20050826" />
+<meta name="copyright" content="Creative Commons Attribution-ShareAlike 2.5 (or later version)." />
+<link rel="stylesheet" href="http://docutils.sourceforge.net/tools/stylesheets/default.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="open-databank-format">
+<h1 class="title">Open-Databank Format</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td><a class="first last reference" href="http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm">Alan G. Isaac</a></td></tr>
+<tr><th class="docinfo-name">Date:</th>
+<td>20050826</td></tr>
+<tr class="field"><th class="docinfo-name">First Posted:</th><td class="field-body">20050718</td>
+</tr>
+<tr><th class="docinfo-name">Version:</th>
+<td>1.1.0</td></tr>
+<tr><th class="docinfo-name">Copyright:</th>
+<td><a class="first reference" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5</a> (or later version).</td></tr>
+<tr class="field"><th class="docinfo-name">Document URL:</th><td class="field-body"><a class="reference" href="http://www.american.edu/econ/pytrix/opendatabank.txt">http://www.american.edu/econ/pytrix/opendatabank.txt</a></td>
+</tr>
+<tr class="field"><th class="docinfo-name">HTML version:</th><td class="field-body"><a class="reference" href="http://www.american.edu/econ/pytrix/opendatabank.htm">http://www.american.edu/econ/pytrix/opendatabank.htm</a></td>
+</tr>
+</tbody>
+</table>
+<p>The open-databank single-series format is intended to be highly backwards compatible
+(see notes below) with the classic microTSP databank format.
+Essentially, the open-databank format enhances the comment lines
+to include multi-line comments and label comments.
+This document also serves to document both the original standard,
+which seems largely undocumented on the internet,
+and the open-databank extension.</p>
+<div class="section" id="the-microtsp-databank-format">
+<h2><a name="the-microtsp-databank-format">The MicroTSP Databank Format</a></h2>
+<p>The original databank format was promulgated by <a class="reference" href="http://www.eviews.com">microTSP</a>.
+It is primarily useful for data of a fixed annual sample frequency
+(annual, quarterly, monthly) and for undated data.
+It is supported by <a class="reference" href="http://www.tspintl.com/">TSP</a> and <a class="reference" href="http://www.eviews.com">EViews</a>
+(by means of their <tt class="docutils literal"><span class="pre">store</span></tt> and <tt class="docutils literal"><span class="pre">fetch</span></tt> commands)
+and by many other applications.
+A brief description of the microTSP specification follows.<a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a></p>
+<p>A microTSP databank file is an ASCII text file.
+Traditionally the name of the file ends with extension <tt class="docutils literal"><span class="pre">.db</span></tt>.
+A databank file is formatted linewise.
+The first n lines (n&gt;=1) are comment lines.
+For dated series, the next three (n+1--n+3) lines specify the frequency,
+start date, and end date.
+For undated series, the next two (n+1--n+2) lines specify the start index
+and end index.
+The remaining lines are data: one observation per line, or NA if missing.</p>
+<div class="section" id="in-more-detail">
+<h3><a name="in-more-detail">In More Detail</a></h3>
+<ul>
+<li><p class="first">Dated and Undated Series:</p>
+<dl class="docutils">
+<dt>Line 1--n:</dt>
+<dd><p class="first last">A databankfile begins with n comment lines,
+each starting with quote-c: <tt class="docutils literal"><span class="pre">&quot;c</span></tt>
+The first comment is the creation/update date, formatted as follows:
+<tt class="docutils literal"><span class="pre">cLast</span> <span class="pre">updated:</span> <span class="pre">08-18-2006</span></tt>
+Subsequent comments contain optional documentation, e.g.,
+<tt class="docutils literal"><span class="pre">cMy</span> <span class="pre">useful</span> <span class="pre">comment.</span></tt>
+(See below for the open-databank modification of this specification
+of the comment lines.)</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Undated Series:</p>
+<dl class="docutils">
+<dt>Line n+1--n+2 </dt>
+<dd><p class="first last">Positive integers, coding the starting index and ending index
+of an undated series.</p>
+</dd>
+</dl>
+<p>E.g.,</p>
+<pre class="literal-block">
+1
+300 
+</pre>
+</li>
+<li><p class="first">Dated Series:</p>
+<dl class="docutils">
+<dt>Line n+1</dt>
+<dd><p class="first last">A negative integer, coding the annual frequency of the time series (times -1): 
+-12 (monthly),
+-4  (quarterly), or
+-1  (annual).</p>
+</dd>
+<dt>Line n+2--n+3</dt>
+<dd><p class="first last">Starting date and ending date for series in format yyyy, yyyy.q, or yyyy.mm.</p>
+</dd>
+</dl>
+<p>E.g., for monthly data:</p>
+<pre class="literal-block">
+-12
+1980.01
+1990.12
+</pre>
+<p>E.g., for quarterly data:</p>
+<pre class="literal-block">
+-4
+1980.1
+1990.4
+</pre>
+<p>E.g., for annual data:</p>
+<pre class="literal-block">
+-1
+1980
+1990
+</pre>
+</li>
+<li><p class="first">Dated and Undated Series:</p>
+<dl class="docutils">
+<dt>Remaining lines.</dt>
+<dd><p class="first last">Data, with one observation per line.
+An observation is either a number (float)
+or a missing value, coded as <cite>NA</cite></p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="open-databank-modifications-of-the-specification">
+<h2><a name="open-databank-modifications-of-the-specification">Open-Databank: Modifications of the Specification</a></h2>
+<p>The open-databank format enhances the original databank specification
+for the comment lines and adds a couple details.  It retains
+all of the advantages of the microTSP databank format for fixed-frequency
+time series data. (That is, it is easily human readable, almost self
+documenting, easily parsed, and terse.)  Any correctly formatted microTSP
+databank file is an open-databank file.</p>
+<div class="section" id="comment-lines">
+<h3><a name="comment-lines">Comment Lines</a></h3>
+<ul>
+<li><p class="first">A comment line begins with a comment marker,
+which is followed by comment content.
+(The comment content may be padded on either side with white space.)</p>
+</li>
+<li><p class="first">There are two kinds of comment line,
+new-comment lines and continued-comment lines,
+distinguished by their two-character comment markers.</p>
+<blockquote>
+<dl class="docutils">
+<dt>new-comment marker:</dt>
+<dd><p class="first last">quote-c: <tt class="docutils literal"><span class="pre">&quot;c</span></tt></p>
+</dd>
+<dt>continued-comment marker:</dt>
+<dd><p class="first last">quote-space: <tt class="docutils literal"><span class="pre">&quot;&nbsp;</span></tt></p>
+</dd>
+</dl>
+<ul class="simple">
+<li>A comment line starts with a two-character comment marker.</li>
+<li>The first character on a comment line is
+the double-quote character (ASCII 34).</li>
+<li>The second character on a comment line is either
+the lowercase-c character (ASCII 99) or
+the ordinary-space character (ASCII 32).</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">Comment content
+begins with the first non-whitespace character after a comment marker and
+ends with the last non-whitespace character on the comment line.
+White space immediately following the comment marker or at the
+end of the comment line is not part of the comment content.</p>
+</li>
+<li><dl class="first docutils">
+<dt>There are two kinds of comment:</dt>
+<dd><ul class="first last simple">
+<li>Ordinary comment (also called a <em>remark</em>)</li>
+<li>Label comment (also called a <em>label</em>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">A new-comment line containing a colon (ASCII 58) begins a label comment,
+which specifies a key:value pair.</p>
+<blockquote>
+<ul class="simple">
+<li>The key is the comment content before the first colon.</li>
+<li>The colon may be padded with whitespace on either side;
+such whitespace is not part of the key or the value.</li>
+<li>The label value follows the first colon,
+possibly on one or more continuation lines.</li>
+</ul>
+</blockquote>
+<p>Example:</p>
+<pre class="literal-block">
+&quot;c Units: current dollars
+</pre>
+<p>Example:</p>
+<pre class="literal-block">
+&quot;c Units:
+&quot;  current dollars
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="details">
+<h3><a name="details">Details</a></h3>
+<p>A line may contain 1024 characters, including end-of-line characters.
+Readers may truncate longer lines.
+Any standard (Unix, DOS, Mac) line-termination sequence may be used to indicate the end of a line.
+It is recommended that the line-termination sequence be consistent throughout a file.
+The last line of a file should include a line-termination sequence.
+A file-termination sequence should not be used.</p>
+</div>
+<div class="section" id="comments-on-backward-compatability">
+<h3><a name="comments-on-backward-compatability">Comments on Backward Compatability</a></h3>
+<ul>
+<li><p class="first">As of version 5, EViews simply discards comment continuation lines.</p>
+</li>
+<li><p class="first">As of version 5, EViews recognizes only three labels:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Last</span> <span class="pre">updated</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Display</span> <span class="pre">Name</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Modified</span></tt></li>
+</ul>
+</blockquote>
+<p>All other labels are treated as ordinary comments.</p>
+</li>
+<li><p class="first">Eviews writes a quote at the end of each comment line.
+(This practice is discouraged.)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="recommendations">
+<h2><a name="recommendations">Recommendations</a></h2>
+<div class="section" id="writer-recommendations">
+<h3><a name="writer-recommendations">Writer recommendations</a></h3>
+<ul class="simple">
+<li>Write the file with a <tt class="docutils literal"><span class="pre">.db</span></tt> extension unless otherwise specified.</li>
+<li>Follow each comment marker with one space.</li>
+<li>Include a label comment with the <tt class="docutils literal"><span class="pre">DBversion</span></tt> key to accommodate
+possible later extensions of the open-databank format.  E.g.,
+<tt class="docutils literal"><span class="pre">DBversion:</span> <span class="pre">1.0</span></tt></li>
+<li>Provide an option for writing microTSP compatible output.
+(Essentially: each comment is written to a single line.)</li>
+</ul>
+</div>
+<div class="section" id="reader-recommendations">
+<h3><a name="reader-recommendations">Reader recommendations</a></h3>
+<ul class="simple">
+<li>Ignore blank lines and lines containing only white space.</li>
+<li>Read any line starting with a quote as a comment line.  
+(EViews 5 discards lines starting with a quote but not with quote-c.)</li>
+<li>Disregard white space immediately following a comment marker.
+(EViews 5 follows this practice.)</li>
+<li>Disregard any quote at the end of a comment line, and then
+disregard white space at the end of a comment line.
+(EViews 5 disregards the final quote but preserves the white space.)</li>
+<li>Ensure that the sample specified implies the number
+of observations actually listed.  If not, offer a warning.</li>
+<li>Some existing <tt class="docutils literal"><span class="pre">.db</span></tt> files code missing values as 0.10E-36.<a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a>
+Readers are recommended but not required to accommodate this practice,
+as an option.</li>
+<li>If the series has a label comment with key = <tt class="docutils literal"><span class="pre">SeriesName</span></tt> and non-empty value,
+treat the value as the name of the series.  Otherwise use
+the name of the file containing the series (after dropping any extension
+such as <tt class="docutils literal"><span class="pre">.db</span></tt> or <tt class="docutils literal"><span class="pre">.txt</span></tt>).</li>
+</ul>
+</div>
+</div>
+<div class="section" id="open-databank-multifiles">
+<h2><a name="open-databank-multifiles">Open-Databank Multifiles</a></h2>
+<p>The open-databank multifile format specification is still in progress.
+However it is usable in its current state and files meeting the current
+specification will remain valid.  (Comments are welcome.)
+The object is to allow simple storage of multiple series in a single file.
+This is achieved in the most obvious way:
+stacking the contents of individual open-databank files,
+each of which is preceded by an series-boundary marker.
+The open-databank multifile format specification
+includes a set of basic extensions to the open-databank single-series format.
+Use of these extensions breaks compatibility with the single-series format.</p>
+<div class="section" id="basic-concepts">
+<h3><a name="basic-concepts">Basic Concepts</a></h3>
+<p>The Open-Databank Multifile format allows stacked series.</p>
+<ul>
+<li><p class="first">Each series should follow the open-databank format described above,
+except as noted in <a class="reference" href="#extensions">Extensions</a>.</p>
+</li>
+<li><p class="first">Preceding each series, including the first series in the file,
+must be a line containing only the series-boundary marker:</p>
+<pre class="literal-block">
+--series-boundary
+</pre>
+</li>
+<li><p class="first">The series-boundary marker may be preceded and followed by empty lines.</p>
+</li>
+<li><p class="first">Each series in the stack should include a label comment with
+key = <tt class="docutils literal"><span class="pre">SeriesName</span></tt>
+and value specifying the name of the series.
+It is recommended that this be the first comment line for the series.</p>
+</li>
+<li><p class="first">The last line in the file must be the following:</p>
+<pre class="literal-block">
+--series-boundary--
+</pre>
+<p>Note that the series-boundary markers thereby mimic a MIME standard,
+making the open-databank multifile format easy to parse.<a class="footnote-reference" href="#id9" id="id3" name="id3">[3]</a></p>
+</li>
+<li><p class="first">Lines above the first <tt class="docutils literal"><span class="pre">--series-boundary</span></tt> marker are considered 
+to be comment lines, used for comments on the entire file rather
+on a specific series.  Since this entire area is reserved for comments,
+there is no special comment marker.</p>
+<ul class="simple">
+<li>The first character on a new comment line must be alpha-numeric.</li>
+<li>The first character on a comment continuation line must be
+the space-character (ASCII 31).</li>
+<li>A new comment line containing a colon (ASCII 58) specifies a label comment.
+(Note: see <a class="reference" href="http://research.stlouisfed.org/fred2/">FRED</a> for examples of this comment format.
+Note: be careful not to place a URL on the first line of an ordinary comment.)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="extensions">
+<h3><a name="extensions">Extensions</a></h3>
+<ul class="simple">
+<li>The frequency, sample start, and sample end information may be placed
+on a single line, separated by white space.  No data is allowed on this line.</li>
+<li>Multiple white-space separated observations may be placed on a single line.</li>
+</ul>
+</div>
+<div class="section" id="possible-future-extensions">
+<h3><a name="possible-future-extensions">Possible Future Extensions</a></h3>
+<p>These extensions are listed in rank order of likelihood of implementation.</p>
+<ul class="simple">
+<li>Allow specifying frequency, sample start, and sample end in comment lines.</li>
+<li>Allow missing values to be coded as a period (full-stop): <tt class="docutils literal"><span class="pre">.</span></tt></li>
+</ul>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="notes-and-references">
+<h2><a name="notes-and-references">Notes and References</a></h2>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id4">[1]</a></td><td><p class="first">Details on the original format were derived from the following sources:</p>
+<ul class="last simple">
+<li><a class="citation-reference" href="#nber-2001" id="id5" name="id5">[NBER_2001]</a></li>
+<li>experimentation with the <a class="reference" href="http://www.eviews.com">EViews</a> software</li>
+<li>a summary description kindly provided by <a class="reference" href="http://www.stanford.edu/~clint/">Clint Cummins</a>, which drew on <a class="citation-reference" href="#hall-and-lilien-1989" id="id6" name="id6">[Hall_and_Lilien_1989]</a>.</li>
+</ul>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id7">[2]</a></td><td>See e.g. <a class="citation-reference" href="#nber-2001" id="id8" name="id8">[NBER_2001]</a> and associated historical files.
+(The missing value code in the .db files of this database was 0.1E-36 until August 2005, when it was replaced with <tt class="docutils literal"><span class="pre">NA</span></tt>.)</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3" name="id9">[3]</a></td><td>See for example the Python <a class="reference" href="http://www.python.org/doc/1.5.2p2/lib/MultiFile-objects.html">multifile module</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hall-and-lilien-1989" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6" name="hall-and-lilien-1989">[Hall_and_Lilien_1989]</a></td><td>Hall, Robert E., and Lilien, David, <em>microTSP Version 6.5 User's Manual</em>, Quantitative Micro Software, 1989.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="nber-2001" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="nber-2001">[NBER_2001]</a></td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> Feenberg, Daniel and Jeff Miron, <a class="reference" href="http://www.nber.org/databases/macrohistory/contents/index.html">NBER Macrohistory Database</a>, NBER, 2001.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

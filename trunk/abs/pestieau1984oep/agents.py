@@ -1,3 +1,5 @@
+#from __future__ import absolute_import
+from pytrix.utilities import calc_gini
 '''
 Provides a collection of agents for replication of Pestieau (1984 OEP).
 
