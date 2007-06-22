@@ -1,0 +1,10 @@
+"set font (see options.txt)
+set guifont=andale_mono:h9,courier_new:h10
+"set window size and positon
+set columns =120
+set lines =40
+winpos 100 100
+set guioptions+=a
+set nopaste
+
+source $VIM/vimfiles/ai_texmenus.vim
