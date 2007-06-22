@@ -70,20 +70,6 @@ def gcd_euclid(r,n):
 	while r!=0: (n,r)=(r,n%r)
 	return n
 
-def permute(x):
-	'''Return a permutation of a sequence or array.
-
-	:author: Alan Isaac
-	:since:  2005-06-20
-	:date:   2006-11-22
-	'''
-	if have_numpy:
-		x = numpy.array(x,copy=True)
-		numpy.random.shuffle(x.flat)
-	else:
-		x = list(x) #1d only!
-		random.shuffle(x)
-	return x
 
 def choice(x, axis=None):
 	"""Select an element or subarray uniformly randomly.
@@ -104,43 +90,6 @@ def choice(x, axis=None):
 		idx = map(slice, x.shape)
 		idx[axis] = n
 		return x[tuple(idx)]
-
-def permutations(lst):
-	'''Return all permutations of a sequence.
-
-	:type lst:  sequence
-	:rtype:     list of lists
-	:return:    all permutations of `lst`
-	:author:    Alan G. Isaac
-	:contact:   mailto:aisaac AT american.edu
-	:since:     2005-06-20
-	:note:    recursive
-	''' 
-	return [[lst[i]]+x 
-					for i in range(len(lst))
-					for x in permute(lst[:i]+lst[i+1:])] \
-					or [[]]
-
-def permutationsg(lst):
-	'''Return generator of all permutations of a list.
-
-	:type `lst`: sequence
-	:rtype:      list of lists
-	:return:     all permutations of `lst`
-	:requires:   Python 2.4+
-	:note:       recursive
-	:since:      2005-06-20
-	:date:       2006-12-18
-	:author:     Alan G. Isaac
-	:contact:    mailto:aisaac AT american.edu
-	:see:        http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/190465
-	'''
-	if len(lst)>1:
-		for i in range(len(lst)):
-			for x in permutationsg(lst[:i]+lst[i+1:]):
-				yield [lst[i]]+x
-	else:
-		yield lst
 
 
 

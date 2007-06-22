@@ -1,0 +1,56 @@
+import unittest
+import random
+
+import sys
+sys.path.insert(0,'/econpy')  #need location of econpy
+from abs.pestieau1984oep import agents
+from pytrix import utilities
+
+# http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
+# http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
+
+
+
+
+class testPestieau(unittest.TestCase):
+	def setUp(self):
+		self.wealths = [random.random() for _ in range(3)]
+		self.indivs = [agents.Indiv(sex=x) for x in "MMFF"]
+	'''
+	def test_match_exclude(self):
+		males = self.indivs[:2]
+		females = self.indivs[-2:]
+		for i in range(2):
+			males[i].siblings.add(females[i])
+			females[i].siblings.add(males[i])
+		mf = blindermodel.match_exclude(males,females, lambda x,y: x in y.siblings)
+		self.assertEqual(mf , [(males[0],females[1]),(males[1],females[0])] )
+	def test_match_exclude2(self):
+		g1 = range(5)
+		g2 = range(5)
+		random.shuffle(g2)
+		mf = blindermodel.match_exclude(g1,g2, lambda x,y: x != y)
+		self.assertEqual(mf , [(0,0),(1,1),(2,2),(3,3),(4,4)] )
+	def test_random2sexer(self):
+		s = blindermodel.random2sexer(10)
+		for si in s:
+			self.assert_(si in ['MM','MF','FM','FF'])
+	'''
+	def test_permutations(self):
+		x = utilities.permutations([1,2])
+		y = list( utilities.permutations(range(3)) )
+		z = list( utilities.permutationsg(range(3)) )
+		print x
+		print y
+		print z
+		self.assertEqual(x,[[1,2],[2,1]])
+		self.assertEqual(y,z)
+	def test_calc_gini(self):
+		gini1 = utilities.calc_gini(self.wealths)
+		gini2 = utilities.calc_gini2(self.wealths)
+		print "gini1:%f, gini2:%f"%(gini1, gini2)
+		self.assert_(abs(gini1-gini2)<1e-8)
+
+if __name__=="__main__":
+	unittest.main()
+
