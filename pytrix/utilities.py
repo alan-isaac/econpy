@@ -1,13 +1,28 @@
 '''
 Provides an uncategorized collection of possibly useful utilities.
+
+:copyright: 2005-2007 Alan G. Isaac, except where another author is specified.
+:license: `MIT license`_
+
+.. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
 from __future__ import division
 from __future__ import absolute_import
 
+__docformat__ = "restructuredtext en"
+__author__ = 'Alan G. Isaac (and others as specified)'
+__lastmodified__ = '20070622'
+
+
+
+
+
 def calc_gini2(x): #follow transformed formula
 	'''Return computed Gini coefficient.
+
 	:note: follows tranformed formula, like R code in 'ineq'
 	:see: `calc_gini`
+	:contact: aisaac AT american.edu
 	'''
 	x = list(x)
 	n = len(x)
@@ -18,8 +33,10 @@ def calc_gini2(x): #follow transformed formula
 
 def calc_gini(x):
 	'''Return computed Gini coefficient.
+
 	:note: follows basic formula
 	:see: `calc_gini2`
+	:contact: aisaac AT american.edu
 	'''
 	x = list(x)
 	n = len(x)
@@ -32,14 +49,15 @@ def calc_gini(x):
 def permute(x):
 	'''Return one permutation of a sequence or array.
 
-	:author: Alan Isaac
 	:since:  2005-06-20
-	:date:   2006-11-22
+	:date:   2007-06-22
+	:contact: aisaac AT american.edu
 	'''
-	if have_numpy:
+	#use numpy if available
+	try:
 		x = numpy.array(x,copy=True)
 		numpy.random.shuffle(x.flat)
-	else:
+	except:
 		x = list(x) #1d only!
 		random.shuffle(x)
 	return x
@@ -51,8 +69,9 @@ def permutations(lst):
 	:rtype:     list of lists
 	:return:    all permutations of `lst`
 	:since:     2005-06-20
-	:note:    recursive
-	:contact:   mailto:aisaac AT american.edu
+	:date:      2007-06-22
+	:note:      recursive
+	:contact: aisaac AT american.edu
 	'''
 	lst = list(lst)
 	return [ [lst[i]] + x
@@ -71,9 +90,8 @@ def permutationsg(lst):
 	:note:       recursive
 	:since:      2005-06-20
 	:date:       2006-12-18
-	:author:     Alan G. Isaac
-	:contact:    mailto:aisaac AT american.edu
 	:see:        http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/190465
+	:contact:    mailto:aisaac AT american.edu
 	'''
 	if len(lst)>1:
 		for i in range(len(lst)):

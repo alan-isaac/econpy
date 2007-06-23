@@ -1,5 +1,3 @@
-#from __future__ import absolute_import
-from pytrix.utilities import calc_gini
 '''
 Provides a collection of agents for replication of Pestieau (1984 OEP).
 
@@ -11,8 +9,8 @@ Indiv
 	distribute_estate, 
 
 Cohort
-	- Data:
-	- Methdods:
+	- Data: _cohort_age, males, females
+	- Methdods: get_married, set_age, age_cohort
 
 Population
 	- Data:
@@ -34,7 +32,21 @@ State
 	- Data:
 	- Methdods:
 
+
+:copyright: Alan G. Isaac, except where another author is specified.
+:license: `MIT license`_
+
+.. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
+from __future__ import division
+from __future__ import absolute_import
+
+__docformat__ = "restructuredtext en"
+__author__ = 'Alan G. Isaac (and others as specified)'
+__lastmodified__ = '20070622'
+
+
+
 
 
 class Indiv:
@@ -54,6 +66,9 @@ class Indiv:
 		self.employers = set()
 		self._locked = True
 	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
 		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
@@ -85,7 +100,6 @@ class Indiv:
 	def bear_children(self, sexes=None):
 		'''Return this Indiv's kids
 		Used by Pop.produce_new_cohort
-		In Blinder model this is really "launch_child" (born 20 years before)?
 		'''
 		assert self.spouse  #must be married ...
 		assert (self.sex == 'F')  #only women can bear children
@@ -124,4 +138,81 @@ class Indiv:
 	def distribute_estate(self):
 		assert (self.alive is False)
 		self.economy.params.BEQUEST_FN(self)
+
+#20 Indiv per Cohort
+class Cohort(tuple):
+	def __init__(self,seq):
+		'''
+		:note: tuple.__init__(seq) not needed bc tuples are immutable
+		'''
+		self._cohort_age = 0
+		self.males = tuple(indiv for indiv in self if indiv.sex=='M')
+		self.females = tuple(indiv for indiv in self if indiv.sex=='F')
+		assert (len(self)==len(self.males)+len(self.females)),\
+		"Every indiv must have a sex."
+		self._locked = True
+	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val
+	def set_age(self,age):
+		self._cohort_age = age
+		for indiv in self:
+			indiv.age = age
+	def age_cohort(self):
+		assert (indiv.age == self._cohort_age for indiv in self),\
+		"indiv age shd not diverge from cohort age"
+		self._cohort_age += 1
+		for indiv in self:
+			indiv.age += 1
+	def get_married(self,mating):	#TODO: move into Pop when marry across Cohorts
+		males = list(self.males)
+		females = list(self.females)
+		maxkids = 2 #TODO: parameterize
+		#sort males and females by wealth
+		males.sort(key=lambda i: i.calc_wealth(),reverse=True)
+		females.sort(key=lambda i: i.calc_wealth(),reverse=True)
+		#class mating when cannot marry sibs
+		if mating == "class_nosibs":
+			#print "class mating, no sibs"
+			#first make matches while it is certainly possible that remainder can be matched
+			while len(males)>maxkids and len(females)>maxkids:
+				groom = males.pop(0)
+				for bride in females:
+					if bride not in groom.siblings:
+						break
+				females.remove(bride)
+				bride.wed(groom) 
+			#second make remaining possible matches
+			assert (len(males)==maxkids or len(females)==maxkids)
+			mf = zip(males,females)
+			#if any matches forbidden, find permissible matches
+			if sum( m in f.siblings for (m,f) in mf ):
+				mf = match_exclude(males,females, lambda x,y: x in y.siblings)
+			for groom,bride in mf:
+				bride.wed(groom)
+		elif mating == "classonly":
+			#print "classonly mating"
+			for m,f in itertools.izip(males,females): #some poor possibly left out
+				f.wed(m)
+			params = m.economy.params
+			if params.DEBUG:
+				mates = itertools.izip(males,females) #some poor possibly left out
+				for m,f in mates:
+					print m.calc_wealth(), f.calc_wealth(), m.calc_household_wealth()
+		elif mating == "random":
+			#print "Random mating"
+			if len(males) > len(females): #-> wealth doesn't change likelihood of marriage
+				random.shuffle(males)
+			else:
+				random.shuffle(females)
+			mates = itertools.izip(males,females)
+			for m,f in mates:
+				f.wed(m)
+		else:
+			assert (mating is None),\
+			"%s is an unknown mating type"%(mating)
 
