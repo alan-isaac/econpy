@@ -1,3 +1,10 @@
+'''
+Unit tests for Pestieau replication.
+
+:see: http://docs.python.org/lib/minimal-example.html for an intro to unittest
+:see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
+:see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
+'''
 import unittest
 import random
 
@@ -6,8 +13,6 @@ sys.path.insert(0,'/econpy')  #need location of econpy
 from abs.pestieau1984oep import agents
 from pytrix import utilities
 
-# http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
-# http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 
 
 
@@ -37,21 +42,20 @@ class testPestieau(unittest.TestCase):
 		for si in s:
 			self.assert_(si in ['MM','MF','FM','FF'])
 	'''
-	def test_cohort(self):
+	def test_PestieauCohort(self):
 		indivs = self.indivs
-		cohort = agents.Cohort(indivs)
+		cohort = agents.PestieauCohort(indivs)
+		self.assertEqual(len(cohort),len(indivs))
 		for i in indivs:
 			self.assert_(i.sex in "MF")
 	def test_permutations(self):
 		x = utilities.permutations([1,2])
-		y = list( utilities.permutations(range(3)) )
+		y = utilities.permutations(range(3))
 		z = list( utilities.permutationsg(range(3)) )
-		print x
-		print y
-		print z
 		self.assertEqual(x,[[1,2],[2,1]])
 		self.assertEqual(y,z)
 	def test_calc_gini(self):
+		#test that two Gini formulae give same rsult
 		gini1 = utilities.calc_gini(self.wealths)
 		gini2 = utilities.calc_gini2(self.wealths)
 		print "gini1:%f, gini2:%f"%(gini1, gini2)

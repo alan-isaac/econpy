@@ -12,6 +12,11 @@ Cohort
 	- Data: _cohort_age, males, females
 	- Methdods: get_married, set_age, age_cohort
 
+PestieauCohort(Cohort)
+	- NewData: _lock
+	- NewMethdods:
+	- Override: get_married
+
 Population
 	- Data:
 	- Methdods:
@@ -49,7 +54,7 @@ __lastmodified__ = '20070622'
 
 
 
-class Indiv:
+class Indiv(object):
 	def __init__(self, economy=None, sex=None):
 		if economy:
 			self.economy = economy
@@ -141,7 +146,11 @@ class Indiv:
 
 #20 Indiv per Cohort
 class Cohort(tuple):
-	def __init__(self,seq):
+	'''Basic cohort class.
+
+	:note: must override get_married
+	'''
+	def __init__(self):
 		'''
 		:note: tuple.__init__(seq) not needed bc tuples are immutable
 		'''
@@ -150,14 +159,6 @@ class Cohort(tuple):
 		self.females = tuple(indiv for indiv in self if indiv.sex=='F')
 		assert (len(self)==len(self.males)+len(self.females)),\
 		"Every indiv must have a sex."
-		self._locked = True
-	def __setattr__(self, attr, val):
-		'''Override __setattr__:
-		no new attributes allowed after initialization.
-		'''
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val
 	def set_age(self,age):
 		self._cohort_age = age
 		for indiv in self:
@@ -168,6 +169,22 @@ class Cohort(tuple):
 		self._cohort_age += 1
 		for indiv in self:
 			indiv.age += 1
+	def get_married(self,mating):  #TODO: rename
+		return NotImplemented
+
+class PestieauCohort(Cohort):
+	'''Cohort class for Pestieau 1984 replication.
+	'''
+	def __init__(self,seq):
+		Cohort.__init__(self)
+		self._locked = True  #see: __setattr__
+	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val
 	def get_married(self,mating):	#TODO: move into Pop when marry across Cohorts
 		males = list(self.males)
 		females = list(self.females)
