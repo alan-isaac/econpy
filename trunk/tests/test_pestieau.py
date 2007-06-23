@@ -14,8 +14,9 @@ from pytrix import utilities
 
 class testPestieau(unittest.TestCase):
 	def setUp(self):
-		self.wealths = [random.random() for _ in range(3)]
-		self.indivs = [agents.Indiv(sex=x) for x in "MMFF"]
+		self.N = 5
+		self.wealths = [random.random() for _ in range(2*self.N)]
+		self.indivs = [agents.Indiv(sex=x) for x in "MF"*self.N]
 	'''
 	def test_match_exclude(self):
 		males = self.indivs[:2]
@@ -36,6 +37,11 @@ class testPestieau(unittest.TestCase):
 		for si in s:
 			self.assert_(si in ['MM','MF','FM','FF'])
 	'''
+	def test_cohort(self):
+		indivs = self.indivs
+		cohort = agents.Cohort(indivs)
+		for i in indivs:
+			self.assert_(i.sex in "MF")
 	def test_permutations(self):
 		x = utilities.permutations([1,2])
 		y = list( utilities.permutations(range(3)) )
