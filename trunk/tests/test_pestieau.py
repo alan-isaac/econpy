@@ -14,6 +14,11 @@ from abs.pestieau1984oep import agents
 from pytrix import utilities
 
 
+class Iterator4Test:
+	def initialize(self):
+		pass
+	def iterate(self):
+		pass
 
 
 
@@ -64,7 +69,14 @@ class testPestieau(unittest.TestCase):
 		fund = agents.Fund(None)  #usu want association w economy
 		fund._accounts = [agents.FundAcct(fund, self.indivs[i], self.wealths[i]) for i in range(self.N)]
 		for i in range(self.N):
-			self.assertEqual(fund.accounts[i]._value, self.wealths[i])
+			self.assertEqual(fund._accounts[i]._value, self.wealths[i])
+	def test_IterativeProcess(self):
+		N = random.randrange(100)
+		crit = lambda x,y: y>=N
+		it = Iterator4Test()
+		ip = agents.IterativeProcess(it, crit)
+		ip.run()
+		self.assertEqual(ip.iterations,N)
 
 if __name__=="__main__":
 	unittest.main()

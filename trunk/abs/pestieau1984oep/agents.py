@@ -343,11 +343,11 @@ class IterativeProcess(object):
 		self.iterator = iterator
 		self.criterion = criterion
 		self.history = []
-		if hasattr(iterator, 'state'):
-			self.record = True
-	def evaluate(self):
+		self.record = hasattr(iterator, 'state')
+		self.iterations = 0
+	def run(self):
 		iterator, criterion = self.iterator, self.criterion
-		history = self.history
+		record, history = self.record, self.history
 		record_history = self.record_history
 		iterations = 0
 		iterator.initialize()  #is this redundant to the __init__ method?
@@ -359,10 +359,11 @@ class IterativeProcess(object):
 			if record:
 				record_history(iterator)
 			iterations += 1
+		self.iterations = iterations
 		self.finalize()
-	def record_history(self, iterator):
-		self.history.append(iterator.state)
-	def finalize(self, iterator, criterion):
+	def record_history(self):
+		self.history.append(self.iterator.state)
+	def finalize(self):
 		pass
 
 class Economy(object):
