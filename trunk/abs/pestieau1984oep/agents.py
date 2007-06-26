@@ -30,8 +30,8 @@ Fund
 	- Methdods:
 
 FundAcct
-	- Data:
-	- Methdods:
+	- Data: fund, owner, _value
+	- Methdods: deposit, withdraw, close, transferto
 
 State
 	- Data:
@@ -232,4 +232,146 @@ class PestieauCohort(Cohort):
 		else:
 			assert (mating is None),\
 			"%s is an unknown mating type"%(mating)
+
+
+class Fund(object):
+	'''Basic financial institution.
+	Often just for accounting (e.g., handling transfers)
+	'''
+	def __init__(self,economy):
+		self.economy = economy  #TODO: rethink
+		#self.rBAR = economy.rBAR
+		#self.rSD = economy.rSD
+		self._accounts = list() #empty list
+		#self.max_return = 0  #debugging only
+		#self.n_distributions = 0  #debugging only
+		#self.n_0distributions = 0  #debugging only
+		self._locked = True
+	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val 
+	def calc_accts_value(self):
+		return sum( acct.value for acct in self._accounts )
+	def create_account(self, indiv, amt = 0):
+		assert len(indiv.accounts)==0,\
+		"num accts shd be 0 but is %d"%(len(self._accounts))
+		acct = FundAcct(self, indiv, amt)
+		self._accounts.append(acct)
+		return acct
+	def close_account(self,acct):
+		self._accounts.remove(acct)
+
+class FundAcct(object):
+	def __init__(self, fund, indiv, amt=0):
+		self.fund = fund
+		self.owner = indiv
+		self._value = amt
+		self._locked = True
+	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val 
+	def deposit(self, amt):
+		assert(amt >= 0)
+		self._value += amt
+	def withdraw(self, amt): #redundant; just for convenience and error checking
+		assert(amt >= 0)
+		self._value -= amt
+	def close(self):
+		assert (-1e-9 < self._value < 1e-9),\
+		"Zero value required to close acct."
+		self.fund.close_account(self)
+	def transferto(self, recipient, amt):  #ugly; have the fund make transfer?
+		assert (0 <= amt)
+		if (amt > 0):
+			assert (amt <= self.owner.calc_wealth()+1e-9)
+			toacct = recipient.accounts[0]
+			self.withdraw(amt)
+			toacct.deposit(amt)
+		
+class State(object):
+	def __init__(self,economy):
+		self.economy = economy
+		self.params = economy.params
+		self.net_worth = 0
+		self._locked = True
+	def __setattr__(self, attr, val):
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val
+	def tax_estate(self,indiv):
+		estate = indiv.calc_wealth()
+		tax = self.params.ESTATE_TAX(estate)
+		self.economy.transfer(indiv, self, tax)  #is this best (having economy handle transfers?)
+	def income(self, amt):
+		self.net_worth += amt  #TODO: cd parameterize an inefficiency here
+	def outgo(self, amt):
+		self.net_worth -= amt
+	def distribute_estates(self,dead): #move details to Indiv? to State? to Economy? TODO
+		if self.economy.BEQUEST_TYPE == 'child_directed':
+			for indiv in dead:
+				n_children = len(indiv.children)
+				bequest_size = indiv.calc_wealth()/n_children #equal bequests
+				for kid in indiv.children:
+					self.economy.transfer(indiv, kid, bequest_size)
+		else:
+			raise ValueError("must specify BEQUEST_TYPE")
+		#close accounts of the dead
+		for indiv in dead:
+			assert len(indiv.accounts)==1,\
+			"num accts shd be 1 but is %d"%(len(indiv.accounts)) #single acct only for now!?
+			for acct in indiv.accounts:
+				acct.fund.accounts.remove(acct)
+	
+
+class IterativeProcess(object):
+	'''General description of iterative process.
+
+	Requires an iterator and a criterion.
+	Iterator must have `initialize` and `iterate` methods.
+	Criterion must be callable;
+	Criterion may have `state` attribute; if so, `state` is recorded.
+	'''
+	def __init__(self, iterator, criterion, **kwargs):
+		self.iterator = iterator
+		self.criterion = criterion
+		self.history = []
+		if hasattr(iterator, 'state'):
+			self.record = True
+	def evaluate(self):
+		iterator, criterion = self.iterator, self.criterion
+		history = self.history
+		record_history = self.record_history
+		iterations = 0
+		iterator.initialize()  #is this redundant to the __init__ method?
+		if record:
+			record_history(iterator)
+			history.append(iterator.state)
+		while not criterion(iterator, iterations):
+			iterator.iterate()
+			if record:
+				record_history(iterator)
+			iterations += 1
+		self.finalize()
+	def record_history(self, iterator):
+		self.history.append(iterator.state)
+	def finalize(self, iterator, criterion):
+		pass
+
+class Economy(object):
+	'''
+	Not Implemented.
+	'''
+	def initialize(self):
+		pass
+	def iterate(self):
+		pass
+		
 

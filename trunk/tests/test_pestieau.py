@@ -60,6 +60,11 @@ class testPestieau(unittest.TestCase):
 		gini2 = utilities.calc_gini2(self.wealths)
 		print "gini1:%f, gini2:%f"%(gini1, gini2)
 		self.assert_(abs(gini1-gini2)<1e-8)
+	def test_Fund(self):
+		fund = agents.Fund(None)  #usu want association w economy
+		fund._accounts = [agents.FundAcct(fund, self.indivs[i], self.wealths[i]) for i in range(self.N)]
+		for i in range(self.N):
+			self.assertEqual(fund.accounts[i]._value, self.wealths[i])
 
 if __name__=="__main__":
 	unittest.main()
