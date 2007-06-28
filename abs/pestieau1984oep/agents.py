@@ -295,7 +295,7 @@ class FundAcct(object):
 			toacct = recipient.accounts[0]
 			self.withdraw(amt)
 			toacct.deposit(amt)
-		
+
 class State(object):
 	def __init__(self,economy):
 		self.economy = economy
@@ -329,42 +329,63 @@ class State(object):
 			"num accts shd be 1 but is %d"%(len(indiv.accounts)) #single acct only for now!?
 			for acct in indiv.accounts:
 				acct.fund.accounts.remove(acct)
-	
 
-class IterativeProcess(object):
-	'''General description of iterative process.
-
-	Requires an iterator and a criterion.
-	Iterator must have `initialize` and `iterate` methods.
-	Criterion must be callable;
-	Criterion may have `state` attribute; if so, `state` is recorded.
-	'''
-	def __init__(self, iterator, criterion, **kwargs):
-		self.iterator = iterator
-		self.criterion = criterion
-		self.history = []
-		self.record = hasattr(iterator, 'state')
-		self.iterations = 0
-	def run(self):
-		iterator, criterion = self.iterator, self.criterion
-		record, history = self.record, self.history
-		record_history = self.record_history
-		iterations = 0
-		iterator.initialize()  #is this redundant to the __init__ method?
-		if record:
-			record_history(iterator)
-			history.append(iterator.state)
-		while not criterion(iterator, iterations):
-			iterator.iterate()
-			if record:
-				record_history(iterator)
-			iterations += 1
-		self.iterations = iterations
-		self.finalize()
-	def record_history(self):
-		self.history.append(self.iterator.state)
-	def finalize(self):
-		pass
+class Population(list):  #provide a list of Cohort tuples
+	def evolve(self):  #this will be called each "tick" of the economy
+		'''Return: None.
+		'''
+		params = self.economy.params  #associated economy have been set by economy...
+		parents = self.get_new_parents() #TODO: parents are currently a Cohort; eventually change this
+		parents.get_married(params.MATING)  #TODO: change to a Pop method??
+		self.produce_new_cohort(parents, kidsexgen=params.KIDSEXGEN) #new cohort has age 0
+		self.age_ppl()                         #->new cohort has age 1
+		dead = self.get_new_dead()
+		assert(dead._cohort_age == self.params.N_COHORTS+1) #TODO only works for non-stochastic deaths
+		for indiv in dead:
+			indiv.liquidate()  #close out all accounts
+	def get_new_dead(self): #removes dead from population and returns as sequence
+		dead = self.pop(0)                     #remove dead cohort from population
+		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
+			assert (indiv.alive == True) #just an error check
+			indiv.alive = False
+		return dead
+	def age_ppl(self):
+		for cohort in self:
+			cohort.age_cohort()
+	def get_new_parents(self):
+		'''Return a cohort.  TODO: change this eventually.
+		'''
+		params = self.economy.params
+		return self[params.KID_AT_YEAR-1]  #params assigned by economy! TODO  recheck timing
+	def produce_new_cohort(self, parents, kidsexgen=None):
+		'''Return a list (`new_cohort`) of same size as current cohort.
+		Called by produce_new_cohort.
+		Current model: two children, MF, at fixed age.
+		'''
+		params = self.economy.params
+		kids = list()
+		mothers = [indiv for indiv in parents if (indiv.spouse and indiv.sex=='F')]
+		getsexes = kidsexgen(mothers)  #returns an iterator
+		#each mother has kids of specified sexes (e.g., "MF")
+		for indiv in mothers:
+			newsexes = getsexes.next()  #TODO: remove restriction to 2 simultaneous kids!!
+			kids.extend(indiv.bear_children(sexes=newsexes))
+		for kid in kids:
+			kid.open_account(self.economy.funds[0])  #provide every kid with an acct
+		self.initialize_wealth(kids)
+		new_cohort = Cohort(kids)
+		self.append( new_cohort )
+		return new_cohort  #TODO: do I need this return?
+	def calc_dist(self): #TODO: calc distribution over **indivs** or households??
+		params = self.economy.params
+		#return calc_gini( indiv.calc_wealth() for indiv in self.gf_indivs() )
+		return  params.calc_dist(self)
+	def get_indivs(self): #return all individuals as single list
+		return [indiv for cohort in self for indiv in cohort]
+	def gf_indivs(self): #return all individuals as single generator
+		return (indiv for cohort in self for indiv in cohort)
+	def initialize_wealth(self, kids):
+		return NotImplemented
 
 class Economy(object):
 	'''

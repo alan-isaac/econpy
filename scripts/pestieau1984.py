@@ -6,6 +6,7 @@ from random import random
 import sys
 sys.path.insert(0,'/econpy')
 from abs.pestieau1984oep.agents import Indiv, Cohort
+from pytrix.iterate import IterativeProcess
 
 #for now, this is just illustrative; it's not "doing" anything
 COHORT_SIZE = 50
