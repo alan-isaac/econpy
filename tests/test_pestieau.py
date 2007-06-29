@@ -14,24 +14,6 @@ from abs.pestieau1984oep import agents
 from pytrix import utilities, iterate, fmath
 
 
-class Iterator4Test:
-	def initialize(self):
-		pass
-	def iterate(self):
-		pass
-
-
-
-class test_iter(unittest.TestCase):
-	def test_bisect(self):
-		xint = 2.
-		f = lambda x: (x-xint)**3
-		itr = iterate.Bisect(f, xint-1.0, xint+1.0)
-		crit = iterate.AbsDiff(1e-9)
-		ip = iterate.IterativeProcess(itr, crit)
-		ip.run()
-		print "testvals", itr.get_testvals()
-		print "simple bisect", iterate.bisect(f, xint-1.0, xint+1.0)
 
 class testPestieau(unittest.TestCase):
 	def setUp(self):
@@ -81,13 +63,6 @@ class testPestieau(unittest.TestCase):
 		fund._accounts = [agents.FundAcct(fund, self.indivs[i], self.wealths[i]) for i in range(self.N)]
 		for i in range(self.N):
 			self.assertEqual(fund._accounts[i]._value, self.wealths[i])
-	def test_IterativeProcess(self):
-		N = random.randrange(100)
-		crit = lambda x,y: y>=N
-		it = Iterator4Test()
-		ip = iterate.IterativeProcess(it, crit)
-		ip.run()
-		self.assertEqual(ip.iterations,N)
 	def test_math(self):
 		print
 		print fmath.get_float_radix()
