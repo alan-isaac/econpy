@@ -31,33 +31,32 @@ def simplest_bisect(f, x1, x2):
 	return (x1+x2)/2
 #END lst:optimize.bisect
 
-class Iterator4Test:
-	def initialize(self):
-		pass
+class Iterator4Test(iterate.IterativeProcess):
 	def iterate(self):
 		pass
+	def get_testval(self):
+		return 1
 
 
 class test_iter(unittest.TestCase):
 	def test_IterativeProcess(self):
 		N = random.randrange(100)
 		crit = lambda x,y: y>=N
-		it = Iterator4Test()
-		ip = iterate.IterativeProcess(it, crit)
+		ip = Iterator4Test(crit)
+		print "ip", ip
 		ip.run()
 		self.assertEqual(ip.iterations,N)
 	def test_bisect(self):
 		x_int = random.randrange(20)
 		f = lambda x: (x-x_int)**3
-		itr = iterate.Bisect(f, x_int-1.0, x_int+1.0)
 		crit = iterate.AbsDiff(1e-9)
-		ip = iterate.IterativeProcess(itr, crit)
-		ip.run()
-		x1, x2 = itr.get_testvals()
-		result1 = (x1+x2)/2
+		b1 = iterate.Bisect(f, x_int-1.0, x_int+1.0, crit)
+		b1.run()
+		print b1.report()
+		result1 = b1.value
 		result2 = iterate.bisect(f,  x_int-1.0, x_int+1.0, eps=1e-9)
 		result3 = simplest_bisect(f, x_int-1.0, x_int+1.0)
-		print "testvals", (x1,x2), result1
+		print "testvals", result1
 		print "simple bisect", result2
 		print "simplest bisect", result3
 		self.assert_(fmath.feq(result1, result2, 1e-7))
