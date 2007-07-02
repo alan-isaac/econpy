@@ -1,3 +1,6 @@
+'''
+:see: http://orion.math.iastate.edu/burkardt/c_src/machar/machar.html
+'''
 from __future__ import absolute_import
 import math
 
@@ -31,6 +34,8 @@ def get_float_radix():
 machine_precision = 0.0
 
 def calc_machine_precision():
+	'''Return: machine_precision (float)
+	'''
 	float_radix = get_float_radix()
 	inverse_radix = 1.0/float_radix
 	machine_precision = 1.0
@@ -57,6 +62,9 @@ def get_default_numerical_precision():
 
 
 def feq(a, b, precision=get_default_numerical_precision()):
+	'''Return: bool
+	Fuzzy equality comparison for floats.
+	'''
 	inf_norm = max(abs(a), abs(b))
-	return inf_norm < precision or abs(a-b) < precision * inf_norm
+	return (inf_norm < precision) or (abs(a-b) < precision * inf_norm)
 
