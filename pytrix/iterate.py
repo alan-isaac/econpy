@@ -86,6 +86,19 @@ class IterativeProcess(object):
 
 class Bisect(IterativeProcess):
 	def __init__(self, func, x1, x2, criterion=None):
+		'''Return: None.
+		Initialize the bisection iterative process.
+
+		:Parameters:
+			f : function (or callable object)
+			  real-valued function of a real variable
+			x1 : float
+			  one side of a sign changing interval
+			x2 : float
+			  one side of a sign changing interval
+			criterion : StopIter
+			  convergence criterion
+		'''
 		IterativeProcess.__init__(self, criterion)  #TODO
 		self.func = func
 		f1, f2 = func(x1), func(x2)
@@ -95,7 +108,7 @@ class Bisect(IterativeProcess):
 			self.x_neg, self.x_pos = x2, x1
 		else:
 			raise ValueError("[%f,%f] is not a sign changing interval."%(x1,x2))
-		self.criterion = criterion or (lambda x,y: abs(x[1] - x[0]) < 1e-9)
+		self.criterion = criterion or (lambda x,y: abs(x[1] - x[0]) < 1e-9) #TODO
 	#users usually override the following methods
 	def record_history(self):
 		self.history.append(self.get_testval())

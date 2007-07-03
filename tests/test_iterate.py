@@ -6,12 +6,10 @@ Unit tests for the `iterate` module.
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
 from __future__ import division
+from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
 import random
-
-import sys
-sys.path.insert(0,'/econpy')  #need location of econpy
-from pytrix import utilities, iterate, fmath
+from econpy.pytrix import utilities, iterate, fmath
 
 #simplest implementation of bisection
 #BEGIN lst:optimize.bisect
