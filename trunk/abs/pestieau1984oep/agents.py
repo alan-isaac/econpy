@@ -150,9 +150,9 @@ class Cohort(tuple):
 
 	:note: must override get_married
 	'''
-	def __init__(self):
+	def __init__(self, seq):
 		'''
-		:note: tuple.__init__(seq) not needed bc tuples are immutable
+		:note: tuple.__init__(self, seq) not needed bc tuples are immutable
 		'''
 		self._cohort_age = 0
 		self.males = tuple(indiv for indiv in self if indiv.sex=='M')
@@ -175,8 +175,8 @@ class Cohort(tuple):
 class PestieauCohort(Cohort):
 	'''Cohort class for Pestieau 1984 replication.
 	'''
-	def __init__(self,seq):
-		Cohort.__init__(self)
+	def __init__(self, seq):
+		Cohort.__init__(self, seq)
 		self._locked = True  #see: __setattr__
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:
