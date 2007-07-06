@@ -1,6 +1,6 @@
 '''Some iterative process related classes.
 
-:date: 2007-07-01
+:date: 2007-07-04
 :since: 2007-06-25
 :copyright: Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_
@@ -12,7 +12,7 @@ from __future__ import division
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '20070622'
+__lastmodified__ = '2007-07-04'
 
 
 
@@ -29,16 +29,22 @@ class IterativeProcess(object):
 		Initialize the iterator.
 		Must set a criterion.
 		'''
-		self.criterion = criterion
 		self.value = None
 		self.iterations = 0
 		self.history = []
+		self.set_criterion(criterion)
+	def set_criterion(self, criterion):
+		if criterion is None:
+			self.criterion = self.default_criterion
+		else:
+			self.criterion = criterion
 	def run(self):
 		iterations = 0
 		#record initial state
 		self.record_history()
-		#iterate
-		for testval in self:
+		#iterate until criterion satisfied
+		testvals = self.testval_generator()
+		for testval in testvals:
 			iterations += 1
 			self.record_history()
 			if self.criterion(testval, iterations):
@@ -48,7 +54,7 @@ class IterativeProcess(object):
 	def report(self):
 		'''Return: string.'''
 		final_value = getattr(self, 'value',None)
-		optimized = getattr(self.criterion, 'optimized', "?")
+		optimized = getattr(self.criterion, 'optimized', "Undefined")
 		iterations = self.iterations
 		report = '''
 		Final value:          %s
@@ -56,7 +62,13 @@ class IterativeProcess(object):
 		Number of iterations: %d
 		'''%(final_value, optimized, iterations)
 		return report
+	def testval_generator(self):
+		while True:
+			self.iterate()
+			yield self.get_testval()
 	#users usually override the following methods
+	def default_criterion(self, val, iter):
+		return iter >= 100
 	def record_history(self):
 		'''Should return: None.'''
 		pass
@@ -69,20 +81,16 @@ class IterativeProcess(object):
 	def iterate(self):
 		'''Should return: None.
 		Do one iteration.
-		Used by `next`.
+		Used by `testval_generator`.
 		'''
 		return NotImplemented
 	def get_testval(self):
 		'''Should return: testval.
-		Used by `next`.
+		The testval must be usable by the criterion.
+		Used by `testval_generator`.
 		'''
 		return NotImplemented
-	#make this an iterator by defining `__iter__` and `next`
-	def __iter__(self):
-		return self
-	def next(self):
-		self.iterate()
-		return self.get_testval()
+
 
 class Bisect(IterativeProcess):
 	def __init__(self, func, x1, x2, criterion=None):
@@ -108,8 +116,9 @@ class Bisect(IterativeProcess):
 			self.x_neg, self.x_pos = x2, x1
 		else:
 			raise ValueError("[%f,%f] is not a sign changing interval."%(x1,x2))
-		self.criterion = criterion or (lambda x,y: abs(x[1] - x[0]) < 1e-9) #TODO
 	#users usually override the following methods
+	def default_criterion(self):
+		return (lambda x,y: abs(x[1] - x[0]) < 1e-9) #TODO
 	def record_history(self):
 		self.history.append(self.get_testval())
 	def finalize(self):
