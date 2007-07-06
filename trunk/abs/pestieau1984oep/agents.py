@@ -79,10 +79,10 @@ class Indiv(object):
 		self.__dict__[attr] = val 
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
-		self.accounts[0].deposit(amt)
+		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class 
 	def outgo(self, amt):  #redundant; just for ease of reading and sign check
 		assert(amt >= 0)
-		self.accounts[0].withdraw(amt)
+		self.accounts[0].withdraw(amt)  # KC: withdraw is a method in the FundAcct class
 	def calc_wealth(self):
 		wealth = 0
 		for acct in self.accounts:
@@ -122,11 +122,11 @@ class Indiv(object):
 		assert (len(self.children) <= 2) #TODO: get rid of constraint
 	def open_account(self, fund, amt=0):
 		assert (len(self.accounts) == 0) #TODO: allow multiple accounts
-		acct = fund.create_account(self, amt=amt)
+		acct = fund.create_account(self, amt=amt)  #KC: create_account is a method in the Fund class
 		self.accounts.append(acct)
 	def gift2kids(self,amt):
 		assert (0 <= amt <= self.calc_wealth()), "amt: %s\t w:%s"%(amt,self.calc_wealth())
-		checking = self.accounts[0]
+		checking = self.accounts[0]  ## KC: "checking" for checking account
 		kids = self.children
 		n = len(kids)
 		for kid in kids:
@@ -134,7 +134,7 @@ class Indiv(object):
 	def liquidate(self):
 		assert (self.alive is False)
 		acct = self.accounts[0] #transactions acct
-		self.state.tax_estate(self)
+		self.state.tax_estate(self)  #KC: tax_estate is a method in the State class
 		self.distribute_estate()
 		#close accounts
 		assert abs(self.calc_wealth())<1e-5
