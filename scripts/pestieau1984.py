@@ -1,3 +1,7 @@
+'''Module pestieau1984.py
+Allows replication of Pestieau (1984).
+'''
+
 from __future__ import absolute_import
 from __future__ import division
 from random import random

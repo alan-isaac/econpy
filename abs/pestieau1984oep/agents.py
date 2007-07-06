@@ -43,6 +43,37 @@ State
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
+
+'''
+Notes:
+theoretical model and simulation model not a perfect match
+	theory model: parthenogenic
+	bequests: theory bop vs simulation eop (p.412)?
+Pestieua p.408
+	individual t lives 2 periods, t and t+1
+		works first period
+		leaves bequest at **beginning** of 2nd period
+			(effectively, inter vivos transfers)
+		picks ct knowing:
+			bt and wt at **and**
+			rt (but use r@t-1 for simulation!!!) p. 412
+			number of kids he'll have!!
+			BUT: uncertain of kids abilities.  (Expects same ability; not RE!)
+Pestieau p.412
+	consider class marriage and random marriage
+	allow income class differences in fertility
+	allow couple to be childless. (conflict with ability formula?)
+	start simulation with 100 indivs and "arbitrary" distribution of wealth (K)
+	production fn is CD
+	full employment, competitive factor mkts
+	**household** decision making (umax)
+	use **average** parent ability
+Pestieau p.413
+	run simulation for 30 periods
+	measure inequality with Gini
+	simulation parameters in tables p.413 ff
+'''
+
 from __future__ import division
 from __future__ import absolute_import
 
@@ -396,4 +427,42 @@ class Economy(object):
 	def iterate(self):
 		pass
 		
+
+###################
+class PestieauParams:
+	def __init__(self):
+		self.DEBUG = False
+		self.ESTATE_TAX = None
+		self.BEQUEST_TYPE == 'child_directed'
+		self.MATING = None
+		self.KIDSEXGEN = None
+		self.N_COHORTS = None
+		self.KID_AT_YEAR =  None
+		self.PESTIEAU_BETA = None
+		self.PESTIEAU_NBAR = None
+
+def compute_ability(indiv, beta, nbar):
+	'''Return: float (child's ability).
+	Formula taken from Pestieau 1984, p.407.
+
+	:Parameters:
+	  beta : float
+	    Pestieau's ability regression parameter
+	  nbar : float
+	    Pestieau's mean number of kids 
+	'''
+	#determine ability from biological parents, if possible
+	assert (0 < beta < 1) 	#Pestieu p. 407
+	try:
+		father, mother = indiv.parents_bio
+		assert (father.sex == 'M' and mother.sex == 'F') #just an error check
+		nsibs = len(mother.children)
+		assert (nsibs>0)    #Pestieau p.407
+		parents_ability = (father.ability + mother.ability)/2.0  #Pestieau p.412
+		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
+		#Pestieau formula does not allow for zero kids??
+		ability = beta*parents_ability + (1-beta)*nbar/nsibs + z #Pestieau p.407 (role of nbar is weird)
+	except AttributeError:
+		ability = random.normalvariate(1.0,0.15) #for initial cohort
+	return ability
 
