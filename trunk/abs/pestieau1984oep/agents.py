@@ -42,9 +42,9 @@ State
 :license: `MIT license`_
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
 
-'''
+
+
 Notes:
 theoretical model and simulation model not a perfect match
 	theory model: parthenogenic
@@ -76,6 +76,7 @@ Pestieau p.413
 
 from __future__ import division
 from __future__ import absolute_import
+import random
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
@@ -117,7 +118,7 @@ class Indiv(object):
 	def calc_wealth(self):
 		wealth = 0
 		for acct in self.accounts:
-			wealth += acct.value
+			wealth += acct.get_value()
 		return wealth
 	def calc_household_wealth(self):  #just self and spouse (but cd add def of household as any set!)
 		wealth = self.calc_wealth()
@@ -326,6 +327,9 @@ class FundAcct(object):
 			toacct = recipient.accounts[0]
 			self.withdraw(amt)
 			toacct.deposit(amt)
+	def get_value(self):
+		return self._value
+
 
 class State(object):
 	def __init__(self,economy):
@@ -462,7 +466,7 @@ def compute_ability(indiv, beta, nbar):
 		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
 		#Pestieau formula does not allow for zero kids??
 		ability = beta*parents_ability + (1-beta)*nbar/nsibs + z #Pestieau p.407 (role of nbar is weird)
-	except AttributeError:
+	except TypeError:  #if indiv.parents_bio is None
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
 
