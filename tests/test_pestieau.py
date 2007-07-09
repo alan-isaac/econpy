@@ -40,6 +40,10 @@ class testPestieau(unittest.TestCase):
 		for si in s:
 			self.assert_(si in ['MM','MF','FM','FF'])
 	'''
+	def test_ability(self):
+		indiv = self.indivs[0]
+		ability = agents.compute_ability(indiv, 0.5, 2)
+		print ability
 	def test_PestieauCohort(self):
 		indivs = self.indivs
 		cohort = agents.PestieauCohort(indivs)
