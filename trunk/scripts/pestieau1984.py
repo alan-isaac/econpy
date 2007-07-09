@@ -36,11 +36,13 @@ print "Type of pop element (shd be a cohort): ", type(ppl[0])
 #first age the cohort 5 periods 
 #then receive income (7 units) for deposit and calculate wealth each period
 
+print
 print "#"*80
 print " Create Fund with Accounts ".center(80,'#')
 e = Economy()
 fnd = Fund(e)
 
+print
 print "#"*80
 print " Initialize Cohort Ages ".center(80,'#')
 age = 0
@@ -51,14 +53,17 @@ for cohort in ppl:
 		indiv.open_account(fnd, 100/age)
 
 
+print
+print "#"*80
+print " Example of Aging ".center(80,'#')
 for t in range(5):
 	print
-	for cohort in ppl:
+	for i, cohort in enumerate(ppl):
 		cohort.age_cohort()
-		for i, ind in enumerate(cohort):
+		for ind in cohort:
 			#ind.open_account  #already initialized
 			ind.receive_income(100)	# not sure why I get a out of range error here
-			print "Indiv %d has wealth of %5.2f."%(i,ind.calc_wealth()) ,
+		print "Indiv 0 of cohort %d has age %d and wealth of %5.2f."%(i, cohort[0].age, ind.calc_wealth())
 	print
 
 
