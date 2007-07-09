@@ -76,7 +76,7 @@ Pestieau p.413
 
 from __future__ import division
 from __future__ import absolute_import
-import random
+import random, itertools
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
@@ -202,7 +202,7 @@ class Cohort(tuple):
 		for indiv in self:
 			indiv.age += 1
 	def get_married(self,mating):  #TODO: rename
-		return NotImplemented
+		raise NotImplementedError
 
 class PestieauCohort(Cohort):
 	'''Cohort class for Pestieau 1984 replication.
@@ -218,6 +218,7 @@ class PestieauCohort(Cohort):
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val
 	def get_married(self,mating):	#TODO: move into Pop when marry across Cohorts
+		print "HERE", mating
 		males = list(self.males)
 		females = list(self.females)
 		maxkids = 2 #TODO: parameterize
@@ -253,7 +254,7 @@ class PestieauCohort(Cohort):
 				for m,f in mates:
 					print m.calc_wealth(), f.calc_wealth(), m.calc_household_wealth()
 		elif mating == "random":
-			#print "Random mating"
+			print "Random mating"
 			if len(males) > len(females): #-> wealth doesn't change likelihood of marriage
 				random.shuffle(males)
 			else:
@@ -262,6 +263,7 @@ class PestieauCohort(Cohort):
 			for m,f in mates:
 				f.wed(m)
 		else:
+			print "OOPS!"
 			assert (mating is None),\
 			"%s is an unknown mating type"%(mating)
 
@@ -424,28 +426,79 @@ class Population(list):  #provide a list of Cohort tuples
 
 class Economy(object):
 	'''
-	Not Implemented.
+	Not fully implemented.
 	'''
+	def __init__(self, params):
+		self.params = params
+		self.dist_hist = list()
+		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
+		self.state = None  #TODO TODO
+		#initialize economy
+		self.ppl = self.create_initial_population()
+		self.initialize_population()
+	def create_initial_population(self):
+		'''Return: a population.
+		Override this to use a particular type of
+		Cohort, Indiv, or sex generator.
+		'''
+		n_cohorts = self.params.N_COHORTS
+		cohort_size = self.params.COHORT_SIZE
+		cohorts = list()
+		for _ in range(n_cohorts):
+			indivs = (Indiv(economy=self, sex=s) for i in range(cohort_size//2) for s in "MF")
+			cohort = Cohort(indivs)
+			cohorts.append(cohort)
+		return Population(cohorts)
+	def initialize_population(self):
+		params = self.params
+		self.ppl.economy = self  #currently needed for fund access!? TODO
+		self.ppl.params = params  #currently needed for parameter access
+		age = params.N_COHORTS #initialize, to count down
+		for cohort in self.ppl:  #don't actually use ages of initial cohorts, but might in future
+			cohort.set_age(age)
+			age -= 1
+		assert (age == 0)
+		indivs = self.ppl.get_indivs()
+		#open an acct for every Indiv (using the default Fund)
+		fund = self.funds[0]
+		for indiv in indivs:
+			indiv.open_account(fund)
+		#initialize parenthood relationship when starting economy
+		#if params.BEQUEST_TYPE ==: #unnecessary
+		for idx in range(params.N_COHORTS - params.KID_AT_YEAR):
+			parents = self.ppl[idx]  #retrieve a cohort to be parents
+			parents.get_married(mating=params.MATING)  #parents are a Cohort
+			print params.MATING
+			print type(parents)
+			print [parent.spouse for parent in parents]
+			kids = self.ppl[idx+params.KID_AT_YEAR]
+			assert (len(parents)==len(kids))
+			for parent, kid in itertools.izip(parents,kids):
+				parent.adopt(kid)
+				parent.spouse.adopt(kid)  #TODO: think about adoption
+		# initial distribution of wealth
+		if params.WEALTH_INIT:
+			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
+			#assert (abs(self.ppl.calc_dist() - params.GW0) < 0.001)  #TODO!!!!!
 	def initialize(self):
 		pass
 	def iterate(self):
 		pass
 		
+class PestieauEconomy(Economy):
+	def create_initial_population(self): #override method in Economy
+		n_cohorts = self.params.N_COHORTS
+		cohort_size = self.params.COHORT_SIZE
+		cohorts = list()
+		for _ in range(n_cohorts):
+			indivs = (Indiv(economy=self, sex=s) for i in range(cohort_size//2) for s in "MF")
+			cohort = PestieauCohort(indivs)  #NOTE: use PestieauCohort!
+			cohorts.append(cohort)
+		return Population(cohorts)
+		
 
 ###################
-class PestieauParams:
-	def __init__(self):
-		self.DEBUG = False
-		self.ESTATE_TAX = None
-		self.BEQUEST_TYPE == 'child_directed'
-		self.MATING = None
-		self.KIDSEXGEN = None
-		self.N_COHORTS = None
-		self.KID_AT_YEAR =  None
-		self.PESTIEAU_BETA = None
-		self.PESTIEAU_NBAR = None
-
-def compute_ability(indiv, beta, nbar):
+def compute_ability_pestieau(indiv, beta, nbar):
 	'''Return: float (child's ability).
 	Formula taken from Pestieau 1984, p.407.
 
@@ -456,17 +509,45 @@ def compute_ability(indiv, beta, nbar):
 	    Pestieau's mean number of kids 
 	'''
 	#determine ability from biological parents, if possible
-	assert (0 < beta < 1) 	#Pestieu p. 407
 	try:
 		father, mother = indiv.parents_bio
 		assert (father.sex == 'M' and mother.sex == 'F') #just an error check
+		assert (0 < beta < 1) 	#Pestieu p. 407
 		nsibs = len(mother.children)
 		assert (nsibs>0)    #Pestieau p.407
 		parents_ability = (father.ability + mother.ability)/2.0  #Pestieau p.412
 		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
 		#Pestieau formula does not allow for zero kids??
 		ability = beta*parents_ability + (1-beta)*nbar/nsibs + z #Pestieau p.407 (role of nbar is weird)
-	except TypeError:  #if indiv.parents_bio is None
+	except (TypeError, AttributeError):  #if indiv.parents_bio is None
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
+
+import functools
+class PestieauParams:
+	def __init__(self):
+		self.DEBUG = False
+		self.ESTATE_TAX = None
+		self.BEQUEST_TYPE = 'child_directed'
+		self.MATING = None
+		self.KIDSEXGEN = None
+		#number of Cohorts
+		self.N_COHORTS = 2
+		#initial Gini for Wealth
+		self.GW0 = None
+		self.WEALTH_INIT = None
+		self.COHORT_SIZE = 100  #p.413
+		self.KID_AT_YEAR =  1
+		self.PESTIEAU_BETA = None
+		self.PESTIEAU_NBAR = None
+		self.compute_ability = functools.partial(
+			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)
+		self._locked = True
+	def __setattr__(self, attr, val):
+		'''Override __setattr__:
+		no new attributes allowed after initialization.
+		'''
+		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
+			raise ValueError("This object accepts no new attributes.")
+		self.__dict__[attr] = val 
 
