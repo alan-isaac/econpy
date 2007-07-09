@@ -6,7 +6,8 @@ from __future__ import division
 from random import random
 
 from scripts_config import econpy #get access to econpy package
-from econpy.abs.pestieau1984oep.agents import Indiv, PestieauCohort, Population, Fund, FundAcct, Economy
+from econpy.abs.pestieau1984oep.agents import (
+PestieauEconomy, State, Population, PestieauCohort, Indiv,  Fund, FundAcct, PestieauParams)
 from econpy.pytrix.iterate import IterativeProcess
 
 #for now, this is just illustrative; it's not "doing" anything
@@ -39,18 +40,20 @@ print "Type of pop element (shd be a cohort): ", type(ppl[0])
 print
 print "#"*80
 print " Create Fund with Accounts ".center(80,'#')
-e = Economy()
+p = PestieauParams()
+p.MATING = 'random'
+e = PestieauEconomy(p)
 fnd = Fund(e)
 
 print
 print "#"*80
 print " Initialize Cohort Ages ".center(80,'#')
-age = 0
+age = N_COHORTS
 for cohort in ppl:
-	age += 1
 	cohort.set_age(age)
 	for indiv in cohort:
 		indiv.open_account(fnd, 100/age)
+	age -= 1
 
 
 print
