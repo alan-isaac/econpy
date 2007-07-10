@@ -42,7 +42,8 @@ State
 :license: `MIT license`_
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-
+from __future__ import division
+from __future__ import absolute_import
 
 
 Notes:
@@ -50,15 +51,18 @@ theoretical model and simulation model not a perfect match
 	theory model: parthenogenic
 	bequests: theory bop vs simulation eop (p.412)?
 Pestieua p.408
-	individual t lives 2 periods, t and t+1
+	individual t lives 2 periods, 1t and 2t (distributiona var value may be diff than t and t+1: random fertility p.410)
+	belong to generation t
 		works first period
-		leaves bequest at **beginning** of 2nd period
+		leaves bequest at **beginning** of 2nd period ( n_t * b_2t )
 			(effectively, inter vivos transfers)
-		picks ct knowing:
+		picks c_1t knowing:
 			bt and wt at **and**
 			rt (but use r@t-1 for simulation!!!) p. 412
+				(theory model: also consideres E[a_t+1] govenened by (3) and E[r_t] = r_t-1 in deriving (11')  p.409)  
 			number of kids he'll have!!
 			BUT: uncertain of kids abilities.  (Expects same ability; not RE!)
+		retires second period
 Pestieau p.412
 	consider class marriage and random marriage
 	allow income class differences in fertility
@@ -66,18 +70,50 @@ Pestieau p.412
 	start simulation with 100 indivs and "arbitrary" distribution of wealth (K)
 	production fn is CD
 	full employment, competitive factor mkts
+	Capital Stock
+		Initial K = SIGMA(indiv wealth)
+		Thereafter = previous period savings
 	**household** decision making (umax)
-	use **average** parent ability
+		u-fn is CD: x^alpha c1t^gamma c2t^(1-alpha-gamma)
+	First marrage and then consumption and bequest decisions
+		decisions made using joint earnings and joint initial wealth
+			*note this is different than the parthenogenic theoretical model
+	use **average** parent ability in linking parents ability to children
+		*note: different than theory model
+	
 Pestieau p.413
-	run simulation for 30 periods
+	Initialize economy with 100 *unmarried* individuals
+	run simulation for 30 periods/generations
 	measure inequality with Gini
 	simulation parameters in tables p.413 ff
+		Beta:			0.5; 0.6; 0.7	[regression to the mean]
+		z: 				N(0,0.15)		[Random term]
+		Initial Dist:	N(0,0.15)		[Abiliy distribution]
+		u-fn:	alpha	0.7				[propensity to leave bequests]
+				gamma	0.2				[weight on c_1t]
+		Fertility cases:
+			1. Every couple has 2 children
+			2. each has 1,2,3 children with prob. 0.2, 0.6, 0.2 respectively
+			3. # children: Poisson dist. with mean = 2
+			4. Wealthy have relatively less children (3 wealth groups): 
+				# children determined by Poission dist. 
+				Poor: 		mean 2.3
+				In-Between: mean 2.0
+				Rich:		mean 1.7
+			5. Poor have relatively less children 
+				# children determined by Poission dist.
+				Poor:		mean 1.7
+				In-Between:	mean 2.0
+				Rich:		mean 2.3
 '''
 
+#<<<<<<< .mine
+#=======
 from __future__ import division
 from __future__ import absolute_import
 import random, itertools
 
+#>>>>>>> .r26
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20070622'
