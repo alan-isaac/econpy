@@ -6,7 +6,7 @@ from __future__ import division
 from random import random
 
 from scripts_config import econpy #get access to econpy package
-from econpy.abs.pestieau1984oep.agents import (PestieauEconomy, State, Population, PestieauCohort, Indiv,  Fund, FundAcct, PestieauParams)
+from econpy.abs.pestieau1984oep.agents import (Economy, State, Population, PestieauCohort, Indiv,  Fund, FundAcct, PestieauParams)
 from econpy.pytrix.iterate import IterativeProcess
 
 #for now, this is just illustrative; it's not "doing" anything
@@ -16,32 +16,22 @@ N_COHORTS = 5
 
 print
 print "#"*80
-print " Create Indivs ".center(80,'#')
-individuals = [ Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF" ]
-print 'sex of indiv in cohort  :',''.join(ind.sex for ind in individuals)
-
-print
-print "#"*80
-print " Create Cohort ".center(80,'#')
-cohort = PestieauCohort(individuals)
-print "Cohort element (an Indiv): ", cohort[0]
+print " Example: Create Cohort of Indivs ".center(80,'#')
+cohort = PestieauCohort( Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF" )
+print 'sex of indiv in cohort  :',''.join(ind.sex for ind in cohort)
 
 print "#"*80
-print " Create Population ".center(80,'#')
+print " Example: Create Population ".center(80,'#')
 ppl = Population( PestieauCohort( Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF") for j in range(N_COHORTS) )
 print "Type of pop element (shd be a cohort): ", type(ppl[0])
 
 
-#KC: just practice getting the classes do so something (not much yet, just testing my understanding):
-#first age the cohort 5 periods 
-#then receive income (7 units) for deposit and calculate wealth each period
-
 print
 print "#"*80
-print " Create Fund with Accounts ".center(80,'#')
+print " Example: Create Fund to hold Accounts ".center(80,'#')
 p = PestieauParams()
 p.MATING = 'random'
-e = PestieauEconomy(p)
+e = Economy(p)
 fnd = Fund(e)
 
 print
@@ -53,7 +43,6 @@ for cohort in ppl:
 	for indiv in cohort:
 		indiv.open_account(fnd, 100/age)
 	age -= 1
-
 
 print
 print "#"*80
@@ -67,6 +56,16 @@ for t in range(5):
 			ind.receive_income(100)
 		print "Indiv 0 of cohort %d has age %d and wealth of %5.2f."%( i, cohort[0].age, ind.calc_wealth() )
 	print
+
+print
+print "#"*80
+print " Example: Run Economy ".center(80,'#')
+p = PestieauParams()
+p.MATING = 'random'
+e = Economy(p)
+e.run()
+
+
 
 #******************************
 #******** END ;-) *************

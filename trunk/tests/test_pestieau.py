@@ -42,37 +42,19 @@ class testPestieau(unittest.TestCase):
 	'''
 	def test_ability(self):
 		indiv = self.indivs[0]
-		ability = agents.compute_ability(indiv, 0.5, 2)
-		print ability
+		ability = agents.compute_ability_pestieau(indiv, 0.5, 2)
+		#TODO
 	def test_PestieauCohort(self):
 		indivs = self.indivs
 		cohort = agents.PestieauCohort(indivs)
 		self.assertEqual(len(cohort),len(indivs))
 		for i in indivs:
 			self.assert_(i.sex in "MF")
-	def test_permutations(self):
-		x = utilities.permutations([1,2])
-		y = utilities.permutations(range(3))
-		z = list( utilities.permutationsg(range(3)) )
-		self.assertEqual(x,[[1,2],[2,1]])
-		self.assertEqual(y,z)
-	def test_calc_gini(self):
-		#test that two Gini formulae give same rsult
-		gini1 = utilities.calc_gini(self.wealths)
-		gini2 = utilities.calc_gini2(self.wealths)
-		#print "gini1:%f, gini2:%f"%(gini1, gini2)
-		self.assert_(fmath.feq(gini1,gini2))
 	def test_Fund(self):
 		fund = agents.Fund(None)  #usu want association w economy
 		fund._accounts = [agents.FundAcct(fund, self.indivs[i], self.wealths[i]) for i in range(self.N)]
 		for i in range(self.N):
 			self.assertEqual(fund._accounts[i]._value, self.wealths[i])
-	def test_math(self):
-		print
-		print fmath.get_float_radix()
-		print fmath.get_machine_precision()
-		print fmath.get_default_numerical_precision()
-		print fmath.feq(1,2), fmath.feq(1e-9, 1e-10), fmath.feq(1e-16, 1e-17)
 
 if __name__=="__main__":
 	unittest.main()
