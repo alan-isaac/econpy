@@ -14,10 +14,14 @@ iab amt amount
 iab amts amounts
 iab appt appointment
 iab asap as soon as possible
+iab B4 Before
+iab b4 before
 iab bday birthday
 iab Bc Because
 iab bc because
 iab beh behavior
+iab bhv behave
+iab bhvr behavior
 iab bldg building
 iab bt between
 iab Btw By the way
@@ -47,6 +51,9 @@ iab imo in my opinion
 iab Imo In my opinion
 iab info information
 iab intl international
+iab iir if I recall correctly
+iab IIR If I recall correctly
+iab Iir If I recall correctly
 iab msg message
 iab msgs messages
 iab nec necessary
@@ -68,6 +75,7 @@ iab pt point
 iab rcd received
 iab rec receive
 iab recd received
+iab ru Are you
 iab Shd Should
 iab shd should
 iab Shdt Should not
@@ -106,7 +114,6 @@ iab Wdt Wouldn't
 iab Wdnt Wouldn't
 iab wrt with respect to
 iab yr your
-
 
 "set colorscheme for email
 "make more portable by defaulting to a Vim colorscheme
@@ -336,8 +343,8 @@ fu! Sig()
 endf
 
 call AImail("qtzwrbdgh")
-" 
-%s/\S$/& /e
+" Add space at end of text lines
+%s/^\a.\+\S$/& /e
 
 imap ;mm <esc>:call AImail("qtzwrbdg")
 " SOME MAPPINGS
@@ -351,7 +358,7 @@ imap ;tx <cr><esc>0C<cr>Thanks, Alan<esc>bhs<cr><esc>A<cr><cr>
 imap !tx <cr><esc>0C<cr>Thanks! Alan<esc>bhs<cr><esc>A<cr><cr>
 imap ;fwiw <cr><esc>0C<cr>fwiw, Alan<esc>bhs<cr><esc>A<cr><cr>
 imap ;fyi <cr><esc>0C<cr>fyi, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;bw <cr><esc>0C<cr>Best Wishes, Alan Isaac<esc>bhs<cr><esc>A<cr><cr>
+imap ;bw <cr><esc>0C<cr>Best Wishes,<cr>Alan Isaac<cr><cr>
 " change subject line
 "map ;ns 1G/^Subject: /e<CR>a(was: <Esc>A)<Esc>%i
 map ;ns 1G/^Subject: /<CR>:s,\(Subject: \)\(Re: \)*\(.*\)$,\1(was: \3),<CR>f(i
