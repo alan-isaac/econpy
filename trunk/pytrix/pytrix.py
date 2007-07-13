@@ -12,7 +12,7 @@ Most are lightweight, in the sense that they do not depend on an array package.
           and I have not had time to check all of them.
           Please test before using.  (Always a good idea of course.)
 :note: Please include proper attribution should this code be used in a research project or in other code.
-:see: For William Park's included code and more, see his `Simple Recipes in Python`_
+:see: The code below by William Park's and more can be found in his `Simple Recipes in Python`_
 :author: Alan G. Isaac, except where otherwise specified.
 :copyright: 2005 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_ except where otherwise specified.
@@ -21,8 +21,10 @@ Most are lightweight, in the sense that they do not depend on an array package.
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
-__docformat__ = "restructuredtext en"
 from __future__ import division
+from __future__ import absolute_import
+__docformat__ = "restructuredtext en"
+
 import random, math, operator
 import types
 import sys,os
@@ -31,11 +33,10 @@ import logging
 have_numpy = False
 try:
 	import numpy
+	from numpy import linalg
 	have_numpy = True
 except ImportError:
 	logging.info("numpy not available")
-if have_numpy:
-	from numpy import linalg
 
 # Polynomials in poly.py
 

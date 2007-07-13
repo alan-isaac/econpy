@@ -6,6 +6,11 @@ Unit tests for utilities.
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
 from __future__ import absolute_import
+from __future__ import division
+
+__docformat__ = "restructuredtext en"
+__author__ = 'Alan G. Isaac (and others as specified)'
+
 import unittest
 import random
 

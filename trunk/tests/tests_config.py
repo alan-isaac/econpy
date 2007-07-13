@@ -1,3 +1,6 @@
+'''Used by tests to find the econpy package,
+either as installed or relative to script location.
+'''
 try:
 	import econpy
 except ImportError:

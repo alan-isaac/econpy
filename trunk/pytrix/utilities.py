@@ -109,7 +109,7 @@ def permute(x):
 	try:
 		x = numpy.array(x,copy=True)
 		numpy.random.shuffle(x.flat)
-	except:
+	except NameError:
 		x = list(x) #1d only!
 		random.shuffle(x)
 	return x
@@ -151,4 +151,24 @@ def permutationsg(lst):
 				yield [lst[i]]+x
 	else:
 		yield lst
+
+
+
+#########  marginally relevant utilities  ######################
+def grep(pattern, *files):
+	'''Usage: grep("grep", *glob.glob("*.py"))
+
+	:author: Fredrik Lundh
+	:since: 2005-10-25
+	'''
+	try:
+		search = re.compile(pattern).search
+	except NameError:
+		import re
+		search = re.compile(pattern).search
+	for file in files:
+		for index, line in enumerate(open(file)):
+			if search(line):
+				print ":".join((file, str(index+1), line[:-1]))
+
 

@@ -1,4 +1,7 @@
 '''
+Provides a couple useful floating point math operations,
+primarily `feq` (fuzzy equality).
+
 :see: http://orion.math.iastate.edu/burkardt/c_src/machar/machar.html
 '''
 from __future__ import absolute_import
@@ -9,6 +12,8 @@ import math
 float_radix = 0
 
 def calc_float_radix():
+	'''Return: floating point radix. (Usually 2.)
+	'''
 	float_radix = 0
 	a = 1.0
 	test = True
