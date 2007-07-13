@@ -1,6 +1,6 @@
-'''Some iterative process related classes.
+'''Provide some iterative process related classes.
 
-:date: 2007-07-04
+:date: 2007-07-12
 :since: 2007-06-25
 :copyright: Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_

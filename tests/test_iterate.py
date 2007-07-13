@@ -6,6 +6,11 @@ Unit tests for the `iterate` module.
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
 from __future__ import division
+from __future__ import absolute_import
+
+__docformat__ = "restructuredtext en"
+__author__ = 'Alan G. Isaac (and others as specified)'
+
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
 import random
