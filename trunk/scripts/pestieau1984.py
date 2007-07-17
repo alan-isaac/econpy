@@ -10,7 +10,7 @@ from econpy.abs.pestieau1984oep.agents import (Economy, State, Population, Pesti
 from econpy.pytrix.iterate import IterativeProcess
 
 #for now, this is just illustrative; it's not "doing" anything
-
+'''
 COHORT_SIZE = 10	# indiv in cohort
 N_COHORTS = 5
 
@@ -56,6 +56,7 @@ for t in range(5):
 			ind.receive_income(100)
 		print "Indiv 0 of cohort %d has age %d and wealth of %5.2f."%( i, cohort[0].age, ind.calc_wealth() )
 	print
+'''
 
 print
 print "#"*80
@@ -64,8 +65,6 @@ p = PestieauParams()
 p.MATING = 'random'
 e = Economy(p)
 e.run()
-
-
 
 #******************************
 #******** END ;-) *************
