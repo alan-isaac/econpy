@@ -46,13 +46,15 @@ from __future__ import division
 from __future__ import absolute_import
 
 
-Notes:
+Notes
+-----
+
 theoretical model and simulation model not a perfect match
 	theory model: parthenogenic
 	bequests: theory bop vs simulation eop (p.412)?
-Pestieua p.408
-	individual t lives 2 periods, 1t and 2t (distributiona var value may be diff than t and t+1: random fertility p.410)
-	belong to generation t
+Pestieua p.408 (theory section)
+	individual of generation t lives 2 periods, t & t+1
+	(alternative notation: 1t and 2t)
 		works first period
 		leaves bequest at **beginning** of 2nd period ( n_t * b_2t )
 			(effectively, inter vivos transfers)
@@ -61,13 +63,24 @@ Pestieua p.408
 			rt (but use r@t-1 for simulation!!!) p. 412
 				(theory model: also consideres E[a_t+1] govenened by (3) and E[r_t] = r_t-1 in deriving (11')  p.409)  
 			number of kids he'll have!!
-			BUT: uncertain of kids abilities.  (Expects same ability; not RE!)
+			BUT: uncertain of kids abilities.  (Expects own ability reproduced; not RE!)
 		retires second period
 Pestieau p.412
 	consider class marriage and random marriage
 	allow income class differences in fertility
-	allow couple to be childless. (conflict with ability formula?)
-	start simulation with 100 indivs and "arbitrary" distribution of wealth (K)
+	allow couple to be childless. (-> ability formula not used)
+		bequests of childless are "pooled and distributed" (p.415)
+		odd: don't they know how many kids? Then why any bequests? clarify!
+	start simulation with 100 indivs
+	initial wealth (K) distribution:
+		"arbitrary" (p.412)
+		2 cases (p.413):
+			"highly unequal" (reported)
+			"relatively equal" (not reported)
+			equilibrium soln independent of initial distribution (p.413)
+	allow negative bequests!? (p.415)
+		"made possible ... by a linear bequest function"
+			
 	production fn is CD
 	full employment, competitive factor mkts
 	Capital Stock
@@ -128,8 +141,8 @@ def distribute(wtotal, units, gini, shuffle=False):
 	w = ( wtotal*share for share in shares )
 	for wi in w:
 		units.pop().receive_income(wi)   #ADD to individual wealth
-	assert (not units)  #len shd be zero now
-	print "Desired gini: ", gini, "   Achieved: ", utilities.calc_gini( i.calc_wealth() for i in units2 ), utilities.calc_gini2( i.calc_wealth() for i in units2 )
+	assert (not units),  "Length shd now be zero."
+	print "Desired gini: ", gini, "   Achieved: ", utilities.calc_gini( i.calc_wealth() for i in units2 )
 
 def sexer_randompairs(n):
 	'''Yields n of each of two sexes, in pairs, in random order.

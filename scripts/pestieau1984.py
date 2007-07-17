@@ -1,12 +1,12 @@
 '''Module pestieau1984.py
-Allows replication of Pestieau (1984).
+Will eventually replicate Pestieau (1984).
 '''
 from __future__ import absolute_import
 from __future__ import division
 from random import random
 
 from scripts_config import econpy #get access to econpy package
-from econpy.abs.pestieau1984oep.agents import (Economy, State, Population, PestieauCohort, Indiv,  Fund, FundAcct, PestieauParams)
+from econpy.abs.pestieau1984oep import agents
 from econpy.pytrix.iterate import IterativeProcess
 
 #for now, this is just illustrative; it's not "doing" anything
@@ -17,22 +17,22 @@ N_COHORTS = 5
 print
 print "#"*80
 print " Example: Create Cohort of Indivs ".center(80,'#')
-cohort = PestieauCohort( Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF" )
+cohort = agents.PestieauCohort( agents.Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF" )
 print 'sex of indiv in cohort  :',''.join(ind.sex for ind in cohort)
 
 print "#"*80
 print " Example: Create Population ".center(80,'#')
-ppl = Population( PestieauCohort( Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF") for j in range(N_COHORTS) )
+ppl = agents.Population( agents.PestieauCohort( agents.Indiv(economy=None,sex=s) for i in range(COHORT_SIZE//2) for s in "MF") for j in range(N_COHORTS) )
 print "Type of pop element (shd be a cohort): ", type(ppl[0])
 
 
 print
 print "#"*80
 print " Example: Create Fund to hold Accounts ".center(80,'#')
-p = PestieauParams()
+p = agents.PestieauParams()
 p.MATING = 'random'
-e = Economy(p)
-fnd = Fund(e)
+e = agents.Economy(p)
+fnd = agents.Fund(e)
 
 print
 print "#"*80
@@ -61,9 +61,9 @@ for t in range(5):
 print
 print "#"*80
 print " Example: Run Economy ".center(80,'#')
-p = PestieauParams()
+p = agents.PestieauParams()
 p.MATING = 'random'
-e = Economy(p)
+e = agents.Economy(p)
 e.run()
 
 #******************************
