@@ -169,7 +169,7 @@ def Pestieau_Bequest(indiv):
 pass
 
 
-def max_utility_const(indiv, sh_altruism, sh_cons_1t, sh_cons_2t, wage, n_children, r_t):
+def max_utility_const(indiv, sh_altruism, sh_cons_1t, sh_cons_2t, wage, bequest_rec,n_children, r_t):
 	'''Return: float (utility).
 	CD Utility function and constraints for consumption and bequest decisions, p.408-409
 	
@@ -182,6 +182,8 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, sh_cons_2t, wage, n_childr
 			Pestieau's consumption share during non-working generation
 		wage : float
 			Peasieau's wage derived competitively
+		bequest_rec: float
+			Pestieau's bequest received by the current generation from the parents
 		n_children : float
 			Pestieau's number of children per couple
 		r_t : float
@@ -190,19 +192,22 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, sh_cons_2t, wage, n_childr
 	params = indiv.economy.params
 	
 	assert (sh_altruism + sh_cons_1t + sh_cons_2t == 1)  # check: fn homogenous of degree 1
-	life_wealth = total_wealth							 # wage*ability + bequest_received = lifetime wealth
-	life_cons_beq = cons_1t + ( cons2t + ( n_children * bequest_2t)/(1 + r_t) )#lifetime consumption and bequest
-	assert (life_weath == life_cons_beq)	# income/expenditure constraint
-	x = wage * ability + bequest  # x is expected lifetime income of heirs: parents expect children to have = ability and income p.409
+	life_income = wage*ability
+	life_weatlth = life_income + bequest_rec  # lifetime wealth is income + bequest received 
+	life_cons_beq_2t = cons_1t + ( cons_2t + ( n_children * bequest_2t)/(1 + r_t) )  #lifetime consumption and bequest to children
+	
+	x = wage * ability + bequest_2t  # x is expected lifetime income of heirs: parents expect children to have = ability and income p.409
+	
 	u = (x**sh_altruism)*(cons_1t**sh_cons_1t)*(cons_2t**sh_cons_2t)  #define utility
 	
-		
-	bequest = ( (sh_altruism * (1 + r_t) )/n_children )*total_wealth - (1-sh_altruism)*wage*ability
-	bequest = ( (sh_altruism * (1 + r_t) )/n_children )*total_wealth - (1-sh_altruism)*total_income
+	assert (life_weath == life_cons_beq)	# income/expenditure constraint
+	
+	#optimal values as parameters of the model using CD fn
+	bequest_2t = ( (sh_altruism * (1 + r_t) )/n_children )*total_wealth - (1-sh_altruism)*life_income  #optimal bequest
 
+	cons_1t = sh_cons_1t * ( bequest_rec + life_income*( (1 + r_t + n_children)/(1 + r_t) )	#optimal cons_1t
 
-		
-
+	cons_2t = (1 - sh_altruism - sh_cons_2t)* ( bequest_rec + life_income*( (1 + r_t + n_children)/(1 + r_t) )*(1 + r_t)  #optimal cons_2t
 
 
 #******************************
