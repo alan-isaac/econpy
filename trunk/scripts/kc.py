@@ -6,8 +6,6 @@ from __future__ import division
 from random import random
 
 from scripts_config import econpy #get access to econpy package
-from econpy.abs.pestieau1984oep.agents import (Economy, State, Population, PestieauCohort, Indiv,  Fund, FundAcct, EconomyParams)#, PestieauParams)
-from econpy.pytrix.iterate import IterativeProcess
 
 #################################################################
 #####################  additional imports #######################
@@ -30,6 +28,7 @@ from econpy.abs.pestieau1984oep.agents import distribute, sexer_randompairs, beq
 class KCPestieauParams(agents.PestieauParams):
 	def __init__(self):
 		agents.PestieauParams.__init__(self)
+		#ai: I do not thing this is what you want to do ... ? This is economy wide initial wealth.
 		self.WEALTH_INIT = random.paretovariate(1)	#TODO TODO			#kc: random initial endowment, paper not explicit. p.413  
 		self.PESTIEAU_BETA = 0.6										#kc: set regresion to mean ability parameter
 		self.PESTIEAU_NBAR = None
@@ -44,7 +43,7 @@ print "#"*80
 print " Example: Run Economy ".center(80,'#')
 p = agents.PestieauParams()
 p.MATING = 'random'
-e = Economy(p)
+e = agents.Economy(p)
 e.run()
 
 ############################### Next Steps ###############################
