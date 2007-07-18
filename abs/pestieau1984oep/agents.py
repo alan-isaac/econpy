@@ -97,7 +97,7 @@ Pestieau p.412
 Pestieau p.413
 	Initialize economy with 100 *unmarried* individuals
 	run simulation for 30 periods/generations
-	measure inequality with Gini
+	measure inequality with Gini (he does inequality of bequests across recipients?)
 	simulation parameters in tables p.413 ff
 		Beta:			0.5; 0.6; 0.7	[regression to the mean]
 		z: 				N(0,0.15)		[Random term]
@@ -128,6 +128,10 @@ __lastmodified__ = '20070622'
 import random, itertools
 from econpy.pytrix import utilities
 
+#logging
+import logging
+script_logger = logging.getLogger('script_logger')
+
 
 #################################################################
 #########################  functions  ###########################
@@ -142,7 +146,7 @@ def distribute(wtotal, units, gini, shuffle=False):
 	for wi in w:
 		units.pop().receive_income(wi)   #ADD to individual wealth
 	assert (not units),  "Length shd now be zero."
-	print "Desired gini: ", gini, "   Achieved: ", utilities.calc_gini( i.calc_wealth() for i in units2 )
+	script_logger.debug( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
 
 def sexer_randompairs(n):
 	'''Yields n of each of two sexes, in pairs, in random order.
@@ -345,7 +349,7 @@ class PestieauCohort(Cohort):
 		females.sort(key=lambda i: i.calc_wealth(),reverse=True)
 		#class mating when cannot marry sibs
 		if mating == "class_nosibs":
-			#print "class mating, no sibs"
+			script_logger.debug("get_married: class mating, no sibs")
 			#first make matches while it is certainly possible that remainder can be matched
 			while len(males)>maxkids and len(females)>maxkids:
 				groom = males.pop(0)
@@ -363,7 +367,7 @@ class PestieauCohort(Cohort):
 			for groom,bride in mf:
 				bride.wed(groom)
 		elif mating == "classonly":
-			#print "classonly mating"
+			script_logger.debug("get_married: classonly mating")
 			for m,f in itertools.izip(males,females): #some poor possibly left out
 				f.wed(m)
 			params = m.economy.params
@@ -372,7 +376,7 @@ class PestieauCohort(Cohort):
 				for m,f in mates:
 					print m.calc_wealth(), f.calc_wealth(), m.calc_household_wealth()
 		elif mating == "random":
-			print "Random mating"
+			script_logger.debug("get_married: random mating")
 			if len(males) > len(females): #-> wealth doesn't change likelihood of marriage
 				random.shuffle(males)
 			else:
@@ -559,6 +563,7 @@ class Economy(object):
 		Override this to use a particular type of
 		Cohort, Indiv, or sex generator.
 		'''
+		script_logger.info("create initial population")
 		params = self.params
 		n_cohorts = params.N_COHORTS
 		cohort_size = params.COHORT_SIZE
@@ -569,6 +574,7 @@ class Economy(object):
 			cohorts.append(cohort)
 		return params.Population(cohorts)
 	def initialize_population(self):
+		script_logger.info("initialize population")
 		params = self.params
 		self.ppl.economy = self  #currently needed for fund access!? TODO
 		self.ppl.params = params  #currently needed for parameter access
@@ -577,14 +583,16 @@ class Economy(object):
 			cohort.set_age(age)
 			age -= 1
 		assert (age == 0) , "no cohort has age 0"
-		indivs = self.ppl.get_indivs()
 		#open an acct for every Indiv (using the default Fund)
+		script_logger.info("assigned indivs initial accounts")
+		indivs = self.ppl.get_indivs()
 		fund = self.funds[0]
 		for indiv in indivs:
 			indiv.open_account(fund)
 		#initialize parenthood relationship when starting economy
 		#if params.BEQUEST_TYPE ==: #unnecessary
 		#remember: age = N_COHORTS - index
+		script_logger.info("initionalize family structure")
 		for idx in range(params.N_COHORTS - params.KID_AT_YEAR+1):   ###!! E.g., OG: 2-2+1 (fixed)
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			parents.get_married(mating=params.MATING)  #parents are a Cohort
@@ -593,17 +601,12 @@ class Economy(object):
 			for parent, kid in itertools.izip(parents,kids):
 				parent.adopt(kid)
 				parent.spouse.adopt(kid)  #TODO: think about adoption
-		# initial distribution of wealth  #TODO TODO
-		if params.WEALTH_INIT:  #TODO
+		if params.WEALTH_INIT:
+			script_logger.info("distribute initial wealth")  #TODO details scarce in Pestieau 1984
 			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
 			#assert (abs(self.ppl.calc_dist() - params.GW0) < 0.001)  #TODO!!!!!
-	def transfer(self, fr, to, amt):  #TODO: cd introduce transactions cost here, cd be a fn
-		fr.outgo(amt)
-		to.receive_income(amt)
-	def distribute_gains(self):
-		for fund in self.funds:
-			fund.distribute_gains()
 	def run(self):  #TODO: rely on IterativeProcess?
+		script_logger.info("run the economy")
 		params = self.params
 		assert (len(self.ppl) == params.N_COHORTS)
 		assert (len(self.ppl[0]) == params.COHORT_SIZE)
@@ -621,6 +624,12 @@ class Economy(object):
 		wealths = [indiv.calc_wealth() for indiv in self.ppl.gf_indivs()]
 		#uncomment to check for number of zeros
 		#print "zeros: %d\t small:%d"%(sum(i==0 for i in wealths),sum(i<0.5 for i in wealths))
+	def transfer(self, fr, to, amt):  #TODO: cd introduce transactions cost here, cd be a fn
+		fr.outgo(amt)
+		to.receive_income(amt)
+	def distribute_gains(self):
+		for fund in self.funds:
+			fund.distribute_gains()
 		
 		
 
@@ -693,8 +702,8 @@ class PestieauParams(EconomyParams):
 		#number of Cohorts
 		self.N_COHORTS = 2
 		#initial Gini for Wealth
-		self.GW0 = 0.5 #TODO TODO
-		self.WEALTH_INIT = 1000 #TODO TODO
+		self.GW0 = 0.5 #TODO cannot find value in Pestieau 1984; see comments above
+		self.WEALTH_INIT = 1000 #TODO I can find no value for initial wealth in Pestieau 1984??
 		self.BEQUEST_FN = bequests_blinder  #TODO TODO
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None

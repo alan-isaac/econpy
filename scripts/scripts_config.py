@@ -8,3 +8,6 @@ except ImportError:
 	sys.path.insert(0,package4tests)  #need location of econpy
 	import econpy
 
+import logging
+logging.basicConfig(level=logging.INFO,format='%(levelname)-10s %(message)s')
+script_logger = logging.getLogger('script_logger')
