@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Jul 17
+Last modified: 2007 Jul 18
 <br />
 Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://www.american.edu/econ/notes/soft.htm</a>
 <!--[if lt IE 7]> 
@@ -33,14 +33,14 @@ Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://w
 
 <div style="font-size: 60%;background-color:#EEEEEE; color:#FF0000;">
           <!-- Begin PayPal Logo --> 
-<form action="https://www.paypal.com/cgi-bin/webscr" methd="post" style="float:left">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:left">
           <div style="text-align:center; padding: 0 1em;">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="aisaac@american.edu">
-            <input type="hidden" name="item_name" value="Software for Economists">
-            <input type="hidden" name="return" value="http://www.american.edu/econ/notes/soft.htm">
-            <input type="hidden" name="cancel_return" value="http://www.american.edu/econ/notes/soft.htm">
-            <input type="image" src="http://images.paypal.com/images/x-click-but04.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="aisaac@american.edu" />
+            <input type="hidden" name="item_name" value="Software for Economists" />
+            <input type="hidden" name="return" value="http://www.american.edu/econ/notes/soft.htm" />
+            <input type="hidden" name="cancel_return" value="http://www.american.edu/econ/notes/soft.htm" />
+            <input type="image" src="http://images.paypal.com/images/x-click-but04.gif" name="submit" alt="PayPal" />
         </div>
 </form>
 This page is advertisement-free.
@@ -290,7 +290,7 @@ Good commercial fonts:
 <a href="http://www.microsoft.com/resources/design/ClearType.html">Consolas</a>
 </p>
 
-<h4 id="monospace">Other Useful Fonts</h4>
+<h4 id="fonts">Other Useful Fonts</h4>
 
 <p>
 <a href="http://www.sil.org/~gaultney/gentium/">Gentium</a> is a high-quality
@@ -416,16 +416,15 @@ and your markup commands will not be visible in the typeset document.
 <h3>WYSIWYG</h3>
 
 <p>
-The recommended cross platform solution is <a href="http://www.openoffice.org/">Open Office</a>,
+A good cross platform solution is <a href="http://www.openoffice.org/">Open Office</a>,
 which includes the oomath formula editor.
 <a href="http://www.openoffice.org/">Open Office</a> is free and open source software.
 </p>
 
-<p id="abiword"> 
-Another cross platform solution is <a href="http://www.abisource.com/">AbiWord</a>,
+<p> 
+Another cross platform solution is <a href="#abiword">AbiWord</a>,
 which brilliantly uses MathML as its internal representation of mathematics.
-AbiMath can import MathML equations;
-as of AbiWord 2.4 inline editing should be possible.
+AbiMath can import MathML equations.
 AbiWord also support <a href="#itex">itex</a> for equation input,
 which is quite wonderful.
 </p>
@@ -452,9 +451,11 @@ These are sometimes called WYSIWYM (what you see is what you mean) environments.
 </p>
 
 <div id='latexgui'>
+<p>
 The most popular WYSIWYM environments are interfaces to an underlying <a href="#TEX">LaTeX</a> document.
 In such an environment,
-you will see for example the glyph <code>&beta;</code> instead of the LaTeX code <code>\beta</code>.</p>
+you will see for example the glyph <code>&beta;</code> instead of the LaTeX code <code>\beta</code>.
+</p>
 
 <p id="LyX">
 The only cross-platform implementation I know of is <a href="http://www.lyx.org">LyX</a>,
@@ -478,6 +479,7 @@ the most popular of which seems to be <a href="http://www.mackichan.com/">Scient
 (Scientific Notebook is not marketed as a LaTeX front end,
 but as of 2004 it still saves in LaTeX format and with a tiny amount of editing can be used that way.)
 <a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents.
+</p>
 </div>
 
 <p class="boxed">
@@ -1207,7 +1209,7 @@ you still have a variety of options.
 writes a GAUSS matrix or string array to a LaTeX table.
 </li>
 <li> 
-<a href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=4894&objectType=file">matrix2latex</a>
+<a href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectType=file">matrix2latex</a>
 writes a MATLAB matrix to a LaTeX table.  
 </li>
 <li> 
@@ -1249,6 +1251,7 @@ Plain TeX is supported.
 (See the <a href="#bibtexhints">BibTeX user hints</a>.)
 An interesting alternative is <a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a> (License: GPL; dependencies: <a href="http://www.python.org">Python</a>, <a href="http://www.dabeaz.com/ply/">PLY</a>)
 </p>
+
 <ul>
 <li>
 <a href="http://pybtex.sourceforge.net/">Pybtex</a>
@@ -1267,7 +1270,6 @@ BibTeX Contributions</a>.
 <li><a href="ftp://ftp.TeX.ac.UK/ctan/tex-archive/macros/plain/contrib/vertex/">
 VerTeX for Economics Journals.</a> 
 </li>
-</ul>
 
 <li><a href="misc/epslatex.pdf">epslatex.pdf</a> has many hints for working with graphics.
 </li>
@@ -3030,7 +3032,9 @@ which can be assisted by <a href="http://blender3d.org/cms/Python_Scripts.3.0.ht
 
 <h3 id="pyplot">Plotting in Python</h3>
 
+<p>
 See the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware#Visualization">SciPy TopicalSoftware Wiki</a> for a more complete list of options.
+</p>
 
 <ul>
 <li>
@@ -3203,7 +3207,6 @@ viewable .pdf file.
 </li>
 </ul>
 
-</div>
 
 
 <h4>Other Graphics Format Conversions</h4>
@@ -3241,8 +3244,6 @@ I will focus on a few cross-platform alternatives.
 
 <h4 id="psmeta">Metalanguages for PostScript</h4>
 
-<ul>
-<li>
 <p>
 Python users have a number of fine alternatives.
 For drawing, I like <a href="http://pyx.sourceforge.net/">PyX</a>.
@@ -3295,13 +3296,13 @@ Other possibilities:
 <a href="http://www.linmpi.mpg.de/dislin/">DISLIN</a> is free for non-commercial use and is available as Python extensions.
 <br />
 <a href="http://home.gna.org/veusz/">VUESZ</a> is a PyQT based scientific plotting package.
-</li>
+</p>
+<ul>
 <li>
 Particularly popular among LaTeX users:
 <a href="http://www.tex.ac.uk/tex-archive/graphics/metapost/">MetaPost</a>,
 <a href="http://www.tex.ac.uk/tex-archive/graphics/pstricks/">PSTricks</a>,
 and <a href="#pgf">PGF</a>.
-</p>
 </li>
 <li>
 <a href="http://www.cs.utk.edu/~plank/plank/jgraph/jgraph.html">Jgraph</a> provides a simple metalanguage for high quality PostScript output.
@@ -3534,7 +3535,7 @@ draws flowcharts based on a simple text description. (License: GPL; Language: C)
 <h3 id="sparkplot">Sparklines</h3>
 
 <p>
-Edward Tufte offers an online <a href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0001OR&topic_id=1&topic=">discussion of sparklines</a>.
+Edward Tufte offers an online <a href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0001OR">discussion of sparklines</a>.
 </p>
 
 <p>
@@ -3770,7 +3771,7 @@ and it also supports the Open Document Format (as any good office suite should).
 <br />
 <a href="http://www.software602.com/">602PC Suite</a> is a MS compatible office suite.
 <br />
-Nowadays you can also consider <a href="http://www.computerworld.com/action/article.do?command=viewArticleBasic&articleId=9007884&pageNumber=1">online office suites</a>.
+Nowadays you can also consider online office suites.
 The free <a href="www.thinkfree.com">ThinkFree</a> is a popular option.
 </p>
 
@@ -4007,7 +4008,7 @@ GNOME Office includes <a href="http://mrproject.codefactory.se/">MrProject</a>,
 
 <div>
 <a href="http://www.cycas.de/">CYCAS</a> is the only cross-platform CAD package I am aware of.
-The most popular CAD program remains the Windows&reg; based <a href="http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=2704278">AutoCAD</a>.
+The most popular CAD program remains the Windows&reg; based <a href="http://usa.autodesk.com/">AutoCAD</a>.
 </div>
 
 <h4>Data Formats</h4>
@@ -4302,6 +4303,11 @@ try <a href="http://freehackers.org/~tnagy/kdissert/index.html">Kdissert</a>.
 (License: GPL)
 </p>
 
+<h4>Video Players</h4>
+<p>
+<a href="http://www.getmiro.com/">Miro</a> (License: GPL. Formerly known as Democracy Player).
+</p>
+
 <h4>Making Posters</h4>
 
 <p>
@@ -4310,7 +4316,7 @@ The <a href="http://www.cis.upenn.edu/~mwh/tips.html">graphics problem</a>.
 </p>
 
 
-<h2 id="preprocess">Text Preprocessors</h2>
+<h4 id="preprocess">Text Preprocessors</h4>
 
 <p>
 The hoary standard is <a href="http://www.gnu.org/software/m4/">m4</a>.
@@ -4321,7 +4327,7 @@ Good luck.
 
 
 
-<h2 id="OS">Operating Systems</h2>
+<h4 id="OS">Operating Systems</h4>
 
 <!-- 
 http://www.mhuffman.com/notes/dos/bash_cmd.htm
@@ -4514,7 +4520,7 @@ can merge pages from different input PDF files into an output PDF file.
 
 <ul>
 <li>
-Have you ever needed to print a text file and wished it could be automagically formatted to save paper and look nice?
+To print a text file and have it automagically formatted to save paper and look nice:
 On Windows you can try <a href="http://www.lerup.com/printfile/">Peter Lerup's PrintFile</a> utility,
 which offers n-up printing.
 </li>
@@ -5086,7 +5092,7 @@ GAUSS_8.0_Manual.zip     [all documentation zipped together]
 Save the files that you download to either your root directory 
 (usually C:) or a directory that you set up that has no spaces
 in the title; there can be problems saving the files to a 
-directory such as C:\Documents and Settings\<username>.
+directory such as C:\Documents and Settings\&lt;username&gt;.
 
 You must know the name of the files you wish to download.
 DO NOT USE A BROWSER TO DOWNLOAD THE FILES. To download
@@ -5139,7 +5145,7 @@ GAUSS_8.0_Manual.zip           [all documentation zipped together]
 Save the files that you download to either your root directory 
 (usually C:) or a directory that you set up that has no spaces
 in the title; there can be problems saving the files to a 
-directory such as C:\Documents and Settings\<username>.
+directory such as C:\Documents and Settings\&lt;username&gt;.
 
 You must know the name of the files you wish to download.
 DO NOT USE A BROWSER TO DOWNLOAD THE FILES. To download
@@ -5203,7 +5209,7 @@ suggested on the 'gaussians' list by Ron Schoenberg:
 proc quantilenew(x,e,a,b,c,d);
     local w, wt, f, r, i, z;
 
-    if minc(e) < 0 or maxc(e) > 1;
+    if minc(e) &lt; 0 or maxc(e) &gt; 1;
         errorlog "Inadmissable quantile levels";
         if not trapchk(1);
             end;
@@ -5370,7 +5376,7 @@ This will cause a fatal error if log, ln, or sqrt, are passed negative arguments
 If you expect real results from a procedure that can produce complex values (e.g., fft),
 force the matrix to be real like this:
 <code>
-if abs(imag(x)) < 1e-12 ;
+if abs(imag(x)) &le; 1e-12 ;
 x = real(x);
 endif;
 </code>
