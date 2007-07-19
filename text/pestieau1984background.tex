@@ -1,11 +1,238 @@
 \documentclass{article}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[margin=1in]{geometry}
 \usepackage{moreverb}
 \usepackage{natbib}  %formats references
 \usepackage{setspace} 
 \begin{document}
+\author{Isaac; Caswell}
+\title{Background on Pestieau 1984}
+\maketitle
 
-  \bibliographystyle{/mydocs/alan}
-  \bibliography{/mydocs/alan1,/mydocs/alan}
+Here we give some background on the \citet{pestieau-1984-oep} model.
+
+
+\section{Theoretical Model}
+
+The model is basically a 2-period overlapping generations model with a single production sector.
+
+An individual of generation t lives 2 periods, $t$ and $t+1$ (p.408).
+Works only first period.
+
+First period (p.408):
+born,
+receive bequest $b$,
+work for real wage $w$ (equal to MPN) and with ability $a$ earn $wa$,
+consume $c1$,
+
+Note that income is exogenous.
+
+Period 1 knowledge (used to pick $c1$):
+own inheritance ($b$),
+income ($wa)$, $r$.
+
+Note that knowledge of $r$ should imply forward looking expectations,
+given his assumed timing.
+
+(but use r@t-1 for simulation!!!) p. 412
+
+Tentative consumer problem:
+\begin{equation}
+\max_{c1,c2,x} u(c1, c2, x)
+\end{equation}
+subject to
+\begin{equation}
+c1 + (c2 + n b2)/(1+r) = w a + b
+\end{equation}
+and
+\begin{equation}
+x = w_{h}a_{h}+ b2
+\end{equation}
+Here $x$ is the ``expected'' per-heir income during the heir's working life.%
+\footnote{%
+This is the proxy for per-heir ``welfare'',
+so the utility function includes altruism toward heirs.
+} % see Shorrocks 1979, Becker 1981
+%
+
+
+Problem: How to determine $x$?
+(Heirs' wage and ability unkown at time of consumer decision.)
+
+Pestieau solution (p.409): set $w_{h}=w$ and $a_{h}=a$.
+So $E[a_t+1]$ should be govenened by Pestieau (3), but is not.
+That is, each heir is ``expected'' to have the same income as the (parthenogenic) parent.
+
+Problem: Functional form for utility?
+
+Pestieau solution:
+\begin{equation}
+u(c1, c2, x) = x^{\alpha} c1^{\gamma} c2^{1-\alpha-\gamma}
+\end{equation}
+or equivalently
+\begin{equation}
+\hat{u}(c1, c2, x) = \alpha \ln x +\gamma \ln c1 + (1-\alpha-\gamma) \ln c2
+\end{equation}
+%claims Pestieau and Posen show separability result
+
+
+So we up with
+\begin{equation}
+\max_{c1, c2, b2}
+\alpha \ln (wa+ b2) 
++ \gamma \ln c1
++ (1-\alpha-\gamma) \ln c2
++ \lambda[ (w a + b) - c1 - (c2 + n b2)/(1+r)]
+\end{equation}
+with first order conditions
+\begin{gather}
+\alpha/(wa+b2) = \lambda n/(1+r)
+\\
+\gamma/c1 = \lambda
+\\
+(1-\alpha-\gamma)/ c2 = \lambda / (1+r)
+\end{gather}
+It follows that
+\begin{gather}
+\alpha/(wa+b2) = \gamma n/ c1 (1+r)
+\\
+(1-\alpha-\gamma)/ c2 = \gamma / c1 (1+r)  \implies  c2 = c1 (1-\alpha-\gamma)(1+r)/\gamma 
+\end{gather}
+or
+\begin{equation}
+c2 = (wa+b2)n(1-\alpha-\gamma)/\alpha \implies n b2 = \alpha c2 /(1-\alpha-\gamma)  - nwa
+\end{equation}
+We can therefore use the budget constraint to solve for $c2$.
+Substituting yields
+\begin{equation}
+(w a + b) = \gamma c2/(1-\alpha-\gamma)(1+r) + c2/(1+r) + \alpha c2/(1-\alpha-\gamma)(1+r) - nwa/(1+r) 
+\end{equation}
+so we solve for
+\begin{equation}
+c2 = (1-\alpha-\gamma)[b + wa(1+r+n)]
+\end{equation}
+
+
+and $E[r_t] = r_{t-1}$ in deriving (11')  p.409)  
+number of kids he'll have!!
+BUT: uncertain of kids abilities.  (Expects own ability reproduced; not RE!)
+
+Second period:
+retired,
+bears $n$ heirs,
+leaves $b2$ to each heir at \emph{beginning} of second period,
+for total bequest of $b \cdot n$.
+(This is effectively intervivos transfers;
+constrast simulation: end of period?)
+
+
+\section{Simulation Model}
+
+Simulation results:
+
+Pestieau considers class marriage and random marriage, but only report class marriage results?
+
+\begin{verbatimtab}
+Parameters:
+	Initialize economy with 100 *unmarried* individuals (p.413)
+	run simulation for 30 periods/generations (p.413)
+
+Simulation parameters in tables p.413 ff
+	Beta:			0.5; 0.6; 0.7	[regression to the mean]
+	z: 				N(0,0.15)		[Random term]
+	Initial Dist:	N(0,0.15)		[Abiliy distribution]
+	u-fn:	alpha	0.7				[propensity to leave bequests]
+			gamma	0.2				[weight on c_1t]
+	Fertility cases:
+		1. Every couple has 2 children
+		2. each has 1,2,3 children with prob. 0.2, 0.6, 0.2 respectively
+		3. # children: Poisson dist. with mean = 2
+		4. Wealthy have relatively less children (3 wealth groups): 
+			# children determined by Poission dist. 
+			Poor: 		mean 2.3
+			In-Between: mean 2.0
+			Rich:		mean 1.7
+		5. Poor have relatively less children 
+			# children determined by Poission dist.
+			Poor:		mean 1.7
+			In-Between:	mean 2.0
+			Rich:		mean 2.3
+\end{verbatimtab}
+
+\begin{verbatimtab}[4]
+Pestieau p.412
+	allow income class differences in fertility
+	allow couple to be childless. (-> ability formula not used)
+		bequests of childless are "pooled and distributed" (p.415)
+		odd: don't they know how many kids? Then why any bequests? clarify!
+	initial wealth (K) distribution:
+		"arbitrary" (p.412)
+		2 cases (p.413):
+			"highly unequal" (reported)
+			"relatively equal" (not reported)
+			equilibrium soln independent of initial distribution (p.413)
+	allow negative bequests!? (p.415)
+		"made possible ... by a linear bequest function"
+			
+	production fn is CD
+	full employment, competitive factor mkts
+	Capital Stock
+		Initial K = SIGMA(indiv wealth)
+		Thereafter = previous period savings
+	**household** decision making (umax)
+		u-fn is CD: x^alpha c1t^gamma c2t^(1-alpha-gamma)
+	First marrage and then consumption and bequest decisions
+		decisions made using joint earnings and joint initial wealth
+			*note this is different than the parthenogenic theoretical model
+	use **average** parent ability in linking parents ability to children
+		*note: different than theory model
+	
+Pestieau p.413
+	measure inequality with Gini (he does inequality of bequests across recipients?)
+
+\end{verbatimtab}
+
+\section{Simulation vs. Theoretical Model}
+
+The simulation and theoretical models overlaps substantially but have some differences.
+
+\begin{table}[htp]
+\caption{}
+\label{t:differences}
+\centering
+\begin{tabular}{lcc}\toprule
+                        & Theory                        & Simulation
+\\
+Model Type              & 2 period OG                   & 2 period OG
+\\
+Production              & single sector                 & single sector
+\\ 
+Agg Prodn Fn (p.408)    & $Y_{t}=F(K_{t},N_{t})$        & $Y_{t}=F(K_{t},N_{t})$
+\\ 
+$w_{t}$                 & $\partial F/\partial L_{t}$   &
+\\
+$r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
+\\
+\\ 
+$w_{h}$                 & $w$                           &
+\\ 
+$a_{h}$                 & $a$                           &
+\\
+$r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
+\\
+Reproduction            & Parthenogenic                 & Marriage (class or random)
+\\
+Bequest timing ?        & beginning of period           & end of period (p.412)?
+\\
+$c1$ based on           &                               &
+\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+  \bibliographystyle{chicago}
+  \bibliography{tex/ejabbr,tex/dist}
 \end{document} 
