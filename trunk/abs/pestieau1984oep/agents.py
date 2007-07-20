@@ -638,6 +638,13 @@ class PestieauParams(EconomyParams):
 		self.PESTIEAU_NBAR = None
 		self.compute_ability = functools.partial(
 			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)
+		self.PESTIEAU_ALPHA = None	#kc: sh_altruism
+		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
+		#kc: together imply (1-alpha-gamma) for u-fn
+		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
+		self.PHI = None	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
+		self.PSI = None	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
+	
 		self._locked = True
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:

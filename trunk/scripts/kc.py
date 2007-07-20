@@ -14,6 +14,11 @@ import functools, itertools, random
 from econpy.pytrix import utilities
 from econpy.abs.pestieau1984oep import agents
 
+#logging
+import logging
+script_logger = logging.getLogger('script_logger')
+
+
 #################################################################
 #########################  functions  ###########################
 #################################################################
@@ -33,11 +38,13 @@ class KCPestieauParams(agents.PestieauParams):
 		self.WEALTH_INIT = random.paretovariate(1)	#TODO TODO			#kc: random initial endowment, paper not explicit. p.413  
 		self.PESTIEAU_BETA = 0.6										#kc: set regresion to mean ability parameter
 		self.PESTIEAU_NBAR = None
-		self.compute_ability = functools.partial(compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)   
-		#have to be careful with this: initialized once!
 		self.PESTIEAU_ALPHA = 0.7	#sh_altruism
 		self.PESTIEAU_GAMMA = 0.2	#sh_cons_1t
 		#together imply (1-alpha-gamma) for u-fn
+		self.r_t = None	#to let let Firm know that this is the initial period of the simulation
+		self.PHI = None	#Capital share parameter for CD production fn.  Details not in Pestieau(1984)
+		self.PSI = None	#Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
+
 
 
 ####################################################################
@@ -50,6 +57,7 @@ p = agents.PestieauParams()
 p.MATING = 'random'
 e = agents.Economy(p)
 e.run()
+
 
 ############################### Next Steps ###############################
 # Random Initial Wealth Endowment for the 1st cohort of 100: 
@@ -85,10 +93,13 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 	'''
 	notes: 
 	sh_altruism, sh_cons_1t, sh_cons_2t are globally defined parameters
+
 	need access to bequest *received* by each parent for optimization below. could record this in the fund account??
+	
 	need wage and ability levels of parents -->pooled/averaged
 	need n_children
-	need r_t
+	need r_t --> make initial ror in initialization
+			 --> thereafter done by the firm
 	'''
 
 	params = indiv.economy.params
@@ -104,11 +115,13 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 	wage = parents_wage			#average	#TODO
 	bequest_rec = parents_combinded_beq_rec	#TODO
 	
-	K_t = list()  # append family savings for next period capital stock. send to firm
+	K_t = list()  # append family savings for next period capital stock. send to firm? Send to FundAcct?
 
 
 	sh_cons_2t = 1-sh_altruism-sh_cons_1t  # could define this globally, but this gives us one less parameter
 	assert (sh_altruism + sh_cons_1t + sh_cons_2t == 1)  # check: fn homogenous of degree 1
+	
+	r_t = firm.clac_capital_ror() #does it make sense for a function to call methods in classes?
 
 	life_income = wage*ability
 	life_weatlth = life_income + bequest_rec  # lifetime wealth is income + bequest received 
@@ -125,36 +138,75 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 	#optimal cons_2t
 	cons_2t = (1-sh_altruism-sh_cons_1t)*( bequest_rec+life_income*((1+r_t+n_children)/(1+r_t)) )*(1+r_t)
 	#optimal *addition* to capital stock on behalf of *family unit*: p. 409 (residual after consumption and savings) 
-	k_t1 = (1-sh_cons_1t)*life_wealth - sh_cons_1t*((n_children*life_income)/(1+r_t)) 
+	k_1t = (1-sh_cons_1t)*life_wealth - sh_cons_1t*((n_children*life_income)/(1+r_t)) 
 	
-	# k_t+1 *from each family* will be sent to the firm for aggregate production
-	# K_t1 = SIGMA k_t1 to determine r_{t+1}
-
-
+	# k_1t *from each family* will be sent to the firm for aggregate production
+	# K_1t = SIGMA k_1t to determine r_{t+1}: recall E[r_t}] = r_{t-1} <or> E[r_{t+1}] = r_t
+	
+	
 	# alternative, more general, from pestieau1984background.tex, where N = number of families in generation t
 	# I don't think that we can say this, as optimal bequest and consumption is not proportional across all family units
 	# due to ability differences
 	N_k_t1 =N*( (1-sh_cons_1t)*life_wealth - sh_cons_1t*( (n_children*life_income)/(1+r_t) )  )
 
 	
-
-class Firm(object):
+class KC_ECONOMY(agents.Economy):
 	def __init__(self):
-		pass
+		self.initialize_capital_stock_ror()
+	def initialize_capital_stock_ror(self):
+		script_logger.info("initialize capital stock ROR")
+		params = self.params
+		K_t = fund.calc_accts_value() #sum of initial wealth in model --> From Random initial endowment
+		r_t = (params.phi/K_t)*(K_t**params.phi)*(L_t**params.psi)	 
+		return r_t
+		
+'''
+class Firm(object):
+	def __init__(self,economy):
+		self.economy = economy
+		self.params = economy.params
+		self.capital_stock = list()
+		self.labor = list()
+	def calc_capital_ror(self, K_t, L_t):
+		# CD pr-fn -> Y_t = (K_t**params.phi)*(L_t**params.psi)
+		# NO RE: r_t = dF(K_{t+1},L_{t+1})/dK_{t+1}	!!
+		if self.params.r_t == None:	# for initial period ONLY! 
+			K_t = fund.calc_accts_value() #sum of initial wealth in model --> From Random initial endowment
+			self.capital_stock.append(K_t)
+			r_t = (params.phi/K_t)*(K_t**params.phi)*(L_t**params.psi)	 
+			self.params.r_t = False  # is this an ok way of handling initialization -> dynamic typing?
+			return r_t
+		#timing is tricky here...
+		else:
+			pass 
+
 	def worker_wage(self,ability):
 		pass
-	def return_to_capital(self):
-		pass
+'''
+
 
 class KCIndiv(agents.Indiv):
-	pass
+	def sum_wealth(self):
+		pass	
 
 def Pestieau_Bequest(indiv):
 	'''Bequest fn for Pestieau model
 
 	Equal Division (no primogeniture) Based on u-max with CD fn 
 	'''
-	pass	
+	pass
+
+################
+#More Examples #
+################
+
+print '#'*80
+
+p1 = KCPestieauParams()
+p1.MATING = 'random'
+e1 = KC_ECONOMY(p1)
+e1.run
+
 #******************************
 #******** END 8-) *************
 #******************************
