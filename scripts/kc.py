@@ -151,9 +151,11 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 
 	
 class KC_ECONOMY(agents.Economy):
+		#ai: the next line **overrides** the agents.Economy initialization
 	def __init__(self, params):
-		#ai: next you **override** the agents.Economy initialization, so it is not done!
+		#ai: next, start by using the super classes initialization
 		agents.Economy.__init__(self,params)
+		#ai: not that those initializations are done, you can add some more
 		self.initialize_capital_stock_ror()
 		self_initial_K = list()
 	def initialize_capital_stock_ror(self):
