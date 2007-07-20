@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Jul 18
+Last modified: 2007 Jul 19
 <br />
 Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://www.american.edu/econ/notes/soft.htm</a>
 <!--[if lt IE 7]> 
@@ -1793,6 +1793,10 @@ is an object oriented programming language for constraint-based local search.
 <a href="http://www.geuz.org/getdp/">GetDP</a>
 "is a general finite element solver using mixed elements to discretize de Rham-type complexes in one, two and three dimensions."
 </li>
+<li>
+<a href="http://www.norg.uminho.pt/aivaz/pswarm/">PSwarm</a> looks very useful for global optimization. (License: LGPL)
+(Someone add Python bindings please!)
+</li>
 </ul>
 
 
@@ -1956,10 +1960,14 @@ Acceptable results can sometimes be achieved by distilling a word processor docu
 
 <p>
 The other major alternative is to produce MathML,
-which is finally starting to get decent browser support.
+which is finally starting to get decent browser support (especially in FireFox).
 Producing MathML by hand is impractical,
 so there has been a search for feasible ways to rely on MathML.
-One of the most interesting approaches is <a href="http://www1.chapman.edu/~jipsen/mathml/asciimath.html">ASCIIMathML</a>,
+One of the most interesting approaches is to use <a href="#rest">reStructuredText</a>
+with the <a href="http://docutils.sourceforge.net/sandbox/jensj/latex_math/tools/">rst2mathml</a> writer.
+This is probably the simplest powerful way to put math on the web.
+<br />
+Another interesting approache is <a href="http://www1.chapman.edu/~jipsen/mathml/asciimath.html">ASCIIMathML</a>,
 which simply includes LaTeX-like math in a normal HTML file.
 (A clever javascript produces the MathML.)
 Mozilla based browsers have excellent native MathML support,
@@ -1967,7 +1975,7 @@ so they work well with ASCIIMathML.
 (But you need to <a href="http://web.mit.edu/ist/topics/webpublishing/mathml/fonts-win.html">install the math fonts</a>.
 Opera through version 7.5 provides no MathML support beyond entities, so it does not display ASCIIMathML.
 IE version 6 requires <a href="http://www.dessci.com/en/products/mathplayer/">MathPlayer</a> to work with any MathML.
-An "two-step" alternative is the Mozilla project's <a href="http://pear.math.pitt.edu/mathzilla/itex2mml.html">Itex2mml</a>.
+A "two-step" alternative is the Mozilla project's <a href="http://pear.math.pitt.edu/mathzilla/itex2mml.html">Itex2mml</a>.
 This embeds a simplified TeX notation in HTML files and then processes them to produce XHTML files containing appropriate MathML in place of the TeX.
 </p>
 
