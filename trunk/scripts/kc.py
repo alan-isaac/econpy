@@ -32,7 +32,7 @@ from econpy.abs.pestieau1984oep.agents import distribute, sexer_randompairs, beq
 
 class KCPestieauParams(agents.PestieauParams):
 	def __init__(self):
-		agents.PestieauParams.__init__(self)
+		agents.PestieauParams.__init__(self)  #ai: locks, so put any new params before this line
 		#ai: I do not thing this is what you want to do ... ? This is economy wide initial wealth.
 		#kc: humm, I thought that this is economy wide initial wealth parameter...I will think about this.
 		self.WEALTH_INIT = random.paretovariate(1)	#TODO TODO			#kc: random initial endowment, paper not explicit. p.413  
@@ -151,6 +151,7 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 
 	
 class KC_ECONOMY(agents.Economy):
+	#ai: next you **override** the agents.Economy initialization, so it is not done!
 	def __init__(self):
 		self.initialize_capital_stock_ror()
 	def initialize_capital_stock_ror(self):
