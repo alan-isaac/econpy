@@ -151,13 +151,15 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 
 	
 class KC_ECONOMY(agents.Economy):
-	#ai: next you **override** the agents.Economy initialization, so it is not done!
-	def __init__(self):
+	def __init__(self, params):
+		#ai: next you **override** the agents.Economy initialization, so it is not done!
+		agents.Economy.__init__(self,params)
 		self.initialize_capital_stock_ror()
+		self_initial_K = list()
 	def initialize_capital_stock_ror(self):
 		script_logger.info("initialize capital stock ROR")
-		params = self.params
-		K_t = fund.calc_accts_value() #sum of initial wealth in model --> From Random initial endowment
+
+		K_t = economy.calc_accts_value() #sum of initial wealth in model --> From Random initial endowment
 		r_t = (params.phi/K_t)*(K_t**params.phi)*(L_t**params.psi)	 
 		return r_t
 		
