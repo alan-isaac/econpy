@@ -54,8 +54,14 @@ Here $x$ is the ``expected'' per-heir income during the heir's working life.%
 \footnote{%
 This is the proxy for per-heir ``welfare'',
 so the utility function includes altruism toward heirs.
+Equal division of the total bequest among heirs is assumed.
 } % see Shorrocks 1979, Becker 1981
 %
+
+NOTE: in simulation, there is \emph{household} utility maximization
+based on \emph{household} resources (and average household ability).
+See p.412.
+This matters, since husband and wife may have different resources and abilities.
 
 
 Problem: How to determine $x$?
@@ -272,6 +278,7 @@ $w_{t}$                 & $\partial F/\partial L_{t}$   &
 \\
 $r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
 \\
+$r$ for choices         & $r_{t}$                       & $r_{t-1}$ (simplifying!)
 \\ 
 $w_{h}$                 & $w$                           &
 \\ 
@@ -281,9 +288,13 @@ $r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
 \\
 Reproduction            & Parthenogenic                 & Marriage (class or random)
 \\
-Bequest timing ?        & beginning of period           & end of period (p.412)?
+Bequest timing ?        & beginning of period           & end of period (p.412)? but probably not.
 \\
-$c_{1}$ based on           &                               &
+Bequest division        & equal                         & equal (p.412)
+\\
+$c_{1}$ based on        &                               &
+\\
+$a$ based on            & parthenogenic parent's $a$    & average of 2 parent's $a$ (p.412)
 \\
 \bottomrule
 \end{tabular}

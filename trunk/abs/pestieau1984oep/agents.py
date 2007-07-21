@@ -2,7 +2,7 @@
 Provides a collection of agents for replication of Pestieau (1984 OEP).
 
 Indiv
-	- Data: alive, sex, age, parents_bio, siblings, spouse, children, accounts,
+	- Data: alive, sex, age, parents_bio, siblings, spouse, _children, accounts,
 	employers, economy, state, 
 	- Methdods: receive_income, outgo, calc_wealth, calc_household_wealth, wed,
 	bear_children, adopt, open_account, gift2kids, liquidate,
@@ -85,6 +85,30 @@ def sexer_randompairs(n):
 		yield sexgen.next() + sexgen.next()
 
 #used as BEQUEST_FN by Indiv instances
+def bequests_pestieau(indiv, neg_ok=True):
+	'''
+	Simplest bequest function for equal division among all kids.
+	Assumes spouse alive, all kids alive.  (E.g., OG model.)
+
+	:Parameters:
+	  indiv : Indiv
+	    an individual instance whose wealth to distribute
+	  neg_ok : bool
+	    True if negative bequests allowed
+	'''
+	kids = indiv.get_children()  #:note: check that alive?
+	assert all(kids.count(kid)==1 for kid in kids)
+	each_gets = indiv.calc_wealth()/len(kids)  #equal bequests p.412
+	#script_logger.debug("Bequest size: %10.2f"%(each_gets))
+	cash_account = indiv.accounts[0]
+	if (each_gets >= 0 or neg_ok):
+		for kid in kids:
+			cash_account.transferto(kid, each_gets)
+	else:
+		raise ValueError("negative beqests forbidden")
+
+#not currently used by for Pestieau experiments
+#can be used as BEQUEST_FN by Indiv instances
 def bequests_blinder(indiv):
 	'''Bequest function for the Blinder model, generalized.
 	Blinder version: 2 kids, M & F, male gets MSHARE.
@@ -100,7 +124,7 @@ def bequests_blinder(indiv):
 			account.transferto(spouse, sshare*estate_aftertax)
 	kids_get = indiv.calc_wealth()
 	if kids_get > 0:
-		kids = [kid for kid in indiv.children if kid.alive]
+		kids = [kid for kid in indiv._children if kid.alive]
 		Mkids = [kid for kid in kids if kid.sex=='M']
 		Fkids = [kid for kid in kids if kid.sex=='F']
 		if Mkids and Fkids:
@@ -143,7 +167,7 @@ class Indiv(object):
 		self.parents_bio = None
 		self.siblings = set()
 		self.spouse = None
-		self.children = set()
+		self._children = list()  #use list to track birth order
 		self.accounts = list()  #accounts[0] is the cash acct
 		self.employers = set()
 		self._locked = True
@@ -178,37 +202,55 @@ class Indiv(object):
 			assert (other.spouse == self)
 		else:
 			other.wed(self)
-		self.children.update(other.children)
+		newkids = other.get_children()
+		if newkids:
+			script_logger.warn("New spouse already has kids.")
+			self.extend_children(newkids)
 	def bear_children(self, sexes=None):
 		'''Return this Indiv's kids
-		Used by Pop.produce_new_cohort
+		Used by Pop.append_new_cohort
 		'''
 		assert self.spouse  #must be married ...
 		assert (self.sex == 'F')  #only women can bear children
 		#need `newkids` to be a sequence
 		newkids = [self.__class__(economy=self.economy,sex=s) for s in sexes]
 		for kid in newkids:
-			kid.parents_bio = (self.spouse, self) #father,mother
+			kid.parents_bio = (self.spouse, self) #father,mother (biological)
 			self.adopt(kid)
-			self.spouse.adopt(kid)  #TODO: but maybe a child is born to a household???
-		for kid in self.children:
-			kid.siblings.update(self.children)
-		assert (len(self.children)==2) #TODO: will need to get rid of this constraint
+			self.spouse.adopt(kid)  #TODO: but maybe a child shd be born to a household???
+		my_kids = self._children
+		for kid in my_kids:
+			kid.siblings.update(my_kids) #TODO: better approaches?
+		assert (len(my_kids)==2) #TODO: will need to get rid of this constraint
 		return newkids
+	def extend_children(self, kids):
+		for kid in kids:
+			self.adopt(kid)
+	def get_children(self):
+		return self._children
 	def adopt(self,child): #used by bear_children
-		self.children.add(child)
-		assert (len(self.children) <= 2) #TODO: get rid of constraint
+		mykids = self._children
+		assert (len(mykids) <= 2) #TODO: get rid of this constraint
+		if child not in mykids:
+			mykids.append(child)
+		else:
+			script_logger.warn("Tried to adopt own child")
 	def open_account(self, fund, amt=0):
-		assert (len(self.accounts) == 0) #TODO: allow multiple accounts
-		acct = fund.create_account(self, amt=amt)  #KC: create_account is a method in the Fund class
+		'''Return: None.
+
+		:param fund: Fund object to open account with
+		:param amt: initial deposit in new account
+		'''
+		assert (len(self.accounts) == 0) #TODO: eventually allow multiple accounts
+		acct = fund.create_account(self, amt=amt)
 		self.accounts.append(acct)
 	def gift2kids(self,amt):
 		assert (0 <= amt <= self.calc_wealth()), "amt: %s\t w:%s"%(amt,self.calc_wealth())
-		checking = self.accounts[0]  ## KC: "checking" for checking account
-		kids = self.children
+		cash_acct = self.accounts[0]
+		kids = self._children
 		n = len(kids)
 		for kid in kids:
-			checking.transferto(kid, amt/n)
+			cash_acct.transferto(kid, amt/n)
 	def liquidate(self):
 		assert (self.alive is False)
 		params = self.economy.params
@@ -246,6 +288,8 @@ class Cohort(tuple):
 		self._cohort_age = age
 		for indiv in self:
 			indiv.age = age
+	def get_age(self):
+		return self._cohort_age
 	def age_cohort(self):
 		assert (indiv.age == self._cohort_age for indiv in self),\
 		"indiv age shd not diverge from cohort age"
@@ -268,10 +312,10 @@ class PestieauCohort(Cohort):
 		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val
-	def get_married(self,mating):	#TODO: move into Pop when marry across Cohorts
+	def get_married(self, mating):	#TODO: move into Pop when marry across Cohorts
 		males = list(self.males)
 		females = list(self.females)
-		maxkids = 2 #TODO: parameterize
+		maxkids = 2 #TODO TODO parameterize
 		#sort males and females by wealth
 		males.sort(key=lambda i: i.calc_wealth(),reverse=True)
 		females.sort(key=lambda i: i.calc_wealth(),reverse=True)
@@ -402,12 +446,15 @@ class State(object):
 		self.net_worth += amt  #TODO: cd parameterize an inefficiency here
 	def outgo(self, amt):
 		self.net_worth -= amt
+	#Is anything using the distribute_estates function?  I think not ... 
 	def distribute_estates(self,dead): #move details to Indiv? to State? to Economy? TODO
+		script_logger.warn("Should not be here??")
 		if self.economy.BEQUEST_TYPE == 'child_directed':
 			for indiv in dead:
-				n_children = len(indiv.children)
+				heirs = indiv.get_children()
+				n_children = len(heir)
 				bequest_size = indiv.calc_wealth()/n_children #equal bequests
-				for kid in indiv.children:
+				for kid in heirs:
 					self.economy.transfer(indiv, kid, bequest_size)
 		else:
 			raise ValueError("must specify BEQUEST_TYPE")
@@ -425,7 +472,7 @@ class Population(list):  #provide a list of Cohort tuples
 		params = self.economy.params  #associated economy have been set by economy...
 		parents = self.get_new_parents() #TODO: parents are currently a Cohort; eventually change this
 		parents.get_married(params.MATING)  #TODO: change to a Pop method??
-		self.produce_new_cohort(parents, kidsexgen=params.KIDSEXGEN) #new cohort has age 0
+		self.append_new_cohort(parents, kidsexgen=params.KIDSEXGEN) #new cohort has age 0
 		self.age_ppl()                         #->new cohort has age 1
 		dead = self.get_new_dead()
 		assert(dead._cohort_age == self.params.N_COHORTS+1) #TODO only works for non-stochastic deaths
@@ -445,15 +492,18 @@ class Population(list):  #provide a list of Cohort tuples
 		'''
 		params = self.economy.params
 		return self[params.KID_AT_YEAR-1]  #params assigned by economy! TODO  recheck timing
-	def produce_new_cohort(self, parents, kidsexgen=None):
-		'''Return a list (`new_cohort`) of same size as current cohort.
-		Called by produce_new_cohort.
+	def append_new_cohort(self, parents, kidsexgen=None):
+		'''Return: None.
+		Called by evolve.
 		Current model: two children, MF, at fixed age.
+
+		:param kidsexgen: returns an iterator which provides sex tuples (e.g., 'MF' or 'MMF')
 		'''
 		params = self.economy.params
 		new_cohort = list()
+		#only married females can have kids
 		mothers = [indiv for indiv in parents if (indiv.spouse and indiv.sex=='F')]
-		getsexes = kidsexgen(len(mothers))  #kidsexgen returns an iterator
+		getsexes = kidsexgen(len(mothers))
 		#each mother has kids of specified sexes (e.g., "MF"), which specifies number as well!
 		for indiv in mothers:
 			newsexes = getsexes.next()  #TODO: remove restriction to 2 simultaneous kids!!
@@ -463,7 +513,6 @@ class Population(list):  #provide a list of Cohort tuples
 		self.initialize_wealth(new_cohort)
 		new_cohort = params.Cohort(new_cohort)
 		self.append( new_cohort )
-		return new_cohort  #TODO: do I need this return?
 	def calc_dist(self): #TODO: calc distribution over **indivs** or households??
 		params = self.economy.params
 		return  params.CALC_DIST(self)
@@ -481,6 +530,7 @@ class Economy(object):
 	def __init__(self, params):
 		self.params = params
 		self.dist_hist = list()
+		self.labor_force = list()
 		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
 		self.state = None  #TODO TODO
 		#initialize economy
@@ -520,7 +570,7 @@ class Economy(object):
 		#initialize parenthood relationship when starting economy
 		#if params.BEQUEST_TYPE ==: #unnecessary
 		#remember: age = N_COHORTS - index
-		script_logger.info("initionalize family structure")
+		script_logger.info("initialize family structure")
 		for idx in range(params.N_COHORTS - params.KID_AT_YEAR+1):   ###!! E.g., OG: 2-2+1 (fixed)
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			parents.get_married(mating=params.MATING)  #parents are a Cohort
@@ -533,6 +583,11 @@ class Economy(object):
 			script_logger.info("distribute initial wealth")  #TODO details scarce in Pestieau 1984
 			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
 			#assert (abs(self.ppl.calc_dist() - params.GW0) < 0.001)  #TODO!!!!!
+		if params.WORK_YEARS:
+			for cohort in self.ppl:
+				if cohort.get_age() in params.WORK_YEARS:
+					self.labor_force.append(cohort)
+		#script_logger.debug( "Initialize labor force to: %s"%(self.labor_force) )
 	def run(self):  #TODO: rely on IterativeProcess?
 		script_logger.info("run the economy")
 		params = self.params
@@ -577,7 +632,7 @@ def compute_ability_pestieau(indiv, beta, nbar):
 		father, mother = indiv.parents_bio
 		assert (father.sex == 'M' and mother.sex == 'F') #just an error check
 		assert (0 < beta < 1) 	#Pestieu p. 407
-		nsibs = len(mother.children)
+		nsibs = len(mother.get_children())
 		assert (nsibs>0)    #Pestieau p.407
 		parents_ability = (father.ability + mother.ability)/2.0  #Pestieau p.412
 		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
@@ -587,6 +642,7 @@ def compute_ability_pestieau(indiv, beta, nbar):
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
 
+
 import functools
 class EconomyParams(object): #default params, needs work
 	def __init__(self):
@@ -594,9 +650,9 @@ class EconomyParams(object): #default params, needs work
 		self.Indiv = Indiv
 		self.Cohort = Cohort
 		self.Population = Population
+		self.WORK_YEARS = list()
 		self.seed = None
 		self.CALC_DIST = lambda ppl: utilities.calc_gini( indiv.calc_wealth() for indiv in ppl.gf_indivs() )
-		self.BEQUEST_TYPE = 'child_directed'
 		self.SHUFFLE_NEW_W = False
 		self.MSHARE = 0.5
 		self.FSHARE = 0.5
@@ -611,40 +667,46 @@ class EconomyParams(object): #default params, needs work
 		#number of Cohorts
 		self.N_COHORTS = 0
 		#initial Gini for Wealth
-		self.GW0 = 0.5
-		self.WEALTH_INIT = 1
-		self.COHORT_SIZE = 100  #p.413
-		self.KID_AT_YEAR =  2   #see Population.evolve (no cohort has age 0!)
+		self.GW0 = 0
+		self.WEALTH_INIT = 0
+		self.COHORT_SIZE = 0
+		self.KID_AT_YEAR = 0   #NOTE: no cohort has age 0!
 
 class PestieauParams(EconomyParams):
 	def __init__(self):
+		#first use the super class's initialization
 		EconomyParams.__init__(self)
-		self.Cohort = PestieauCohort
+		#NEW INITIALIZATIONS
+		self.Cohort = PestieauCohort  #provides `get_married`
 		self.N_YEARS = 30
-		self.COHORT_SIZE = 100  #p.413
-		self.KID_AT_YEAR =  2   #see Population.evolve (no cohort has age 0!)
-		self.ESTATE_TAX = None
-		self.MATING = random
-		#sex generator for new births
-		self.KIDSEXGEN = sexer_randompairs         #TODO
+		self.COHORT_SIZE = 100  #p.412
+		self.WORK_YEARS = [1]
 		#number of Cohorts
 		self.N_COHORTS = 2
-		#initial Gini for Wealth
-		self.GW0 = 0.5 #TODO cannot find value in Pestieau 1984; see comments above
-		self.WEALTH_INIT = 1000 #TODO I can find no value for initial wealth in Pestieau 1984??
-		self.BEQUEST_FN = bequests_blinder  #TODO TODO
+		#two period economy, work only period 1 (age 1), bear kids period 2 (age 2)
+		self.KID_AT_YEAR =  2   #see Population.evolve (no cohort has age 0!)
+		self.MATING = 'classonly' #p.414 says only class mating considered (vs. reported!?)
+		#sex generator for new births
+		self.KIDSEXGEN = sexer_randompairs         #TODO
+		#bequest function
+		self.BEQUEST_FN = bequests_pestieau #p.412
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None
 		self.PESTIEAU_NBAR = None
 		self.compute_ability = functools.partial(
-			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)
+			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
 		self.PESTIEAU_ALPHA = None	#kc: sh_altruism
 		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
 		#kc: together imply (1-alpha-gamma) for u-fn
 		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
 		self.PHI = None	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
 		self.PSI = None	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
-	
+		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
+		#initial Gini for Wealth
+		self.GW0 = 0.8  #"high inequality" case p.413
+		#initial wealth(capital stock)
+		self.WEALTH_INIT = 100
+		#LAST as an error check, lock against dynamic attribute creation (eventually remove TODO)
 		self._locked = True
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:
