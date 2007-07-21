@@ -112,8 +112,6 @@ def main():
 	print "#"*80
 	print " Example: Run Economy ".center(80,'#')
 	p = agents.PestieauParams()
-	p.MATING = 'random'
-	p.GW0 = 0.8  #high initial inequality
 	e = agents.Economy(p)
 	e.run()
 

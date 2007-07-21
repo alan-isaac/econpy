@@ -190,10 +190,13 @@ class Firm(object):
 '''
 
 
+#ai: I don't think you need this ...
 class KCIndiv(agents.Indiv):
 	def sum_wealth(self):
 		pass	
 
+#ai: I don't think you need this ...
+#ai: see the new bequest function in agents.py
 def Pestieau_Bequest(indiv):
 	'''Bequest fn for Pestieau model
 
