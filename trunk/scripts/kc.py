@@ -155,14 +155,17 @@ class KC_ECONOMY(agents.Economy):
 	def __init__(self, params):
 		#ai: next, start by using the super classes initialization
 		agents.Economy.__init__(self,params)
-		#ai: not that those initializations are done, you can add some more
+		#ai: now that those initializations are done, you can add some more
+		self.initial_capital_stock = list()
+		
+		self.fund =  Fund(self) 
 		self.initialize_capital_stock_ror()
-		self_initial_K = list()
 	def initialize_capital_stock_ror(self):
 		script_logger.info("initialize capital stock ROR")
-
-		K_t = economy.calc_accts_value() #sum of initial wealth in model --> From Random initial endowment
-		r_t = (params.phi/K_t)*(K_t**params.phi)*(L_t**params.psi)	 
+		self.initial_capital_stock.append( self.fund.calc_accts_value() )	
+		
+		K_0 = self.initial_capital_stock
+		r_t = (params.phi/K_0)*(K_0**params.phi)*(L_t**params.psi)	 
 		return r_t
 		
 '''
