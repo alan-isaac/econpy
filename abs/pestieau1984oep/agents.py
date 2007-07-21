@@ -180,7 +180,7 @@ class Indiv(object):
 		self.__dict__[attr] = val 
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
-		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class 
+		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class
 	def outgo(self, amt):  #redundant; just for ease of reading and sign check
 		assert(amt >= 0)
 		self.accounts[0].withdraw(amt)  # KC: withdraw is a method in the FundAcct class
