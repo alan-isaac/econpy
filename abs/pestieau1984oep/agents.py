@@ -804,13 +804,6 @@ class PestieauParams(EconomyParams):
 		self.PESTIEAU_NBAR = None
 		self.compute_ability = functools.partial(
 			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
-		self.PESTIEAU_ALPHA = None	#kc: sh_altruism
-		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
-		#kc: together imply (1-alpha-gamma) for u-fn
-		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
-		self.PHI = 0.6	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
-		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
-		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 		#initial Gini for Wealth
 		self.GW0 = 0.8  #"high inequality" case p.413
 		#initial wealth(capital stock)
