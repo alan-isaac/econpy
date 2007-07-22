@@ -38,11 +38,11 @@ class KCPestieauParams(agents.PestieauParams):
 		#kc: together imply (1-alpha-gamma) for u-fn
 		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
 		self.PHI = 0.6	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
-		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
+		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in Pestieau(1984)
 		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 	
-		agents.PestieauParams.__init__(self)  #ai: locks, so put any new params before this line
-		self.WEALTH_INIT = 10000	#choice of 10,000 is random -->just different than # of agents in first cohort for illustration
+		agents.PestieauParams.__init__(self)  #ai: locks, so put any new params **before** this line
+		self.WEALTH_INIT = 10000	#choice of 10,000 is random --> just different than # of agents in first cohort, for illustration
 		self.PESTIEAU_BETA = 0.6	#kc: set regresion to mean ability parameter
 
 ####################################################################
