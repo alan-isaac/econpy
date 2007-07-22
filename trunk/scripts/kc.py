@@ -32,18 +32,18 @@ from econpy.abs.pestieau1984oep.agents import distribute, sexer_randompairs, beq
 
 class KCPestieauParams(agents.PestieauParams):
 	def __init__(self):
+		#kc: the following are ADDED parameters:
+		self.PESTIEAU_ALPHA = None	#kc: sh_altruism
+		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
+		#kc: together imply (1-alpha-gamma) for u-fn
+		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
+		self.PHI = 0.6	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
+		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
+		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
+	
 		agents.PestieauParams.__init__(self)  #ai: locks, so put any new params before this line
-		#ai: I do not thing this is what you want to do ... ? This is economy wide initial wealth.
-		#kc: humm, I thought that this is economy wide initial wealth parameter...I will think about this.
-		self.WEALTH_INIT = random.paretovariate(1)	#TODO TODO			#kc: random initial endowment, paper not explicit. p.413  
-		self.PESTIEAU_BETA = 0.6										#kc: set regresion to mean ability parameter
-		self.PESTIEAU_NBAR = None
-		self.PESTIEAU_ALPHA = 0.7	#sh_altruism
-		self.PESTIEAU_GAMMA = 0.2	#sh_cons_1t
-		#together imply (1-alpha-gamma) for u-fn
-		self.r_t = None	#to let let Firm know that this is the initial period of the simulation
-
-
+		self.WEALTH_INIT = 10000	#choice of 10,000 is random -->just different than # of agents in first cohort for illustration
+		self.PESTIEAU_BETA = 0.6	#kc: set regresion to mean ability parameter
 
 ####################################################################
 # Example of a running economy: not a replication of Pestieau (1984)
@@ -154,14 +154,17 @@ def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec,n_childr
 class KC_ECONOMY(agents.Economy):
 		#ai: the next line **overrides** the agents.Economy initialization
 	def __init__(self, params):
+		self.initial_capital_stock = list()
 		#ai: next, start by using the super classes initialization
 		agents.Economy.__init__(self,params)
 		#ai: now that those initializations are done, you can add some more
-		#ai: but not, I think, the next one!
-		self.initial_capital_stock = list()
+		
+#		self.fund = Fund(self) 
 		#ai: you probably do not want the next line (see line 543 of agents.py; just use self.funds[0])
-		self.fund =  agents.Fund(self) 
-		self.initialize_capital_stock_ror()
+#		self.fund =  agents.Fund(self) 
+
+		self.initialize_capital_stock_ror()	
+		self.initialize_labor_wage()
 	def initialize_capital_stock_ror(self):
 		script_logger.info("initialize capital stock ROR")
 		#self.initial_capital_stock.append( self.fund.calc_accts_value() )	
@@ -170,16 +173,25 @@ class KC_ECONOMY(agents.Economy):
 		#ai: try this instead
 		#ai: BEGIN
 		fund = self.funds[0]
-		self.initial_capital_stock.append( fund.calc_accts_value() )	
+		self.initial_capital_stock.append( fund.calc_accts_value() )
 		params = self.params
 		#ai: END
+		# kc: the following is much more direct and substitutes for the above:
 		K_0 = params.WEALTH_INIT
-		print K_0
-		#r_t = (params.phi/K_0)*(K_0**params.phi)*(L_t**params.psi)	 
-		#ai: watch capitalization             ^; fixed below
-		r_t = (params.PHI/K_0)*(K_0**params.PHI)*(L_t**params.PSI)	 
+		L_0 = params.COHORT_SIZE
+		assert (params.PHI + params.PSI == 1), "prod fn not homogenous degree 1"
+		r_t = (params.PHI/K_0)*(K_0**params.PHI)*(L_0**params.PSI)
+		print r_t
 		return r_t
-		
+	def initialize_labor_wage(self):
+		script_logger.info("initialize wage")
+		params = self.params
+		K_0 = params.WEALTH_INIT
+		L_0 = params.COHORT_SIZE
+		w_t = (params.PSI/L_0)*(K_0**params.PHI)*(L_0**params.PSI)
+		print w_t
+		return w_t
+
 '''
 class Firm(object):
 	def __init__(self,economy):
@@ -205,26 +217,11 @@ class Firm(object):
 '''
 
 
-#ai: I don't think you need this ...
-class KCIndiv(agents.Indiv):
-	def sum_wealth(self):
-		pass	
-
-#ai: I don't think you need this ...
-#ai: see the new bequest function in agents.py
-def Pestieau_Bequest(indiv):
-	'''Bequest fn for Pestieau model
-
-	Equal Division (no primogeniture) Based on u-max with CD fn 
-	'''
-	pass
-
 ################
 #More Examples #
 ################
 
 print
-print "#"*80
 print " Example: Run KC_Economy ".center(80,'#')
 p1 = KCPestieauParams()
 p1.MATING = 'random'
