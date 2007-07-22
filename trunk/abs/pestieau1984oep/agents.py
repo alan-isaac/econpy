@@ -180,7 +180,7 @@ class Indiv(object):
 		self.__dict__[attr] = val 
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
-		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class
+		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class 
 	def outgo(self, amt):  #redundant; just for ease of reading and sign check
 		assert(amt >= 0)
 		self.accounts[0].withdraw(amt)  # KC: withdraw is a method in the FundAcct class
@@ -382,7 +382,7 @@ class Fund(object):
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
 	def calc_accts_value(self):
-		return sum( acct.value for acct in self._accounts )
+		return sum( acct.get_value() for acct in self._accounts )
 	def create_account(self, indiv, amt = 0):
 		assert len(indiv.accounts)==0,\
 		"num accts shd be 0 but is %d"%(len(self._accounts))
@@ -474,11 +474,20 @@ class Population(list):  #provide a list of Cohort tuples
 		parents.get_married(params.MATING)  #TODO: change to a Pop method??
 		self.append_new_cohort(parents, kidsexgen=params.KIDSEXGEN) #new cohort has age 0
 		self.age_ppl()                         #->new cohort has age 1
-		dead = self.get_new_dead()
+		dead = self.pop_new_dead()
 		assert(dead._cohort_age == self.params.N_COHORTS+1) #TODO only works for non-stochastic deaths
 		for indiv in dead:
 			indiv.liquidate()  #close out all accounts
-	def get_new_dead(self): #removes dead from population and returns as sequence
+	def get_labor_force(self):
+		'''Return: list of Indiv instances.
+		'''
+		labor_force = list()
+		working_ages = self.economy.params.WORKING_AGES
+		labor_cohorts = ( cohort for cohort in self if cohort.get_age() in working_ages )
+		for cohort in labor_cohorts:
+			labor_force.extend( cohort )
+		return labor_force
+	def pop_new_dead(self): #removes dead from population and returns as sequence
 		dead = self.pop(0)                     #remove dead cohort from population
 		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
 			assert (indiv.alive == True) #just an error check
@@ -513,9 +522,9 @@ class Population(list):  #provide a list of Cohort tuples
 		self.initialize_wealth(new_cohort)
 		new_cohort = params.Cohort(new_cohort)
 		self.append( new_cohort )
-	def calc_dist(self): #TODO: calc distribution over **indivs** or households??
+	def calc_dist_wealth(self): #TODO: calc distribution over **indivs** or households??
 		params = self.economy.params
-		return  params.CALC_DIST(self)
+		return  params.CALC_DIST_WEALTH(self)
 	def get_indivs(self): #return all individuals as single list
 		return [indiv for cohort in self for indiv in cohort]
 	def gf_indivs(self): #return all individuals as single generator
@@ -528,18 +537,21 @@ class Economy(object):
 	Not fully implemented.
 	'''
 	def __init__(self, params):
+		script_logger.debug("begin Economy initialization")
 		self.params = params
 		self.dist_hist = list()
-		self.labor_force = list()
 		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
 		self.state = None  #TODO TODO
 		#initialize economy
 		self.ppl = self.create_initial_population()
 		self.initialize_population()
+		self.firms = self.create_initial_firms()
+		script_logger.debug("end Economy initialization")
+		script_logger.debug("cohorts: %d; indivs: %d; firms: %d"%(len(self.ppl), len(self.ppl.get_indivs()), len(self.firms)))
 	def create_initial_population(self):
 		'''Return: a population.
-		Override this to use a particular type of
-		Cohort, Indiv, or sex generator.
+		Override this to use a different sex generator.
+		Set Cohort and Indiv classes in params.
 		'''
 		script_logger.info("create initial population")
 		params = self.params
@@ -566,6 +578,7 @@ class Economy(object):
 		indivs = self.ppl.get_indivs()
 		fund = self.funds[0]
 		for indiv in indivs:
+			script_logger.debug("open acct for indiv")
 			indiv.open_account(fund)
 		#initialize parenthood relationship when starting economy
 		#if params.BEQUEST_TYPE ==: #unnecessary
@@ -582,12 +595,25 @@ class Economy(object):
 		if params.WEALTH_INIT:
 			script_logger.info("distribute initial wealth")  #TODO details scarce in Pestieau 1984
 			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
-			#assert (abs(self.ppl.calc_dist() - params.GW0) < 0.001)  #TODO!!!!!
-		if params.WORK_YEARS:
-			for cohort in self.ppl:
-				if cohort.get_age() in params.WORK_YEARS:
-					self.labor_force.append(cohort)
-		#script_logger.debug( "Initialize labor force to: %s"%(self.labor_force) )
+			#assert (abs(self.ppl.calc_dist_wealth() - params.GW0) < 0.001)  #TODO!!!!!
+	def create_initial_firms(self):
+		'''Return: a (possibly empty) list of firms.
+		Set Firm class in params.
+		(Single sector economy.)
+		'''
+		script_logger.info("create initial firms")
+		params = self.params
+		return [Firm() for i in range(params.N_FIRMS)]
+	def initialize_firms(self):
+		'''
+		Note: much of this will look superflous when there is only one firm.
+		'''
+		script_logger.info("initialize firms")
+		params = self.params
+		nfirms = len(self.firms)
+		labor_force = self.ppl.get_labor_force()
+		
+		#TODO TODO: allocate capital stock
 	def run(self):  #TODO: rely on IterativeProcess?
 		script_logger.info("run the economy")
 		params = self.params
@@ -596,23 +622,38 @@ class Economy(object):
 		if params.seed:
 			random.seed(params.seed)
 		#record initial distribution
-		self.dist_hist.append( self.ppl.calc_dist() )
-		#run economy through N_YEARS "years"
+		self.dist_hist.append( self.ppl.calc_dist_wealth() )   #TODO TODO does this work well for Pestieau??
+		#MAIN LOOP: run economy through N_YEARS "years"
 		for t in range(params.N_YEARS):
 			#TODO: allow transfers by state??
-			self.distribute_gains()  #distribute gains *before* aging the ppl
+			#TODO distribute gains *before* aging the ppl (so they are included in bequests)
+			self.produce()
+			self.factor_payments()
+			self.consume()
 			self.ppl.evolve()
-			self.dist_hist.append( self.ppl.calc_dist() )
-		#TODO: household or indiv distributions? (household I think wd be better)
-		wealths = [indiv.calc_wealth() for indiv in self.ppl.gf_indivs()]
-		#uncomment to check for number of zeros
-		#print "zeros: %d\t small:%d"%(sum(i==0 for i in wealths),sum(i<0.5 for i in wealths))
+			self.dist_hist.append( self.ppl.calc_dist_wealth() )
+	def produce(self):
+		pass
+	def consume(self):
+		pass
+	def factor_payments(self):
+		for firm in self.firms:
+			firm.pay_wages()
+			firm.pay_rents()
+		for fund in self.funds:
+			fund.distribute_gains()
 	def transfer(self, fr, to, amt):  #TODO: cd introduce transactions cost here, cd be a fn
 		fr.outgo(amt)
 		to.receive_income(amt)
-	def distribute_gains(self):
-		for fund in self.funds:
-			fund.distribute_gains()
+	def final_report(self):
+		params = self.params
+		#TODO: household or indiv distributions? (household I think wd be better)
+		indiv_wealths = [indiv.calc_wealth() for indiv in self.ppl.gf_indivs()]
+		report = '''
+		Final Gini for individual wealth: %10.2f
+		'''%(self.dist_hist[-1])
+		#uncomment to check for number of zeros
+		#print "zeros: %d\t small:%d"%(sum(i==0 for i in indiv_wealths),sum(i<0.5 for i in indiv_wealths))
 		
 		
 
@@ -642,17 +683,81 @@ def compute_ability_pestieau(indiv, beta, nbar):
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
 
+#Pestieau markets very simple (one aggregate "firm")
+
+class LaborMarket(object):
+	def __init__(self, economy):
+		self.economy = economy
+		self.employers = None
+	def set_labor_force(self, indivs):
+		self.labor_force = indivs
+	def set_employers(self, firms):
+		employers = self.firms
+	def determine_employment(self):
+		return NotImplemented
+
+class PestieauLaborMarket(LaborMarket):
+	def determine_employment(self):
+		economy = self.economy
+		Ls = economy.labor_force
+		firm = self.employers[0]
+		firm.hire(self.labor_force)
+	
+class CapitalMarket(object):
+	def __init__(self, economy):
+		self.economy = economy
+		self.K = None
+		self.renters = None
+	def set_labor_force(self, indivs):
+		self.labor_force = indivs
+	def set_employers(self, firms):
+		employers = self.firms
+	def determine_employment(self):
+		return NotImplemented
+
+class PestieauCapitalMarket(LaborMarket):
+	def determine_employment(self):
+		firm = self.renters[0]
+		firm.rent(self.K)
+
+class Firm:
+	def __init__(self, blue_print=None, employees=None, capital=None, economy=None):
+		self.blue_print = blue_print
+		self.economy = economy
+		self.employees = employees
+		self.wage_share = None
+		self.output_last = None
+	def produce(self):
+		labor_input = sum(e.labor_power for e in self.employees)
+		capital_input = self.capital
+		self.output_last = self.blue_print(capital=capital_input, labor=labor_input)
+		return self.output_last
+	def pay_employees(self):
+		wages = self.wage_share * output_last
+		labor_input = sum(e.labor_power for e in self.employees)
+		wage = wages/labor_input
+		for employee in self.employees:
+			employee.receive_income(wage * employee.labor_power)
+	def pay_wages(self):
+		pass
+	def pay_rents(self):
+		pass
 
 import functools
 class EconomyParams(object): #default params, needs work
 	def __init__(self):
 		self.DEBUG = False
+		#set class to use in Economy construction
 		self.Indiv = Indiv
 		self.Cohort = Cohort
 		self.Population = Population
-		self.WORK_YEARS = list()
+		self.Firm = Firm
+		#list life periods Indivs work (e.g., range(16,66))
+		self.WORKING_AGES = list()
 		self.seed = None
-		self.CALC_DIST = lambda ppl: utilities.calc_gini( indiv.calc_wealth() for indiv in ppl.gf_indivs() )
+		#default is individual based Gini
+		#TODO: household or indiv distributions? (household I think wd be better)
+		self.CALC_DIST_WEALTH = lambda ppl: utilities.calc_gini( indiv.calc_wealth() for indiv in ppl.gf_indivs() )
 		self.SHUFFLE_NEW_W = False
 		self.MSHARE = 0.5
 		self.FSHARE = 0.5
@@ -666,6 +771,8 @@ class EconomyParams(object): #default params, needs work
 		self.KIDSEXGEN = None
 		#number of Cohorts
 		self.N_COHORTS = 0
+		#number of Firms
+		self.N_FIRMS = 0
 		#initial Gini for Wealth
 		self.GW0 = 0
 		self.WEALTH_INIT = 0
@@ -680,7 +787,9 @@ class PestieauParams(EconomyParams):
 		self.Cohort = PestieauCohort  #provides `get_married`
 		self.N_YEARS = 30
 		self.COHORT_SIZE = 100  #p.412
-		self.WORK_YEARS = [1]
+		self.WORKING_AGES = [1]
+		#number of Firms
+		self.N_FIRMS = 1
 		#number of Cohorts
 		self.N_COHORTS = 2
 		#two period economy, work only period 1 (age 1), bear kids period 2 (age 2)
@@ -699,8 +808,8 @@ class PestieauParams(EconomyParams):
 		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
 		#kc: together imply (1-alpha-gamma) for u-fn
 		self.r_t = None	#kc: to let let Firm know that this is the initial period of the simulation
-		self.PHI = None	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
-		self.PSI = None	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
+		self.PHI = 0.6	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
+		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
 		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 		#initial Gini for Wealth
 		self.GW0 = 0.8  #"high inequality" case p.413
