@@ -42,21 +42,22 @@ class KCPestieauParams(agents.PestieauParams):
 		self.PESTIEAU_GAMMA = 0.2	#sh_cons_1t
 		#together imply (1-alpha-gamma) for u-fn
 		self.r_t = None	#to let let Firm know that this is the initial period of the simulation
-		self.PHI = None	#Capital share parameter for CD production fn.  Details not in Pestieau(1984)
-		self.PSI = None	#Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
 
 
 
 ####################################################################
 # Example of a running economy: not a replication of Pestieau (1984)
 ####################################################################
+#comment it out for now
+'''
 print
 print "#"*80
 print " Example: Run Economy ".center(80,'#')
 p = agents.PestieauParams()
-p.MATING = 'random'
 e = agents.Economy(p)
 e.run()
+print " END Example: Run Economy ".center(80,'#')
+'''
 
 
 ############################### Next Steps ###############################
@@ -156,16 +157,27 @@ class KC_ECONOMY(agents.Economy):
 		#ai: next, start by using the super classes initialization
 		agents.Economy.__init__(self,params)
 		#ai: now that those initializations are done, you can add some more
+		#ai: but not, I think, the next one!
 		self.initial_capital_stock = list()
-		
-		self.fund =  Fund(self) 
+		#ai: you probably do not want the next line (see line 543 of agents.py; just use self.funds[0])
+		self.fund =  agents.Fund(self) 
 		self.initialize_capital_stock_ror()
 	def initialize_capital_stock_ror(self):
 		script_logger.info("initialize capital stock ROR")
-		self.initial_capital_stock.append( self.fund.calc_accts_value() )	
-		
-		K_0 = self.initial_capital_stock
-		r_t = (params.phi/K_0)*(K_0**params.phi)*(L_t**params.psi)	 
+		#self.initial_capital_stock.append( self.fund.calc_accts_value() )	
+		#K_0 = self.initial_capital_stock
+		#ai: commenting out above ^
+		#ai: try this instead
+		#ai: BEGIN
+		fund = self.funds[0]
+		self.initial_capital_stock.append( fund.calc_accts_value() )	
+		params = self.params
+		#ai: END
+		K_0 = params.WEALTH_INIT
+		print K_0
+		#r_t = (params.phi/K_0)*(K_0**params.phi)*(L_t**params.psi)	 
+		#ai: watch capitalization             ^; fixed below
+		r_t = (params.PHI/K_0)*(K_0**params.PHI)*(L_t**params.PSI)	 
 		return r_t
 		
 '''
@@ -211,12 +223,14 @@ def Pestieau_Bequest(indiv):
 #More Examples #
 ################
 
-print '#'*80
-
+print
+print "#"*80
+print " Example: Run KC_Economy ".center(80,'#')
 p1 = KCPestieauParams()
 p1.MATING = 'random'
 e1 = KC_ECONOMY(p1)
 e1.run
+print " END Example: Run KC_Economy ".center(80,'#')
 
 #******************************
 #******** END 8-) *************
