@@ -802,8 +802,7 @@ class PestieauParams(EconomyParams):
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None
 		self.PESTIEAU_NBAR = None
-		self.compute_ability = functools.partial(
-			compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
+		self.compute_ability = functools.partial(compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
 		#initial Gini for Wealth
 		self.GW0 = 0.8  #"high inequality" case p.413
 		#initial wealth(capital stock)
