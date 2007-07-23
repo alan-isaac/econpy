@@ -74,8 +74,8 @@ def distribute(wtotal, units, gini, shuffle=False):
 	for wi in w:
 		units.pop().receive_income(wi)   #ADD to individual wealth
 	assert (not units),  "Length shd now be zero."
-	script_logger.debug( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
-	print "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )) 
+	script_logger.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
+
 def sexer_randompairs(n):
 	'''Yields n of each of two sexes, in pairs, in random order.
 	Assumes from __future__ import division.
@@ -156,11 +156,7 @@ def bequests_blinder(indiv):
 
 
 class Indiv(object):
-	def __init__(self, economy=None, sex=None):
-		if economy:
-			self.economy = economy
-			self.state = economy.state
-			self.ability = economy.params.compute_ability(self)
+	def __init__(self, sex=None, economy=None):
 		self.alive = True
 		self.sex = sex
 		self.age = 0
@@ -170,6 +166,10 @@ class Indiv(object):
 		self._children = list()  #use list to track birth order
 		self.accounts = list()  #accounts[0] is the cash acct
 		self.employers = set()
+		if economy:
+			self.economy = economy
+			self.state = economy.state
+			self.ability = economy.params.compute_ability(self)
 		self._locked = True
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:
@@ -266,6 +266,10 @@ class Indiv(object):
 		assert (self.alive is False)
 		params = self.economy.params
 		params.BEQUEST_FN(self)
+	def labor_supply(self, wage, irate):
+		#default is inelastic labor supply
+		#(override for different behavior)
+		return self.ability
 
 #October: Uncertainty, Decision, and Policy
 
@@ -559,7 +563,7 @@ class Economy(object):
 		cohort_size = params.COHORT_SIZE
 		cohorts = list()
 		for _ in range(n_cohorts):
-			indivs = (params.Indiv(economy=self, sex=s) for i in range(cohort_size//2) for s in "MF")
+			indivs = (params.Indiv(sex=s, economy=self) for i in range(cohort_size//2) for s in "MF")
 			cohort = params.Cohort(indivs)
 			cohorts.append(cohort)
 		return params.Population(cohorts)
@@ -685,24 +689,74 @@ def compute_ability_pestieau(indiv, beta, nbar):
 
 #Pestieau markets very simple (one aggregate "firm")
 
+#ai: OK, here is the approach for now
+#homogeneous (ability adjusted) labor allocated to firm(s) wo worrying about source
+#full employment!
 class LaborMarket(object):
 	def __init__(self, economy):
 		self.economy = economy
-		self.employers = None
-	def set_labor_force(self, indivs):
-		self.labor_force = indivs
-	def set_employers(self, firms):
-		employers = self.firms
-	def determine_employment(self):
-		return NotImplemented
+	def labor_supply(self, wage, irate):
+		labor_force = self.economy.ppl.get_labor_force()
+		return sum(indiv.labor_supply(wage, irate) for indiv in labor_force)
+	def labor_demand(self, wage, irate):
+		firms = self.economy.firms
+		return sum(firm.labor_demand(wage, irate) for firm in firms)
+	#Must override the following methods.
+	def find_equilibrium(self):
+		'''Return: (w,N)
+		'''
+		pass
+	def collect_wages(self, irate=None): #TODO irate??
+		firms = self.economy.firms
+		for firm in firms:
+			wages = wage * firm.labor_demand(wage, irate)
+			economy.transfer(firm, self, wages)
+	def pay_wages(self, irate=None): #TODO irate??
+		wage, N = self.find_equilibrium()
+		#collect wages from firms
+		firms = self.economy.firms
+		firms_wages = 0
+		for firm in firms:
+			wages = wage * firm.labor_demand(wage, irate)
+			firms_wages += wages
+			economy.transfer(firm, self, wages)
+		#allocate wages to workers
+		labor_force = self.economy.ppl.get_labor_force()
+		worker_wages = 0
+		for indiv in labor_force:
+			wages = wage * indiv.labor_supply(wage, irate)
+			economy.transfer(self, indiv, wages)
+			worker_wages += wages
+		assert utilities.feq(firm_wages, worker_wages, 1e-4)
+		
 
 class PestieauLaborMarket(LaborMarket):
-	def determine_employment(self):
-		economy = self.economy
-		Ls = economy.labor_force
-		firm = self.employers[0]
-		firm.hire(self.labor_force)
-	
+	def find_equilibrium(self):
+		Ns = self.labor_supply(None, None)
+		Ks = self.economy.get_captial_stock()
+		#determine real wage
+		w = self.economy.production.gradient(Ks,Ns)
+		return w, Ns
+
+class CobbDouglas2(object):
+	def __init__(self, alpha=0.6):
+		assert (0 < alpha < 1)
+		self.alpha = alpha
+	def __call__(K, N):
+		return K**alpha * N**(1-alpha)
+	def f1(K, N):  #rename TODO
+		Y = self(K, N)
+		return (self.alpha/K) * Y
+	def f2(K, N):  #rename TODO
+		Y = self(K, N)
+		return (self.alpha/K) * Y
+	def gradient(K, N):
+		Y = self(K, N)
+		alpha = self.alpha
+		f1 = Y * alpha / K
+		f2 = Y * (1-alpha) / K
+		return f1, f2
+
 class CapitalMarket(object):
 	def __init__(self, economy):
 		self.economy = economy
@@ -751,6 +805,7 @@ class EconomyParams(object): #default params, needs work
 		self.Indiv = Indiv
 		self.Cohort = Cohort
 		self.Population = Population
+		self.LaborMarket = None
 		self.Firm = Firm
 		#list life periods Indivs work (e.g., range(16,66))
 		self.WORKING_AGES = list()
@@ -784,6 +839,7 @@ class PestieauParams(EconomyParams):
 		#first use the super class's initialization
 		EconomyParams.__init__(self)
 		#NEW INITIALIZATIONS
+		self.LaborMarket = PestieauLaborMarket
 		self.Cohort = PestieauCohort  #provides `get_married`
 		self.N_YEARS = 30
 		self.COHORT_SIZE = 100  #p.412
@@ -803,10 +859,17 @@ class PestieauParams(EconomyParams):
 		self.PESTIEAU_BETA = None
 		self.PESTIEAU_NBAR = None
 		self.compute_ability = functools.partial(compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
+		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 		#initial Gini for Wealth
 		self.GW0 = 0.8  #"high inequality" case p.413
 		#initial wealth(capital stock)
 		self.WEALTH_INIT = 100
+		#utility function parameters
+		self.PESTIEAU_ALPHA = None	#kc: sh_altruism
+		self.PESTIEAU_GAMMA = None	#kc: sh_cons_1t
+		#production function parameters
+		self.PHI = 0.6	#kc: Capital share parameter for CD production fn.  Details not in Pestieau(1984)
+		self.PSI = 0.4	#kc: Labor Share Paremeter for production fn.  Details not in PEstieau(1984)
 		#LAST as an error check, lock against dynamic attribute creation (eventually remove TODO)
 		self._locked = True
 	def __setattr__(self, attr, val):
