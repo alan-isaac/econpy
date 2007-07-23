@@ -75,7 +75,7 @@ def distribute(wtotal, units, gini, shuffle=False):
 		units.pop().receive_income(wi)   #ADD to individual wealth
 	assert (not units),  "Length shd now be zero."
 	script_logger.debug( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
-
+	print "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )) 
 def sexer_randompairs(n):
 	'''Yields n of each of two sexes, in pairs, in random order.
 	Assumes from __future__ import division.

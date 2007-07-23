@@ -42,9 +42,11 @@ class KCPestieauParams(agents.PestieauParams):
 		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 
 		agents.PestieauParams.__init__(self)  #ai: locks, so put any new params **before** this line
-		self.WEALTH_INIT = 10000	# 10,000 is random --> just different than # of agents in first cohort
+		self.WEALTH_INIT = 10000.0	# 10,000 is random --> just different than # of agents in first cohort
 		self.PESTIEAU_BETA = 0.6	#kc: set regresion to mean ability parameter
-
+		self.SHUFFLE_NEW_W = True	#kc: this should give us a random initial wealth endowment
+									# gini now *always* 0.8 : this is random?
+	
 ####################################################################
 # Example of a running economy: not a replication of Pestieau (1984)
 ####################################################################
@@ -74,16 +76,13 @@ print " END Example: Run Economy ".center(80,'#')
 ##########################################################################
 class KCIndiv(agents.Indiv):
 	def __init__(self,economy=None, sex=None):
-		#add list storing ability data
-		self.ability_status = list()
-
-		agents.Indiv.__init__(self,economy=none,sex=none)
+		#add list storing received bequest used by u-max fun: bequest_rec 
+		self.bequest_rec = list()
+		print "test"	# kc: not working...assume that other Indiv class is being used
+		agents.Indiv.__init__(self,economy=None,sex=None)
 	
-
-
-#kc: for use **AFTER** first period initialization by family unit
 #def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec, n_children, r_t):
-def max_utility_const(indiv, wage, bequest_rec, n_children, r_t):
+def max_utility_const(indiv,bequest_rec, n_children):
 	'''Return: float (con_1t, cons_2t, bequest_2t, K_2t).
 	CD Utility function and constraints for consumption and bequest decisions, p.408-409
 	Governs *optimal* consumption/savings, bequest and consequent next period capital stock. 	
@@ -95,29 +94,30 @@ def max_utility_const(indiv, wage, bequest_rec, n_children, r_t):
 			Pestieau's consumption share during working generation
 		*sh_cons_2t : float
 			Pestieau's consumption share during non-working generation = (1-sh_altruism-sh_cons_1t)
-		wage : float
+		**wage : float
 			Peasieau's wage derived competitively
 		bequest_rec: float
 			Pestieau's bequest received by the current generation from the parents
 		n_children : float
 			Pestieau's number of children per couple
-		r_t : float
+		**r_t : float
 			Pestieau's ROR on capital. (not used w/ RE in optimization)
 
 		"*" Identifies Globally defined parameters
+		"**"Computed by economy class
 		'''
 	
 	'''
 	notes: 
 	need access to bequest *received* by each parent for optimization below. (could record this in the fund account??) 
 	
-	need wage
+	X need wage
 
 	X need ability levels of parents --> pooled & averaged
 	
 	X need n_children
 
-	need r_t --> make initial ror in initialization. Need to pass this to function from Economy initialization
+	X need r_t --> make initial ror in initialization. Need to pass this to function from Economy initialization
 			 --> thereafter done by the Economy (or firm?)
 			 		More general at the economy level (possible introduction of new firms)
 	'''
@@ -146,9 +146,13 @@ def max_utility_const(indiv, wage, bequest_rec, n_children, r_t):
 	w_t = economy.calc_wage()
 
 	#bequest received
-	bequest_rec = indiv.accounts[1]  # must modify account for detailed info. perhpas account[1] = bequest_rec #TODO
-	bequest_rec = parents_combinded_beq_rec	#TODO
+	#indiv_bequest_rec = indiv.accounts[1]  # must modify account for detailed info. perhpas account[1] = bequest_rec #TODO
+	#parents_bequests_combined = 
 
+	bequest_rec = parents_beq_rec	#TODO
+		
+
+	
 	k_t = list()  # append family savings for next period capital stock. send to firm? Send to FundAcct?
 
 	life_income = wage*ability
@@ -274,7 +278,8 @@ class Firm(object):
 		pass
 
 '''
-
+#def kc_distribute(agents.distribute):
+#	pass
 ################
 #More Examples #
 ################
