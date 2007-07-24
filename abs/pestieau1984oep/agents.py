@@ -474,14 +474,14 @@ class Population(list):  #provide a list of Cohort tuples
 		'''Return: None.
 		'''
 		params = self.economy.params  #associated economy have been set by economy...
-		parents = self.get_new_parents() #TODO: parents are currently a Cohort; eventually change this
-		parents.get_married(params.MATING)  #TODO: change to a Pop method??
-		self.append_new_cohort(parents, kidsexgen=params.KIDSEXGEN) #new cohort has age 0
+		new_cohort = self.get_new_cohort()
+		self.append(new_cohort)
 		self.age_ppl()                         #->new cohort has age 1
 		dead = self.pop_new_dead()
-		assert(dead._cohort_age == self.params.N_COHORTS+1) #TODO only works for non-stochastic deaths
+		assert(dead._cohort_age == params.N_COHORTS+1) #TODO only works for non-stochastic deaths
 		for indiv in dead:
-			indiv.liquidate()  #close out all accounts
+			indiv.liquidate()  #close out all accounts, leaving bequests
+		self.marry()
 	def get_labor_force(self):
 		'''Return: list of Indiv instances.
 		'''
@@ -500,32 +500,36 @@ class Population(list):  #provide a list of Cohort tuples
 	def age_ppl(self):
 		for cohort in self:
 			cohort.age_cohort()
-	def get_new_parents(self):
-		'''Return a cohort.  TODO: change this eventually.
+	def marry(self):
+		'''Return: None.
 		'''
 		params = self.economy.params
-		return self[params.KID_AT_YEAR-1]  #params assigned by economy! TODO  recheck timing
-	def append_new_cohort(self, parents, kidsexgen=None):
+		newlyweds = self[params.AGE4MARRIAGE-1] #Marry within one cohort.  TODO: change this eventually.
+		for indiv in newlyweds:
+			assert (indiv.spouse is None)
+		newlyweds.get_married(params.MATING)  #TODO: change to a Pop method??
+	def get_new_cohort(self):
 		'''Return: None.
 		Called by evolve.
 		Current model: two children, MF, at fixed age.
-
-		:param kidsexgen: returns an iterator which provides sex tuples (e.g., 'MF' or 'MMF')
 		'''
 		params = self.economy.params
+		#kidsexgen is an iterator which provides sex tuples (e.g., 'MF' or 'MMF')
+		kidsexgen = params.KIDSEXGEN
+		new_parents = self[params.AGE4KIDS-1]  #currently restricted to a single cohort TODO
 		new_cohort = list()
-		#only married females can have kids
-		mothers = [indiv for indiv in parents if (indiv.spouse and indiv.sex=='F')]
+		#only married females can have kids (except in parthenogenic economies! TODO)
+		mothers = [indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F')]
 		getsexes = kidsexgen(len(mothers))
 		#each mother has kids of specified sexes (e.g., "MF"), which specifies number as well!
 		for indiv in mothers:
-			newsexes = getsexes.next()  #TODO: remove restriction to 2 simultaneous kids!!
+			newsexes = getsexes.next()
 			new_cohort.extend(indiv.bear_children(sexes=newsexes))
 		for kid in new_cohort:
-			kid.open_account(self.economy.funds[0])  #provide every kid with an acct
-		self.initialize_wealth(new_cohort)
+			kid.open_account(self.economy.funds[0])  #provide every kid with an acct TODO move
+		self.initialize_wealth(new_cohort)  #TODO move
 		new_cohort = params.Cohort(new_cohort)
-		self.append( new_cohort )
+		return new_cohort
 	def calc_dist_wealth(self): #TODO: calc distribution over **indivs** or households??
 		params = self.economy.params
 		return  params.CALC_DIST_WEALTH(self)
@@ -542,6 +546,8 @@ class Economy(object):
 	'''
 	def __init__(self, params):
 		script_logger.debug("begin Economy initialization")
+		if params.SEED:
+			random.seed(params.SEED)
 		self.params = params
 		self.dist_hist = list()
 		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
@@ -554,7 +560,7 @@ class Economy(object):
 		script_logger.debug("cohorts: %d; indivs: %d; firms: %d"%(len(self.ppl), len(self.ppl.get_indivs()), len(self.firms)))
 	def create_initial_population(self):
 		'''Return: a population.
-		Override this to use a different sex generator.
+		Override this to use a different sex generator. TODO
 		Set Cohort and Indiv classes in params.
 		'''
 		script_logger.info("create initial population")
@@ -571,31 +577,33 @@ class Economy(object):
 		script_logger.info("initialize population")
 		params = self.params
 		self.ppl.economy = self  #currently needed for fund access!? TODO
-		self.ppl.params = params  #currently needed for parameter access
 		age = params.N_COHORTS #initialize, to count down
 		for cohort in self.ppl:  #don't actually use ages of initial cohorts, but might in future
 			cohort.set_age(age)
 			age -= 1
 		assert (age == 0) , "no cohort has age 0"
 		#open an acct for every Indiv (using the default Fund)
-		script_logger.info("assigned indivs initial accounts")
+		script_logger.info("assign indivs initial accounts")
 		indivs = self.ppl.get_indivs()
 		fund = self.funds[0]
 		for indiv in indivs:
-			script_logger.debug("open acct for indiv")
 			indiv.open_account(fund)
+		script_logger.info("assigned indivs initial accounts")
 		#initialize parenthood relationship when starting economy
 		#if params.BEQUEST_TYPE ==: #unnecessary
 		#remember: age = N_COHORTS - index
 		script_logger.info("initialize family structure")
-		for idx in range(params.N_COHORTS - params.KID_AT_YEAR+1):   ###!! E.g., OG: 2-2+1 (fixed)
+		for idx in range(params.N_COHORTS - params.AGE4KIDS+1):   ###!! E.g., OG: 2-2+1 (fixed)
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
+			assert all(i.spouse is None for i in parents)
 			parents.get_married(mating=params.MATING)  #parents are a Cohort
-			kids = self.ppl[idx+params.KID_AT_YEAR-1]  ##!! (fixed)
-			assert (len(parents)==len(kids))
+			print idx+params.AGE4KIDS-1
+			kids = self.ppl[idx+params.AGE4KIDS-1]  ##!! (fixed)
+			assert (len(parents)==len(kids))  #TODO TODO only for fixed 2 kid per couple
 			for parent, kid in itertools.izip(parents,kids):
 				parent.adopt(kid)
 				parent.spouse.adopt(kid)  #TODO: think about adoption
+		script_logger.info("initialized family structure")
 		if params.WEALTH_INIT:
 			script_logger.info("distribute initial wealth")  #TODO details scarce in Pestieau 1984
 			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
@@ -623,29 +631,30 @@ class Economy(object):
 		params = self.params
 		assert (len(self.ppl) == params.N_COHORTS)
 		assert (len(self.ppl[0]) == params.COHORT_SIZE)
-		if params.seed:
-			random.seed(params.seed)
 		#record initial distribution
 		self.dist_hist.append( self.ppl.calc_dist_wealth() )   #TODO TODO does this work well for Pestieau??
 		#MAIN LOOP: run economy through N_YEARS "years"
+		script_logger.info("BEGIN main loop")
 		for t in range(params.N_YEARS):
 			#TODO: allow transfers by state??
 			#TODO distribute gains *before* aging the ppl (so they are included in bequests)
+			self.ppl.evolve()  #TODO TODO
 			self.produce()
 			self.factor_payments()
 			self.consume()
-			self.ppl.evolve()
 			self.dist_hist.append( self.ppl.calc_dist_wealth() )
+			script_logger.debug("Gini history: %s"%(self.dist_hist))
+			script_logger.info("Iteration %d complete."%(t+1))
 	def produce(self):
 		pass
 	def consume(self):
 		pass
 	def factor_payments(self):
 		for firm in self.firms:
-			firm.pay_wages()
-			firm.pay_rents()
+			firm.pay_wages()  #TODO  #TODO
+			firm.pay_rents()  #TODO  #TODO
 		for fund in self.funds:
-			fund.distribute_gains()
+			fund.distribute_gains()  #TODO  #TODO
 	def transfer(self, fr, to, amt):  #TODO: cd introduce transactions cost here, cd be a fn
 		fr.outgo(amt)
 		to.receive_income(amt)
@@ -809,7 +818,7 @@ class EconomyParams(object): #default params, needs work
 		self.Firm = Firm
 		#list life periods Indivs work (e.g., range(16,66))
 		self.WORKING_AGES = list()
-		self.seed = None
+		self.SEED = None
 		#default is individual based Gini
 		#TODO: household or indiv distributions? (household I think wd be better)
 		self.CALC_DIST_WEALTH = lambda ppl: utilities.calc_gini( indiv.calc_wealth() for indiv in ppl.gf_indivs() )
@@ -832,7 +841,9 @@ class EconomyParams(object): #default params, needs work
 		self.GW0 = 0
 		self.WEALTH_INIT = 0
 		self.COHORT_SIZE = 0
-		self.KID_AT_YEAR = 0   #NOTE: no cohort has age 0!
+		#Life Events
+		self.AGE4KIDS = 0   #NOTE: no cohort has age 0!
+		self.AGE4MARRIAGE = 0   #NOTE: no cohort has age 0!
 
 class PestieauParams(EconomyParams):
 	def __init__(self):
@@ -849,12 +860,14 @@ class PestieauParams(EconomyParams):
 		#number of Cohorts
 		self.N_COHORTS = 2
 		#two period economy, work only period 1 (age 1), bear kids period 2 (age 2)
-		self.KID_AT_YEAR =  2   #see Population.evolve (no cohort has age 0!)
 		self.MATING = 'classonly' #p.414 says only class mating considered (vs. reported!?)
 		#sex generator for new births
 		self.KIDSEXGEN = sexer_randompairs         #TODO
 		#bequest function
 		self.BEQUEST_FN = bequests_pestieau #p.412
+		#Life Events
+		self.AGE4KIDS =  2      #see Population.evolve (no cohort has age 0!)
+		self.AGE4MARRIAGE = 1   #NOTE: no cohort has age 0!
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None
 		self.PESTIEAU_NBAR = None
