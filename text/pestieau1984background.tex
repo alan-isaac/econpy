@@ -5,7 +5,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{moreverb}
 \usepackage{natbib}  %formats references
-\usepackage{setspace} 
+\usepackage{setspace}
 %fpryor1@swarthmore.edu
 %P.Pestieau@ulg.ac.be
 \begin{document}
@@ -33,7 +33,7 @@ Note that income is exogenous.
 
 Period 1 knowledge (used to pick $c_{1}$):
 own inheritance ($b$),
-income ($wa)$, $r$.
+income ($wa$), $r$, number of children ($n$).
 
 Note that knowledge of $r$ should imply forward looking expectations,
 given his assumed timing.
@@ -67,7 +67,7 @@ This matters, since husband and wife may have different resources and abilities.
 
 
 Problem: How to determine $x$?
-(Heirs' wage and ability unkown at time of consumer decision.)
+(Heirs' wage and ability unknown at time of consumer decision.)
 
 Pestieau solution (p.409): set $w_{h}=w$ and $a_{h}=a$.
 So $E[a_t+1]$ should be govenened by Pestieau (3), but is not.
@@ -76,11 +76,11 @@ That is, each heir is ``expected'' to have the same income as the (parthenogenic
 Problem: Functional form for utility?
 
 Pestieau solution:
-\begin{equation}
+\begin{equation}\label{utility_fn}
 u(c_{1}, c_{2}, x) = x^{\alpha} c_{1}^{\gamma} c_{2}^{1-\alpha-\gamma}
 \end{equation}
 or equivalently
-\begin{equation}
+\begin{equation}\label{ln_utility_fn}
 \tilde{u}(c_{1}, c_{2}, x) = \alpha \ln x +\gamma \ln c_{1} + (1-\alpha-\gamma) \ln c_{2}
 \end{equation}
 %claims Pestieau and Posen show separability result
@@ -89,24 +89,28 @@ or equivalently
 So we up with
 \begin{equation}
 \max_{c_{1}, c_{2}, b_{2}}
-\alpha \ln (wa+ b_{2}) 
+\alpha \ln (wa+ b_{2})
 + \gamma \ln c_{1}
 + (1-\alpha-\gamma) \ln c_{2}
 + \lambda [ (w a + b) - c_{1} - (c_{2} + n b_{2})/(1+r)]
 \end{equation}
 with first order conditions
 \begin{gather}
-\alpha/(wa+b_{2}) = \lambda n/(1+r)
+\alpha/(wa+b_{2}) = \lambda n/(1+r)\label{dL/db2}
 \\
-\gamma/c_{1} = \lambda
+\gamma/c_{1} = \lambda \label{dL/dc1}
 \\
-(1-\alpha-\gamma)/ c_{2} = \lambda / (1+r)
+(1-\alpha-\gamma)/ c_{2} = \lambda / (1+r) \label{dL/dc2}
 \end{gather}
+
+
+/*
+
 Substituting for $\lambda$, it follows that
 \begin{gather}
 \alpha/(wa+b_{2}) = \gamma n/ c_{1} (1+r)
 \\
-(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{2} = c_{1} (1-\alpha-\gamma)(1+r)/\gamma 
+(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{2} = c_{1} (1-\alpha-\gamma)(1+r)/\gamma
 \end{gather}
 which together imply
 \begin{equation}
@@ -115,20 +119,23 @@ c_{2} = (wa+b_{2})n(1-\alpha-\gamma)/\alpha \implies n b_{2} = \alpha c_{2} /(1-
 We can therefore use the budget constraint to solve for $c_{2}$.
 Substituting in the constraint for $c_{1}$ and $b_{2}$ yields
 \begin{equation}
-(w a + b) = \gamma c_{2}/(1-\alpha-\gamma)(1+r) + c_{2}/(1+r) + \alpha c_{2}/(1-\alpha-\gamma)(1+r) - nwa/(1+r) 
+(w a + b) = \gamma c_{2}/(1-\alpha-\gamma)(1+r) + c_{2}/(1+r) + \alpha c_{2}/(1-\alpha-\gamma)(1+r) - nwa/(1+r)
 \end{equation}
 so we solve for
 \begin{equation}
 c_{2} = (1-\alpha-\gamma)[b + wa(1+r+n)]
 \end{equation}
 
+*/
+
+
 Ooops.  Try again.
-Alternative derivation:\\
+Alternative derivation: solve for $b_{2}$ and $c_{2}$ in terms of $c_{1}$\\
 Substituting for $\lambda$, it follows that
 \begin{gather}
 \alpha/(wa+b_{2}) = \gamma n/ c_{1} (1+r) \implies b_{2} = c_{1} (1+r) \alpha /\gamma n - wa
 \\
-(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{2} = c_{1}(1+r) (1-\alpha-\gamma)/\gamma 
+(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{2} = c_{1}(1+r) (1-\alpha-\gamma)/\gamma
 \end{gather}
 We can therefore use the budget constraint to solve for $c_{1}$.
 Note that
@@ -144,54 +151,86 @@ Substituting in the constraint for $c_{2} + n b_{2}$ yields
 &= c_{1}/\gamma - nwa/(1+r)
 \end{split}
 \end{equation}
-so we solve for
+
+solving the equation above for $c_{1}$ we get:
+\begin{equation}\label{simulation c_1}
+c_{1} = \gamma[b + wa + \frac{naw}{1+r}]
+\end{equation}
+
+Note that (\ref{simulation c_1}) will be utilized in the simulation model.  However, (\ref{simulation c_1}) is easily simplified to resemble Pestieau (p.409, fn. 15) as follows:
+
 \begin{equation}
-c_{1} = \gamma[b + wa(1+r+n)/(1+r)] \implies 
+c_{1} = \gamma[b + wa\frac{1+r+n} {1+r}] \implies
 (1+r)c_{1} = \gamma(1+r)(b + wa) + \gamma wan
 \end{equation}
 Recalling that we expressed $b_{2}$ and $c_{2}$ in terms of $c_{1}$, we therefore have
 \begin{gather}
 b_{2} =  [b(1+r) + wa(1+r+n)] \alpha /n - wa \implies nb_{2} = \alpha(1+r)(b+wa) - (1-\alpha)wan
 \\
-c_{2} = [b(1+r) + wa(1+r+n)] (1-\alpha-\gamma) = (1-\alpha-\gamma)(1+r)(b+wa) + (1-\alpha-\gamma)wan
+\begin{split}
+c_{2} = [b(1+r) + wa(1+r+n)] (1-\alpha-\gamma) &= (1-\alpha-\gamma)(1+r)(b+wa) + (1-\alpha-\gamma)wan
+\\
+&= (1-\alpha -\gamma)[b+wa+\frac{naw}{1+r}](1+r)
+\\
+&= (1-\alpha -\gamma)[b+wa\frac{1+r+n}{1+r}](1+r)
+\end{split}
 \end{gather}
 This confirms Pestieau (p.409, fn. 15), except for the capital stock measure,
-which apparently assumes a single aggregate consumer.  More safely:
+which apparently assumes a single aggregate consumer.\newline
+
+(KC: In the theory model I understand that each individual makes bequest/consumption decisions independently.  I understand that there will be a singe aggregate \emph{household} consumer in the simulation model.  That is, in the simulation model, $K_{t+1}$ represents a household's contribution to the capital stock (savings) for next period; in the theory model $K_{t+1}$ is an individuals savings which is a contribution to the next period capital stock.)\newline
+
+More safely:
 \begin{equation}
 \begin{split}
 s
 &= b + aw - c_{1}
 \\
-&= b + aw - \gamma[b + wa(1+r+n)/(1+r)]
+&= b + aw - \gamma[b + wa \frac{1+r+n}{1+r}]
 \\
-&= (1-\gamma)(b+wa) - wa \gamma n/(1+r)
+&= (1-\gamma)(b+wa) - wa \gamma \frac{n}{1+r}
 \end{split}
 \end{equation}
+
 So more correctly (right??)  %chk
 \begin{equation}
 K_{t+1} = N_{t} s_{t}
 \end{equation}
-where only the young are saving.
+where only the young are saving.\newline
+
+(KC: I am not sure what $N_{t}$ above represents.  If $N_t$ is the number working couples in generation t, I don't think that we can say: $K_{t+1} = N_{t} s_{t}$.  This implies that each couple's contribution to the capital stock is the same.  This is not true because of ability differences and hence income differences. Similarly, the same would be true if $N_{t}$ represents the number of individuals in their first period of life.)\newline
+
+
 
 % Ioannides, Yannis M.
-%``On the Distribution of Wealth and Intergenerational Transfers," with R. Sato, Journal of Labor Economics, 5, 3, 1987, 366-385. 
+%``On the Distribution of Wealth and Intergenerational Transfers," with R. Sato, Journal of Labor Economics, 5, 3, 1987, 366-385.
 %``Heritability of Ability, Intergenerational Transfers and The Distribution of Wealth," International Economic Review, 27, 3, October 1986,  611-623.
-%``Taxation and the Distribution of Income and Wealth," with R. Sato, in D. Biehl, K. Roskamp and W. Stolper, eds., Public Finance and Economic Growth, Proceedings, 37th Congress of the International Institute of Public Finance, Tokyo, September 1981, Wayne State University Press 1983, 367-386. 
+%``Taxation and the Distribution of Income and Wealth," with R. Sato, in D. Biehl, K. Roskamp and W. Stolper, eds., Public Finance and Economic Growth, Proceedings, 37th Congress of the International Institute of Public Finance, Tokyo, September 1981, Wayne State University Press 1983, 367-386.
 
 Review this:
 $E[r_t] = r_{t-1}$ in deriving (Pestieau 11',  p.409)
 Knows number of kids he'll have!!
 BUT: uncertain of kids abilities.
-(Expects own ability reproduced; not RE!)
+(Expects own ability reproduced; not RE!)\newline
 
-Second period:
+(KC: in deriving 11', p.409 $E[a_{t+1}]=\beta \bar{a}+(1-\beta)=1$ (equation 4 p.407).  That is, the expectation of ones heirs ability is equal to expectation of the process generating their ability. So in the theory model parents know the number of children they will have, but are unsure of his/her ability.  Expected ability is governed by the equation which determines ability.)\newline
+
+Second period p.408:
 retired,
 bears $n$ heirs,
 leaves $b_{2}$ to each heir at \emph{beginning} of second period,
-for total bequest of $b \cdot n$.
+for total bequest of $b_{2} \cdot n$.
+No parthenogenesis: each heir receives $b_{2}$.
 (This is effectively intervivos transfers;
-constrast simulation: end of period?)
+constrast simulation: end of period?)\newline
 
+KC: Notes from the Diamond model concerning rent payments p.1130\newline
+\textbf{First Period:} t\newline
+indiv works, receives wage(=MPL), allocates income between two periods (no bequests) via u-max.\newline
+Consumption decisions based on the ``rate of interest for one-period loans from period $t$ to period $t+1$, $r_{t+1}$.  Thus the members of the younger generation make up the supply side of the capital market."\newline
+Individual consumes difference between his/her wage and quantity he lends to capital market.  (Since there are no bequests in this model we do not have guidance regarding rents on inherited wealth for period t).\newline
+\noindent\textbf{Second Period:} t+1 \newline
+The same indiv consumes savings plus accrued interest: $(1+r_{t+1})s_t$, where $s_t$ is the amount saved in the first period.  So here it looks like rents on $s_t$ are eared from period $t$ until $t+1$, then are paid/received at the beginning/end(?) of period $t+1$.  (It is not possible to say when in $t+1$ that rent payments are made from the text.  However, doesn't $s_t$ have to stick around long enough to serve as the capital in production in $t+1$?  That is, consumption must occur again after production.)
 
 \section{Simulation Model}
 
@@ -214,12 +253,12 @@ Simulation parameters in tables p.413 ff
 		1. Every couple has 2 children
 		2. each has 1,2,3 children with prob. 0.2, 0.6, 0.2 respectively
 		3. # children: Poisson dist. with mean = 2
-		4. Wealthy have relatively less children (3 wealth groups): 
-			# children determined by Poission dist. 
+		4. Wealthy have relatively less children (3 wealth groups):
+			# children determined by Poission dist.
 			Poor: 		mean 2.3
 			In-Between: mean 2.0
 			Rich:		mean 1.7
-		5. Poor have relatively less children 
+		5. Poor have relatively less children
 			# children determined by Poission dist.
 			Poor:		mean 1.7
 			In-Between:	mean 2.0
@@ -280,7 +319,8 @@ Sounds like sequence is based on Pryor (1973).
         marry
         consume/save
 
-At the beginning of the period the old own the captial stock (->no owners first period??)
+At the beginning of the period the old own the capital stock (->no owners first period??)
+kc: the first period aren't the owners of capital just the young? -> initial capital = initial wealth 
 Young are born
 Young work
 Factor payments:
@@ -314,8 +354,7 @@ Produce (K pred; N) -> Y
 
 Comment: class marriage seems to be the best match to the parthenogenic theoretical model.
 
-Question: is "lifetime income" b+wa (i.e., does it include bequests)?  Assuming yes.
-
+Question: is ``lifetime income'' b+wa (i.e., does it include bequests)?  Assuming yes.
 \section{Simulation vs. Theoretical Model}
 
 The simulation and theoretical models overlaps substantially but have some differences.
@@ -330,17 +369,17 @@ The simulation and theoretical models overlaps substantially but have some diffe
 Model Type              & 2 period OG                   & 2 period OG
 \\
 Production              & single sector                 & single sector
-\\ 
+\\
 Agg Prodn Fn (p.408)    & $Y_{t}=F(K_{t},N_{t})$        & $Y_{t}=F(K_{t},N_{t})$
-\\ 
+\\
 $w_{t}$                 & $\partial F/\partial L_{t}$   &
 \\
 $r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
 \\
 $r$ for choices         & $r_{t}$                       & $r_{t-1}$ (simplifying!)
-\\ 
+\\
 $w_{h}$                 & $w$                           &
-\\ 
+\\
 $a_{h}$                 & $a$                           &
 \\
 $r_{t}$ (timing! p.408) & $\partial F/\partial K_{t+1}$ &
@@ -362,4 +401,4 @@ $a$ based on            & parthenogenic parent's $a$    & average of 2 parent's 
 
   \bibliographystyle{chicago}
   \bibliography{tex/ejabbr,tex/dist}
-\end{document} 
+\end{document}
