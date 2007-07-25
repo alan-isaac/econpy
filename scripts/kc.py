@@ -82,7 +82,7 @@ class KCIndiv(agents.Indiv):
 		agents.Indiv.__init__(self,economy=None,sex=None)
 	
 #def max_utility_const(indiv, sh_altruism, sh_cons_1t, wage, bequest_rec, n_children, r_t):
-def max_utility_const(indiv,bequest_rec, n_children):
+def max_utility_const(indiv):
 	'''Return: float (con_1t, cons_2t, bequest_2t, K_2t).
 	CD Utility function and constraints for consumption and bequest decisions, p.408-409
 	Governs *optimal* consumption/savings, bequest and consequent next period capital stock. 	
@@ -96,31 +96,22 @@ def max_utility_const(indiv,bequest_rec, n_children):
 			Pestieau's consumption share during non-working generation = (1-sh_altruism-sh_cons_1t)
 		**wage : float
 			Peasieau's wage derived competitively
-		bequest_rec: float
-			Pestieau's bequest received by the current generation from the parents
-		n_children : float
+		***n_children : float
 			Pestieau's number of children per couple
 		**r_t : float
 			Pestieau's ROR on capital. (not used w/ RE in optimization)
 
-		"*" Identifies Globally defined parameters
-		"**"Computed by economy class
+		"*"   Identifies Globally defined parameters
+		"**"  Computed by economy class
+		"***" Computed by Indiv class
 		'''
-	
 	'''
-	notes: 
-	need access to bequest *received* by each parent for optimization below. (could record this in the fund account??) 
-	
-	X need wage
-
-	X need ability levels of parents --> pooled & averaged
-	
-	X need n_children
-
 	X need r_t --> make initial ror in initialization. Need to pass this to function from Economy initialization
-			 --> thereafter done by the Economy (or firm?)
+			--> thereafter done by the Economy (or firm?)
 			 		More general at the economy level (possible introduction of new firms)
 	'''
+	
+	k_t = list()  # append family savings for next period capital stock. send to firm? Send to FundAcct?
 	
 	# could add an additional method in indiv class which records list ability	?
 
@@ -132,51 +123,44 @@ def max_utility_const(indiv,bequest_rec, n_children):
 	sh_cons_2t = 1-sh_altruism-sh_cons_1t  # could define this globally, but this gives us one less parameter
 	assert (sh_altruism + sh_cons_1t + sh_cons_2t == 1)  # check: fn homogenous of degree 1
 
-	####get/create couple/family data
+	# ROR
+	r_t = economy.calc_ror()
+	#Wage
+	wage = economy.calc_wage()
+
+	#### couple/family data
 	children =  indiv.get_children() 
 	n_children = len(children)
 	#similar procedure as in compute_ability function
 	father, mother = indiv.parents_bio
 	parents_ability = ( father.abiliy + mother.ability )/2.0
 	ability = parents_ability
+	parents_life_income = ability*wage
+	life_income = parents_life_income
+	parents_life_wealth = father.calc_wealth + mother.calc_wealth
+	life_wealth = parents_life_wealth	# for family consumption and bequest problem
 
-	# ROR
-	r_t = economy.calc_ror()
-	#Wage
-	w_t = economy.calc_wage()
-
-	#bequest received
-	#indiv_bequest_rec = indiv.accounts[1]  # must modify account for detailed info. perhpas account[1] = bequest_rec #TODO
-	#parents_bequests_combined = 
-
-	bequest_rec = parents_beq_rec	#TODO
-		
-
-	
-	k_t = list()  # append family savings for next period capital stock. send to firm? Send to FundAcct?
-
-	life_income = wage*ability
-	life_weatlth = life_income + bequest_rec  # lifetime wealth is income + bequest received 
-	life_cons_beq_2t = cons_1t+( cons_2t+(n_children*bequest_2t)/(1 + r_t) )  #lifetime consumption and bequest to children
+	life_cons_beq_2t = cons_1t+( cons_2t+(n_children*bequest_2t)/(1+r_t) )  # discounted lifetime family consumption and bequest to children
 	assert (life_weath == life_cons_beq_2t)	# income/expenditure constraint
 	#x = life_income+bequest_2t  # x is expected lifetime income of heirs: parents expect children to have = ability and income p.409
 	#u = (x**sh_altruism)*(cons_1t**sh_cons_1t)*(cons_2t**sh_cons_2t)  #define utility function
-
 
 	#optimal values as parameters of the model using CD fn: footnote p.409 and confirmed in pestieau1984background.tex
 	#optimal bequest_2t (bequest *per*-child if total n_children): 
 	bequest_2t = ( (sh_altruism*(1+r_t))/n_children )*life_wealth-(1-sh_altruism)*life_income  #optimal bequest
 	return bequest_2t
 	#optimal cons_1t
-	cons_1t = sh_cons_1t*( bequest_rec+life_income*((1+r_t+n_children)/(1+r_t)) )
+	cons_1t = sh_cons_1t*( life_wealth+(life_income*n_children)/(1+r_t) ) 
 	return cons_1t
 	#optimal cons_2t
-	cons_2t = (1-sh_altruism-sh_cons_1t)*( bequest_rec+life_income*((1+r_t+n_children)/(1+r_t)) )*(1+r_t)
+	cons_2t = (1-sh_altruism-sh_cons_1t)*( life_wealth+(life_income*n_children)/(1+r_t) )
 	return cons_2t
+	
 	#optimal *addition* to capital stock on behalf of *family unit*: p. 409 (residual after consumption and savings) 
-	k_1t = (1-sh_cons_1t)*life_wealth - sh_cons_1t*((n_children*life_income)/(1+r_t)) 
-	return k_1t	
-	# k_1t *from each family* will be sent to the firm for aggregate production
+	k_1t = (1-sh_cons_1t)*life_wealth - sh_cons_1t*( (n_children*life_income)/(1+r_t) ) 
+	k_t.append(k_1t)
+	return k_1t
+	# k_1t *from each family* will be sent to the firm for aggregate production (next period capital stock)
 	# K_1t = SIGMA k_1t to determine r_{t+1}: recall E[r_t}] = r_{t-1} <or> E[r_{t+1}] = r_t
 	
 	
@@ -248,7 +232,7 @@ class KC_ECONOMY(agents.Economy):
 	
 	def calc_wage(self):
 		#used by u_max function 
-		script_logger.info("wage")
+		script_logger.info("Wage")
 		fund = self.funds[0]
 		self.params = params
 		K_t = fund.calc_accts_value()  # assumes previous period capital stock has been sent to Firm
@@ -278,8 +262,6 @@ class Firm(object):
 		pass
 
 '''
-#def kc_distribute(agents.distribute):
-#	pass
 ################
 #More Examples #
 ################
