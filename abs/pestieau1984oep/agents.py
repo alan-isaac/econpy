@@ -42,10 +42,6 @@ State
 :license: `MIT license`_
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-from __future__ import division
-from __future__ import absolute_import
-
-
 '''
 from __future__ import division
 from __future__ import absolute_import
@@ -96,7 +92,7 @@ def bequests_pestieau(indiv, neg_ok=True):
 	  neg_ok : bool
 	    True if negative bequests allowed
 	'''
-	kids = indiv.get_children()  #:note: check that alive?
+	kids = indiv.get_children()  #:note: chk that kids alive?
 	assert all(kids.count(kid)==1 for kid in kids)
 	each_gets = indiv.calc_wealth()/len(kids)  #equal bequests p.412
 	#script_logger.debug("Bequest size: %10.2f"%(each_gets))
@@ -474,14 +470,14 @@ class Population(list):  #provide a list of Cohort tuples
 		'''Return: None.
 		'''
 		params = self.economy.params  #associated economy have been set by economy...
+		self.marry()
 		new_cohort = self.get_new_cohort()
 		self.append(new_cohort)
 		self.age_ppl()                         #->new cohort has age 1
-		dead = self.pop_new_dead()
+		dead = self.get_new_dead()
 		assert(dead._cohort_age == params.N_COHORTS+1) #TODO only works for non-stochastic deaths
 		for indiv in dead:
 			indiv.liquidate()  #close out all accounts, leaving bequests
-		self.marry()
 	def get_labor_force(self):
 		'''Return: list of Indiv instances.
 		'''
@@ -491,7 +487,10 @@ class Population(list):  #provide a list of Cohort tuples
 		for cohort in labor_cohorts:
 			labor_force.extend( cohort )
 		return labor_force
-	def pop_new_dead(self): #removes dead from population and returns as sequence
+	def get_new_dead(self):
+		'''Return: new_dead (sequence)
+		Removes dead from population, sets alive=False, and returns them as sequence.
+		'''
 		dead = self.pop(0)                     #remove dead cohort from population
 		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
 			assert (indiv.alive == True) #just an error check
@@ -524,6 +523,7 @@ class Population(list):  #provide a list of Cohort tuples
 		#each mother has kids of specified sexes (e.g., "MF"), which specifies number as well!
 		for indiv in mothers:
 			newsexes = getsexes.next()
+			script_logger.debug( "new sexes: %s"%(newsexes) )
 			new_cohort.extend(indiv.bear_children(sexes=newsexes))
 		for kid in new_cohort:
 			kid.open_account(self.economy.funds[0])  #provide every kid with an acct TODO move
@@ -593,11 +593,14 @@ class Economy(object):
 		#if params.BEQUEST_TYPE ==: #unnecessary
 		#remember: age = N_COHORTS - index
 		script_logger.info("initialize family structure")
-		for idx in range(params.N_COHORTS - params.AGE4KIDS+1):   ###!! E.g., OG: 2-2+1 (fixed)
-			parents = self.ppl[idx]  #retrieve a cohort to be parents
+		script_logger.info("  initialize marriages")
+		for idx in range(params.N_COHORTS - params.AGE4MARRIAGE):   ###!! E.g., OG: 2-1 chk
+			newlyweds = self.ppl[idx]  #retrieve a cohort to be wed
 			assert all(i.spouse is None for i in parents)
-			parents.get_married(mating=params.MATING)  #parents are a Cohort
-			print idx+params.AGE4KIDS-1
+			newlyweds.get_married(mating=params.MATING)  #parents are a Cohort -> use cohort method
+		script_logger.info("  initialize parenthood")
+		for idx in range(params.N_COHORTS - params.AGE4KIDS):   ###!! E.g., OG: 2-1 chk
+			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			kids = self.ppl[idx+params.AGE4KIDS-1]  ##!! (fixed)
 			assert (len(parents)==len(kids))  #TODO TODO only for fixed 2 kid per couple
 			for parent, kid in itertools.izip(parents,kids):
@@ -638,11 +641,11 @@ class Economy(object):
 		for t in range(params.N_YEARS):
 			#TODO: allow transfers by state??
 			#TODO distribute gains *before* aging the ppl (so they are included in bequests)
-			self.ppl.evolve()  #TODO TODO
 			self.produce()
 			self.factor_payments()
 			self.consume()
 			self.dist_hist.append( self.ppl.calc_dist_wealth() )
+			self.ppl.evolve()  #TODO TODO
 			script_logger.debug("Gini history: %s"%(self.dist_hist))
 			script_logger.info("Iteration %d complete."%(t+1))
 	def produce(self):
@@ -671,30 +674,29 @@ class Economy(object):
 		
 
 ###################
+#BEGIN compute_ability_pestieau
 def compute_ability_pestieau(indiv, beta, nbar):
 	'''Return: float (child's ability).
-	Formula taken from Pestieau 1984, p.407.
 
-	:Parameters:
-	  beta : float
-	    Pestieau's ability regression parameter
-	  nbar : float
-	    Pestieau's mean number of kids 
+	:see: Pestieau 1984, p.407, equation 3
+	:param beta: float, ability regression parameter
+	:param nbar: float, mean number of kids 
 	'''
+	assert (0 < beta < 1) 	#Pestieu p. 407
 	#determine ability from biological parents, if possible
 	try:
 		father, mother = indiv.parents_bio
-		assert (father.sex == 'M' and mother.sex == 'F') #just an error check
-		assert (0 < beta < 1) 	#Pestieu p. 407
-		nsibs = len(mother.get_children())
-		assert (nsibs>0)    #Pestieau p.407
+		assert (father.sex == 'M' and mother.sex == 'F') #just an error check, but not in Pestieau, so dump TODO
+		sibsize = len(mother.get_children())
+		assert (sibsize>0)    #error check
 		parents_ability = (father.ability + mother.ability)/2.0  #Pestieau p.412
 		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
-		#Pestieau formula does not allow for zero kids??
-		ability = beta*parents_ability + (1-beta)*nbar/nsibs + z #Pestieau p.407 (role of nbar is weird)
+		#Pestieau formula (note: role of nbar is peculiar)
+		ability = beta*parents_ability + (1-beta)*nbar/sibsize + z
 	except (TypeError, AttributeError):  #if indiv.parents_bio is None
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
+#END compute_ability_pestieau
 
 #Pestieau markets very simple (one aggregate "firm")
 
@@ -844,6 +846,8 @@ class EconomyParams(object): #default params, needs work
 		#Life Events
 		self.AGE4KIDS = 0   #NOTE: no cohort has age 0!
 		self.AGE4MARRIAGE = 0   #NOTE: no cohort has age 0!
+	def compute_ability(self, indiv):
+		return 1
 
 class PestieauParams(EconomyParams):
 	def __init__(self):
@@ -858,7 +862,7 @@ class PestieauParams(EconomyParams):
 		#number of Firms
 		self.N_FIRMS = 1
 		#number of Cohorts
-		self.N_COHORTS = 2
+		self.N_COHORTS = 1  #TODO TODO
 		#two period economy, work only period 1 (age 1), bear kids period 2 (age 2)
 		self.MATING = 'classonly' #p.414 says only class mating considered (vs. reported!?)
 		#sex generator for new births
@@ -866,12 +870,12 @@ class PestieauParams(EconomyParams):
 		#bequest function
 		self.BEQUEST_FN = bequests_pestieau #p.412
 		#Life Events
-		self.AGE4KIDS =  2      #see Population.evolve (no cohort has age 0!)
+		self.AGE4KIDS =  1      #see Population.evolve (no cohort has age 0!)
 		self.AGE4MARRIAGE = 1   #NOTE: no cohort has age 0!
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None
-		self.PESTIEAU_NBAR = None
-		self.compute_ability = functools.partial(compute_ability_pestieau, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
+		#mean number of children
+		self.PESTIEAU_NBAR = 2
 		#MISSING PARAMETERS (not found in Pestieau 1984; see pestieau1984background.tex) recheck TODO
 		#initial Gini for Wealth
 		self.GW0 = 0.8  #"high inequality" case p.413
@@ -892,4 +896,6 @@ class PestieauParams(EconomyParams):
 		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
+	def compute_ability(self, indiv):
+		return compute_ability_pestieau(indiv, beta=self.PESTIEAU_BETA, nbar=self.PESTIEAU_NBAR)  #TODO TODO
 
