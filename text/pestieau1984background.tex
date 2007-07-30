@@ -58,7 +58,7 @@ including sibship size.)
 \section{General Background}
 
 In a theoretical model,
-\citet{stiglitz-1969-e} shows primogeniture leads to long run wealth concentration. 
+\citet{stiglitz-1969-e} shows primogeniture leads to long run wealth concentration.
 
 In a simulation model,
 \citet{pryor-1973-aer} considers inheritance rules, marriage rules,
@@ -136,7 +136,7 @@ For the theoretical model, Pestieau cites \citet{becker-1981-treatise}.
 However, as he notes, the model is \emph{much} simpler, and puts emphasis on exogenous uncertainty about family size.
 
 Key focus: the intergenerational distribution of wealth rests in part in the intragenerational saving decision.
-(Pestieau cites the more detailed considerations of 
+(Pestieau cites the more detailed considerations of
 
 The model is motivated as a 2-period overlapping generations model with a single production sector.
 (But this will require some discussion when we reach the simulation stage!)
@@ -201,7 +201,7 @@ Pestieau also describes the evolution of the variance of $a$ as
 V(a_{t+1}) = \beta^{2} V(a_{t}) + (1-\beta)^{2}\bar{n}[\E \frac{1}{n_{t}} - \frac{1}{\bar{n}}] + \sigma_{z}^{2}
 \tag{Pestieau 5}
 \end{equation}
-with associated steady state 
+with associated steady state
 \begin{equation}
 V^{*}(a) = \frac{(1-\beta)^{2}\bar{n}[\E \frac{1}{n_{t}} - \frac{1}{\bar{n}}] + \sigma_{z}^{2}}{1-\beta^{2}}
 \tag{Pestieau 6}
@@ -240,7 +240,7 @@ number of children ($n$).
 NOTE: in simulation, there is \emph{household} utility maximization
 based on \emph{household} resources (and average household ability).
 See p.412.
-This matters, since husband and wife may have different resources and abilities.  
+This matters, since husband and wife may have different resources and abilities.
 
 
 Tentative consumer problem:
@@ -308,7 +308,7 @@ with first order conditions
 Substituting for $\lambda$, it follows that
 \begin{gather}
 \alpha/(w_{h}a_{h}+b_{2}) = \gamma n/ c_{1} (1+r)
-\implies 
+\implies
 b_{2} = c_{1} (1+r)\alpha/ \gamma n - w_{h}a_{h}
 \\
 (1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{1} = c_{2}\gamma/(1+r) (1-\alpha-\gamma)
@@ -340,16 +340,16 @@ c_{2} = (1-\alpha-\gamma)[b(1+r) + wa(1+r+n)]
 Comment: not RE!
 
 Problem: children's ability unknown.
-Solution (p.408 and p.409): parent assumes children will have parent's ability. 
+Solution (p.408 and p.409): parent assumes children will have parent's ability.
 So $E[a_t+1]$ should be govenened by (\ref{Pestieau3}), but is not.
 That is, each heir is ``expected'' to have the same income as the (parthenogenic) parent.
 
 Problem: children's wage unknown.
-Solution (p.409): parent assumes children will face parent's wage. 
+Solution (p.409): parent assumes children will face parent's wage.
 
 Query:
 why not adopt a simpler bequest motive (e.g., u depends on b instead of wa+b)?
-What is P getting out of this?  
+What is P getting out of this?
 
 (KC: In the theory model I understand that each individual makes bequest/consumption decisions independently.  I understand that there will be a singe aggregate \emph{household} consumer in the simulation model.  That is, in the simulation model, $K_{t+1}$ represents a household's contribution to the capital stock (savings) for next period; in the theory model $K_{t+1}$ is an individuals savings which is a contribution to the next period capital stock.)\newline
 
@@ -575,7 +575,7 @@ they marry
 they consume c1
 they consume c2
 they die and leave bequests
-children enter the economy with the bequests as the new capital stock 
+children enter the economy with the bequests as the new capital stock
 \end{verbatimtab}
 \begin{verbatimtab}
 Possible simultaneity problems:
@@ -651,34 +651,46 @@ Oddity: c1, c2, and b2 are all picked when young and not reconsidered when old!?
 
 \newpage
 \begin{table}
-\caption{Period $t$ Timing in Pestieau (1984) Simulation}
+\caption{Sequence of One \emph{Simulation} Period in Pestieau(1984)}
 \centering
-\begin{tabular}{rccc}\toprule
- {\bf Seq} & {\bf Young} &  {\bf Old} & {\bf Economy} \\ \midrule
-         0 &            &  (retired) & $K_{1t}$ (previous period savings) \\
-         1 & Born (w/ability) &            &            \\
-         2 &            &            & $w_{1t}$ (determined by economy) \\
+\begin{tabular}{rccccc}\toprule
 
-         3 &       Work &            & $Y_{1t}$ (aggregate production) \\
 
-         4 &            &            &            \\
+ {\bf Seq} & {\bf Life Cycle} & {\bf Generation $t$} & {\bf Generation $t+1$} & {\bf Economy} & {\bf Firm} \\
+\midrule
+         0 &         1t & Begin Economic Life &            &  $K_{1t}$ &            \\
 
-         5 & labor income received & rent income received &            \\
+         1 &         1t &            &            & $w_{1t}$; $r_{t}$ &            \\
 
-         6 &            & consume: (1+savings)*$r_{t+1}$ &            \\
+         2 &         1t &       Work &            &            &            \\
 
-         7 &            & leave $b_{2t}$ &            \\
+         3 &         1t &            &            &  $Y_{1t}$ &            \\
 
-         8 & receive $b_{t}$ &    removed &            \\
+         4 &         1t &            &            &            & Factor Payments \\
 
-         9 &    marrage &            &            \\
+         5 &         1t & receive labor and property income &            &            &            \\
 
-        10 & decide: $c_{1t}$, $c_{2t}$, $b_{2t}$  &            &            \\
+         6 &         1t &      Marry &            &            &            \\
 
-        11 & consume $c_{1t}$ (own $2t$ capital stock) &            &            \\
+         7 &         1t & Decide: $c_{1t}$, $c_{2t}$, $b_{2t}$  &            &            &            \\
+
+         8 &         1t & Consume $c_{1t}$ &            &            &            \\
+
+         9 &         1t &            & Born (w/ability) &            &            \\
+
+        10 &         2t &     Retire &            &            &            \\
+
+        11 &         2t & rent income received(?) &            &            &            \\
+
+        12 &         2t & consume: savings$\ast (1+r_{t+1}) ??$ &            &            &            \\
+
+        13 &         2t &    pass on &            &            &            \\
+
+        14 &         2t & leave $b_{2t}$ & receive  $b_{1t}$ &            &            \\
 \bottomrule
+%\multicolumn{6}{l}{\footnotesize $\dag$ Agents Begin Economic Life with bequests and therefore own the capital Stock  \\
 \end{tabular}
-\end{table} 
+\end{table}
 
 
 
