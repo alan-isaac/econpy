@@ -1,11 +1,33 @@
 \documentclass{article}
+\usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage[margin=1in]{geometry}
 \usepackage{moreverb}
 \usepackage{natbib}  %formats references
 \usepackage{setspace}
+\usepackage{textcomp}
+\usepackage[final]{listings}
+    \lstset{% general command to set parameter(s)
+        language=Python,
+        rangebeginprefix=\#BEGIN\ ,%note the mandatory space
+        rangeendprefix=\#END\ ,%note the mandatory space
+        includerangemarker=false,
+        tabsize=4,
+        upquote=true,
+        frame=lines,
+        basicstyle=\small,          % print whole listing small
+        keywordstyle=\bfseries\underbar,
+                                    % underlined bold black keywords
+        identifierstyle=,           % nothing happens
+        commentstyle=\itshape\footnotesize, % blue comments
+        stringstyle=\ttfamily,      % typewriter type for strings
+        showstringspaces=false     % no special string spaces
+        morestring=[b]",
+        breaklines=true,
+        postbreak=\space\dots
+        }
+\newcommand{\E}{\mathcal{E}}
 %fpryor1@swarthmore.edu
 %P.Pestieau@ulg.ac.be
 \begin{document}
@@ -15,30 +37,211 @@
 
 Here we give some background on the \citet{pestieau-1984-oep} model.
 
+Core question: what is the role of the family in intergenerational inequality?
+Specifically, how does family structure affect inequality in income and wealth?
+
+Once the model is parameterized,
+it is roughly a first order stochastic difference equation:
+\begin{equation}
+(b_{t+1}, a_{t+1}) = f(b_{t}, a_{t}, \xi_{t})
+\end{equation}
+where
+$b_{t}$ is bequest per person,
+$a_{t}$ is earnings-ability per person,
+and
+$\xi_{t}$ is the vector of period $t$ shocks.
+(Of course, this wd literally be true only if all
+individuals were identical and received identical shocks,
+including sibship size.)
+
+
+\section{General Background}
+
+In a theoretical model,
+\citet{stiglitz-1969-e} shows primogeniture leads to long run wealth concentration. 
+
+In a simulation model,
+\citet{pryor-1973-aer} considers inheritance rules, marriage rules,
+and class-based differential fertility.
+Wealth and income inequality respond to all.
+
+In a path analysis model,
+\citet{clague-1977-jhr} pursues similar questions to Pestieau,
+but addresses \emph{human} wealth,
+and does not have fertility differences \emph{within} wealth classes.
+
+
+\subsection{Stylized Facts}
+
+Pestieau proposes these stylized facts:
+
+Earnings resources negatively correlated with sibship size:
+lowers bequests per sibling,
+and lowers earnings ability by affecting intellectual growth.
+
+Fertility varies, although variance declining in developed countries.
+
+
+No strong link between fertility and income, according to Pestieau.
+(But more recent studies...)
+
+\subsubsection{Sibship Size}
+
+Earnings ability expected to depend on
+parental income,
+education,
+and family size.
+Family size influence expected to be modest.
+
+What is ability?  For Pestieau:
+
+- native ability (genetic)
+- measured ability (add environmental factors, including family size)
+- earnings ability (add education)
+
+See \citet[Table 1]{pestieau-1984-oep} for some evidence
+on whether family size matters for earnings ability.
+Overall, however, any effect seems small.
+
+Pestieau cites \citet{cigno-1983-oep},
+who allows utility to depend positively on the number of children,
+but this effect is not in the Pestieau model.
+(Indeed, since more children must imply a lower bequest per child,
+the effect for Pestieau is negative.)
+Nor does Pestieau include a fertility \emph{decision} in his model,
+despite allowing fertility to vary exogenously by income class!
+(A pretty fundamental conflict.)
+Comment: good introduction to a simple 2-period model.
+
+\citet{lindert-1977-jhr} finds increased sibship size reduces schooling.
+(New Jersey data.)
+Comment: Lindert predicted that fertility declines would reduce the
+pay differential between skilled and unskilled labor.
+
+
+
+\subsubsection{Fertility Trends}
+
+Pestieau cites data from \citet{festy-1979-ined} to show a secular fertility decline in the last 100 years in Western countries.
+
+\subsubsection{Income and Fertility}
+
+Pestieau cites data from \citet{un-1976-fertility} that some Western countries (such a Belgium) show a rise in fertility with rising income, although the US shows the opposite.
+Pestieau supposes there is not strong relationship,
+and that cultural (?) factors matter more.
 
 \section{Theoretical Model}
 
-The model is basically a 2-period overlapping generations model with a single production sector.
+For the theoretical model, Pestieau cites \citet{becker-1981-treatise}.
+However, as he notes, the model is \emph{much} simpler, and puts emphasis on exogenous uncertainty about family size.
+
+Key focus: the intergenerational distribution of wealth rests in part in the intragenerational saving decision.
+(Pestieau cites the more detailed considerations of 
+
+The model is motivated as a 2-period overlapping generations model with a single production sector.
+(But this will require some discussion when we reach the simulation stage!)
 
 An individual of generation t lives 2 periods, $t$ and $t+1$ (p.408).
 Works only first period.
 
-First period (p.408):
-born,
+In any period a new generation enters the economy.
+Each individual (p.408):
+has some ability $a$,
 receive bequest $b$,
-work for real wage $w$ (equal to MPN) and with ability $a$ earn $wa$,
+work for real wage $w$ (equal to MPN) and thus ability to earn $wa$,
 consume $c_{1}$,
+save,
+has $n>0$ children and educates them,
+chooses a beqest $n b2$.
 
-Note that income is exogenous.
+Note: the interpretation of $n$ is a bit tricky here.
+It is really the gross population growth rate.
+So $0<n<1$ is a shrinking population.
 
-Period 1 knowledge (used to pick $c_{1}$):
+\subsection{Ability}
+
+Note that income is predetermined (because labor supply is inelastic and
+the capital stock is inherited).
+A child's ability is determined from parents' ability and sibship size.
+\begin{equation}
+a_{t+1} = \beta a_{t} + (1-\beta)\frac{\bar{n}_{t}}{n_{t}} + z_{t}
+\label{Pestieau3}\tag{Pestieau 3}
+\end{equation}
+Here $1-\beta \in (0,1)$ is the speed of regression to the mean ability,
+$n_{t}$ is the sibship size which is random with mean $\bar{n}_{t}$,
+and $z_{t}$ is an individual's ability shock (mean zero; independent of other shocks).
+We implement this as follows:
+\lstinputlisting[linerange=compute_ability_pestieau-compute_ability_pestieau]%
+{/econpy/abs/pestieau1984oep/agents.py}
+
+Mean ability:
+\begin{equation}
+\E a_{t+1} = \beta \E a_{t} + (1-\beta) \E\frac{\bar{n}_{t}}{n_{t}} + \E z_{t}
+\end{equation}
+Since $z$ is mean zero and since $\bar{n}/n = 1 + (\bar{n}-n)/n$, we have
+\begin{equation}
+\E a_{t+1} = \beta \E a_{t} + (1-\beta) + (1-\beta) \E\frac{\bar{n}-n_{t}}{n_{t}}
+\end{equation}
+
+%ai: Kyle, any thoughts on the following query?
+
+Query: Pestieau says he assumes this to be unity, but where does he use that assumption,
+which appears unjustifiable (due to Jensens' inequality).
+On the other hand,
+we can describe the non-stochastic dynamics ($z=0, n=\bar{n}$) by:
+\begin{equation}
+a_{t+1} = \beta a_{t} + (1-\beta)
+\end{equation}
+which naturally has a steady state value of $a_{ss}=1$.
+
+Note: existence of a steady state $a_{ss}$ means this is not a growth model.
+
+Pestieau also describes the evolution of the variance of $a$ as
+\begin{equation}
+V(a_{t+1}) = \beta^{2} V(a_{t}) + (1-\beta)^{2}\bar{n}[\E \frac{1}{n_{t}} - \frac{1}{\bar{n}}] + \sigma_{z}^{2}
+\tag{Pestieau 5}
+\end{equation}
+with associated steady state 
+\begin{equation}
+V^{*}(a) = \frac{(1-\beta)^{2}\bar{n}[\E \frac{1}{n_{t}} - \frac{1}{\bar{n}}] + \sigma_{z}^{2}}{1-\beta^{2}}
+\tag{Pestieau 6}
+\end{equation}
+
+\subsection{Utility}
+
+In his discussion of utility maximization,
+Pestieau cites \citet{diamond-1965-aer} as the source of the theoretical model.
+(This requires some additional discussion: see below.)
+Two key modifications:
+allow bequests,
+and allow individual variation in bequests, ability, and fertility.
+
+Features in common with Diamond:
+
+- 2 period decision making (BUT the generations actually do not overlap in the Pestieau model).
+- individuals have two periods of economic life: work first period, retired second period
+- single production sector: $Y_{t} = F(K_{t}, L_{t})$.
+- period $t$ saving determines period $t+1$ capital stock
+- factors paid marginal product
+
+Important:
+theory treatment says (p.408) bequests left at the \emph{beginning} of the second period of life.
+These would not be bequests but rather intervivos transfers.
+But this is what it would take for the children to own the capital stock in the second period of the parents' lives.
+
+
+Period 1 knowledge (used to pick $c_{1}$ and therefore $s = b+wa-c1$):
 own inheritance ($b$),
-income ($wa$), $r$, number of children ($n$).
+income ($wa$),
+$r$,
+number of children ($n$).
 
-Note that knowledge of $r$ should imply forward looking expectations,
-given his assumed timing.
 
-(but use r@t-1 for simulation!!!) p. 412
+NOTE: in simulation, there is \emph{household} utility maximization
+based on \emph{household} resources (and average household ability).
+See p.412.
+This matters, since husband and wife may have different resources and abilities.  
+
 
 Tentative consumer problem:
 \begin{equation}
@@ -47,6 +250,7 @@ Tentative consumer problem:
 subject to
 \begin{equation}
 c_{1} + (c_{2} + n b_{2})/(1+r) = w a + b
+\label{Pestieau8} \tag{Pestieau 8}
 \end{equation}
 and
 \begin{equation}
@@ -60,18 +264,7 @@ Equal division of the total bequest among heirs is assumed.
 } % see Shorrocks 1979, Becker 1981
 %
 
-NOTE: in simulation, there is \emph{household} utility maximization
-based on \emph{household} resources (and average household ability).
-See p.412.
-This matters, since husband and wife may have different resources and abilities.
 
-
-Problem: How to determine $x$?
-(Heirs' wage and ability unknown at time of consumer decision.)
-
-Pestieau solution (p.409): set $w_{h}=w$ and $a_{h}=a$.
-So $E[a_t+1]$ should be govenened by Pestieau (3), but is not.
-That is, each heir is ``expected'' to have the same income as the (parthenogenic) parent.
 
 Problem: Functional form for utility?
 
@@ -86,52 +279,84 @@ or equivalently
 %claims Pestieau and Posen show separability result
 
 
-So we up with
+Note that knowledge of $r$ should imply forward looking expectations,
+given P's assumed timing.
+(but use r@t-1 for simulation!!!) p. 412
+
+So we end up with
 \begin{equation}
 \max_{c_{1}, c_{2}, b_{2}}
-\alpha \ln (wa+ b_{2})
+\alpha \ln (w_{h}a_{h}+ b_{2})
 + \gamma \ln c_{1}
 + (1-\alpha-\gamma) \ln c_{2}
 + \lambda [ (w a + b) - c_{1} - (c_{2} + n b_{2})/(1+r)]
 \end{equation}
 with first order conditions
 \begin{gather}
-\alpha/(wa+b_{2}) = \lambda n/(1+r)\label{dL/db2}
+\alpha/(w_{h}a_{h}+b_{2}) = \lambda n/(1+r)
+\label{dL/db2}
 \\
-\gamma/c_{1} = \lambda \label{dL/dc1}
+\gamma/c_{1} = \lambda
+\label{dL/dc1}
 \\
-(1-\alpha-\gamma)/ c_{2} = \lambda / (1+r) \label{dL/dc2}
+(1-\alpha-\gamma)/ c_{2} = \lambda / (1+r)
+\label{dL/dc2}
 \end{gather}
 
 
-/*
 
 Substituting for $\lambda$, it follows that
 \begin{gather}
-\alpha/(wa+b_{2}) = \gamma n/ c_{1} (1+r)
+\alpha/(w_{h}a_{h}+b_{2}) = \gamma n/ c_{1} (1+r)
+\implies 
+b_{2} = c_{1} (1+r)\alpha/ \gamma n - w_{h}a_{h}
 \\
-(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{2} = c_{1} (1-\alpha-\gamma)(1+r)/\gamma
+(1-\alpha-\gamma)/ c_{2} = \gamma / c_{1} (1+r)  \implies  c_{1} = c_{2}\gamma/(1+r) (1-\alpha-\gamma)
 \end{gather}
 which together imply
 \begin{equation}
-c_{2} = (wa+b_{2})n(1-\alpha-\gamma)/\alpha \implies n b_{2} = \alpha c_{2} /(1-\alpha-\gamma)  - nwa
+n b_{2} = \alpha c_{2} /(1-\alpha-\gamma)  - n w_{h} a_{h}
 \end{equation}
 We can therefore use the budget constraint to solve for $c_{2}$.
 Substituting in the constraint for $c_{1}$ and $b_{2}$ yields
 \begin{equation}
-(w a + b) = \gamma c_{2}/(1-\alpha-\gamma)(1+r) + c_{2}/(1+r) + \alpha c_{2}/(1-\alpha-\gamma)(1+r) - nwa/(1+r)
+(w  a + b) = \gamma c_{2}/(1-\alpha-\gamma)(1+r) + c_{2}/(1+r) + \alpha c_{2}/(1-\alpha-\gamma)(1+r) - nw_{h}a_{h}/(1+r)
 \end{equation}
-so we solve for
 \begin{equation}
-c_{2} = (1-\alpha-\gamma)[b + wa(1+r+n)]
+(1+r)(w  a + b) = c_{2}/(1-\alpha-\gamma)  - nw_{h}a_{h}
+\end{equation}
+\begin{equation}
+c_{2} = (1-\alpha-\gamma)[(1+r)(w  a + b)   + nw_{h}a_{h}]
 \end{equation}
 
-*/
+Problem: How to determine $x=b_{2}+w_{h}a_{h}$?
+(Heirs' wage and ability unknown at time of consumer decision.)
+Pestieau solution (p.409): set $w_{h}=w$ and $a_{h}=a$.
+So we solve for
+\begin{equation}
+c_{2} = (1-\alpha-\gamma)[b(1+r) + wa(1+r+n)]
+\end{equation}
+
+Comment: not RE!
+
+Problem: children's ability unknown.
+Solution (p.408 and p.409): parent assumes children will have parent's ability. 
+So $E[a_t+1]$ should be govenened by (\ref{Pestieau3}), but is not.
+That is, each heir is ``expected'' to have the same income as the (parthenogenic) parent.
+
+Problem: children's wage unknown.
+Solution (p.409): parent assumes children will face parent's wage. 
+
+Query:
+why not adopt a simpler bequest motive (e.g., u depends on b instead of wa+b)?
+What is P getting out of this?  
+
+(KC: In the theory model I understand that each individual makes bequest/consumption decisions independently.  I understand that there will be a singe aggregate \emph{household} consumer in the simulation model.  That is, in the simulation model, $K_{t+1}$ represents a household's contribution to the capital stock (savings) for next period; in the theory model $K_{t+1}$ is an individuals savings which is a contribution to the next period capital stock.)\newline
 
 
-Ooops.  Try again.
-Alternative derivation: solve for $b_{2}$ and $c_{2}$ in terms of $c_{1}$\\
-Substituting for $\lambda$, it follows that
+
+Alternative derivation of same result: solve for $b_{2}$ and $c_{2}$ in terms of $c_{1}$.\\
+Substituting for $\lambda$ in first order conditions, it follows that
 \begin{gather}
 \alpha/(wa+b_{2}) = \gamma n/ c_{1} (1+r) \implies b_{2} = c_{1} (1+r) \alpha /\gamma n - wa
 \\
@@ -152,7 +377,7 @@ Substituting in the constraint for $c_{2} + n b_{2}$ yields
 \end{split}
 \end{equation}
 
-solving the equation above for $c_{1}$ we get:
+Solving the equation above for $c_{1}$ we get:
 \begin{equation}\label{simulation c_1}
 c_{1} = \gamma[b + wa + \frac{naw}{1+r}]
 \end{equation}
@@ -178,8 +403,6 @@ c_{2} = [b(1+r) + wa(1+r+n)] (1-\alpha-\gamma) &= (1-\alpha-\gamma)(1+r)(b+wa) +
 This confirms Pestieau (p.409, fn. 15), except for the capital stock measure,
 which apparently assumes a single aggregate consumer.\newline
 
-(KC: In the theory model I understand that each individual makes bequest/consumption decisions independently.  I understand that there will be a singe aggregate \emph{household} consumer in the simulation model.  That is, in the simulation model, $K_{t+1}$ represents a household's contribution to the capital stock (savings) for next period; in the theory model $K_{t+1}$ is an individuals savings which is a contribution to the next period capital stock.)\newline
-
 More safely:
 \begin{equation}
 \begin{split}
@@ -192,13 +415,11 @@ s
 \end{split}
 \end{equation}
 
-So more correctly (right??)  %chk
+So more correctly (right??) if all saved identically %chk
 \begin{equation}
 K_{t+1} = N_{t} s_{t}
 \end{equation}
-where only the young are saving.\newline
-
-(KC: I am not sure what $N_{t}$ above represents.  If $N_t$ is the number working couples in generation t, I don't think that we can say: $K_{t+1} = N_{t} s_{t}$.  This implies that each couple's contribution to the capital stock is the same.  This is not true because of ability differences and hence income differences. Similarly, the same would be true if $N_{t}$ represents the number of individuals in their first period of life.)\newline
+where only the young are saving and $N_{t}$ is the number of young.
 
 
 
@@ -209,16 +430,11 @@ where only the young are saving.\newline
 
 Review this:
 $E[r_t] = r_{t-1}$ in deriving (Pestieau 11',  p.409)
-Knows number of kids he'll have!!
-BUT: uncertain of kids abilities.
-(Expects own ability reproduced; not RE!)\newline
-
-(KC: in deriving 11', p.409 $E[a_{t+1}]=\beta \bar{a}+(1-\beta)=1$ (equation 4 p.407).  That is, the expectation of ones heirs ability is equal to expectation of the process generating their ability. So in the theory model parents know the number of children they will have, but are unsure of his/her ability.  Expected ability is governed by the equation which determines ability.)\newline
 
 Second period p.408:
 retired,
 bears $n$ heirs,
-leaves $b_{2}$ to each heir at \emph{beginning} of second period,
+leaves $n b_{2}$ (as $b_{2}$ to each heir) in ``bequests'' at \emph{beginning} of second period,
 for total bequest of $b_{2} \cdot n$.
 No parthenogenesis: each heir receives $b_{2}$.
 (This is effectively intervivos transfers;
@@ -232,11 +448,42 @@ Individual consumes difference between his/her wage and quantity he lends to cap
 \noindent\textbf{Second Period:} t+1 \newline
 The same indiv consumes savings plus accrued interest: $(1+r_{t+1})s_t$, where $s_t$ is the amount saved in the first period.  So here it looks like rents on $s_t$ are eared from period $t$ until $t+1$, then are paid/received at the beginning/end(?) of period $t+1$.  (It is not possible to say when in $t+1$ that rent payments are made from the text.  However, doesn't $s_t$ have to stick around long enough to serve as the capital in production in $t+1$?  That is, consumption must occur again after production.)
 
+
+%ai: complete the theory section derivations
+
+
+\subsubsection{Simulation Model}
+
+Theory more closely related to simulation model. (??)
+
+- use (\ref{Pestieau3}) as basis of expected ability
+- use $r_{t-1}$ as basis of saving decision
+- Pryor style "marriages" (i.e., individuals have no sex?)
+- class marriage (which is best match to theory model)
+- possible income class differences in fertility (following Pryor?)
+- a marriage can be childless
+
+%ai: add derivation!
+
+Bequest result changes somewhat
+\begin{equation}
+b_{2} =
+\frac{\alpha(1+r)(b+wa)}{n}
+- \frac{(1-\alpha)(1-\beta)(1+r)w\bar{n}}{n(1+r_{-1})}
+- \frac{(1-\alpha)w(\beta a + z)(1+r)}{1+r_{-1}}
+\label{Pestieau11p} \tag{Pestieau 11'}
+\end{equation}
+
+Query: So, apparently this what P uses for the simulation?
+
+
+
 \section{Simulation Model}
 
 Simulation results:
 
-Pestieau considers class marriage and random marriage, but only report class marriage results?
+Pestieau mentions class marriage and random marriage,
+but only report class marriage results.
 
 \begin{verbatimtab}
 Parameters:
@@ -267,9 +514,7 @@ Simulation parameters in tables p.413 ff
 
 \begin{verbatimtab}[4]
 Pestieau p.412
-	allow income class differences in fertility
-	allow couple to be childless. (-> ability formula not used)
-		bequests of childless are "pooled and distributed" (p.415)
+        bequests of childless are "pooled and distributed" (p.415)
 		odd: don't they know how many kids? Then why any bequests? clarify!
 	initial wealth (K) distribution:
 		"arbitrary" (p.412)
@@ -298,7 +543,40 @@ Pestieau p.413
 
 \end{verbatimtab}
 
-Simulation steps:
+Here is the exact description of the simulation steps (p.412):
+\begin{quote}
+The simulation starts with 100 unmarried people with an arbitrary initial distribution of wealth.
+These people who are in their first period of life work and along with the existing capital stock
+generate some output and income by means of a Cobb-Douglas production function.
+Full employement and mean factor payment equal to marginal productivity are assumed.
+Captial stock is made of previous period saving except for the first period of the simulation in
+which it is just equal to initial wealth.
+Marriages then take place and each couple decides on its consumption and on the level of bequest
+it wants to leave to its children,
+the number of which is governed by some random process.
+In making this decision, husbands and wives use their joint earnings and initial wealth.
+At the end of the period, parents are removed from the scence,
+bequests being equally divided among their children.
+As parents usually hae different abilities, we average them when using equation (3)
+linking parents and children abilities.
+We now have a new group of people with a given distribution of wealth and ability;
+the process can start over again and be repeated many times to see which kind of
+distribution is achieved in the long-run.
+\end{quote}
+
+Simulation steps (p.412):
+\begin{verbatimtab}
+Setup resembles Pryor:
+Initial generation of "young":
+        100 people who own wealth K0
+they work, producing F(K,N)
+they receive wages and rents (rents too? like in Pryor)
+they marry
+they consume c1
+they consume c2
+they die and leave bequests
+children enter the economy with the bequests as the new capital stock 
+\end{verbatimtab}
 \begin{verbatimtab}
 Possible simultaneity problems:
         young cd need to know w,b to supply labor -> N -> Y
@@ -313,7 +591,8 @@ Initial round:
         So it's like the young already own the K0??
 
 Sounds like sequence is based on Pryor (1973).
-(But in Pryor, the initial generation receives both wage and property income.)
+(But in Pryor, the initial generation receives both wage and property income,
+and a generation only lives one period)
         work
         get pd
         marry
@@ -331,7 +610,8 @@ Preliminary: oldold die, oldyoung bear newcohort, oldyoung become old, newcohort
 Production
 Factor Payments (wages to young, rents to old)
 Old leave "bequests" (i.e. itervivos transfers)
-young marry and save (young must marry *after* w, a, and b determined, for class marriage)
+young marry and save
+        note: young must marry *after* w, a, and b determined, for class marriage.  Follows Pryor.
 
 Still the oddity:
 At the beginning of the period the old own the capital stock (->no owners first period??)
@@ -364,19 +644,19 @@ Produce (K pred; N) -> Y
 \end{verbatimtab}
 Comment: class marriage seems to be the best match to the parthenogenic theoretical model.
 
-Question: is ``lifetime income'' b+wa (i.e., does it include bequests)?  Assuming yes.
+Question: is ``lifetime income'' b+wa (i.e., does it include bequests)?  We assume yes.
+
+Oddity: c1, c2, and b2 are all picked when young and not reconsidered when old!?
+
 
 \newpage
 \begin{table}
-\caption{General Timing of Pestieau(1984) simulation model}
+\caption{Period $t$ Timing in Pestieau (1984) Simulation}
 \centering
 \begin{tabular}{rccc}\toprule
- {\bf Seq} & {\bf Young} &  {\bf Old} & {\bf Economy} \\
-\midrule
+ {\bf Seq} & {\bf Young} &  {\bf Old} & {\bf Economy} \\ \midrule
          0 &            &  (retired) & $K_{1t}$ (previous period savings) \\
-
          1 & Born (w/ability) &            &            \\
-
          2 &            &            & $w_{1t}$ (determined by economy) \\
 
          3 &       Work &            & $Y_{1t}$ (aggregate production) \\
@@ -398,7 +678,9 @@ Question: is ``lifetime income'' b+wa (i.e., does it include bequests)?  Assumin
         11 & consume $c_{1t}$ (own $2t$ capital stock) &            &            \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table} 
+
+
 
 
 \section{Simulation vs. Theoretical Model}
