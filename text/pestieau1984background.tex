@@ -386,7 +386,7 @@ Note that (\ref{simulation c_1}) will be utilized in the simulation model.  Howe
 
 \begin{equation}\label{opt c1 a}
 c_{1} = \gamma[b + wa\frac{1+r+n} {1+r}] \implies
-(1+r)c_{1} = \gamma(1+r)(b + wa) + \gamma wan 
+(1+r)c_{1} = \gamma(1+r)(b + wa) + \gamma wan
 \end{equation}
 Recalling that we expressed $b_{2}$ and $c_{2}$ in terms of $c_{1}$, we therefore have
 \begin{gather}
@@ -428,10 +428,28 @@ where only the young are saving and $N_{t}$ is the number of young.\newline
 
 Alternatively, \citet{pestieau-1984-oep} considers the case where parent's expectations of their children's ability are governed by (\ref{Pestieau3}) and savings decisions are made using the previous period interest rate, $r_{t-1}$.  Under these assumptions the optimization problem is solved piecewise with alternative rates of return on capital for the two periods all while substituting (\ref{Pestieau3}) for $a_h$.
 
-Under the initial assumptions we found the optimal consumption solution as stated in (\ref{opt c1 a}).  Now, with the above alternative assumptions (\ref{Pestieau3}) and $r_{t-1}$ are substituted for $a_t$ and and $r_{t}$, respectively.  It then follows that optimal first period consumption from the maximization problems yields the following:
+Incorporating the above assumptions the \emph{first} period optimization problem is the following:
+\begin{equation}
+\max_{c_{1t}, c_{2t}, b_{2t}}\alpha \ln (w_t a_{t+1} + b_{2t})
++ \gamma \ln (c_{1t}
++ (1-\alpha-\gamma) \ln c_{2t}
++ \lambda [ w_t a_t + b_t - c_{1t} - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
+\end{equation}
+Evaluating the first order conditions we see that:
+\begin{eqnarray}
+\frac{\partial L}{\partial c_{1t}} = \frac{\gamma}{c_{1t}} - \lambda = 0\\
+\frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_{t-1}} = 0\\
+\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{a_{t+1} w_t + b_{2t}} - \lambda \frac{n_t}{1+r_{t-1}} = 0\\ 
+\frac{\partial L}{\partial \lambda} = w_t a_t + b_t - c_{1t} - \frac{ c_{2t}+ n_t b_{2t}} {1+r_{t-1}}  = 0
+\end{eqnarray}
+
+
+kc: all of the following is not correct. I must incorporate the maximization solution for the above problem into the problem(s) below.
+
+It then follows that optimal first period consumption from the maximization problems yields the following:
 \begin{equation}\label{opt c1 b}
 \begin{split}
-c_1 
+c_{1t}
 &= \gamma(b+w a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}} )
 \\
 &= \gamma(b+w (\beta a_t +(1-\beta)\frac{\overline{n}}{n} + \widetilde{z}) \frac{1+r_{t-1}+n}{1+r_{t-1}}  )
@@ -444,25 +462,25 @@ Now substitute (\ref{opt c1 b}) into the maximization problem and derive the opt
 \begin{gather*}
 %\begin{eqnarray*}
 %\begin{equation}
-\max_{c_{2}, b_{2}}\alpha \ln (w a_{t+1} + b{2t}) 
-+ \gamma \ln [ \gamma(b_t+w a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}}) ] 
-+ (1-\alpha-\gamma) \ln c_{2}\\ 
-+ \lambda [ w a_{t+1} + b - \gamma(b+w a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2}}{1+r_t}]
+\max_{c_{2t}, b_{2t}}\alpha \ln (w_t a_{t+1} + b_{2t})
++ \gamma \ln [ \gamma(b_t+w_t a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}}) ]
++ (1-\alpha-\gamma) \ln c_{2t}\\
++ \lambda [ w a_t + b_t - \gamma(b_t + w_t a_{t+1} \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
 %\end{equation}
 %\end{eqnarray*}
 \end{gather*}
 
 
 
-where $a_{t+1} = \beta a_t + (1-\beta)\frac{\overline{n_{t}}}{n_t}+\widetilde{z_t}$, which is just (\ref{Pestieau3}).   
+where $a_{t+1} = \beta a_t + (1-\beta)\frac{\overline{n_{t}}}{n_t}+\widetilde{z_t}$, which is just (\ref{Pestieau3}).
 
 The first order conditions are the following:
 
 %kc: left alignment?
 \begin{eqnarray}
-\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{w a_{t+1} + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\\
+\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{w_t a_{t+1} + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\\
 \frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_t} = 0\\
-\frac{\partial L}{\partial \lambda} = w a_{t+1} + b_t - \gamma(b+w a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2}}{1+r_t} = 0
+\frac{\partial L}{\partial \lambda} = w_t a_t + b_t - \gamma(b_t+w_t a_{t+1} \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2t} + n_t b_{2t}}{1+r_t} = 0
 \end{eqnarray}
 
 
@@ -508,9 +526,9 @@ Theory more closely related to simulation model. (??)
 
 %ai: add derivation!
 
-For the simulation model \citet{pestieau-1984-oep} is explicit in that he uses $r_{t-1}$ in making optimal savings decisions, p. 412.  However it is implied that parents expect that their heir's have the same (average parental for the simulation model) ability.  This is in fact a different case than the two derived above.  For this problem it must be that the first period savings optimization incorporates $r_{t-1}$ in the budget constraint.  Then optimization for the second period is derived using the actual budget constraint, using $r_t$.  Analogous to (\ref{opt c1 a}), optimal consumption for the first period will then be:
+For the simulation model \citet{pestieau-1984-oep} is explicit in that he uses $r_{t-1}$ in making optimal savings decisions, p. 412.  However it is implied that parents expect that their heir(s) have the same (average parental for the simulation model) ability.  This is in fact a different case than the two derived above.  For this problem it must be that the first period savings optimization incorporates $r_{t-1}$ in the budget constraint.  Then optimization for the second period is derived using the actual budget constraint, using $r_t$.  Analogous to (\ref{opt c1 a}), optimal consumption for the first period will then be:
 \begin{equation}\label{opt c1 c}
-c_t = \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) 
+c_t = \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )
 \end{equation}
 Substituting (\ref{opt c1 c}) into the maximization problem for the second period yields:
 
@@ -526,10 +544,10 @@ Substituting (\ref{opt c1 c}) into the maximization problem for the second perio
 The first order conditions are the following:
 
 %kc: left alignment?
-\begin{eqnarray}
+\begin{eqnarray}[l]
 \frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{w a_t + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\\
 \frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_t} = 0\\
-\frac{\partial L}{\partial \lambda} = w a_t + b_t - \gamma(b+w a_t \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2}}{1+r_t} = 0
+\frac{\partial L}{\partial \lambda} = w a_t + b_t - \gamma(b+w a_t \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2t}}{1+r_t} = 0
 \end{eqnarray}
 
 kc: have yet to complete\newline
