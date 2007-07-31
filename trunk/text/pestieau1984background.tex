@@ -437,53 +437,73 @@ Incorporating the above assumptions the \emph{first} period optimization problem
 \end{equation}
 Evaluating the first order conditions we see that:
 \begin{eqnarray}
-\frac{\partial L}{\partial c_{1t}} = \frac{\gamma}{c_{1t}} - \lambda = 0\\
-\frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_{t-1}} = 0\\
-\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{a_{t+1} w_t + b_{2t}} - \lambda \frac{n_t}{1+r_{t-1}} = 0\\ 
-\frac{\partial L}{\partial \lambda} = w_t a_t + b_t - c_{1t} - \frac{ c_{2t}+ n_t b_{2t}} {1+r_{t-1}}  = 0
+\frac{\partial L}{\partial c_{1t}} &=& \frac{\gamma}{c_{1t}} - \lambda = 0  \label{dL/dc1 b} \\ 
+\frac{\partial L}{\partial c_{2t}} &=& \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_{t-1}} = 0 \label{dL/dc2 b}\\
+\frac{\partial L}{\partial b_{2t}} &=& \frac{\alpha}{a_{t+1} w_t + b_{2t}} - \lambda \frac{n_t}{1+r_{t-1}} = 0 \label{dL/db2 b}\\
+\frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - c_{1t} - \frac{ c_{2t}+ n_t b_{2t}} {1+r_{t-1}}  = 0 \label{dL/dlambda b}
 \end{eqnarray}
-
-
-kc: all of the following is not correct. I must incorporate the maximization solution for the above problem into the problem(s) below.
-
-It then follows that optimal first period consumption from the maximization problems yields the following:
+Rearranging and substituting (\ref{dL/dc1 b}) into (\ref{dL/dc2 b}) and solving for $c_{2t}$ in terms of $c_{1t}$ yields:
+\begin{equation}
+c_{2t} = c_{1t}\frac{1-\alpha-\gamma}{\gamma}(1+r_{t-1})
+\end{equation}
+Similarly, rearranging and substituting (\ref{dL/dc1 b}) into (\ref{dL/db2 b}) and solving for $b_{2t}$ in terms of $c_{t1}$ yields:
+\begin{equation}
+b_{2t} = c_{1t} \frac{\alpha}{\gamma}\frac{1+r_{t-1}}{n_t} - a_{t+1}w_t
+\end{equation}
+Substituting the two equations above into (\ref{dL/dlambda b}) gives us the optimal consumption (and consequently savings) for the first period in the model. Simple substitution yields:
+\begin{equation*}
+w_t a_t + b_t - c_{1t} - c_{1t}\frac{1-\alpha-\gamma}{\gamma} - [c_{1t}\frac{\alpha}{\gamma}\frac{(1+r_{t-1})}{n_t}-a_{t+1}w_t]\frac{n_t}{1+r_{t-1}}=0
+\end{equation*}
+Solving the equation above for the optimal $c_{1t}$ yields: 
 \begin{equation}\label{opt c1 b}
 \begin{split}
-c_{1t}
-&= \gamma(b+w a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}} )
-\\
-&= \gamma(b+w (\beta a_t +(1-\beta)\frac{\overline{n}}{n} + \widetilde{z}) \frac{1+r_{t-1}+n}{1+r_{t-1}}  )
+c_{1t} 
+&= \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})\\
+&= \gamma(w_t a_t + b_t + (\beta a_t + (1-\beta)\frac{\overline{n}_{t}}{n_t}+\tilde{z}_t)\frac{w_t n_t}{1+r_{t-1}})
 \end{split}
 \end{equation}
+
 Now substitute (\ref{opt c1 b}) into the maximization problem and derive the optimal second period consumption and bequest.  That is, the the second period optimization is the following:
 
-%KC: not sure how to make the equation below with one equation number but on 2 lines
-
-\begin{gather*}
-%\begin{eqnarray*}
-%\begin{equation}
+\begin{gather}
+\begin{split}
 \max_{c_{2t}, b_{2t}}\alpha \ln (w_t a_{t+1} + b_{2t})
-+ \gamma \ln [ \gamma(b_t+w_t a_{t+1} \frac{1+r_{t-1}+n}{1+r_{t-1}}) ]
++ \gamma \ln \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})
 + (1-\alpha-\gamma) \ln c_{2t}\\
-+ \lambda [ w a_t + b_t - \gamma(b_t + w_t a_{t+1} \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
-%\end{equation}
-%\end{eqnarray*}
-\end{gather*}
-
-
-
-where $a_{t+1} = \beta a_t + (1-\beta)\frac{\overline{n_{t}}}{n_t}+\widetilde{z_t}$, which is just (\ref{Pestieau3}).
-
++ \lambda [ w_t a_t + b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
+\end{split}
+\end{gather}
 The first order conditions are the following:
-
-%kc: left alignment?
 \begin{eqnarray}
-\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{w_t a_{t+1} + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\\
-\frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_t} = 0\\
-\frac{\partial L}{\partial \lambda} = w_t a_t + b_t - \gamma(b_t+w_t a_{t+1} \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2t} + n_t b_{2t}}{1+r_t} = 0
+\frac{\partial L}{\partial c_{2t}} &=& \frac{1-\gamma-\alpha}{c_{2t}} - \lambda\frac{1}{1+r_t}=0 \label{dL/dc2 bb} \\
+\frac{\partial L}{\partial b_{2t}} &=& \frac{\alpha}{a_{t+1}w_t+b_{2t}}-\lambda \frac{n_t}{1+r_t}=0\label{dL/db2 bb}\\
+\frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}=0 \label{dL/dlambda bb}
 \end{eqnarray}
-
-
+Rearranging, dividing (\ref{dL/db2 bb}) by (\ref{dL/dc2 bb}) and solving for $c_{2t}$ yields:
+\begin{equation}
+c_{2t} = n_t\frac{1-\alpha - \gamma}{\alpha}(a_{t+1} w_t +b_{2t})
+\end{equation}
+Substituting the above into (\ref{dL/dlambda bb}) yields:
+\begin{equation*}
+w_t a_t + b_t - c^{*}_{1t} - n_t\frac{1-\alpha - \gamma}{\alpha}(a_{t+1} w_t +b_{2t})\frac{1}{1+r_t}-b_{2t}\frac{n_t}{1+r_t}=0
+\end{equation*}
+where $c^{*}_{1t}\equiv\gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})$.  Solving for $b_{2t}$ we find:
+\begin{equation*}
+b_{2t} = \frac{1+r_t}{1-\gamma}(\frac{\alpha}{n_t}(w_t a_t +b_t - c^{*}_{1t})-w_t a_{t+1})
+\end{equation*}
+Next we must substitute for $c^{*}_{1t}$ and factor out $a_{t+1}$ and eventually substitute for $a_{t+1}$.  Proceeding we get:
+\begin{equation*}
+b_{2t} = \frac{1+r_t}{1-\gamma}[ \frac{\alpha}{n_t}[ w_t a_t +b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) ]-w_t a_{t+1} ]
+\end{equation*}
+Rearranging and factoring $a_{t+1}$:
+\begin{equation*}
+b_{2t} = (1+{r_t})[\frac{\alpha}{n_t}(w_t a_t + b_t)-a_{t+1}\frac{w_t}{1-\gamma}(\frac{\alpha\gamma}{1+r_{t-1}} +1) ]
+\end{equation*}
+Substituting for $a_{t+1}$:
+\begin{equation*}
+b_{2t} = (1+{r_t})[\frac{\alpha}{n_t}(w_t a_t + b_t)- (\beta a_{t} + (1-\beta)\frac{\bar{n}_{t}}{n_{t}} + \tilde{z}_{t}) \frac{w_t}{1-\gamma}(\frac{\alpha\gamma}{1+r_{t-1}} +1) ]
+\end{equation*}
+ 
 
 --------------------------\newline
 kc: Come back here!!! I haven't been able to come up with anything that resembles 11' yet.\newline
@@ -526,29 +546,36 @@ Theory more closely related to simulation model. (??)
 
 %ai: add derivation!
 
-For the simulation model \citet{pestieau-1984-oep} is explicit in that he uses $r_{t-1}$ in making optimal savings decisions, p. 412.  However it is implied that parents expect that their heir(s) have the same (average parental for the simulation model) ability.  This is in fact a different case than the two derived above.  For this problem it must be that the first period savings optimization incorporates $r_{t-1}$ in the budget constraint.  Then optimization for the second period is derived using the actual budget constraint, using $r_t$.  Analogous to (\ref{opt c1 a}), optimal consumption for the first period will then be:
+For the simulation model \citet{pestieau-1984-oep} is explicit in that he uses $r_{t-1}$ in making optimal savings decisions, p. 412.  However it is implied that parents expect that their heir(s) have the same (average parental) ability.  This is in fact a different case than the two derived above.  For this problem it must be that the first period savings optimization incorporates $r_{t-1}$ in the budget constraint.  Then optimization for the second period is derived using the actual budget constraint, using $r_t$.  Analogous to (\ref{opt c1 a}), optimal consumption for the first period will then be:
 \begin{equation}\label{opt c1 c}
-c_t = \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )
+c_{1t} = \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )
 \end{equation}
 Substituting (\ref{opt c1 c}) into the maximization problem for the second period yields:
 
-%\begin{equation}
-\begin{gather*}
-\max_{c_{2t}, b_{2t}} \alpha \ln (w a_{t} + b_{2t})
-+ \gamma \ln [ \gamma(b_t+w a_{t} \frac{1+r_{t-1}+n}{1+r_{t-1}}) ]
-+ (1-\alpha-\gamma) \ln c_{2}\\
-+ \lambda [ w a_t + b - \gamma(b+w a_t \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2t}}{1+r_t}]
-\end{gather*}
-%\end{equation}
+\begin{equation}
+\begin{split}
+\max_{c_{2t}, b_{2t}} \alpha \ln (w_t a_{t} + b_{2t})
++ \gamma \ln [ \gamma(b_t+w_t a_{t} \frac{1+r_{t-1}+n}{1+r_{t-1}}) ]
++ (1-\alpha-\gamma) \ln c_{2t}\\
++ \lambda [ w_t a_t + b_t - \gamma(b_t +w_t a_t \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2t} + n b_{2t}}{1+r_t}]
+\end{split}
+\end{equation}
 
 The first order conditions are the following:
-
-%kc: left alignment?
-\begin{eqnarray}[l]
-\frac{\partial L}{\partial b_{2t}} = \frac{\alpha}{w a_t + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\\
-\frac{\partial L}{\partial c_{2t}} = \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_t} = 0\\
-\frac{\partial L}{\partial \lambda} = w a_t + b_t - \gamma(b+w a_t \frac{1+r_{t-1}+n}{1+r_{t-1}} ) - \frac{c_{2} + n b_{2t}}{1+r_t} = 0
+\begin{eqnarray}
+\frac{\partial L}{\partial b_{2t}} &=& \frac{\alpha}{w_t a_t + b_{2t}} - \lambda \frac{n_t}{1+r_t} = 0\label{dL/db2 c}\\
+\frac{\partial L}{\partial c_{2t}} &=& \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_t} = 0\label{dL/dc2 c}\\
+\frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - \gamma(b_t+w_t a_t \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2} + n_t b_{2t}}{1+r_t} = 0\label{dL/dlambda c}
 \end{eqnarray}
+Rearranging, dividing (\ref{dL/db2 c}) by (\ref{dL/dc2 c}) and solving for $b_{2t}$:
+\begin{equation}
+b_{2t} = c_{2t}\frac{\alpha}{1-\alpha-\gamma}\frac{1}{n_t}-w_t a_t
+\end{equation}
+Substituting the equation above into (\ref{dL/dlambda c}):
+\begin{equation}
+w_t a_t + b_t - c^{*}_{1t} - c_{2t}\frac{1}{1+r_t} - [c_{2t}\frac{\alpha}{1-\alpha-\beta}\frac{1}{n_t}-w_t a_t]\frac{n_t}{1+r_t} = 0
+\end{equation}
+where $c^{*}_{1t} \equiv \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )$.  Now we must solve for $c_{2t}$.
 
 kc: have yet to complete\newline
 --------------------------------
