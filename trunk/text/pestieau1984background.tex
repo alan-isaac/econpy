@@ -437,7 +437,7 @@ Incorporating the above assumptions the \emph{first} period optimization problem
 \end{equation}
 Evaluating the first order conditions we see that:
 \begin{eqnarray}
-\frac{\partial L}{\partial c_{1t}} &=& \frac{\gamma}{c_{1t}} - \lambda = 0  \label{dL/dc1 b} \\ 
+\frac{\partial L}{\partial c_{1t}} &=& \frac{\gamma}{c_{1t}} - \lambda = 0  \label{dL/dc1 b} \\
 \frac{\partial L}{\partial c_{2t}} &=& \frac{1-\alpha-\gamma}{c_{2t}}-\lambda\frac{1}{1+r_{t-1}} = 0 \label{dL/dc2 b}\\
 \frac{\partial L}{\partial b_{2t}} &=& \frac{\alpha}{a_{t+1} w_t + b_{2t}} - \lambda \frac{n_t}{1+r_{t-1}} = 0 \label{dL/db2 b}\\
 \frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - c_{1t} - \frac{ c_{2t}+ n_t b_{2t}} {1+r_{t-1}}  = 0 \label{dL/dlambda b}
@@ -454,10 +454,10 @@ Substituting the two equations above into (\ref{dL/dlambda b}) gives us the opti
 \begin{equation*}
 w_t a_t + b_t - c_{1t} - c_{1t}\frac{1-\alpha-\gamma}{\gamma} - [c_{1t}\frac{\alpha}{\gamma}\frac{(1+r_{t-1})}{n_t}-a_{t+1}w_t]\frac{n_t}{1+r_{t-1}}=0
 \end{equation*}
-Solving the equation above for the optimal $c_{1t}$ yields: 
+Solving the equation above for the optimal $c_{1t}$ yields:
 \begin{equation}\label{opt c1 b}
 \begin{split}
-c_{1t} 
+c_{1t}
 &= \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})\\
 &= \gamma(w_t a_t + b_t + (\beta a_t + (1-\beta)\frac{\overline{n}_{t}}{n_t}+\tilde{z}_t)\frac{w_t n_t}{1+r_{t-1}})
 \end{split}
@@ -503,7 +503,7 @@ Substituting for $a_{t+1}$:
 \begin{equation*}
 b_{2t} = (1+{r_t})[\frac{\alpha}{n_t}(w_t a_t + b_t)- (\beta a_{t} + (1-\beta)\frac{\bar{n}_{t}}{n_{t}} + \tilde{z}_{t}) \frac{w_t}{1-\gamma}(\frac{\alpha\gamma}{1+r_{t-1}} +1) ]
 \end{equation*}
- 
+
 
 --------------------------\newline
 kc: Come back here!!! I haven't been able to come up with anything that resembles 11' yet.\newline
@@ -544,8 +544,6 @@ Theory more closely related to simulation model. (??)
 - possible income class differences in fertility (following Pryor?)
 - a marriage can be childless
 
-%ai: add derivation!
-
 For the simulation model \citet{pestieau-1984-oep} is explicit in that he uses $r_{t-1}$ in making optimal savings decisions, p. 412.  However it is implied that parents expect that their heir(s) have the same (average parental) ability.  This is in fact a different case than the two derived above.  For this problem it must be that the first period savings optimization incorporates $r_{t-1}$ in the budget constraint.  Then optimization for the second period is derived using the actual budget constraint, using $r_t$.  Analogous to (\ref{opt c1 a}), optimal consumption for the first period will then be:
 \begin{equation}\label{opt c1 c}
 c_{1t} = \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )
@@ -568,7 +566,7 @@ The first order conditions are the following:
 \frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - \gamma(b_t+w_t a_t \frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) - \frac{c_{2} + n_t b_{2t}}{1+r_t} = 0\label{dL/dlambda c}
 \end{eqnarray}
 Rearranging, dividing (\ref{dL/db2 c}) by (\ref{dL/dc2 c}) and solving for $b_{2t}$:
-\begin{equation}
+\begin{equation}\label{b2 c}
 b_{2t} = c_{2t}\frac{\alpha}{1-\alpha-\gamma}\frac{1}{n_t}-w_t a_t
 \end{equation}
 Substituting the equation above into (\ref{dL/dlambda c}):
@@ -576,10 +574,22 @@ Substituting the equation above into (\ref{dL/dlambda c}):
 w_t a_t + b_t - c^{*}_{1t} - c_{2t}\frac{1}{1+r_t} - [c_{2t}\frac{\alpha}{1-\alpha-\beta}\frac{1}{n_t}-w_t a_t]\frac{n_t}{1+r_t} = 0
 \end{equation}
 where $c^{*}_{1t} \equiv \gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} )$.  Now we must solve for $c_{2t}$.
+\begin{equation}\label{opt c2 c}
+\begin{split}
+c_{2t} 
+&= (\frac{1-\alpha-\gamma}{1-\gamma})(1+r_t)[ b_t-c^{*}_{1t} + w_t a_t (\frac{1+r_t+n_t}{1+r_t}) ]\\
+&= (\frac{1-\alpha-\gamma}{1-\gamma})(1+r_t)[ b_t-\gamma(b_t + w_t a_t\frac{1+r_{t-1}+n_t}{1+r_{t-1}} ) + w_t a_t (\frac{1+r_t+n_t}{1+r_t}) ]\\
+&= (1-\alpha-\gamma)[b_t + w_t a_t (\frac{1+r_t+n_t}{1+r_t}-\gamma \frac{1+r_{t-1}+n_t}{1+r{t-1}})](1+r_t)
+\end{split}
+\end{equation}
+Now substitute (\ref{opt c2 c}) into (\ref{b2 c}) to solve for $b_{2t}$.
+\begin{equation}\label{opt b2 c}
+b_{2t} = \alpha\frac{1+r_t}{n_t}[b_t + w_t a_t (\frac{1+r_t+n_t}{1+r_t}-\gamma \frac{1+r_{t-1}+n_t}{1+r{t-1}})] - w_t a_t
+\end{equation}
 
-kc: have yet to complete\newline
---------------------------------
+Therefore, when parents expect heir(s) to earn the same wage and have the same (average) ability as they, optimal consumption and bequests will be governed by (\ref{opt c1 c}),(\ref{opt c2 c}), and (\ref{opt b2 c}).
 
+=====================================================
 
 Bequest result changes somewhat
 \begin{equation}
