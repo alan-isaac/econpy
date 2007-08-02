@@ -31,7 +31,7 @@ Fund
 
 FundAcct
 	- Data: fund, owner, _value
-	- Methdods: deposit, withdraw, close, transferto
+	- Methdods: receive_income, payout, close, transferto
 
 State
 	- Data:
@@ -168,6 +168,7 @@ class Indiv(object):
 			self.economy = economy
 			self.state = economy.state
 			self.ability = economy.params.compute_ability(self)
+		self.contracts = dict(labor=[], capital=[])
 		self._locked = True
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:
@@ -178,10 +179,10 @@ class Indiv(object):
 		self.__dict__[attr] = val 
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
-		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class 
+		self.accounts[0].receive_income(amt)  #KC: receive_income is a method in the FundAcct class 
 	def payout(self, amt):  #redundant; just for ease of reading and sign check
 		assert(amt >= 0)
-		self.accounts[0].withdraw(amt)  # KC: withdraw is a method in the FundAcct class
+		self.accounts[0].payout(amt)  # KC: payout is a method in the FundAcct class
 	def calc_wealth(self):
 		wealth = 0
 		for acct in self.accounts:
@@ -268,6 +269,15 @@ class Indiv(object):
 		#default is inelastic labor supply
 		#(override for different behavior)
 		return self.ability
+	def accept_contract(self, contract):
+		self.contracts[contract.type].append(contract)
+	def fulfill_contract(self, contract):
+		if contract.type == 'labor':
+			assert (contract.seller == self)
+			result = self.labor_supply(wage=None, irate=None)
+		else:
+			raise ValueError("Unknown contract type.")
+		return result
 
 #October: Uncertainty, Decision, and Policy
 
@@ -348,7 +358,8 @@ class PestieauCohort(Cohort):
 			if params.DEBUG:
 				mates = itertools.izip(males,females) #some poor possibly left out
 				for m,f in mates:
-					print m.calc_wealth(), f.calc_wealth(), m.calc_household_wealth()
+					script_logger.debug( "Wealth: male (%4.2f), female (%4.2f), household (%4.2f)"%
+					( m.calc_wealth(), f.calc_wealth(), m.calc_household_wealth() ) )
 		elif mating == "random":
 			script_logger.debug("get_married: random mating")
 			if len(males) > len(females): #-> wealth doesn't change likelihood of marriage
@@ -366,12 +377,16 @@ class PestieauCohort(Cohort):
 class Fund(object):
 	'''Basic financial institution.
 	Often just for accounting (e.g., handling transfers)
+	Currently only individuals should hold fund accounts.
 	'''
-	def __init__(self,economy):
+	def __init__(self, economy):
 		self.economy = economy  #TODO: rethink
+		self.net_worth = 0
+		self._accounts = list()
+		#only capital services contracts
+		self.contracts = dict(capital=[])
 		#self.rBAR = economy.rBAR
 		#self.rSD = economy.rSD
-		self._accounts = list() #empty list
 		#self.max_return = 0  #debugging only
 		#self.n_distributions = 0  #debugging only
 		#self.n_0distributions = 0  #debugging only
@@ -393,8 +408,33 @@ class Fund(object):
 		return acct
 	def close_account(self,acct):
 		self._accounts.remove(acct)
+	def accept_contract(self, contract):
+		self.contracts[contract.type].append(contract)
+	def fulfill_contract(self, contract):
+		if contract.type == 'capital':
+			assert (contract.seller == self)
+			result = self.calc_accts_value()  #this is the amt of capital to be rented
+		else:
+			raise ValueError("Unknown contract type.")
+		return result
+	def receive_income(self, amt):
+		assert(amt >= 0)  #this is just sign checking
+		self.net_worth += amt
+	def payout(self, amt):
+		assert(amt >= 0)  #this is just sign checking
+		self.net_worth -= amt
 	def distribute_gains(self):
-		pass #TODO TODO
+		raise NotImplementedError
+
+class PestieauFund(Fund):
+	def distribute_gains(self):
+		accts_value = self.calc_accts_value()
+		assert accts_value==sum( indiv.calc_wealth() for indiv in self.economy.ppl.get_indivs() )
+		ror = self.net_worth/accts_value
+		for acct in self._accounts:
+			value = acct.get_value()
+			self.economy.transfer(self, acct, ror*value)
+		assert fmath.feq(self.net_worth, 0, 0.01)  #this chk is currently pointless
 
 class FundAcct(object):
 	def __init__(self, fund, indiv, amt=0):
@@ -409,10 +449,10 @@ class FundAcct(object):
 		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
-	def deposit(self, amt):
+	def receive_income(self, amt): #deposits
 		assert(amt >= 0)
 		self._value += amt
-	def withdraw(self, amt): #redundant; just for convenience and error checking
+	def payout(self, amt): #witdrawals (redundant; just for convenience and error checking)
 		assert(amt >= 0)
 		self._value -= amt
 	def close(self):
@@ -424,8 +464,8 @@ class FundAcct(object):
 		if (amt > 0):
 			assert (amt <= self.owner.calc_wealth()+1e-9)
 			toacct = recipient.accounts[0]
-			self.withdraw(amt)
-			toacct.deposit(amt)
+			self.payout(amt)
+			toacct.receive_income(amt)
 	def get_value(self):
 		return self._value
 
@@ -548,7 +588,9 @@ class Economy(object):
 			random.seed(params.SEED)
 		self.params = params
 		self.history = defaultdict(list)
-		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
+		self.wage_contracts = list()
+		self.rent_contracts = list()
+		self.funds = [ params.FUND(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
 		self.state = None  #TODO TODO
 		#initialize economy
 		self.ppl = self.create_initial_population()
@@ -692,6 +734,9 @@ class Economy(object):
 
 class PestieauEconomy(Economy):
 	def allocate_factors(self):
+		assert len(self.funds)==1 and len(self.firms)==1
+		fund = self.funds[0]
+		repfirm = self.firms[0]
 		# factor mkts determine K, N, and allocation of K, N
 		# also determine w and irate for these services
 		labor_force = self.ppl.get_labor_force()
@@ -699,14 +744,25 @@ class PestieauEconomy(Economy):
 		#only the young in the labor force
 		elabor = sum(indiv.labor_supply(None, None) for indiv in labor_force) #chk
 		#only the young own capital
-		capital = sum(indiv.calc_wealth() for indiv in labor_force)  #chk
+		capital = fund.calc_accts_value()
+		if self.params.DEBUG:
+			capital2 = sum(indiv.calc_wealth() for indiv in labor_force)  #chk
+			assert fmath.feq(capital2, capital)
 		#PestieauEconomy has a single representative firm
-		repfirm = self.firms[0]
-		irate, w = repfirm.mpk_mpn(capital=capital, elabor=elabor)
-		repfirm.hire_labor(elabor, w)
-		repfirm.hire_capital(capital, irate)
-		script_logger.info("Capital (%10.2f) and eff. labor (%10.2f) allocated."%(capital, elabor))
-		script_logger.info("irate (%10.2f) and w (%10.2f) determined."%(irate, w))
+		irate, wage = repfirm.mpk_mpn(capital=capital, elabor=elabor)
+		script_logger.debug( "Eq. irate %10.2f,           wage %10.2f"%(irate, wage) )
+		capital_contract = ServiceContract(contract_type='capital', quantity=capital, price=irate, buyer=repfirm, seller=fund)
+		labor_force = self.ppl.get_labor_force()
+		script_logger.debug( "Labor force size: %d."%(len(labor_force)) )
+		for worker in labor_force:
+			labor = worker.labor_supply(irate=None, wage=None) #inelastic labor supply
+			wage_contract = ServiceContract(contract_type='labor', quantity=labor, price=wage, buyer=repfirm, seller=worker)  #TODO TODO
+		script_logger.debug( "Number of labor contracts: %d."%(len(repfirm.contracts['labor'])) )
+		if self.params.DEBUG:
+			captital = sum( contract.quantity for contract in repfirm.contracts['capital'] )
+			labor = sum( contract.quantity for contract in repfirm.contracts['labor'] )
+			script_logger.info("Capital (%10.2f) and eff. labor (%10.2f) allocated."%(capital, elabor))
+			script_logger.info("irate (%10.2f) and w (%10.2f) determined."%(irate, wage))
 	def factor_payments(self): #chk chk
 		'''collect factor payments from representative firm;
 		allocate factor payments to providers of factor services.
@@ -716,23 +772,33 @@ class PestieauEconomy(Economy):
 		       that before paying rents.  This is ugly.
 		       Get capital from and pay rents to fund instead. chk
 		'''
+		assert len(self.firms)==1 and len(self.funds)==1
 		repfirm = self.firms[0]
-		irate = repfirm.contracted_irate
-		wage = repfirm.contracted_wage
+		inventory = repfirm.inventory  #production not yet distributed
+		fund = self.funds[0]
 		rents_paid = 0
-		for indiv in self.ppl[0]:
-			rent_paid = irate * indiv.calc_wealth()
-			rents_paid += rent_paid
-			indiv.receive_income(rent_paid)
+		contracts = repfirm.contracts['capital']  #not a copy!
+		while contracts:
+			contract = contracts.pop()  #removes contract from list
+			assert (contract.seller is fund)  #for simplicity, fund provides all capital services
+			rents_paid += contract.payment()   #firm rents capital from fund
+		#currently *MUST* distribute gains *BEFORE* other income rcd
+		# (this buys convenience of single contract with Fund instead of contracts w each indiv)
+		fund.distribute_gains()  #fund distributes gains to fund accounts
+		script_logger.debug( "Number of labor contracts: %d."%(len(repfirm.contracts['labor'])) )
 		wages_paid = 0
-		for indiv in self.ppl.get_labor_force():
-			wage_paid = wage * indiv.labor_supply(None, None)
-			wages_paid += wage_paid
-			indiv.receive_income(wage_paid)
-		repfirm.payout(wages_paid+rents_paid)
-		script_logger.debug("Factor payments: %10.2f, %10.2f"%(rents_paid, wages_paid))
-		print repfirm.inventory
-		assert fmath.feq(repfirm.inventory, 0, 1)
+		contracts = repfirm.contracts['labor']  #not a copy!
+		while contracts:
+			contract = contracts.pop()  #removes contract
+			assert isinstance(contract.seller, Indiv) # ugly
+			wages_paid += contract.payment()  #payment fulfills contract
+		if self.params.DEBUG:
+			script_logger.debug("Production: %10.2f"%(inventory))
+			script_logger.debug("Factor payments: %10.2f (= %10.2f + %10.2f)"%(rents_paid+wages_paid, rents_paid, wages_paid))
+			script_logger.debug("Remaining inventory: %10.2f"%(repfirm.inventory))
+		assert fmath.feq(repfirm.inventory, 0, 1e-6*inventory)
+		#reset inventory to prevent accumulation of small differences
+		repfirm.inventory = 0
 		#for fund in self.funds: fund.distribute_gains()  #TODO  #TODO
 	def produce(self):
 		# firms produce
@@ -740,6 +806,42 @@ class PestieauEconomy(Economy):
 		firms = self.firms
 		assert len(firms)==1
 		firms[0].produce()
+	def consume(self):
+		script_logger.warn("PestieauEconomy.consume: stopgap implementation")
+		for indiv in self.ppl.get_indivs():
+			w = indiv.calc_wealth()
+			c = w/2 if w<1 else w-1
+			indiv.payout(c)
+
+class ServiceContract(object):
+	'''Single period (tick) service contract.
+	Service provided in advance of payment.
+	Provides a kind of implicit 3rd party for
+	payment flows and service flows.
+	'''
+	def __init__(self, contract_type, quantity, price, buyer, seller):
+		self._service = False  #service not provided yet
+		self._payment = False  #payment not provided yet
+		self.type = contract_type
+		self.quantity = quantity
+		self.price = price
+		self.buyer = buyer
+		self.seller = seller
+		buyer.accept_contract(self)
+		seller.accept_contract(self)
+	def service(self):
+		assert (self._service is False)
+		quantity = self.seller.fulfill_contract(self)
+		assert (quantity == self.quantity)
+		self._service = True
+		return quantity
+	def payment(self):
+		assert (self._service is True)  #no payment before service provided
+		amt = self.price * self.quantity
+		self.buyer.payout(amt)
+		self.seller.receive_income(amt)
+		self._payment = True
+		return amt
 
 
 
@@ -769,56 +871,10 @@ def compute_ability_pestieau(indiv, beta, nbar):
 #END compute_ability_pestieau
 
 
-#homogeneous (ability adjusted) labor allocated to firm(s) wo worrying about source
-#full employment!
-class LaborMarket(object):
-	'''Warning: this is just first thoughts!
-	'''
-	def __init__(self, economy):
-		self.economy = economy
-		self.wage_fund = 0
-	def labor_supply(self, wage, irate):
-		labor_force = self.economy.ppl.get_labor_force()
-		return sum(indiv.labor_supply(wage, irate) for indiv in labor_force)
-	def labor_demand(self, wage, irate):
-		firms = self.economy.firms
-		return sum(firm.labor_demand(wage, irate) for firm in firms)
-	#Must override the following methods.
-	def find_equilibrium(self):
-		'''Return: (w,N)
-		'''
-		Ns = self.labor_supply(None, None)
-		Ks = self.economy.get_capital_stock()
-		#determine real wage
-		w = self.economy.mpn(Ks,Ns)
-		return w, Ns
-	def pay_wages(self, irate=None): #TODO irate??
-		wage, N = self.find_equilibrium()
-		#collect wages from firms
-		firms = self.economy.firms
-		firms_wages = 0
-		for firm in firms:
-			wages = wage * firm.labor_demand(wage, irate)
-			firms_wages += wages
-			economy.transfer(firm, self, wages)
-		#allocate wages to workers
-		labor_force = self.economy.ppl.get_labor_force()
-		worker_wages = 0
-		for indiv in labor_force:
-			wages = wage * indiv.labor_supply(wage, irate)
-			economy.transfer(self, indiv, wages)
-			worker_wages += wages
-		assert fmath.feq(firm_wages, worker_wages, 1e-4)
-	def receive_income(self, amt):
-		assert(amt >= 0)  #this is just sign checking
-		self.wage_fund += amt
-	def payout(self, amt):  #redundant; just for ease of reading and sign check
-		assert(amt >= 0)
-		self.wage_fund -= amt
 
 
 class CobbDouglas2(object):
-	def __init__(self, alpha=0.6):
+	def __init__(self, alpha=0.4):
 		assert (0 < alpha < 1)
 		self.alpha = alpha
 		self.capital = 0
@@ -853,23 +909,6 @@ class CobbDouglas2(object):
 	def mpk_mpn(self, capital=None, elabor=None):
 		return self.gradient(capital, elabor)
 
-class CapitalMarket(object):
-	def __init__(self, economy):
-		self.economy = economy
-		self.capital = None
-		self.renters = None
-	def set_labor_force(self, indivs):
-		self.labor_force = indivs
-	def set_employers(self, firms):
-		employers = self.firms
-	def determine_employment(self):
-		return NotImplemented
-
-class PestieauCapitalMarket(LaborMarket):
-	def determine_employment(self):
-		firm = self.renters[0]
-		firm.rent(self.K)
-
 class FirmKN(object):
 	'''A firm using two factors of production,
 	usually called capital and efficiency labor.
@@ -880,23 +919,22 @@ class FirmKN(object):
 		self.set_blue_print(blue_print)
 		self.economy = economy
 		self.elabor = 0
-		self.contracted_wage = None
+		self.contracts = dict(labor=[], capital=[])
 		self.capital = 0
-		self.contracted_irate = None
 		self.inventory = 0
-	def hire_labor(self, elabor, wage):
-		assert (self.elabor == 0)
-		self.elabor = elabor
-		self.contracted_wage = wage
-	def hire_capital(self, capital, irate):
-		assert (self.capital == 0)
-		self.capital = capital
-		self.contracted_irate = irate
 	def produce(self):
-		assert (self.capital>0 and self.elabor>0)
-		self.inventory += self.blue_print(capital=self.capital, elabor=self.elabor)
-		self.elabor = 0
-		self.capital = 0
+		script_logger.debug( "Begin production: initial inventory %10.2f"%(self.inventory) )
+		elabor = sum( contract.service() for contract in self.contracts['labor'] )
+		capital = sum( contract.service() for contract in self.contracts['capital'] )
+		script_logger.debug( "Factor services: %10.2f, %10.2f"%(capital, elabor) )
+		production = self.blue_print(capital=capital, elabor=elabor)
+		script_logger.debug( "Total production: %10.2f"%(production) )
+		self.inventory += production
+		############
+		self.elabor = elabor
+		self.capital = capital
+	def accept_contract(self, contract):
+		self.contracts[contract.type].append(contract)
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
 		self.inventory += amt
@@ -925,7 +963,7 @@ class FirmKN(object):
 class PestieauFirm(FirmKN):
 	def set_blue_print(self, bp):
 		assert (bp is None)
-		self.blue_print = CobbDouglas2(alpha=0.6)
+		self.blue_print = CobbDouglas2(alpha=0.4)  #plausible capital share
 
 import functools
 class EconomyParams(object): #default params, needs work
@@ -937,6 +975,7 @@ class EconomyParams(object): #default params, needs work
 		self.Population = Population
 		self.LABORMARKET = LaborMarket
 		self.FIRM = FirmKN
+		self.FUND = Fund
 		#list life periods Indivs work (e.g., range(16,66))
 		self.WORKING_AGES = list()
 		self.SEED = None
@@ -971,7 +1010,9 @@ class PestieauParams(EconomyParams):
 	def __init__(self):
 		#first use the super class's initialization
 		EconomyParams.__init__(self)
+		self.DEBUG = True
 		#NEW INITIALIZATIONS
+		self.FUND = PestieauFund
 		self.FIRM = PestieauFirm
 		self.LABORMARKET = None
 		self.COHORT = PestieauCohort  #provides `get_married`
