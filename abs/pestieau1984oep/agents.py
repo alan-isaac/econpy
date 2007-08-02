@@ -4,7 +4,7 @@ Provides a collection of agents for replication of Pestieau (1984 OEP).
 Indiv
 	- Data: alive, sex, age, parents_bio, siblings, spouse, _children, accounts,
 	employers, economy, state, 
-	- Methdods: receive_income, outgo, calc_wealth, calc_household_wealth, wed,
+	- Methdods: receive_income, payout, calc_wealth, calc_household_wealth, wed,
 	bear_children, adopt, open_account, gift2kids, liquidate,
 	distribute_estate, 
 
@@ -50,7 +50,8 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20070622'
 
 import random, itertools
-from econpy.pytrix import utilities
+from collections import defaultdict
+from econpy.pytrix import utilities, fmath
 
 #logging
 import logging
@@ -61,10 +62,11 @@ script_logger = logging.getLogger('script_logger')
 #########################  functions  ###########################
 #################################################################
 def distribute(wtotal, units, gini, shuffle=False):
-	units = set(units)
-	units2 = list(units) 
-	g = (1+gini)/(1-gini) # (2A+B)/B
+	units = list(units)
 	nb = len(units)  #number of brackets 
+	units2 = set(units)
+	assert len(units2)==nb
+	g = (1+gini)/(1-gini) # (2A+B)/B
 	shares = utilities.gini2shares(gini, nb, shuffle=shuffle)
 	w = ( wtotal*share for share in shares )
 	for wi in w:
@@ -177,7 +179,7 @@ class Indiv(object):
 	def receive_income(self, amt):
 		assert(amt >= 0)  #this is just sign checking
 		self.accounts[0].deposit(amt)  #KC: deposit is a method in the FundAcct class 
-	def outgo(self, amt):  #redundant; just for ease of reading and sign check
+	def payout(self, amt):  #redundant; just for ease of reading and sign check
 		assert(amt >= 0)
 		self.accounts[0].withdraw(amt)  # KC: withdraw is a method in the FundAcct class
 	def calc_wealth(self):
@@ -444,7 +446,7 @@ class State(object):
 		self.economy.transfer(indiv, self, tax)  #is this best (having economy handle transfers?)
 	def income(self, amt):
 		self.net_worth += amt  #TODO: cd parameterize an inefficiency here
-	def outgo(self, amt):
+	def payout(self, amt):
 		self.net_worth -= amt
 	#Is anything using the distribute_estates function?  I think not ... 
 	def distribute_estates(self,dead): #move details to Indiv? to State? to Economy? TODO
@@ -470,7 +472,6 @@ class Population(list):  #provide a list of Cohort tuples
 		'''Return: None.
 		'''
 		params = self.economy.params  #associated economy have been set by economy...
-		self.marry()
 		new_cohort = self.get_new_cohort()
 		self.append(new_cohort)
 		self.age_ppl()                         #->new cohort has age 1
@@ -523,16 +524,13 @@ class Population(list):  #provide a list of Cohort tuples
 		#each mother has kids of specified sexes (e.g., "MF"), which specifies number as well!
 		for indiv in mothers:
 			newsexes = getsexes.next()
-			script_logger.debug( "new sexes: %s"%(newsexes) )
+			#script_logger.debug( "new sexes: %s"%(newsexes) )
 			new_cohort.extend(indiv.bear_children(sexes=newsexes))
 		for kid in new_cohort:
 			kid.open_account(self.economy.funds[0])  #provide every kid with an acct TODO move
 		self.initialize_wealth(new_cohort)  #TODO move
-		new_cohort = params.Cohort(new_cohort)
+		new_cohort = params.COHORT(new_cohort)
 		return new_cohort
-	def calc_dist_wealth(self): #TODO: calc distribution over **indivs** or households??
-		params = self.economy.params
-		return  params.CALC_DIST_WEALTH(self)
 	def get_indivs(self): #return all individuals as single list
 		return [indiv for cohort in self for indiv in cohort]
 	def gf_indivs(self): #return all individuals as single generator
@@ -545,11 +543,11 @@ class Economy(object):
 	Not fully implemented.
 	'''
 	def __init__(self, params):
-		script_logger.debug("begin Economy initialization")
+		script_logger.debug("begin Economy initialization, economy type: %s"%(type(self)))
 		if params.SEED:
 			random.seed(params.SEED)
 		self.params = params
-		self.dist_hist = list()
+		self.history = defaultdict(list)
 		self.funds = [ Fund(self) ]  #association needed so Fund can access WEALTH_INIT. Change? TODO
 		self.state = None  #TODO TODO
 		#initialize economy
@@ -569,36 +567,36 @@ class Economy(object):
 		cohort_size = params.COHORT_SIZE
 		cohorts = list()
 		for _ in range(n_cohorts):
-			indivs = (params.Indiv(sex=s, economy=self) for i in range(cohort_size//2) for s in "MF")
-			cohort = params.Cohort(indivs)
+			indivs = (params.INDIV(sex=s, economy=self) for i in range(cohort_size//2) for s in "MF")
+			cohort = params.COHORT(indivs)
 			cohorts.append(cohort)
 		return params.Population(cohorts)
 	def initialize_population(self):
-		script_logger.info("initialize population")
+		script_logger.info("initializing population")
 		params = self.params
 		self.ppl.economy = self  #currently needed for fund access!? TODO
 		age = params.N_COHORTS #initialize, to count down
+		script_logger.info("- setting initial cohort ages")
 		for cohort in self.ppl:  #don't actually use ages of initial cohorts, but might in future
 			cohort.set_age(age)
 			age -= 1
 		assert (age == 0) , "no cohort has age 0"
 		#open an acct for every Indiv (using the default Fund)
-		script_logger.info("assign indivs initial accounts")
+		script_logger.info("- assigning indivs initial accounts")
 		indivs = self.ppl.get_indivs()
 		fund = self.funds[0]
 		for indiv in indivs:
 			indiv.open_account(fund)
-		script_logger.info("assigned indivs initial accounts")
 		#initialize parenthood relationship when starting economy
 		#if params.BEQUEST_TYPE ==: #unnecessary
 		#remember: age = N_COHORTS - index
-		script_logger.info("initialize family structure")
-		script_logger.info("  initialize marriages")
+		script_logger.info("- initializing family structure")
+		script_logger.info("  - initializing marriages")
 		for idx in range(params.N_COHORTS - params.AGE4MARRIAGE):   ###!! E.g., OG: 2-1 chk
 			newlyweds = self.ppl[idx]  #retrieve a cohort to be wed
 			assert all(i.spouse is None for i in parents)
 			newlyweds.get_married(mating=params.MATING)  #parents are a Cohort -> use cohort method
-		script_logger.info("  initialize parenthood")
+		script_logger.info("  - initializing parenthood")
 		for idx in range(params.N_COHORTS - params.AGE4KIDS):   ###!! E.g., OG: 2-1 chk
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			kids = self.ppl[idx+params.AGE4KIDS-1]  ##!! (fixed)
@@ -606,9 +604,9 @@ class Economy(object):
 			for parent, kid in itertools.izip(parents,kids):
 				parent.adopt(kid)
 				parent.spouse.adopt(kid)  #TODO: think about adoption
-		script_logger.info("initialized family structure")
+		script_logger.info("  family structure initialized")
 		if params.WEALTH_INIT:
-			script_logger.info("distribute initial wealth")  #TODO details scarce in Pestieau 1984
+			script_logger.info("- distributing initial wealth")  #TODO details scarce in Pestieau 1984
 			distribute(params.WEALTH_INIT, (i for i in indivs if i.sex=='M'), params.GW0, params.SHUFFLE_NEW_W) #TODO
 			#assert (abs(self.ppl.calc_dist_wealth() - params.GW0) < 0.001)  #TODO!!!!!
 	def create_initial_firms(self):
@@ -616,10 +614,11 @@ class Economy(object):
 		Set Firm class in params.
 		(Single sector economy.)
 		'''
-		script_logger.info("create initial firms")
+		script_logger.info("creating initial firms")
 		params = self.params
-		return [Firm() for i in range(params.N_FIRMS)]
-	def initialize_firms(self):
+		script_logger.debug("firm type: %s"%(params.FIRM))
+		return [params.FIRM(economy=self) for i in range(params.N_FIRMS)]
+	def initialize_firms(self): #TODO unnecessary???
 		'''
 		Note: much of this will look superflous when there is only one firm.
 		'''
@@ -630,36 +629,56 @@ class Economy(object):
 		
 		#TODO TODO: allocate capital stock
 	def run(self):  #TODO: rely on IterativeProcess?
-		script_logger.info("run the economy")
+		'''Return: None.
+		Run economy *after* it has been initialized.
+		'''
 		params = self.params
 		assert (len(self.ppl) == params.N_COHORTS)
 		assert (len(self.ppl[0]) == params.COHORT_SIZE)
 		#record initial distribution
-		self.dist_hist.append( self.ppl.calc_dist_wealth() )   #TODO TODO does this work well for Pestieau??
+		self.record_history()
 		#MAIN LOOP: run economy through N_YEARS "years"
-		script_logger.info("BEGIN main loop")
+		script_logger.info("BEGIN MAIN LOOP")
 		for t in range(params.N_YEARS):
 			#TODO: allow transfers by state??
-			#TODO distribute gains *before* aging the ppl (so they are included in bequests)
+			script_logger.debug("  - allocate factors")
+			self.allocate_factors()
+			script_logger.debug("  - produce")
 			self.produce()
+			#distribute gains *before* aging the ppl (so they are included in bequests)
+			script_logger.debug("  - factor payments")
 			self.factor_payments()
+			script_logger.debug("  - marriages")
+			self.ppl.marry()
+			script_logger.debug("  - consumption")
 			self.consume()
-			self.dist_hist.append( self.ppl.calc_dist_wealth() )
+			script_logger.debug("  - evolve ppl")
 			self.ppl.evolve()  #TODO TODO
-			script_logger.debug("Gini history: %s"%(self.dist_hist))
-			script_logger.info("Iteration %d complete."%(t+1))
+			self.record_history()
+			script_logger.debug("Iteration %d complete."%(t+1))
+	def allocate_factors(self):
+		# factor mkts determine K, L, and allocation of K, L
+		script_logger.warn("Economy.allocate_factors: not implemented")
 	def produce(self):
-		pass
-	def consume(self):
-		pass
+		# firms produce
+		script_logger.warn("Economy.produce: not implemented")
 	def factor_payments(self):
-		for firm in self.firms:
-			firm.pay_wages()  #TODO  #TODO
-			firm.pay_rents()  #TODO  #TODO
-		for fund in self.funds:
-			fund.distribute_gains()  #TODO  #TODO
+		# economy wide factor payments
+		script_logger.warn("Economy.factor_payments: not implemented")
+	def consume(self):
+		script_logger.warn("Economy.consume: not implemented")
+	def record_history(self): #TODO: calc distribution over **indivs** or households??
+		history = self.history
+		#compute current wealth distribution
+		dist = utilities.calc_gini( indiv.calc_wealth() for indiv in self.ppl.gf_indivs() )
+		history['dist'].append(dist)
+		#compute wealth distribution of young
+		dist0 = utilities.calc_gini( indiv.calc_wealth() for indiv in self.ppl[0] )
+		history['dist0'].append(dist0)
+		script_logger.debug("Gini history: %s"%(history['dist'])) 
 	def transfer(self, fr, to, amt):  #TODO: cd introduce transactions cost here, cd be a fn
-		fr.outgo(amt)
+		#TODO: improve acctg
+		fr.payout(amt)
 		to.receive_income(amt)
 	def final_report(self):
 		params = self.params
@@ -670,8 +689,59 @@ class Economy(object):
 		'''%(self.dist_hist[-1])
 		#uncomment to check for number of zeros
 		#print "zeros: %d\t small:%d"%(sum(i==0 for i in indiv_wealths),sum(i<0.5 for i in indiv_wealths))
-		
-		
+
+class PestieauEconomy(Economy):
+	def allocate_factors(self):
+		# factor mkts determine K, N, and allocation of K, N
+		# also determine w and irate for these services
+		labor_force = self.ppl.get_labor_force()
+		#inelastically supplied factors fully employed
+		#only the young in the labor force
+		elabor = sum(indiv.labor_supply(None, None) for indiv in labor_force) #chk
+		#only the young own capital
+		capital = sum(indiv.calc_wealth() for indiv in labor_force)  #chk
+		#PestieauEconomy has a single representative firm
+		repfirm = self.firms[0]
+		irate, w = repfirm.mpk_mpn(capital=capital, elabor=elabor)
+		repfirm.hire_labor(elabor, w)
+		repfirm.hire_capital(capital, irate)
+		script_logger.info("Capital (%10.2f) and eff. labor (%10.2f) allocated."%(capital, elabor))
+		script_logger.info("irate (%10.2f) and w (%10.2f) determined."%(irate, w))
+	def factor_payments(self): #chk chk
+		'''collect factor payments from representative firm;
+		allocate factor payments to providers of factor services.
+
+		:todo: must pay rents before wages, bc rents paid on
+		       the individual's wealth, so don't want to change
+		       that before paying rents.  This is ugly.
+		       Get capital from and pay rents to fund instead. chk
+		'''
+		repfirm = self.firms[0]
+		irate = repfirm.contracted_irate
+		wage = repfirm.contracted_wage
+		rents_paid = 0
+		for indiv in self.ppl[0]:
+			rent_paid = irate * indiv.calc_wealth()
+			rents_paid += rent_paid
+			indiv.receive_income(rent_paid)
+		wages_paid = 0
+		for indiv in self.ppl.get_labor_force():
+			wage_paid = wage * indiv.labor_supply(None, None)
+			wages_paid += wage_paid
+			indiv.receive_income(wage_paid)
+		repfirm.payout(wages_paid+rents_paid)
+		script_logger.debug("Factor payments: %10.2f, %10.2f"%(rents_paid, wages_paid))
+		print repfirm.inventory
+		assert fmath.feq(repfirm.inventory, 0, 1)
+		#for fund in self.funds: fund.distribute_gains()  #TODO  #TODO
+	def produce(self):
+		# firms produce
+		script_logger.debug("enter PestieauEconomy.produce")
+		firms = self.firms
+		assert len(firms)==1
+		firms[0].produce()
+
+
 
 ###################
 #BEGIN compute_ability_pestieau
@@ -698,14 +768,15 @@ def compute_ability_pestieau(indiv, beta, nbar):
 	return ability
 #END compute_ability_pestieau
 
-#Pestieau markets very simple (one aggregate "firm")
 
-#ai: OK, here is the approach for now
 #homogeneous (ability adjusted) labor allocated to firm(s) wo worrying about source
 #full employment!
 class LaborMarket(object):
+	'''Warning: this is just first thoughts!
+	'''
 	def __init__(self, economy):
 		self.economy = economy
+		self.wage_fund = 0
 	def labor_supply(self, wage, irate):
 		labor_force = self.economy.ppl.get_labor_force()
 		return sum(indiv.labor_supply(wage, irate) for indiv in labor_force)
@@ -716,12 +787,11 @@ class LaborMarket(object):
 	def find_equilibrium(self):
 		'''Return: (w,N)
 		'''
-		pass
-	def collect_wages(self, irate=None): #TODO irate??
-		firms = self.economy.firms
-		for firm in firms:
-			wages = wage * firm.labor_demand(wage, irate)
-			economy.transfer(firm, self, wages)
+		Ns = self.labor_supply(None, None)
+		Ks = self.economy.get_capital_stock()
+		#determine real wage
+		w = self.economy.mpn(Ks,Ns)
+		return w, Ns
 	def pay_wages(self, irate=None): #TODO irate??
 		wage, N = self.find_equilibrium()
 		#collect wages from firms
@@ -738,40 +808,55 @@ class LaborMarket(object):
 			wages = wage * indiv.labor_supply(wage, irate)
 			economy.transfer(self, indiv, wages)
 			worker_wages += wages
-		assert utilities.feq(firm_wages, worker_wages, 1e-4)
-		
+		assert fmath.feq(firm_wages, worker_wages, 1e-4)
+	def receive_income(self, amt):
+		assert(amt >= 0)  #this is just sign checking
+		self.wage_fund += amt
+	def payout(self, amt):  #redundant; just for ease of reading and sign check
+		assert(amt >= 0)
+		self.wage_fund -= amt
 
-class PestieauLaborMarket(LaborMarket):
-	def find_equilibrium(self):
-		Ns = self.labor_supply(None, None)
-		Ks = self.economy.get_captial_stock()
-		#determine real wage
-		w = self.economy.production.gradient(Ks,Ns)
-		return w, Ns
 
 class CobbDouglas2(object):
 	def __init__(self, alpha=0.6):
 		assert (0 < alpha < 1)
 		self.alpha = alpha
-	def __call__(K, N):
-		return K**alpha * N**(1-alpha)
-	def f1(K, N):  #rename TODO
-		Y = self(K, N)
-		return (self.alpha/K) * Y
-	def f2(K, N):  #rename TODO
-		Y = self(K, N)
-		return (self.alpha/K) * Y
-	def gradient(K, N):
-		Y = self(K, N)
+		self.capital = 0
+		self.elabor = 0
+	def __call__(self, capital, elabor):
+		self.capital = capital
+		self.elabor = elabor
+		return self.produce()
+	def produce(self, capital=None, elabor=None):
+		capital = capital or self.capital 
+		elabor = elabor or self.elabor 
 		alpha = self.alpha
-		f1 = Y * alpha / K
-		f2 = Y * (1-alpha) / K
-		return f1, f2
+		return capital**alpha * elabor**(1-alpha)
+	def mpk(self, capital=None, elabor=None):  #rename TODO
+		capital = capital or self.capital 
+		elabor = elabor or self.elabor 
+		Y = self.produce(capital, elabor)
+		return (self.alpha/capital) * Y
+	def mpn(self, capital=None, elabor=None):  #rename TODO
+		capital = capital or self.capital 
+		elabor = elabor or self.elabor 
+		Y = self.produce(capital, elabor)
+		return (self.alpha/capital) * Y
+	def gradient(self, capital=None, elabor=None):
+		capital = capital or self.capital 
+		elabor = elabor or self.elabor 
+		Y = self.produce(capital, elabor)
+		alpha = self.alpha
+		mpk = Y * alpha / capital
+		mpn = Y * (1-alpha) / elabor
+		return mpk, mpn
+	def mpk_mpn(self, capital=None, elabor=None):
+		return self.gradient(capital, elabor)
 
 class CapitalMarket(object):
 	def __init__(self, economy):
 		self.economy = economy
-		self.K = None
+		self.capital = None
 		self.renters = None
 	def set_labor_force(self, indivs):
 		self.labor_force = indivs
@@ -785,14 +870,47 @@ class PestieauCapitalMarket(LaborMarket):
 		firm = self.renters[0]
 		firm.rent(self.K)
 
-class Firm:
-	def __init__(self, blue_print=None, employees=None, capital=None, economy=None):
-		self.blue_print = blue_print
+class FirmKN(object):
+	'''A firm using two factors of production,
+	usually called capital and efficiency labor.
+	Labor and capital are 'hired' for one period
+	of production, and then released.
+	'''
+	def __init__(self, blue_print=None, economy=None):
+		self.set_blue_print(blue_print)
 		self.economy = economy
-		self.employees = employees
-		self.wage_share = None
-		self.output_last = None
+		self.elabor = 0
+		self.contracted_wage = None
+		self.capital = 0
+		self.contracted_irate = None
+		self.inventory = 0
+	def hire_labor(self, elabor, wage):
+		assert (self.elabor == 0)
+		self.elabor = elabor
+		self.contracted_wage = wage
+	def hire_capital(self, capital, irate):
+		assert (self.capital == 0)
+		self.capital = capital
+		self.contracted_irate = irate
 	def produce(self):
+		assert (self.capital>0 and self.elabor>0)
+		self.inventory += self.blue_print(capital=self.capital, elabor=self.elabor)
+		self.elabor = 0
+		self.capital = 0
+	def receive_income(self, amt):
+		assert(amt >= 0)  #this is just sign checking
+		self.inventory += amt
+	def payout(self, amt):  #redundant; just for ease of reading and sign check
+		assert(amt >= 0)
+		self.inventory -= amt
+	def mpk_mpn(self, capital=None, elabor=None):
+		return self.blue_print.mpk_mpn(capital=capital, elabor=elabor)
+	def set_blue_print(self, bp):
+		self.blue_print = bp
+
+
+	######### don't use the following #############
+	def old_produce(self):
 		labor_input = sum(e.labor_power for e in self.employees)
 		capital_input = self.capital
 		self.output_last = self.blue_print(capital=capital_input, labor=labor_input)
@@ -803,27 +921,27 @@ class Firm:
 		wage = wages/labor_input
 		for employee in self.employees:
 			employee.receive_income(wage * employee.labor_power)
-	def pay_wages(self):
-		pass
-	def pay_rents(self):
-		pass
+
+class PestieauFirm(FirmKN):
+	def set_blue_print(self, bp):
+		assert (bp is None)
+		self.blue_print = CobbDouglas2(alpha=0.6)
 
 import functools
 class EconomyParams(object): #default params, needs work
 	def __init__(self):
 		self.DEBUG = False
 		#set class to use in Economy construction
-		self.Indiv = Indiv
-		self.Cohort = Cohort
+		self.INDIV = Indiv
+		self.COHORT = Cohort
 		self.Population = Population
-		self.LaborMarket = None
-		self.Firm = Firm
+		self.LABORMARKET = LaborMarket
+		self.FIRM = FirmKN
 		#list life periods Indivs work (e.g., range(16,66))
 		self.WORKING_AGES = list()
 		self.SEED = None
 		#default is individual based Gini
 		#TODO: household or indiv distributions? (household I think wd be better)
-		self.CALC_DIST_WEALTH = lambda ppl: utilities.calc_gini( indiv.calc_wealth() for indiv in ppl.gf_indivs() )
 		self.SHUFFLE_NEW_W = False
 		self.MSHARE = 0.5
 		self.FSHARE = 0.5
@@ -854,8 +972,9 @@ class PestieauParams(EconomyParams):
 		#first use the super class's initialization
 		EconomyParams.__init__(self)
 		#NEW INITIALIZATIONS
-		self.LaborMarket = PestieauLaborMarket
-		self.Cohort = PestieauCohort  #provides `get_married`
+		self.FIRM = PestieauFirm
+		self.LABORMARKET = None
+		self.COHORT = PestieauCohort  #provides `get_married`
 		self.N_YEARS = 30
 		self.COHORT_SIZE = 100  #p.412
 		self.WORKING_AGES = [1]

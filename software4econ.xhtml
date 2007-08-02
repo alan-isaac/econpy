@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Jul 19
+Last modified: 2007 Jul 31
 <br />
 Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://www.american.edu/econ/notes/soft.htm</a>
 <!--[if lt IE 7]> 
@@ -2141,6 +2141,150 @@ and in the dialogue box that opens,
 choose the "Plain text" default editor <em>and</em> set "Send message in this format" to "Plain text."
 </p>
 
+<h3>Document Formats</h3>
+
+<p>
+What are some good document formats,
+and how can one transform between them?
+</p>
+
+<p>
+For writing math,
+nothing beats <a href="#tex">LaTeX</a>.
+However, you can use <a href="#reST">reStructuredText</a>
+with writers that support math to produce both LaTeX and XHTML MathML.
+</p>
+
+<h4 id="html">HTML</h4>
+
+<p>
+Writing HTML is easy: <a href="http://www.american.edu/econ/notes/html.htm">learn the basics</a>.
+Conversion to other formats is possible.
+Most word processors will read HTML and automatically convert to their own format.
+You can also <a href="http://www.tdb.uu.se/~jan/html2ps.html">convert HTML to PostScript</a> (if you have access to Perl).
+</p>
+
+<p>
+After learning a few HTML basics,
+you can learn much more from the materials at the <a href="http://www.w3c.org">World Wide Web Consortium <acronym>W3C</acronym>)</a>.
+Most of the time you should be able to use <a href="http://www.w3.org/TR/xhtml-basic/">XHTML Basic</a>
+and
+<a href="http://www.w3.org/TR/REC-CSS1">Cascading Style Sheets (<acronym>CSS</acronym>)</a>.
+Here is some <a href="http://www.w3.org/Style/CSS/">CSS Background</a>,
+and the wonderful <a href="http://www.meyerweb.com/eric/books/css-progref/">chapter 1</a> 
+of Cascading Style Sheets 2.0 Programmer's Reference by Eric A. Meyer.
+For more information and links, go to the 
+<a href="http://www.w3.org/MarkUp/#recommendations">HyperText Markup Language (HTML) Homepage</a>.
+Some authors may like to see the <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO standard</a> as well.
+</p>
+
+<p>
+All modern Word Processors can export their documents as HTML:
+unfortunately, they often produce pretty bad HTML.
+You can get much better results with some of the HTML editors,
+such as the web development suite offered free by <a href="http://www.evrsoft.com/download/">Evrsoft</a>
+</p>
+
+<ul>
+<li>
+The <a href="http://www.chami.com/free/html-kit/">HTML Kit</a> offers syntax coloring and automatic fix up of common markup errors and conversion to XHTML.
+It is based around the W3C sample code for
+<a href="http://www.w3.org/People/Raggett/tidy">HTML Tidy</a>.
+</li>
+<li>
+There are very good tutorials at <a href="http://www.w3schools.com/">HTML Schools</a>,
+including XHTML tutorials.
+</li>
+<li id="validate">
+<b>Validate your code!</b>
+Try the <a href="http://validator.w3.org/">W3C HTML Validation Service</a>.
+Also, the <a href="http://www.htmlhelp.org/tools/validator/">WDG Validator</a> has fans because i. it validates your HTML pages without requiring a DTD, and it can ``spider'' an entire site (validating up to 100 pages).
+You can overpaste the DTD if it isn't the one you want.
+You can also check your Cascading Style Sheets using W3C's <a href="http://jigsaw.w3.org/css-validator/">CSS Validation Service</a> or HTML Help's <a href="http://htmlhelp.org/tools/csscheck/">CSS validator</a>, which will also warns of possible usability problems with your style sheets.
+Just paste the CSS code or the URL of the style sheet into a field.
+Finallay, there is also a highly rated commercial validator: <a href="http://www.htmlvalidator.com/">CSE HTML Validator</a>.
+</li>
+<li>
+<a href="http://www.htmlhelp.com/">The Web Design Group </a>tutorials, references, FAQs
+</li>
+<li>
+<a href="news:comp.infosystems.www.authoring.html">Usenet HTML discussion newsgroup </a>
+</li>
+<li>
+Look at  <a href="http://www.w3.org/TR/REC-html40/index/elements.html">the index of html elements</a>,
+and <a href="http://www.w3.org/TR/REC-html40/index/attributes.html">the index for attributes</a>,
+and <a href="http://www.w3.org/TR/REC-CSS1">the CSS1 spec</a>.
+(All those pointers would have been easy to locate from <a href="http://css.nu/faq/ciwas-mFAQ.html">the FAQ</a>.)
+</li>
+ <li><a href="http://www.htmlhelp.com/faq/wdgfaq.htm">
+The Web Design Group's Web Authoring FAQ</a>
+ </li>
+<li>
+<a href="http://www.milonic.co.uk/menu/">Milonic's Popup DHTML navigational menus</a>
+</li>
+<li><a href="http://info.med.yale.edu/caim/manual/contents.html">
+Yale University's WWW design guide</a>
+</li>
+<li><a href="http://www.Sun.COM/styleguide">
+Sun's WWW design style guide</a>
+</li>
+</ul>
+
+<h4 id="html">XHTML</h4>
+
+<p>
+XHTML is a wonderful HTML related markup which provides for most needs when used with CSS.
+Unfortunately some browsers do not support it,
+unless you serve it as HTML.
+(That is the trick used in the present document.)
+Some authors <a href="http://www.hixie.ch/advocacy/xhtml">discourage this practice</a>,
+but it should work fine, as long as you <a href="#validate">validate</a> your documents.
+</p>
+
+<p>XHTML:
+<a href="http://wdvl.com/Authoring/Languages/XML/XHTML/">Introduction to XHTML, with eXamples" helpful</a> |
+<a href="http://validator.w3.org/check/referer">
+XHTML validation</a>.
+With XML/XHTML (handled by an XML processor) you will
+be able to define your own entities in the doctype declaration. E.g., you could define
+&lt;!ENTITY alpha  "&amp;#xxxx;" &gt;
+(where xxxx = the numeric reference)  to get around remembering numeric references.
+The <a href="http://www.w3.org/TR/MathML2/appendixa.html#parsing.module">XHTML+MathML</a> document type looks particularly useful,
+and it is already used to provide math support in <a href="#metafmt">reStructuredText</a>.
+</p>
+
+<p>
+<a href="http://www.w3.org/Math/">Mathematical Markup Language (MathML)</a> is now a wonderful reality.
+FireFox and other Mozilla based browsers offer native support.
+So does <a href="http://www.icesoft.no/index.html">E-Lite</a>:
+ICESoft's lightweight Java web browser offers full, native MathML implementation.
+Internet Explorer browsers currently support it only via plug-ins.
+Public discussion on features for math in HTML contexts takes place on
+www-math@w3.org. To subscribe send a message to
+<a href="mailto:www-math-request@w3.org?subject=subscribe">
+www-math-request@w3.org</a>
+with "subscribe" as the content of the subject.
+There is a <a href="http://lists.w3.org/Archives/Public/www-math/">
+public archive</a>. Also, consider
+<a href="http://www.geom.umn.edu/software/WebEQ/">WebEQ</a> for Web math.
+</p>
+
+<p>XML:
+Perhaps the most interesting current XML development for non-programmers is
+<a href="http://www.odfalliance.org/">OpenDocument Format (ODF)</a>.
+The is a promising open document exchange standard,
+and it has already forced concessions from Microsoft.
+Let us move the world to an open, fully-documented, royalty-free standard for document exchange!
+<a href="#officesuites">OpenOffice</a> is currently the only office suite supporting the OpenDocument Format,
+as far as I am aware.
+<br />
+By the way, docutils can write to ODF:
+see Dave Kuhlman's work (currently in the docutils sandbox).
+There is also a <a href="http://sourceforge.net/projects/odf-converter">translator</a> for MS Word (TM).
+</p>
+
+
+
 <h3 id="tnef">Transport Neutral Encoding Format (TNEF)</h3>
 
 <p>
@@ -2331,123 +2475,6 @@ your workplace.
 
 
 
-
-<h3 id="html">HTML</h3>
-
-<p>
-Writing HTML is easy: <a href="http://www.american.edu/econ/notes/html.htm">learn the basics</a>.
-Conversion to other formats is possible.
-Most word processors will read HTML and automatically convert to their own format.
-You can also <a href="http://www.tdb.uu.se/~jan/html2ps.html">convert HTML to PostScript</a> (if you have access to Perl).
-</p>
-
-<p>
-After learning a few HTML basics,
-you can learn much more from the materials at the <a href="http://www.w3c.org">World Wide Web Consortium <acronym>W3C</acronym>)</a>.
-Most of the time you should be able to use <a href="http://www.w3.org/TR/xhtml-basic/">XHTML Basic</a>
-and
-<a href="http://www.w3.org/TR/REC-CSS1">Cascading Style Sheets (<acronym>CSS</acronym>)</a>.
-Here is some <a href="http://www.w3.org/Style/CSS/">CSS Background</a>,
-and the wonderful <a href="http://www.meyerweb.com/eric/books/css-progref/">chapter 1</a> 
-of Cascading Style Sheets 2.0 Programmer's Reference by Eric A. Meyer.
-For more information and links, go to the 
-<a href="http://www.w3.org/MarkUp/#recommendations">HyperText Markup Language (HTML) Homepage</a>.
-Some authors may like to see the <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO standard</a> as well.
-</p>
-
-<p>
-All modern Word Processors can export their documents as HTML:
-unfortunately, they often produce pretty bad HTML.
-You can get much better results with some of the HTML editors,
-such as the web development suite offered free by <a href="http://www.evrsoft.com/download/">Evrsoft</a>
-</p>
-
-<ul>
-<li>
-The <a href="http://www.chami.com/free/html-kit/">HTML Kit</a> offers syntax coloring and automatic fix up of common markup errors and conversion to XHTML.
-It is based around the W3C sample code for
-<a href="http://www.w3.org/People/Raggett/tidy">HTML Tidy</a>.
-</li>
-<li>
-There are very good tutorials at <a href="http://www.w3schools.com/">HTML Schools</a>,
-including XHTML tutorials.
-</li>
-<li>
-<b>Validate your code!</b>
-Try the <a href="http://validator.w3.org/">W3C HTML Validation Service</a>.
-Also, the <a href="http://www.htmlhelp.org/tools/validator/">WDG Validator</a> has fans because i. it validates your HTML pages without requiring a DTD, and it can ``spider'' an entire site (validating up to 100 pages).
-You can overpaste the DTD if it isn't the one you want.
-You can also check your Cascading Style Sheets using W3C's <a href="http://jigsaw.w3.org/css-validator/">CSS Validation Service</a> or HTML Help's <a href="http://htmlhelp.org/tools/csscheck/">CSS validator</a>, which will also warns of possible usability problems with your style sheets.
-Just paste the CSS code or the URL of the style sheet into a field.
-Finallay, there is also a highly rated commercial validator: <a href="http://www.htmlvalidator.com/">CSE HTML Validator</a>.
-</li>
-<li>
-<a href="http://www.htmlhelp.com/">The Web Design Group </a>tutorials, references, FAQs
-</li>
-<li>
-<a href="news:comp.infosystems.www.authoring.html">Usenet HTML discussion newsgroup </a>
-</li>
-<li>
-Look at  <a href="http://www.w3.org/TR/REC-html40/index/elements.html">the index of html elements</a>,
-and <a href="http://www.w3.org/TR/REC-html40/index/attributes.html">the index for attributes</a>,
-and <a href="http://www.w3.org/TR/REC-CSS1">the CSS1 spec</a>.
-(All those pointers would have been easy to locate from <a href="http://css.nu/faq/ciwas-mFAQ.html">the FAQ</a>.)
-</li>
- <li><a href="http://www.htmlhelp.com/faq/wdgfaq.htm">
-The Web Design Group's Web Authoring FAQ</a>
- </li>
-<li>
-<a href="http://www.milonic.co.uk/menu/">Milonic's Popup DHTML navigational menus</a>
-</li>
-<li><a href="http://info.med.yale.edu/caim/manual/contents.html">
-Yale University's WWW design guide</a>
-</li>
-<li><a href="http://www.Sun.COM/styleguide">
-Sun's WWW design style guide</a>
-</li>
-</ul>
-
-<p>XHTML:
-<a href="http://wdvl.com/Authoring/Languages/XML/XHTML/">Introduction to XHTML, with eXamples" helpful</a> |
-<a href="http://validator.w3.org/check/referer">
-XHTML validation</a>.
-With XML/XHTML (handled by an XML processor) you will
-be able to define your own entities in the doctype declaration. E.g., you could define
-&lt;!ENTITY alpha  "&amp;#xxxx;" &gt;
-(where xxxx = the numeric reference)  to get around remembering numeric references.
-The <a href="http://www.w3.org/TR/MathML2/appendixa.html#parsing.module">XHTML+MathML</a> document type looks particularly useful,
-and it is already used to provide math support in <a href="#metafmt">reStructuredText</a>.
-</p>
-
-<p>
-<a href="http://www.w3.org/Math/">Mathematical Markup Language (MathML)</a> is now a wonderful reality.
-FireFox and other Mozilla based browsers offer native support.
-So does <a href="http://www.icesoft.no/index.html">E-Lite</a>:
-ICESoft's lightweight Java web browser offers full, native MathML implementation.
-Internet Explorer browsers currently support it only via plug-ins.
-Public discussion on features for math in HTML contexts takes place on
-www-math@w3.org. To subscribe send a message to
-<a href="mailto:www-math-request@w3.org?subject=subscribe">
-www-math-request@w3.org</a>
-with "subscribe" as the content of the subject.
-There is a <a href="http://lists.w3.org/Archives/Public/www-math/">
-public archive</a>. Also, consider
-<a href="http://www.geom.umn.edu/software/WebEQ/">WebEQ</a> for Web math.
-</p>
-
-<p>XML:
-Perhaps the most interesting current XML development for non-programmers is
-<a href="http://www.odfalliance.org/">OpenDocument Format (ODF)</a>.
-The is a promising open document exchange standard,
-and it has already forced concessions from Microsoft.
-Let us move the world to an open, fully-documented, royalty-free standard for document exchange!
-<a href="#officesuites">OpenOffice</a> is currently the only office suite supporting the OpenDocument Format,
-as far as I am aware.
-<br />
-By the way, docutils can write to ODF:
-see Dave Kuhlman's work (currently in the docutils sandbox).
-There is also a <a href="http://sourceforge.net/projects/odf-converter">translator</a> for MS Word (TM).
-</p>
 
 
 
