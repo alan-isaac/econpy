@@ -13,7 +13,7 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20070622'
 
-import random
+import random, itertools
 try:
 	import numpy
 except ImportError:
@@ -76,6 +76,11 @@ def gini2shares(gini, nbrackets, shuffle=False):
 	if shuffle:   #enforce Gini but distribute randomly
 		random.shuffle(shares)
 	return shares
+
+def groupsof(seq,n):
+	"""Return len(self)//n groups of n, discarding last len(self)%n players."""
+	#use itertools to avoid creating unneeded lists
+	return itertools.izip(*[iter(seq)]*n)
 
 
 def n_each_rand(n,itemtuple=(True,False)):
