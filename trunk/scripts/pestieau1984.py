@@ -112,9 +112,10 @@ def main():
 	print "#"*80
 	print " Example: Run Economy ".center(80,'#')
 	p = agents.PestieauParams()
-	p.PESTIEAU_BETA = 0.7
+	p.PESTIEAU_BETA = 0.6
 	e = agents.PestieauEconomy(p)
 	e.run()
+	print e.final_report()
 
 
 if __name__ == '__main__':
