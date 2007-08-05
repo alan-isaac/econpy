@@ -38,7 +38,16 @@
 Here we give some background on the \citet{pestieau-1984-oep} model.
 
 Core question: what is the role of the family in intergenerational inequality?
-Specifically, how does family structure affect inequality in income and wealth?
+Specifically, how does variability in family size affect inequality in income and wealth?
+
+\begin{quote}
+The main lesson one can draw from this simulation exercise
+is that the introduction of varying family size such as it exists in the real world
+enormously increases the degree of wealth inequality.
+This is partially attributable to the assumed marginal effect of family size on earnings.
+\\
+p.416
+\end{quote}
 
 Once the model is parameterized,
 it is roughly a first order stochastic difference equation:
@@ -263,6 +272,10 @@ so the utility function includes altruism toward heirs.
 Equal division of the total bequest among heirs is assumed.
 } % see Shorrocks 1979, Becker 1981
 %
+
+Comment: this utility function only makes sense for households with kids.
+Households with no kids can raise $x$ to infinity without cost.
+Pestieau does not seem to have noticed this?
 
 
 
@@ -672,6 +685,22 @@ Simulation parameters in tables p.413 ff
 			Rich:		mean 2.3
 \end{verbatimtab}
 
+Puzzle:
+OK, we get yet another puzzle here.
+Consider the case of 1, 2, or 3 kids.
+Now the population may be an odd number.
+If it is odd, one person cannot marry,
+and does not have kids.  But this apparently
+small effect is in fact huge.
+
+Suppose there are 101 people:
+then I expect 100 kids.
+Suppose there are 99 people:
+then I expect 98 kids.
+So there is a downward bias that implies the population will shrink over time!
+Pestieau's comments (p.415) about family size suggest he just ignored this effect.
+
+
 \begin{verbatimtab}[4]
 Pestieau p.412
         bequests of childless are "pooled and distributed" (p.415)
@@ -717,7 +746,7 @@ the number of which is governed by some random process.
 In making this decision, husbands and wives use their joint earnings and initial wealth.
 At the end of the period, parents are removed from the scence,
 bequests being equally divided among their children.
-As parents usually hae different abilities, we average them when using equation (3)
+As parents usually have different abilities, we average them when using equation (3)
 linking parents and children abilities.
 We now have a new group of people with a given distribution of wealth and ability;
 the process can start over again and be repeated many times to see which kind of
