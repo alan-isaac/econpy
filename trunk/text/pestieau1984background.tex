@@ -161,7 +161,7 @@ work for real wage $w$ (equal to MPN) and thus ability to earn $wa$,
 consume $c_{1}$,
 save,
 has $n>0$ children and educates them,
-chooses a beqest $n b2$.
+chooses a bequest $n b2$.
 
 Note: the interpretation of $n$ is a bit tricky here.
 It is really the gross population growth rate.
@@ -395,7 +395,7 @@ Solving the equation above for $c_{1}$ we get:
 c_{1} = \gamma[b + wa + \frac{naw}{1+r}]
 \end{equation}
 
-Note that (\ref{simulation c_1}) will be utilized in the simulation model.  However, (\ref{simulation c_1}) is easily simplified to resemble Pestieau (p.409, fn. 15) as follows:
+(\ref{simulation c_1}) is easily simplified to resemble Pestieau (p.409, fn. 15) as follows:
 
 \begin{equation}\label{opt c1 a}
 c_{1} = \gamma[b + wa\frac{1+r+n} {1+r}] \implies
@@ -444,7 +444,7 @@ Alternatively, \citet{pestieau-1984-oep} considers the case where parent's expec
 Incorporating the above assumptions the \emph{first} period optimization problem is the following:
 \begin{equation}
 \max_{c_{1t}, c_{2t}, b_{2t}}\alpha \ln (w_t a_{t+1} + b_{2t})
-+ \gamma \ln (c_{1t}
++ \gamma \ln c_{1t}
 + (1-\alpha-\gamma) \ln c_{2t}
 + \lambda [ w_t a_t + b_t - c_{1t} - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
 \end{equation}
@@ -476,21 +476,21 @@ c_{1t}
 \end{split}
 \end{equation}
 
-Now substitute (\ref{opt c1 b}) into the maximization problem and derive the optimal second period consumption and bequest.  That is, the the second period optimization is the following:
+Now substitute the constant $c^{*}_{1t} \equiv$ (\ref{opt c1 b}) into the maximization problem and derive the optimal second period consumption and bequest.  That is, the the second period optimization is the following:
 
 \begin{gather}
 \begin{split}
 \max_{c_{2t}, b_{2t}}\alpha \ln (w_t a_{t+1} + b_{2t})
-+ \gamma \ln \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})
++ \gamma \ln c^{*}_{1t}
 + (1-\alpha-\gamma) \ln c_{2t}\\
-+ \lambda [ w_t a_t + b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
++ \lambda [ w_t a_t + b_t - c^{*}_{1t} - \frac{c_{2t} + n_t b_{2t}}{1+r_t}]
 \end{split}
 \end{gather}
 The first order conditions are the following:
 \begin{eqnarray}
 \frac{\partial L}{\partial c_{2t}} &=& \frac{1-\gamma-\alpha}{c_{2t}} - \lambda\frac{1}{1+r_t}=0 \label{dL/dc2 bb} \\
 \frac{\partial L}{\partial b_{2t}} &=& \frac{\alpha}{a_{t+1}w_t+b_{2t}}-\lambda \frac{n_t}{1+r_t}=0\label{dL/db2 bb}\\
-\frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) - \frac{c_{2t} + n_t b_{2t}}{1+r_t}=0 \label{dL/dlambda bb}
+\frac{\partial L}{\partial \lambda} &=& w_t a_t + b_t - c^{*}_{1t} - \frac{c_{2t} + n_t b_{2t}}{1+r_t}=0 \label{dL/dlambda bb}
 \end{eqnarray}
 Rearranging, dividing (\ref{dL/db2 bb}) by (\ref{dL/dc2 bb}) and solving for $c_{2t}$ yields:
 \begin{equation}
@@ -500,26 +500,35 @@ Substituting the above into (\ref{dL/dlambda bb}) yields:
 \begin{equation*}
 w_t a_t + b_t - c^{*}_{1t} - n_t\frac{1-\alpha - \gamma}{\alpha}(a_{t+1} w_t +b_{2t})\frac{1}{1+r_t}-b_{2t}\frac{n_t}{1+r_t}=0
 \end{equation*}
-where $c^{*}_{1t}\equiv\gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}})$.  Solving for $b_{2t}$ we find:
+Solving for $b_{2t}$ we find:
 \begin{equation*}
-b_{2t} = \frac{1+r_t}{1-\gamma}(\frac{\alpha}{n_t}(w_t a_t +b_t - c^{*}_{1t})-w_t a_{t+1})
+b_{2t} = \frac{1}{1-\gamma}[\frac{\alpha(1+r_t)}{n_t}(w_t a_t+ b_t - c^{*}_{1t}) - w_t a_{t+1}(1-\alpha-\gamma)]
 \end{equation*}
 Next we must substitute for $c^{*}_{1t}$ and factor out $a_{t+1}$ and eventually substitute for $a_{t+1}$.  Proceeding we get:
 \begin{equation*}
-b_{2t} = \frac{1+r_t}{1-\gamma}[ \frac{\alpha}{n_t}[ w_t a_t +b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}) ]-w_t a_{t+1} ]
+b_{2t} = \frac{1}{1-\gamma}[\frac{\alpha(1+r_t)}{n_t}(w_t a_t+ b_t - \gamma(w_t a_t + b_t + a_{t+1}\frac{w_t n_t}{1+r_{t-1}}))] - w_t a_{t+1}\frac{1-\alpha-\gamma}{1-\gamma}
 \end{equation*}
-Rearranging and factoring $a_{t+1}$:
+Factoring $a_{t+1}$ and rearranging:
 \begin{equation*}
-b_{2t} = (1+{r_t})[\frac{\alpha}{n_t}(w_t a_t + b_t)-a_{t+1}\frac{w_t}{1-\gamma}(\frac{\alpha\gamma}{1+r_{t-1}} +1) ]
+b_{2t} = \frac{\alpha(1+r_t)}{n_t}[a_t w_t + b_t] - a_{t+1}w_t [\frac{\alpha}{1-\gamma}(\gamma(1+r_t)(1+r_{t-1})^{-1} -1) + 1]
 \end{equation*}
 Substituting for $a_{t+1}$:
 \begin{equation*}
-b_{2t} = (1+{r_t})[\frac{\alpha}{n_t}(w_t a_t + b_t)- (\beta a_{t} + (1-\beta)\frac{\bar{n}_{t}}{n_{t}} + \tilde{z}_{t}) \frac{w_t}{1-\gamma}(\frac{\alpha\gamma}{1+r_{t-1}} +1) ]
+b_{2t} = \frac{\alpha(1+r_t)}{n_t}[a_t w_t + b_t] - (\beta a_t + (1-\beta)\frac{\bar{n}_t}{n_t}+\tilde{z}_t) w_t [\frac{\alpha}{1-\gamma}(\gamma(1+r_t)(1+r_{t-1})^{-1} -1) + 1]
+\end{equation*}
+Now let $\Omega \equiv \frac{\alpha(1+r_t)}{n_t}[a_t w_t + b_t]$, $\Lambda \equiv \frac{\alpha}{1-\gamma}(\gamma\frac{1+r_t}{1+r_{t-1}} - 1) +1$ then the equation above writes:
+\begin{equation}
+b_{2t} = \Omega - (1-\beta)\frac{\bar{n}_t}{n_t}w_t\Lambda - (\beta a_t+\tilde{z}_t)w_t\Lambda
+\end{equation}
+
+The equation above is the same as Pestieau 11' if:
+\begin{equation*}
+\Lambda \equiv \frac{\alpha}{1-\gamma}(\gamma\frac{1+r_t}{1+r_{t-1}} - 1) +1 = (1-\alpha)\frac{1+r_t}{1+r_{t-1}}
 \end{equation*}
 
-
+Doesn't look correct.....\newline
 --------------------------\newline
-kc: Come back here!!! I haven't been able to come up with anything that resembles 11' yet.\newline
+kc:try to find what went wrong\newline
 --------------------------
 
 

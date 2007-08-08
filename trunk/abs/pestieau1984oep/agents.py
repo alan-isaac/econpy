@@ -727,6 +727,7 @@ class Economy(object):
 		params = self.params
 		script_logger.debug("firm type: %s"%(params.FIRM))
 		return [params.FIRM(economy=self) for i in range(params.N_FIRMS)]
+		print [params.FIRM(economy=self) for i in range(params.N_FIRMS)]
 	def initialize_firms(self): #TODO unnecessary???
 		'''
 		Note: much of this will look superflous when there is only one firm.
