@@ -170,7 +170,7 @@ def max_utility_const(indiv):
 	N_k_t1 =N*( (1-sh_cons_1t)*life_wealth - sh_cons_1t*( (n_children*life_income)/(1+r_t) )  )
 
 	
-class KC_ECONOMY(agents.Economy):
+class KC_ECONOMY(agents.PestieauEconomy):
 		#ai: the next line **overrides** the agents.Economy initialization
 	def __init__(self, params):
 		self.initial_capital_stock = list()
@@ -269,9 +269,10 @@ class Firm(object):
 print
 print " Example: Run KC_Economy ".center(80,'#')
 p1 = KCPestieauParams()
-p1.MATING = 'random'
+p1.MATING = 'classonly_unisex'
 e1 = KC_ECONOMY(p1)
-e1.run
+e1.run()
+print e1.final_report()
 print " END Example: Run KC_Economy ".center(80,'#')
 
 #******************************
