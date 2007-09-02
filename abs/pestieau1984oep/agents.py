@@ -82,6 +82,14 @@ def sexer_unisex2(n):
 	for _ in range(n):
 		yield 'FF'
 
+def sexer_pestieau_poisson(n):  #TODO TODO chk
+	from numpy.random import poisson
+	nkidsvec = poisson(2,n)
+	for nkids in nkidsvec:
+		result = 'F'*nkids
+		print result,
+		yield result
+
 def sexer_pestieau_123(n):  #TODO TODO chk
 	'''Yield: all females, in specified distribution.
 	(Pestieau has marriage but is unisex, I believe.)
@@ -248,7 +256,6 @@ class Indiv(object):
 		my_kids = self._children
 		for kid in my_kids:
 			kid.siblings.update(my_kids) #TODO: better approaches?
-		assert (0<len(my_kids)<=3) #TODO: will need to get rid of this constraint
 		return newkids
 	def extend_children(self, kids):
 		for kid in kids:
@@ -257,11 +264,8 @@ class Indiv(object):
 		return self._children
 	def adopt(self,child): #used by bear_children
 		mykids = self._children
-		assert (len(mykids) <= 2) #TODO: get rid of this constraint
-		if child not in mykids:
-			mykids.append(child)
-		else:
-			script_logger.warn("Tried to adopt own child")
+		assert (child not in mykids)
+		mykids.append(child)
 	def open_account(self, fund, amt=0):
 		'''Return: None.
 
@@ -558,6 +562,9 @@ class State(object):
 class Population(list):  #provide a list of Cohort tuples
 	def evolve(self):  #this will be called each "tick" of the economy
 		'''Return: None.
+		Evolve population to new state.
+		Should be the *last* action in the main loop.
+		Establishes the population state for the next iteration.
 		'''
 		params = self.economy.params  #associated economy have been set by economy...
 		new_cohort = self.get_new_cohort()
@@ -605,16 +612,17 @@ class Population(list):  #provide a list of Cohort tuples
 		'''
 		script_logger.debug( "Enter Population.get_new_cohort" )
 		params = self.economy.params
-		new_parents = self[params.AGE4KIDS-1]  #currently restricted to a single cohort TODO
-		script_logger.debug( "Number of new parents: %d"%(len(new_parents)) )
 		#currently handle parthenogenic economies as all female and impose marriage  TODO
-		n_mothers = sum( int(indiv.spouse is not None and indiv.sex == 'F') for indiv in new_parents )
+		n_mothers = sum( 1 for indiv in self.gf_new_mothers() )
 		script_logger.debug( "Number of new mothers: %d"%(n_mothers) )
 		#sex generator may need to know n_mothers in order to determine distributional properties
 		#  kidsexgen is an iterator which provides sex strings (e.g., 'MF' or 'MMF')
 		getsexes = params.KIDSEXGEN(n_mothers)
-		#only married females can have kids
-		mothers = ( indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F') )
+		if self.economy.params.DEBUG:
+			getsexes = list(getsexes)
+			self.new_cohort_sexes = ";".join(getsexes)
+			getsexes = iter(getsexes)
+		mothers = self.gf_new_mothers()
 		#each mother has kids of specified sexes (e.g., "MF"), which specifies number as well!
 		'''
 		new_cohort = list()
@@ -626,14 +634,20 @@ class Population(list):  #provide a list of Cohort tuples
 		new_cohort = sum( (indiv.bear_children(sexes=getsexes.next()) for indiv in mothers), [])
 		for kid in new_cohort:
 			kid.open_account(self.economy.funds[0])  #provide every kid with an acct TODO move
-		self.initialize_wealth(new_cohort)  #TODO move
+		#self.initialize_wealth(new_cohort)  #TODO move
 		return params.COHORT(new_cohort)
 	def get_indivs(self): #return all individuals as single **list**
 		return [indiv for cohort in self for indiv in cohort]
 	def gf_indivs(self): #return all individuals as single generator
 		return (indiv for cohort in self for indiv in cohort)
-	def initialize_wealth(self, kids):
-		return NotImplemented
+	def gf_new_mothers(self):
+		params = self.economy.params
+		# AGE4KIDS -1 (for index: nobody in economy has age 0) -1 (this is conception, not birth)
+		new_parents = self[params.AGE4KIDS-2]  #currently restricted to a single cohort TODO
+		script_logger.debug( "Number of new parents: %d"%(len(new_parents)) )
+		#only married females can have kids
+		return ( indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F') )
+
 
 class Economy(object):
 	'''
@@ -700,13 +714,16 @@ class Economy(object):
 			assert all(i.spouse is None for i in parents)
 			newlyweds.get_married(mating=params.MATING)  #parents are a Cohort -> use cohort method
 		script_logger.info("  - initializing parenthood")
-		for idx in range(params.N_COHORTS - params.AGE4KIDS):   ###!! E.g., OG: 2-1 chk
+		for idx in range(params.N_COHORTS - params.AGE4KIDS + 1):   ###!! E.g., OG: 2-2+1 chk
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			kids = self.ppl[idx+params.AGE4KIDS-1]  ##!! (fixed)
 			assert (len(parents)==len(kids))  #TODO TODO only for fixed 2 kid per couple
 			for parent, kid in itertools.izip(parents,kids):
 				parent.adopt(kid)
 				parent.spouse.adopt(kid)  #TODO: think about adoption
+			for parent in parents:
+				for kid in parent._children:
+					assert parent._age == kid.age + params.AGE4KIDS-1
 		script_logger.info("  family structure initialized")
 	def initialize_wealth(self, males_only=False):
 		script_logger.info("- initializing wealth distribution")
@@ -784,6 +801,11 @@ class Economy(object):
 		history['dist'].append(dist)
 		history['ppl_size'].append(self.ppl.get_size())
 		history['capital'].append( self.funds[0].calc_accts_value() )
+		if hasattr(self.ppl, 'new_cohort_sexes'):
+			freq = defaultdict(int)
+			for s in self.ppl.new_cohort_sexes.split(';'):
+				freq[len(s)] += 1
+			history['sexes'].append( freq )
 		#compute wealth distribution of young
 		#dist0 = utilities.calc_gini( indiv.calc_wealth() for indiv in self.ppl[0] )
 		#history['dist0'].append(dist0)
@@ -1078,7 +1100,8 @@ class EconomyParams(object): #default params, needs work
 		self.GW0 = 0
 		self.WEALTH_INIT = 0
 		self.COHORT_SIZE = 0
-		#Life Events
+		#Life Events  (MUST OVERRIDE)
+		# AGE4KIDS is how old you are when you kids APPEAR in the economy (you may be dead)
 		self.AGE4KIDS = 0   #NOTE: no cohort has age 0!
 		self.AGE4MARRIAGE = 0   #NOTE: no cohort has age 0!
 	def compute_ability(self, indiv):
@@ -1106,11 +1129,13 @@ class PestieauParams(EconomyParams):
 		self.MATING = 'classonly_unisex' #p.414 says only class mating considered (vs. reported!?)
 		#sex generator for new births
 		#self.KIDSEXGEN = sexer_unisex2
-		self.KIDSEXGEN = sexer_pestieau_123         #TODO need other sexers
+		self.KIDSEXGEN = sexer_pestieau_poisson
+		#self.KIDSEXGEN = sexer_pestieau_123         #TODO need other sexers
 		#bequest function
 		self.BEQUEST_FN = bequests_pestieau #p.412
 		#Life Events
-		self.AGE4KIDS =  1      #see Population.evolve (no cohort has age 0!)
+		# AGE4KIDS is how old you are when you kids appear in the economy (you may be dead)
+		self.AGE4KIDS =  2      #see Population.evolve (no cohort has age 0!)
 		self.AGE4MARRIAGE = 1   #NOTE: no cohort has age 0!
 		## NEW PARAMETERS  (Pestieau specific)
 		self.PESTIEAU_BETA = None

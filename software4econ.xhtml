@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Jul 31
+Last modified: 2007 Aug 31
 <br />
 Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://www.american.edu/econ/notes/soft.htm</a>
 <!--[if lt IE 7]> 
@@ -1140,6 +1140,9 @@ The grfguide and epslatex.pdf cover the \DeclareGraphicsExtensions command.
 <p>
 If for some reason you feel you must use PowerPoint<sup>&reg;</sup>,
 you can insert LaTeX style math by using the <a href="http://raw.cs.berkeley.edu/texpoint/TeXPoint.htm">TeXPoint</a> plugin.
+Note too that you can script your PowerPoint presentations using Python:
+use the win32com module to access the com interface.
+(Easier than it sounds!)
 </p>
 
 <p>
@@ -1171,6 +1174,12 @@ to a slide show with <a href="http://homepage.hispeed.ch/py430/python/index.html
 Falling short of a presentation package but still potentially useful
 for report writing is <a href="http://gael-varoquaux.info/computers/pyreport/">PyReport</a>,
 which compiles a Python script and its (textual and graphical) output into a PDF file.
+</p>
+
+<p>
+Last but not least:
+for incredible animated presentations,
+the technically inclined may consider <a href="http://www.cs.umd.edu/~nspring/slithy.html">Slithy</a>.
 </p>
 
 
@@ -1604,10 +1613,24 @@ Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplement
 also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell's R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful.
 Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.
 Windows users may want to read <a href="http://www.stat.auckland.ac.nz/~kwan022/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
-You can manage your R data in Python:
-<a href="http://rpy.sf.net">Walter Moreira's RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to "embed" R in Python and transparently send data to it.
-(You can easily pass objects in <em>both directions</em> using OmegaHat's <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.)
 You can write LaTeX documents containing R code whose ouput is to be included in the document with <a href="http://www.ci.tuwien.ac.at/~leisch/Sweave/">Sweave</a>.
+</li>
+<li>
+Windows users can access R from Python with the 
+<a href="http://sunsite.univie.ac.at/rcom/">RDcom server/client</a>.
+This allows you to call R
+from Python as follows:
+<pre><code>
+&gt;&gt;&gt; from win32com.client import Dispatch
+&gt;&gt;&gt; sc=Dispatch("StatConnectorSrv.StatConnector")
+&gt;&gt;&gt; sc.Init("R")
+&gt;&gt;&gt; print(sc.Evaluate("2+3"))
+5.0
+&gt;&gt;&gt; 
+</code></pre>
+Other approaches to R/Python interaction include the following.
+<a href="http://rpy.sf.net">Walter Moreira's RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to "embed" R in Python and transparently send data to it.
+(You can easily pass objects in <em>both directions</em> using OmegaHat's <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.) 
 </li>
 <li id="gretl">
 <a href="http://gretl.sourceforge.net/">gretl</a> is the Gnu Regression, Econometrics and Time-series Library,
@@ -1756,6 +1779,10 @@ which can read optimization problems coded in the <a href="#AMPL">AMPL</a> model
 supplied as part of the GPL'd <a href="http://wwwasd.web.cern.ch/wwwasd/cernlib/">CERNlib</a>.
 It is Fortran based,
 but <a href="http://c-minuit.sourceforge.net/">C-Minuit</a> allows the use of C functions.
+</li>
+<li>
+<a href="http://www-unix.mcs.anl.gov/petsc/petsc-as/documentation/copyright.html">PETSc</a>
+offers an extensive library under a liberal license (although a few bits are GPL).
 </li>
 <li>
 <a href="http://users.powernet.co.uk/kienzle/octave/optim.html">Octave Links</a>.
@@ -2598,7 +2625,7 @@ is "a derivative free non-linear optimizer that can deal with non-linear constra
 <a href="http://www.zib.de/Optimization/Software/Soplex/">Soplex</a> is a simplex solver that is free for academic use.
 </li>
 <li>
-You can use the solvers on the <a href="http://www-neos.mcs.anl.gov/neos/neos-5/Web/">NEOS</a> server for free.
+You can use the solvers on the <a href="http://www-neos.mcs.anl.gov/neos/solvers/index.html">NEOS</a> server for free.
 They offer an API to communicate with their XML-RPC  server, so you use NEOS from within your program.
 (They offer a sample client written in Python.)
 </li>
@@ -3997,6 +4024,12 @@ More traditional approaches follow.
 </p>
 
 <p>
+<a href="http://www.sqlite.org/">SQLite</a>
+"is a small C library that implements a self-contained, embeddable, zero-configuration SQL database engine".
+(License: Public Domain.)
+</p>
+
+<p>
 <a href="http://www.firebirdsql.org/">FireBird</a>
 "is a relational database offering many ANSI SQL standard features that runs on Linux, Windows, and a variety of Unix platforms."
 </p>
@@ -5108,9 +5141,6 @@ Here are the download instructions I received from Aptech.
 It seems the universal binary for the Mac is for OS X v.10.4 or later
 and only target the Intel platform!? (But I'm not certain...)
 <pre>
-The download instructions for Windows and Mac are below, if you have any 
-questions or concerns please e-mail me at this address.  
-
 Please note that files can only be downloaded via COMMAND LINE FTP, not
 a browser (such as Internet Explorer, Netscape, Firefox, etc.).  You
 must use a command window to download the files.  To open a command
@@ -5130,7 +5160,7 @@ Save the files that you download to either your root directory
 in the title; there can be problems saving the files to a 
 directory such as C:\Documents and Settings\&lt;username&gt;.
 
-You must know the name of the files you wish to download.
+You *must* know the name of the files you wish to download.
 DO NOT USE A BROWSER TO DOWNLOAD THE FILES. To download
 the necessary files via command line ftp, do the following
 at a terminal prompt:
@@ -5148,7 +5178,6 @@ at a terminal prompt:
 3. Type the following at the ftp prompt to get the files 
    (ftp&gt; represents the ftp prompt you should see, do not type that): 
 
-  ftp&gt; bin 
   ftp&gt; get 
  (remote-file) /outgoing/GAUSS_Light_8.0_Win.zip 
  (local-file) GAUSS_Light_8.0_Win.zip
@@ -5162,15 +5191,16 @@ Approximate file sizes
 8.8 MB GAUSS_Light_8.0_Win_32.zip
 8.5 MB GAUSS_8.0_Manual.zip
 
+========================================================================
+========================================================================
+
 Please note that files can only be downloaded via COMMAND LINE FTP, not
 a browser (such as Internet Explorer, Netscape, Firefox, etc.).  You
 must use a command window to download the files.  To open a command
 prompt window, click on Start, then Run, and type cmd.
 
-
-
-GAUSS Light 8.0 for Mac OS X 10.4+ (Universal, but only targets Intel!?)
-------------------------------------------------------------------------
+GAUSS Light 8.0 for Mac Universal
+---------------------------------
 
 Below is a list of files that you may wish to download and
 what each is:
@@ -5183,7 +5213,7 @@ Save the files that you download to either your root directory
 in the title; there can be problems saving the files to a 
 directory such as C:\Documents and Settings\&lt;username&gt;.
 
-You must know the name of the files you wish to download.
+You *must* know the name of the files you wish to download.
 DO NOT USE A BROWSER TO DOWNLOAD THE FILES. To download
 the necessary files via command line ftp, do the following
 at a terminal prompt:
@@ -5201,9 +5231,8 @@ at a terminal prompt:
 3. Type the following at the ftp prompt to get the files 
    (ftp&gt; represents the ftp prompt you should see, do not type that): 
 
-  ftp&gt; bin 
   ftp&gt; get 
- (remote-file) /outgoing/GAUSS_Light_8.0_Mac_OS_Xu.dmg
+ (remote-file) /outgoing/GAUSS_Light_8.0_Mac_OS_Xu.dmg 
  (local-file) GAUSS_Light_8.0_Mac_OS_Xu.dmg
   ftp&gt; get 
  (remote-file) /outgoing/GAUSS_8.0_Manual.zip 
@@ -5214,6 +5243,9 @@ Approximate file sizes
 ----------------------
 13.9 MB GAUSS_Light_8.0_Mac_OS_Xu.dmg
  8.5 MB GAUSS_8.0_Manual.zip
+
+
+
 
 </pre>
 <!--

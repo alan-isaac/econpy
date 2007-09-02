@@ -44,13 +44,13 @@ class Iterator4Test(iterate.IterativeProcess):
 class test_iter(unittest.TestCase):
 	def test_IterativeProcess(self):
 		N = random.randrange(100)
-		crit = lambda x,y: y>=N
+		crit = lambda x: x.iteration >= N
 		ip = Iterator4Test(crit)
 		ip.run()
-		self.assertEqual(ip.iterations,N)
+		self.assertEqual(ip.iteration,N)
 		ip = Iterator4Test(None)
 		ip.run()
-		self.assertEqual(ip.iterations,100)
+		self.assertEqual(ip.iteration,100)
 	def test_bisect(self):
 		x4zero = random.randrange(20)
 		f = lambda x: (x-x4zero)**3
