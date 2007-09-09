@@ -55,14 +55,16 @@ set laststatus=2
 
 " abbreviations for spelling correction
 iab Aaln Alan
+iab captial capital
+iab funciton function
 iab preceed precede
 iab preceeding preceding
 iab preceeded preceded
-iab funciton function
+iab teh the
 
 
-" comments
-inoremap  '* <esc>0i/*<space><esc>A<space>*/<esc>yyP0ll<c-q>$2hr*yyjp
+" comments of style /* */
+" inoremap  '* <esc>0i/*<space><esc>A<space>*/<esc>yyP0ll<c-q>$2hr*yyjp
 " view file in browser
 au Filetype html,xhtml inoremap <vb <esc>:up<cr>:!start c:\programs\firefox\firefox.exe file:///%:p:gs?\\?/?<cr>
 " !start command for EViews
@@ -113,9 +115,9 @@ au Filetype tex inoremap ;df \begin{define}<cr>\end{define}<esc>O
 " examples
 au Filetype tex inoremap ;xm \begin{xmpl}<cr>\end{xmpl}<cr><esc>kO
 " Computational exercises
-au Filetype tex inoremap ;cx <esc>:call CXtemplate()<cr>f:a
+au Filetype tex inoremap ;cx <esc>:r template_cx<cr>jf:a
 " analytical exercises
-au Filetype tex inoremap ;ax \begin{ex}<cr>\xsep<cr>\begin{ansex}<cr>\end{ansex}<cr>\end{ex}<cr><esc>kkkkO
+au Filetype tex inoremap ;ax \begin{ex}<cr>\begin{ansex}<cr>\end{ansex}<cr>\end{ex}<cr><esc>kkkkO
 "write file from insert mode
 inoremap ;wq <esc>:up<bar>q<cr>
 inoremap ;wd <esc>:w<bar>bd<cr>
@@ -129,39 +131,6 @@ autocmd BufWritePre,FileWritePre *.inp   ks|call LastMod()|'s
 " read :h template
 
 
-set cpo+=C
-function! CXtemplate()
-append
-\begin{cx}
-\label{cx:}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{ansgx}
-%\begin{discx}{GAUSS} \end{discx}
-\begin{lstlisting}[language=GAUSS]
-\end{lstlisting}
-\end{ansgx}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{anspyx}
-%\begin{discx}{SciPy} \end{discx}
-\begin{lstlisting}[language=Python]
-\end{lstlisting}
-\end{anspyx}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{ansgpx}
-%\begin{discx}{gnuplot} \end{discx}
-\begin{lstlisting}[language=Gnuplot]
-\end{lstlisting}
-\end{ansgpx}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{anscx}
-\end{anscx}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\xsep
-\end{cx}
-.
-?cx:
-endfunction
-set cpo-=C
 
 function! LastMod()
   if line("$") > 40

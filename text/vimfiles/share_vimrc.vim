@@ -4,11 +4,12 @@
 " (which was created upon installation), and
 " ii. source this file from your _vimrc file
 " E.g., add the following line to your _vimrc file:
-" source $VIM/vimfiles/ai_vimrc
+" source $VIM/vimfiles/share_vimrc
 
 "act like Vim not like vi
 set nocompatible
-" **If** you love Windows behavior
+
+" **IF** you love Windows behavior
 " uncomment the next line (*if* it's not already in your _vimrc)
 "source $VIMRUNTIME/mswin.vim
 "remap keys for MS mouse behavior
@@ -27,7 +28,7 @@ au BufNewFile,BufEnter *  cd %:p:h
 
 " allow cursor wrapping except with h and l
 set whichwrap=b,s<,>,[,]
-" display last-line even if long (vs. @@)
+" display last-line even if long (vs. seeing @@)
 set display=lastline
 "set valid characters for filenames
 set isf=@,48-57,/,\\,.,-,_,+,,,$,%,[,],:,@-@,!,~,=
