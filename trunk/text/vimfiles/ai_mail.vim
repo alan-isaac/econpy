@@ -12,6 +12,7 @@ iab Altho Although
 iab altho although
 iab amt amount
 iab amts amounts
+iab Appt Appointment
 iab appt appointment
 iab asap as soon as possible
 iab B4 Before
@@ -47,6 +48,7 @@ iab fwd forward
 iab gvt government
 iab hw homework
 iab hrs hours
+iab impt important
 iab imo in my opinion
 iab Imo In my opinion
 iab info information
@@ -54,6 +56,8 @@ iab intl international
 iab iir if I recall correctly
 iab IIR If I recall correctly
 iab Iir If I recall correctly
+iab Mkt Market
+iab mkt market
 iab msg message
 iab msgs messages
 iab nec necessary
@@ -352,16 +356,19 @@ call AImail("qtzwrbdgh")
 imap ;mm <esc>:call AImail("qtzwrbdg")
 " SOME MAPPINGS
 imap ;sig <esc>:r c:\misc\sig<cr>{
-imap ;hth <cr><esc>0C<cr>hth, Alan Isaac<esc>bbhs<cr><esc>A<cr><cr>
-imap ;tu <cr><esc>0C<cr>Thank<space>you, Alan Isaac<esc>bbhs<cr><esc>A<cr><cr>
-imap ;cha <cr><esc>0C<cr>Cheers, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;chi <cr><esc>0C<cr>Cheers, Alan Isaac<esc>bbhs<cr><esc>A<cr><cr>
-imap ;chr <cr><esc>0C<cr>Cheers, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;tx <cr><esc>0C<cr>Thanks, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap !tx <cr><esc>0C<cr>Thanks! Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;fwiw <cr><esc>0C<cr>fwiw, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;fyi <cr><esc>0C<cr>fyi, Alan<esc>bhs<cr><esc>A<cr><cr>
-imap ;bw <cr><esc>0C<cr>Best Wishes,<cr>Alan Isaac<cr><cr>
+imap ;bwi <cr><esc>0C<cr>Best Wishes,<cr>Alan Isaac<cr><cr>
+imap ;bwa <cr><esc>0C<cr>Best Wishes,<cr>Alan<cr><cr>
+imap ;cha <cr><esc>0C<cr>Cheers,<cr>Alan<cr>
+imap ;chi <cr><esc>0C<cr>Cheers,<cr>Alan Isaac<cr>
+imap ;chr <cr><esc>0C<cr>Cheers,<cr>Alan<cr>
+imap ;hth <cr><esc>0C<cr>hth,<cr>Alan Isaac<cr>
+imap ;chu <cr><esc>0C<cr>Cheers,<cr>Uncle Alan<cr>
+imap ;tx <cr><esc>0C<cr>Thanks,<cr>Alan<cr>
+imap !tx <cr><esc>0C<cr>Thanks!<cr>Alan<cr>
+imap ;fwiw <cr><esc>0C<cr>fwiw,<cr>Alan<cr>
+imap ;fyi <cr><esc>0C<cr>fyi,<cr>Alan<cr>
+imap ;tui <cr><esc>0C<cr>Thank you,<cr>Alan Isaac<cr><cr>
+imap ;tua <cr><esc>0C<cr>Thank you,<cr>Alan<cr><cr>
 " change subject line
 "map ;ns 1G/^Subject: /e<CR>a(was: <Esc>A)<Esc>%i
 map ;ns 1G/^Subject: /<CR>:s,\(Subject: \)\(Re: \)*\(.*\)$,\1(was: \3),<CR>f(i

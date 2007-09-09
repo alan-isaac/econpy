@@ -158,8 +158,51 @@ def permutationsg(lst):
 		yield lst
 
 
+###### set utilities ###########################################
+#BEGIN PowerSet
+class PowerSet:
+	'''
+	All 2**n subsets are available by index in range(2**n).
+	Binary representation of index is used for element selection.
+	'''
+	def __init__(self, s):
+		'''
+		:note: to know order ex ante, `s` shd be lst or tuple 
+		'''
+		self.s = s
+		self.scard = len(s)  #cardinality of set s
+		self.pscard = 2**self.scard #cardinality of powerset
+	def __getitem__(self, idx):
+		if idx < 0:
+			idx += self.pscard
+		if idx < 0 or idx >= self.pscard:
+			raise IndexError("%i is out of range"%(i))
+		result = set( si for i,si in enumerate(self.s) if (idx>>i)&1 )
+		return result
+#END PowerSet
 
 #########  marginally relevant utilities  ######################
+def int2binary(i, strlen=None, reverse=False):
+	"""Return binary string representation of nonnegative integer.
+	`i` is the integer.
+	`strlen` is number of 'bits' in the representation.
+	"""
+	assert i>=0, "Nonnegative integers only"
+	if strlen is None:
+		strlen = 4  #set a minumu string length
+		n = i>>4
+		while n:
+			n >>= 4
+			strlen += 4
+		strlen = max(1,strlen) #to handle 0
+	else:
+		assert i<2**strlen, "Inadequate string length."
+	if reverse:
+		result = "".join( str((i>>y)&1) for y in range(strlen) )
+	else:
+		result = "".join( str((i>>y)&1) for y in range(strlen-1, -1, -1) )
+	return result
+
 def grep(pattern, *files):
 	'''Usage: grep("grep", *glob.glob("*.py"))
 

@@ -140,8 +140,8 @@ imap <buffer> <unique> ;sssec <c-r>="\\subsubsection{".input("subsubsection titl
 imap <buffer> <unique> ;la <c-r>="\\label{".input("label name: ")."}"<cr>
 
 " centering better than center env., which adds vertical space
-imap <buffer> <unique> ;fgr \begin{figure}[htp]<cr>\centering<cr>\includegraphics[width=\textwidth]{.eps}<cr>\caption{}<cr>\label{f:}<cr>\end{figure}
-imap <buffer> <unique> ;tbl \begin{table}[htp]<cr>\caption{}<cr>\label{t:}<cr>\centering<cr>\begin{tabular}{cc}\toprule<cr>\bottomrule<cr>\end{tabular}<cr>\end{table}<esc>?:<cr>a
+imap <buffer> <unique> ;fgr \begin{figure}[tbp]<cr>\centering<cr>\includegraphics[width=\textwidth]{}<cr>\caption{}<cr>\label{f:}<cr>\end{figure}
+imap <buffer> <unique> ;tbl \begin{table}[btp]<cr>\caption{}<cr>\label{t:}<cr>\centering<cr>\begin{tabular}{cc}\toprule<cr>\bottomrule<cr>\end{tabular}<cr>\end{table}<esc>?:<cr>a
 
 "section motion for .tex files (redefines the usual section commands)
 map <buffer> [[ k$?\\\(sub\)\{0,1}section[[{]<cr>
@@ -153,28 +153,6 @@ if exists("g:loaded_global_tex_ai")
 endif
 let g:loaded_global_tex_ai = 1
 
-" obviously you need to personalize the following function
-set cpo+=C
-function! TeX()
-0append
-\documentclass{article}
-%\usepackage{amsmath,amsfonts,amssymb}
-%\usepackage{graphicx}
-%\usepackage{moreverb}
-%\usepackage{color}  %may need option [tcidvi]
-%\usepackage{mathptm} %or \usepackage{mathptmx}
-%(still uses some CM fonts, must be in  Type1 form.)
-%\usepackage{natbib}  %formats references
-%\linespread{1.6}
-\begin{document}
-
-  \bibliographystyle{/mydocs/alan}
-  \bibliography{/mydocs/alan1,/mydocs/alan}
-\end{document}
-.
-0/begin{doc
-endfunction
-set cpo-=C
 
 let &cpo = s:cpo_save
 sy region aitexComment matchgroup=aitexComment start=/\\begin{comment}/ end=/\\end{comment})/ contained

@@ -1,12 +1,25 @@
-\documentclass{article}
-%\usepackage{amsmath,amsfonts,amssymb}
-%\usepackage{graphicx}
+\documentclass[12pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{setspace} \doublespacing
+\usepackage{amsmath,amsfonts,amssymb}
+%\usepackage{color}
 %\usepackage{moreverb}
-%\usepackage{color}  %may need option [tcidvi]
 %\usepackage{mathptm} %or \usepackage{mathptmx}
 %(still uses some CM fonts, must be in  Type1 form.)
 %\usepackage{natbib}  %formats references
-%\linespread{1.6}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{ifpdf}
+\ifpdf %if using pdfLaTeX in PDF mode
+  \usepackage[pdftex]{graphicx}
+  \DeclareGraphicsExtensions{.pdf,.png,.mps}
+\else %if using LaTeX or pdfLaTeX in DVI mode
+  \usepackage{graphicx}
+  \DeclareGraphicsExtensions{.eps,.bmp}
+  \DeclareGraphicsRule{.emf}{bmp}{}{}% declare EMF filename extension
+  \DeclareGraphicsRule{.png}{bmp}{}{}% declare PNG filename extension
+\fi
 \begin{document}
 
   \bibliographystyle{/mydocs/alan}
