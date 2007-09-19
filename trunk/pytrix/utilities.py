@@ -159,6 +159,19 @@ def permutationsg(lst):
 
 
 ###### set utilities ###########################################
+#BEGIN subsetid
+def subsetid(length):
+	'''Return: binary representations of all subsets
+	of a set of length `length`.
+	'''
+	if length==0:
+		return ['']
+	else:
+		result0 = subsetid(length-1)
+		return ['0'+id for id in result0]+['1'+id for id in result0]
+#END subsetid
+
+#:see: http://mail.python.org/pipermail/python-list/2001-May/085964.html
 #BEGIN PowerSet
 class PowerSet:
 	'''

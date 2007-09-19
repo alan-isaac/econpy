@@ -168,21 +168,28 @@ def parse_date(dt,freq=None):
 
 def date2periodstart(dt,freq=None):
 	'''Returns beginning of the period in which dt falls, based on freq.
+
+	:param dt: datetime.date object
+	:param freq: int, representaton of frequency
 	'''
 	logging.debug("\n\tEntering date2periodstart...")
 	assert isinstance(dt,datetime.date), "Requires datetime.date input."
+	freq = freq2num(freq)
 	if freq is None: new_dt = dt
 	elif freq==1: new_dt = datetime.date(dt.year,1,1)
 	elif freq==4: new_dt = datetime.date(dt.year,1+((dt.month-1)//3)*3,1)
 	elif freq==12: new_dt = datetime.date(dt.year,dt.month,1)
-	else: raise ValueError('Unsupported frequency.')
+	else: raise ValueError('Unsupported frequency: %s'%(freq))
 	if new_dt != dt:
 		logging.warning("Date changed to start of period for frequency of %s times per year."%(freq))
 	return new_dt
 	
 def datestring2date(date_str,freq=None):
 	'''Return yyyy or yyyy.q or yyyy.mm as datetime.date object.
-	Also return implied freq.  
+	Also return implied `freq`.
+
+	:param date_str: string, representation of a date
+	:param freq: int, representaton of frequency
 
 	:note: Also handles some hyphenated dates: e.g., 2005-10-01.
 	'''
@@ -193,7 +200,7 @@ def datestring2date(date_str,freq=None):
 	year = int(date_parts[0])
 	if len(date_parts) == 1:   #implies annual data
 		if freq:
-			assert freq == 1, "frequency must match format"
+			assert freq == 1, "frequency %s does not match format"%(freq)
 		else:
 			freq = 1
 		month = 1        #set month = 1 for consistency and nice graphs
@@ -223,75 +230,128 @@ def date2dbdate(dtdate,freq):
 	return dtstr
 
 
-def read_fred(source):
+class ReadFred(object):
 	'''Read data from `Fred2`_ files.
+	Example use::
+
+		fredbase = "http://research.stlouisfed.org/fred2/data/"
+		currency = ReadFred(fredbase+'CURRENCY.txt')
+		print currency.data
+
+	:requires: logging module (in standard library)
+	:note: logs errors to root log
+
+	.. _`FRED2`: http://research.stlouisfed.org/fred2/
+	'''
+	def __init__(self, source):
+		#source is a URL, a path, or a file handle
+		self.source = source
+		#convenience declarations
+		self.header = None
+		self.comments = None
+		self.dates = None
+		self.data = None
+		#parse the source
+		fh = self.get_fh()
+		self.parse_source(fh)
+		self.parse_header()
+	def get_fh(self):
+		source = self.source
+		if isinstance(source,str):
+			if source.startswith('http'):
+				try: fh = urllib.urlopen(source)
+				except IOError:
+					logging.error("Cannot open URL.")
+					return
+			else:
+				try: fh = open(source,'r')
+				except IOError:
+					logging.error("Cannot open file %s."%(source))
+					return
+		else:
+			fh = filehandle
+		return fh
+	def parse_source(self, fh):
+		'''Parse source into header, dates, and data.
+		'''
+		header_lines = []
+		dates = []
+		data = []
+		header = True
+		for line in fh:
+			if header:
+				if line.startswith('DATE'):
+					header = False
+					self.header = ''.join(header_lines)
+					continue #do not process this line
+				else:
+					header_lines.append(line)
+			else: #no longer header -> process the date&datum lines
+				line = line.strip().split()
+				try:
+					thedate=[int(xi) for xi in line[0].split('-')]  #e.g. 2005-09-11 -> [2005,09,11]
+					dates.append(datetime.date(*thedate))
+				except:
+					if not line:
+						logging.info("Empty line skipped.")
+					else:
+						logging.warn("Date field not a date; line skipped. Contents:\n%s"%(line))
+					continue
+				try:
+					data.append(float(line[1]))
+				except: 
+					logging.warn("Missing value set to nan.")
+					data.append(nan)
+			self.dates = dates
+			self.data = data
+	def parse_header(self):
+		'''Parse header into individual comments.
+		Skips blank lines.
+		'''
+		keyval = ['','']
+		comments = {}
+		for line in self.header.split("\n"):
+			if line and line[0].isalpha(): #shd start a new comment
+				try:
+					idx = line.index(':')
+					if keyval[0]:  #flush comment in progress
+						comments[keyval[0]]=keyval[1]
+					keyval = [ s.strip() for s in line.split(':',1) ]
+				except: #must be a badly formatted comment continuation
+					if keyval[0]:
+						keyval[1] = keyval[1] + ' ' + line.strip()
+					else:
+						logging.warn("Orphan comment line discarded.")
+			elif line: #continue an old comment
+				keyval[1] += ' ' + line.strip()
+		self.comments = comments
+	def get_sample(self):
+		start = self.dates[0]
+		end = self.dates[-1]
+		freq = self.comments['Frequency']
+		sample = Sample(start,end,freq=freq,dates=None,condition=None)
+		return sample
+	def write_db(self, file_name):
+		smpl = self.get_sample()
+		write_db(file_name,self.data,smpl=smpl,comments={},freq=None,start=None,end=None)
+		
+
+def read_fred(source):
+	'''Return data, dates, comments.
+	Read data from `Fred2`_ files.
 	Example use::
 
 		fredbase = "http://research.stlouisfed.org/fred2/data/"
 		data, dates, comments = read_fred(fredbase+'CURRENCY.txt')
 
-	:requires: logging module (logs to root log)
+	:note: deprecated in favor of ReadFred class
 
 	.. _`FRED2`: http://research.stlouisfed.org/fred2/
 	'''
-	if isinstance(source,str):
-		if source.startswith('http'):
-			try: fh = urllib.urlopen(source)
-			except IOError:
-				logging.error("Cannot open URL.")
-				return
-		else:
-			try: fh = open(source,'r')
-			except IOError:
-				logging.error("Cannot open file %s."%(source))
-				return
-	else:
-		fh = filehandle
-	comments = {}
-	keyval = ['','']
-	data = []
-	dates = []
-	#def parsecomment(cline): 
-	def findsep():
-		temp = fh.readline()
-		if temp.startswith("DATE"):
-			if keyval[0]:
-				comments[keyval[0]]=keyval[1]
-			return True
-		elif temp and temp[0].isalpha():
-			try:
-				idx = temp.index(':')
-				if keyval[0]:
-					comments[keyval[0]]=keyval[1]
-				keyval[0] = temp[:idx]
-				keyval[1] = temp[idx+1:].strip()
-			except:
-				if keyval[0]:
-					keyval[1] = keyval[1] + ' ' + temp.strip()
-				else:
-					logging.warn("Orphan comment line discarded.")
-			return False 
-		elif temp.strip():
-			keyval[1] = keyval[1] + ' ' + temp.strip()
-			return False 
-	while not findsep():
-		pass
-	for line in fh.readlines():
-		line = line.strip().split()
-		try:
-			thedate=[int(xi) for xi in line[0].split('-')]  #e.g. 2005-09-11 -> [2005,09,11]
-			dates.append(datetime.date(*thedate))
-		except:
-			if not line:
-				logging.info("Empty line skipped.")
-			else:
-				logging.warn("Date field not a date; line skipped.")
-			continue
-		try:
-			data.append(float(line[1]))
-		except: 
-			logging.warn("Missing value set to nan.")
-			data.append(nan)
+	series = ReadFred(source)
+	data = series.data
+	dates = sereis.dates
+	comments = series.comments
 	return data, dates, comments
 
  
@@ -382,17 +442,18 @@ class Sample:
 			return None
 		else:
 			return Sample(start,end,self.freq)
-		
+
 
 def freq2num(freq):
-	if freq in [1,4,12] or freq is None:
+	if freq in (1,4,12,52) or freq is None:
 		return freq
-	elif isinstance(freq,string):
+	elif isinstance(freq,str):
 		if freq.upper().startswith('A'): return 1
 		if freq.upper().startswith('Q'): return 4
 		if freq.upper().startswith('M'): return 12
+		if freq.upper().startswith('W'): return 52
 	else:
-		raise ValueError('Unsupported frequency')
+		raise ValueError('Unsupported frequency: %s'%(freq))
 
 def col2list(fname='stdin',colnum=1,commentchar='#'):
 	"""Read vector from stdin (keyboard) or file.  
