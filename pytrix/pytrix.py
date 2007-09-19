@@ -12,7 +12,7 @@ Most are lightweight, in the sense that they do not depend on an array package.
           and I have not had time to check all of them.
           Please test before using.  (Always a good idea of course.)
 :note: Please include proper attribution should this code be used in a research project or in other code.
-:see: The code below by William Park's and more can be found in his `Simple Recipes in Python`_
+:see: The code below by William Park and more can be found in his `Simple Recipes in Python`_
 :author: Alan G. Isaac, except where otherwise specified.
 :copyright: 2005 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_ except where otherwise specified.
@@ -917,146 +917,6 @@ def meanstdv(x):
 
 
 
-def linreg(X, Y):
-	"""Linear regression of y = ax + b. ::
-
-		real, real = linreg(list, list)
-
-	Returns coefficients to the regression line "y=ax+b" from x[] and
-	y[].  Basically, it solves ::
-	
-		 Sxx a + Sx b = Sxy
-		  Sx a +  N b = Sy
-
-	where ::
-
-		Sxy = \sum_i x_i y_i
-		Sx = \sum_i x_i
-		Sy = \sum_i y_i.
-
-	The solution is ::
-	
-		 a = (Sxy N - Sy Sx)/det
-		 b = (Sxx Sy - Sx Sxy)/det
-
-	where ``det = Sxx N - Sx^2``.  In addition, ::
-	
-		 Var|a| = s^2 |Sxx Sx|^-1 = s^2 | N  -Sx| / det
-			|b|       |Sx  N |          |-Sx Sxx|
-		 s^2 = {\sum_i (y_i - \hat{y_i})^2 \over N-2}
-			 = {\sum_i (y_i - ax_i - b)^2 \over N-2}
-			 = residual / (N-2)
-		 R^2 = 1 - {\sum_i (y_i - \hat{y_i})^2 \over \sum_i (y_i - \mean{y})^2}
-			 = 1 - residual/meanerror
-
-	It also prints a few other data, ::
-	
-		 N, a, b, R^2, s^2,
-
-	which are useful in assessing the confidence of estimation.
-
-	Only the coefficients of regression line are returned,
-	since they are usually what I want.
-	Other informations is sent to stdout to be read later.  
-
-	:author: William Park
-	"""
-	from math import sqrt
-	if len(X) != len(Y):  raise ValueError, 'unequal length'
-
-	N = len(X)
-	Sx = Sy = Sxx = Syy = Sxy = 0.0
-	for x, y in map(None, X, Y):
-		Sx = Sx + x
-		Sy = Sy + y
-		Sxx = Sxx + x*x
-		Syy = Syy + y*y
-		Sxy = Sxy + x*y
-	det = Sxx * N - Sx * Sx
-	a, b = (Sxy * N - Sy * Sx)/det, (Sxx * Sy - Sx * Sxy)/det
-
-	meanerror = residual = 0.0
-	for x, y in map(None, X, Y):
-		meanerror = meanerror + (y - Sy/N)**2
-		residual = residual + (y - a * x - b)**2
-	RR = 1 - residual/meanerror
-	ss = residual / (N-2)
-	Var_a, Var_b = ss * N / det, ss * Sxx / det
-	 
-	print "y=ax+b"
-	print "N= %d" % N
-	print "a= %g \\pm t_{%d;\\alpha/2} %g" % (a, N-2, sqrt(Var_a))
-	print "b= %g \\pm t_{%d;\\alpha/2} %g" % (b, N-2, sqrt(Var_b))
-	print "R^2= %g" % RR
-	print "s^2= %g" % ss
-	 
-	return a, b
-
-
-#class Ols
-#--------------------------------------------------------------------
-#Methods:        : 
-#                  calcCov() -- returns covariance matrix for soln
-#                  calcSE() -- returns standard errors for soln
-#                  calcTval() -- returns t-ratios for soln
-#--------------------------------------------------------------------
-class Ols:
-	'''Least squares estimates.
-	
-	:globals: Requires function 'varlags' (provided)
-	:Ivariables:
-		`soln` : float
-			the least squares solution
-		`nobs` : int
-			rows(dep)
-		`xTx` : array
-			KxK array (indep' * indep)
-		`xTy` : array
-			Kx1 array (indep' * dep)
-		`resids` : array
-			Tx1 array (dep - indep * soln)
-		`sig2` : float
-			(resids' * resids)/(T-K)
-	:see: Russell Davidson and James G. MacKinnon,
-          _Estimation and Inference in Econometrics_
-          (New York: Oxford, 1993)
-	:see: http://www.scipy.org/Cookbook/OLS different approach but shared goals
-	:date: 2005-12-08
-	:since: 2004-08-11
-	:author: Alan G. Isaac
-	'''
-	def __init__(self,dep,indep):
-		'''
-		:Parameters:
-			`dep` : array
-				(T x 1) array, the LHS variable
-			`indep` : array
-				(T x K) array, the RHS variables
-		'''
-		if have_numpy:
-			self.soln,self.SSR=linalg.lstsq(indep,dep)[:2]  #OLS estimates
-			self.nobs=numpy.shape(dep)[0]
-		#note: careful if use numarray: use copy to offset matrix multiply bug in numpy<=1
-		#http://sourceforge.net/mailarchive/forum.php?thread_id=5307744&forum_id=4890
-		X = numpy.mat(indep)
-		Y = numpy.mat(numpy.asarray(dep).reshape((-1,1)))  #TODO single equation only
-		self.xTx = X.T*X
-		self.xTy = X.T*Y
-		self.resids = Y - X*numpy.mat(self.soln)  #TODO single equation only
-		self.sig2=self.SSR[0]/(self.nobs-X.shape[1])        # s2 estimate
-	def calcCov(self):
-		'''compute covariance matrix for solution'''
-		return (self.sig2*inverse(self.xTx))      #TODO var-cov(b),shd use invpd when availabe
-	def calcSE(self):
-		'''compute standard errors for solution'''
-		return numpy.sqrt(numpy.diagonal(self.calcCov())).reshape((-1,1))          # std errs
-	def get_resids(self):
-		return self.resids
-	def calcTval(self):
-		'''compute t-ratios for solution'''
-		return (self.soln/self.solnSE)
-
-
 
 
 #----------------------------------------------------------------------#
@@ -1919,29 +1779,6 @@ def all(seq, test = bool):
 
 
 
-def varlags(var,lags):
-	'''Prepare data for VAR. ::
-	
-	         x,xlags  = varlags(var,lags)
-
-	OUTPUT::
-	
-	        x -     (T - lags) x K array, the last T-lags rows of var
-	        xlags - (T - lags) x lags*cols(var) array,
-	                being the 1st through lags-th
-	                values of var corresponding to the values in x
-	                i.e, the appropriate rows of x(-1)~x(-2)~etc.
-
-	:param `var`:  - T x K array or list
-	:param `lags`: - scalar, number of lags of var (a positive integer)
-	:author: Alan G. Isaac
-	:since: 5 Aug 2004
-	:note: get current version from pyGAUSS
-	'''
-	xlags=var[lags-1:-1]
-	for i in range(2,lags+1):
-		xlags=numpy.concatenate([xlags,var[lags-i:-i]],1)
-	return array(var[lags:],copy=1),xlags
 
 
 class Picard:

@@ -3,14 +3,14 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="en-US">
 <head>
-  <title>SOFTWARE FOR ECONOMISTS</title>
+  <title>Software for Economists</title>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
   <link rel="stylesheet" type="text/css" href="../dpt/isaac/isaac.css" />
   <link rel="stylesheet" type="text/css" href="http://www.american.edu/econ/notes/isaac.css" />
    <meta name="Author"
          content="Alan G. Isaac" />
    <meta name="Keywords"
-         content="software, economists, editors, text editors, GAUSS, matrix programming, Python, LaTeX, PostScript, Vim, gnuplot, symbolic mathematics" />
+         content="software, economists, software for economists, editors, text editors, GAUSS, matrix programming, Python, LaTeX, PostScript, Vim, gnuplot, symbolic mathematics" />
    <meta name="Description"
          content="Software resources for economists." />
 </head>
@@ -19,16 +19,9 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Sep 09
+Last modified: 2007 Sep 13
 <br />
-Current location: <a href="http://www.american.edu/econ/notes/soft.htm">http://www.american.edu/econ/notes/soft.htm</a>
-<!--[if lt IE 7]> 
-<br />
-<strong>Note:</strong>
-<a href="#browsers">Standards-compliant browsers</a> display this page nicely.
-<br />
-<strong style="font-size:150%">Warning: your browser is not standards compliant!</strong>
-<![endif]-->
+Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
 
 <div style="font-size: 60%;background-color:#EEEEEE; color:#FF0000;">
@@ -1416,11 +1409,11 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 <ul>
 <li id="scipy">
 You can use <a href="#script">Python</a> to do serious object-oriented scientific programming.
-A reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>,
-which is included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution.
-(Array math is provided underneath SciPy by <a href="http://sourceforge.net/projects/numpy">Numeric (NumPy)</a>,
-or <a href="http://www.stsci.edu/resources/software_hardware/numarray">Numarray</a>,
-or Numeric3.)
+A reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>.
+(License: BSD.)
+(SciPy is included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution.)
+Array math is provided underneath SciPy by <a id="numpy" href="http://numpy.scipy.org/">NumPy</a>,
+a remarkably capable package. (License: BSD.)
 Many scientific programming applications can be found on the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware">SciPy Topical Software Wiki</a>.
 <a href="http://dirac.cnrs-orleans.fr/ScientificPython/">ScientificPython</a> offers some useful scientific and visualization modules.
 The are also some additional <a href="http://probstat.sourceforge.net/">probability and statistics utilities</a> available.
@@ -4566,8 +4559,11 @@ Here is one of many ways.
 which comes with tools for PDF file manipulation.
 </li>
 <li>
-The <a href="http://www.accesspdf.com/pdftk/">PDF Toolkit</a> is extremely handy if you need to manipulate PDF files.
-(See the website for a <a href="http://www.accesspdf.com/article.php/20050421092951834">Python port of forge_fdf</a>.)
+The <a href="http://www.accesspdf.com/pdftk/">PDF Toolkit</a> is extremely handy and easy to use if you need to manipulate PDF files.
+(Also, see the website for a <a href="http://www.accesspdf.com/article.php/20050421092951834">Python port of forge_fdf</a>.)
+</li>
+<li>
+Do not overlook the GNU <a href="http://gnuwin32.sourceforge.net/packages/psutils.htm">psutils</a>.
 </li>
 <li>
 <a href="http://sourceforge.net/projects/pdfsam/">PDF Split and Merge</a>
@@ -4690,6 +4686,19 @@ you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>.
 Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> libraries have been developed for Python.
 (As a very cool plus,
 <a href="#vim">Vim</a> supports scripting with Perl, Python, and Ruby.)
+</p>
+
+<p id="python">
+My choice of scripting language is inflexible:
+I always use <a href="http://www.python.org">Python</a>.
+Use it to find out why.
+In addition, Python has <a href="#scipy">excellent support</a> for scientific computing.
+The <a href="http://docs.python.org/">online documentation</a> is excellent.
+If you lack programming experience,
+try <a href="http://www-uxsup.csx.cam.ac.uk/courses/PythonAB/">Python for the Absolute Beginner</a>
+and <a href="http://swaroopch.info/text/Byte_of_Python:Main_Page">Byte of Python</a>
+before trying the Python tutorial.
+Otherwise
 </p>
 
 <div id="clang">

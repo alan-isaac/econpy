@@ -193,7 +193,7 @@ class SFTP_wrapper:
 			remote_file_name = local_file_name
 		try:
 			assert(self._sftp != None)
-			self._sftp.put(local_file_name,remote_file_name)
+			self._sftp.put(local_file_name, remote_file_name)
 			s = self._sftp.stat(remote_file_name)
 			print ""
 			print "%s uploaded: %d bytes"%(local_file_name, s.st_size)
@@ -212,7 +212,7 @@ class SFTP_wrapper:
 	### method:  download a file from the server
 	def get(self,remote_file_name,local_file_name=None):
 		if local_file_name == None:
-			local_file_name0 = remote_file_name
+			local_file_name = remote_file_name
 		try:
 			f = open(local_file_name, 'wb')  
 			if self._sftp != None:
