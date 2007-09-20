@@ -1,5 +1,5 @@
-'''Various utilities useful for economists.
-Most are lightweight, in the sense that they do not depend on an array package.
+'''Various least squares routines.
+Some are lightweight, in the sense that they do not depend on an array package.
 
 :see: `pytrix.py <http://www.american.edu/econ/pytrix/pytrix.py>`
 :see: `pyGAUSS.py <http://www.american.edu/econ/pytrix/pyGAUSS.py>`
@@ -8,13 +8,10 @@ Most are lightweight, in the sense that they do not depend on an array package.
 :see: unitroot.py
 :see: pytrix.py
 :see: IO.py
-:warning: Some of William Park's functions did not correctly retab,
-          and I have not had time to check all of them.
-          Please test before using.  (Always a good idea of course.)
 :note: Please include proper attribution should this code be used in a research project or in other code.
 :see: The code below by William Park and more can be found in his `Simple Recipes in Python`_
 :author: Alan G. Isaac, except where otherwise specified.
-:copyright: 2005 Alan G. Isaac, except where another author is specified.
+:copyright: 2007 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_ except where otherwise specified.
 :since: 2004-08-04
 
@@ -29,78 +26,241 @@ import random, math, operator
 import types
 import sys,os
 import logging
+import time
 
 have_numpy = False
 try:
-	import numpy
+	import numpy as N
 	from numpy import linalg
 	have_numpy = True
 except ImportError:
-	logging.info("numpy not available")
+	logging.info("NumPy not available.")
+
+have_scipy = False
+if have_numpy:
+	try:
+		from numpy.distutils import cpuinfo
+	except ImportError:
+		pass                  #safest to set have_scipy = False
+	else:
+		#unfortunately some of scipy.stats expects sse2 and will segfault if absent!!
+		cpu = cpuinfo.cpuinfo()
+		if cpu._has_sse2():
+			try:
+				import scipy
+			except ImportError:
+				logging.info("SciPy not available -> no probabilities computed.")
+			else:
+				from scipy import stats
+				have_scipy = True
 
 
-#class OLS
-#--------------------------------------------------------------------
-#Methods:        : 
-#                  calcCov() -- returns covariance matrix for soln
-#                  calcSE() -- returns standard errors for soln
-#                  calcTval() -- returns t-ratios for soln
-#--------------------------------------------------------------------
-class OLS:
-	'''Least squares estimates.
+
+class OLS(object):
+	'''Least squares estimates for a **single** equation.
 	
-	:globals: Requires function 'varlags' (provided)
 	:Ivariables:
-		`soln` : float
+		`coefs` : float array
 			the least squares solution
 		`nobs` : int
 			rows(dep)
 		`xTx` : array
-			KxK array (indep' * indep)
+			KxK array (roughly, indep' * indep)
 		`xTy` : array
 			Kx1 array (indep' * dep)
 		`resids` : array
-			Tx1 array (dep - indep * soln)
-		`sig2` : float
+			Tx1 array (dep - indep * coefs)
+		`sigma2` : float
 			(resids' * resids)/(T-K)
+		`tvals` : array
+			t-ratios for the coefficient estimates
+		`pvals` : array
+			p-values for the coefficient estimates
+		`cov` : array
+			2d covariance array for coefficient estimates
+	:warning: adds intercept
+	:requires: NumPy
+	:requires: time (standard library)
 	:see: Russell Davidson and James G. MacKinnon,
           _Estimation and Inference in Econometrics_
           (New York: Oxford, 1993)
 	:see: http://www.scipy.org/Cookbook/OLS different approach but shared goals
-	:date: 2005-12-08
+	:todo: accept recarrays
+	:date: 2006-12-08
 	:since: 2004-08-11
 	:author: Alan G. Isaac
 	'''
-	def __init__(self,dep,indep):
+	def __init__(self,dep,indep, dep_name='', indep_names='', constant=True, trend=False):
 		'''
 		:Parameters:
 			`dep` : array
 				(T x 1) array, the LHS variable
 			`indep` : array
-				(T x K) array, the RHS variables
+				(T x K) array, the RHS variables, in columns
 		'''
-		if have_numpy:
-			self.soln, self.SSR = linalg.lstsq(indep,dep)[:2]  #OLS estimates
-			self.nobs=numpy.shape(dep)[0]
-		#note: careful if use numarray: use copy to offset matrix multiply bug in numpy<=1
-		#http://sourceforge.net/mailarchive/forum.php?thread_id=5307744&forum_id=4890
-		X = numpy.mat(indep)
-		Y = numpy.mat(numpy.asarray(dep).reshape((-1,1)))  #TODO single equation only
-		self.xTx = X.T*X
-		self.xTy = X.T*Y
-		self.resids = Y - X*numpy.mat(self.soln)  #TODO single equation only
-		self.sig2=self.SSR[0]/(self.nobs-X.shape[1])        # s2 estimate
-	def calcCov(self):
-		'''compute covariance matrix for solution'''
-		return (self.sig2*numpy.linalg.inv(self.xTx))      #TODO var-cov(b),shd use invpd when availabe
-	def calcSE(self):
+		self.nobs = len(indep)
+		self.nvars = len(indep[0])  #variables shd NOT include constant
+		self.indep_names = indep_names or tuple("x%02i"%(i+1) for i in range(self.nvars))
+		X = self.makeX(indep=indep, constant=constant, trend=trend)
+		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
+		try:
+			results = linalg.lstsq(X,Y)[:2]  #OLS estimates
+			coefs = results[0]    #matrix arguments -> matrix
+			self.ess = results[1][0]  #sum of squared residuals
+		except ImportError:
+			raise NotImplementedError("OLS requires NumPy")
+		assert (len(dep) == len(indep)), "Number of observations do not agree."
+		self.yvar = Y.var()
+		self.dep_name = dep_name or 'y'
+		#data based attributes
+		self.xTx = X.T * X
+		self.xTy = X.T * Y
+		resids = N.ravel(Y - X*coefs)
+		assert abs(self.ess - N.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
+		self._resids = resids                          #resids is a property
+		#end of matrix algebra
+		self.coefs = N.ravel(coefs)                     #self.coefs is a 1d array
+		self.df_e = self.nobs - self.ncoefs				# degrees of freedom, error 
+		self.sigma2 = self.ess / self.df_e              # sigma^2 = e'e/(T-K)
+		self.llf, self.aic, self.bic = self.llf()
+		# convenience declarations: attributes to be computed as needed
+		self._cov = None                                #the parameter covariance matrix
+		self._standard_errors = None                    #the parameter standard errors
+		self._tvals = None
+		self._pvals = None
+		# other attributes
+		t = time.localtime()
+		self.date = time.strftime("%a, %d %b %Y",t)
+		self.time = time.strftime("%H:%M:%S",t)
+		#stuff from Vince
+
+
+		self.R2 = 1 - self.resids.var()/self.yvar			# model R-squared
+		self.R2adj = 1-(1-self.R2)*((self.nobs-1)/(self.nobs-self.ncoefs))	# adjusted R-square
+
+		self.df_r = self.ncoefs - 1						# degrees of freedom, regression 
+		self.F = (self.R2/self.df_r) / ((1-self.R2)/self.df_e)	# model F-statistic
+		self._pvalF = None
+	def get_cov(self):
+		'''get covariance matrix for solution; compute if nec'''
+		if self._cov is None:
+			self._cov = self.sigma2*self.xTx.I.A     #covariance matrix, as array
+		#TODO var-cov(b),shd use invpd when availabe
+		return self._cov
+	cov = property(get_cov, None, None, "parameter covariance matrix")
+	def get_standard_errors(self):	# coef. standard errors
 		'''compute standard errors for solution'''
-		return numpy.sqrt(numpy.diagonal(self.calcCov())).reshape((-1,1))          # std errs
+		if self._standard_errors is None:
+			self._standard_errors = N.sqrt(self.cov.diagonal())
+		return self._standard_errors
+	se = property(get_standard_errors, None, None, "coefficient standard errors")
+	def get_tvals(self):
+		if self._tvals is None:
+			self._tvals = self.coefs / self.se						# coef. t-statistics
+		return self._tvals
+	tvals = property(get_tvals, None, None, "t-ratios for parameters")
+	def get_pvals(self):
+		if self._pvals is None:
+			if have_scipy:
+				self._pvals = (1-stats.t.cdf(N.abs(self.tvals), self.df_e)) * 2	# coef. p-values
+			else:
+				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
+				self._pvals = [N.inf for _ in range(self.ncoefs)]
+		return self._pvals
+	pvals = property(get_pvals, None, None, "p-values for coef t-ratios, based on Student-t distribution")
+	def get_pvalF(self):
+		if self._pvalF is None:
+			if have_scipy:
+				self.pvalF = 1-stats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
+			else:
+				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
+				self._pvalF = N.inf
+				print self._pvalF
+		return self._pvalF
+	pvalF = property(get_pvalF, None, None, "p-values for F statistic, based on F distribution")
 	def get_resids(self):
-		return self.resids
-	def calcTval(self):
-		'''compute t-ratios for solution'''
-		return (self.soln/self.solnSE)
+		return self._resids
+	resids = property(get_resids, None, None, "regression residuals")
+	def llf(self):
+		"""Return model log-likelihood and two information criteria.
+
+		:author: Vincent Nijs & Alan Isaac
+		"""
+		# Model log-likelihood, AIC, and BIC criterion values 
+		nobs, ncoefs, ess = self.nobs, self.ncoefs, self.ess
+		llf = -(nobs*1/2)*(1+math.log(2*math.pi)) - (nobs/2)*math.log(ess/nobs)
+		aic = -2*llf/nobs + (2*ncoefs/nobs)
+		bic = -2*llf/nobs + (ncoefs*math.log(nobs))/nobs
+		return llf, aic, bic
+	def makeX(self, indep, constant, trend):
+		nobs = self.nobs
+		if constant and trend is not None:
+			#add constant term and trend
+			constant = constant*N.ones( (nobs, 1) )
+			trend = (N.arange(nobs)-N.mat([trend])).T
+			X = N.hstack( [N.mat(indep), constant, trend] )
+			self.indep_names += ('Constant', 'Trend')
+			self.ncoefs = self.nvars + 2
+		elif constant:
+			#add constant term
+			constant = constant*N.ones( (nobs, 1) )
+			X = N.hstack( [N.mat(indep), constant] )
+			self.indep_names += ('Constant',)
+			self.ncoefs = self.nvars + 1
+		elif trend is not None:
+			#add linear trend
+			trend = (N.arange(nobs)-N.mat([trend])).T
+			X = N.hstack( [N.mat(indep), trend] )
+			self.indep_names += ('Trend',)
+			self.ncoefs = self.nvars + 1
+		else:
+			X = N.mat(indep)
+			self.ncoefs = self.nvars
+		assert (self.nobs, self.ncoefs) == X.shape
+		return X
+	def __str__(self):
+		# use to print output
+		header_template = '''
+==============================================================================
+==============================================================================
+Dependent Variable: %(dep_name)s
+Method: Least Squares
+Date: %(date)s
+Time: %(time)s
+# obs:              %(nobs)5d
+# RHS variables:    %(ncoefs)5d
+==============================================================================
+''' + 5*"%-15s"%('variable','coefficient','std. Error','t-statistic','pval.') + "\n"
+		header_dict = dict(dep_name=self.dep_name, indep_names=self.indep_names,
+		date=self.date, time=self.time, nobs=self.nobs, ncoefs=len(self.coefs))
+		result_template = "%-15s" + 4*"% -15.5f"
+		result = []
+		for i in range(len(self.coefs)):
+			result.append(result_template % tuple([self.indep_names[i],self.coefs[i],self.se[i],self.tvals[i],self.pvals[i]]) )
+		modelstat_template = '''
+==============================================================================
+Model stats
+------------------------------------------------------------------------------
+Log likelihood       %(llf)10.3f        
+R-squared            %(rsq)10.3f             Adjusted R-squared    %(R2adj)10.3f            
+F-statistic          %(F)10.3f             Prob (F-statistic)    %(pvalF)10.3f            
+AIC criterion        %(aic)10.3f             BIC criterion         %(bic)10.3f
+==============================================================================
+'''
+		modelstat_dict = dict(llf=self.llf, rsq=self.R2, R2adj=self.R2adj, F=self.F,pvalF=self.pvalF,aic=self.aic,bic=self.bic)
+		resid_stats_template = '''
+==============================================================================
+Residual stats
+==============================================================================
+Durbin-Watson stat    % -5.6f' % tuple([self.R2, self.dw()])
+Omnibus stat        % -5.6f' % tuple([self.R2adj, omni])    Prob(Omnibus stat)    % -5.6f' % tuple([self.F, omnipv])
+JB stat                % -5.6f' % tuple([self.Fpv, JB]) Prob(JB)            % -5.6f' % tuple([ll, JBpv])
+Skew     Kurtosis            % -5.6f' % tuple([skew, kurtosis])
+==============================================================================
+'''
+		return (header_template%header_dict)+'\n'.join(result).replace('1.#INF','.') + (modelstat_template%modelstat_dict)
+
+
 
 
 
@@ -256,6 +416,7 @@ class ols:
 		self.nobs = self.y.shape[0]						# number of observations
 		self.ncoef = self.x.shape[1]					# number of coef.
 		self.df_e = self.nobs - self.ncoef				# degrees of freedom, error 
+		#TODO: fix!
 		self.df_r = self.ncoef - 1						# degrees of freedom, regression 
 
 		self.e = self.y - dot(self.x,self.b)			# residuals
@@ -306,9 +467,9 @@ class ols:
 		"""
 		
 		# Model log-likelihood, AIC, and BIC criterion values 
-		ll = -(self.nobs*1/2)*(1+log(2*pi)) - (self.nobs/2)*log(dot(self.e,self.e)/self.nobs)
+		ll = -(self.nobs*1/2)*(1+N.log(2*math.pi)) - (self.nobs/2)*N.log(N.dot(self.e,self.e)/self.nobs)
 		aic = -2*ll/self.nobs + (2*self.ncoef/self.nobs)
-		bic = -2*ll/self.nobs + (self.ncoef*log(self.nobs))/self.nobs
+		bic = -2*ll/self.nobs + (self.ncoef*N.log(self.nobs))/self.nobs
 
 		return ll, aic, bic
 	

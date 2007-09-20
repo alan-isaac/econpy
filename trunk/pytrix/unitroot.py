@@ -1,22 +1,21 @@
 '''A collection of unit root tests for SciPy.
 
 :note: Based on GAUSS code by Alan G. Isaac and David Rapach.  (KPSS test missing.)
-:note: written for: Python 2.3 and SciPy.
-:note: Should work fine with Numeric or numarray
+:note: written for: Python 2.5 and SciPy
+:note: Should work fine without SciPy if you have NumPy
 :license: `MIT license`_
-:see: pyGAUSS.py
 :see: tseries.py
 :see: pytrix.py
-:see: IO.py
 :since: 2004-08-10
-:see: `current location <http://www.american.edu/econ/pytrix/unitroot.py>`
+:see: `current location`_
 :contact: aisaac AT american.edu http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm
 
+.. _`current location`: http://econpy.googlecode.com/svn/trunk/pytrix/unitroot.py
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '20040810'
+__lastmodified__ = '2007-08-10'
 
 import numpy as N
 from .ls import OLS
@@ -33,7 +32,7 @@ from .tseries import varlags
 #                  obs -- scalar, rows(y)-(p+1)
 #                : Prints augmented Dickey-Fuller t-stats
 #Globals         : None
-#Notes           : Requires function 'varlags' (provided)
+#Notes           : Requires function 'varlags' (imported fr tseries)
 #                : Requires function 'ols' (provided)
 #References      : Russell Davidson and James G. MacKinnon,
 #                      _Estimation and Inference in Econometrics_
@@ -52,21 +51,26 @@ def adf_ls(y,p,prt=False):
 		addx=N.concatenate([addx,dylags],1)
 	T=N.shape(dy)[0]                      # number of observations
 	reportmat=[[None for i in range(p+4)] for i in range(6)]   #avoid shallow copies
-	results = OLS(dy,addx)
-	reportmat[0][0:p+1]=N.ravel(results.soln)
-	reportmat[0][p+3]=results.SSR[0]
-	reportmat[1][0:p+1]=N.ravel(results.calcSE())
-	addx=N.concatenate([addx,N.ones((T,1))],1)           # add constant to regressors
-	results = OLS(dy,addx)
-	reportmat[2][0:p+2]=N.ravel(results.soln)
-	reportmat[2][p+3]=results.SSR[0]
-	reportmat[3][0:p+2]=N.ravel(results.calcSE())
-	addx=N.concatenate([addx,N.reshape(N.arange(T)-int(T/2),(T,1))],1)    # add trend to regressors
-	results = OLS(dy,addx)
-	reportmat[4][0:p+3]=N.ravel(results.soln)
-	reportmat[4][p+3]=results.SSR[0]
-	reportmat[5][0:p+3]=N.ravel(results.calcSE())
-	reportmat=N.transpose(reportmat)
+	results = dict()
+	#no constant
+	result = OLS(dy, addx, constant=None)
+	reportmat[0][0:p+1] = N.ravel(result.coefs)
+	reportmat[0][p+3] = result.ess
+	reportmat[1][0:p+1] = N.ravel(result.se)
+	results['noconstant'] = result
+	# adds constant to regressors
+	result = OLS(dy,addx)
+	reportmat[2][0:p+2] = result.coefs
+	reportmat[2][p+3] = result.ess
+	reportmat[3][0:p+2] = result.se
+	results['constant'] = result
+	# add trend to regressors
+	result = OLS(dy,addx, trend=T//2)
+	reportmat[4][0:p+3] = result.coefs
+	reportmat[4][p+3] = result.ess
+	reportmat[5][0:p+3] = result.se
+	results['constant_trend'] = result
+	reportmat = zip(*reportmat)
 	if prt :
 		print '''
 ADF results for %s lags
@@ -78,21 +82,21 @@ ADF results for %s lags
               No Constant  Constant    Trend
    RHS var    No Trend     No Trend    Constant
 --------------------------------------------------''' % (p,)
-		print 'x(-1)'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[0,0:6:2]))
-		print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[0,1:6:2]))
+		print 'x(-1)'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[0][0:6:2]))
+		print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[0][1:6:2]))
 		for i in range(1,p+1) :
-			print ('dx(-%i)'%(i,)).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[i,0:6:2]))
-			print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[i,1:6:2]))
-		print 'Constant'.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+1,2:6:2]))
-		print ''.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+1,3:6:2]))
-		print 'Trend'.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+2,4:6:2]))
-		print ''.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+2,5:6:2]))
-		print 'SSR'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+3,0:6:2]))
+			print ('dx(-%i)'%(i,)).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[i][0:6:2]))
+			print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[i][1:6:2]))
+		print 'Constant'.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+1][2:6:2]))
+		print ''.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+1][3:6:2]))
+		print 'Trend'.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+2][4:6:2]))
+		print ''.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+2][5:6:2]))
+		print 'SSR'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+3][0:6:2]))
 		print '''------------------------------------------------------------
 Note: Final line is sum of squared residuals.
 Note: coefficient on constant depends on trend centering.'''
 		# Could use SSR for Dickey Fuller (1981) Phi tests */
-	return reportmat,T  # coefs & t-stat, usable obs
+	return results
 
 
 #adf:
@@ -100,7 +104,7 @@ Note: coefficient on constant depends on trend centering.'''
 #                  p -- scalar, maximum lag (max autocorr order)
 #Output          : Prints augmented Dickey-Fuller t-stats
 #Globals         : 
-#Notes           : Requires function 'varlags' (provide from tseries)
+#Notes           : Requires function 'varlags' (imported fr tseries)
 #                : Requires function 'adf_ls()' (provided)
 #References      : Russell Davidson and James G. MacKinnon,
 #                      _Estimation and Inference in Econometrics_
@@ -132,13 +136,22 @@ Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
                        (t-ratio)
                For model including the following:
                ----------------------------------
-      Lags     No Constant  Constant    Trend        Obs
-               No Trend     No Trend    Constant
+      Lags     No Constant  Constant    Constant        Obs
+               No Trend     No Trend    & Trend
 ------------------------------------------------------------'''
+	ids = ('noconstant', 'constant', 'constant_trend')
+	fmt_b = "%11.3f"*3
+	fmt_t = "%11s"*3
 	for i in range(p+1) :
-		reportmat,obs=adf_ls(y,i,False)
-		print str(i).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.2g'%(x,)).center(15),reportmat[0,0:6:2])) + str(obs)
-		print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.2g)'%(x,)).center(15),reportmat[0,1:6:2]))
+		results = adf_ls(y,i,False)
+		print "%10d"%(i) + " "*3,
+		print fmt_b%tuple( results[id].coefs[0] for id in ids ),
+		print "%11d"%results['constant'].nobs
+		print " "*13,
+		print fmt_t%tuple( "(%1.2g)"%(results[id].se[0]) for id in ids )
+		print
+		#print str(i).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.2g'%(x,)).center(15),reportmat[0][0:6:2])) + str(obs)
+		#print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.2g)'%(x,)).center(15),reportmat[0][1:6:2]))
 	print "------------------------------------------------------------"
 
 
