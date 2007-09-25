@@ -157,6 +157,30 @@ def permutationsg(lst):
 	else:
 		yield lst
 
+def combinations(n,t) :
+	'''Return all t-combinations (as indices).
+
+	:type `lst`: sequence
+	:rtype:      list of lists
+	:return:     all t-combinations of n elements (by index)
+	:requires:   Python 2.4+ (for generators)
+	:since:      2007-09-19
+	:see:        Knuth vol.4 ch.3
+	:author:     Charles Harris (using Knuth's algorithm)
+	'''
+	c = range(t + 2)  #use range not arange because it is faster and ...
+	c[-2] = n
+	c[-1] = 0
+	while 1 :
+		yield c[:t]  #... a slice of a list is a copy!
+		j = 0
+		while c[j] + 1 == c[j+1] :
+			c[j] = j
+			j += 1
+		if j >= t :
+			return
+		c[j] += 1
+
 
 ###### set utilities ###########################################
 #BEGIN subsetid

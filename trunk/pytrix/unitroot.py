@@ -13,14 +13,25 @@
 .. _`current location`: http://econpy.googlecode.com/svn/trunk/pytrix/unitroot.py
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
+from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '2007-08-10'
+__lastmodified__ = '2007-09-10'
 
 import numpy as N
 from .ls import OLS
 from .tseries import varlags
 
+adf_cv1 = '''
+One-sided test of H0: Unit root vs. H1: Stationary
+Approximate asymptotic critical values (t-ratio):
+------------------------------------------------------------
+  1%      5%      10%      Model
+------------------------------------------------------------
+-2.56   -1.94   -1.62     Simple ADF (no constant or trend)
+-3.43   -2.86   -2.57     ADF with constant (no trend)
+-3.96   -3.41   -3.13     ADF with constant & trend
+------------------------------------------------------------'''
 
 
 #adf_ls
@@ -39,63 +50,70 @@ from .tseries import varlags
 #                      (New York: Oxford, 1993)
 #                      See references therein for original sources
 #Authors         : Alan G. Isaac
-#Last revised    : 10 Aug 2004
+#Last revised    : 10 Aug 2007
 #--------------------------------------------------------------------
-def adf_ls(y,p,prt=False):
-	#local addx,dy,dylags,reportmat,T,b,e,SSE,covb,seb
-	y=N.reshape(y,(-1,1))
-	addx=y[p:-1]                  # lag level
-	dy=y[1::]-y[:-1]                       # differencing
+def adf_ls(y, p, prt=False):
+	#local addx,dy,dylags
+	y = N.array(y).ravel()          #y is now 1d
+	#dy and addx are 2d
+	dy = N.diff(y).reshape((-1,1))  #first difference
+	addx = y[p:-1].reshape((-1,1))  #lag level
 	if p > 0:
-		dy,dylags=varlags(dy,p)    # generating lags
-		addx=N.concatenate([addx,dylags],1)
-	T=N.shape(dy)[0]                      # number of observations
-	reportmat=[[None for i in range(p+4)] for i in range(6)]   #avoid shallow copies
-	results = dict()
-	#no constant
-	result = OLS(dy, addx, constant=None)
-	reportmat[0][0:p+1] = N.ravel(result.coefs)
-	reportmat[0][p+3] = result.ess
-	reportmat[1][0:p+1] = N.ravel(result.se)
-	results['noconstant'] = result
-	# adds constant to regressors
-	result = OLS(dy,addx)
-	reportmat[2][0:p+2] = result.coefs
-	reportmat[2][p+3] = result.ess
-	reportmat[3][0:p+2] = result.se
-	results['constant'] = result
-	# add trend to regressors
-	result = OLS(dy,addx, trend=T//2)
-	reportmat[4][0:p+3] = result.coefs
-	reportmat[4][p+3] = result.ess
-	reportmat[5][0:p+3] = result.se
-	results['constant_trend'] = result
-	reportmat = zip(*reportmat)
+		dy, dylags = varlags(dy, p)    # generating lags
+		addx = N.concatenate([addx, dylags], 1)
+	T = dy.shape[0]                      # number of observations
+	#THREE VERSIONS of regression
+	results = dict()  #holds the three sets of regression results
+	#1. no constant
+	results['noconstant'] =  OLS(dy, addx, constant=None)
+	#2. add constant to regressors
+	results['constant'] =  OLS(dy, addx)
+	#3. add (midpt centered) trend to regressors
+	results['constant_trend'] =  OLS(dy, addx, trend=T//2)
 	if prt :
+		print adf_cv1
 		print '''
 ADF results for %s lags
 ------------------------------------------------------------
-              ADF regression coefficients
-                     (t-ratio)
+                 ADF regression coefficients
+                       (t-ratio)
               For model including the following:
               ----------------------------------
               No Constant  Constant    Trend
    RHS var    No Trend     No Trend    Constant
 --------------------------------------------------''' % (p,)
-		print 'x(-1)'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[0][0:6:2]))
-		print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[0][1:6:2]))
+		ids = ('noconstant', 'constant', 'constant_trend')
+		fmt_b = "%11.3f"
+		fmt_t = "%11s"
+		#print results for lagged level
+		print 'x(-1)'.rjust(10) + " "*3,
+		print (fmt_b*3)%tuple( results[id].coefs[0] for id in ids )
+		print " "*13,
+		print (fmt_t*3)%tuple( "(%1.2f)"%(results[id].tvals[0]) for id in ids )
+		#print results for lagged differences
 		for i in range(1,p+1) :
-			print ('dx(-%i)'%(i,)).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[i][0:6:2]))
-			print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[i][1:6:2]))
-		print 'Constant'.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+1][2:6:2]))
-		print ''.rjust(10) + ' '*15 + '%s'*2 % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+1][3:6:2]))
-		print 'Trend'.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+2][4:6:2]))
-		print ''.rjust(10) + ' '*(15*2) + '%s' % tuple(map(lambda x:('(%1.3g)'%(x,)).center(15),reportmat[p+2][5:6:2]))
-		print 'SSR'.rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.3g'%(x,)).center(15),reportmat[p+3][0:6:2]))
+			print ('dx(-%i)'%(i,)).rjust(10) + " "*3,
+			print (fmt_b*3)%tuple( results[id].coefs[i] for id in ids )
+			print " "*13,
+			print (fmt_t*3)%tuple( "(%1.2f)"%(results[id].tvals[i]) for id in ids )
+		#print results for constant
+		print 'Constant'.rjust(10) + " "*(3+11),     #pad for skipping 'noconstant'
+		print (fmt_b*2)%tuple( results[id].coefs[p+1] for id in ids[1:] )
+		print " "*(10+3+11),
+		print (fmt_t*2)%tuple( "(%1.2f)"%(results[id].tvals[p+1]) for id in ids[1:] )
+		#print results for trend
+		print 'Trend'.rjust(10) + " "*(3+2*11),
+		print (fmt_b)%tuple( results[id].coefs[-1] for id in ids[-1:] )
+		print " "*(10+3+2*11),
+		print (fmt_t)%tuple( "(%1.2f)"%(results[id].tvals[p+2]) for id in ids[-1:] )
+		#print sum of squared residuals
+		print 'ESS'.rjust(10) + " "*3,
+		print (fmt_b*3)%tuple( results[id].ess for id in ids )
 		print '''------------------------------------------------------------
-Note: Final line is sum of squared residuals.
-Note: coefficient on constant depends on trend centering.'''
-		# Could use SSR for Dickey Fuller (1981) Phi tests */
+Note: trend is centered at sample midpoint.
+Note: coefficient on constant depends on trend centering.
+Note: ESS = error sum of squares (i.e., sum of squared resids).'''
+		#TODO: Could use SSR for Dickey Fuller (1981) Phi tests */
 	return results
 
 
@@ -115,19 +133,10 @@ Note: coefficient on constant depends on trend centering.'''
 #Author          : Alan G. Isaac 
 #Last revised    : 7 Aug 2004
 #--------------------------------------------------------------------
-def adf(y,p):
+def adf(y, p):
 	#local obs,i,b,ty,temp,oldcv,oldnv;
-	obs=N.shape(y)[0]
-	print '''
-One-sided test of H0: Unit root vs. H1: Stationary
-Approximate asymptotic critical values (t-ratio):
-------------------------------------------------------------
-  1%      5%      10%      Model
-------------------------------------------------------------
--2.56   -1.94   -1.62     Simple ADF (no constant or trend)
--3.43   -2.86   -2.57     ADF with constant (no trend)
--3.96   -3.41   -3.13     ADF with constant & trend
-------------------------------------------------------------'''
+	obs = N.shape(y)[0]
+	print adf_cv1  #table of critical values
 	print '''You began with a series of %s observations, in which case
 Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
 	print '''
@@ -143,12 +152,12 @@ Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
 	fmt_b = "%11.3f"*3
 	fmt_t = "%11s"*3
 	for i in range(p+1) :
-		results = adf_ls(y,i,False)
-		print "%10d"%(i) + " "*3,
+		results = adf_ls(y,i,False)  #dict of results: id -> OLS instance
+		print str(i).rjust(10) + " "*3,
 		print fmt_b%tuple( results[id].coefs[0] for id in ids ),
 		print "%11d"%results['constant'].nobs
 		print " "*13,
-		print fmt_t%tuple( "(%1.2g)"%(results[id].se[0]) for id in ids )
+		print fmt_t%tuple( "(%1.2f)"%(results[id].tvals[0]) for id in ids )
 		print
 		#print str(i).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.2g'%(x,)).center(15),reportmat[0][0:6:2])) + str(obs)
 		#print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.2g)'%(x,)).center(15),reportmat[0][1:6:2]))
