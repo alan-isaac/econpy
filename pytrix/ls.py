@@ -1,16 +1,15 @@
 '''Various least squares routines.
 Some are lightweight, in the sense that they do not depend on an array package.
 
+:needs: Python 2.5.1+
 :see: `pytrix.py <http://www.american.edu/econ/pytrix/pytrix.py>`
 :see: `pyGAUSS.py <http://www.american.edu/econ/pytrix/pyGAUSS.py>`
-:see: poly.py
 :see: tseries.py
 :see: unitroot.py
 :see: pytrix.py
-:see: IO.py
+:see: io.py
 :note: Please include proper attribution should this code be used in a research project or in other code.
 :see: The code below by William Park and more can be found in his `Simple Recipes in Python`_
-:author: Alan G. Isaac, except where otherwise specified.
 :copyright: 2007 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_ except where otherwise specified.
 :since: 2004-08-04
@@ -18,9 +17,10 @@ Some are lightweight, in the sense that they do not depend on an array package.
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
+__author__ = 'Alan G. Isaac (and others as specified)'
+__lastmodified__ = '2007-09-10'
 
 import random, math, operator
 import types
@@ -90,7 +90,7 @@ class OLS(object):
 	:since: 2004-08-11
 	:author: Alan G. Isaac
 	'''
-	def __init__(self,dep,indep, dep_name='', indep_names='', constant=True, trend=False):
+	def __init__(self,dep,indep, dep_name='', indep_names='', constant=1, trend=None):
 		'''
 		:Parameters:
 			`dep` : array
@@ -98,10 +98,10 @@ class OLS(object):
 			`indep` : array
 				(T x K) array, the RHS variables, in columns
 		'''
-		self.nobs = len(indep)
-		self.nvars = len(indep[0])  #variables shd NOT include constant
-		self.indep_names = indep_names or tuple("x%02i"%(i+1) for i in range(self.nvars))
+		#make X sets self.nvars, self.nobs, self.indep_names
+		self.indep_names = indep_names
 		X = self.makeX(indep=indep, constant=constant, trend=trend)
+		self.X = X  #used for end_points ... need for anything else?
 		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
 		try:
 			results = linalg.lstsq(X,Y)[:2]  #OLS estimates
@@ -115,7 +115,8 @@ class OLS(object):
 		#data based attributes
 		self.xTx = X.T * X
 		self.xTy = X.T * Y
-		resids = N.ravel(Y - X*coefs)
+		self.fitted = X*coefs
+		resids = N.ravel(Y - self.fitted)
 		assert abs(self.ess - N.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
 		self._resids = resids                          #resids is a property
 		#end of matrix algebra
@@ -132,12 +133,11 @@ class OLS(object):
 		t = time.localtime()
 		self.date = time.strftime("%a, %d %b %Y",t)
 		self.time = time.strftime("%H:%M:%S",t)
+		################
 		#stuff from Vince
-
-
+		################ 
 		self.R2 = 1 - self.resids.var()/self.yvar			# model R-squared
-		self.R2adj = 1-(1-self.R2)*((self.nobs-1)/(self.nobs-self.ncoefs))	# adjusted R-square
-
+		self.R2adj = 1-(1-self.R2)*((self.nobs-1)/(self.nobs-self.ncoefs))	# adjusted R-square 
 		self.df_r = self.ncoefs - 1						# degrees of freedom, regression 
 		self.F = (self.R2/self.df_r) / ((1-self.R2)/self.df_e)	# model F-statistic
 		self._pvalF = None
@@ -181,6 +181,14 @@ class OLS(object):
 	def get_resids(self):
 		return self._resids
 	resids = property(get_resids, None, None, "regression residuals")
+	def slope_intercept(self, xcol=0):
+		X = self.X.A         #as array
+		x = X[:,xcol]
+		means = X.mean(axis=0)
+		means[xcol] = 0
+		intercept = N.dot(self.coefs, means)
+		slope = self.coefs[xcol]
+		return slope, intercept
 	def llf(self):
 		"""Return model log-likelihood and two information criteria.
 
@@ -193,31 +201,40 @@ class OLS(object):
 		bic = -2*llf/nobs + (ncoefs*math.log(nobs))/nobs
 		return llf, aic, bic
 	def makeX(self, indep, constant, trend):
-		nobs = self.nobs
+		X = N.asmatrix(indep)
+		if len(X)==1:  #must have been a one dimensional indep
+			X = X.T
+		nobs = len(X)
+		self.nobs = nobs
+		self.nvars = X.shape[1]  #variables shd NOT include constant
+		self.indep_names = self.indep_names or tuple("x%02i"%(i+1) for i in range(self.nvars))
 		if constant and trend is not None:
 			#add constant term and trend
 			constant = constant*N.ones( (nobs, 1) )
 			trend = (N.arange(nobs)-N.mat([trend])).T
-			X = N.hstack( [N.mat(indep), constant, trend] )
+			X = N.hstack( [X, constant, trend] )
 			self.indep_names += ('Constant', 'Trend')
 			self.ncoefs = self.nvars + 2
 		elif constant:
 			#add constant term
 			constant = constant*N.ones( (nobs, 1) )
-			X = N.hstack( [N.mat(indep), constant] )
+			X = N.hstack( [X, constant] )
 			self.indep_names += ('Constant',)
 			self.ncoefs = self.nvars + 1
 		elif trend is not None:
 			#add linear trend
 			trend = (N.arange(nobs)-N.mat([trend])).T
-			X = N.hstack( [N.mat(indep), trend] )
+			X = N.hstack( [X, trend] )
 			self.indep_names += ('Trend',)
 			self.ncoefs = self.nvars + 1
 		else:
-			X = N.mat(indep)
 			self.ncoefs = self.nvars
 		assert (self.nobs, self.ncoefs) == X.shape
 		return X
+	def print_results(self):
+		'''Return None.  Print results.
+		'''
+		print self
 	def __str__(self):
 		# use to print output
 		header_template = '''
