@@ -1,5 +1,13 @@
 '''A collection of unit root tests for SciPy.
 
+Example use::
+
+	rw = numpy.cumsum( numpy.random.rand(100) )
+	#print ADF results for lag=4
+	adf_ls(rw, 4, prt=True)
+	#print ADF results for lags up to lag=4
+	adf(rw, 4)
+
 :note: Based on GAUSS code by Alan G. Isaac and David Rapach.  (KPSS test missing.)
 :note: written for: Python 2.5 and SciPy
 :note: Should work fine without SciPy if you have NumPy
@@ -34,25 +42,29 @@ Approximate asymptotic critical values (t-ratio):
 ------------------------------------------------------------'''
 
 
-#adf_ls
-#Input           : y   -- (N x 1) vector, the time series of interest
-#                  p   -- scalar, maximum lag (max autocorr order)
-#                  prt -- boolean, prt=True to print results
-#Output          : b   -- coefs from ADF regression
-#                  t   -- t-stats from ADF regression
-#                  obs -- scalar, rows(y)-(p+1)
-#                : Prints augmented Dickey-Fuller t-stats
-#Globals         : None
-#Notes           : Requires function 'varlags' (imported fr tseries)
-#                : Requires function 'ols' (provided)
-#References      : Russell Davidson and James G. MacKinnon,
-#                      _Estimation and Inference in Econometrics_
-#                      (New York: Oxford, 1993)
-#                      See references therein for original sources
-#Authors         : Alan G. Isaac
-#Last revised    : 10 Aug 2007
-#--------------------------------------------------------------------
 def adf_ls(y, p, prt=False):
+	'''Return: `results`, a dictionary of OLS instances,
+	one instance for each regression type
+	('noconstant', 'constant','constant_trend').
+
+	:Parameters:
+		y : sequence
+			N-element sequence (the time series of interest)
+		p : scalar
+			lag (autocorrelation order)
+		prt :  boolean
+			prt=True to print results
+	:Output: `results`, dictionary of OLS instances.
+	:requires: 	function 'varlags' (imported fr tseries)
+	:requires: 	class 'OLS' (import from ls)
+	:see: Russell Davidson and James G. MacKinnon,
+	      _Estimation and Inference in Econometrics_
+	      (New York: Oxford, 1993)
+	      See references therein for original sources
+	:since: 2004-08-10
+	:date:   10 Sep 2007
+	:contact: aisaac AT american.edu
+	'''
 	#local addx,dy,dylags
 	y = N.array(y).ravel()          #y is now 1d
 	#dy and addx are 2d
@@ -117,23 +129,29 @@ Note: ESS = error sum of squares (i.e., sum of squared resids).'''
 	return results
 
 
-#adf:
-#Input           : y -- (N x 1) array, the time series of interest
-#                  p -- scalar, maximum lag (max autocorr order)
-#Output          : Prints augmented Dickey-Fuller t-stats
-#Globals         : 
-#Notes           : Requires function 'varlags' (imported fr tseries)
-#                : Requires function 'adf_ls()' (provided)
-#References      : Russell Davidson and James G. MacKinnon,
-#                      _Estimation and Inference in Econometrics_
-#                      (New York: Oxford, 1993)
-#                      See references therein for original sources
-#                      See p.708, table 20.1 for critical values
-#                  Harris, 1992, Economics Letters
-#Author          : Alan G. Isaac 
-#Last revised    : 7 Aug 2004
-#--------------------------------------------------------------------
 def adf(y, p):
+	'''Return: None.
+	Prints augmented Dickey-Fuller results for lags up to lag p.
+
+	:Parameters:
+		y : sequence
+			N-element sequence (the time series of interest)
+		p : scalar
+			maximum lag (autocorrelation order)
+	:Output: `results`, dictionary of OLS instances.
+	:requires: function `adf_ls` (provided)
+	:requires: 	function 'varlags' (imported fr tseries)
+	:requires: 	class 'OLS' (import from ls)
+	:see: Russell Davidson and James G. MacKinnon,
+	      _Estimation and Inference in Econometrics_
+	      (New York: Oxford, 1993)
+	      See references therein for original sources
+	      See p.708, table 20.1 for critical values
+	:see: Harris, 1992, Economics Letters
+	:since: 2004-08-10
+	:date:   10 Sep 2007
+	:contact: aisaac AT american.edu
+	'''
 	#local obs,i,b,ty,temp,oldcv,oldnv;
 	obs = N.shape(y)[0]
 	print adf_cv1  #table of critical values
@@ -152,15 +170,13 @@ Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
 	fmt_b = "%11.3f"*3
 	fmt_t = "%11s"*3
 	for i in range(p+1) :
-		results = adf_ls(y,i,False)  #dict of results: id -> OLS instance
+		results = adf_ls(y, i, prt=False)  #dict of results: id -> OLS instance
 		print str(i).rjust(10) + " "*3,
 		print fmt_b%tuple( results[id].coefs[0] for id in ids ),
 		print "%11d"%results['constant'].nobs
 		print " "*13,
 		print fmt_t%tuple( "(%1.2f)"%(results[id].tvals[0]) for id in ids )
 		print
-		#print str(i).rjust(10) + '%s'*3 % tuple(map(lambda x:('%1.2g'%(x,)).center(15),reportmat[0][0:6:2])) + str(obs)
-		#print ''.rjust(10) + '%s'*3 % tuple(map(lambda x:('(%1.2g)'%(x,)).center(15),reportmat[0][1:6:2]))
 	print "------------------------------------------------------------"
 
 
