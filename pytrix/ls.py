@@ -26,6 +26,7 @@ import random, math, operator
 import types
 import sys,os
 import logging
+logging.basicConfig(level=logging.WARN)
 import time
 
 have_numpy = False
@@ -33,6 +34,7 @@ try:
 	import numpy as N
 	from numpy import linalg
 	have_numpy = True
+	logging.info("have_numpy is True")
 except ImportError:
 	logging.info("NumPy not available.")
 
@@ -41,43 +43,58 @@ if have_numpy:
 	try:
 		from numpy.distutils import cpuinfo
 	except ImportError:
-		pass                  #safest to set have_scipy = False
+		logging.warn("numpy.distutils unavailable, cannot test for SSE2 -> SciPy disabled.")
+		pass                  #safest to leave have_scipy = False
 	else:
 		#unfortunately some of scipy.stats expects sse2 and will segfault if absent!!
 		cpu = cpuinfo.cpuinfo()
 		if cpu._has_sse2():
+			logging.info("SSE2 detected")
 			try:
-				import scipy
-			except ImportError:
-				logging.info("SciPy not available -> no probabilities computed.")
-			else:
 				from scipy import stats
+				logging.info("successful import of scipy.stats as stats")
+			except ImportError:
+				logging.info("SciPy cannot be imported -> no probabilities computed.")
+			else:
 				have_scipy = True
+				logging.info("have_scipy is True")
+		else:
+			logging.warn("Cannot detect SSE2; disabling SciPy")
 
 
 
 class OLS(object):
 	'''Least squares estimates for a **single** equation.
+
+	Example use::
+
+		result = OLS(y, x)
+		print result
+		print result.resids
 	
 	:Ivariables:
+		`nobs` : int
+			rows(dep), the number of observations
 		`coefs` : float array
 			the least squares solution
-		`nobs` : int
-			rows(dep)
-		`xTx` : array
-			KxK array (roughly, indep' * indep)
-		`xTy` : array
-			Kx1 array (indep' * dep)
+		`cov` : array
+			2d covariance array for coefficient estimates
 		`resids` : array
 			Tx1 array (dep - indep * coefs)
 		`sigma2` : float
 			(resids' * resids)/(T-K)
+		`se` : array
+			coefficient standard errors
 		`tvals` : array
 			t-ratios for the coefficient estimates
 		`pvals` : array
 			p-values for the coefficient estimates
-		`cov` : array
-			2d covariance array for coefficient estimates
+		`pvalF` : scalar
+			p-value for regression F statistic, based on F distribution
+		`xTx` : array
+			KxK array (roughly, indep' * indep)
+		`xTy` : array
+			Kx1 array (indep' * dep)
 	:warning: adds intercept
 	:requires: NumPy
 	:requires: time (standard library)

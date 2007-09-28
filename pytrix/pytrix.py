@@ -32,7 +32,7 @@ import logging
 
 have_numpy = False
 try:
-	import numpy
+	import numpy as N
 	from numpy import linalg
 	have_numpy = True
 except ImportError:
@@ -80,9 +80,9 @@ def choice(x, axis=None):
 	:author: Robert Kern
 	:since: 20060220
 	"""
-	x = numpy.asarray(x)
+	x = N.asarray(x)
 	if axis is None:
-		length = numpy.multiply.reduce(x.shape)
+		length = N.multiply.reduce(x.shape)
 		n = random.randint(length)
 		return x.flat[n]
 	else:
@@ -93,10 +93,7 @@ def choice(x, axis=None):
 		return x[tuple(idx)]
 
 
-
-
-
-def step_pts(x, y):
+def step_pts(x, y, use_numpy=True):
 	'''Given x and y, return points for step function plot.
 
 	:Parameters:
@@ -105,16 +102,18 @@ def step_pts(x, y):
 	:rtype: tuple of lists
 	:return: (xnew,ynew)
 		where xnew=(x0,x1,x1,...,xn,xn) and ynew=(y0,y0,y1,y1,...,yn).
-	:author:    Alan G. Isaac
 	:since: 2005-05-15
+	:date: 2007-09-27
 	''' 
-	pts=zip(x,y)  #original points as tuples
-	inter = zip(x[1:],y[:-1]) #new points as tuples
-	#now splice pts and inter -> list of all points as tuples
-	pts_inter = [j for i in map(None,pts,inter) for j in i][:-1]
-	#split the points list into (x-coordinates),(y-coordinates)
-	z = zip(*pts_inter) 
-	return z[0],z[1]
+	nobs = len(x)
+	assert nobs==len(y), "Inputs must be same length."
+	if use_numpy and have_numpy:
+		xnew = N.repeat(x,2)[1:]
+		ynew = N.repeat(y,2)[:-1]
+	else:
+		xnew = [ x[(idx+1)//2] for idx in xrange(2*nobs-1) ]
+		ynew = [ y[idx//2] for idx in xrange(2*nobs-1) ]
+	return xnew, ynew
 
 
 
@@ -1990,11 +1989,11 @@ def matrix_rank(arr,tol=1e-8):
 	"""
 	if not have_numpy:
 		raise NotImplementedError('numpy required for this function')
-	arr = numpy.asarray(arr)
+	arr = N.asarray(arr)
 	if len(arr.shape) != 2:
 	    raise ValueError('Input must be a 2-d array or Matrix object.') 
-	svdvals = numpy.linalg.svdvals(arr)
-	return sum(numpy.where(svdvals>tol,1,0))
+	svdvals = N.linalg.svdvals(arr)
+	return sum(N.where(svdvals>tol,1,0))
 
 	
 
@@ -2139,7 +2138,7 @@ def chebyu(N,x):
 
 
 import sys, math
-import numpy, numpy.linalg.linalg as la
+import numpy.linalg.linalg as la
 
 
 def fnnls(XtX, Xty, tol = 0) :
@@ -2193,9 +2192,9 @@ def fnnls(XtX, Xty, tol = 0) :
 	Reference:
 	Lawson and Hanson, "Solving Least Squares Problems", Prentice-Hall, 1974.
 	''' 
-	def any(X)     : return len(numpy.nonzero(X)) != 0
-	def find(X)    : return numpy.nonzero(X)
-	def norm(X, d) : return max(numpy.sum(abs(X)))
+	def any(X)     : return len(N.nonzero(X)) != 0
+	def find(X)    : return N.nonzero(X)
+	def norm(X, d) : return max(N.sum(abs(X)))
 	# initialize variables
 	m = XtX.shape[0]
 	n = XtX.shape[1]
@@ -2205,15 +2204,15 @@ def fnnls(XtX, Xty, tol = 0) :
 		tol = 10 * eps * norm(XtX,1)*max(m, n);
 	#end
 
-	P = numpy.zeros(n, numpy.Int16)
+	P = N.zeros(n, N.Int16)
 	P[:] = -1
-	Z = numpy.arange(0,n)
+	Z = N.arange(0,n)
 
-	z = numpy.zeros(m, numpy.float32)
-	x = numpy.array(P)
-	ZZ = numpy.array(Z)
+	z = N.zeros(m, N.float32)
+	x = N.array(P)
+	ZZ = N.array(Z)
 
-	w = Xty - numpy.dot(XtX, x)
+	w = Xty - N.dot(XtX, x)
 
 	   # set up iteration criterion
 	iter = 0
@@ -2235,10 +2234,9 @@ def fnnls(XtX, Xty, tol = 0) :
 			XtXPP = XtX[PP, PP]
 			z[PP] = XtyPP / XtXPP
 		else :
-			XtyPP = numpy.array(Xty[PP])
-			XtXPP = numpy.array(XtX[PP, numpy.array(PP)[:,  
-	numpy.NewAxis]])
-			z[PP] = numpy.dot(XtyPP, la.generalized_inverse(XtXPP))
+			XtyPP = N.array(Xty[PP])
+			XtXPP = N.array(XtX[PP, N.array(PP)[:,  N.NewAxis]])
+			z[PP] = N.dot(XtyPP, la.generalized_inverse(XtXPP))
 		#end
 		z[ZZ] = 0
 
@@ -2260,7 +2258,7 @@ def fnnls(XtX, Xty, tol = 0) :
 			ip = find(P[iabs] != -1)
 			ij = iabs[ip]
 
-			Z[ij] = numpy.array(ij)
+			Z[ij] = N.array(ij)
 			P[ij] = -1
 			PP = find(P != -1)
 			ZZ = find(Z != -1)
@@ -2270,15 +2268,14 @@ def fnnls(XtX, Xty, tol = 0) :
 				XtXPP = XtX[PP, PP]
 				z[PP] = XtyPP / XtXPP
 			else :
-				XtyPP = numpy.array(Xty[PP])
-				XtXPP = numpy.array(XtX[PP, numpy.array(PP)[:,  
-	numpy.NewAxis]])
-				z[PP] = numpy.dot(XtyPP, la.generalized_inverse(XtXPP))
+				XtyPP = N.array(Xty[PP])
+				XtXPP = N.array(XtX[PP, N.array(PP)[:,  N.NewAxis]])
+				z[PP] = N.dot(XtyPP, la.generalized_inverse(XtXPP))
 			#endif
 			z[ZZ] = 0
 		#end while
-		x = numpy.array(z)
-		w = Xty - numpy.dot(XtX, x)
+		x = N.array(z)
+		w = Xty - N.dot(XtX, x)
 	#end while
 
 	return x, w
@@ -2286,10 +2283,10 @@ def fnnls(XtX, Xty, tol = 0) :
 def test_fnnls():
 	# test [x, w] = fnnls(Xt.X, Xt.y, tol)
 	# to solve min ||y - X.x|| s.t. x >= 0
-	X = numpy.array([[1, 10, 4, 10], [4, 5, 1, 12], [5, 1, 9, 20]],  numpy.float32)
-	y = numpy.array([4, 7, 4], numpy.float32)
+	X = N.array([[1, 10, 4, 10], [4, 5, 1, 12], [5, 1, 9, 20]],  N.float32)
+	y = N.array([4, 7, 4], N.float32)
 	Xt = X.transpose()
-	x, w = fnnls(numpy.dot(Xt, X), numpy.dot(Xt, y))
+	x, w = fnnls(N.dot(Xt, X), N.dot(Xt, y))
 	print 'X = ', X
 	print 'y = ', y
 	print 'x = ', x
@@ -2873,14 +2870,14 @@ class Stats:
 		self._axis = axis
 		self._squeeze = squeeze
 		if hasattr(y, 'mask'):
-			mask = numpy.ma.getmaskarray(y)
+			mask = N.ma.getmaskarray(y)
 		else:
-			mask = numpy.isnan(y)
+			mask = N.isnan(y)
 		if masked == True or (masked == 'auto' and hasattr(y, 'mask')):
 			self._nanout = False
 		else:
 			self._nanout = True
-		self._y = numpy.ma.array(y, mask=mask, fill_value=0)
+		self._y = N.ma.array(y, mask=mask, fill_value=0)
 		self._mask = mask
 		self._mean = None
 		self._std = None
@@ -2907,7 +2904,7 @@ class Stats:
 		# as of 2006/07/08 the view method is not implemented
 		#return x.view().reshape(*self.b_shape)
 		if hasattr(x, 'mask'):
-			return numpy.ma.array(x, copy=False).reshape(*self.b_shape)
+			return N.ma.array(x, copy=False).reshape(*self.b_shape)
 		else:
 			return x.view().reshape(*self.b_shape)
 
@@ -2926,7 +2923,7 @@ class Stats:
 	def get_mean(self):
 		m = self.calc_mean()
 		if self._nanout:
-			m = m.filled(fill_value=numpy.nan)
+			m = m.filled(fill_value=N.nan)
 		if self._squeeze:
 			return m
 		else:
@@ -2937,14 +2934,14 @@ class Stats:
 		if self._std is None:
 			m = self.broadcastable(self.calc_mean())
 			ss = (self._y - m)**2
-			n = numpy.ma.masked_where(self._N <= 1, self._N-1)
-			self._std = numpy.sqrt(ss.sum(axis=self._axis)/n)
+			n = N.ma.masked_where(self._N <= 1, self._N-1)
+			self._std = N.sqrt(ss.sum(axis=self._axis)/n)
 		return self._std
 
 	def get_std(self):
 		s = self.calc_std()
 		if self._nanout:
-			s = s.filled(fill_value=numpy.nan)
+			s = s.filled(fill_value=N.nan)
 		if self._squeeze:
 			return s
 		else:
@@ -2953,13 +2950,13 @@ class Stats:
 
 	def calc_median(self):
 		if self._median is None:
-			ysort = numpy.ma.sort(self._y, axis=self._axis)
-			ii = numpy.indices(ysort.shape)[self._axis]
+			ysort = N.ma.sort(self._y, axis=self._axis)
+			ii = N.indices(ysort.shape)[self._axis]
 			ngood = self.broadcastable(self._N)
 			i0 = (ngood-1)//2
 			i1 = ngood//2
-			cond = numpy.logical_or(i0==ii, i1==ii)
-			m0 = numpy.ma.where(cond, ysort, 0)
+			cond = N.logical_or(i0==ii, i1==ii)
+			m0 = N.ma.where(cond, ysort, 0)
 			m = m0.sum(axis=self._axis)/cond.sum(axis=self._axis)
 			self._median = m
 		return self._median
@@ -2967,7 +2964,7 @@ class Stats:
 	def get_median(self):
 		m = self.calc_median()
 		if self._nanout:
-			m = m.filled(fill_value=numpy.nan)
+			m = m.filled(fill_value=N.nan)
 		if self._squeeze:
 			return m
 		else:
@@ -2978,7 +2975,7 @@ class Stats:
 		m = self.broadcastable(self.calc_mean())
 		y = self._y - m
 		if self._nanout:
-			y = y.filled(fill_value=numpy.nan)
+			y = y.filled(fill_value=N.nan)
 		return y
 	demeaned = property(get_demeaned)
 
@@ -3000,8 +2997,8 @@ def pnpoly(verts,point):
 	xpi = verts[:,0]
 	ypi = verts[:,1]	
 	# shift
-	xpj = xpi[numpy.arange(xpi.size)-1]
-	ypj = ypi[numpy.arange(ypi.size)-1]
+	xpj = xpi[N.arange(xpi.size)-1]
+	ypj = ypi[N.arange(ypi.size)-1]
 	
 	possible_crossings = ((ypi <= y) & (y < ypj)) | ((ypj <= y) & (y < ypi))
 
