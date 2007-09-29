@@ -188,7 +188,7 @@ class OLS(object):
 	def get_pvalF(self):
 		if self._pvalF is None:
 			if have_scipy:
-				self.pvalF = 1-stats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
+				self._pvalF = 1-stats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
 			else:
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
 				self._pvalF = N.inf
