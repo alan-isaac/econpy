@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Sep 28
+Last modified: 2007 Oct 02
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
@@ -3098,6 +3098,8 @@ which can be assisted by <a href="http://blender3d.org/cms/Python_Scripts.3.0.ht
 See the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware#Visualization">SciPy TopicalSoftware Wiki</a> for a more complete list of options.
 </p>
 
+<h4 id="python2d">2D Graphics</h4>
+
 <ul>
 <li>
 For publication quality 2-D graphics,
@@ -3108,6 +3110,11 @@ If you prefer Matplotlib's object-oriented API,
 there is a <a href="http://matplotlib.sourceforge.net/leftwich_tut.txt">useful introduction</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
+</li>
+<li>
+It is possible to <a href="#gphints">control gnuplot</a> from Python
+with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
+</p>
 </li>
 <li>
 <a href="http://www.spectronon.com/wiki/index.php?title=Main_Page">Spectronon</a>
@@ -3127,6 +3134,14 @@ It is possible to <a href="#gphints">control gnuplot</a> from Python.
 <li>
 <a href="http://biggles.sourceforge.net/">Biggles</a> is a slick and simple Python module for 2-D plots.  
 </li>
+<li>
+<a href="http://www.scripps.edu/~sanner/python/viper/">ViPEr</a> is a visual programming environment for graphics manipulation in Python.
+</li>
+</ul>
+
+<h4 id="python3d">3D Graphics</h4>
+
+<ul>
 <li id="MayaVi">
 For complex data visualization tasks,
 you can use <a href="http://mayavi.sourceforge.net">MayaVi</a>,
@@ -3134,22 +3149,36 @@ which uses <a href="#VTK">The Visualization Toolkit (VTK)</a>.
 (Unfortunately VTK can be a challenge to install.)
 Included are utilities for simple surface and image plots.
 There are also other <a href="#VTK">VTK based Python solutions</a>.
+<a href="http://code.enthought.com/mayavi2/">MayaVi 2</a>
+is supposed to be easier to install and very nicely scriptable.
 </li>
 <li>
-<a href="http://www.scripps.edu/~sanner/python/viper/">ViPEr</a> is a visual programming environment for graphics manipulation in Python.
+It is possible to <a href="#gphints">control gnuplot</a> from Python
+with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 </li>
-</ul>
-<ul>
 <li>
 <a href="http://ivupy.sourceforge.net/">IVuPy</a>
 provides 3-D visualization classes.  Qt based. (GPL)
 </li>
+</ul>
+
+<h4 id="pythonanimate">Animation</h4>
+
+<ul>
 <li>
 You can use <a href="#matplotlib">Matplotlib</a> to make "movies".
 <a href="http://www.physik.tu-dresden.de/~hlubek/video.zip">Here's how.</a>
 (Requires Python Imaging Library and <a href="#ffmpeg">ffmpeg</a>.)
+</li> 
+<li>
+If you just need to display animation in real time,
+you may be satisfied by scripting a sequence of <a href="#gnuplot">gnuplot</a> figures
+with short pauses between them.
+You can use <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 </li>
 </ul>
+
+
 
 
 <h3 id="convert">Graphics Format Conversion</h3>
@@ -3428,9 +3457,6 @@ but skip the institution specific material on starting gnuplot and head straight
 See the <a href="#gphints">gnuplot hints</a> below.
 </p>
 
-<p>
-Python users can control gnuplot with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
-</p>
 
 <ul>
 <li>
@@ -6472,7 +6498,8 @@ it offers limited data manipulation facilities.
 These can be increased by the use of gawk,
 which gnuplot can talk to nicely.
 Alternatively you can manage your data in Python and use a Python interface to gnuplot:
-<a href="http://www.scipy.org">SciPy</a> includes the <code>gplt</code> module for this,
+<a href="http://www.scipy.org">SciPy</a> includes the <code>gplt</code> module for this
+(moved to the sandbox!)
 but I prefer <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 If you use IPython,
 which is a good idea,
