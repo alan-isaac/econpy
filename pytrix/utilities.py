@@ -11,14 +11,41 @@ from __future__ import absolute_import
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '20070622'
+__lastmodified__ = '20070922'
 
-import random, itertools
+import logging, random, itertools
+
+have_numpy = False
 try:
-	import numpy
+	import numpy as N
+	from numpy import linalg
+	have_numpy = True
+	logging.info("have_numpy is True")
 except ImportError:
-	pass
+	logging.info("NumPy not available.")
 
+have_scipy = False
+if have_numpy:
+	try:
+		from numpy.distutils import cpuinfo
+	except ImportError:
+		logging.warn("numpy.distutils unavailable, cannot test for SSE2 -> SciPy disabled.")
+		pass                  #safest to leave have_scipy = False
+	else:
+		#unfortunately some of scipy.stats expects sse2 and will segfault if absent!!
+		cpu = cpuinfo.cpuinfo()
+		if cpu._has_sse2():
+			logging.info("SSE2 detected")
+			try:
+				from scipy import stats
+				logging.info("successful import of scipy.stats as stats")
+			except ImportError:
+				logging.info("SciPy cannot be imported -> no probabilities computed.")
+			else:
+				have_scipy = True
+				logging.info("have_scipy is True")
+		else:
+			logging.warn("Cannot detect SSE2; disabling SciPy")
 
 
 

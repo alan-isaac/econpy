@@ -22,6 +22,12 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2007-09-10'
 
+from .utilities import have_numpy, have_scipy
+if have_numpy:
+	import numpy as N
+if have_scipy:
+	from scipy import stats as Sstats
+
 import random, math, operator
 import types
 import sys,os
@@ -29,37 +35,6 @@ import logging
 logging.basicConfig(level=logging.WARN)
 import time
 
-have_numpy = False
-try:
-	import numpy as N
-	from numpy import linalg
-	have_numpy = True
-	logging.info("have_numpy is True")
-except ImportError:
-	logging.info("NumPy not available.")
-
-have_scipy = False
-if have_numpy:
-	try:
-		from numpy.distutils import cpuinfo
-	except ImportError:
-		logging.warn("numpy.distutils unavailable, cannot test for SSE2 -> SciPy disabled.")
-		pass                  #safest to leave have_scipy = False
-	else:
-		#unfortunately some of scipy.stats expects sse2 and will segfault if absent!!
-		cpu = cpuinfo.cpuinfo()
-		if cpu._has_sse2():
-			logging.info("SSE2 detected")
-			try:
-				from scipy import stats
-				logging.info("successful import of scipy.stats as stats")
-			except ImportError:
-				logging.info("SciPy cannot be imported -> no probabilities computed.")
-			else:
-				have_scipy = True
-				logging.info("have_scipy is True")
-		else:
-			logging.warn("Cannot detect SSE2; disabling SciPy")
 
 
 
@@ -107,7 +82,7 @@ class OLS(object):
 	:since: 2004-08-11
 	:author: Alan G. Isaac
 	'''
-	def __init__(self,dep,indep, dep_name='', indep_names='', constant=1, trend=None):
+	def __init__(self, dep, indep=None, dep_name='', indep_names=(), constant=1, trend=None):
 		'''
 		:Parameters:
 			`dep` : array
@@ -115,18 +90,19 @@ class OLS(object):
 			`indep` : array
 				(T x K) array, the RHS variables, in columns
 		'''
+		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
+		self.nobs = len(Y)
 		#make X sets self.nvars, self.nobs, self.indep_names
-		self.indep_names = indep_names
+		self.indep_names = list(indep_names)
 		X = self.makeX(indep=indep, constant=constant, trend=trend)
 		self.X = X  #used for end_points ... need for anything else?
-		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
 		try:
-			results = linalg.lstsq(X,Y)[:2]  #OLS estimates
+			results = N.linalg.lstsq(X,Y)[:2]  #OLS estimates
 			coefs = results[0]    #matrix arguments -> matrix
 			self.ess = results[1][0]  #sum of squared residuals
 		except ImportError:
 			raise NotImplementedError("OLS requires NumPy")
-		assert (len(dep) == len(indep)), "Number of observations do not agree."
+		assert (len(dep) == len(X)), "Number of observations do not agree."
 		self.yvar = Y.var()
 		self.dep_name = dep_name or 'y'
 		#data based attributes
@@ -179,7 +155,7 @@ class OLS(object):
 	def get_pvals(self):
 		if self._pvals is None:
 			if have_scipy:
-				self._pvals = (1-stats.t.cdf(N.abs(self.tvals), self.df_e)) * 2	# coef. p-values
+				self._pvals = (1-Sstats.t.cdf(N.abs(self.tvals), self.df_e)) * 2	# coef. p-values
 			else:
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
 				self._pvals = [N.inf for _ in range(self.ncoefs)]
@@ -188,11 +164,10 @@ class OLS(object):
 	def get_pvalF(self):
 		if self._pvalF is None:
 			if have_scipy:
-				self._pvalF = 1-stats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
+				self._pvalF = 1-Sstats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
 			else:
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
 				self._pvalF = N.inf
-				print self._pvalF
 		return self._pvalF
 	pvalF = property(get_pvalF, None, None, "p-values for F statistic, based on F distribution")
 	def get_resids(self):
@@ -218,13 +193,35 @@ class OLS(object):
 		bic = -2*llf/nobs + (ncoefs*math.log(nobs))/nobs
 		return llf, aic, bic
 	def makeX(self, indep, constant, trend):
-		X = N.asmatrix(indep)
-		if len(X)==1:  #must have been a one dimensional indep
-			X = X.T
-		nobs = len(X)
-		self.nobs = nobs
-		self.nvars = X.shape[1]  #variables shd NOT include constant
-		self.indep_names = self.indep_names or tuple("x%02i"%(i+1) for i in range(self.nvars))
+		nobs = self.nobs
+		#deal with the case of no independent variables (except constant or trend)
+		if indep is not None:
+			X = N.asmatrix(indep)
+			if len(X)==1:  #must have been a one dimensional indep
+				X = X.T
+			self.indep_names = self.indep_names or list("x%02i"%(i+1) for i in range(X.shape[1]))
+			assert ( nobs == len(X) )
+			self.nvars = X.shape[1]
+		else:
+			X = None
+			self.nvars = 0
+		self.ncoefs = self.nvars
+		#construct constant if requested
+		if constant==0:  #0 or False
+			constant = None
+		if constant is not None:
+			constant = N.mat( constant*N.ones((nobs,1)) )
+			self.ncoefs += 1
+			self.indep_names.append('constant')
+		#construct trend if requested
+		if trend is True:             #default is center at midpoint
+			trend = nobs//2
+		if trend is not None:
+			trend = (N.arange(nobs)-N.mat([trend])).T
+			self.ncoefs += 1
+			self.indep_names.append('trend')
+		X = N.hstack( [o for o in (X,constant,trend) if o is not None] )
+		'''
 		if constant and trend is not None:
 			#add constant term and trend
 			constant = constant*N.ones( (nobs, 1) )
@@ -246,6 +243,8 @@ class OLS(object):
 			self.ncoefs = self.nvars + 1
 		else:
 			self.ncoefs = self.nvars
+		'''
+		print (self.nobs, self.ncoefs) , X.shape
 		assert (self.nobs, self.ncoefs) == X.shape
 		return X
 	def print_results(self):
@@ -457,13 +456,13 @@ class ols:
 		self.sse = dot(self.e,self.e)/self.df_e			# SSE
 		self.se = sqrt(diagonal(self.sse*self.inv_xx))	# coef. standard errors
 		self.t = self.b / self.se						# coef. t-statistics
-		self.p = (1-stats.t.cdf(abs(self.t), self.df_e)) * 2	# coef. p-values
+		self.p = (1-Sstats.t.cdf(abs(self.t), self.df_e)) * 2	# coef. p-values
 
 		self.R2 = 1 - self.e.var()/self.y.var()			# model R-squared
 		self.R2adj = 1-(1-self.R2)*((self.nobs-1)/(self.nobs-self.ncoef))	# adjusted R-square
 
 		self.F = (self.R2/self.df_r) / ((1-self.R2)/self.df_e)	# model F-statistic
-		self.Fpv = 1-stats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
+		self.Fpv = 1-Sstats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
 
 	def dw(self):
 		"""
@@ -478,7 +477,7 @@ class ols:
 		"""
 		Omnibus test for normality
 		"""
-		return stats.normaltest(self.e) 
+		return Sstats.normaltest(self.e) 
 	
 	def JB(self):
 		"""
@@ -486,12 +485,12 @@ class ols:
 		"""
 
 		# Calculate residual skewness and kurtosis
-		skew = stats.skew(self.e) 
-		kurtosis = 3 + stats.kurtosis(self.e) 
+		skew = Sstats.skew(self.e) 
+		kurtosis = 3 + Sstats.kurtosis(self.e) 
 		
 		# Calculate the Jarque-Bera test for normality
 		JB = (self.nobs/6) * (square(skew) + (1/4)*square(kurtosis-3))
-		JBpv = 1-stats.chi2.cdf(JB,2);
+		JBpv = 1-Sstats.chi2.cdf(JB,2);
 
 		return JB, JBpv, kurtosis, skew
 
