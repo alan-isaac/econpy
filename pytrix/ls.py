@@ -91,6 +91,7 @@ class OLS(object):
 				(T x K) array, the RHS variables, in columns
 		'''
 		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
+		self.Y = Y
 		self.nobs = len(Y)
 		#make X sets self.nvars, self.nobs, self.indep_names
 		self.indep_names = list(indep_names)
@@ -103,7 +104,6 @@ class OLS(object):
 		except ImportError:
 			raise NotImplementedError("OLS requires NumPy")
 		assert (len(dep) == len(X)), "Number of observations do not agree."
-		self.yvar = Y.var()
 		self.dep_name = dep_name or 'y'
 		#data based attributes
 		self.xTx = X.T * X
@@ -122,6 +122,7 @@ class OLS(object):
 		self._standard_errors = None                    #the parameter standard errors
 		self._tvals = None
 		self._pvals = None
+		self._rols_coefs = None                         #one row per observation
 		# other attributes
 		t = time.localtime()
 		self.date = time.strftime("%a, %d %b %Y",t)
@@ -129,6 +130,7 @@ class OLS(object):
 		################
 		#stuff from Vince
 		################ 
+		self.yvar = Y.var()
 		self.R2 = 1 - self.resids.var()/self.yvar			# model R-squared
 		self.R2adj = 1-(1-self.R2)*((self.nobs-1)/(self.nobs-self.ncoefs))	# adjusted R-square 
 		self.df_r = self.ncoefs - 1						# degrees of freedom, regression 
@@ -244,7 +246,6 @@ class OLS(object):
 		else:
 			self.ncoefs = self.nvars
 		'''
-		print (self.nobs, self.ncoefs) , X.shape
 		assert (self.nobs, self.ncoefs) == X.shape
 		return X
 	def print_results(self):
@@ -291,19 +292,51 @@ JB stat                % -5.6f' % tuple([self.Fpv, JB]) Prob(JB)            % -5
 Skew     Kurtosis            % -5.6f' % tuple([skew, kurtosis])
 ==============================================================================
 '''
-		return (header_template%header_dict)+'\n'.join(result).replace('1.#INF','.') + (modelstat_template%modelstat_dict)
+		result = '\n'.join(result).replace('1.#INF','.')
+		result = header_template%header_dict + result
+		result += modelstat_template%modelstat_dict
+		return result
 
+	def rols(self, keep=True):
+		'''Return: array(T-ncoefs by ncoefs)
+
+		Compute "recursive OLS" parameter estimates.
+
+		:todo: add standard errors
+		'''
+		if self._rols_coefs is not None:
+			return self._rols_coefs
+		from numpy.linalg import solve
+		Y, X = N.asmatrix(self.Y), N.asmatrix(self.X)
+		nobs, ncoefs = X.shape
+		X0 = X[:ncoefs]  #square matrix
+		Y0 = Y[:ncoefs]  #square matrix
+		#create array to hold parameter estimates
+		coef_array = N.empty( (nobs-ncoefs+1, ncoefs) )
+		coef_array[0] = solve(X0,Y0).A1
+		xTx = X0.T * X0
+		xTy = X0.T * Y0
+		#get initial parameter estimate (shortest possible data sample)
+		#iteratively update parameter estimates
+		for i in range(ncoefs,nobs):
+			xTx += X[i].T * X[i]
+			xTy += X[i].T * Y[i]
+			coef_array[i-ncoefs+1] = solve(xTx,xTy).A1
+		if keep:
+			self._rols_coefs = coef_array
+		return coef_array
 
 
 
 
 def linreg(X, Y):
-	"""Linear regression of y = ax + b. ::
+	"""Return (a,b),
+	coefficients from the linear regression for y = ax + b. ::
 
 		real, real = linreg(list, list)
 
-	Returns coefficients to the regression line "y=ax+b" from x[] and
-	y[].  Basically, it solves ::
+	Simple 2 variable linear regression results.
+	Basically, it solves ::
 	
 		 Sxx a + Sx b = Sxy
 		  Sx a +  N b = Sy
@@ -335,8 +368,7 @@ def linreg(X, Y):
 
 	which are useful in assessing the confidence of estimation.
 
-	Only the coefficients of regression line are returned,
-	since they are usually what I want.
+	Only the coefficients of regression line are returned.
 	Other informations is sent to stdout to be read later.  
 
 	:author: William Park
@@ -385,7 +417,7 @@ def linreg(X, Y):
 
 
 
-class ols:
+class OLSvn:
 	"""
 	Author: Vincent Nijs (+ ?)
 
@@ -543,3 +575,31 @@ class ols:
 		print 'AIC criterion		% -5.6f			Skew				% -5.6f' % tuple([aic, skew])
 		print 'BIC criterion		% -5.6f			Kurtosis			% -5.6f' % tuple([bic, kurtosis])
 		print '=============================================================================='
+
+
+def rolsf(x, y, p, th, lam):
+	'''Return: new parameter estimate and covariance matrix:
+
+	Recursive ordinary least squares for single output case,
+	including a forgetting factor.
+	This ROLS function uses the Matrix Inversion Lemma (MIL)
+	to calculate the update to the covariance matrix.  
+	This is known to be somewhat unstable, numerically, but works 'well 
+	enough' for many problems.  The Bierman UD or Givens square root methods 
+	are more stable, but somewhat more complicated to program.
+
+	Enter with x(N,1) = input, y = output, p(N,N) = covariance,
+	th(N,1) = estimate,  lam = forgetting factor.
+
+	:author: J. C. Hassler
+	:since: 12-feb-95 (Originally written in Matlab.)
+	:date: 2-oct-07 (Translated to Python)
+	'''
+	a = N.inner(p,x)
+	g = 1./(N.inner(x,a)+lam)
+	k = g*a
+	e = y-N.inner(x,th)
+	th += k*e
+	p = (p-g*N.outer(a,a))/lam
+	return th, p
+ 
