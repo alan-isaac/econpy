@@ -54,16 +54,18 @@ class OLS(object):
 			the least squares solution
 		`cov` : array
 			2d covariance array for coefficient estimates
-		`resids` : array
-			Tx1 array (dep - indep * coefs)
-		`sigma2` : float
-			(resids' * resids)/(T-K)
 		`se` : array
 			coefficient standard errors
 		`tvals` : array
 			t-ratios for the coefficient estimates
 		`pvals` : array
 			p-values for the coefficient estimates
+		`fitted` : array
+			Tx1 array (indep * coefs)
+		`resids` : array
+			Tx1 array (dep - indep * coefs)
+		`sigma2` : float
+			(resids' * resids)/(T-K)
 		`pvalF` : scalar
 			p-value for regression F statistic, based on F distribution
 		`xTx` : array
@@ -171,11 +173,13 @@ class OLS(object):
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
 				self._pvalF = N.inf
 		return self._pvalF
-	pvalF = property(get_pvalF, None, None, "p-values for F statistic, based on F distribution")
+	pvalF = property(get_pvalF, None, None, "p-value for F statistic, based on F distribution")
 	def get_resids(self):
 		return self._resids
 	resids = property(get_resids, None, None, "regression residuals")
 	def slope_intercept(self, xcol=0):
+		'''Return: slope and intercept for variations in one independent variable.
+		'''
 		X = self.X.A         #as array
 		x = X[:,xcol]
 		means = X.mean(axis=0)
@@ -591,6 +595,7 @@ def rolsf(x, y, p, th, lam):
 	Enter with x(N,1) = input, y = output, p(N,N) = covariance,
 	th(N,1) = estimate,  lam = forgetting factor.
 
+	:license: BSD
 	:author: J. C. Hassler
 	:since: 12-feb-95 (Originally written in Matlab.)
 	:date: 2-oct-07 (Translated to Python)
