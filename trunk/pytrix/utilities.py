@@ -79,31 +79,6 @@ def calc_gini(x):
 	return 1 + (1./n) - G
 
 
-def gini2shares(gini, nbrackets, shuffle=False):
-	'''Return: income share for each bracket implied by `gini`.
-
-	:note: based on Yunker 1999, p.238
-	:todo: improve computation accuracy
-	:note: consider Lorenz curve function representation
-	       y=x**g for 0<g<1.
-	       B = \int_0^1 x**g dx = x**(g+1)/(g+1) | = 1/(g+1)
-	       So G = 1-2B = (g-1)/(g+1)
-	       Note (1+G)/(1-G) = 2g/2 = g. (Used below.)
-	:since:  2006-06-20
-	:date:   2007-07-11
-	:contact: aisaac AT american.edu
-	'''
-	assert (0 <= gini < 1)
-	g = (1+gini)/(1-gini) # (2A+B)/B
-	sb = 1.0/nbrackets  #width of brackets
-	#cum prop =  ((i+1)*sb)**g = (i+1)**g * sb**g
-	#change prop = [(1+i)**g-(i)**g]*sb**g
-	#cumulative_proportions = list( ((i+1)*sb)**g for i in range(nbrackets) )
-	shares = [ ((1+i)**g-(i)**g)*sb**g for i in range(nbrackets)]  #chk TODO
-	if shuffle:   #enforce Gini but distribute randomly
-		random.shuffle(shares)
-	return shares
-
 def groupsof(seq,n):
 	"""Return len(self)//n groups of n, discarding last len(self)%n players."""
 	#use itertools to avoid creating unneeded lists
