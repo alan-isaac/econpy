@@ -8,6 +8,7 @@ Some are lightweight, in the sense that they do not depend on an array package.
 :see: unitroot.py
 :see: pytrix.py
 :see: io.py
+:todo: conform to http://svn.scipy.org/svn/scipy/trunk/scipy/stats/models/
 :note: Please include proper attribution should this code be used in a research project or in other code.
 :see: The code below by William Park and more can be found in his `Simple Recipes in Python`_
 :copyright: 2007 Alan G. Isaac, except where another author is specified.
@@ -39,11 +40,12 @@ import time
 
 
 class OLS(object):
-	'''Least squares estimates for a **single** equation.
+	'''Least squares estimates for a **single** equation,
+	where `dep` is Tx1 and `indep` is TxK.
 
 	Example use::
 
-		result = OLS(y, x)
+		result = OLS(dep, indep)
 		print result
 		print result.resids
 	
@@ -92,6 +94,7 @@ class OLS(object):
 			`indep` : array
 				(T x K) array, the RHS variables, in columns
 		'''
+		assert isinstance(dep_name,str), "Names must be strings."
 		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
 		self.Y = Y
 		self.nobs = len(Y)

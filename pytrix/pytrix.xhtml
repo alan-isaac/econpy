@@ -15,7 +15,7 @@
 <body>
 
 <p style="font-size: x-small">
-Last modified: 2007 Sep 12
+Last modified: 2007 Oct 17
 </p>
 
 <h1>pyTrix</h1>
@@ -469,6 +469,12 @@ Windows users can add <a href="http://aspn.activestate.com/ASPN/Cookbook/Python/
 <a href="http://bonsai.ims.u-tokyo.ac.jp/~mdehoon/software/cluster/software.htm#pycluster">PyCluster</a> clustering algorithms, including k-means.
 </p>
 
+<h2>Extensibility</h2>
+
+<p>
+<a href="https://launchpad.net/pybindgen/">PyBindGen</a> generates Python bindings for C/C++ libraries.
+</p>
+
 <h2>Little Tricks</h2>
 
 <p>
@@ -482,6 +488,13 @@ A simple way to reverse a sequence: <code>seq[::-1]</code>.
 <p>
 A fast way to get an element from a set (or other iterable):
 <code>for x in myset: break</code>.
+</p>
+
+<p>
+Here is a way to understand <code>numpy.dot</code>:
+the operation uses the last dimension of the first argument and the next-to-last dimension of the second argument.
+When given two 1-D arrays, dot() essentially computes the inner product.
+When given two 2-D arrays, dot() essentially computes matrix multiplication.  
 </p>
 
 

@@ -54,6 +54,7 @@ __lastmodified__ = '20070622'
 import random, itertools
 from collections import defaultdict
 from econpy.pytrix import utilities, fmath
+from econpy.abs.utilities import distribute
 
 #logging
 import logging
@@ -63,18 +64,6 @@ script_logger = logging.getLogger('script_logger')
 #################################################################
 #########################  functions  ###########################
 #################################################################
-def distribute(wtotal, units, gini, shuffle=False):
-	units = list(units)
-	nb = len(units)  #number of brackets 
-	units2 = set(units)
-	assert len(units2)==nb
-	g = (1+gini)/(1-gini) # (2A+B)/B
-	shares = utilities.gini2shares(gini, nb, shuffle=shuffle)
-	w = ( wtotal*share for share in shares )
-	for wi in w:
-		units.pop().receive_income(wi)   #ADD to individual wealth
-	assert (not units),  "Length shd now be zero."
-	script_logger.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
 
 def sexer_unisex2(n):
 	'''Yield 'FF' n times.

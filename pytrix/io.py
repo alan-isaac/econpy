@@ -24,7 +24,7 @@ try: from scipy import nan
 except ImportError: nan=1e300*1e300-1e300*1e300
 #see http://www.cs.ucla.edu/classes/winter04/cs131/hw/hw4.html for problems w this ^
 import logging
-logging.getLogger().setLevel(logging.DEBUG) #sets root logger level
+logging.getLogger().setLevel(logging.WARN) #sets root logger level
 #see http://www.python.org/doc/2.3.5/lib/node304.html to log to a file
 #(after Python 2.4 can use basicConfig)
 # for other IO options see:
@@ -47,7 +47,7 @@ def read_odb(fp):
 		data,smpl,comments = read_db(fp)
 		dates = None  #maybe ...
 	elif line[0].isalpha():
-		pass #read fred
+		pass #read FRED
 	return data,smpl,comments,dates
 
 
@@ -230,12 +230,12 @@ def date2dbdate(dtdate,freq):
 	return dtstr
 
 
-class ReadFred(object):
-	'''Read data from `Fred2`_ files.
+class ReadFRED(object):
+	'''Read data from `FRED2`_ files.
 	Example use::
 
 		fredbase = "http://research.stlouisfed.org/fred2/data/"
-		currency = ReadFred(fredbase+'CURRENCY.txt')
+		currency = ReadFRED(fredbase+'CURRENCY.txt')
 		print currency.data
 
 	:requires: logging module (in standard library)
@@ -338,17 +338,17 @@ class ReadFred(object):
 
 def read_fred(source):
 	'''Return data, dates, comments.
-	Read data from `Fred2`_ files.
+	Read data from `FRED2`_ files.
 	Example use::
 
 		fredbase = "http://research.stlouisfed.org/fred2/data/"
 		data, dates, comments = read_fred(fredbase+'CURRENCY.txt')
 
-	:note: deprecated in favor of ReadFred class
+	:note: deprecated in favor of ReadFRED class
 
 	.. _`FRED2`: http://research.stlouisfed.org/fred2/
 	'''
-	series = ReadFred(source)
+	series = ReadFRED(source)
 	data = series.data
 	dates = sereis.dates
 	comments = series.comments

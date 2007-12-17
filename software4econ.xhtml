@@ -10,7 +10,7 @@
    <meta name="Author"
          content="Alan G. Isaac" />
    <meta name="Keywords"
-         content="software, economists, software for economists, editors, text editors, GAUSS, matrix programming, Python, LaTeX, PostScript, Vim, gnuplot, symbolic mathematics" />
+         content="software, economists, software for economists, editors, text editors, GAUSS, matrix programming, agent-based simulation, agent-based economics, Python, LaTeX, PostScript, Vim, graphics, symbolic mathematics" />
    <meta name="Description"
          content="Software resources for economists." />
 </head>
@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Oct 02
+Last modified: 2007 Dec 03
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
@@ -242,8 +242,12 @@ Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit
 
 <p>
 Before listing some monospaced fonts,
-I must note the wonderful <a href="http://www.stixfonts.org/abt_geninfo.html">STIX</a> font project.
+I must note the wonderful <a href="http://www.stixfonts.org">STIX</a> font project.
+These are "a comprehensive set of fonts that serve the scientific and engineering community".
+and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
+The fonts are in beta test until the end of 2007,
+at which time a production release is expected.
 </p>
 
 <p>
@@ -288,6 +292,10 @@ Good commercial fonts:
 <p>
 <a href="http://www.sil.org/~gaultney/gentium/">Gentium</a> is a high-quality
 FOSS unicode font set.
+</p>
+<p>
+The <a href="http://www.ctan.org/tex-archive/fonts/arev/doc/fonts/arev/">Arev</a>
+fonts are useful for presentations containing math.
 </p>
 
 <h3 id="spell">Spell Checkers</h3>
@@ -846,6 +854,8 @@ You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed
 <a href="http://www.tug.org/utilities/texconv/textopc.html">TeX to PC</a> has a more complete discussion.
 One interesting possibility is <a href="http://pylatex.sourceforge.net/index.html">pyLaTeX</a>,
 which parses LaTeX for output in various formats.
+More extensive conversion capabilities may be provided by <a href="http://johnmacfarlane.net/pandoc">pandoc</a>.
+(Language: Haskell; License: GPL)
 </p>
 
 <p>
@@ -1436,6 +1446,10 @@ It is even possible to compile your Python applications with
 <a href="http://ftp.cwi.nl/jack/freeze/">freeze</a>,
 or
 <a href="http://starship.python.net/crew/theller/py2exe/">py2exe</a>.
+</li>
+<li>
+<a href="http://www.osl.iu.edu/research/mtl/mtl4/">Matrix Template Language 4 (MTL4)</a>
+provided matrix manipulations for C++ users.
 </li>
 <li>
 <a href="http://pdl.perl.org/">Perl Data Language</a> introduces a new data structure:
@@ -3114,6 +3128,8 @@ If you prefer Matplotlib's object-oriented API,
 there is a <a href="http://matplotlib.sourceforge.net/leftwich_tut.txt">useful introduction</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
+<br />
+Aside: fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.
 </li>
 <li>
 It is possible to <a href="#gphints">control gnuplot</a> from Python
@@ -3139,7 +3155,10 @@ It is possible to <a href="#gphints">control gnuplot</a> from Python.
 <a href="http://biggles.sourceforge.net/">Biggles</a> is a slick and simple Python module for 2-D plots.  
 </li>
 <li>
-<a href="http://www.scripps.edu/~sanner/python/viper/">ViPEr</a> is a visual programming environment for graphics manipulation in Python.
+<a href="http://www.scripps.edu/~sanner/python/viper/">Vision</a>
+(formerly ViPEr)
+is a visual programming environment for graphics manipulation in Python,
+which provides many transformation and visualization tools.
 </li>
 </ul>
 
@@ -4736,10 +4755,13 @@ Otherwise
 For C/C++ see <a href="http://www.research.att.com/~bs/compilers.html">Bjarne Stroustrup's list</a>.
 However, I will list a few free C and C++ compilers that are reputed to be quite good.
 If you are new to C, see <a href="http://www-ccs.ucsd.edu/c/">Standard C</a> by Plauger and Brodie.
-(Btw, if you program in C/C++, you should probably be using the 
+<br />
+Btw, if you program in C/C++, you should probably be using the 
 <a href="http://cscope.sourceforge.net/">Cscope</a> code browser;
 there is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>,
-which works with Vim's Cscope interface.)
+which works with Vim's Cscope interface.
+<br />
+Also, <a href="http://www.scons.org/">scons</a> has become a fairly popular alternative to <a href="">make</a>.
 <ul>
 <li>
 There is a <a href="http://www.cygnus.com/misc/gnu-win32/">Windows port</a> of the GNU gcc compiler.
@@ -4828,9 +4850,6 @@ version</a> is available.
 <a href="http://www.info.uni-karlsruhe.de/~sather/index_engl.html">Sather-K</a> is Eiffel based but adds innovations (and is free).
 </p>
 
-<p><a href="http://www.swarm.org">Swarm</a> is useful for multi-agent simulation projects.
-</p>
-
 <p><a href="http://www.object-tools.com/">Visual Eiffel
 Lite</a> is free. Documentation is in
 <a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">
@@ -4838,6 +4857,20 @@ Eiffel: Object Oriented Programming</a>
 </p>
 
 <!-- Python, Perl -->
+
+<h3>Agent-Based Simulation</h3>
+
+<p>
+<a href="http://www.labor-torino.it/english/research/labsim/wild/wp-html/wp-sonnessa.html">Java Agent-based Simulation (JAS) library</a>
+</p>
+
+<p>
+<a href="http://www.swarm.org">Swarm</a> is useful for multi-agent simulation projects.
+</p>
+
+<p>
+<a href="http://eodev.sourceforge.net/">Evolving Objects</a> is "is a templates-based, ANSI-C++ compliant evolutionary computation library". (License: LGPL)
+</p>
 
 
 <h3 id="kids">Stuff for Kids (and Educators)</h3>
