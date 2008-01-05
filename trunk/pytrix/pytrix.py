@@ -46,10 +46,6 @@ except ImportError:
 
 
 
-# Utilities and other odds and ends
-
-def unique(x):
-	return sorted(set(x))
 
 def gcd_euclid(r,n):
 	'''Return greatest common divisor of r and n.
@@ -303,7 +299,7 @@ class vplus(vector):
 
 
 
-class pt2d(vector):
+class Pt2d(vector):
 	def __init__(self,p,polar=False,in_degrees=False):
 		if polar: #convert to rectangular coordinates
 			self.data=circ2rect(p,in_degrees=in_degrees)
@@ -317,7 +313,7 @@ class pt2d(vector):
 	def __str__(self):
 		"(%s,%s)"%self.data
 
-def circ2rect(rw,in_degrees=False):
+def circ2rect2d(rw, in_degrees=False):
 	"""Convert 2-D coordinates from polar (r,w) to rectangular (x,y).
 
 	:Parameters:
@@ -330,13 +326,14 @@ def circ2rect(rw,in_degrees=False):
 	:return: (x,y), the real abscissa and ordinate in ``R^2``
 	:see: http://en.wikipedia.org/wiki/Angle
 	:see: http://en.wikipedia.org/wiki/Coordinates_%28mathematics%29
-	:author: Alan G. Isaac
+	:contact: alan DOT isaac AT gmail DOT com
 	"""
 	(r,w)=rw
-	if in_degrees: w = (w/180.0)*math.pi #transform degrees to radians
+	if in_degrees:
+		w = math.radians(w) #transform degrees to radians
 	return r*math.cos(w), r*math.sin(w)
 
-def rect2circ(xy, in_degrees=False):
+def rect2circ2d(xy, in_degrees=False):
 	"""Convert 2-D point from rectangular (x,y) to polar (r,w).
 
 	:Parameters:
@@ -353,13 +350,13 @@ def rect2circ(xy, in_degrees=False):
 	:see: http://www.python.org/doc/current/lib/module-math.html#atan2
 	:see: http://en.wikipedia.org/wiki/Coordinates_%28mathematics%29
 	:note: atan2(y/x) always in [-\pi,\pi] radians (i.e., [-180,180] degrees)
-	:author: Alan G. Isaac
+	:contact: alan DOT isaac AT gmail DOT com
 	"""
 	(x,y) = xy
 	w = in_degrees and 180.0*math.atan2(y,x)/math.pi or math.atan2(y,x)
 	return math.hypot(x,y), w
 
-def nearest2(pt,ptlst,polar=False,in_degrees=False):
+def nearest2d(pt,ptlst,polar=False,in_degrees=False):
 	"""Find 2-D point in `ptlst` nearest to `pt`.
 
 	:Parameters:
@@ -378,7 +375,7 @@ def nearest2(pt,ptlst,polar=False,in_degrees=False):
 	:see: http://en.wikipedia.org/wiki/Angle
 	:see: http://mail.python.org/pipermail/python-list/2003-November/192870.html
 	:see: http://mail.python.org/pipermail/python-list/2003-November/193046.html
-	:author: Alan G. Isaac
+	:contact: alan DOT isaac AT gmail DOT com
 	"""
 	if polar:
 		pt = circ2rect(pt,in_degrees=in_degrees)
@@ -1542,10 +1539,10 @@ class interp2:
 def asciihist(it,numbins=10,minmax=None,eps=0):
 	'''Create an ASCII histogram from an interable of numbers.
 
-	:author: Alan G. Isaac
 	:since: 2005-11-12
 	:note: value must be strictly less than cutoff to be binned
 	:note: unless eps>0, values >= minmax[1] are discarded
+	:contact: alan DOT isaac AT gmail DOT com
 	'''
 	bins = range(numbins)
 	freq = {}.fromkeys(bins,0)
@@ -1581,8 +1578,8 @@ def asciihist(it,numbins=10,minmax=None,eps=0):
 def pascal_triangle(n):
 	'''The first n+1 rows of Pascal's triangle.
 
-	:author: Alan Isaac
 	:since: 2005-11-18
+	:contact: alan DOT isaac AT gmail DOT com
 	'''
 	triangle = []
 	for i in range(n+1):
@@ -1596,9 +1593,9 @@ def combinations(s,n):
 	"""All combinations of n items from list x
 	(in stable order).  From pytrix.py.
 
-	:author: Alan Isaac
 	:since: 2006-09-15
 	:note: just delete 'list' to return a generator
+	:contact: alan DOT isaac AT gmail DOT com
 	"""
 	s = list(s)
 	depth = len(s)-n
@@ -1657,7 +1654,7 @@ def factorial(n):
 	:note: returns reduce(lambda x,y: x*(y+1),xrange(1,n),1)
 	:since: 2005-11-17
 	'''
-	assert(n==int(n) and n>=0)
+	assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
 	n=int(n)
 	f = 1
 	for i in xrange(n):
@@ -1881,104 +1878,6 @@ def geneigsympos(A, B):
 
 
 
-class PCA:
-	def __init__(self, inputMatrix, meancenter):
-		"""
-		This class carries out Principal Component Analysis on (numeric/numarray)
-		matrices.
-		
-		use:
-		analysis = PCA(Matrix, 0) / no mean centering of data
-		analysis = PCA(Matrix, 1) / mean centering of data
-		
-		Matrix: array from package 'numeric'/'numarray'
-		
-		:author: Oliver Tomic
-		:organization: Matforsk - Norwegian Food Research Institute
-		:version: 1.0
-		:since: 29.06.2005
-		:see: Modular Data Toolkit for another implementation http://mdp-toolkit.sourceforge.net/
-		:see: prepca from matplotlib.mlab (simpler implementation)
-		"""
-		
-		from numpy.lib.mlab import svd, std, cov
-		[numberOfObjects, numberOfVariables] = shape(inputMatrix)
-		
-		# This creates a matrix that keeps the original input matrix. That is
-		# necessary, since 'inputMatrix' will be centered in the process and
-		# the function GetCorrelationLoadings requires the original values.
-		self.originalMatrix = zeros((numberOfObjects, numberOfVariables), float32)
-		for rows in range(numberOfObjects):
-			for cols in range(numberOfVariables):
-				self.originalMatrix[rows, cols] = inputMatrix[rows, cols]
-		
-		# Meancenter inputMatrix if required
-		if meancenter == 1:
-			
-			variableMean = average(inputMatrix, 0)
-			
-			for row in range(0, numberOfObjects):
-				inputMatrix[row] = inputMatrix[row] - variableMean
-
-		
-		# Do the single value decomposition
-		[U,S_values,V_trans] = svd(inputMatrix)
-
-		S = zeros((len(S_values),len(S_values)), float32)
-		for singVal in range(len(S_values)):
-			S[singVal][singVal] = S_values[singVal]
-		
-		# Calculate scores (T) and loadings (P)
-		self.scores = U*S_values
-		self.loadings = transpose(V_trans)
-		
-		self.inputMatrix = inputMatrix
-		
-	def GetScores(self):
-		"""
-		Returns the score matrix T. First column is PC1, second is PC2, etc.
-		"""
-		return self.scores
-	
-	def GetLoadings(self):
-		"""
-		Returns the loading matrix P. First row is PC1, second is PC2, etc.
-		"""
-		return self.loadings
-	
-	def GetCorrelationLoadings(self):
-		"""
-		Returns the correlation loadings matrix based on T and inputMatrix.
-		For variables in inputMatrix with std = 0, the value 0 is written
-		in the correlation loadings matrix instead of 'Nan' as it should be
-		(as for example in Matlab)
-		""" 
-		
-		# Creates empty matrix for correlation loadings
-		self.correlationLoadings = zeros((shape(self.scores)[1], shape(self.originalMatrix)[1]), float32)
-		
-		# Calculates correlation loadings with formula:
-		# correlation = cov(x,y)/(std(x)*std(y))
-		
-		# For each PC in score matrix
-		for PC in range(shape(self.scores)[1]):
-			PCscores = self.scores[:, PC]
-			PCscoresSTD = std(PCscores)
-			
-			# For each variable/attribute in original matrix (not meancentered)
-			for var in range(shape(self.originalMatrix)[1]):
-				origVar = self.originalMatrix[:, var]
-				origVarSTD = std(origVar)
-				
-				# If std = 0 for any variable an OverflowError occurs.
-				# In such a case the value 0 is written in the matrix
-				try:
-					self.correlationLoadings[PC, var] = cov(PCscores, origVar) / (PCscoresSTD * origVarSTD)
-				
-				except OverflowError:
-					self.correlationLoadings[PC, var] = 0
-		
-		return self.correlationLoadings
 
 def matrix_rank(arr,tol=1e-8):
 	"""Return the matrix rank of an input array.

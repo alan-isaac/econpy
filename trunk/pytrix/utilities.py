@@ -27,6 +27,17 @@ except ImportError:
 have_scipy = False
 if have_numpy:
 	try:
+		from scipy import stats
+		logging.info("successful import of scipy.stats as stats")
+	except ImportError:
+		logging.info("scipy.stats cannot be imported -> no probabilities computed.")
+	else:
+		have_scipy = True
+		logging.info("have_scipy is True")
+
+''' uncomment if you might not have SSE2
+if have_numpy:
+	try:
 		from numpy.distutils import cpuinfo
 	except ImportError:
 		logging.warn("numpy.distutils unavailable, cannot test for SSE2 -> SciPy disabled.")
@@ -46,8 +57,21 @@ if have_numpy:
 				logging.info("have_scipy is True")
 		else:
 			logging.warn("Cannot detect SSE2; disabling SciPy")
+'''
 
 
+
+def unique(x, use_numpy=True, key=None, cmp=None, reverse=False):
+	'''Return sorted list or array or unique items.
+	Does not support ``key`` or ``cmp`` for NumPy arrays.
+	'''
+	if have_numpy and use_numpy:
+		result = N.unique(x)
+		if reverse:
+			result = result[::-1]
+	else:
+		result = sorted(set(x), key=key, cmp=cmp, reverse=False)
+	return result
 
 
 def calc_gini2(x): #follow transformed formula
