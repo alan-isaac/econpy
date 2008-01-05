@@ -1,4 +1,5 @@
-from ..pytrix.utilities import permutations
+from ..pytrix.utilities import permutations, calc_gini
+import logging, random
 
 def match_exclude(group1, group2, exclude):
 	'''Return list of matched pairs meeting an exclusion criterion.
@@ -86,7 +87,7 @@ def gini2shares(gini, nbrackets):
 	       Note (1+G)/(1-G) = 2g/2 = g. (Used below.)
 	:since:  2006-06-20
 	:date:   2007-07-11
-	:contact: aisaac AT american.edu
+	:contact: aisaac AT american DOT edu
 	'''
 	assert (0 <= gini < 1)
 	g = (1+gini)/(1-gini) # (2A+B)/B
@@ -98,17 +99,32 @@ def gini2shares(gini, nbrackets):
 	return shares
 
 def distribute(wtotal, units, gini, shuffle=False):
+	'''Distribute resources `wtotal` among members of `units` based on `gini`.
+
+	:Parameters:
+	  wtotal : number
+	    total resources to distribute
+	  units : list
+	    units (households) to share `wtotal`
+	  gini : float
+	    Gini coefficient that should result from distribution
+	  shuffle : bool
+	    if False, first unit receives least resources, etc.
+	:note: lots of copying! (not good for very large number of households)
+	:note: need to compute number of units *before* distributing.
+	:todo: eliminate redundant error checks
+	'''
 	units = list(units)
 	nb = len(units)  #number of brackets 
-	units2 = set(units)
-	assert len(units2)==nb
+	units2 = set(units)  #this is just for error check
+	assert len(units2)==nb, "`units` shd not contain duplicates"
 	g = (1+gini)/(1-gini) # (2A+B)/B
 	shares = gini2shares(gini, nb)
 	if shuffle:   #enforce Gini but distribute randomly
 		random.shuffle(shares)
 	w = ( wtotal*share for share in shares )
-	for wi in w:
-		units.pop().receive_income(wi)   #ADD to individual wealth
+	for w_i in w:
+		units.pop().receive_income(w_i)   #ADD to individual wealth
 	assert (not units),  "Length shd now be zero."
-	script_logger.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,utilities.calc_gini( i.calc_wealth() for i in units2 )))
+	logging.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,calc_gini( i.calc_wealth() for i in units2 )))
 
