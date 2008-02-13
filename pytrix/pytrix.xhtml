@@ -15,13 +15,13 @@
 <body>
 
 <p style="font-size: x-small">
-Last modified: 2007 Oct 17
+Last modified: 2008 Feb 04
 </p>
 
 <h1>pyTrix</h1>
 
 <p>
-License: MIT, except where otherwise specified.
+License: MIT, unless otherwise specified in the source file.
 </p>
 
 <p>
@@ -390,20 +390,32 @@ effort to produce a standard <a href="http://wiki.python.org/moin/PythonGraphApi
 
 <h2>Odds and Ends</h2>
 
-<p>
-<a href="http://bmelibpy.sourceforge.net">BMELibPy</a>
-is a parital translation of the BMELib MATLAB library.
+<pre>
+BMELibPy_ is a parital translation of the BMElib MATLAB library.
 Still uses Numeric.
 The variogram methods are complete.
-</p>
+.. _BMELibPy: http://bmelibpy.sourceforge.net
 
-<p>
-<a href="sftp_client.py">sftp_client</a> is a simple SSH2 <a href="http://www.american.edu/econ/notes/soft.htm#ftp">FTP client</a>.
-</p>
 
-<p>
-Easily pass numpy arrays to MATLAB with <a href="http://mlabwrap.sourceforge.net/">mlabwrap</a>.
-</p>
+Shapely_ "is a thin wrapper for libgeos_c".
+Allows working with 2D geospatial geometries.
+Based on GEOS. (License: BSD)
+
+.. _Shapley: http://pypi.python.org/pypi/Shapely
+
+
+`sftp_client`_ is a simple SSH2 `FTP client`_.
+
+.. _sftp_client: sftp_client.py
+.. _`FTP client`: http://www.american.edu/econ/notes/soft.htm#ftp
+
+
+
+Easily pass numpy arrays to MATLAB with mlabwrap_.
+
+.. _mlabwrap: http://mlabwrap.sourceforge.net/
+
+</pre>
 
 <p>
 <a href="http://www.ctcms.nist.gov/fipy/">FiPy</a>
@@ -415,6 +427,8 @@ Also see <a href="http://www.ctcms.nist.gov/oof/">OOF</a>.
 </p>
 
 <p>
+<a href="http://scipy.org/scipy/scikits">samplerate</a> is a python wrapper around the Sampling Rate Conversion (SRC) library of Erik Castrop de Lopo.  It provides
+"a python package to convert sampling rate of audio signals ... using sinc interpolation and polyphase implementation".
 <a href="http://www.ar.media.kyoto-u.ac.jp/members/david/pyaudiolab.tar.gz">PyAudioLab</a>
 reads and writes audio files as numpy arrays.
 Requires <a href="http://www.mega-nerd.com/libsndfile/">libsndfile</a>,
