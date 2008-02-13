@@ -1,3 +1,12 @@
+"""
+Simple text utilities.
+- SimpleTable
+- WordFreq
+"""
+from __future__ import division, with_statement
+import sys, string
+from collections import defaultdict
+
 class SimpleTable:
 	'''Produce a simple ASCII or LaTeX table from a 2D array of data.
 	`data` is 2D rectangular iterable: lists of lists of text.
@@ -143,5 +152,79 @@ class SimpleTable:
 		if below:
 			end = below + "\n" + end
 		return begin + '\n'.join(rows) + "\n" + end
+
+
+class WordFreq:
+	def __init__(self, filename, **kw):
+		self.filename = filename
+		self.params = kw
+		self.result = self.describe()
+	def describe(self):
+		"""
+		might want, e.g.,
+		START_AFTER = ".. begin wordcount",
+		"""
+		params = dict(
+		start_after = '',
+		wordsize_min = 3,
+		freq_min = 2
+		)
+		params.update(self.params)
+		self.params = params
+		start_after = params['start_after']
+		wordsize_min = params['wordsize_min']
+		chars2strip = string.punctuation
+		ct_words = 0
+		ct_longwords = 0
+		word_hash = defaultdict(int)
+		with open(self.filename,'r') as fh:
+			for line in fh:
+				while start_after:
+					if line.startswith(START_AFTER):
+						start_after = False
+					continue
+				line.strip()
+				for word in line.split():
+					word = word.strip(chars2strip)
+					if word:
+						ct_words += 1
+					if len(word) >= wordsize_min:
+						ct_longwords += 1
+						word_hash[word] += 1
+		result = dict(word_hash=word_hash,
+		ct_words=ct_words,
+		ct_longwords=ct_longwords
+		)
+		return result
+	def summarize(self):
+		freq_min = self.params['freq_min']
+		result = self.result
+		fmt = "%24s %6d"
+		print "Results for 'longer' words (length >= %(wordsize_min)d)."%self.params
+		print """
+		=================================================
+		=============== WORD COUNT ======================
+		=================================================
+		Total number of words: %(ct_words)d
+		Total number of 'longer' words : %(ct_longwords)d
+		"""%result
+
+		print """
+		=================================================
+		=============== ALPHA ORDER =====================
+		=================================================
+		"""
+		for k,v in sorted( result['word_hash'].iteritems() ):
+			if v >= freq_min:
+				print fmt%(k,v)
+		print """
+		=================================================
+		============ OCCURRENCE ORDER ===================
+		=================================================
+		"""
+		for k,v in sorted( result['word_hash'].iteritems(), key = lambda x: (-x[1], x[0]) ):
+			if v >= freq_min:
+				print fmt%(k,v)
+
 
 

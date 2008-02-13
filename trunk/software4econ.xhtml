@@ -19,28 +19,11 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2007 Dec 03
+Last modified: 2008 Feb 06
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
 
-<div style="font-size: 60%;background-color:#EEEEEE; color:#FF0000;">
-          <!-- Begin PayPal Logo --> 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:left">
-          <div style="text-align:center; padding: 0 1em;">
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="aisaac@american.edu" />
-            <input type="hidden" name="item_name" value="Software for Economists" />
-            <input type="hidden" name="return" value="http://www.american.edu/econ/notes/soft.htm" />
-            <input type="hidden" name="cancel_return" value="http://www.american.edu/econ/notes/soft.htm" />
-            <input type="image" src="http://images.paypal.com/images/x-click-but04.gif" name="submit" alt="PayPal" />
-        </div>
-</form>
-This page is advertisement-free.
-Please donate to keep it that way.
-PayPal lets you donate an amount that you decide, and it's completely voluntary.
-Thank you.
-</div>
 
 <ul class="mainmenu">
 <li>
@@ -1322,9 +1305,12 @@ Academics may be interested in Mike Piff's answers package (answers.sty).
 <h4>Compiling TeX</h4>
 
 <ul>
+
 <li>
-<a href="http://www.pps.jussieu.fr/~beffara/soft/rubber/">Rubber</a>
-is a Python based replacement for makefiles.
+<a href="http://www.scons.org/">SCons</a> is Python-based replacement for "make". (License: MIT; Language: Python.)
+Using it for everything might be a good idea, or it might be overkill for TeX compilation.
+In the latter case, consider <a href="http://www.pps.jussieu.fr/~beffara/soft/rubber/">Rubber</a>,
+a more modest replacement for makefiles in a TeX environment. (Language: Python.)
 </li>
 <li>
 <a href="http://texcatalogue.sarovar.org/entries/latexmk.html">latexmk</a>
@@ -1419,11 +1405,11 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 <ul>
 <li id="scipy">
 You can use <a href="#script">Python</a> to do serious object-oriented scientific programming.
-A reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>.
-(License: BSD.)
-(SciPy is included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution.)
-Array math is provided underneath SciPy by <a id="numpy" href="http://numpy.scipy.org/">NumPy</a>,
+Matrix and multi-dimensional array math is provided by <a id="numpy" href="http://numpy.scipy.org/">NumPy</a>,
 a remarkably capable package. (License: BSD.)
+A reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>.
+(License: BSD; Dependency: NumPy.)
+(SciPy is included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution.)
 Many scientific programming applications can be found on the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware">SciPy Topical Software Wiki</a>.
 <a href="http://dirac.cnrs-orleans.fr/ScientificPython/">ScientificPython</a> offers some useful scientific and visualization modules.
 The are also some additional <a href="http://probstat.sourceforge.net/">probability and statistics utilities</a> available.
@@ -1470,11 +1456,11 @@ Lush is free and open source software.
 As a bonus it allows easy development of interactive 2-D graphics.
 </li>
 <li>
-<a href="ftp://ftp-icf.llnl.gov/pub/Yorick/doc/index.html">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is in wide use in physics.
+<a href="http://www.netlib.org/env/yorick.readme">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is in wide use in physics.
 Yorick includes the Gist graphics package,
 which can be used separately.
 For example,
-<a href="http://bonsai.ims.u-tokyo.ac.jp/~mdehoon/software/python/pygist_html/pygist.html">PyGist</a> provides a Python interface to the Gist graphics package.
+<a href="http://hifweb.lbl.gov/public/software/gist/pygist_html/pygist.html">PyGist</a> provides a Python interface to the Gist graphics package.
 This allows extremely fast graphics plotting.
 </li>
 <li id="octave"> 
@@ -1757,6 +1743,11 @@ list of stat related related e-lists</a>.
 </li>
 <li><a href=
 "http://www.stat.umn.edu/ARCHIVES/archives.html">XLISP-STAT</a>
+</li>
+<li>
+Python users may want to look at <a href="http://econpy.googlecode.com/svn/trunk/pytrix/pytrix.xhtml">pyTrix</a>,
+an archive of econometrics related Python code.
+It is part of the <a href="http://code.google.com/p/econpy/">EconPy</a> project.
 </li>
 </ul>
 
@@ -3530,14 +3521,11 @@ for a more extensive discussion.
 
 <ul>
 <li>
-<a href="http://www.skencil.org/">Skencil</a>
-is a vector drawing program written almost entirely in <a href="#python">Python</a>.
-</li>
-<li>
 Python based <a href="http://tpx.sourceforge.net/">TpX</a> is small, fast, and powerful.
 Output formats include EPS, PDF, and PGF.
 (LaTeX users will particularly be interested in the PGF output.)
 Try it!
+(License: GPL; Language: Delphi)
 </li>
 <li>
 <a href="http://ipe.compgeom.org/">IPE</a> is a powerful cross-platform graphics editor with strengths related to computational geometry and in LaTeX support.
@@ -3548,6 +3536,16 @@ It can produce multi-page PDF figures that can be imported a page at a time into
 <a href="http://inkscape.org/">Inkscape</a> is an open source <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> editor.
 There are <a href="http://www.inkscape.org/download.php">Windows test builds</a>.
 Can export to EPS and EMF.
+</li>
+<li>
+<a href="http://www.skencil.org/">Skencil</a>
+is a vector drawing program written almost entirely in <a href="#python">Python</a>.
+The related but apparently more active <a href="http://sk1project.org/">sk1project</a> offers
+a serious vector graphic package for Linux users. (License: GPL and LGPL)
+</li>
+<li>
+<a href="http://www.graphsketcher.com/">Graph Sketcher</a> is a very reasonably priced
+commercial program that allows very fast drawing of nice looking economics-related graphs.
 </li>
 <li>
 <a href="http://www.ribbonsoft.com/qcad.html">QCad</a> is a FOSS computer aided drafting package that emphasizes ease of use.
@@ -3774,13 +3772,17 @@ Vim users can use the <a href="http://vim.sourceforge.net/script.php?script_id=4
 <h3 id="pim">Personal Information Managers (PIMs)</h3>
 
 <p>
-Cross-platform PIMs <a href="http://osafoundation.org/OSAF_Our_Vision.htm">Chandler</a>,
+Cross-platform PIMs <a href="http://chandlerproject.org/">Chandler</a>,
 which is very promising but still early in development,
 and <a href="http://www.thekompany.com/projects/aethera/">Aethera</a>.
 In the meantime, the <a href="http://www.palm.com/support/downloads/palmdt_4.html">Palm Desktop</a> is free,
 available on Windows and Mac,
 and quite functional
 (although it does not use the iCalendar standard).
+</p>
+
+<p>
+<a href="http://www.citadel.org/">Citadel</a> is a promising groupware application.
 </p>
 
 <p>
