@@ -3,7 +3,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="en-US">
 <head>
-  <title>Software for Economists</title>
+  <title>Software for Economists (TM)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
   <link rel="stylesheet" type="text/css" href="../dpt/isaac/isaac.css" />
   <link rel="stylesheet" type="text/css" href="http://www.american.edu/econ/notes/isaac.css" />
@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Feb 06
+Last modified: 2008 Mar 04
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
@@ -1891,8 +1891,11 @@ This is a free cross-platform solution.
 <a href="http://home.arcor.de/mulk/projects/mascyma/index.xhtml.en">Mascyma</a> is a Python based front end for Maxima.
 </li>
 <li>
-Great things grow from small beginnings: is <a href="http://code.google.com/p/sympy/">sympy</a> destined for greatness?
+Great things grow from small beginnings:
+is <a href="http://code.google.com/p/sympy/">sympy</a> destined for greatness?
 This CAS in Python may be small, but it is <em>very</em> easily extensible.
+<a href="http://code.google.com/p/sympycore/">SympyCore</a> released version 0.1 in Feb. 2008.
+(License: new BSD; Language: Python)
 </li>
 <li><a href="http://page.axiom-developer.org/zope/mathaction/FrontPage">Axiom</a> is now free and open source!
 "Axiom ... defines a strongly typed, mathematically correct type hierarchy.
@@ -2103,12 +2106,14 @@ I like its stability but prefer Mahogany's key bindings.
 Another email client that is now cross-platform is <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed</a>,
 and perhaps <a href="http://balsa.gnome.org/">balsa</a> will be.
 <strong>Big plus:</strong> unlike most Windows email clients,
-Mahogany, pc-pine (and now <a href="http://www.washington.edu/alpine/">Alpine</a>), and Sylpheed let you use your favorite editor to edit your email.
+Mahogany,
+<a href="http://www.washington.edu/alpine/">Alpine</a> (formerly pc-pine),
+and Sylpheed let you use your favorite editor to edit your email.
 Thunderbird also supports external editors by means of a plug-in.
 Pine and Mahogany support POP3,
 but Pine is primarily intended for IMAP.
 <p class="boxed">
-See the <a href="#emhints">Mahogany hints</a>, <a href="#emhints">Thunderbird hints</a>, and <a href="#emhints">Pine hints</a> below.
+See the <a href="#emhints">Mahogany hints</a>, <a href="#emhints">Thunderbird hints</a>, and <a href="#emhints">Alpine hints</a> below.
 </p>
 Another cross platform solution is now <a href="http://www.mutt.org/">The Mutt Email Client</a>&mdash;long popular among Unix users, and <a href="http://www.geocities.com/win32mutt/win32.html">available to Windows users</a>.
 (You can also get mutt along with fetchmail, and sSMTP in a <a href="http://unixmail-w32.sourceforge.net/">unix-mail package for Windows</a>,
@@ -3115,12 +3120,10 @@ For publication quality 2-D graphics,
 I like <a href="http://matplotlib.sourceforge.net/">Matplotlib</a>.
 This is truly amazing free and open source graphics software.
 It's <code>pylab</code> module provides quick-and-easy Matlab-like functionality.
-If you prefer Matplotlib's object-oriented API,
-there is a <a href="http://matplotlib.sourceforge.net/leftwich_tut.txt">useful introduction</a>.
+For finer grained control, you may prefer Matplotlib's <a href="#oompl">object-oriented API</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
-<br />
-Aside: fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.
+See the <a href="#mpl_hints">Matplotlib hints</a> below.
 </li>
 <li>
 It is possible to <a href="#gphints">control gnuplot</a> from Python
@@ -5146,7 +5149,34 @@ Lists are sorted in place, so <code>mylist.sort()</code> return <code>None</code
 but <code>mylist</code> is now sorted.
 </p>
 
+<h3 id="bbox_hints">Bounding Box Hints</h3>
 
+<p>
+Occasionally you will need to provide or adjust the bounding box information for a graphic.
+Here are some resources.
+</p>
+
+<ul>
+<li>
+<a href="http://www.ctan.org/tex-archive/support/pdfcrop/">pdfcrop</a>
+for PDF files. (License: LaTeX Project Public License; Language: perl)
+</li>
+<li>
+<a href="">GhostScript</a>
+and many TeX distributions
+include <a href="http://www.linuxcommand.org/man_pages/eps2eps1.html">eps2eps</a>,
+which can reset the bounding box of an EPS file.
+</li>
+<li>
+If you have Ghostscript 6.0 (or later), the command:
+<tt> gs -sDEVICE=bbox -dNOPAUSE -dBATCH file.ps </tt>
+will print the bounding box information for file.ps (and then exit gs).
+You can then use this information to reset the bounding box.
+<a href="http://www.physics.ohio-state.edu/~ntg/scripts/bbox_add.pl">bbox_add.pl</a> is a perl script that uses this approach.
+<a href="http://citadel.tistory.com/130">fixBBox.py</a> is a Python script that uses this approach.
+(I have not tried these scripts.)
+</li>
+</ul>
 
 <h3 id="abihints">AbiWord user hints</h3>
 
@@ -5981,6 +6011,79 @@ Since it is a 5-user license, you may occasionally find you have to wait  until 
 </p>
 
 
+<h3 id="mpl_hints">Matplotlib User hints</h3>
+
+<p>
+Make sure you have installed <a href="#numpy">NumPy</a>.
+</p>
+
+<p>
+Here is a simple example for creating a figure
+and displaying it onscreen.
+It assumes that you have version 0.92.1 or newer.
+(Otherwise use <code>pylab</code> instead of <code>pyplot</code>.)
+</p>
+
+<pre>
+# preliminaries
+import matplotlib
+matplotlib.use('TkAgg')  #note choice of backend!
+from matplotlib import pyplot
+# create a new figure
+fig = pyplot.figure(1)
+ax = fig.gca()  #get current axes, making one if nec
+ax.plot([1,2,3],'r-')
+ax.set_title('Easy Line Plot')
+# display your figure onscreen
+pyplot.show() 
+</pre>
+
+<p id="mpl_no_gui">
+Here is a simple example for creating a figure
+and saving it, without displaying it onscreen.
+(I.e., no GUI.)
+It assumes that you have version 0.92.1 or newer.
+(Otherwise use <code>pylab</code> instead of <code>pyplot</code>.)
+</p>
+
+<pre>
+# preliminaries
+import numpy
+import matplotlib
+matplotlib.use('Agg')  #note choice of backend: no GUI!
+from matplotlib import pyplot
+
+#create some artificial data for this example
+x, y = numpy.random.rand(2,50)  #the data (50 points)
+# create a new figure 
+fig = pyplot.figure()
+ax = fig.add_subplot(111)
+ax.plot(x, y, marker='.', linestyle='', markerfacecolor='blue')
+ax.set_title('Scatter dots')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+# save figure to file
+fig.savefig('/temp/myfig.png', dpi=96)
+</pre>
+
+<p>
+Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.
+</p> 
+
+<p id="mpl_set_aspect">
+Note that if you <tt>set_aspect</tt> on a axes instance you
+will still need to <tt>apply_aspect</tt> as well
+(or call <tt>draw</tt>).
+</p>
+
+<p id="mpl_oo">
+Matplotlib is capable of fully object oriented graphics programming.
+There is a very useful <a href="http://matplotlib.sourceforge.net/leftwich_tut.txt">tutorial</a>.
+If you want to embed Matplotlib in a GUI,
+you must use the object oriented API and <em>not</em> pyplot.
+The Matplotlib website includes <a href="http://matplotlib.sourceforge.net/examples/">examples of embedding</a>.
+(For example, <a href="http://matplotlib.sourceforge.net/examples/embedding_in_qt.py">embedding_in_qt.py</a>.)
+</p>
 
 
 <h3 id="evhints">EViews User hints</h3>
@@ -6421,33 +6524,44 @@ This should leave your figures and tables alone.
 </p>
 
 <div>
+<p>
 Using LaTeX to produce PDF files with graphics is pretty easy
 as long as you are producing <a href="http://silas.psfc.mit.edu/elec_fig/">clean graphics</a>.
 But you need to pay attention to some details.
+</p>
+<p>
+If you are producing your PDF files with dvipdfm,
+then you will
+find it easiest to use EPS graphics.
+(EPS is also the primary standard for publishers.)
+Historically this has been my preference,
+but lately I've been working more with pdflatex.
+</p>
 <ol>
 <li>
-If you are producing your PDF files with
-dvipdfm, which is my preference, then you will
-find it easiest to use EPS graphics.  (This is
-also the standard for publishers.)
-<br />
-Problem: some Windows applications, including EViews
-        before version 5, do not produce EPS graphics.
-        In this case, you can produce JPEG files and either
-                i. learn how to include .jpg files, or
-                ii. use <a href="#jpeg2eps">jpeg2eps</a> to convert them (which
-                is fast and easy)
+Problem: a few Windows applications,
+including EViews before version 5,
+do not produce EPS graphics.
+In this case, you can produce JPEG files and either
+        i. learn how to include .jpg files, or
+        ii. use <a href="#jpeg2eps">jpeg2eps</a> to convert them (which is fast and easy),
+        iii. switch to pdflatex
 </li>
 <li id="impgraph">
 If you are using pdflatex to produce your PDF files,
 you cannot include EPS graphics directly.
-You must either
-        a. convert your EPS graphics to PDF, using 
-        <a href="http://www.ctan.org/tex-archive/support/eps2pdf/">eps2pdf</a>
-        or
-        b. produce your graphics in a supported format, such
-        as PDF or JPEG
-You can set up your document to <a href="http://www.trevorrow.com/oztex/ozfaq.html#pdfeps">convert EPS to PDF on the fly</a>.
+You can either
+  <ol>
+    <li>
+    convert your EPS graphics to PDF, using <a href="http://www.ctan.org/tex-archive/support/eps2pdf/">eps2pdf</a>
+    </li>
+    <li>
+    produce your graphics in a supported format, such as PDF or JPEG
+    </li>
+    <li>
+    set up your document to <a href="http://www.trevorrow.com/oztex/ozfaq.html#pdfeps">convert EPS to PDF on the fly</a>
+  </li>
+  </ol>
 Trevorrow suggests leaving off the extension (.eps) when you <code>includegraphics</code>
 and putting the following in your preamble:
 <pre>
@@ -6476,10 +6590,10 @@ and include your graphics. Example:
     \end{figure}
     \end{document}
 </code></pre>
-Note the forward slash in the path name, as always 
-with TeX.  (You can omit the path if you keep your
-figures in the same folder as your .tex file or if you
-can configure your LaTeX to look in a special folder.)
+Note the forward slash in the path name, as always with TeX.
+(You can omit the path if you
+i. keep your graphics files in the same folder as your .tex file,
+or ii. configure your LaTeX to look in the folder containing your graphics files.)
 </div>
 
 <p>

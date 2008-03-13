@@ -155,6 +155,8 @@ class SimpleTable:
 
 
 class WordFreq:
+	"""Summarize text file word counts.
+	"""
 	def __init__(self, filename, **kw):
 		self.filename = filename
 		self.params = kw
@@ -225,6 +227,4 @@ class WordFreq:
 		for k,v in sorted( result['word_hash'].iteritems(), key = lambda x: (-x[1], x[0]) ):
 			if v >= freq_min:
 				print fmt%(k,v)
-
-
 

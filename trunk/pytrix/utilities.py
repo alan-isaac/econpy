@@ -61,16 +61,16 @@ if have_numpy:
 
 
 
-def unique(x, use_numpy=True, key=None, cmp=None, reverse=False):
+def unique(x, use_numpy=True, key=None, reverse=False):
 	'''Return sorted list or array or unique items.
-	Does not support ``key`` or ``cmp`` for NumPy arrays.
+	Does not support ``key`` for NumPy arrays.
 	'''
 	if have_numpy and use_numpy:
 		result = N.unique(x)
 		if reverse:
 			result = result[::-1]
 	else:
-		result = sorted(set(x), key=key, cmp=cmp, reverse=False)
+		result = sorted(set(x), key=key, reverse=False)
 	return result
 
 

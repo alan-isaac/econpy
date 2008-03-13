@@ -13,7 +13,7 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
-import random
+import math, random
 from econpy.pytrix import utilities, iterate, fmath
 
 #simplest implementation of bisection
@@ -33,6 +33,34 @@ def simplest_bisect(f, x1, x2):
 			x2 = midpt
 	return (x1+x2)/2
 #END lst:optimize.bisect
+
+
+#Return: `p` approximate fixed point, `pseq` approximating sequence
+def smallchange(p1,p2,eps=1e-6,tol=1e-6):
+	abs_change = abs(p1 - p2)
+	rel_change = abs_change/(abs(p2)+eps)
+	return min(abs_change,rel_change)<tol
+
+#careful: no maxiter!
+#BEGIN lst:sequence.picard1
+def simplest_picard(fn, p):
+	while True:
+		p_1, p = p, fn(p)
+		if smallchange(p_1,p):
+			return p
+#END lst:sequence.picard1
+
+def simple_picard(fn, p, itermax):
+	for iternum in range(itermax):
+		p_1, p = p, fn(p)
+		if smallchange(p_1,p):
+			return p
+	print "Warning: convergence failed; maximum iteration reached."
+
+
+
+
+# cx:sequence.picard2  class Picard in l:\pytrix\pytrix.py
 
 class Iterator4Test(iterate.IterativeProcess):
 	def iterate(self):
@@ -67,6 +95,16 @@ class test_iter(unittest.TestCase):
 		self.assert_(fmath.feq(result1, x4zero, 1e-8))
 		self.assert_(fmath.feq(result2, x4zero, 1e-8))
 		self.assert_(fmath.feq(result3, x4zero, 1e-7))
+	def test_picard(self):
+		f1 = lambda x: 0.5*(x+2/x)  #approx sqrt of 2
+		self.assert_(fmath.feq(iterate.Picard(f1, 1, 100, tol=1e-6).fp,math.sqrt(2),1e-6))
+		f2 =lambda x: math.exp(-x)
+		best_result = iterate.Picard(f2, 1, 100, tol=1e-6).fp  #must match tolerance...
+		result1 = simplest_picard(f2, 1)
+		result2 = simple_picard(f2, 1, 100)
+		self.assert_(fmath.feq(result1, best_result, 1e-6))
+		self.assert_(fmath.feq(result2, best_result, 1e-6))
+		#picard(lambda x: -x,1,100)
 
 if __name__=="__main__":
 	unittest.main()
