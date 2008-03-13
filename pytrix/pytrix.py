@@ -1775,48 +1775,6 @@ def all(seq, test = bool):
 
 
 
-
-
-class Picard:
-	'''Compute fixed point, function iteration sequence,
-	and number of iterations (Picard function iteration).
-
-	:author:    Alan G. Isaac
-	:since:     2006-01-08
-	:contact:   mailto:aisaac AT american.edu
-	'''
-	def __init__(self,fn,p,itermax=100,toltest=None,tol=1e-6):
-		if toltest is None:
-			self.toltest = self.default_scalar_toltest
-		else:
-			self.toltest = toltest
-		self.tol = tol
-		(self.fp,
-		self.pseq,
-		self.itertotal) = self.picard(fn,p,itermax,self.toltest)
-		self.warning = None 
-		if self.fp is None:
-			if self.itertotal==itermax:
-				self.warning = "Convergence failed:\
-				                maximum iteration reached."
-			else:
-				self.warning = "Convergence failed:\
-				                reason unknown."
-	@staticmethod
-	def default_scalar_toltest(p1,p2,tol=1e-6):
-		return abs(p2-p1)<tol
-	# Picard algorithm (function iteration)
-	@staticmethod
-	def picard(fn,p,itermax=100,toltest=default_scalar_toltest):
-		pseq = [p]
-		for iternum in xrange(itermax):
-			p_1 = p
-			p = fn(p_1)
-			pseq.append(p)
-			if toltest(p_1,p):
-				return p,pseq,iternum+1
-		return None,pseq,itermax
-
 def safe_iter(obj, atomic_types = (basestring, int, float, complex)):
 	"""Equivalent to iter when obj is iterable and not defined as atomic.
 	If obj is defined atomic or found to be not iterable, returns iter((obj,)).
