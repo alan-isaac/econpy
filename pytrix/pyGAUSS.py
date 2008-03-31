@@ -75,8 +75,9 @@ def diag(x):
 		return x.diagonal().T
 
 #diagrv: insert v as diagonal of matrix x (2D only!)
-def diagrv(x,v,copy=True):
-	assert(len(x.shape)==2), "For 2-d arrays only."
+def diagrv(x, v, copy=True):
+	if (len(x.shape) != 2):
+		raise ValueError("For 2-d arrays only.")
 	x = numpy.matrix( x, copy=copy )
 	stride = 1 + x.shape[1]
 	x.flat[ slice(0,None,stride) ] = v
@@ -84,9 +85,10 @@ def diagrv(x,v,copy=True):
 
 #prodc: product down colums (2D only!)
 def prodc(x):
-	if not isinstance(x,numpy.matrix):
+	if not isinstance(x, numpy.matrix):
 		x = numpy.asarray(x)
-		assert(len(x.shape)==2), "For 2-d arrays only."
+		if (len(x.shape) != 2):
+			raise ValueError("For 2-d arrays only.")
 		return x.prod(axis=-2).reshape((-1,1))
 	else:
 		return x.prod(axis=-2).T

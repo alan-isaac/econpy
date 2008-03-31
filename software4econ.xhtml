@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Mar 04
+Last modified: 2008 Mar 28
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
@@ -139,6 +139,7 @@ There are many <a href="http://www.micro.org/novell/faq/nvfaq-r.htm">alternative
 If you are looking for small, fast, and free,
 start with <a href="http://www.nano-editor.org/">nano</a>.
 For big, powerful, and free you can try <a id="emacs" href="http://www.emacs.org">emacs</a>.
+(Windows users may wish to consider Goulet's <a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">modified emacs</a> for Windows.)
 Many users will find the somewhat less powerful but much smaller <a href="http://www.kingston.ac.uk/advisory/documentation/mg.htm">mg</a> provides sufficient emacs style functionality.
 (There are Windows ports of <a href="http://www.gnu.org/software/emacs/windows/ntemacs.html">emacs</a> and of <a href="http://tillanosoft.com/ce/mg.html">mg</a>.
 There is a <a href="http://www.cs.washington.edu/homes/voelker/ntemacs.html#mailing-list">mailing list</a>,
@@ -189,9 +190,6 @@ and an accurate (and somewhat LaTeX sensitive) spell-checker.
 <p class="boxed">
 See <a href="#tphints">TextPad user hints.</a>
 </p>
-TeX users may want to consider <a href="http://www.winedt.com/">WinEdt</a>,
-which is popular and explicitly TeX oriented.
-(Do not confuse WinEdt with <a href="http://www.winedit.com/">WinEdit</a>, a high quality programmer's editor that is not explicitly TeX oriented.)
 Python users may want to consider the interesting <a href="http://wiki.woodpecker.org.cn/moin/UliPad">UliPad</a>.
 There is also the popular, lightweight <a href="http://www.liquidninja.com/metapad/">MetaPad</a>,
 and the fairly powerful <a href="http://www.editpadpro.com/editpadlite.html">EditPad Lite</a>,
@@ -537,7 +535,7 @@ In this section I will concentrate on LaTeX and related resources.
 
 <p>
 To get started with LaTeX you will need two things:
-a <a href="#EDITORS">text editor</a> or <a href="#tex_ide">IDE</a>,
+a <a href="#EDITORS">text editor</a> or <a href="#latex_ide">IDE</a>,
 and a <a href="#texdistro">LaTeX distribution (such as MikTeX, OzTeX, teTeX, or fptex)</a>.
 Amazingly enough, you can get everything you need for free.
 You can also get great help from other users,
@@ -672,6 +670,43 @@ If you get truly ambitious, <a href="http://www.cs.utk.edu/~eijkhout/texbytopic.
 (Most users will never need such a detailed understanding of TeX, however.)
 </p>
 
+<h3 id="latex_ide">LaTeX IDE</h3>
+
+<p id="tex_ide">
+TeX specific:
+The <a href="http://www.latexeditor.org/">LEd (LaTeX Editor)</a> is free
+</p>
+
+<ul>
+<li>
+<li>
+<a id="texniccenter" href="http://www.toolscenter.org/">TeXnicCenter</a> is a popular LaTeX IDE for Windows&reg; users (License: GPL).
+</li>
+<li>
+</li>
+<a href="http://www.winshell.de/">WinShell for LaTeX</a>
+</li>
+<li>
+<a href="http://www.projectory.de/texshell/">TeXShell</a> is a free, open source LaTeX shell and editor for Windows.  
+</li>
+<li>
+<a href="http://www.latexeditor.org/">LEd</a> is currently gratis but not open source.
+Looks like a nice LaTeX IDE,
+but I have not been able to completely understand the license or find the source.
+</li>
+<li>
+<a href="http://www.xm1math.net/texmaker/">Texmaker</a> is a cross platform LaTeX editor that is getting good reviews
+(License: GPL).
+</li>
+<li>
+<a href="http://www.winedt.com/">WinEdt</a> is a popular and explicitly TeX oriented editor.
+(Do not confuse WinEdt with <a href="http://www.winedit.com/">WinEdit</a>, a high quality programmer's editor that is not explicitly TeX oriented.)
+</li>
+<li>
+<a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">emacs</a>
+with Auctex can provide a useful environment for power users.
+</li>
+</ul>
 
 <h3 id="addchart">Adding drawings to LaTeX documents</h3>
 
@@ -1770,12 +1805,20 @@ Most matrix languages include one or more optimization modules or libraries.
 </li>
 <li>
 Python optimization resources include:
-<br />
-the <a href="#scipy">SciPy</a> optimization modules,
-<br />
-<a href="http://nlpy.sourceforge.net/">nlpy</a>,
-which can read optimization problems coded in the <a href="#AMPL">AMPL</a> modeling language
-(and by implication problems coded in <a href="#MathProg">MathProg</a>).
+        <ul>
+        <li>
+        <br />
+        The <a href="#scipy">SciPy</a> optimization modules.
+        </li>
+        <li>
+        <a href="http://scipy.org/scipy/scikits/wiki/OpenOpt">OpenOpt</a>
+        provides a unified interface to a variety of solvers.  (License: BSD; Language: Python)
+        <br />
+        <a href="http://nlpy.sourceforge.net/">nlpy</a>,
+        which can read optimization problems coded in the <a href="#AMPL">AMPL</a> modeling language
+        (and by implication problems coded in <a href="#MathProg">MathProg</a>).
+        </li>
+        </ul>
 </li>
 <li>
 <a href="http://wwwasdoc.web.cern.ch/wwwasdoc/minuit/minmain.html">Minuit</a> is a famous, powerful minimizer,
@@ -2690,18 +2733,6 @@ For Python:
 <br />
 - the relatively lightweight <a href="http://www.die-offenbachs.de/detlev/eric3.html">Eric3</a> IDE gets very good reviews.  
 </p>
-<p id="tex_ide">
-TeX specific:
-<a href="http://www.xm1math.net/texmaker/">Texmaker</a> is a cross platform LaTeX editor that is getting good reviews
-(License: GPL).
-<a id="texniccenter" href="http://www.toolscenter.org/">TeXnicCenter</a> is a popular LaTeX IDE for Windows&reg; users (License: GPL).
-<a href="http://www.projectory.de/texshell/">TeXShell</a> is a free, open source LaTeX shell and editor for Windows.
-<a href="http://www.winedt.com/">WinEdt</a> is an inexpensive shareware near-IDE that gets very good reviews.
-(It integrates with MikTeX.)
-The <a href="http://www.latexeditor.org/">LEd (LaTeX Editor)</a> is free
-and looks like a nice LaTeX IDE,
-but I have not been able to completely understand the license or find the source.
-</p>
 
 
 <h3 id="javascript">JavaScript and JAVA</h3>
@@ -2811,6 +2842,7 @@ InDesign - Professionals already use Scribus [scribus.net] to handle multipage f
 
 Acrobat Pro - If you're heavily using features like annotation, collaboration, form creation, et cetera, then you probably won't be replacing Acrobat Professional. Nothing can touch it. However, if all you need is to be able to allow your Marketing droids to generate PDFs from documents they create in other software, then you can slap PDFCreator [pdfforge.org] on their little Windows boxen. Remember that OpenOffice already has the ability to turn any of their normal documents and spreadsheets into a PDF at a click of a button. Surely, you've dumped MS Office by now.
 -->
+
 <h2 id="graphics">Graphics</h2>
 
 <ul class="menu">
@@ -2825,6 +2857,9 @@ Acrobat Pro - If you're heavily using features like annotation, collaboration, f
 </li>
 <li>
 <a href="#sparkplot">Sparklines</a>
+</li>
+<li>
+<a href="#latexgraphics">Graphics for LaTeX</a>
 </li>
 </ul>
 
@@ -3500,13 +3535,6 @@ It supports 2D, 3D and polar charts.
 It is free and open-source, released under the GPL license.
 </li>
 <li>
-<a href="http://www.dadisp.com/">DaDisp</a> is an "engineering spreadsheet",
-which means that it treats data as objects and allows programmatic manipulation in a spreadsheet-like environment.
-If you use this properly, 
-it can overcome many of the problems with spreadsheets while still allowing easy graphics creation.
-The program is currently free for academics.
-</li>
-<li>
 <a href="http://ptolemy.eecs.berkeley.edu/java/ptplot/">Ptplot</a> is a 2D data plotter and histogram tool implemented in Java. 
 </li>
 <li>
@@ -3695,6 +3723,64 @@ if __name__ == "__main__":
 </code></pre>
 </div>
 
+<h3 id="latexgraphics">Graphics for LaTeX</h3>
+
+<p>
+If you produce documents in LaTeX, you would naturally
+like the fonts and equations in your graphics to match
+those in your text.
+There are a variety of solutions.
+</p>
+
+<div>
+The simplest answer is probably to use gnuplot.
+See <a href="http://www.fnal.gov/docs/products/gnuplot/tutorial/">http://www.fnal.gov/docs/products/gnuplot/tutorial/</a> for a good discussion.
+<br />
+Unless your figures are complex, just use the tikz drawing language.
+TikZ does not depend on PostScript,
+so you can use it directly with pdflatex (which is very nice).
+It is also compatible with the dvips/ps2pdf route.
+<br />
+If your figures are complex, you can create them in TpX,
+which can output tikz code.
+<br />
+For the best results, however, you will use the PyX graphics
+package for Python.
+This will require a bit of learning initially,
+but the results (as EPS or PDF) are fabulous.
+</div>
+
+<p>
+Some solutions require the use of PostScript.
+</p>
+<ul>
+<li>
+<a href="http://plan9.bell-labs.com/who/hobby/MetaPost.html">MetaPost</a>
+</li>
+<li>
+You can put fragments in your EPS graphics and replace them
+with \psfrag.  E.g.,
+<pre>
+\begin{figure}
+\psfrag{sintheta}{$\sin(\theta_k)$}
+\includegraphics[width=5cm]{myfig.eps}
+\end{figure}
+</pre> 
+</li>
+<li>
+<a href="http://www.nongnu.org/skencil/">Skencil</a> with the
+<a href="http://home.comcast.net/~jbiddier/sklatex/">skLaTeX</a> plugin.
+</li>
+</ul>
+
+<div>
+Other interesting solutions:
+<ul>
+<li>
+<a href="http://www.freewebs.com/gervacio/">GraphTeX</a>
+</li>
+</ul>
+</div>
 
 
 <h2 id="MISC">Other Useful Software and Sites</h2>
@@ -3961,8 +4047,12 @@ However there are some interesting alternatives.
 In particular,
 LaTeX users have the traditional (and very powerful) <a href="http://www.ctan.org/tex-archive/biblio/bibtex/">BibTeX</a> to manage the citations in their documents.
 (See the <a href="#bibtexhints">BibTeX user hints</a>).
-Now they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros/latex/exptl/biblatex/">biblatex</a>,
-which greatly simplifies writing new styles.
+Now for the design of citation reference and citation style,
+they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros/latex/exptl/biblatex/">biblatex</a>
+(which greatly simplifies writing new styles).
+(Users switching from natbib will want to know about the natbib-compatibility-mode,
+which allows use of natbib's commands (e.g., \citep, \citet)
+instead of the commands usually provided by biblatex (e.g., \parencite, \textcite).)
 Python users can consider the bib4txt component of <a href="http://www.pricklysoft.org/software/bibstuff.html">bibstuff</a>,
 which should particularly interest <a href="#metafmt">reStructuredText</a> users who need bibliographic support.
 (I recommend you get the <a href="http://code.google.com/p/bibstuff/">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python)
@@ -4021,17 +4111,27 @@ It is a commercial product with a free "basic" version, which has some limitatio
 
 <h3 id="spread">Spreadsheets</h3>
 
-<p>
+<p>Traditional spreadsheets:
+<br />
 It has become very popular to use <a href="http://sunsite.univie.ac.at/Spreadsite/">spreadsheets in education</a>.
-In my view this is a terrible mistake.
-For serious work, this is not generally advisable due to the opacity of spread sheet manipulations.
+In my view, it is a terrible mistake to use traditional spreadsheets this way.
+Traditional preadsheets are OK for very simple, one-off applications using small amounts of data.
+For serious work,
+they are too opaque.
+(If you have ever tried to figure out another person's complex spreadsheet, you know what I mean.)
 Studies indicate that almost all large spreadsheet have serious errors.<sup><a href="http://www.ifs.org.uk/~popx/eusprig2001_as_html/eusprig2001.html">*</a></sup>
 The complete lack of object orientation and the lack of transparent scripting facilities means that it is very difficult to understand someone else's spreadsheet or even one's own spreadsheet developed months or years ago.
 If all you want to educate someone to do is one-time, never-to-be-revisited, quick-and-dirty computations,
-then teach them a spreadsheet.
+then teach them a traditional spreadsheet.
 Otherwise teach them a format that allows serious documentation and transparency of manipulations.
-<br />
-Comment: some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet's computational and graphics facilities---perhaps VBA on a Windows platform or ABV on a Unix platform, or via a plug-in that supports scripting.
+At the very least,
+eschew traditional spreadsheets in favor of <a href="#scispread">newer alternatives</a>,
+such as scientific spreadsheets and engineering spreadsheets.
+</p>
+
+<p>
+Comment: some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet's computational and graphics facilities---on a Windows platform, perhaps VBA or better yet Python with win32com;
+on a Unix platform, perhaps ABV or Python or a plug-in that supports scripting.
 Of course this is not how most people use spreadsheets.
 A related but more promising route for adding the structure and documentation needed for serious maintenance in a research or business environment is <a href="http://www.ifs.org.uk/~popx/mm_presentation/user_guide.html">Model Master</a>;
 unfortunately this is work in progress and its current availability is unclear.
@@ -4064,6 +4164,37 @@ which is VBA compatible.
 Many more spreadsheets are listed in the <a href="http://www.faqs.org/faqs/spreadsheets/faq/">Spreadsheets FAQ</a>.
 </li>
 </ul>
+
+<div id="scispread">
+Scientific spreadsheets,
+often called engineering spreadsheets,
+are much better working environments than traditional spreadsheets.
+A scientific spreadsheet treats data as objects
+and allows programmatic manipulation in a spreadsheet-like environment.
+If you use this properly, 
+it can overcome many of the problems with spreadsheets while still allowing easy graphics creation.
+Serious spreadsheet use will involve a lot of scripting.
+You should therefore choose a scientific spreadsheet that supports an
+easy to use yet powerful scripting language.
+(I recommend Python.)
+Here are a few possibilities.
+<ul>
+<li>
+<a href="http://www.picalo.org/">Picalo</a>
+is a data analysis tool with a spreadsheet interface to database operations.
+(License: GPL; Language: Python; Scripting language: Python)
+</li>
+<li>
+<a href="http://resolversystems.com/">Resolver</a> is a quite amazing scientific spreadsheet.
+Free for educational use.
+(Scripting language: Python)
+</li>
+<li>
+<a href="http://www.dadisp.com/">DaDisp</a> is an "engineering spreadsheet"
+that is currently free for academics.
+</li>
+</ul>
+</div>
 
 <p>
 If you are interested in spreadsheet structures,
@@ -4397,6 +4528,12 @@ Free and low cost SVN repositories:
 <a href="http://www.nexumoja.org">nexUmoja</a>
 </p>
 
+<p>
+Free and low cost Mercurial repositories:
+<br />
+<a href="http://freehg.org/">freeHg.org</a>
+</p>
+
 <h3>Miscellaneous Office Needs</h3>
 
 <h4 id="outliners">Outliners</h4>
@@ -4542,7 +4679,8 @@ Are you still using Microsoft search tools that don't really support regular exp
 (And under Windows XP, <a href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q309173">Explorer search often fails</a> in any case.)
 Fix that!
 <a href="http://www.tgries.de/agrep/">agrep</a> is available for Windows!
-(There is also a <a href="http://www.bio.cam.ac.uk/~mw263/pyagrep.html">Python implementation</a>.)
+(There is also a <a href="http://www.bio.cam.ac.uk/~mw263/pyagrep.html">Python implementation</a>,
+although it probably makes more sense to use Robert Kern's <a href="https://svn.enthought.com/svn/sandbox/grin/">grin</a>.)
 Alternatives:
 <a href="http://gnuwin32.sourceforge.net/packages/grep.htm">grep</a> (with <a href="http://www.gnu.org/software/grep/doc/">helpful manual</a>),
 <a href="http://www.dcc.uchile.cl/~gnavarro/software/">nrgrep</a> (gets good reviews),
@@ -4742,6 +4880,14 @@ Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> l
 (As a very cool plus,
 <a href="#vim">Vim</a> supports scripting with Perl, Python, and Ruby.)
 </p>
+<p>More Scripting:
+<br />
+<a href="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/">Active Perl</a> is available for many platforms and is getting excellent reviews.
+<a href="http://www.python.org/">Python</a> is growing in popularity,
+as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
+(which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).
+<a href="http://www.lua.org/">Lua</a> is especially small and portable.
+</p>
 
 <p id="python">
 My choice of scripting language is inflexible:
@@ -4832,14 +4978,6 @@ Macros, defined constants, and function libraries have also been provided.
 The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
 </p>
 
-<p>Scripting:
-<br />
-<a href="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/">Active Perl</a> is available for many platforms and is getting excellent reviews.
-<a href="http://www.python.org/">Python</a> is growing in popularity,
-as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
-(which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).
-<a href="http://www.lua.org/">Lua</a> is especially small and portable.
-</p>
 
 <p>
 <a href="http://www.scheme.com/">Scheme</a>, and R. Kent Dybvig's <a href="http://www.scheme.com/tspl2d/index.html">
@@ -4861,7 +4999,12 @@ Lite</a> is free. Documentation is in
 Eiffel: Object Oriented Programming</a>
 </p>
 
-<!-- Python, Perl -->
+<p>
+<a href="http://www.salasaga.org/">Salasaga</a>
+is "an Integrated Development Environment for producing eLearning".
+Roughly, it's an open source IDE for producing interactive web pages.
+(License: LGPL)
+</p>
 
 <h3>Agent-Based Simulation</h3>
 
@@ -5006,106 +5149,13 @@ reads mail from a pop3 server and transfers it
 (filtered, if you want) to your local hard drive.
 </p>
 
-<h3 id="pyhints">SciPy user hints</h3>
+<h3 id="scipy_hints">SciPy user hints</h3>
 
 <p>
 Use the Lapack routines if you need speed.
 E.g., for a QR decomposition use scipy.linalg.flapack.dgeqrf
 instead of scipy.linalg.qr.
 </p>
-
-<div>
-Changing Matplotlib backends:
-you have to call 'use' before importing matplotlib.matlab;
-the backend choice must be set at the time of the matplotlib.matlab import.
-For example,
-<pre>
-import matplotlib
-matplotlib.use('GTKAgg')
-from matplotlib.pylab import *
-</pre>
-</div>
-
-<div>
-If you need to control the placement of a Matplotlib figure,
-you need to work a bit because it is "back end" dependent.
-According to John Hunter, "the matplotlib Figure is
-embedded in a FigureCanvas which is typically a GUI widget embedded in
-a GUI Window. In the pylab interface, the canvas is managed by a
-FigureManager, which has a window attribute on most of the backends."
-He provides some examples.
-<pre>
-<code>
-# GTK backend 
-from pylab import * 
-import gtk
-figure(1)
-plot([1,2,3])
-manager = get_current_fig_manager()
-# see gtk.Window class docs at
-# http://www.pygtk.org/pygtk2reference/class-gtkwindow.html
-manager.window.set_position(gtk.WIN_POS_CENTER) 
-figure(2)
-plot([1,2,3])
-manager = get_current_fig_manager() 
-# see gtk.Window class docs at
-# http://www.pygtk.org/pygtk2reference/class-gtkwindow.html
-manager.window.set_position(gtk.WIN_POS_NONE) 
-show()
-</code>
-</pre>
-Another user offered a WX example:
-<pre>
-<code>
-# WX* backend (manager.window is a wxFrame)
-# http://www.lpthe.jussieu.fr/~zeitlin/wxWindows/docs/wxwin_wxframe.html#wxframe
-figure(1)
-plot([1,2,3])
-manager = get_current_fig_manager()
-manager.window.SetPosition((100,100))
-#or: manager.window.Centre()
-show()
-</code>
-</pre>
-Todd Miller offered a TkAgg example:
-<pre>
-<code>
-# set the window position to X=200, Y=300
-get_current_fig_manager().window.wm_geometry("+200+300")
-</code>
-</pre>
-</div>
-
-<div>
-To get the
-equivalent of gnuplot's <code>set xzeroaxis</code> and <code>set yzeroaxis</code>,
-use <code>axhline()</code> and <code>axyline()</code>.
-Prior to version 0.63,
-Matplotlib does not have an equivalent of gnuplot's <code>set xzeroaxis</code>.
-(This draws a horizontal line across the xrange at y=0.)
-John Hunter explains how to achieve the same effect,
-and it provides many insights into matplotlib.
-"What you want to do is plot a line where the y coord is in data units and equal
-to zero, and the x coord is in axes units and spans the xrange.  The
-line stretches from left to right regardless of the xlimits.
-Each axes provides a data transform and an axes transform, so that you
-can specify lines/text/etc in either coord system; axes coords are 0,0
-for lower left and 1,1 for upper right.  But what you want to do is
-mix the data and axes transforms for x and y.  The transforms module
-provides a helper function for this.  The following code is freestyle
-(untested) but should work:
-<pre><code>
-from matplotlib.transforms import blend_xy_sep_transform
-ax = gca()
-trans = blend_xy_sep_transform( ax.transAxes, ax.transData)
-plot([0,1], [0,0], transform=trans)
-</code></pre>
-</div>
-
-<div>
-You can set an arbitrary color for any matplotlib plot.
-E.g., <code>matlab.plot(d, f(d), color = (1,0,0))</code>.
-</div>
 
 
 <div>
@@ -6085,6 +6135,114 @@ The Matplotlib website includes <a href="http://matplotlib.sourceforge.net/examp
 (For example, <a href="http://matplotlib.sourceforge.net/examples/embedding_in_qt.py">embedding_in_qt.py</a>.)
 </p>
 
+<p>
+<a href="http://agni.phys.iit.edu/~kmcivor/wxmpl/">wxmpl</a>
+is supposed to be the best way to integrate Matplotlib into wx.
+</p>
+
+<div>
+Changing Matplotlib backends:
+you have to call 'use' before importing matplotlib.matlab;
+the backend choice must be set at the time of the matplotlib.matlab import.
+For example,
+<pre>
+import matplotlib
+matplotlib.use('GTKAgg')
+from matplotlib.pylab import *
+</pre>
+</div>
+
+<div>
+If you need to control the placement of a Matplotlib figure,
+you need to work a bit because it is "back end" dependent.
+According to John Hunter, "the matplotlib Figure is
+embedded in a FigureCanvas which is typically a GUI widget embedded in
+a GUI Window. In the pylab interface, the canvas is managed by a
+FigureManager, which has a window attribute on most of the backends."
+He provides some examples.
+<pre>
+<code>
+# GTK backend 
+from pylab import * 
+import gtk
+figure(1)
+plot([1,2,3])
+manager = get_current_fig_manager()
+# see gtk.Window class docs at
+# http://www.pygtk.org/pygtk2reference/class-gtkwindow.html
+manager.window.set_position(gtk.WIN_POS_CENTER) 
+figure(2)
+plot([1,2,3])
+manager = get_current_fig_manager() 
+# see gtk.Window class docs at
+# http://www.pygtk.org/pygtk2reference/class-gtkwindow.html
+manager.window.set_position(gtk.WIN_POS_NONE) 
+show()
+</code>
+</pre>
+Another user offered a WX example:
+<pre>
+<code>
+# WX* backend (manager.window is a wxFrame)
+# http://www.lpthe.jussieu.fr/~zeitlin/wxWindows/docs/wxwin_wxframe.html#wxframe
+figure(1)
+plot([1,2,3])
+manager = get_current_fig_manager()
+manager.window.SetPosition((100,100))
+#or: manager.window.Centre()
+show()
+</code>
+</pre>
+Todd Miller offered a TkAgg example:
+<pre>
+<code>
+# set the window position to X=200, Y=300
+get_current_fig_manager().window.wm_geometry("+200+300")
+</code>
+</pre>
+</div>
+
+<div>
+To get the
+equivalent of gnuplot's <code>set xzeroaxis</code> and <code>set yzeroaxis</code>,
+use <code>axhline()</code> and <code>axyline()</code>.
+Prior to version 0.63,
+Matplotlib does not have an equivalent of gnuplot's <code>set xzeroaxis</code>.
+(This draws a horizontal line across the xrange at y=0.)
+John Hunter explains how to achieve the same effect,
+and it provides many insights into matplotlib.
+"What you want to do is plot a line where the y coord is in data units and equal
+to zero, and the x coord is in axes units and spans the xrange.  The
+line stretches from left to right regardless of the xlimits.
+Each axes provides a data transform and an axes transform, so that you
+can specify lines/text/etc in either coord system; axes coords are 0,0
+for lower left and 1,1 for upper right.  But what you want to do is
+mix the data and axes transforms for x and y.  The transforms module
+provides a helper function for this.  The following code is freestyle
+(untested) but should work:
+<pre><code>
+from matplotlib.transforms import blend_xy_sep_transform
+ax = gca()
+trans = blend_xy_sep_transform( ax.transAxes, ax.transData)
+plot([0,1], [0,0], transform=trans)
+</code></pre>
+</div>
+
+<div>
+You can set an arbitrary color for any matplotlib plot.
+E.g., <code>matlab.plot(d, f(d), color = (1,0,0))</code>.
+</div>
+
+<div>
+To get rid of the redundant ticks on the top and right edges:
+<pre>
+ax = pylab.gca()
+ax.get_xaxis().set_ticks_postion('bottom') 
+ax.get_yaxis().set_ticks_postion('left') 
+</pre> 
+</div>
+
+
 
 <h3 id="evhints">EViews User hints</h3>
 
@@ -6465,7 +6623,7 @@ I recommend resetting timeoutlen according to the example in the help for <tt>ti
 <h3 id="pshints">PostScript User hints</h3>
 
 <p>
-If you want to fill and entire page with background color,
+If you want to fill an entire page with background color,
 you do not need to know the dimension of the page.
 Just start your PostScript program by setting the color
 and then giving the command <code>clippath fill</code>.
@@ -6623,6 +6781,26 @@ syntax is almost like that for the figure environment.<pre>
 </div>
 
 <h3 id="bibtexhints">BibTeX User hints</h3>
+
+<p>
+The most important hint will prove the least welcome,
+but here it is anyway:
+restrict your characterset in your BibTeX databases.
+Specifically, use only ASCII characters,
+and do not use the colon or plus sign.
+Instead of the key <code>name1+name2:date:journal</code>
+use the key <code>name1.name2-date-journal</code>.
+<br />
+This is not for the sake of LaTeX use,
+but rather to allow you to use your database with other applications
+where <a href="http://www.w3.org/TR/REC-html40/types.html#type-name">id and name tokens</a> may be restricted.
+Suppose for example you want to use your keys as
+the <code>name</code> or <code>id</code> attribute
+in an HTML or XML document.
+The colon is allowed in HTML but is reserved in XML for namespace specification.
+The plus-sign is not allowed in either specification.
+XML allows a whole bunch on non-ASCII characters but HTML does not.  
+</p>
 
 <p>
 <a href="http://www.tug.org/pracjourn/2006-4/fenn/">Managing Citations and Your Bibliography with BibTeX</a>
