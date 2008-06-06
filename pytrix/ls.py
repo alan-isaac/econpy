@@ -76,7 +76,6 @@ class OLS(object):
 			Kx1 array (indep' * dep)
 	:warning: adds intercept
 	:requires: NumPy
-	:requires: time (standard library)
 	:see: Russell Davidson and James G. MacKinnon,
           _Estimation and Inference in Econometrics_
           (New York: Oxford, 1993)
@@ -95,6 +94,8 @@ class OLS(object):
 				(T x K) array, the RHS variables, in columns
 		'''
 		assert isinstance(dep_name,str), "Names must be strings."
+		if not have_numpy:
+			raise NotImplementedError('NumPy required for OLS.')
 		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
 		self.Y = Y
 		self.nobs = len(Y)
@@ -102,12 +103,9 @@ class OLS(object):
 		self.indep_names = list(indep_names)
 		X = self.makeX(indep=indep, constant=constant, trend=trend)
 		self.X = X  #used for end_points ... need for anything else?
-		try:
-			results = N.linalg.lstsq(X,Y)[:2]  #OLS estimates
-			coefs = results[0]    #matrix arguments -> matrix
-			self.ess = results[1][0]  #sum of squared residuals
-		except ImportError:
-			raise NotImplementedError("OLS requires NumPy")
+		results = N.linalg.lstsq(X,Y)[:2]  #OLS estimates
+		coefs = results[0]    #matrix arguments -> matrix
+		self.ess = results[1][0]  #sum of squared residuals
 		assert (len(dep) == len(X)), "Number of observations do not agree."
 		self.dep_name = dep_name or 'y'
 		#data based attributes

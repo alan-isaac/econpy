@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Mar 28
+Last modified: 2008 Jun 05
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
 </div>
@@ -2430,7 +2430,8 @@ and
 
 <p>
 First let me offer an apparently outrageous suggestion:
-individual users can easily substitute good habits for AV software.
+individual users can often substitute good habits for AV software,
+and even if you install AV software these good habits are crucial defenses.
 That said,
 whatever software you choose,
 you may wish to test it on the <a href="http://www.eicar.org/">EICAR</a> test file.
@@ -2438,9 +2439,12 @@ you may wish to test it on the <a href="http://www.eicar.org/">EICAR</a> test fi
 
 <ul>
 <li>
-Freeware:
-no free and open source software that I know of.
-However <a href="http://www.avast.com/">avast! Home</a> is free for noncommercial use.
+The only free and open source AV software that I know of is
+the very interesting <a href="http://www.clamav.net/">ClamAV</a>. (License: GPL)
+There is a <a href="http://www.clamwin.com/">ClamWin</a> project for Windows users.
+</li>
+<li>
+<a href="http://www.avast.com/">avast! Home</a> is free for noncommercial use.
 And <a href="http://www.grisoft.com/">AVG</a> currently offers a "free edition" that looks reasonably good
 and customer satisfaction at AVG seems quite high
 (at least in the email forums I frequent).
@@ -2641,6 +2645,7 @@ add <a href="http://www.math.chalmers.se/~alten/stoplam/stochplam.html">stochpla
 </li>
 <li>
 <a href="http://www.aimms.com/aimms/index.cgi">AIMMS</a>.
+"contains a modeling language that allows you to model linear programming models and it links to most available commercial solvers. It also contains an intergrated development environment with possibilities to build a graphical user interface via point-and-click."
 </li>
 <li>
 <a href="http://carbon.cudenver.edu/~hgreenbe/imps/modler.html">MODLER</a> with <a href="http://carbon.cudenver.edu/~hgreenbe/imps/analyze.html">ANALYZE</a> and <a href="http://carbon.cudenver.edu/~hgreenbe/imps/randmod.html">RANDMOD</a>.
@@ -2944,6 +2949,7 @@ while mentioning a few other interesting possibilities.
 3D drawing:
 For nice, accurate surface plots,
 there is probably no simpler solution than <a href="#gnuplot">gnuplot</a>.
+The <a href="http://code.google.com/p/sympy/wiki/PlottingModule">SymPy plotting module</a> is very interesting.
 <a href="http://qwtplot3d.sourceforge.net/">QwtPlot3D</a> appears very powerful,
 and <a href="http://pyqwt.sourceforge.net/">PyQwt3D</a>
 provides bindings for Python users who wish to produce scientific 3D plots (now supports numpy).
@@ -2975,6 +2981,12 @@ the possibly more powerful <a href="http://cens.ioc.ee/projects/pyvtk/">Paraview
 More 3D plotting solutions:
 </p>
 <ul>
+<li>
+<a href="http://plplot.sourceforge.net/">PLplot</a> is a powerful plotting library,
+which can be by a variety of languages.
+This library has an excellent reputation.
+(Language: C, Python.) (License: LGPL)
+</li>
 <li>
 <a href="http://blender3d.org/">Blender</a> allows Python scripted 3D animation.
 </li>
@@ -3059,6 +3071,9 @@ Sadly it is so far for Unix only.
 <a href="http://www.research.att.com/~north/graphviz/download.html">Graphviz</a> is an open source package with special abilities in drawing directed (via dot) and undirected (via neato) graphs.
 The focus is on <a href="http://www.research.att.com/sw/tools/graphviz/GI94.pdf">Graph Visualization</a>.
 <a href="http://www.dkbza.org/pydot.html">pydot</a> provides a Python interface to dot.
+<br />
+<a href="http://www.yworks.com/en/products_yed_about.html">yED</a> is a
+"powerful graph editor that is written entirely in the Java programming language. It can be used to quickly and effectively generate drawings and to apply automatic layouts to a range of different diagrams and networks."
 </p>
 
 <p>
@@ -3390,8 +3405,12 @@ I will focus on a few cross-platform alternatives.
 <p>
 Python users have a number of fine alternatives.
 For drawing, I like <a href="http://pyx.sourceforge.net/">PyX</a>.
-(For a simplified interface,
-you can also add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a>
+(Installing PyX from SVN gets you the most recent changes and is trivially easy:
+at the command line, create a build directory with
+<tt>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</tt>
+and then change to the new <tt>pyx</tt> directory and enter <tt>setup.py install</tt>.)
+For a simplified interface to PyX,
+you can add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a>
 or, if you would like an interactive command line interface,
 <a href="http://www.pyxplot.org.uk/">PyXPlot</a>.
 For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is limited but useful.)
@@ -3582,7 +3601,7 @@ commercial program that allows very fast drawing of nice looking economics-relat
 <a href="http://www.ribbonsoft.com/qcad.html">QCad</a> is a FOSS computer aided drafting package that emphasizes ease of use.
 </li>
 <li>
-<a href="http://tech-www.informatik.uni-hamburg.de/applets/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
+<a href="http://tams-www.informatik.uni-hamburg.de/applets/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
 There is also the classic <a href="http://www.xfig.org/">Xfig</a> for X Windows,
 and the new <a href="http://user.cs.tu-berlin.de/~huluvu/WinFIG.htm">WinFIG</a> for MS Windows.
 </li>
@@ -3778,6 +3797,10 @@ Other interesting solutions:
 <ul>
 <li>
 <a href="http://www.freewebs.com/gervacio/">GraphTeX</a>
+</li>
+<li>
+<a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a>
+editor for TikZ graphics.  (Linux only?)
 </li>
 </ul>
 </div>
@@ -4949,11 +4972,13 @@ but I have had occasional trouble getting through.
 </div>
 
 <p>
-<a href="http://www.freepascal.org/">Pascal</a>.
+<a href="http://www.freepascal.org/">Pascal</a> or better yet
+<a href="http://www.gnu.org/software/gnat/gnat.html">Ada</a>,
+which is a preferred languge for the security conscious.
 </p>
 
 <p>
-<a href="http://www.eiffel.com/">Eiffel</a> support desing by contract.
+<a href="http://www.eiffel.com/">Eiffel</a> supports desing by contract.
 There is now open source licensing of Eiffel Studio.
 (License: GPL)
 </p>

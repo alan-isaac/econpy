@@ -145,7 +145,6 @@ class CDIGame(SimpleGame):
 		return last_move
 #END CDIGame
 
-#formerly SimpleCDIType
 #BEGIN CDIPlayerType
 class CDIPlayerType:
 	def __init__(self, p_cdi=(0.5,0.5,0.5)):
@@ -168,9 +167,9 @@ class SimplePlayer:
 		self.playertype = playertype
 		self.reset()
 	def reset(self):
-		self.games_played = list()   #empty list
-		self.players_played = list()  #empty list
-	def move(self,game):
+		self.games_played = list()
+		self.players_played = list()
+	def move(self, game):
 		# delegate move to playertype
 		return self.playertype.move(self, game)
 	def record(self, game):
@@ -183,7 +182,7 @@ class SimplePlayer:
 ###################### Begin: Soup Classes ##############################
 #########################################################################
 
-#Note: eliminated selection_pressure class variable => changed evolve
+#Note: no selection_pressure class variable
 #Note: returns *total* payoff, not average payoff!
 #BEGIN SoupPlayer
 class SoupPlayer(SimplePlayer):
@@ -218,15 +217,6 @@ class SoupRound:
 			payoff += player.get_payoff()
 		payoff /= len(players)
 		return payoff
-	''' old version:
-	def run(self):
-		players = list( self.players ) #copy player list
-		random.shuffle(players)
-		while len(players) > 1:
-			player1, player2 = players.pop(), players.pop()
-			game = CDIGame(player1, player2, self.payoffmat)
-			game.run()
-	'''
 
 #########################################################################
 ###################### End: Soup Classes ################################
@@ -298,3 +288,4 @@ class SimpleTorus:
 #########################################################################
 ###################### End: Spatial Classes #############################
 #########################################################################
+
