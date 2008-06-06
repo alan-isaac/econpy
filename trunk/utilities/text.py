@@ -4,7 +4,7 @@ Simple text utilities.
 - WordFreq
 """
 from __future__ import division, with_statement
-import sys, string
+import sys, string, itertools
 from collections import defaultdict
 
 class SimpleTable:
@@ -16,7 +16,7 @@ class SimpleTable:
 	def __init__(self, data, headers=(), stubs=(), title='', txt_fmt={}, ltx_fmt={}):
 		self.data = data
 		self.headers = headers
-		self.stubs = stubs
+		self.stubs = tuple(str(stub) for stub in stubs)
 		self.title = title
 		self.txt_fmt = self.default_txt_fmt()
 		self.txt_fmt.update(txt_fmt)
@@ -25,7 +25,7 @@ class SimpleTable:
 	def __str__(self):
 		return self.as_text()
 	def calc_colwidths(self, data):
-		return [max(len(d) for d in c) for c in izip(*data)]
+		return [max(len(d) for d in c) for c in itertools.izip(*data)]
 	def format_rows(self, data, colwidths, colaligns, colsep, pre='', post=''):
 		rows = []
 		for row in data:
