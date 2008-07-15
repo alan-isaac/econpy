@@ -1651,17 +1651,30 @@ def n_take_k(n,k):
 def stirling(x):
 	"""Return real number:
 	the value of Stirling's formula.
-	(Used by factorial.)"""
+	(Can be used to compute factorial.)"""
 	result = math.sqrt(2*math.pi)
 	result *= math.sqrt(x)
+	result *= math.pow(x/math.e,x)
+	return result
+
+def gosper(x):
+	"""Return real number:
+	Gosper's modification of Stirling's formula.
+	(Used to compute factorial.)
+	
+	:see: http://mathworld.wolfram.com/StirlingsApproximation.html
+	"""
+	result = math.sqrt((2*x+1./3)*math.pi)
 	result *= math.pow(x/math.e,x)
 	return result
 
 def factorial(n, exact=False):
 	'''Returns n!.
 
-	:note: returns reduce(lambda x,y: x*(y+1),xrange(1,n),1)
+	:date: 2008-07-15
 	:since: 2005-11-17
+	:note: uses Gosper's approximation for n>=10
+	:see: http://www.luschny.de/math/factorial/approx/SimpleCases.html
 	'''
 	assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
 	if n<10 or exact:
@@ -1669,7 +1682,7 @@ def factorial(n, exact=False):
 		for i in xrange(n):
 			f *= i+1
 	else:
-		f = stirling(n)
+		f = gosper(n)
 	return f
 
 def scanl(func, seq, init = None):
