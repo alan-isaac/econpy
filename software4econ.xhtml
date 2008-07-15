@@ -19,9 +19,11 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Jun 05
+Last modified: 2008 Jul 14
 <br />
-Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>
+Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
+I list some licensing information below but this may be inaccurate;
+please confirm with the software copyright holders.
 </div>
 
 
@@ -1461,12 +1463,6 @@ and the resources listed at <a href="http://www.astro.cornell.edu/staff/loredo/s
 and possibly various <a href="http://yaroslav.hopto.org/pubwiki/index.php/ai-python">AI resources</a>.
 <a href="http://mdp-toolkit.sourceforge.net/">Modular toolkit for Data Processing (MDP)</a> is a Python data processing library implementing Principal Component Analysis (PCA), Independent Component Analysis (ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
 Finally, it is worth poking around <a href="http://cheeseshop.python.org/">CheeseShop</a>.
-It is even possible to compile your Python applications with
-<a href="http://raymondyee.net/wiki/PythonLanguage_2fMcMillanInstaller">Gordon McMillan's Installer</a>
-(try this <a href="http://davidf.sjsoft.com/mirrors/mcmillan-inc/installer_dnld.html">mirror</a>),
-<a href="http://ftp.cwi.nl/jack/freeze/">freeze</a>,
-or
-<a href="http://starship.python.net/crew/theller/py2exe/">py2exe</a>.
 </li>
 <li>
 <a href="http://www.osl.iu.edu/research/mtl/mtl4/">Matrix Template Language 4 (MTL4)</a>
@@ -3105,7 +3101,9 @@ Simon Yuill offers a nice animation <a href="http://www.yourmachines.org/tutoria
 
 <ul>
 <li>
-Un*x and Windows users can convert collections of PNG files into motion video using <a href="http://freshmeat.net/projects/mplayer/">MPlayer</a>.
+Un*x and Windows users can convert collections of PNG files into motion video using
+<a href="http://freshmeat.net/projects/mplayer/">MPlayer</a>.
+You can compile this yourself or find <a href="http://www.mplayerhq.hu/design7/dload.html">prebuilt packages</a>.
 (A <a href="http://web.media.mit.edu/~lifton/code/GraphMovies/">tutorial</a> is available.
 To produce a .avi file, try something like
 <code>mencoder mf://*.png -mf type=png:w=600:h=500:fps=10 -ovc lavc -lavcopts vcodec=wmv2 -oac copy -o animation.avi
@@ -3153,6 +3151,13 @@ The <a href="#MNG">MNG</a>, <a href="#SVG">SVG</a>, and GIF formats also support
 <p>
 <a href="#blender">Blender</a> supports powerful 3D drawing and animation,
 which can be assisted by <a href="http://blender3d.org/cms/Python_Scripts.3.0.html">Python scripts</a>.
+</p>
+
+<p>
+<a href="http://sourceforge.net/projects/harddiskogg/">HarddiskOgg</a>
+can record analog audio
+"directly to Ogg Vorbis/MP3/Wave with on-the-fly normalization".
+(License: GPL)
 </p>
 
 
@@ -3908,6 +3913,9 @@ you can use the <a href="http://codespeak.net/icalendar/">iCalendar</a>.
 An alternative is the <a href="http://www.nongnu.org/python-pdi/">Python-PDI</a> library for personal data interchange,
 which also handles the vCard format.
 (License: GPL;  Language: Python.)
+Aside:
+<a href="http://gcaldaemon.sourceforge.net/index.html">GCALDaemon</a> offers synchronization between Google Calendar and iCalendar compatible calendar applications. (Language: Java; license: APACHE version 2.0)
+(Gina Trapani offers some <a href="http://lifehacker.com/software/google-calendar/geek-to-live--sync-google-calendar-and-gmail-contacts-to-your-desktop-251279.php">installation hints</a>.)
 </p>
 
 <p>
@@ -6141,6 +6149,29 @@ ax.set_ylabel('y')
 fig.savefig('/temp/myfig.png', dpi=96)
 </pre>
 
+<p id="mpl_no_plt">
+Matplotlib's pyplot/pylab facilities are convenience facilities for the user with modest needs.
+For some examples (e.g., embedding Matplotlib in other applications)
+it is important not to use these facilities.
+In this case, you will need to handle figure and canvas creation yourself.
+For example, here is our first example redone to be more fully object oriented.
+
+</p>
+<pre>
+# preliminaries
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+# create a new figure
+fig = Figure()
+ax = fig.add_subplot(111)
+ax.plot([1,2,3],'r-')
+ax.set_title('Easy OO Line Plot')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+canvas = FigureCanvas(fig)
+canvas.print_figure('temp.eps')
+</pre>
+
 <p>
 Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.
 </p> 
@@ -7013,7 +7044,7 @@ Windows and MS-DOS are trademarks of Microsoft Corporation.
 </div>
 
 <p id="contact" class="center">
-Copyright &copy; 1998&ndash;2005
+Copyright &copy; 1998&amp;2008
 by Alan G. Isaac
 <br />
 (<em>mailto: a i s a a c @ a m e r i c a n . e d u</em>)
