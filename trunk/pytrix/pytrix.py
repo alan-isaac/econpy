@@ -1648,17 +1648,28 @@ def n_take_k(n,k):
 			c//=i+1
 	return c	
 
-def factorial(n):
+def stirling(x):
+	"""Return real number:
+	the value of Stirling's formula.
+	(Used by factorial.)"""
+	result = math.sqrt(2*math.pi)
+	result *= math.sqrt(x)
+	result *= math.pow(x/math.e,x)
+	return result
+
+def factorial(n, exact=False):
 	'''Returns n!.
 
 	:note: returns reduce(lambda x,y: x*(y+1),xrange(1,n),1)
 	:since: 2005-11-17
 	'''
 	assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
-	n=int(n)
-	f = 1
-	for i in xrange(n):
-		f *= i+1
+	if n<10 or exact:
+		f = 1
+		for i in xrange(n):
+			f *= i+1
+	else:
+		f = stirling(n)
 	return f
 
 def scanl(func, seq, init = None):
