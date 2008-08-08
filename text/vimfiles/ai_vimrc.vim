@@ -1,8 +1,10 @@
-" NOTE:
+Ôªø" NOTE:
 " You are probably looking for share_vimrc.vim in $VIMFILES
 " The following are *personal* settings, inappropriate for others!
 
 " *may* want to add the following
+"  default modeline setting recently changed to off
+set modeline
 set iskeyword+=-
 set printheader=
 set printoptions=top:1in,right:0.75in,bottom:1in,left:1in,header:0,syntax:n,wrap:y,paper:letter
@@ -115,7 +117,7 @@ au Filetype tex inoremap ;df \begin{define}<cr>\end{define}<esc>O
 " examples
 au Filetype tex inoremap ;xm \begin{xmpl}<cr>\end{xmpl}<cr><esc>kO
 " Computational exercises
-au Filetype tex inoremap ;cx <esc>:r template_cx<cr>jf:a
+au Filetype tex inoremap ;cx <esc>:r \mydocs\math\template_cx<cr>jf:a
 " analytical exercises
 au Filetype tex inoremap ;ax \begin{ex}<cr>\begin{ansex}<cr>\end{ansex}<cr>\end{ex}<cr><esc>kkkkO
 "write file from insert mode
@@ -254,7 +256,7 @@ fu! BibT(...)
     put!='@ARTICLE{' . key . ','
   endif
   if choosetype ==? "book"
-    let required="Êtqy"      " requires author *or* editor
+    let required="√¶tqy"      " requires author *or* editor
     let optional1="wd"
     let optional2="vnsmz"   " w is address, d is edition
     let extras="k"           " isbn
@@ -267,7 +269,7 @@ fu! BibT(...)
     put!='@BOOKLET{' . key . ','
   endif
   if choosetype ==? "inbook"  
-    let required="Êtcpqy"   
+    let required="√¶tcpqy"   
     let optional1="w"           " w is address
     let optional2="vnsudmz"     " d is edition
     let extras="k"              " isbn
@@ -340,13 +342,13 @@ fu! BibT(...)
   endif
 
   " implement fields
-  if fields =~ "[aÊ]" 
+  if fields =~ "[a√¶]" 
     let author=input("Author(s)? ")
     if author!="" || required =~ "a"
       put='  author = {' . author . '},'
     endif
   endif
-  if fields =~ "[eÊ]" 
+  if fields =~ "[e√¶]" 
     let editor=input("Editor(s)? ")
     if editor!="" || required =~ "e"
       put='  editor = {' . editor . '},'
@@ -854,24 +856,24 @@ function! H2T()
   %s/&#146;/'/ge
   %s/&#150;/--/ge
   %s/&#151;/---/ge
-  %s/&#224;/‡/ge
-  %s/&#225;/·/ge
-  %s/&#231;/Á/ge
-  %s/&#232;/Ë/ge
-  %s/&#233;/È/ge
-  %s/&#234;/Í/ge
-  %s/&#235;/Î/ge
-  %s/&#239;/Ô/ge
+  %s/&#224;/√†/ge
+  %s/&#225;/√°/ge
+  %s/&#231;/√ß/ge
+  %s/&#232;/√®/ge
+  %s/&#233;/√©/ge
+  %s/&#234;/√™/ge
+  %s/&#235;/√´/ge
+  %s/&#239;/√Ø/ge
   %s/&#8212;/---/ge
   %s/&mdash;/---/ge
   %s/&ndash;/--/ge
   %s/&ldquo;/``/ge
   %s/&rdquo;/''/ge
-  %s/&eacute;/È/ge
+  %s/&eacute;/√©/ge
   %s/&gt;/>/ge
   %s/&lt;/</ge
   %s@\s*&#0151;\s*@---@ge
-  %s/\s*ó\s*/---/ge
+  %s/\s*¬ó\s*/---/ge
   %s/<p/\r\r&/ge
   %s/<div/\r\r&/ge
   %s/<br[^>]*>/\r\r/ge
@@ -1016,3 +1018,13 @@ function! Mycolorscheme(...)
         endif
 endfunction
 
+
+function! CleanText()
+        %s/---/--/ge
+        %s/‚Äô/'/ge
+        %s/‚Äú/"/ge
+        %s/‚Äù/"/ge
+        %s/‚Äî/---/ge
+endfunction
+
+"    vim: set encoding=utf-8

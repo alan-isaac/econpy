@@ -1,8 +1,14 @@
-set filetype=mail
-set isk-=.
-set noexpandtab
-set nobackup
-set nocindent
+setl encoding=utf-8
+setl fileencoding=utf-8
+setl fileformat=unix
+setl filetype=mail
+setl isk-=.
+setl noexpandtab
+setl nobackup
+setl nocindent
+setl spell
+
+inoremap ;wq <esc>:up<bar>w! c:/temp/temp.mail<bar>q<cr>
 
 "abbreviations
 iab Acct Account
@@ -34,20 +40,31 @@ iab cdt could not
 iab Cdt Could not
 iab dept department
 iab def definition
+iab dfn definition
+iab defintion definition
 iab dpt department
 iab Dpt Department
 iab ec economic
 iab ecs economics
+iab endog endogenous
+iab endogs endogenous variables
 iab eqn equation
 iab eqns equations
 iab esp especially
+iab exog exogenous
+iab exogs exogenous variables
 iab fn function
 iab fns functions
 iab fr from
 iab fwd forward
+iab fwdd forwarded
+iab fwdg forwarding
+iab grad graduate
 iab gvt government
 iab hw homework
+iab hr hour
 iab hrs hours
+iab Id I would
 iab impt important
 iab imo in my opinion
 iab Imo In my opinion
@@ -56,6 +73,11 @@ iab intl international
 iab iir if I recall correctly
 iab IIR If I recall correctly
 iab Iir If I recall correctly
+iab iirc if I recall correctly
+iab IIRC If I recall correctly
+iab Iirc If I recall correctly
+iab Mb Maybe
+iab mb maybe
 iab Mkt Market
 iab mkt market
 iab msg message
@@ -79,6 +101,8 @@ iab Prof Professor
 iab prof professor
 iab pt point
 iab rcd received
+iab rcg receiving
+iab rcv receive
 iab rec receive
 iab recd received
 iab ru Are you
@@ -88,6 +112,7 @@ iab Shdt Should not
 iab shdt should not
 iab sig signature
 iab soln solution
+iab solns solutions
 iab Sth Something
 iab sth something
 iab suff sufficient
@@ -407,8 +432,6 @@ function! UsenetSetup()
      nmap <Leader>f :call FormatUsenetParagraph()<CR>
      " insert a randomly-chosen signature and turn on spell checking
      nmap <Leader>g :r !~/.vim/usenet/sig.pl ~/.vim/usenet/sigs<CR>:setl spell<CR> 
-     setl encoding=utf-8
-     setl fileencoding=utf-8
 endfunction
 
 " author: Peppe on comp.editors

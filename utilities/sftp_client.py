@@ -5,6 +5,9 @@ Adds setting up the socket to the functionality in paramiko\sftp_client.py
 :note: mostly just a wrapper for the paramiko SFTP client:
 :requires: paramiko, which requires pycrypt
 :see: http://www.cs.colostate.edu/helpdocs/ftp.html for standard ftp commands (not all implemented!)
+:see: http://www.lag.net/paramiko/
+:see: http://www.amk.ca/python/code/crypto.html
+:see: http://www.voidspace.org.uk/python/modules.shtml#pycrypto (prebuilt binaries!)
 '''
 
 import sys, os, base64, getpass, socket, traceback, select
