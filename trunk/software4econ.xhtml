@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Jul 14
+Last modified: 2008 Aug 07
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 I list some licensing information below but this may be inaccurate;
@@ -898,16 +898,6 @@ Also see <a href="http://www.cl.cam.ac.uk/~mgk25/publ-tips.html">Markus Kuhn's t
 effectively produce highest-quality <acronym class="help" title="Portable Document Format">PDF</acronym> files.
 </p>
 
-<div id="pdfviewers">
-<a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is cross platform.
-<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a> is Windows only,
-but is amazing, fast, and free.
-Based on <a href="http://poppler.freedesktop.org/">poppler</a>
-and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
-You can edit PDFs with <a href="http://sourceforge.net/projects/pdfedit/">pdfedit</a>.
-<a href="http://www.docu-track.com/home/prod_user/pdfx_viewer/">PDF-Xchange Viewer</a>
-is free and can annotate. (Commercial product.)
-</div>
 
 <ul>
 <li>
@@ -1425,9 +1415,10 @@ GAUSS is the primary programming language used in the AU Department of Economics
 <p>
 Being able to write code in one matrix programming language and run it in another environment is desirable.
 Examples include 
-<a href="http://www.cameronrookley.com">Cameron Rookley</a>'s
-<a href="http://www.cameronrookley.com/gtoml/maingtm.html">
-Perl program for converting Gauss code to Matlab</a>
+Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting Matlab to Python,
+<a href="http://www.cameronrookley.com">Rookley's</a>
+<a href="http://www.cameronrookley.com/gtoml/maingtm.html">gtoml</a>
+Perl program for converting Gauss code to Matlab,
 and Christopher Stawarz's
 <a href="http://software.pseudogreen.org/i2py/">i2py</a> 
 script for coverting
@@ -1800,21 +1791,11 @@ and download <a href="http://www.aptech.com/papers/qnewton.pdf">Optimization wit
 Most matrix languages include one or more optimization modules or libraries.
 </li>
 <li>
-Python optimization resources include:
-        <ul>
-        <li>
-        <br />
-        The <a href="#scipy">SciPy</a> optimization modules.
-        </li>
-        <li>
-        <a href="http://scipy.org/scipy/scikits/wiki/OpenOpt">OpenOpt</a>
-        provides a unified interface to a variety of solvers.  (License: BSD; Language: Python)
-        <br />
-        <a href="http://nlpy.sourceforge.net/">nlpy</a>,
-        which can read optimization problems coded in the <a href="#AMPL">AMPL</a> modeling language
-        (and by implication problems coded in <a href="#MathProg">MathProg</a>).
-        </li>
-        </ul>
+<a href="http://econpy.googlecode.com/svn/trunk/pytrix/pytrix.xhtml#optimize">Python optimization resources</a>.
+</li>
+<li>
+Hetrick lists a variety of <a href="http://cliodhna.cop.uop.edu/~hetrick/c-sources.html">C resources</a>.
+Also see the <a href="http://www.oonumerics.org/oon/">Object-Oriented Numerics page</a>.
 </li>
 <li>
 <a href="http://wwwasdoc.web.cern.ch/wwwasdoc/minuit/minmain.html">Minuit</a> is a famous, powerful minimizer,
@@ -1848,8 +1829,7 @@ code and the <a href="http://www.netlib.org/toms/index.html">ACM Collected Algor
 <a href="http://http://www.quandt.com/handbook/frames1.htm">GQOPT</a> is a powerful Fortran optimization package with many built in statistical functions.
 </li>
 <li>
-The <a href="http://www.nag.com/">Numerical Algorithms
-Group</a> offers a variety of potentially useful products.
+The <a href="http://www.nag.com/">Numerical Algorithms Group</a> offers a variety of potentially useful products.
 </li>
 <li>
 <a href="http://www.gams.com/">GAMS</a> offers access to an extensive set of heavily tested <a href="#solvers">solvers</a>.
@@ -2078,7 +2058,7 @@ especially when using BlackBoard.
 Do yourself a favor get a <a href="http://www.webstandards.org/act/campaign/buc/">decent browser</a>.
 I like two: FireFox and Opera.
 <a href="http://www.opera.com">Opera</a> is relatively small, very fast, extremely reliable, <a href="http://www.w3.org/">W3C</a>-standards oriented, available on many platforms, and has a fully functional free version.
-(See the <a href="#operahints">Opera hints</a> below.)
+(See the <a href="#opera-hints">Opera hints</a> below.)
 <a href="http://www.mozilla.org/products/firefox/">FireFox</a> (based on <a href="http://www.mozilla.org/">Mozilla</a>) is a free-and-open-source, cross-platform browser that emphasizes the support of open standards.
 FireFox is currently (2004) the only browser with native MathML support.
 (See the <a href="#firefoxhints">FireFox hints</a> below.)
@@ -2150,7 +2130,7 @@ Mahogany,
 and Sylpheed let you use your favorite editor to edit your email.
 Thunderbird also supports external editors by means of a plug-in.
 Pine and Mahogany support POP3,
-but Pine is primarily intended for IMAP.
+but both are primarily intended for IMAP (which is greatly superior).
 <p class="boxed">
 See the <a href="#emhints">Mahogany hints</a>, <a href="#emhints">Thunderbird hints</a>, and <a href="#emhints">Alpine hints</a> below.
 </p>
@@ -3409,11 +3389,9 @@ I will focus on a few cross-platform alternatives.
 
 <p>
 Python users have a number of fine alternatives.
-For drawing, I like <a href="http://pyx.sourceforge.net/">PyX</a>.
-(Installing PyX from SVN gets you the most recent changes and is trivially easy:
-at the command line, create a build directory with
-<tt>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</tt>
-and then change to the new <tt>pyx</tt> directory and enter <tt>setup.py install</tt>.)
+For serious drawing,
+I like <a href="http://pyx.sourceforge.net/">PyX</a> very much.
+(See my <a href="#pyxhints">PyX hints</a> below.)
 For a simplified interface to PyX,
 you can add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a>
 or, if you would like an interactive command line interface,
@@ -3422,15 +3400,9 @@ For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is lim
 For data-based graphs,
 I like <a href="http://matplotlib.sourceforge.net/">Matplotlib</a>.
 PyX and Matplotlib support the generation of EPS plots with LaTeX text.
+(Additionally, Matplotlib provides an impressive <a href="http://matplotlib.sourceforge.net/matplotlib.mathtext.html">mathtext</a> capability independent of LaTeX.)
 </p>
 
-<p>
-<a href="http://pyx.sourceforge.net/">PyX</a> is an interesting, powerful <a href="#script">Python</a>-based option with excellent LaTeX support.
-For 2-D data plots,
-Titus Winters has written a nice <a href="http://www.cs.ucr.edu/~titus/pyxTutorial/">PyX tutorial</a>.
-(PyX has only experimental support for 3D graphics.)
-See my <a href="#pyxhints">PyX hints</a> below.
-</p>
 
 <p>
 <a href="http://matplotlib.sourceforge.net/">Matplotlib</a> is an powerful and amibitious 2-D plotting package;
@@ -3902,6 +3874,15 @@ and quite functional
 <a href="http://www.citadel.org/">Citadel</a> is a promising groupware application.
 </p>
 
+<h4>Calendars</h4>
+
+<p>
+There are lots of good calendars out there.
+But for the "always connected"
+I have not been able to beat Google Calendar.
+(I have not tried to use it offline.)
+</p>
+
 <p>
 Generally it seems a good idea that your calendar support the 
 <a href="http://www.ietf.org/rfc/rfc2445.txt">iCalendar standard</a>.
@@ -3919,7 +3900,7 @@ Aside:
 </p>
 
 <p>
-I like <a href="http://www.mozilla.org/projects/calendar/sunbird.html">Sunbird</a> at lot
+I like <a href="http://www.mozilla.org/projects/calendar/sunbird.html">Sunbird</a> a lot
 (it is the <a href="http://www.mozilla.org/">Mozilla</a> offering).
 Going under the name of <a href="http://wiki.mozilla.org/Calendar%3ALightning">Lightening</a> is a calendar extension for Thunderbird that shares the Sunbird code base.
 For an interesting and "light" calendar, you can try <a href="http://freshmeat.net/projects/remind/">Remind</a>.
@@ -4516,7 +4497,7 @@ and
 
 <h4>Version Control</h4>
 
-<p>
+<p id="vcs">
 There are many version control systems (VCSs):
 see the <a href="http://en.wikipedia.org/wiki/List_of_revision_control_software">Wikipedia list</a>.
 If you just need revision control for an individual project,
@@ -4763,12 +4744,47 @@ Stanislav Sitar compiled <a href="http://www.nicemice.net/par/par152ex.zip">par.
 
 <h4 id="pdf">View and Manipulate PDF</h4>
 
+<h5>PDF Maniuplation</h5>
+
 <ul>
 <li>
-View with the free <a href="http://www.adobe.com/acrobat/">Adobe Acrobat Reader</a>.
+<a href="http://pybrary.net/pyPdf/">PyPdf</a>
+offers extensive PDF manipulation and extraction facilities.
+(License: BSD.  Language: Python.)
+</li>
+<li>
+The <a href="http://www.accesspdf.com/pdftk/">PDF Toolkit</a>
+is extremely FAST, handy, and easy to use if you need to manipulate PDF files.
+(Also, see the website for a <a href="http://www.accesspdf.com/article.php/20050421092951834">Python port of forge_fdf</a>.)
+</li>
+<li>
+<a href="http://sourceforge.net/projects/pdfsam/">PDF Split and Merge</a>
+provide a GUI interface to PDF file manipulation.
+(License: GPL; Language: Java)
+</li>
+<li>
+Do not overlook the GNU <a href="http://gnuwin32.sourceforge.net/packages/psutils.htm">psutils</a>.
+</li>
+<li>
+You can edit PDFs with <a href="http://sourceforge.net/projects/pdfedit/">pdfedit</a>.
+<a href="http://www.docu-track.com/home/prod_user/pdfx_viewer/">PDF-Xchange Viewer</a>
+is free and can annotate. (Commercial product.) 
 </li>
 <li>
 <a href="http://sourceforge.net/projects/arenable/">AREnable</a> enables the commenting features in Reader.
+</li>
+</ul>
+
+<h5>PDF Viewing</h5>
+
+<ul id="pdfviewers">
+<li>
+The most popular viewer is the free (but closed source)
+<a href="http://www.adobe.com/acrobat/">Adobe Acrobat Reader</a>.
+</li>
+<li>
+<a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is cross platform.
+Can view PostScript and PDF.
 </li>
 <li>
 <a href="http://www.cs.wisc.edu/~ghost/">GhostScript, GhostView, and GSView</a>.
@@ -4778,28 +4794,18 @@ Here is one of many ways.
 2. Open the file in Ghostview.
 3. Print the document again to a file using the printer "pdfwrite".
 </li>
+<li> 
+<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a> is Windows only,
+but is amazing, fast, and free.
+It is based on <a href="http://poppler.freedesktop.org/">poppler</a>
+and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
+</li>
 <li>
 <a href="http://www.opengroup.org/infosrv/PDF/xpdf/">xpdf</a> is a cross platform PDF viewer,
 which comes with tools for PDF file manipulation.
 </li>
-<li>
-The <a href="http://www.accesspdf.com/pdftk/">PDF Toolkit</a> is extremely handy and easy to use if you need to manipulate PDF files.
-(Also, see the website for a <a href="http://www.accesspdf.com/article.php/20050421092951834">Python port of forge_fdf</a>.)
-</li>
-<li>
-Do not overlook the GNU <a href="http://gnuwin32.sourceforge.net/packages/psutils.htm">psutils</a>.
-</li>
-<li>
-<a href="http://sourceforge.net/projects/pdfsam/">PDF Split and Merge</a>
-provide a GUI interface to PDF file manipulation.
-(License: GPL; Language: Java)
-</li>
-<li>
-<a href="http://pybrary.net/pyPdf/">pdPdf</a>
-can merge pages from different input PDF files into an output PDF file.
-(License: BSD.  Language: Python.)
-</li>
 </ul>
+
 
 
 <h4>Unix Tools for MacIntosh</h4>
@@ -4980,7 +4986,11 @@ but I have had occasional trouble getting through.
 </div>
 
 <p>
-<a href="http://www.freepascal.org/">Pascal</a> or better yet
+<a href="http://www.freepascal.org/">FreePascal</a> includes very substantial Delphi compatibility.
+(License: LGPL and GPL)
+</p>
+
+<p>
 <a href="http://www.gnu.org/software/gnat/gnat.html">Ada</a>,
 which is a preferred languge for the security conscious.
 </p>
@@ -5153,14 +5163,14 @@ Under OS X Mahogany uses the Unix OpenSSL library, so you need to:
 </p>
 
 <p>
-Thunderbird Hint:
+Thunderbird Hints:
 <br />
 Using Vim with Thunderbird:
-Get the <a href="http://globs.chez.tiscali.fr/moz_extensions/exteditor.html">"External Editor" extension</a>.
+Get the <a href="http://globs.org/?lng=en">"External Editor" extension</a>.
 Define the command to load Vim as: <code>\pathto\gvim --nofork -c "setf mail"</code>,
 so you will get 'mail' syntax highlighting and ftplugins loaded.
 After installing the extension,
-edit the toolbar (the one for replying to email, not the main application toolbar)
+edit the composition toolbar (the one for replying to email, <em>not</em> the main application toolbar)
 and add a button for the external editor.
 You can then click that button and your current email reply will be opened in Vim.
 <br />
@@ -5168,6 +5178,13 @@ Make sure your 'textwidth' when editing the email is no larger than
 Thunderbird's "Wrap plain text messages at" option
 (in your Composition options);
 otherwise when Thunderbird receives your text it may wrap it to a smaller size.
+<br />
+Gmail allows IMAP access (wonderful!),
+and Google provided detailed instructions for configuring Thunderbird.
+<br />
+The <a href="http://mozilla.dorando.at/">keyconfig.xpi</a> extension allows you
+to easily change your key bindings.
+Carefully follow the <a href="http://kb.mozillazine.org/Keyconfig_extension:_Thunderbird#Simple_built-in_commands">instructions</a>.
 </p>
 
 
@@ -5810,6 +5827,14 @@ In either case, make sure aspell is in your path or use the fully qualified file
 <h3 id="pyxhints">PyX user hints.</h3>
 
 <div>
+Installing PyX from <a href="#vcs">SVN</a> gets you the most recent changes and is trivially easy.
+(Preliminary: install <a href="#vcs">SVN</a>.)
+At the command line, create a build directory with
+<tt>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</tt>
+and then change to your new <tt>pyx</tt> directory and enter <tt>setup.py install</tt>.
+</div>
+
+<div>
 PyX will produce EPS files with negative bounding box parameters.
 This is perfectly legal but confuses some applications.
 In particular, LaTeX users of dvipdfm may see a clipped figure.
@@ -5821,6 +5846,20 @@ E.g.,
 mygraph.writeEPSfile("c:/mydir/myfig.eps",paperformat=pyx.document.paperformat.Letter)
 </code></pre>
 </div>
+
+<p>
+For 2-D data plots,
+Titus Winters has written a nice <a href="http://www.cs.ucr.edu/~titus/pyxTutorial/">PyX tutorial</a>.
+(PyX also has some support for 3D graphics.)
+See my <a href="#pyxhints">PyX hints</a> below.
+</p>
+
+<p>
+Be sure to see the <a href="http://pyx.sourceforge.net/examples/index.html">examples</a>
+and <a href="http://pyx.sourceforge.net/gallery/index.html">gallery</a>
+on the PyX website.
+I provide a <a href="http://www.american.edu/econ/notes/pyx_shadedintegral.py">heavily commented elaboration of the shaded integral example</a>.
+</p>
 
 <h3 id="miktexhints">MiKTeX user hints.</h3>
 <div>
@@ -6977,24 +7016,41 @@ using gnuplot.
 <h3 id="firefoxhints">FireFox hints</h3>
 
 <p>
-Many users find the <a href="http://www.extensionsmirror.nl/">Session Saver</a> plug-in to be an indispensible FireFox extension.
+I am among the many users find the <a href="http://www.extensionsmirror.nl/">Session Saver</a> plug-in to be an indispensible FireFox extension.
+Also, I find the <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a> add-on very useful:
+it replaces the practice of keeping many tabs open with site links on a single page.
 </p>
 
 <p>
-FireFox supports the excellent <a href="http://www.mozilla.org/projects/calendar/sunbird.html">SunBird</a> calendar application.
-Recommended.
+FireFox supports the <a href="http://www.mozilla.org/projects/calendar/sunbird.html">SunBird</a> calendar application.
 </p>
 
-<h3 id="numpyhints">NumPy hints</h3>
+<h3 id="numpy-hints">NumPy hints</h3>
 
 <p>
 Users who grew up on old versions of <a href="#numpy">NumPy</a> may still be using the deprecated <code>matrixmultiply</code> function.
 Use <code>dot</code> instead.
 </p>
 
+<h3 id="windows-hints">Windows hints</h3>
 
+<p>
+The default in Windows XP is to prevent you from seeing the extension to a filename.
+You can fix this by unchecking <em>Hide file extensions</em>
+in the <em>View</em> tab of Explorer's <i>Folder Options</i> window.  
+</p>
 
-<h3 id="operahints">Opera hints</h3>
+<div>
+If you search "all" files and folders with Windows Explorer in Win XP,
+by default only "recognized" (by extension) file types are searched.
+Believe it or not, you must edit your registry to fix this.
+(The usual caveats apply.) Set
+<pre>
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ContentIndex\FilterFilesWithUnknownExtensions = 1
+</pre>
+</div>
+
+<h3 id="opera-hints">Opera hints</h3>
 
 <div class="boxed">
 Opera hints:
@@ -7030,6 +7086,82 @@ Restart Opera and test the plugin at the
 <a href="http://www.adobe.com/svg/viewer/install/svgtest.html">Adobe SVG test page</a>.
 You should see 3 animated images.
 </div>
+
+<h3 id="gnuwin32-hints">GnuWin32 hints</h3>
+<p>
+GnuWin32 includes many useful GNU applications,
+including grep, sed, and awk.
+If you download everything (recommended), it will take a while.
+</p>
+
+<div>
+Installation
+(with thanks to <a href="http://arturo-servin-research.blogspot.com/2007/08/gnuwin32.html">Arturo Servin</a>)
+and the <a href="http://getgnuwin32.sourceforge.net/">GetGnuWin32 developers</a>.
+<ol>
+<li>
+Download the <a href="http://getgnuwin32.sourceforge.net/">getgnuwin32</a> project maintenance utility.
+(This will download and install the tools for you.)
+</li>
+<li>
+Run the executable file you downloaded.
+It will ask you for a destination to decompress the file.
+This will be a temporary directory: you will eventually delete it.
+I will assume you use c:\temp\getgnuwin32.
+(You can choose whatever you want.)
+To install, you can just follow the instructions.
+(If you want details you can check the readme file included with the package.)
+</li>
+<li>
+Comment: If you are behind a proxy,
+you may have to configure wget (using bin\wget.ini).
+</li>
+<li>
+Run download.bat.
+(This file is well documented.
+If you wish to change the defaults---e.g., the default mirror site for download---
+edit the file before running it, and save your changes.)
+As it runs, download.bat will download the applications packages.
+This can take a while.
+</li>
+<li>
+When dowload.bat finishes running,
+run install.bat.
+(This will decompress the downloaded packages.)
+</li>
+<li>
+<em>Copy</em> the folder getgnuwin32\gnuwin32 to a new folder C:\programs\gnuwin32.
+(Or anywhere else you want.)
+</li>
+<li>
+Change to your newly filled C:\programs\gnuwin32 folder
+and run the file update-links.bat.
+This should complete the installation process (by updating any orphan links).
+You are now ready to use your new tools.
+</li>
+</ol>
+Optionally:
+<ul>
+<li>
+Copy the &ldquo;Start Menu&ldquo; folder
+(which you will find inside your gnuwin32 folder)
+to the Start Menu of your windows desktop.
+When executed the shortcuts inside will automatically start a cmd in the path of gnuwin32.
+</li>
+<li>
+Add environmental variables as recommended in the <a href="http://gnuwin32.sourceforge.net/install.html">GnuWin32 docs</a>.
+</li>
+<li>
+Add the full path to your gnuwin32\bin folder to your PATH.
+</li>
+<li>
+Delete your temp\getgnuwin32 folder.
+You do not need it any more.
+</li>
+</ul>
+</div>
+
+There are some more optional things that you can do. Because I do not use them and they can “mix up” some original windows applications with the same name in the gnu package I will not explain them here. If you want to do it, check the readme file.
 
 
 <hr />
