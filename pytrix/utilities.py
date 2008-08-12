@@ -84,7 +84,7 @@ def calc_gini2(x): #follow transformed formula
 	x = list(x)
 	n = len(x)
 	x.sort()  # increasing order
-	G = sum(x[i] * (i+1) for i in xrange(n))
+	G = sum(xi * (i+1) for i,xi in enumerate(x))
 	G = 2.0*G/(n*sum(x)) #2*B
 	return G - 1 - (1./n)
 
@@ -98,7 +98,7 @@ def calc_gini(x):
 	x = list(x)
 	n = len(x)
 	x.sort()  # increasing order
-	G = sum( x[i] * (n-i) for i in xrange(n) )  #Bgross
+	G = sum( xi * (n-i) for i,xi in enumerate(x) )  #Bgross
 	G = 2.0*G/(n*sum(x))
 	return 1 + (1./n) - G
 

@@ -15,7 +15,9 @@ import unittest
 import random
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
-from econpy.pytrix import utilities, fmath
+from econpy.pytrix.utilities import n_each_rand, calc_gini, calc_gini2, permutations, permutationsg
+from econpy.abs.utilities import gini2shares
+from econpy.pytrix import fmath
 
 
 
@@ -25,7 +27,7 @@ class testUtilities(unittest.TestCase):
 		self.wealths = [random.random() for _ in range(2*self.N)]
 	def test_n_each_rand(self):
 		n = random.randrange(500)
-		TF = utilities.n_each_rand(n, (True,False))
+		TF = n_each_rand(n, (True,False))
 		TFlist = list(TF)
 		nT = TFlist.count(True)
 		nF = TFlist.count(False)
@@ -35,20 +37,20 @@ class testUtilities(unittest.TestCase):
 	def test_gini2shares(self):
 		gini0 = random.random()
 		nbrackets = random.randrange(5,500)
-		shares = utilities.gini2shares(gini=gini0, nbrackets=nbrackets, shuffle=False)
-		gini1 = utilities.calc_gini(shares)
+		shares = gini2shares(gini=gini0, nbrackets=nbrackets)
+		gini1 = calc_gini(shares)
 		#print "ginis:", gini0, gini1   TODO: better accuracy expected...
 		self.assert_(fmath.feq(gini0, gini1, 1e-3)) #imposed and computed Gini shd be equal
 	def test_permutations(self):
-		x = utilities.permutations([1,2])
-		y = utilities.permutations(range(3))
-		z = list( utilities.permutationsg(range(3)) )
+		x = permutations([1,2])
+		y = permutations(range(3))
+		z = list( permutationsg(range(3)) )
 		self.assertEqual(x,[[1,2],[2,1]])
 		self.assertEqual(y,z)
 	def test_calc_gini(self):
 		#test that two Gini formulae give same rsult
-		gini1 = utilities.calc_gini(self.wealths)
-		gini2 = utilities.calc_gini2(self.wealths)
+		gini1 = calc_gini(self.wealths)
+		gini2 = calc_gini2(self.wealths)
 		#print "gini1:%f, gini2:%f"%(gini1, gini2)
 		self.assert_(fmath.feq(gini1,gini2))
 	def test_math(self):
