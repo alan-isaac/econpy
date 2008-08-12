@@ -14,7 +14,8 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
 import math, random
-from econpy.pytrix import utilities, iterate, fmath
+from econpy.pytrix import utilities, fmath
+from econpy.optimize import iterate
 
 #simplest implementation of bisection
 #BEGIN lst:optimize.bisect
@@ -60,7 +61,7 @@ def simple_picard(fn, p, itermax):
 
 
 
-# cx:sequence.picard2  class Picard in l:\pytrix\pytrix.py
+# cx:sequence.picard2  class Picard
 
 class Iterator4Test(iterate.IterativeProcess):
 	def iterate(self):
@@ -72,7 +73,7 @@ class Iterator4Test(iterate.IterativeProcess):
 class test_iter(unittest.TestCase):
 	def test_IterativeProcess(self):
 		N = random.randrange(100)
-		crit = lambda x: x.iteration >= N
+		crit = lambda x, value, iteration: x.iteration >= N
 		ip = Iterator4Test(crit)
 		ip.run()
 		self.assertEqual(ip.iteration,N)
@@ -85,7 +86,7 @@ class test_iter(unittest.TestCase):
 		crit = iterate.AbsDiff(1e-9)
 		b1 = iterate.Bisect(f, x4zero - 1.0, x4zero+1.0, crit)
 		b1.run()
-		print b1.report()
+		#print b1.report()
 		result1 = b1.value
 		result2 = iterate.bisect(f,  x4zero - 1.0, x4zero+1.0, eps=1e-9)
 		result3 = simplest_bisect(f, x4zero - 1.0, x4zero+1.0)
