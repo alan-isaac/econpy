@@ -23,66 +23,80 @@ class IterativeProcess(object):
 	The stop criterion must be a function or callable class,
 	which takes as an argument an IterativeProcess.
 	'''
-	def __init__(self, criterion=None): #TODO
+	def __init__(self, criterion=None, reportfreq=0): #TODO
 		'''Return: None.
 		Usually overrriden by user.
 		Initialize the iterator.
 		Must set a criterion.
+		`reportfreq` is frequency of printed output
 		'''
 		self.set_criterion(criterion)
 		self.iteration = 0
 		self.history = []
+		self.reportfreq = reportfreq
+	def __iter__(self):
+		return self
 	def set_criterion(self, criterion):
 		if criterion is None:
-			self.criterion = self.default_criterion
+			self.criterion = self.default_criterion()
 		else:
 			self.criterion = criterion
 	def run(self):
-		#record initial state
-		self.record_history()
-		#iterate until criterion satisfied
-		while True:
-			self.iterate()
-			self.iteration += 1
-			self.record_history()
-			if self.criterion(self):
-				break
-		self.finalize()
+		criterion = self.criterion
+		reportfreq = self.reportfreq #printed output
+		#iterate while criterion not satisfied
+		for badvalue in self:
+			self.value = badvalue
+			self.record_history(value=badvalue)
+			if (reportfreq and not self.iteration%reportfreq):
+				print self.report()
 	def report(self):
-		'''Return: string.'''
-		final_value = getattr(self, 'value',None)
+		'''Return: string.
+		Comment: can condition on whether optimized.'''
+		value = getattr(self, 'value', None)
 		optimized = getattr(self.criterion, 'optimized', "Undefined")
 		iterations = self.iteration
 		report = '''
-		Final value:          %s
+		Value:                %s
 		Optimized:            %s
 		Number of iterations: %d
-		'''%(final_value, optimized, iterations)
+		'''%(value, optimized, iterations)
 		return report
 	#users usually override the following methods
-	def default_criterion(self, ip):
-		return self.iteration >= 100
-	def record_history(self):
+	def default_criterion(self):
+		return lambda ip, value, iteration: ip.iteration >= 100
+	def record_history(self, value=None):
 		'''Should return: None.
 		Must be able to handle initial state.
 		'''
-		pass
-	def finalize(self):
-		'''Should return: None.
-		Should set self.value
+		if value is not None:
+			self.history.append(value)
+	def finalize(self, value=None):
+		'''Return: None.
+		Should set self.value to final value!
 		'''
-		pass
+		self.record_history(value=value)
+		self.value = value
+		#if printing reports, print a final report
+		if self.reportfreq:
+			print self.report()
+	def next(self):
+		value = self.iterate()
+		self.iteration += 1
+		if self.criterion(self, value=value, iteration=self.iteration):
+			self.finalize(value=value)
+			raise StopIteration
+		return value
 	#users must implement the following methods
 	def iterate(self):
-		'''Should return: None.
+		'''Return value or None.
 		Do one iteration.
-		Used by `run`.
+		Used by `next`.
 		'''
 		raise NotImplementedError
-	def get_testval(self):
-		'''Should return: testval.
-		The testval must be usable by the criterion.
-		Used by `run`.
+	def get_testinfo(self, value=None, iteration=0):
+		'''Should return: values
+		as needed by `criterion`.
 		'''
 		raise NotImplementedError
 
@@ -160,12 +174,11 @@ class Bisect(IterativeProcess):
 			self.x_neg, self.x_pos = x2, x1
 		else:
 			raise ValueError("[%f,%f] is not a sign changing interval."%(x1,x2))
+		self.history = [x1, x2]
 	#overriding the following methods
 	def default_criterion(self):
-		return (lambda x: abs(x[1] - x[0]) < 1e-9) #TODO
-	def record_history(self):
-		self.history.append(self.get_testval())
-	def finalize(self):
+		return (lambda x, value, iteration: abs(x[1] - x[0]) < 1e-9) #TODO
+	def finalize(self, value=None):
 		self.value = (self.x_neg + self.x_pos)/2.0
 	#implementing the following methods
 	def iterate(self):
@@ -174,8 +187,10 @@ class Bisect(IterativeProcess):
 			self.x_pos = midpt
 		else:
 			self.x_neg = midpt
-	def get_testval(self):
-		return (self.x_neg , self.x_pos)
+		return midpt
+	def get_testinfo(self, value=None, iteration=0):
+		#return (self.x_neg , self.x_pos)
+		return self.history[-1], value
 
 
 
@@ -211,22 +226,23 @@ def bisect(f, x1, x2, eps=1e-8):
 
 #BEGIN: stop criteria #########################################################
 class StopIter(object):
-	def __init__(self, precision, maxit = 100):
-		if (maxit<1 or not precision>0):
+	def __init__(self, precision, maxiter = 100, testfreq=1):
+		if (maxiter<1 or not precision>0):
 			raise ValueError
 		self.precision = precision
-		self.maxit = maxit
+		self.maxiter = maxiter
+		self.testfreq = testfreq
 		self.optimized = False
-	def __call__(self, ip):
-		if self.test(ip):
-			stop = True
-			self.optimized = True
-		elif ip.iteration >= self.maxit:
-			stop = True
-		else:
-			stop = False
+	def __call__(self, ip, value=None, iteration=0):
+		iteration = iteration or ip.iteration
+		stop = False
+		if not iteration%self.testfreq:
+			if self.test(ip, value=value, iteration=iteration):
+				stop = self.optimized = True
+			elif iteration >= self.maxiter:
+				stop = True
 		return stop
-	def test(self, ip):
+	def test(self, ip, value=None, iteration=0):
 		'''User must override this method.'''
 		return NotImplemented
 
@@ -234,8 +250,8 @@ class AbsDiff(StopIter):
 	"""
 	True when the *absolute difference* of the test values is below a certain level
 	"""
-	def test(self, ip):
-		val1, val2 =  ip.get_testval()
+	def test(self, ip, value=None, iteration=0):
+		val1, val2 =  ip.get_testinfo(value=value, iteration=iteration)
 		return abs(val1 - val2) < self.precision
 
 
@@ -243,8 +259,8 @@ class RelDiff(StopIter):
 	"""
 	True when the *relative difference* of the test values is below a certain level
 	"""
-	def test(self, ip):
-		val1, val2 =  ip.get_testval()
+	def test(self, ip, value=None, iteration=0):
+		val1, val2 =  ip.get_testinfo(value=value, iteration=iteration)
 		return abs(val1 - val2) < self.precision * max(abs(val1), abs(val2))
 
 #END: stop criteria #####################################################################
