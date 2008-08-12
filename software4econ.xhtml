@@ -19,7 +19,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Aug 07
+Last modified: 2008 Aug 11
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 I list some licensing information below but this may be inaccurate;
@@ -223,13 +223,13 @@ Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit
 
 <h4 id="monospace">Monospaced Fonts</h4>
 
-<p>
+<p id="STIX">
 Before listing some monospaced fonts,
 I must note the wonderful <a href="http://www.stixfonts.org">STIX</a> font project.
 These are "a comprehensive set of fonts that serve the scientific and engineering community".
 and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
-The fonts are in beta test until the end of 2007,
+The fonts are in beta test until the end of 2008,
 at which time a production release is expected.
 </p>
 
@@ -2019,6 +2019,7 @@ Acceptable results can sometimes be achieved by distilling a word processor docu
 <p>
 The other major alternative is to produce MathML,
 which is finally starting to get decent browser support (especially in FireFox).
+(Be sure to download the <a href="#STIX">STIX fonts</a>.)
 Producing MathML by hand is impractical,
 so there has been a search for feasible ways to rely on MathML.
 One of the most interesting approaches is to use <a href="#rest">reStructuredText</a>
@@ -2851,24 +2852,25 @@ There is some <a href="http://www.pymolwiki.org/index.php/Category%3ASoftware_Mo
 The <a href="http://www.lanl.gov/projects/ia/">Los Alamos National Laboratory Information Architecture</a> offers a useful <a href="http://www.lanl.gov/projects/ia/stds/ia680120.html">white paper on graphics formats</a>.
 </p>
 
-<ul>
-<li>
-EPS
-<br />
+<h4>Encapsulated PostScript (EPS)</h4>
+
+<p>
 Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) remains the universal standard for graphics inclusion in journals and books.
 (In some applications,
 it is being challenged by Adobe's Portable Document Format (<acronym class="help" title="Portable Document Format">PDF</acronym>).
-It therefore pays to learn a drawing application or language that allows you to generate encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).
-</li>
-<li>
-PNG
-<br />
+It therefore pays to learn a drawing application or language that allows you to generate encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).  
+</p>
+
+<h4>Portable Network Graphics (PNG)</h4>
+
+<p>
 Currently the best choice for web graphics.
 (GIF and JPEG suffer patent problems, although these patents are finally expiring.)
-Before placing graphics on the Web, visit the <a href="http://www.libpng.org/pub/png/">Portable Network Graphics (PNG) homesite</a>.
-</li>
-<li id="MNG">
-MNG
+Before placing graphics on the Web, visit the <a href="http://www.libpng.org/pub/png/">Portable Network Graphics (PNG) homesite</a>.  
+</p>
+
+<p id="MNG">
+MNG and APNG
 <br />
 The animated version of PNG is called
 <a href="http://www.libpng.org/pub/mng/">MNG, for Multiple-image Network Graphics</a>.
@@ -2876,27 +2878,26 @@ It supports looping (including nested loops),
 clipping, deltas, and other features, plus
 everything PNG supports-- including alpha
 transparency.
-</li>
-<li id="SVG">
+Unfortunately implementations have been lagging.
+However FireFox supports the <a href="https://wiki.mozilla.org/APNG_Specification">animated PNG (APNG)</a> format,
+which is less complete but quite capable.
+</p>
+
+<h4 id="SVG">Scalable Vector Graphics</h4>
+
+<p>
 <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>
 <br />
 A rising format for web graphics and may already be useful if you need vector graphics and/or animation.
 You can convert <acronym class="help" title="Encapsulated PostScript">EPS</acronym> to PNG or <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>.
 (See <a href="#convert">below</a>.)
 It is possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>.
-</li>
-</ul>
+</p>
 
 <p>
-SVG: some comments.
-<br />
-Currently SVG support is fairly spotty.
-<a href="http://www.opera.com">Opera</a> seems to have the best support.
-<a href="http://www.mozilla.com/">FireFox</a> is next best but currently (end of 2006) does not really support animation.
-(FireFox reports the <a href="http://www.mozilla.org/projects/svg/">current status of SVG support</a>.)
-As usual, IE is badly lagging and currently requires a plug-in for SVG support:
-probably you will have to <a href="http://labs.silverorange.com/archives/2006/january/howtoinclude">provide a back-up PNG.</a>.
-(Of course IE's PNG support is buggy too; oh well.)
+<a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is a royalty free vector graphics standard for the Web,
+and it is a powerful animation format.
+(If you have simple, static graphics to produce, you might write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.)
 <br />
 One of many nice things about SVG is that it can be embedded into PDF,
 animations and all!
@@ -2906,6 +2907,23 @@ Here is a <a href="http://www.tu-harburg.de/parallel/koehnlein/privat/SVGtoPDF.j
 Here is a <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">Python script</a>.
 (If you can find Leonard Rosenthol's Acrobat plug-in, let me know.
 It seems to have disappeared.)
+
+<br />
+Another nice thing is that you can <a href="http://surguy.net/articles/client-side-svg.xml">move image generation to the client side</a>.
+</p>
+
+<p>
+Browser support for SVG:
+<br />
+<a href="http://www.opera.com">Opera</a> and <a href="http://www.mozilla.com/">FireFox</a>
+have native support.
+(FireFox reports the <a href="http://www.mozilla.org/projects/svg/">current status of SVG support</a>.)
+IE 7 is badly lagging:
+you must use a plug-in (such as <a href="http://wiki.svg.org/Adobe_SVG_Viewer">Adobe SVG viewer</a>.
+(<a href="http://www.svgi.org/">Other SVG viewers</a> are available.)
+If you care about IE users,
+you can <a href="http://labs.silverorange.com/archives/2006/january/howtoinclude">provide a back-up PNG.</a>.
+(IE's PNG support is buggy too; oh well.)
 </p>
 
 
@@ -3022,14 +3040,9 @@ look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript
 
 <div id="metaps">
 Many people prefer to use a <a href="#psmeta">meta-language</a> to produce their PostScript graphics.
+Most of these can also produce PDF.
 </div>
 
-<p>
-<a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is the vector graphics standard for the Web, and it is a powerful animation format.
-(If you have simple, static graphics to produce, you probably should write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.)
-You can download an <a href="http://www.adobe.com/svg/viewer/install/main.html">SVG browser plug-in from Adobe</a>.
-<a href="http://www.w3.org/Graphics/SVG/SVG-Implementations.htm">Other SVG viewers</a> are available.
-</p>
 
 <p>
 <a href="http://ngwww.ucar.edu/">NCAR command language</a> is free on Unix platforms.
@@ -3389,35 +3402,25 @@ I will focus on a few cross-platform alternatives.
 
 <p>
 Python users have a number of fine alternatives.
-For serious drawing,
+For serious 2-D drawing,
 I like <a href="http://pyx.sourceforge.net/">PyX</a> very much.
+PyX also has some support for 3D graphics.
 (See my <a href="#pyxhints">PyX hints</a> below.)
-For a simplified interface to PyX,
-you can add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a>
-or, if you would like an interactive command line interface,
-<a href="http://www.pyxplot.org.uk/">PyXPlot</a>.
-For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is limited but useful.)
-For data-based graphs,
-I like <a href="http://matplotlib.sourceforge.net/">Matplotlib</a>.
-PyX and Matplotlib support the generation of EPS plots with LaTeX text.
-(Additionally, Matplotlib provides an impressive <a href="http://matplotlib.sourceforge.net/matplotlib.mathtext.html">mathtext</a> capability independent of LaTeX.)
 </p>
-
 
 <p>
-<a href="http://matplotlib.sourceforge.net/">Matplotlib</a> is an powerful and amibitious 2-D plotting package;
-you will need to install <a href="#script">Python</a> and a numerical array module
-(numpy, or Numeric, or <a href="#numarray">Numarray</a>) to use this.
-Matplotlib even supports spark graphs (sparklines) via the <a href="http://agile.unisonis.com/proj/sparkplot/sparkplot.py">sparkplot</a> module.
-(Sparklines can also be produced with PIL using the <a href="http://bitworking.org/projects/sparklines/">Sparkline Generator Web Application</a>.)
+While PyX is great for data-based graphs,
+I often find myself using <a href="http://matplotlib.sourceforge.net/">Matplotlib</a> for these.
+(<a href="http://matplotlib.sourceforge.net/">Matplotlib</a> is a wonderful 2-D plotting package which also supports powerful interactive graphics.)
+PyX and Matplotlib support the generation of EPS and PDF plots with LaTeX text.
+(Additionally, Matplotlib provides an impressive <a href="http://matplotlib.sourceforge.net/matplotlib.mathtext.html">mathtext</a> capability independent of LaTeX.)
 </p>
-
 
 <p>
 Matplotlib and Pyx currently take different approaches to math text.
 PyX uses LaTeX to typeset the math,
 so you must have a working LaTeX installation.
-Also, Pyx generates only PostScript graphics with this approach.
+Also, Pyx generates only PostScript and PDF graphics with this approach.
 Matplotlib uses its own parser and layout engine
 to typeset math text with Type 1 computer modern fonts.
 You do not get the full power of TeX typesetting,
@@ -3425,8 +3428,23 @@ but you can produce outputs in a variety of formats
 (including EPS and PNG).
 Here are <a href="http://matplotlib.sourceforge.net/matplotlib.mathtext.html">some details</a>.
 </p>
+
+
+
+<p>
+Matplotlib supports spark graphs (sparklines) via the <a href="http://agile.unisonis.com/proj/sparkplot/sparkplot.py">sparkplot</a> module.
+(Sparklines can also be produced with PIL using the <a href="http://bitworking.org/projects/sparklines/">Sparkline Generator Web Application</a>.)
+</p>
+
+
 <p> 
 Other possibilities:
+<br />
+<a href="http://asymptote.sourceforge.net/">Asymptote</a> is a powerful and popular language for drawing 2D and 3D graphs.
+The syntax resembles Metapost.
+Support LaTeX typesetting of labels.
+Asymptote allows easy generation of animations (animated GIFs and MPEGs)!
+(License: GPL 3.0)
 <br />
 <a href="http://code.enthought.com/kiva/">Kiva</a> "is a multi-platform Display PDF 2D drawing engine that supports multiple output backends, including wxWidgets on Windows, GTK, and Carbon, a variety of raster image formats, PDF, and Postscript."  (Requires <a href="#reportlab">ReportLab</a> for PDF output.)
 <br />
@@ -5850,8 +5868,6 @@ mygraph.writeEPSfile("c:/mydir/myfig.eps",paperformat=pyx.document.paperformat.L
 <p>
 For 2-D data plots,
 Titus Winters has written a nice <a href="http://www.cs.ucr.edu/~titus/pyxTutorial/">PyX tutorial</a>.
-(PyX also has some support for 3D graphics.)
-See my <a href="#pyxhints">PyX hints</a> below.
 </p>
 
 <p>
@@ -5859,6 +5875,14 @@ Be sure to see the <a href="http://pyx.sourceforge.net/examples/index.html">exam
 and <a href="http://pyx.sourceforge.net/gallery/index.html">gallery</a>
 on the PyX website.
 I provide a <a href="http://www.american.edu/econ/notes/pyx_shadedintegral.py">heavily commented elaboration of the shaded integral example</a>.
+</p>
+
+<p>
+For a simplified interface to PyX,
+you can add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a>
+or, if you would like an interactive command line interface,
+<a href="http://www.pyxplot.org.uk/">PyXPlot</a>.
+For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is limited but useful.)
 </p>
 
 <h3 id="miktexhints">MiKTeX user hints.</h3>
