@@ -13,9 +13,12 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 
 import unittest
 import random
+import numpy
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
-from econpy.pytrix.utilities import n_each_rand, calc_gini, calc_gini2, permutations, permutationsg
+from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
+from econpy.pytrix.utilities import cumsum, cumprod
+from econpy.pytrix.utilities import calc_gini, calc_gini2, calc_gini3, calc_gini4
 from econpy.abs.utilities import gini2shares
 from econpy.pytrix import fmath
 
@@ -41,6 +44,9 @@ class testUtilities(unittest.TestCase):
 		gini1 = calc_gini(shares)
 		#print "ginis:", gini0, gini1   TODO: better accuracy expected...
 		self.assert_(fmath.feq(gini0, gini1, 1e-3)) #imposed and computed Gini shd be equal
+	def test_cumreduce(self):
+		self.assertEqual([0,1,3,6,10],cumsum(range(5)))
+		self.assertEqual([0,0,0,0,0],cumprod(range(5)))
 	def test_permutations(self):
 		x = permutations([1,2])
 		y = permutations(range(3))
@@ -51,8 +57,13 @@ class testUtilities(unittest.TestCase):
 		#test that two Gini formulae give same rsult
 		gini1 = calc_gini(self.wealths)
 		gini2 = calc_gini2(self.wealths)
+		gini3 = calc_gini3(self.wealths)
+		gini4 = calc_gini4(self.wealths)
 		#print "gini1:%f, gini2:%f"%(gini1, gini2)
 		self.assert_(fmath.feq(gini1,gini2))
+		self.assert_(fmath.feq(gini1,gini3))
+		print gini1, gini4
+		self.assert_(fmath.feq(gini1,gini4))
 	def test_math(self):
 		print
 		print fmath.get_float_radix()
