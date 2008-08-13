@@ -13,11 +13,11 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20070922'
 
-import logging, random, itertools
+import logging, random, itertools, operator
 
 have_numpy = False
 try:
-	import numpy as N
+	import numpy as np
 	from numpy import linalg
 	have_numpy = True
 	logging.info("have_numpy is True")
@@ -66,13 +66,157 @@ def unique(x, use_numpy=True, key=None, reverse=False):
 	Does not support ``key`` for NumPy arrays.
 	'''
 	if have_numpy and use_numpy:
-		result = N.unique(x)
+		result = np.unique(x)
 		if reverse:
 			result = result[::-1]
 	else:
 		result = sorted(set(x), key=key, reverse=False)
 	return result
 
+def scanl(func, seq, init = None):
+    """
+    Like reduce/foldl, but returns a list of the results of each step...
+
+    For example:
+    >>> scanl(operator.add, [1, 1, 1, 1, 1, 1])
+    [2, 3, 4, 5, 6]
+
+    :author: Bryn Keller
+    :see: http://www.xoltar.org/languages/python/datastruct.py
+    :note: changed Unsupplied to None
+    :license: LGPL
+    >>>    
+    """
+    res = []
+    seqiter = iter(seq)
+    if init == None:
+        res.append(seqiter.next())        
+    else:
+        res.append(init)
+    first = res[0]
+    while 1:
+        try:
+            next = seqiter.next()
+        except StopIteration:
+            break
+        first = func(first, next)
+        res.append(first)
+    return res
+
+
+def cumreduce(func, seq, init = None):
+	"""Return list of sequential reductions.
+	Used by cumsum and cumprod.
+
+	Example use:
+	>>> cumreduce(operator.mul, range(1,5),init=1)
+	[1, 2, 6, 24]
+	>>>	
+
+	:note: for another approach, see Bryn Keller's scanl
+	:author: Alan Isaac
+	:since: 2005-11-19
+	"""
+	#initialize list
+	cr = seq[:]
+	if not(init is None):
+		if seq:
+			cr[0] = func(init,seq[0])
+		else:
+			cr = [init]
+	for idx in range(1,len(seq)):
+		cr[idx] = func(cr[idx-1],seq[idx])
+	return cr
+
+def ireduce(func, iterable, init=None):
+	"""Return generator of sequential reductions.
+
+	Example use:
+	>>> list(ireduce(operator.mul, range(1,5),init=1))
+	[1, 2, 6, 24]
+	>>>	
+
+	:author: Alan Isaac and Michael Spencer
+	:thanks: Peter Otten
+	:see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/413614
+	:since: 2005-11-23
+	"""
+	iterable = iter(iterable)
+	if init is None:
+		init = iterable.next()
+		yield init
+	else:
+		try:
+			init = func(init, iterable.next())
+			yield init
+		except StopIteration:
+			yield init
+	for item in iterable:
+		init = func(init, item)
+		yield init
+
+def cumsum(seq):
+	return cumreduce(operator.add, seq)
+
+def cumprod(seq):
+	return cumreduce(operator.mul, seq)
+
+
+
+
+def safe_iter(obj, atomic_types = (basestring, int, float, complex)):
+	"""Equivalent to iter when obj is iterable and not defined as atomic.
+	If obj is defined atomic or found to be not iterable, returns iter((obj,)).
+	safe_iter(None) returns an empty iterator.
+	
+	:Author: Michael Spencer <mahs telcopartners.com>
+	:since:  2006-01-11
+	"""
+	if not isinstance(obj, atomic_types):
+		try:
+			return iter(obj)
+		except TypeError:
+			pass
+	return iter((obj,) * (obj is not None))
+def test_safe_iter():
+	assert list(safe_iter(1)) == [1]
+	assert list(safe_iter("string")) == ["string"]
+	assert list(safe_iter(range(10))) == range(10)
+	assert list(safe_iter(xrange(10))) == list(xrange(10))
+	assert list(safe_iter((1,2,3))) == [1,2,3]
+	assert list(safe_iter(1.0)) == [1.0]
+	assert list(safe_iter(1+2j)) == [1+2j]
+	xiter = iter(range(10))
+	assert safe_iter(xiter) is xiter
+	xiter = (a for a in range(10))
+	assert safe_iter(xiter) is xiter
+	assert list(safe_iter(None)) == []
+
+#all the Gini calculations include the 1/N correction
+# TODO: speed comparison
+
+def calc_gini4(x, use_numpy=True): #follow transformed formula
+	'''Return computed Gini coefficient.
+	:contact: aisaac AT american.edu
+	'''
+	xsort = sorted(x) # increasing order
+	if have_numpy and use_numpy:
+		y = np.cumsum(xsort)
+	else:
+		y = cumsum(xsort)
+	B = sum(y) / (y[-1] * len(x))
+	return 1 + 1./len(x) - 2*B
+
+def calc_gini3(x): #follow transformed formula
+	'''Return computed Gini coefficient.
+	:contact: aisaac AT american.edu
+	'''
+	yn, ysum = 0.0, 0.0
+	for xn in sorted(x):
+		yn += xn
+		ysum += yn
+	B = ysum / (len(x) * yn)
+	return 1 + 1./len(x) - 2*B
 
 def calc_gini2(x): #follow transformed formula
 	'''Return computed Gini coefficient.
@@ -81,9 +225,8 @@ def calc_gini2(x): #follow transformed formula
 	:see: `calc_gini`
 	:contact: aisaac AT american.edu
 	'''
-	x = list(x)
+	x = sorted(x)  # increasing order
 	n = len(x)
-	x.sort()  # increasing order
 	G = sum(xi * (i+1) for i,xi in enumerate(x))
 	G = 2.0*G/(n*sum(x)) #2*B
 	return G - 1 - (1./n)
@@ -95,12 +238,10 @@ def calc_gini(x):
 	:see: `calc_gini2`
 	:contact: aisaac AT american.edu
 	'''
-	x = list(x)
-	n = len(x)
-	x.sort()  # increasing order
-	G = sum( xi * (n-i) for i,xi in enumerate(x) )  #Bgross
-	G = 2.0*G/(n*sum(x))
-	return 1 + (1./n) - G
+	x = sorted(x)  # increasing order
+	N = len(x)
+	B = sum( xi * (N-i) for i,xi in enumerate(x) ) / (N*sum(x))
+	return 1 + (1./N) - 2*B
 
 
 def groupsof(seq,n):

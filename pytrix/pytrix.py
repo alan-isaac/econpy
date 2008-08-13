@@ -25,14 +25,14 @@ from __future__ import division
 from __future__ import absolute_import
 __docformat__ = "restructuredtext en"
 
-import random, math, operator
+import random, math
 import types
 import sys,os
 import logging
 
 have_numpy = False
 try:
-	import numpy as N
+	import numpy as np
 	from numpy import linalg
 	have_numpy = True
 except ImportError:
@@ -76,9 +76,9 @@ def choice(x, axis=None):
 	:author: Robert Kern
 	:since: 20060220
 	"""
-	x = N.asarray(x)
+	x = np.asarray(x)
 	if axis is None:
-		length = N.multiply.reduce(x.shape)
+		length = np.multiply.reduce(x.shape)
 		n = random.randint(length)
 		return x.flat[n]
 	else:
@@ -104,8 +104,8 @@ def step_pts(x, y, use_numpy=True):
 	nobs = len(x)
 	assert nobs==len(y), "Inputs must be same length."
 	if use_numpy and have_numpy:
-		xnew = N.repeat(x,2)[1:]
-		ynew = N.repeat(y,2)[:-1]
+		xnew = np.repeat(x,2)[1:]
+		ynew = np.repeat(y,2)[:-1]
 	else:
 		xnew = [ x[(idx+1)//2] for idx in xrange(2*nobs-1) ]
 		ynew = [ y[idx//2] for idx in xrange(2*nobs-1) ]
@@ -1692,147 +1692,6 @@ def factorial(n, exact=False):
 		fac = gosper(n)
 	return fac
 
-def scanl(func, seq, init = None):
-    """
-    Like reduce/foldl, but returns a list of the results of each step...
-
-    For example:
-    >>> scanl(operator.add, [1, 1, 1, 1, 1, 1])
-    [2, 3, 4, 5, 6]
-
-    :author: Bryn Keller
-    :see: http://www.xoltar.org/languages/python/datastruct.py
-    :note: changed Unsupplied to None
-    :license: LGPL
-    >>>    
-    """
-    res = []
-    seqiter = iter(seq)
-    if init == None:
-        res.append(seqiter.next())        
-    else:
-        res.append(init)
-    first = res[0]
-    while 1:
-        try:
-            next = seqiter.next()
-        except StopIteration:
-            break
-        first = func(first, next)
-        res.append(first)
-    return res
-
-
-def cumreduce(func, seq, init = None):
-	"""Return list of sequential reductions.
-	Used by cumsum and cumprod.
-
-	Example use:
-	>>> cumreduce(operator.mul, range(1,5),init=1)
-	[1, 2, 6, 24]
-	>>>	
-
-	:note: for another approach, see Bryn Keller's scanl
-	:author: Alan Isaac
-	:since: 2005-11-19
-	"""
-	#initialize list
-	cr = seq[:]
-	if not(init is None):
-		if seq:
-			cr[0] = func(init,seq[0])
-		else:
-			cr = [init]
-	for idx in range(1,len(seq)):
-		cr[idx] = func(cr[idx-1],seq[idx])
-	return cr
-
-def ireduce(func, iterable, init=None):
-	"""Return generator of sequential reductions.
-
-	Example use:
-	>>> list(ireduce(operator.mul, range(1,5),init=1))
-	[1, 2, 6, 24]
-	>>>	
-
-	:author: Alan Isaac and Michael Spencer
-	:thanks: Peter Otten
-	:see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/413614
-	:since: 2005-11-23
-	"""
-	iterable = iter(iterable)
-	if init is None:
-		init = iterable.next()
-		yield init
-	else:
-		try:
-			init = func(init, iterable.next())
-			yield init
-		except StopIteration:
-			yield init
-	for item in iterable:
-		init = func(init, item)
-		yield init
-
-def cumsum(seq):
-	return cumreduce(operator.add, seq)
-
-def cumprod(seq):
-	return cumreduce(operator.mul, seq)
-
-def any(seq, test = bool):
-    """Membership test.
-
-	:since: 2005-11-19
-    """
-    hasone = False
-    for item in seq:
-        if test(item):
-            hasone = True
-            break
-    return hasone
-
-def all(seq, test = bool):
-    """Membership test.
-
-	:since: 2005-11-19
-    """
-    hasall = True
-    for item in seq:
-        if not test(item):
-            hasall = False
-            break
-    return hasall
-
-
-
-def safe_iter(obj, atomic_types = (basestring, int, float, complex)):
-	"""Equivalent to iter when obj is iterable and not defined as atomic.
-	If obj is defined atomic or found to be not iterable, returns iter((obj,)).
-	safe_iter(None) returns an empty iterator.
-	
-	:Author: Michael Spencer <mahs telcopartners.com>
-	:since:  2006-01-11
-	"""
-	if not isinstance(obj, atomic_types):
-		try:
-			return iter(obj)
-		except TypeError:
-			pass
-	return iter((obj,) * (obj is not None))
-def test_safe_iter():
-	assert list(safe_iter(1)) == [1]
-	assert list(safe_iter("string")) == ["string"]
-	assert list(safe_iter(range(10))) == range(10)
-	assert list(safe_iter(xrange(10))) == list(xrange(10))
-	assert list(safe_iter((1,2,3))) == [1,2,3]
-	assert list(safe_iter(1.0)) == [1.0]
-	assert list(safe_iter(1+2j)) == [1+2j]
-	xiter = iter(range(10))
-	assert safe_iter(xiter) is xiter
-	xiter = (a for a in range(10))
-	assert safe_iter(xiter) is xiter
-	assert list(safe_iter(None)) == []
 
 def geneigsympos(A, B):
 	""" Solves symmetric-positive-definite generalized
@@ -1877,11 +1736,11 @@ def matrix_rank(arr,tol=1e-8):
 	"""
 	if not have_numpy:
 		raise NotImplementedError('numpy required for this function')
-	arr = N.asarray(arr)
+	arr = np.asarray(arr)
 	if len(arr.shape) != 2:
 	    raise ValueError('Input must be a 2-d array or Matrix object.') 
-	svdvals = N.linalg.svdvals(arr)
-	return sum(N.where(svdvals>tol,1,0))
+	svdvals = np.linalg.svdvals(arr)
+	return sum(np.where(svdvals>tol,1,0))
 
 	
 
@@ -2080,9 +1939,9 @@ def fnnls(XtX, Xty, tol = 0) :
 	Reference:
 	Lawson and Hanson, "Solving Least Squares Problems", Prentice-Hall, 1974.
 	''' 
-	def any(X)     : return len(N.nonzero(X)) != 0
-	def find(X)    : return N.nonzero(X)
-	def norm(X, d) : return max(N.sum(abs(X)))
+	def any(X)     : return len(np.nonzero(X)) != 0
+	def find(X)    : return np.nonzero(X)
+	def norm(X, d) : return max(np.sum(abs(X)))
 	# initialize variables
 	m = XtX.shape[0]
 	n = XtX.shape[1]
@@ -2092,15 +1951,15 @@ def fnnls(XtX, Xty, tol = 0) :
 		tol = 10 * eps * norm(XtX,1)*max(m, n);
 	#end
 
-	P = N.zeros(n, N.Int16)
+	P = np.zeros(n, np.Int16)
 	P[:] = -1
-	Z = N.arange(0,n)
+	Z = np.arange(0,n)
 
-	z = N.zeros(m, N.float32)
-	x = N.array(P)
-	ZZ = N.array(Z)
+	z = np.zeros(m, np.float32)
+	x = np.array(P)
+	ZZ = np.array(Z)
 
-	w = Xty - N.dot(XtX, x)
+	w = Xty - np.dot(XtX, x)
 
 	   # set up iteration criterion
 	iter = 0
@@ -2122,9 +1981,9 @@ def fnnls(XtX, Xty, tol = 0) :
 			XtXPP = XtX[PP, PP]
 			z[PP] = XtyPP / XtXPP
 		else :
-			XtyPP = N.array(Xty[PP])
-			XtXPP = N.array(XtX[PP, N.array(PP)[:,  N.NewAxis]])
-			z[PP] = N.dot(XtyPP, la.generalized_inverse(XtXPP))
+			XtyPP = np.array(Xty[PP])
+			XtXPP = np.array(XtX[PP, np.array(PP)[:,  np.NewAxis]])
+			z[PP] = np.dot(XtyPP, la.generalized_inverse(XtXPP))
 		#end
 		z[ZZ] = 0
 
@@ -2146,7 +2005,7 @@ def fnnls(XtX, Xty, tol = 0) :
 			ip = find(P[iabs] != -1)
 			ij = iabs[ip]
 
-			Z[ij] = N.array(ij)
+			Z[ij] = np.array(ij)
 			P[ij] = -1
 			PP = find(P != -1)
 			ZZ = find(Z != -1)
@@ -2156,14 +2015,14 @@ def fnnls(XtX, Xty, tol = 0) :
 				XtXPP = XtX[PP, PP]
 				z[PP] = XtyPP / XtXPP
 			else :
-				XtyPP = N.array(Xty[PP])
-				XtXPP = N.array(XtX[PP, N.array(PP)[:,  N.NewAxis]])
-				z[PP] = N.dot(XtyPP, la.generalized_inverse(XtXPP))
+				XtyPP = np.array(Xty[PP])
+				XtXPP = np.array(XtX[PP, np.array(PP)[:,  np.NewAxis]])
+				z[PP] = np.dot(XtyPP, la.generalized_inverse(XtXPP))
 			#endif
 			z[ZZ] = 0
 		#end while
-		x = N.array(z)
-		w = Xty - N.dot(XtX, x)
+		x = np.array(z)
+		w = Xty - np.dot(XtX, x)
 	#end while
 
 	return x, w
@@ -2171,10 +2030,10 @@ def fnnls(XtX, Xty, tol = 0) :
 def test_fnnls():
 	# test [x, w] = fnnls(Xt.X, Xt.y, tol)
 	# to solve min ||y - X.x|| s.t. x >= 0
-	X = N.array([[1, 10, 4, 10], [4, 5, 1, 12], [5, 1, 9, 20]],  N.float32)
-	y = N.array([4, 7, 4], N.float32)
+	X = np.array([[1, 10, 4, 10], [4, 5, 1, 12], [5, 1, 9, 20]],  np.float32)
+	y = np.array([4, 7, 4], np.float32)
 	Xt = X.transpose()
-	x, w = fnnls(N.dot(Xt, X), N.dot(Xt, y))
+	x, w = fnnls(np.dot(Xt, X), np.dot(Xt, y))
 	print 'X = ', X
 	print 'y = ', y
 	print 'x = ', x
@@ -2758,14 +2617,14 @@ class Stats:
 		self._axis = axis
 		self._squeeze = squeeze
 		if hasattr(y, 'mask'):
-			mask = N.ma.getmaskarray(y)
+			mask = np.ma.getmaskarray(y)
 		else:
-			mask = N.isnan(y)
+			mask = np.isnan(y)
 		if masked == True or (masked == 'auto' and hasattr(y, 'mask')):
 			self._nanout = False
 		else:
 			self._nanout = True
-		self._y = N.ma.array(y, mask=mask, fill_value=0)
+		self._y = np.ma.array(y, mask=mask, fill_value=0)
 		self._mask = mask
 		self._mean = None
 		self._std = None
@@ -2792,7 +2651,7 @@ class Stats:
 		# as of 2006/07/08 the view method is not implemented
 		#return x.view().reshape(*self.b_shape)
 		if hasattr(x, 'mask'):
-			return N.ma.array(x, copy=False).reshape(*self.b_shape)
+			return np.ma.array(x, copy=False).reshape(*self.b_shape)
 		else:
 			return x.view().reshape(*self.b_shape)
 
@@ -2811,7 +2670,7 @@ class Stats:
 	def get_mean(self):
 		m = self.calc_mean()
 		if self._nanout:
-			m = m.filled(fill_value=N.nan)
+			m = m.filled(fill_value=np.nan)
 		if self._squeeze:
 			return m
 		else:
@@ -2822,14 +2681,14 @@ class Stats:
 		if self._std is None:
 			m = self.broadcastable(self.calc_mean())
 			ss = (self._y - m)**2
-			n = N.ma.masked_where(self._N <= 1, self._N-1)
-			self._std = N.sqrt(ss.sum(axis=self._axis)/n)
+			n = np.ma.masked_where(self._N <= 1, self._N-1)
+			self._std = np.sqrt(ss.sum(axis=self._axis)/n)
 		return self._std
 
 	def get_std(self):
 		s = self.calc_std()
 		if self._nanout:
-			s = s.filled(fill_value=N.nan)
+			s = s.filled(fill_value=np.nan)
 		if self._squeeze:
 			return s
 		else:
@@ -2838,13 +2697,13 @@ class Stats:
 
 	def calc_median(self):
 		if self._median is None:
-			ysort = N.ma.sort(self._y, axis=self._axis)
-			ii = N.indices(ysort.shape)[self._axis]
+			ysort = np.ma.sort(self._y, axis=self._axis)
+			ii = np.indices(ysort.shape)[self._axis]
 			ngood = self.broadcastable(self._N)
 			i0 = (ngood-1)//2
 			i1 = ngood//2
-			cond = N.logical_or(i0==ii, i1==ii)
-			m0 = N.ma.where(cond, ysort, 0)
+			cond = np.logical_or(i0==ii, i1==ii)
+			m0 = np.ma.where(cond, ysort, 0)
 			m = m0.sum(axis=self._axis)/cond.sum(axis=self._axis)
 			self._median = m
 		return self._median
@@ -2852,7 +2711,7 @@ class Stats:
 	def get_median(self):
 		m = self.calc_median()
 		if self._nanout:
-			m = m.filled(fill_value=N.nan)
+			m = m.filled(fill_value=np.nan)
 		if self._squeeze:
 			return m
 		else:
@@ -2863,7 +2722,7 @@ class Stats:
 		m = self.broadcastable(self.calc_mean())
 		y = self._y - m
 		if self._nanout:
-			y = y.filled(fill_value=N.nan)
+			y = y.filled(fill_value=np.nan)
 		return y
 	demeaned = property(get_demeaned)
 
@@ -2885,8 +2744,8 @@ def pnpoly(verts,point):
 	xpi = verts[:,0]
 	ypi = verts[:,1]	
 	# shift
-	xpj = xpi[N.arange(xpi.size)-1]
-	ypj = ypi[N.arange(ypi.size)-1]
+	xpj = xpi[np.arange(xpi.size)-1]
+	ypj = ypi[np.arange(ypi.size)-1]
 	
 	possible_crossings = ((ypi <= y) & (y < ypj)) | ((ypj <= y) & (y < ypi))
 
@@ -2901,11 +2760,11 @@ def pnpoly(verts,point):
 from numpy.testing import NumpyTest, NumpyTestCase
 class test_poly(NumpyTestCase):
 	def test_square(self):
-		v = N.array([[0,0], [0,1], [1,1], [1,0]])
+		v = np.array([[0,0], [0,1], [1,1], [1,0]])
 		assert(pnpoly(v,[0.5,0.5]))
 		assert(not pnpoly(v,[-0.1,0.1]))
 	def test_triangle(self):
-		v = N.array([[0,0], [1,0], [0.5,0.75]])
+		v = np.array([[0,0], [1,0], [0.5,0.75]])
 		assert(pnpoly(v,[0.5,0.7]))
 		assert(not pnpoly(v,[0.5,0.76]))
 		assert(not pnpoly(v,[0.7,0.5]))
