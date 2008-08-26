@@ -16,15 +16,6 @@
 </head>
 
 <body>
-<div style="font-size: 60%;background-color:white; color: gray">
-Author: Alan G. Isaac
-<br />
-Last modified: 2008 Aug 11
-<br />
-Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
-I list some licensing information below but this may be inaccurate;
-please confirm with the software copyright holders.
-</div>
 
 
 <ul class="mainmenu">
@@ -83,6 +74,17 @@ please confirm with the software copyright holders.
 
 <h1 id="top">Software for Economists</h1>
 
+<div style="font-size: 60%;background-color:white; color: gray">
+Author: Alan G. Isaac
+<br />
+Last modified: 2008 Aug 26
+<br />
+Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
+<br />
+<span style="color:red">Caveat lector:</span> do not assume the information below is accurate.
+In particular: please confirm licensing information with the software copyright holders.
+</div>
+
 
 
 
@@ -94,23 +96,31 @@ I have tried to make it generally useful for economists.
 I favor cross-platform solutions,
 since I view the current near monopoly of the end-user operating system as a momentary historical aberration.
 <a href="#contact">Suggested changes and additions</a> are welcome.
-A resource complementary to this page is <a href="http://rfe.org/Software/">RFE's Software page</a>.
+A resource complementary to this page is <a href="http://rfe.org/showCat.php?cat_id=86">RFE's Software page</a>.
 </p>
 
-<p style="font-size: 60%;background-color:white; color: gray">
-<strong>Request 1:</strong>
-If you use a free and open source software application, please send money to the developers.
-<br />
-<strong>Request 2:</strong>
+<div style="font-size: 60%;background-color:white; color: gray">
+Two requests:
+<ul>
+<li>
+If you use a free and open source software application,
+please send money to the developers.
+(Yes, this is an appeal by an economist to your moral sense. Live with it.)
+</li>
+<li>
 Please read Richard Stallman's <a href="http://www.gnu.org/philosophy/right-to-read.html">Right to Read article</a>, as well as his <a href="http://www.gnu.org/gnu/manifesto.html">GNU Manifesto</a>.
-(If you think Stallman sounds crazy, he is not: <a href="http://www.rosettabooks.com/">RosettaBooks</a> already sells ebooks that ``time out'' and become inaccessible after ten hours of viewing,
-and perhaps most famous is the ebook version of Alice's Adventures in Wonderland that <a href="http://www.pigdogs.org/art/adobe.html">forbids reading it aloud</a>.)
+Many people felt Stallman was over-concerned when he wrote this.
+Events have been proving him prophetic:
+including ebooks that ``time out'' and become inaccessible after ten hours of viewing,
+and perhaps most famously the ebook version of Alice's Adventures in Wonderland that <a href="http://www.pigdogs.org/art/adobe.html">forbids reading it aloud</a>.
 <!--  http://www.planetebook.com/mainpage.asp?webpageid=201 -->
-Also, visit the <a href="http://www.fsf.org">Free Software Foundation</a>,
+You may also wish to visit the <a href="http://www.fsf.org">Free Software Foundation</a>,
 visit <a href="http://www.opensource.org">OpenSource.Org</a>,
 and sign a <a href="http://petition.eurolinux.org">petition agains software patents</a>.
+</li>
+</ul>
 Thank you.
-</p>
+</div>
 
 
 
@@ -738,6 +748,8 @@ However there are several alternatives.
 <li id="pgf">
         <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgf.html">PGF (Portable Graphics Format)</a>
 (PGF will feel like a subset of PSTricks that can be used for <em>both</em> PostScript and PDF generation!)
+The PGF based <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgfplots.html">pgfplots</a> package
+simplified chart creation.
 </li>
 <li>
   <a href="http://tug.ctan.org/tex-archive/graphics/pstricks/">pstricks</a>
@@ -3176,7 +3188,6 @@ See the <a href="#mpl_hints">Matplotlib hints</a> below.
 <li>
 It is possible to <a href="#gphints">control gnuplot</a> from Python
 with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
-</p>
 </li>
 <li>
 <a href="http://www.spectronon.com/wiki/index.php?title=Main_Page">Spectronon</a>
@@ -3557,6 +3568,13 @@ implemented in Java.
 </li>
 </ul>
 
+<div>
+One other recent possibility deserves mention: <a href="http://code.google.com/apis/chart/">Google Chart</a>.
+Chart construction becomes a simple matter of URL construction.
+IBM offers nice <a href="http://www.ibm.com/developerworks/web/library/wa-pz-googlecharts/">examples of use</a>.
+Chart construction can be simplified by scripting (e.g., in <a href="http://pygooglechart.slowchop.com/">Python</a> or <a href="http://googlecharts.rubyforge.org/">in Ruby</a>).
+</div>
+
 <h4>Vector Graphics</h4>
 
 <p>
@@ -3820,9 +3838,8 @@ Personal Information Managers (PIMs)</a>
 <li> <!--  moved to utilities -->
 <a href="#graphics">Graphics</a> 
 </li>
-<li>
-<br />
-</li>
+</ul>
+<ul class="menu">
 <li>
 <a href="#office">Office Suites and Related Software</a> 
 </li>
@@ -3832,16 +3849,16 @@ Personal Information Managers (PIMs)</a>
 <li>
 <a href="#OS">Operating Systems</a>
 </li>
+</ul>
+<ul class="menu">
 <li>
-Software for <a href="openaccess">open access</a> journals and publications.
+Software for <a href="#openaccess">open access</a> journals and publications.
 </li>
 <li>
 <a href="#kids">Stuff for Kids</a>
 </li>
 </ul>
 
-<p>You can find a variety of software through <a href="http://www.download.com">CNET Download.com</a>.
-</p>
 
 <h3 id="openaccess">Open Access</h3>
 
@@ -7071,6 +7088,19 @@ Believe it or not, you must edit your registry to fix this.
 (The usual caveats apply.) Set
 <pre>
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ContentIndex\FilterFilesWithUnknownExtensions = 1
+</pre>
+</div>
+
+<div>
+Use <code>ix__</code> to assign to a subarray.
+E.g.,
+<pre>
+import numpy as np 
+a=np.floor(np.random.rand(5,5)*10)
+ind1=[0,2] 
+ind2=[1,3] 
+a[np.ix_(ind1,ind2)]+=100 
+a
 </pre>
 </div>
 

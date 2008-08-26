@@ -350,7 +350,7 @@ def read_fred(source):
 	'''
 	series = ReadFRED(source)
 	data = series.data
-	dates = sereis.dates
+	dates = series.dates
 	comments = series.comments
 	return data, dates, comments
 
