@@ -2,31 +2,61 @@
 Simple text utilities.
 - SimpleTable
 - WordFreq
+
+:contact: alan dot isaac at gmail dot com
+:date: 2008-08-28
 """
 from __future__ import division, with_statement
 import sys, string, itertools
 from collections import defaultdict
 
 class SimpleTable:
-	'''Produce a simple ASCII or LaTeX table from a 2D array of data.
+	"""Produce a simple ASCII or LaTeX table from a 2D array of data.
 	`data` is 2D rectangular iterable: lists of lists of text.
 	At most one header row, which is length of data[0] (+1 if stubs)
 	At most one stubs column, which must have length of data.
-	'''
-	def __init__(self, data, headers=(), stubs=(), title='', txt_fmt={}, ltx_fmt={}):
+	See methods `default_txt_fmt` and `default_ltx_fmt` for formatting options.
+	Sample use::
+
+		mydata = [[11,12],[21,22]]
+		myhdrs = "Column 1", "Column 2"
+		mystubs = "Row 1", "Row 2"
+		tbl = SimpleTable(mydata, myhdrs, mystubs, title="Title")
+		print( tbl.as_text() )
+		print( tbl.as_latex_tabular() )
+	"""
+	def __init__(self, data, headers=(), stubs=(), title='', txt_fmt=None, ltx_fmt=None):
+		"""
+		:Parameters:
+			data : list of lists
+				R rows by K columns of table data
+			headers: tuple
+				sequence of K strings, one per header
+			stubs: tuple
+				sequence of R strings, one per stub
+			txt_fmt : dict
+				text formatting options
+			ltx_fmt : dict
+				latex formatting options
+		"""
 		self.data = data
 		self.headers = headers
 		self.stubs = tuple(str(stub) for stub in stubs)
 		self.title = title
+		#start with default formatting
 		self.txt_fmt = self.default_txt_fmt()
-		self.txt_fmt.update(txt_fmt)
 		self.ltx_fmt = self.default_ltx_fmt()
-		self.ltx_fmt.update(ltx_fmt)
+		#substitute any user specified formatting
+		self.txt_fmt.update(txt_fmt or dict())
+		self.ltx_fmt.update(ltx_fmt or dict())
 	def __str__(self):
 		return self.as_text()
 	def calc_colwidths(self, data):
 		return [max(len(d) for d in c) for c in itertools.izip(*data)]
 	def format_rows(self, data, colwidths, colaligns, colsep, pre='', post=''):
+		"""Return: list of list of strings,
+		the formatted data with headers and stubs.
+		"""
 		rows = []
 		for row in data:
 			cols = []
@@ -63,6 +93,8 @@ class SimpleTable:
 			data[i].insert(0,stubs[i])
 		if headers:
 			data.insert(0,headers)
+		if stubs and headers:
+			data[0].insert(0,'')
 	def default_txt_fmt(self):
 		dtf = dict(colsep=' ', table_dec_above='=', table_dec_below='-', header_dec_below='-', title_align='c')
 		colaligns = "c"*(len(self.data[0]))
@@ -86,6 +118,7 @@ class SimpleTable:
 		fmt_dict = self.txt_fmt.copy()
 		fmt_dict.update(fmt)
 		#data_fmt="%s", header_fmt="%s", stub_fmt="%s", colsep=" ", colaligns='', colwidths=(), header_dec=''):
+		#format the 3 table parts (data, headers, stubs) and merge
 		txt_data = self.format_data(fmt_dict)
 		txt_headers = self.format_headers(fmt_dict)
 		txt_stubs = self.format_stubs(fmt_dict)
