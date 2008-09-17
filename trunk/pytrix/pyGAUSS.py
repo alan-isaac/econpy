@@ -20,8 +20,7 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20050420'
 
-import numpy
-N = numpy
+import numpy as np
 
 #assumes scipy has been imported as *
 #from RandomArray import standard_normal as randn #not necessary if using scipy
@@ -58,12 +57,12 @@ def design(x,colidx='gauss'):
           (!!NOT!! Python indices)
 	:param `x`: list of column numbers
 	'''
-	xmax = N.round_(x).max()
+	xmax = np.round_(x).max()
 	print xmax
 	if (colidx=='gauss'):
-		return (N.round_(x).reshape((-1,1))==N.arange(1,xmax+1)).astype(int)
+		return (np.round_(x).reshape((-1,1))==np.arange(1,xmax+1)).astype(int)
 	else:
-		return (N.round_(x).reshape((-1,1))==N.arange(xmax+1)).astype(int)
+		return (np.round_(x).reshape((-1,1))==np.arange(xmax+1)).astype(int)
 
 #diag: diagonal of matrix as column vector (2D only!)
 def diag(x):
@@ -82,6 +81,13 @@ def diagrv(x, v, copy=True):
 	stride = 1 + x.shape[1]
 	x.flat[ slice(0,None,stride) ] = v
 	return x
+
+#ln: natural log
+def ln(x): return np.log(x)
+
+def maxc(x): return np.nanmax(x, axis=0).T
+
+def minc(x): return np.nanmin(x, axis=0).T
 
 #prodc: product down colums (2D only!)
 def prodc(x):
@@ -113,7 +119,7 @@ def seqa(start,inc,n):
 
 #seqm: n element multiplicative sequence from start by inc
 def seqm(start,inc,n):
-	return numpy.mat(start*inc**N.arange(n)).T
+	return numpy.mat(start*inc**np.arange(n)).T
 
 #sortind: return sorted index of x (ZERO based!)
 def sortind(x):
@@ -122,7 +128,7 @@ def sortind(x):
 	return sortidx
 
 #sumc: sum down colums (2D only!)
-def sumc(x): return N.asarray(x).sum(axis=-2).reshape((-1,1))
+def sumc(x): return np.asarray(x).sum(axis=-2).reshape((-1,1))
 
 #trimr: trim t rows from top and b rows from bottom of array or list
 def trimr(x,t,b):
@@ -145,7 +151,7 @@ def trimr(x,t,b):
 def sortc(x,colNUM):
 	if not colNUM in range(1,1+shape(x)[1]):
         	raise ValueError, 'Index out of range.'
-	return take(x,argsort(N.asarray(x)[:,colNUM-1],0))
+	return take(x,argsort(np.asarray(x)[:,colNUM-1],0))
 
 #rotater: rotate row elements
 # Format:    y = rotater(x,r)
@@ -222,9 +228,9 @@ def shiftr(x,shiftby,fv,copydata=True) :
 	for r in range(xrows):
 		s=sn.next()
 		if s>0:
-			xs[r]=concatenate((N.asarray([f.next()]*s),xs[r][:-s]),0)
+			xs[r]=concatenate((np.asarray([f.next()]*s),xs[r][:-s]),0)
 		if s<0:
-			xs[r]=concatenate((xs[r][-s:],N.asarray([f.next()]*abs(s))),0)
+			xs[r]=concatenate((xs[r][-s:],np.asarray([f.next()]*abs(s))),0)
 	return xs
 
 #subvec: Extracts an N elements from an NxK array, by column index
@@ -325,6 +331,6 @@ def kroneckerproduct(a,b):
 #varlagsold: old version, won't work on lists
 #see pytrix for new version
 def varlagsold(var,lags):
-    xlags = N.transpose(shiftr(N.transpose(kron(ones((1,lags)),var)),kron(seqa(1-lags,1,lags),ones((cols(var),1))),-9999))
+    xlags = np.transpose(shiftr(np.transpose(kron(ones((1,lags)),var)),kron(seqa(1-lags,1,lags),ones((cols(var),1))),-9999))
     return trimr(var,lags,0),trimr(xlags,0,lags)
 

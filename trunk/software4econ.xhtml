@@ -982,8 +982,8 @@ You can also go LaTeX to HTML via PDF:
 <a href="http://pdftohtml.sourceforge.net/">pdftohtml</a>
 </li>
 <li>
-Adobe Acrobat offers conversion of PDF to Word,
-which can be exported as HTML.
+Convert <a href="latex2word">PDF to Word</a>,
+which then can be exported as HTML.
 </li>
 </ul>
 </div>
@@ -1035,7 +1035,7 @@ Serious PostScript programmers may profit from <a href="http://www.quite.com">PS
 
 
 
-<h5>LaTeX to Word or Word Perfect</h5>
+<h5 id="latex2word">LaTeX to Word or Word Perfect</h5>
 
 <ul>
 <li>
@@ -1654,28 +1654,10 @@ The site includes manuals,
 an archive of contributed code,
 links to R mailing lists,
 and the R mailing list archives.
-Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplementary documentation</a>;
-also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell's R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful.
-Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.
-Windows users may want to read <a href="http://www.stat.auckland.ac.nz/~kwan022/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
-You can write LaTeX documents containing R code whose ouput is to be included in the document with <a href="http://www.ci.tuwien.ac.at/~leisch/Sweave/">Sweave</a>.
-</li>
-<li>
-Windows users can access R from Python with the 
-<a href="http://sunsite.univie.ac.at/rcom/">RDcom server/client</a>.
-This allows you to call R
-from Python as follows:
-<pre><code>
-&gt;&gt;&gt; from win32com.client import Dispatch
-&gt;&gt;&gt; sc=Dispatch("StatConnectorSrv.StatConnector")
-&gt;&gt;&gt; sc.Init("R")
-&gt;&gt;&gt; print(sc.Evaluate("2+3"))
-5.0
-&gt;&gt;&gt; 
-</code></pre>
-Other approaches to R/Python interaction include the following.
-<a href="http://rpy.sf.net">Walter Moreira's RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to "embed" R in Python and transparently send data to it.
-(You can easily pass objects in <em>both directions</em> using OmegaHat's <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.) 
+Mac users should be sure to visit the <a href="http://r.research.att.com/">R for Mac OS X Developers page</a>,
+where they will also find a useful <a href="#gfortran">gfortran</a>.
+You can call R from other languages, including Python.
+(See the <a href="#rproject_hints">R hints</a>.)
 </li>
 <li id="gretl">
 <a href="http://gretl.sourceforge.net/">gretl</a> is the Gnu Regression, Econometrics and Time-series Library,
@@ -2148,6 +2130,7 @@ I also like the free, cross-platform <a href="http://www.washington.edu/pine/">P
 which is keyboard oriented, highly configurable, and has a good Windows version.
 <a href="http://www.mozilla.org/projects/thunderbird/">Thunderbird</a> is very popular:
 I like its stability but prefer Mahogany's key bindings.
+(But see the <a href="#thunderbird_hints">Thunderbird hints</a>.)
 Another email client that is now cross-platform is <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed</a>,
 and perhaps <a href="http://balsa.gnome.org/">balsa</a> will be.
 <strong>Big plus:</strong> unlike most Windows email clients,
@@ -2488,7 +2471,7 @@ JavaScript in your browser preferences.
 <br />
 iii. When page formatting is crucial,
 which it almost never is,
-use the Adobe <acronym class="help" title="Portable Document Format">PDF</acronym> format.
+use Adobe's <acronym class="help" title="Portable Document Format">PDF</acronym> format.
 You may need a PDF "printer driver" to do this
 (such as Adobe Acrobat, Jaws, or some <a href="#freepdf">free alternatives</a> such as <a href="http://sourceforge.net/projects/pdfcreator/">PDFCreator</a>).
 <br />
@@ -2971,7 +2954,7 @@ there is probably no simpler solution than <a href="#gnuplot">gnuplot</a>.
 The <a href="http://code.google.com/p/sympy/wiki/PlottingModule">SymPy plotting module</a> is very interesting.
 <a href="http://qwtplot3d.sourceforge.net/">QwtPlot3D</a> appears very powerful,
 and <a href="http://pyqwt.sourceforge.net/">PyQwt3D</a>
-provides bindings for Python users who wish to produce scientific 3D plots (now supports numpy).
+provides bindings for Python users who wish to produce scientific 3D plots. (Now supports NumPy arrays.).
 Other possibilities include <a href="http://www.vpython.org/">Visual Python</a>
 and <a href="http://cgkit.sourceforge.net/">Python Computer Graphics Kit</a>.
 Try the <a href="http://www.povray.org/">Persistence of Vision Ray Tracer (POV-Ray)</a>.
@@ -3020,7 +3003,7 @@ If you want to precisely render a vector graphic,
 you will probably want to draw it yourself in PostScript.
 I offer a <a href="http://www.american.edu/econ/notes/psdraw.pdf">brief introduction to PostScript drawing</a>,
 which is still under revision.
-Also, see some <a href="#pshints">PostScript hints</a> below.
+Also, see some <a href="#ps_hints">PostScript hints</a> below.
 </p>
 
 <!--
@@ -3207,7 +3190,7 @@ with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 is for analyzing hyperspectral data (images with many more bands of color than 
 the traditional 3: red, green, blue).
 It can also be useful for more traditional image processing.
-Written in python and utilizes matplotlib, numpy, PIL, and scipy.
+Written in python and utilizes Matplotlib, NumPy, PIL, and scipy.
 Includes a fairly simple  plug-in architecture for 
 extending some of Spectronon's behavior.  
 </li>
@@ -3297,20 +3280,29 @@ Python users can use the <a href="http://www.pythonware.com/products/pil/index.h
 <a href="http://autotrace.sourceforge.net/">AutoTrace</a> converts bitmaps to vector graphics.
 (GPL)
 </li>
-<li>
-<a href="http://www.pdflib.com/jpeg2ps/">jpeg2ps</a> wraps the JPEG file formats in a PostScript wrapper,
-without uncompressing the images.
-(PostScript Level 2 and Level 3 interpreters support decompression of JPEG file formats (JFIF but not JPEG2000).)
-</li>
 <li><a href="http://www.wmf2eps.de.vu/">WMF2EPS</a> is intended to simplify the production of <acronym class="help" title="Encapsulated PostScript">EPS</acronym> graphics from WMF files under Windows95/NT, with bounding boxes correctly included. (License: shareware.)
 It relies heavily on <a href="ftp://ftp.adobe.com/pub/adobe/printerdrivers/">Adobe's printer drivers</a>,
 so be sure you update yours.
 <a href="http://www.kellogg.nwu.edu/researchcomputing/miktex-install.htm">Useful installation tips</a> can be found.
 </li>
 <li id="jpeg2eps">
-<a href="http://rses.anu.edu.au/~andy/jpeg2eps/">jpeg2eps</a> wraps JPEG files so that an EPS interpreter can handle them;
-it is written in PostScript therefore requires an interpreter (such as GhostSript) to run.
-<a href="http://www.pdflib.com/products/more/jpeg2ps.html">jpeg2ps</a> is written in C and performs a similar service.
+There are a number of good options for converting JPEG files to EPS.
+Note that PostScript (level 2+) supports JPEG, so this is largely a matter of adding an appropriate wrapper.
+My favorite approach is to use the ability of <a href="#pyx">PyX</a> to <a href="http://pyx.sourceforge.net/examples/bitmap/jpeg.html">insert JPEG images</a> into EPS and PDF files.
+A more popular approach is to use <a href="http://www.pdflib.com/">PDFlib</a>'s very fast <a href="http://www.pdflib.com/download/free-software/jpeg2ps/">jpeg2ps</a> converter. (Language: C)
+Lee Sau Dan provides a <a href="http://www.informatik.uni-freiburg.de/~danlee/fun/jpeg2eps">perl script that does much the same thing</a>. (Licence: GPL2)
+An interesting approach is <a href="http://rses.anu.edu.au/~andy/jpeg2eps/">jpeg2eps</a>,
+which is written in PostScript (and therefore requires an interpreter, such as GhostSript, to run);
+it wraps JPEG files so that an EPS interpreter can handle them.
+The truly adventurous can try <a href="http://www.tinaja.com/text/jpeg2pdf.html">Don Lancaster's recipe</a>,
+which is code to be inserted directly into a PostScript file.
+(After a few minutes trying, I did not get this to work, but Lancaster is brilliant so it should.
+Note that your Distiller may have disabled file reading and writing by default; you will need to fix this.)
+</li>
+<li>
+<a href="http://www.pdflib.com/jpeg2ps/">jpeg2ps</a> wraps the JPEG file formats in a PostScript wrapper,
+without uncompressing the images.
+(PostScript Level 2 and Level 3 interpreters support decompression of JPEG file formats (JFIF but not JPEG2000).)
 </li>
 <li>
 <a href="http://www.mayura.com/">Mayura Draw</a> is a shareware vector drawing program for Windows that can read in WMF files and export <acronym class="help" title="Encapsulated PostScript">EPS</acronym>,
@@ -3429,7 +3421,7 @@ Python users have a number of fine alternatives.
 For serious 2-D drawing,
 I like <a href="http://pyx.sourceforge.net/">PyX</a> very much.
 PyX also has some support for 3D graphics.
-(See my <a href="#pyxhints">PyX hints</a> below.)
+(See my <a href="#pyx_hints">PyX hints</a> below.)
 </p>
 
 <p>
@@ -3470,7 +3462,9 @@ Support LaTeX typesetting of labels.
 Asymptote allows easy generation of animations (animated GIFs and MPEGs)!
 (License: GPL 3.0)
 <br />
-<a href="http://code.enthought.com/kiva/">Kiva</a> "is a multi-platform Display PDF 2D drawing engine that supports multiple output backends, including wxWidgets on Windows, GTK, and Carbon, a variety of raster image formats, PDF, and Postscript."  (Requires <a href="#reportlab">ReportLab</a> for PDF output.)
+<a href="http://code.enthought.com/kiva/">Kiva</a>
+"is a multi-platform Display PDF 2D drawing engine that supports multiple output backends, including wxWidgets on Windows, GTK, and Carbon, a variety of raster image formats, PDF, and Postscript."
+(Requires <a href="#reportlab">ReportLab</a> for PDF output.)
 <br />
 <a href="http://home.gna.org/pychart/">PyChart</a> is excellent for quick, simple, flexible charts.
 <br />
@@ -4543,6 +4537,14 @@ and
 <a href="http://www.wam.umd.edu/~zben/PostScript/asciiprint.html">ASCIIprint</a>.
 </p>
 
+<p>
+<a href="http://deco-cow.sourceforge.net/">wordaxe</a> can be used for hyphenation.
+For example, you may want to generate your own PostScript or PDF.
+As a more specific example,
+the wordaxe hyphenation library offers <a href="#reportlab">ReportLab</a> support.
+For an easy interface, try <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>.
+</p>
+
 <h4>Version Control</h4>
 
 <p id="vcs">
@@ -4834,6 +4836,12 @@ The most popular viewer is the free (but closed source)
 <a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is cross platform.
 Can view PostScript and PDF.
 </li>
+<li> 
+<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a> is Windows only,
+but is amazing, fast, and free.
+It is based on <a href="http://poppler.freedesktop.org/">poppler</a>
+and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
+</li>
 <li>
 <a href="http://www.cs.wisc.edu/~ghost/">GhostScript, GhostView, and GSView</a>.
 Ghostview and GSView can create pdf-files.
@@ -4841,12 +4849,6 @@ Here is one of many ways.
 1. Print your documents to a file, using a postscript printer.
 2. Open the file in Ghostview.
 3. Print the document again to a file using the printer "pdfwrite".
-</li>
-<li> 
-<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a> is Windows only,
-but is amazing, fast, and free.
-It is based on <a href="http://poppler.freedesktop.org/">poppler</a>
-and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
 </li>
 <li>
 <a href="http://www.opengroup.org/infosrv/PDF/xpdf/">xpdf</a> is a cross platform PDF viewer,
@@ -5188,56 +5190,77 @@ Be sure to set your client to produce <a href="http://www.american.edu/econ/note
 I have written up a few <a href="http://www.american.edu/econ/notes/htmlmail.htm">reason and clues</a>.
 </p>
 
+<h4 id="mahogany_hints">Mahogany Hints</h4>
+
 <p class="boxed">
-Mahogany Hint:
-<br />
 Make Vim your editor and call it as
 <br />
 c:\programs\vim\vim60\gvim.exe -c "so $VIM\vimfiles\mail.vim" %s
 <br />
 where <tt>mail.vim</tt> is where you put any mail processing commands
 (e.g., set ft=mail tw=75).
-You are welcome to use <a href="http://www.american.edu/econ/notes/ai_mail.vim">my mail commands</a>.
+You are welcome to use <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai_mail.vim">my mail commands</a>.
 </p>
 
 <p>
-Mahogany Hint:
-<br />
 Under OS X Mahogany uses the Unix OpenSSL library, so you need to:
 1. install openssl libraries (you can get them from fink)
 2. point M to then: in the "helpers" page of the options dialog, add
    the correct paths to them, then it should work
 </p>
 
-<p>
-Thunderbird Hints:
+<h4 id="thunderbird_hints">
+Thunderbird Hints
+</h4>
+
+<div>
+External Editor
 <br />
-Using Vim with Thunderbird:
+Using your own editor when writing email is strongly recommended.
 Get the <a href="http://globs.org/?lng=en">"External Editor" extension</a>.
-Define the command to load Vim as: <code>\pathto\gvim --nofork -c "setf mail"</code>,
+For example, use <a href="#vim">Vim</a> with Thunderbird as follows.
+Define the External Editor command to load Vim as: <code>\pathto\gvim --nofork -c "setf mail"</code>,
 so you will get 'mail' syntax highlighting and ftplugins loaded.
 After installing the extension,
 edit the composition toolbar (the one for replying to email, <em>not</em> the main application toolbar)
 and add a button for the external editor.
 You can then click that button and your current email reply will be opened in Vim.
 <br />
+By the way,
+you may find my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai_mail.vim">ai_mail.vim</a>
+to contain some useful abbreviations and commands for email.
+Just drop it in your <code>%VIM%\vimfiles</code> folder,
+and change your External Editor command to, e.g.,
+<code>C:\programs\vim\vim72\gvim.exe -c  "so $VIM\vimfiles\ai_mail.vim"</code>.
+</div>
+
+<div>
 Make sure your 'textwidth' when editing the email is no larger than 
 Thunderbird's "Wrap plain text messages at" option
 (in your Composition options);
 otherwise when Thunderbird receives your text it may wrap it to a smaller size.
-<br />
+</div>
+
+<div>
 Gmail allows IMAP access (wonderful!),
 and Google provided detailed instructions for configuring Thunderbird.
+</div>
+
+<div>
+Key Configurations:
 <br />
 The <a href="http://mozilla.dorando.at/">keyconfig.xpi</a> extension allows you
 to easily change your key bindings.
 Carefully follow the <a href="http://kb.mozillazine.org/Keyconfig_extension:_Thunderbird#Simple_built-in_commands">instructions</a>.
-</p>
+Because I like the key bindings of <a href="#mahogany">Mahogany mail</a>,
+I like to associate the <code>d</code> key with <code>goDoCommand('cmd_delete');</code>
+and the <code>x</code> key with <code>goDoCommand('cmd_MsgCompactFolder');</code>.
+</div>
 
+
+<h4 id="pine_hints">Pine Hint</h4>
 
 <p>
-Pine Hint:
-<br />
 If you prefer to POP your mail, 
 you can get more control over this than Pine offers with
 <a href="http://www.xnet.com/~darogers/projects.html">radiks</a>,
@@ -5245,6 +5268,8 @@ a tiny mail transfer program (MTA) for win32 (Windows 9x/NT/2000) which
 reads mail from a pop3 server and transfers it 
 (filtered, if you want) to your local hard drive.
 </p>
+
+
 
 <h3 id="scipy_hints">SciPy user hints</h3>
 
@@ -5295,6 +5320,39 @@ operate element-by-element on arrays.
 Lists are sorted in place, so <code>mylist.sort()</code> return <code>None</code>,
 but <code>mylist</code> is now sorted.
 </p>
+
+<h3 id="rproject_hints">R Hints</h3>
+<p>Documentation:
+<br />
+Windows users may want to read <a href="http://www.stat.auckland.ac.nz/~kwan022/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
+Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplementary documentation</a>;
+also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell's R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful.
+Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.
+</p>
+
+<p>
+You can write LaTeX documents containing R code whose ouput is to be included in the document with <a href="http://www.ci.tuwien.ac.at/~leisch/Sweave/">Sweave</a>.  
+</p>
+
+<div>
+Windows users can access R from Python with the 
+<a href="http://sunsite.univie.ac.at/rcom/">RDcom server/client</a>.
+This allows you to call R
+from Python as follows:
+<pre><code>
+&gt;&gt;&gt; from win32com.client import Dispatch
+&gt;&gt;&gt; sc=Dispatch("StatConnectorSrv.StatConnector")
+&gt;&gt;&gt; sc.Init("R")
+&gt;&gt;&gt; print(sc.Evaluate("2+3"))
+5.0
+&gt;&gt;&gt; 
+</code></pre>
+Other approaches to R/Python interaction include the following.
+<a href="http://rpy.sf.net">Walter Moreira's RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to "embed" R in Python and transparently send data to it.
+(You can easily pass objects in <em>both directions</em> using OmegaHat's <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.) 
+</div>
+
+
 
 <h3 id="bbox_hints">Bounding Box Hints</h3>
 
@@ -5871,7 +5929,7 @@ see the Aspell and Vim helpfiles!
 In either case, make sure aspell is in your path or use the fully qualified file name.
 </div>
 
-<h3 id="pyxhints">PyX user hints.</h3>
+<h3 id="pyx_hints">PyX user hints.</h3>
 
 <div>
 Installing PyX from <a href="#vcs">SVN</a> gets you the most recent changes and is trivially easy.
@@ -5894,6 +5952,13 @@ mygraph.writeEPSfile("c:/mydir/myfig.eps",paperformat=pyx.document.paperformat.L
 </code></pre>
 </div>
 
+<div>
+One lovely use of PyX is to <a href="http://pyx.sourceforge.net/manual/epsfile.html">include an existing EPS file</a>
+and add things to it (e.g., LaTeX text, or JPEG graphics).
+When you write out the result with <a href="http://pyx.sourceforge.net/manual/node20.html">writeEPSfile</a> method of your canvas,
+be sure to set <code>bboxenlarge=False</code> to ensure a "tight" bounding box.
+</div>
+
 <p>
 For 2-D data plots,
 Titus Winters has written a nice <a href="http://www.cs.ucr.edu/~titus/pyxTutorial/">PyX tutorial</a>.
@@ -5914,6 +5979,8 @@ or, if you would like an interactive command line interface,
 For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is limited but useful.)
 </p>
 
+
+
 <h3 id="miktexhints">MiKTeX user hints.</h3>
 <div>
 MiKTeX comes with dvipdfm configured as
@@ -5921,7 +5988,7 @@ MiKTeX comes with dvipdfm configured as
 D "mgs.exe -q -sPAPERSIZE=a0 -sDEVICE=pdfwrite -dCompatibilityLevel=1.2 -dUseFlateCompression=true -dNOPAUSE -sOutputFile=\"%o\" \"%i\" -c quit"
 </pre>
 Some applications (e.g., PyX) produce negative bounding boxes.
-(See <a href="#pyxhints">Pyx hints</a> for a PyX solution.)
+(See <a href="#pyx_hints">Pyx hints</a> for a PyX solution.)
 While perfectly legal,
 this creates a problem for dvipdfm.
 During conversion to PDF,
@@ -6263,6 +6330,16 @@ ax.set_ylabel('y')
 canvas = FigureCanvas(fig)
 canvas.print_figure('temp.eps')
 </pre>
+
+<p>
+All Matplotlib plotting functions trigger autoscaling.
+This affect, e.g., setting the axes limits.
+To prevent your limits from being overriddent,
+call xlim/ylim <em>after</em> any plotting functions.
+Alternatively, you can turn autoscaling off:
+<br />
+<code>gca().set_autoscale_on(False)</code>
+</p>
 
 <p>
 Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.
@@ -6768,7 +6845,7 @@ I recommend resetting timeoutlen according to the example in the help for <tt>ti
 </p>
 </div>
 
-<h3 id="pshints">PostScript User hints</h3>
+<h3 id="ps_hints">PostScript User hints</h3>
 
 <p>
 If you want to fill an entire page with background color,
@@ -6776,6 +6853,20 @@ you do not need to know the dimension of the page.
 Just start your PostScript program by setting the color
 and then giving the command <code>clippath fill</code>.
 (Of course few printers can print to the exact edge of the page.)
+</p>
+
+<p>
+Transparency:
+PostScript uses an opaque imaging model.
+It does not support transparency.
+However, there is a workaround available if you have Adobe Distiller.
+You can add a "PDFMark" to your Postscript file
+to set the transparency for an object.
+When Adobe Distiller processes this PDFMark,
+it will set the transparency for the object.  
+Lancaster offered an <a href="http://www.tinaja.com/glib/pstrans.pdf ">early discussion</a>.
+(Start there rather than with the <a href="http://partners.adobe.com/public/developer/en/acrobat/sdk/pdf/pdf_creation_apis_and_specs/pdfmarkReference.pdf">pdfmark Reference Manual</a>.)
+Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.htm#Transparency">GhostScript supports transparency</a>.
 </p>
 
 <h3 id="texhints">LaTeX User hints</h3>
@@ -6846,11 +6937,10 @@ but lately I've been working more with pdflatex.
 <ol>
 <li>
 Problem: a few Windows applications,
-including EViews before version 5,
 do not produce EPS graphics.
 In this case, you can produce JPEG files and either
         i. learn how to include .jpg files, or
-        ii. use <a href="#jpeg2eps">jpeg2eps</a> to convert them (which is fast and easy),
+        ii. <a href="#jpeg2eps">convert JPEG to EPS</a> (which is fast and easy),
         iii. switch to pdflatex
 </li>
 <li id="impgraph">
@@ -7078,12 +7168,6 @@ it replaces the practice of keeping many tabs open with site links on a single p
 FireFox supports the <a href="http://www.mozilla.org/projects/calendar/sunbird.html">SunBird</a> calendar application.
 </p>
 
-<h3 id="numpy-hints">NumPy hints</h3>
-
-<p>
-Users who grew up on old versions of <a href="#numpy">NumPy</a> may still be using the deprecated <code>matrixmultiply</code> function.
-Use <code>dot</code> instead.
-</p>
 
 <h3 id="windows-hints">Windows hints</h3>
 
@@ -7103,18 +7187,6 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ContentIndex\FilterFilesWith
 </pre>
 </div>
 
-<div>
-Use <code>ix__</code> to assign to a subarray.
-E.g.,
-<pre>
-import numpy as np 
-a=np.floor(np.random.rand(5,5)*10)
-ind1=[0,2] 
-ind2=[1,3] 
-a[np.ix_(ind1,ind2)]+=100 
-a
-</pre>
-</div>
 
 <h3 id="opera-hints">Opera hints</h3>
 
