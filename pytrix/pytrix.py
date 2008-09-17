@@ -1681,6 +1681,7 @@ def factorial(n, exact=False):
 	:date: 2008-07-15
 	:since: 2005-11-17
 	:note: uses Gosper's approximation for n>=10
+	:note: for Python 2.6+, use math.factorial
 	:see: http://www.luschny.de/math/factorial/approx/SimpleCases.html
 	'''
 	assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
