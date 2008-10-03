@@ -2969,10 +2969,15 @@ Also, <a href="http://www.opendx.org/">OpenDX</a> looks like a very powerful ope
 The <a href="http://www.vtk.org/">Visualization Toolkit (VTK)</a>
 "software system for 3D computer graphics, image processing, and visualization"
 consisting of "a C++ class library, and several interpreted interface layers including Tcl/Tk, Java, and Python."
-(License: BSD-like, but containing some patented technology.)
+(License: BSD-like, but containing some patented technology.)</p>
+
+<p>
+Hint:
 Find yourself a good interface to VTK.
-(VTK provides wrappers for Python, Tcl, and Java, but the wrappers resemble VTK more than the supported language.)
-Python users may like <a href="#MayaVi">MayaVi</a>.
+VTK provides wrappers for Python, Tcl, and Java, but the wrappers resemble VTK more than the supported language.
+Python users may like <a href="#MayaVi">MayaVi</a>,
+but this still requires VTK knowledge.
+For true ease of use, consider Enthought's <a href="http://gael-varoquaux.info/physics/slides_Scipy2007.pdf">mlab</a> Python framework for access and manipulation of MayaVi2 objects.
 (Also note that <a href="http://cens.ioc.ee/projects/pyvtk/">PyVTK</a> can write VTK files from <a href="#numpy">NumPy</a> data.  
 <a href="http://www.enthought.com/enthought/wiki/TVTK">TVTK</a> provides a powerful and "Pythonic" interface to the <a href="http://www.vtk.org/">Visualization Toolkit</a>.
 With some feature resemblance to <a href="#MayaVi">MayaVi</a>,
@@ -4762,9 +4767,9 @@ You may come to prefer it over <a href="http://www.gnu.org/software/diffutils/di
 <a href="http://www.openetwork.com/delta.html">Delta</a> is a sophisticated implementation of the Unix "diff" command for Windows users.
 </li>
 <li>
-Microsoft bought <a href="http://www.sysinternals.com/">Sysinternals</a>
+Microsoft bought <a href="http://technet.microsoft.com/en-us/sysinternals/default.aspx">Sysinternals</a>
 but continues to offer their remarkable utilities free for non-commercial Windows users,
-incuding the wonderful <a href="http://www.microsoft.com/technet/sysinternals/utilities/ProcessExplorer.mspx">ProcessExplorer</a> process monitor (which replaces the older Filemon and Regmon utilities).
+incuding the wonderful ProcessExplorer process monitor (which replaces the older Filemon and Regmon utilities).
 </li>
 <li>
 <a href="http://www.tinyapps.org/">Tiny Apps</a> for Windows users.
@@ -6083,6 +6088,7 @@ command you wish to execute. For example, for MiKTeX  type:
 <tt>
 c:\texmf\miktex\bin\texify.exe $BaseName
 </tt>
+(If you use the default MiKTeX installation, you do not need a fully qualified path name.)
 <br />
 Click <tt>OK</tt>, then <tt>Apply</tt>,
 then go to the tool you just added
@@ -6340,6 +6346,20 @@ Alternatively, you can turn autoscaling off:
 <br />
 <code>gca().set_autoscale_on(False)</code>
 </p>
+
+<div>
+Subplots are pretty close to each other:
+if you stack two and label both horizontal axes,
+the top plot's label overlaps the bottom plot's axis.
+Fix this by using <a href="http://matplotlib.sourceforge.net/matplotlib.figure.html#Figure-subplots_adjust"><code>Figure.subplots_adjust</code></a>,
+like this:
+<pre>
+figure()
+subplots_adjust(hspace=0.4)  # default: 0.2
+subplot(211)
+subplot(212)
+</pre>
+</div>
 
 <p>
 Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.

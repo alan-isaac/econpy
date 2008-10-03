@@ -21,12 +21,12 @@ N_COHORTS = 5
 print
 print "#"*80
 print " Example: Create Cohort of Indivs ".center(80,'#')
-cohort = agents.PestieauCohort( agents.Indiv(sex=s, economy=None) for i in range(COHORT_SIZE//2) for s in "MF" )
+cohort = agents.PestieauCohort( agents.PestieauIndiv(sex=s, economy=None) for i in range(COHORT_SIZE//2) for s in "MF" )
 print 'sex of indiv in cohort  :',''.join(ind.sex for ind in cohort)
 
 print "#"*80
 print " Example: Create Population ".center(80,'#')
-ppl = agents.Population( agents.PestieauCohort( agents.Indiv(sex=s, economy=None) for i in range(COHORT_SIZE//2) for s in "MF") for j in range(N_COHORTS) )
+ppl = agents.Population( agents.PestieauCohort( agents.PestieauIndiv(sex=s, economy=None) for i in range(COHORT_SIZE//2) for s in "MF") for j in range(N_COHORTS) )
 print "Type of pop element (shd be a cohort): ", type(ppl[0])
 
 
