@@ -1,5 +1,9 @@
 from ..pytrix.utilities import permutations, calc_gini
-import logging, random
+import logging
+
+import random
+rng = random.Random()
+rng.seed(314)
 
 def match_exclude(group1, group2, exclude):
 	'''Return list of matched pairs meeting an exclusion criterion.
@@ -65,7 +69,7 @@ def n_each_rand(n,kindtuple=('M','F')):
 	kind0, kind1 = kindtuple
 	ct0, total = n, n+n
 	while (total > 0):
-		if random.random() * total < ct0:
+		if rng.random() * total < ct0:
 			next_kind = kind0
 			ct0 -= 1
 		else:
@@ -115,13 +119,18 @@ def distribute(wtotal, units, gini, shuffle=False):
 	:todo: eliminate redundant error checks
 	'''
 	units = list(units)
+	logging.debug("""Enter utilities.distribute.
+	wtotal: %f
+	units: %s
+	gini: %f
+	shuffle: %s"""%(wtotal,units[:5],gini, shuffle) )
 	nb = len(units)  #number of brackets 
 	units2 = set(units)  #this is just for error check
 	assert len(units2)==nb, "`units` shd not contain duplicates"
 	g = (1+gini)/(1-gini) # (2A+B)/B
 	shares = gini2shares(gini, nb)
 	if shuffle:   #enforce Gini but distribute randomly
-		random.shuffle(shares)
+		rng.shuffle(shares)
 	w = ( wtotal*share for share in shares )
 	for w_i in w:
 		units.pop().receive_income(w_i)   #ADD to individual wealth

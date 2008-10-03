@@ -19,7 +19,7 @@ class testPestieau(unittest.TestCase):
 	def setUp(self):
 		self.N = 5
 		self.wealths = [random.random() for _ in range(2*self.N)]
-		self.indivs = [agents.Indiv(sex=x) for x in "MF"*self.N]
+		self.indivs = [agents.PestieauIndiv(sex=x) for x in "MF"*self.N]
 	'''
 	def test_match_exclude(self):
 		males = self.indivs[:2]

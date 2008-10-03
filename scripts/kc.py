@@ -74,7 +74,7 @@ print " END Example: Run Economy ".center(80,'#')
 # Set up Firm production
 # 
 ##########################################################################
-class KCIndiv(agents.Indiv):
+class KCIndiv(agents.PestieauIndiv):
 	def __init__(self,economy=None, sex=None):
 		#add list storing received bequest used by u-max fun: bequest_rec 
 		self.bequest_rec = list()
