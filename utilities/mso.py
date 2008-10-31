@@ -5,6 +5,13 @@ Utility classes for interacting with Microsoft Office applications.
 :requires: win32com <http://sourceforge.net/projects/pywin32/>
 :license: MIT
 :author: Alan G. Isaac
+
+Crucail reference:
+http://msdn.microsoft.com/en-us/library/aa211638(office.11).aspx
+
+Other references:
+http://www.xtremevbtalk.com/showthread.php?p=990341
+
 '''
 import win32com.client as win32
 from time import sleep
