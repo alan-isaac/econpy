@@ -1197,14 +1197,19 @@ The <a href="http://www.reportlab.org/index.html">ReportLab Toolkit</a> includes
 It is amazingly powerful, but a bit complex.
 To make things much easier,
 you can very simply <a href="http://docutils.sourceforge.net/sandbox/richard/pythonpoint/">generate PythonPoint documents</a> from 
-<a href="#metafmt">restructured text (reST)</a>.
+<a href="#rest">restructured text (reST)</a>.
 Once you have the software installed,
 this is about as easy as it can get!
 </p>
 
 <p>
+<a href="http://pypi.python.org/pypi/bruce">Bruce</a> is a very interesting presentation option.
+Slides are written in <a href="#rest">restructured text (reST)</a>.
+</p>
+
+<p>
 <a href="http://www.masterviews.com/2004/11/21/xhtml_to_powerpoint_browserbased_css.htm">S5</a> [<a href="http://meyerweb.com/eric/tools/s5/">2</a>] can simply create beautiful browser based presentations.
-Instead of editing HTML you can use <a href="#metafmt">reST</a> and convert the text file 
+Instead of editing HTML you can use <a href="#rest">reST</a> and convert the text file 
 to a slide show with <a href="http://homepage.hispeed.ch/py430/python/index.html#rst2s5">rst2s5</a>.
 Also see <a href="http://www.netzgesta.de/S5/">S5 Reloaded</a> and <a href="http://www.robertnyman.com/ajax-s/">AJAX-S</a>.
 </p>
@@ -2326,7 +2331,7 @@ be able to define your own entities in the doctype declaration. E.g., you could 
 &lt;!ENTITY alpha  "&amp;#xxxx;" &gt;
 (where xxxx = the numeric reference)  to get around remembering numeric references.
 The <a href="http://www.w3.org/TR/MathML2/appendixa.html#parsing.module">XHTML+MathML</a> document type looks particularly useful,
-and it is already used to provide math support in <a href="#metafmt">reStructuredText</a>.
+and it is already used to provide math support in <a href="#rest">reStructuredText</a>.
 </p>
 
 <p>
@@ -2348,15 +2353,13 @@ public archive</a>. Also, consider
 <p>XML:
 Perhaps the most interesting current XML development for non-programmers is
 <a href="http://www.odfalliance.org/">OpenDocument Format (ODF)</a>.
-The is a promising open document exchange standard,
-and it has already forced concessions from Microsoft.
-Let us move the world to an open, fully-documented, royalty-free standard for document exchange!
+The is a promising <a href="http://books.evc-cit.info/odbook/book.html">open document exchange standard</a>.
+Move the world to an open, fully-documented, royalty-free standard for document exchange!
 <a href="#officesuites">OpenOffice</a> is currently the only office suite supporting the OpenDocument Format,
-as far as I am aware.
+but there is also a <a href="http://sourceforge.net/projects/odf-converter">plug-in converter</a> for MS Word (TM).
 <br />
 By the way, docutils can write to ODF:
 see Dave Kuhlman's work (currently in the docutils sandbox).
-There is also a <a href="http://sourceforge.net/projects/odf-converter">translator</a> for MS Word (TM).
 </p>
 
 
@@ -4122,7 +4125,7 @@ they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros
 which allows use of natbib's commands (e.g., \citep, \citet)
 instead of the commands usually provided by biblatex (e.g., \parencite, \textcite).)
 Python users can consider the bib4txt component of <a href="http://www.pricklysoft.org/software/bibstuff.html">bibstuff</a>,
-which should particularly interest <a href="#metafmt">reStructuredText</a> users who need bibliographic support.
+which should particularly interest <a href="#rest">reStructuredText</a> users who need bibliographic support.
 (I recommend you get the <a href="http://code.google.com/p/bibstuff/">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python)
 Chris Putnam's <a href="http://www.scripps.edu/~cdputnam/software/bibutils/bibutils.html">Bibutils</a>
 "interconverts between various bibliography formats using a common XML intermediate."
@@ -4752,7 +4755,8 @@ There are other <a href="http://www.cs.washington.edu/homes/voelker/ntemacs.html
 </li>
 <li id="search">
 Are you still using Microsoft search tools that don't really support regular expressions?
-(And under Windows XP, <a href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q309173">Explorer search often fails</a> in any case.)
+(And under Windows XP, <a href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q309173">Explorer search often fails</a> in any case.
+E.g., when searching for text, Explorer <a href="http://support.microsoft.com/?id=309173">fails to search all files</a>.)
 Fix that!
 <a href="http://www.tgries.de/agrep/">agrep</a> is available for Windows!
 (There is also a <a href="http://www.bio.cam.ac.uk/~mw263/pyagrep.html">Python implementation</a>,

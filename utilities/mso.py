@@ -6,8 +6,9 @@ Utility classes for interacting with Microsoft Office applications.
 :license: MIT
 :author: Alan G. Isaac
 
-Crucail reference:
+Crucail references:
 http://msdn.microsoft.com/en-us/library/aa211638(office.11).aspx
+http://www.wizardwrx.com/CommonTypelibs/O2002_MSO.html
 
 Other references:
 http://www.xtremevbtalk.com/showthread.php?p=990341
@@ -543,7 +544,16 @@ class PptTitleSlide(object):
 			slide.Shapes.Title.Delete()
 			slide.Shapes[0].Top = 20
 			slide.Shapes[0].Height = 13*36
-		
+
+def insert_outline(text_range, text):
+	for line in text.split("\n"):
+		line = line.rstrip()
+		indent = 1 + line.count("\t")
+		line = line.lstrip()
+		if line:
+			line = text_range.InsertAfter(line+"\r\n")
+			line.IndentLevel = indent
+			sleep(0.10)
 
 class PptOutline(PptTitleSlide):
 	'''Bulleted outline with optional title (above).
@@ -561,15 +571,7 @@ class PptOutline(PptTitleSlide):
 		text = self.text
 		text_range = slide.Shapes[1].TextFrame.TextRange
 		#text_range.InsertAfter(self.text)
-		for line in text.split("\n"):
-			line = line.rstrip()
-			indent = 1 + line.count("\t")
-			line = line.lstrip()
-			if line:
-				line = text_range.InsertAfter(line+"\r\n")
-				line.IndentLevel = indent
-				sleep(0.10)
-			
+		insert_outline(text_range, text)
 
 class PptPicture(PptTitleSlide):
 	'''Slide with picture inserted from file and title.
@@ -598,6 +600,49 @@ class PptPicture(PptTitleSlide):
 		shape4picture.ScaleWidth(scalar,True)
 		#center the picture (assumes standard 10" wide slide)
 		shape4picture.Left = (720 - shape4picture.Width)/2
+		sleep(0.10)
+		
+
+class PptTextPicture(PptTitleSlide):
+	'''Slide with picture inserted from file and title.
+
+	:see: http://msdn2.microsoft.com/en-us/library/aa211638(office.11).aspx
+	'''
+	def __init__(self, text, file_path, title):
+		self.file_path = file_path
+		self.text = text
+		self.title = title
+		self.slide = None
+		self.layout = ppLayoutTextAndClipart
+	def format_content(self):
+		slide = self.slide
+		title_range = slide.Shapes.Title.TextFrame.TextRange
+		title_range.Text = self.title
+		title_range.Font.Bold = True
+		#
+		#add text
+		text = self.text
+		text_range = slide.Shapes[1].TextFrame.TextRange
+		insert_outline(text_range, text)
+		#
+		#now insert the picture
+		shapes = slide.Shapes
+		assert len(shapes)==3
+		shape = shapes[2]
+		assert shape.Type == 14 #Placeholder
+		shape4picture = shapes.AddPicture(self.file_path, False, True, shape.Left, shape.Top)
+		w,h = shape4picture.Width, shape4picture.Height
+		#scale to fit 4" x 5"
+		scalar = min((4*72)/w,(5*72)/h)
+		shape4picture.ScaleHeight(scalar,True)
+		sleep(0.10)
+		shape4picture.ScaleWidth(scalar,True)
+		"""
+		print len(shapes)
+		print shape4picture, shape4picture.Type,  dir(shape4picture)
+		#center the picture (assumes standard 10" wide slide)
+		shape4picture.Left = (360 + (360 - shape4picture.Width)/2)
+		"""
 		sleep(0.10)
 		
 

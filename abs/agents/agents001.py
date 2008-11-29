@@ -1,14 +1,14 @@
-'''
+"""
 Provides a base collection of deterministic, non-optimizing
 agents for macro simulations.  Does not include a "World"
 or "Economy" class to run the simulation, since these vary
 too greatly by application.
 
 Indiv
-	- Data: alive, sex, age, parents, siblings, spouse, _children, accounts,
-	employers, economy, state, contracts
+	- Data: alive, sex, age, parents, siblings, spouse, _children, _accounts,
+	employers, economy, state, contracts, _cash
 	- Methdods:
-	  receive_income, payout, calc_wealth, calc_household_wealth, wed,
+	  payin, payout, get_worth, calc_household_wealth, wed,
 	  bear_children, adopt_children, get_children, adopt, open_account,
 	  gift2kids, liquidate, distribute_estate, labor_supply, accept_contract,
 	  fulfill_contract, 
@@ -36,7 +36,7 @@ Fund
 
 FundAcct
 	- Data: fund, owner, _value
-	- Methdods: receive_income, payout, close, transferto
+	- Methdods: payin, payout, close, transferto
 
 State
 	- Data:
@@ -47,15 +47,48 @@ State
 :license: `MIT license`_
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
+"""
 from __future__ import division
 #from __future__ import absolute_import
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '2008-09-22'
+__lastmodified__ = '2008-11-29'
 
+def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here, cd be a fn
+	payer.payout(amount)
+	payee.payin(amount)
 
-class Indiv(object):
+class AbsError(Exception):
+	"""Base class for exceptions in this module."""
+	pass
+
+class InsufficientFundsError(AbsError):
+	"""Raised when payout exceeds net worth."""
+	pass
+
+class TransactorMI(object):
+	"""
+	Provides `payin` and `payout` methods.
+	Requires a `_cash` attribute.
+	"""
+	_cash = 0
+	_accounts = ()
+	def payin(self, amt):
+		assert(amt >= 0)  #this is just sign checking; TODO: move to transaction
+		self._cash += amt
+	def payout(self, amt):  #redundant; just for ease of reading and sign check
+		assert(amt >= 0)
+		if self.get_worth() < amt:
+			raise InsufficientFundsError
+		else:
+			self._cash -= amt   #TODO: accommodate multiple accounts
+	def get_worth(self):
+		result = self._cash
+		for acct in self._accounts:
+			result += acct.get_worth()
+		return result
+
+class Indiv(TransactorMI):
 	def __init__(self, sex=None, economy=None):
 		if sex:
 			self.sex = sex
@@ -68,7 +101,8 @@ class Indiv(object):
 		self.siblings = list()
 		self.spouse = None
 		self._children = list()  #use list to track birth order
-		self.accounts = list()  #accounts[0] is the cash acct
+		self._cash = 0
+		self._accounts = list()  #accounts[0] is the cash acct
 		self.employers = set()
 		self.contracts = dict(labor=[], capital=[])
 		self._locked = True
@@ -99,9 +133,9 @@ class Indiv(object):
 		for kid in kids:
 			self.adopt(kid)
 	def bear_children(self, sexes=None):
-		'''Return list of this Indiv's new kids.
+		"""Return list of this Indiv's new kids.
 		Used by Pop.append_new_cohort
-		'''
+		"""
 		assert self.spouse, "must be married"
 		assert (self.sex == 'F')  #only women can bear children
 		#need `newkids` to be a sequence
@@ -120,35 +154,23 @@ class Indiv(object):
 			#kid.siblings.update(my_kids) #TODO: better approaches?
 		return newkids
 	def open_account(self, fund, amt=0):
-		'''Return: None.
+		"""Return: None.
 
 		:param fund: Fund object to open account with
 		:param amt: initial deposit in new account
-		'''
-		assert (len(self.accounts) == 0) #TODO: eventually allow multiple accounts
+		"""
+		assert (len(self._accounts) == 0) #TODO: eventually allow multiple accounts
 		acct = fund.create_account(self, amt=amt)
-		self.accounts.append(acct)
-	def receive_income(self, amt):
-		assert(amt >= 0)  #this is just sign checking
-		self.accounts[0].receive_income(amt)
-	def payout(self, amt):  #redundant; just for ease of reading and sign check
-		assert(amt >= 0)
-		self.accounts[0].withdraw(amt)
-	def calc_wealth(self):
-		wealth = 0
-		for acct in self.accounts:
-			wealth += acct.get_value()
-		return wealth
+		self._accounts.append(acct)
 
-class Fund(object):
-	'''Basic financial institution.
+class Fund(TransactorMI):
+	"""Basic financial institution.
 	Often just for accounting (e.g., handling transfers)
 	Currently only individuals should hold fund accounts.
-	'''
+	"""
 	def __init__(self, account_type, economy):
 		self.account_type = account_type
 		self.economy = economy  #TODO: rethink
-		self.net_worth = 0
 		self._accounts = list()
 		self._locked = True
 	def __setattr__(self, attr, val):
@@ -157,9 +179,9 @@ class Fund(object):
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
 	def calc_accts_value(self):
-		return sum( acct.get_value() for acct in self._accounts )
+		return sum( acct.get_worth() for acct in self._accounts )
 	def create_account(self, indiv, amt = 0):
-		assert len(indiv.accounts)==0,\
+		assert len(indiv._accounts)==0,\
 		"num accts shd be 0 but is %d"%(len(self._accounts))
 		acct = self.account_type(self, indiv, amt)
 		self._accounts.append(acct)
@@ -175,52 +197,34 @@ class Fund(object):
 		else:
 			raise ValueError("Unknown contract type.")
 		return result
-	def receive_income(self, amt):
-		assert(amt >= 0)  #this is just sign checking
-		self.net_worth += amt
-	def payout(self, amt):
-		assert(amt >= 0)  #this is just sign checking
-		self.net_worth -= amt
 	def distribute_gains(self):
 		raise NotImplementedError
 
-class FundAccount(object):
+class FundAccount(TransactorMI):
 	def __init__(self, fund, indiv, amt=0):
 		self.fund = fund
 		self.owner = indiv
-		self._value = amt
+		self._cash = amt	#needed by TransactorMI
 		self._locked = True
 	def __setattr__(self, attr, val):
 		"""Lock. (Allow no new attributes.)"""
 		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val 
-	def receive_income(self, amt): #deposits
-		assert(amt >= 0)
-		self._value += amt
-	def payout(self, amt): #withdrawals (redundant; just for convenience and error checking)
-		assert(amt >= 0)
-		self._value -= amt
 	def close(self):
-		assert (-1e-9 < self._value < 1e-9),\
+		assert (-1e-9 < self.get_worth() < 1e-9),\
 		"Zero value required to close acct."
 		self.fund.close_account(self)
-	def transferto(self, recipient, amt):  #ugly; have the fund make transfer?
-		assert (0 <= amt < self.owner.calc_wealth()+1e-9)
-		self.payout(amt)
-		recipient.receive_income(amt)
-	def get_value(self):
-		return self._value
 
 class Cohort(tuple):
-	'''Basic cohort class.
+	"""Basic cohort class.
 
-	:note: must override ``marry``
-	'''
+	:note: must override `marry`
+	"""
 	def __init__(self, seq):
-		'''
+		"""
 		:note: tuple.__init__(self, seq) not needed bc tuples are immutable
-		'''
+		"""
 		self._age = 0
 		self.males = tuple(indiv for indiv in self if indiv.sex=='M')
 		self.females = tuple(indiv for indiv in self if indiv.sex=='F')
@@ -261,9 +265,9 @@ class Population(list):  #provide a list of Cohort tuples
 	def get_size(self):
 		return sum( len(cohort) for cohort in self )  #assumes cohort only contains living
 	def get_new_dead(self):
-		'''Return: new_dead (sequence)
+		"""Return: new_dead (sequence)
 		Removes dead from population, sets alive=False, and returns them as sequence.
-		'''
+		"""
 		dead = self.pop(0)                     #remove dead cohort from population
 		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
 			assert (indiv.alive == True) #just an error check
@@ -273,18 +277,18 @@ class Population(list):  #provide a list of Cohort tuples
 		for cohort in self:
 			cohort.increment_age()
 	def marry(self):
-		'''Return: None.
-		'''
+		"""Return: None.
+		"""
 		params = self.economy.params
 		newlyweds = self[params.AGE4MARRIAGE-1] #Marry within one cohort.  TODO: change this eventually.
 		for indiv in newlyweds:
 			assert (indiv.spouse is None)
 		newlyweds.marry(params.MATING)  #TODO: change to a Pop method??
 	def get_new_cohort(self, parents):
-		'''Return: COHORT
+		"""Return: COHORT
 		Called by evolve.
 		Number and sexes determined by params.KIDSEXGEN
-		'''
+		"""
 		cohort_type = self[0].__class__
 		params = self.economy.params
 		#currently handle parthenogenic economies as all female and impose marriage  TODO
@@ -306,14 +310,14 @@ class Population(list):  #provide a list of Cohort tuples
 		return ( indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F') )
 	def calc_dist(self):
 		params = self.params
-		#return calc_gini( indiv.calc_wealth() for indiv in self.gen_indivs() )
+		#return calc_gini( indiv.get_worth() for indiv in self.gen_indivs() )
 		return  params.calc_dist(self)
 
-class State(object):
+class State(TransactorMI):
 	def __init__(self, economy):
 		self.economy = economy
 		self.params = economy.params
-		self.net_worth = 0
+		self._cash = 0
 		self._locked = True
 	def __setattr__(self, attr, val):
 		"""Lock. (Allow no new attributes.)"""
@@ -321,14 +325,10 @@ class State(object):
 			raise ValueError("This object accepts no new attributes.")
 		self.__dict__[attr] = val
 	def tax_estate(self, indiv):
-		estate = indiv.calc_wealth()
+		estate = indiv.get_worth()
 		tax = self.params.ESTATE_TAX(estate)
-		self.economy.transfer(indiv, self, tax)  #is this best? (having economy handle transfers?)
-	def receive_income(self, amt):
-		self.net_worth += amt  #TODO: cd parameterize an inefficiency here
-	def payout(self, amt):
-		print self.net_worth
-		self.net_worth -= amt
+		#call module level `transfer` function  #is this best? (or having economy handle transfers?)
+		transfer(payer=indiv, payee=self, amount=tax)
 
 class EconomyParams(object): #default params, needs work
 	"""This is just a simple example of one way to group
