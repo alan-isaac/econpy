@@ -117,6 +117,7 @@ def distribute(wtotal, units, gini, shuffle=False):
 	:note: lots of copying! (not good for very large number of households)
 	:note: need to compute number of units *before* distributing.
 	:todo: eliminate redundant error checks
+	:comment: uses Indiv methods ...
 	'''
 	units = list(units)
 	logging.debug("""Enter utilities.distribute.
@@ -133,7 +134,7 @@ def distribute(wtotal, units, gini, shuffle=False):
 		rng.shuffle(shares)
 	w = ( wtotal*share for share in shares )
 	for w_i in w:
-		units.pop().receive_income(w_i)   #ADD to individual wealth
+		units.pop().payin(w_i)   #ADD to individual wealth
 	assert (not units),  "Length shd now be zero."
-	logging.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,calc_gini( i.calc_wealth() for i in units2 )))
+	logging.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,calc_gini( i.get_worth() for i in units2 )))
 
