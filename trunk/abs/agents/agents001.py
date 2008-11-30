@@ -54,9 +54,9 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2008-11-29'
 
-def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here, cd be a fn
-	payer.payout(amount)
-	payee.payin(amount)
+
+
+#################  module specific exceptions  ########################
 
 class AbsError(Exception):
 	"""Base class for exceptions in this module."""
@@ -66,22 +66,41 @@ class InsufficientFundsError(AbsError):
 	"""Raised when payout exceeds net worth."""
 	pass
 
+class NegativeTransferError(AbsError):
+	"""Raised when payout exceeds net worth."""
+	pass
+
+
+#####################  global functions  ###############################
+
+def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here, cd be a fn
+	if amount < 0:
+		raise NegativeTransferError("Transfers must be nonnegative.")
+	payer.payout(amount)
+	payee.payin(amount)
+
+
+####################  basic agent classes  #############################
+
 class TransactorMI(object):
 	"""
-	Provides `payin` and `payout` methods.
-	Requires a `_cash` attribute.
+	Provides a basic transactor mixin,
+	with `payin` and `payout` methods,
+	which increment or decrement
+	the `_cash` instance attribute.
+	:todo: accommodate multiple accounts
 	"""
 	_cash = 0
 	_accounts = ()
 	def payin(self, amt):
-		assert(amt >= 0)  #this is just sign checking; TODO: move to transaction
+		assert(amt >= 0)
 		self._cash += amt
-	def payout(self, amt):  #redundant; just for ease of reading and sign check
+	def payout(self, amt):
 		assert(amt >= 0)
 		if self.get_worth() < amt:
 			raise InsufficientFundsError
 		else:
-			self._cash -= amt   #TODO: accommodate multiple accounts
+			self._cash -= amt
 	def get_worth(self):
 		result = self._cash
 		for acct in self._accounts:
@@ -97,7 +116,8 @@ class Indiv(TransactorMI):
 			self.state = economy.state
 		self.alive = True
 		self.age = 0
-		self.parents = None
+		#list of *living* parents
+		self.parents = list()
 		self.siblings = list()
 		self.spouse = None
 		self._children = list()  #use list to track birth order
@@ -126,23 +146,27 @@ class Indiv(TransactorMI):
 			script_logger.warn("New spouse already has kids.")
 			self.adopt_children(newkids)
 	def adopt(self,child): #used by bear_children
+		"""Return: None.
+		Note that `adopt` just establishes parent-child relationship."""
 		mykids = self._children
 		assert (child not in mykids)
 		mykids.append(child)
 	def adopt_children(self, kids):
+		"""Return: None.
+		:see: `adopt` """
 		for kid in kids:
 			self.adopt(kid)
 	def bear_children(self, sexes=None):
 		"""Return list of this Indiv's new kids.
 		Used by Pop.append_new_cohort
 		"""
-		assert self.spouse, "must be married"
+		assert self.spouse, "for now, must be married (i.e., paired)"
 		assert (self.sex == 'F')  #only women can bear children
 		#need `newkids` to be a sequence
 		newkids = [self.__class__(sex=s,economy=self.economy) for s in sexes]
 		for kid in newkids:
-			#mother's spouse is assumed to be biological parent
-			kid.parents = (self.spouse, self) #father,mother (biological)
+			#mother's spouse is assumed to be a parent
+			kid.parents = [self.spouse, self] #father,mother (biological)
 			self.adopt(kid)
 			self.spouse.adopt(kid)  #TODO: but maybe a child shd be born to a household???
 		#each kid will know its siblings directly (not just via parents) chk
@@ -153,6 +177,32 @@ class Indiv(TransactorMI):
 					kid.siblings.append(sib)
 			#kid.siblings.update(my_kids) #TODO: better approaches?
 		return newkids
+	def liquidate(self):
+		"""Return: None.
+		Pay estate tax; distribute estate; close out accounts.
+		"""
+		assert (self.alive is False)
+		self.state.tax_estate(self)
+		self.distribute_estate()
+		#close accounts
+		assert abs(self.get_worth())<1e-5
+		for acct in self._accounts:
+			acct.close()  #acct asks its fund to close it
+		#inform kids
+		for k in self._children:
+			k.parents.remove(self)
+	def distribute_estate(self):
+		assert (self.alive is False)
+		self.economy.BEQUEST_FN(self)
+	def gift2kids(self,amt):
+		"""Return: None.
+		Distribute `amt` equally among one's kids."""
+		assert (0 <= amt <= self.get_worth()),\
+		"Cannot distribute %s with wealth %s"%(amt,self.get_worth())
+		kids = self._children()
+		n = len(kids)
+		for kid in kids:
+			agents001.transfer(payer=self, payee=kid, amount=amt/n)
 	def open_account(self, fund, amt=0):
 		"""Return: None.
 
@@ -164,7 +214,7 @@ class Indiv(TransactorMI):
 		self._accounts.append(acct)
 
 class Fund(TransactorMI):
-	"""Basic financial institution.
+	"""Provides a basic financial institution.
 	Often just for accounting (e.g., handling transfers)
 	Currently only individuals should hold fund accounts.
 	"""
@@ -201,6 +251,7 @@ class Fund(TransactorMI):
 		raise NotImplementedError
 
 class FundAccount(TransactorMI):
+	"""Provides a basic security (account)."""
 	def __init__(self, fund, indiv, amt=0):
 		self.fund = fund
 		self.owner = indiv
@@ -217,9 +268,9 @@ class FundAccount(TransactorMI):
 		self.fund.close_account(self)
 
 class Cohort(tuple):
-	"""Basic cohort class.
+	"""Provide a basic cohort class.
 
-	:note: must override `marry`
+	:note: user must override `marry`
 	"""
 	def __init__(self, seq):
 		"""
@@ -249,11 +300,12 @@ class Cohort(tuple):
 		for indiv in self:
 			indiv.age += 1
 	def marry(self,mating):  #TODO: rename
-		raise NotImplementedError
+		return NotImplemented
 	def have_kids(self,mating):  #TODO: rename
-		raise NotImplementedError
+		return NotImplemented
 
-class Population(list):  #provide a list of Cohort tuples
+class Population(list):
+	"""Provide a basic population as a list of `Cohort` instances."""
 	def evolve(self):  #this will be called each "tick" of the economy
 		raise NotImplementedError
 	def have_kids(self):
@@ -269,8 +321,8 @@ class Population(list):  #provide a list of Cohort tuples
 		Removes dead from population, sets alive=False, and returns them as sequence.
 		"""
 		dead = self.pop(0)                     #remove dead cohort from population
+		assert all(indiv.alive for indiv in dead) #just an error check
 		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
-			assert (indiv.alive == True) #just an error check
 			indiv.alive = False
 		return dead
 	def age_ppl(self):
@@ -314,6 +366,7 @@ class Population(list):  #provide a list of Cohort tuples
 		return  params.calc_dist(self)
 
 class State(TransactorMI):
+	"""Provide a basic state for estate taxation."""
 	def __init__(self, economy):
 		self.economy = economy
 		self.params = economy.params
@@ -353,7 +406,9 @@ class EconomyParams(object): #default params, needs work
 		self.SHUFFLE_NEW_W = False
 		self.MSHARE = 0.5
 		self.FSHARE = 0.5
+		################################################
 		#### ALWAYS provide new values for the following
+		################################################
 		self.N_YEARS = 0
 		self.ESTATE_TAX = None
 		self.BEQUEST_TYPE = None
