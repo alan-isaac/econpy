@@ -21,11 +21,14 @@ class SimpleTable:
 		mydata = [[11,12],[21,22]]
 		myhdrs = "Column 1", "Column 2"
 		mystubs = "Row 1", "Row 2"
+		tbl = SimpleTable(mydata, myhdrs, mystubs)
+		print( tbl.as_csv() )
 		tbl = SimpleTable(mydata, myhdrs, mystubs, title="Title")
 		print( tbl.as_text() )
 		print( tbl.as_latex_tabular() )
 	"""
-	def __init__(self, data, headers=(), stubs=(), title='', txt_fmt=None, ltx_fmt=None):
+	def __init__(self, data, headers=(), stubs=(), title='',
+	csv_fmt=None, txt_fmt=None, ltx_fmt=None):
 		"""
 		:Parameters:
 			data : list of lists
@@ -38,6 +41,8 @@ class SimpleTable:
 				text formatting options
 			ltx_fmt : dict
 				latex formatting options
+			csv_fmt : dict
+				csv formatting options
 		"""
 		self.data = data
 		self.headers = headers
@@ -46,7 +51,9 @@ class SimpleTable:
 		#start with default formatting
 		self.txt_fmt = self.default_txt_fmt()
 		self.ltx_fmt = self.default_ltx_fmt()
+		self.csv_fmt = self.default_csv_fmt()
 		#substitute any user specified formatting
+		self.csv_fmt.update(csv_fmt or dict())
 		self.txt_fmt.update(txt_fmt or dict())
 		self.ltx_fmt.update(ltx_fmt or dict())
 	def __str__(self):
@@ -77,13 +84,18 @@ class SimpleTable:
 			s = s.center(width)
 		return s
 	def format_data(self, fmt_dict):
+		"""Return list of lists,
+		the formatted data (without headers or stubs).
+		Note: does *not* replace `self.data`."""
 		data_fmt = fmt_dict.get('data_fmt','%s')
 		return [[(data_fmt%drk).strip() for drk in dr] for dr in self.data] #is the 'strip' wise?
 	def format_headers(self, fmt_dict, headers=None):
+		"""Return list, the formatted headers."""
 		header_fmt = fmt_dict.get('header_fmt','%s')
 		headers2fmt = headers or self.headers
 		return [header_fmt%header for header in headers2fmt]
 	def format_stubs(self, fmt_dict, stubs=None):
+		"""Return list, the formatted stubs."""
 		stub_fmt = fmt_dict.get('stub_fmt','%s')
 		stubs2fmt = stubs or self.stubs
 		return [stub_fmt%stub for stub in stubs2fmt]
@@ -95,6 +107,16 @@ class SimpleTable:
 			data.insert(0,headers)
 		if stubs and headers:
 			data[0].insert(0,'')
+	def default_csv_fmt(self):
+		dcf = dict(colsep=',', table_dec_above='', table_dec_below='', header_dec_below='', title_align='')
+		colaligns = "l"*(len(self.data[0]))
+		if self.stubs:
+			colaligns = "l" + colaligns
+		dcf['colaligns'] = colaligns
+		dcf['data_fmt'] = '%s'
+		dcf['header_fmt'] = '"%s"'
+		dcf['stub_fmt'] = '"%s"'
+		return dcf
 	def default_txt_fmt(self):
 		dtf = dict(colsep=' ', table_dec_above='=', table_dec_below='-', header_dec_below='-', title_align='c')
 		colaligns = "c"*(len(self.data[0]))
@@ -114,6 +136,12 @@ class SimpleTable:
 		dlf['header_fmt'] = "\\textbf{%s}"
 		dlf['stub_fmt'] = "\\textbf{%s}"
 		return dlf
+	def as_csv(self, **fmt):
+		#fetch the format, which may just be default_csv_format
+		fmt_dict = self.csv_fmt.copy()
+		#update format using `fmt`
+		fmt_dict.update(fmt)
+		return self.as_text(**fmt_dict).replace(' ','')
 	def as_text(self, **fmt):  #allow changing fmt here?
 		fmt_dict = self.txt_fmt.copy()
 		fmt_dict.update(fmt)
