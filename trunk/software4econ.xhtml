@@ -941,7 +941,7 @@ Note that a successful translation into HTML or MathML can subsequently be read 
     <li>Ian Hutchinson's <a href="http://hutchinson.belmont.ma.us/tth/">
     TtH translator</a>, which does amazingly well in converting <b>T<sub>E</sub>X</b> math to HTML using the built-in fonts of your computer.
     The <a href="http://hutchinson.belmont.ma.us/tth/tth-noncom/tth_exe.zip">MSDoS executable</a>, which runs from the DOS prompt under Windows, may be used for non-commercial purposes only.
-    Hutchinson also offers a <a href="http://hutchinson.belmont.ma.us/tth/mml/"><b>T<sub>E</sub>X</b> to MathML</a> converter, which should soon be very useful (i.e., as soon as browsers and word processors support MathML).
+    Hutchinson also offers a <a href="http://hutchinson.belmont.ma.us/tth/mml/"><b>T<sub>E</sub>X</b> to MathML</a> converter, which should soon be very useful (i.e., as soon as more browsers and word processors support MathML).
     </li>
     <li><a href="http://para.inria.fr/~maranget/hevea/">HeVeA</a> converts  <b>T<sub>E</sub>X</b> to HTML 4.0 transitional.
     </li>
@@ -1669,6 +1669,8 @@ and the R mailing list archives.
 Mac users should be sure to visit the <a href="http://r.research.att.com/">R for Mac OS X Developers page</a>,
 where they will also find a useful <a href="#gfortran">gfortran</a>.
 You can call R from other languages, including Python.
+Do not overlook <a href="http://sourceforge.net/projects/tinn-r">Tinn-R</a>,
+a nice replacement for the basic code editor provided by Rgui. (License: GPL)
 (See the <a href="#rproject_hints">R hints</a>.)
 </li>
 <li id="gretl">
@@ -1719,6 +1721,7 @@ It is used in many AU economics courses.
 You can download
 <a href="http://www.eviews.com/eviews3/eviews31/ev31hlp-04.zip
 ">the help file</a> even if you do not own the software.
+There is a <a href="http://forums.eviews.com/">user forum</a>.
 <div class="boxed">See <a href="#evhints">EViews user hints</a>.
 </div>
 </li>
@@ -2048,7 +2051,7 @@ This is probably the simplest powerful way to put math on the web.
 Another interesting approache is <a href="http://www1.chapman.edu/~jipsen/mathml/asciimath.html">ASCIIMathML</a>,
 which simply includes LaTeX-like math in a normal HTML file.
 (A clever javascript produces the MathML.)
-Mozilla based browsers have excellent native MathML support,
+Mozilla based <a href="#browsers">browsers</a> have excellent native MathML support,
 so they work well with ASCIIMathML.
 (But you need to <a href="http://web.mit.edu/ist/topics/webpublishing/mathml/fonts-win.html">install the math fonts</a>.
 Opera through version 7.5 provides no MathML support beyond entities, so it does not display ASCIIMathML.
@@ -2069,21 +2072,37 @@ or with the closely related <a href="http://pear.math.pitt.edu/mathzilla/tex4moz
 
 <h3 id="browsers">Browsers</h3>
 
-<p class="boxed">
-<a href="http://www.american.edu/technology/sites/helpdesk/content.cfm?ID=809">American University recommends</a> that students and staff use the <a href="http://www.mozilla.org/products/firefox/">FireFox</a> browser,
-especially when using BlackBoard.
+
+<p>
+I like two browsers: FireFox and Opera.
+I have been hearing some good things about Chrome.
+At version 7, Internet Explorer is finally usable with limited CSS,
+but still radically fails the Acid tests,
+and still lacks support of SVG graphics, MathML, and even simple XHTML.
+So, do not use IE unless required by your workplace,
+and then prepare to suffer.
 </p>
 
 <p>
-Do yourself a favor get a <a href="http://www.webstandards.org/act/campaign/buc/">decent browser</a>.
-I like two: FireFox and Opera.
+If you want to test your browser for standards compliance,
+start with the <a href="http://acid3.acidtests.org/">Acid 3 tests</a>.
+You might also want to look at handling of
+<a href="http://www.w3.org/Math/testsuite/">MathMl</a>,
+<a href="http://www.w3.org/Graphics/SVG/WG/wiki/Test_Suite_Overview">SVG graphics</a>,
+or even a very simple <a href="http://tantek.com/XHTML/Test/minimal.html">XHTML</a>.
+(Be sure to look at the tests where the document is <a href="http://tantek.com/XHTML/Test/xhtmlwithprolog.xml">served as XML</a>.)
+</p>
+
+<p>
 <a href="http://www.opera.com">Opera</a> is relatively small, very fast, extremely reliable, <a href="http://www.w3.org/">W3C</a>-standards oriented, available on many platforms, and has a fully functional free version.
 (See the <a href="#opera-hints">Opera hints</a> below.)
+Last I looked, it did best on the Acid 3 tests.
 <a href="http://www.mozilla.org/products/firefox/">FireFox</a> (based on <a href="http://www.mozilla.org/">Mozilla</a>) is a free-and-open-source, cross-platform browser that emphasizes the support of open standards.
 FireFox is currently (2004) the only browser with native MathML support.
 (See the <a href="#firefoxhints">FireFox hints</a> below.)
 A Windows-specific implementation of the mozilla rendering engine is <a href="http://kmeleon.sourceforge.net/">K-Meleon</a>,
 which gets rave reviews.
+Google's <a href="http://www.google.com/chrome">Chrome</a> browser is getting good reviews for speed and design.
 A "freeware" browser for Windows that relies on the IE rendering engine is <a href="http://www.crazybrowser.com/">CrazyBrowser</a>,
 which provides functionality beyond IE (e.g., tabbed browsing even for those with IE6).
 A "donation ware" browser for Windows that relies on the IE rendering engine is <a href="http://www.myie2.com/html_en/home.htm">MyIE2</a>.
@@ -3052,7 +3071,8 @@ and possibly
 Glenn Reid's <a href="http://www.rightbrain.com/pages/books.html">Thinking in PostScript</a>.
 Finally, you will probably want the <a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a> 
 (also known as the Red Book) by Adobe Systems.
-There is a metalist of  <a href="http://www.geocities.com/SiliconValley/5682/postscript.html">Internet Resources for PostScript and GhostScript</a> and a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
+Jim Land offers a metalist of  <a href="http://www.inkguides.com/postscript.asp">Internet Resources for PostScript and GhostScript</a>,
+and there is a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
 <a href="http://www.acumentraining.com/acumen_journal.html">Acumen Journal</a> 
 publishes PostScript code examples.
 So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScript Library</a>.
@@ -3931,13 +3951,18 @@ and quite functional
 <a href="http://www.citadel.org/">Citadel</a> is a promising groupware application.
 </p>
 
-<h4>Calendars</h4>
+<h4 id="calendars">Calendars</h4>
 
 <p>
 There are lots of good calendars out there.
 But for the "always connected"
 I have not been able to beat Google Calendar.
 (I have not tried to use it offline.)
+Note that you can <a href="http://www.downloadsquad.com/2008/01/14/google-calendar-now-available-on-your-firefox-sidebar/">add Google Calendar to your FireFox sidebar</a>:
+just bookmark <a href="http://www.google.com/calendar/gadget?up_showAgenda=false&upt_showAgenda=hidden&up_calendarFeeds=({})&upt_calendarFeeds=hidden&up_firstDay=0&upt_firstDay=enum&up_dateFormat=0&upt_dateFormat=enum&up_timeFormat=1:00pm&upt_timeFormat=enum&up_calendarFeedsImported=0&upt_calendarFeedsImported=hidden&up_showCalendar2=1&upt_showCalendar2=bool&lang=en&country=us&.lang=en&.country=us&synd=ig&mid=0&parent=&libs=9yKJTwdwCZw/lib/libcore.js,DXEULJSfpLM/lib/libdynamic-height.js,c64nWSZKWFg/lib/libsetprefs.js">this link</a>
+and add it to your sidebar.
+Comment: if you ever see a corrupted screen when viewing Google Calendar,
+try clearing your browser's cache and cookies.
 </p>
 
 <p>
@@ -4688,19 +4713,21 @@ most people will think first of <a href="http://www.linux.org">GNU Linux</a>,
 an excellent, free, Open Source version of the Unix operating system.
 Another popular free and open source Unix relative is <a href="http://www.freebsd.org/">FreeBSD</a>.
 Another popular version of the Unix operating system is <a href="http://www.sun.com">Solaris</a>,
-which used to have a free academic license (but I cannot find that anymore).
-There are much smaller yet excellent free alternatives.
-I will first mention a couple that are off the beaten track.
+which is available as <a href="http://www.opensolaris.com/">OpenSolaris</a>.</p>
+
+<p>
 <a href="http://cm.bell-labs.com/plan9/">Plan 9</a> is roughly a faster, more secure multi-processor Unix.
 There is now an open source implementation of <a href="http://haiku-os.org/">BeOS</a>.
-<a href="http://get.qnx.com/">QNX's Neutrino Real Time Operating System</a> is also a compact and stable operating systems.
-(Both can install and run within Windows,
-and thus do not require a separate partition or boot loader!
+(Can install and run within Windows.)
 There are also <a href="http://www.bebits.com/">free applications</a>, of course.)
+<a href="http://get.qnx.com/">QNX's Neutrino Real Time Operating System</a> is also a compact and stable operating systems.
+(Can install and run within Windows,
+and thus does not require a separate partition or boot loader!)
 An interesting effort to produce an open source substitute for Windows NT is <a href="http://www.reactos.com/">ReactOS</a>, which already has basic console functionality.
 A few people may also be interested in <a href="http://www.freedos.org/freedos/about/">FreeDOS</a>.
 And for those seeking the bleeding edge,
-there is <a href="http://unununium.org/">Unununium</a>.
+there is <a href="http://unununium.org/">Unununium</a>
+(but I have had trouble with the link lately).
 </p>
 
 <div>
@@ -7192,13 +7219,14 @@ using gnuplot.
 <h3 id="firefoxhints">FireFox hints</h3>
 
 <p>
-I am among the many users find the <a href="http://www.extensionsmirror.nl/">Session Saver</a> plug-in to be an indispensible FireFox extension.
-Also, I find the <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a> add-on very useful:
-it replaces the practice of keeping many tabs open with site links on a single page.
+I consider two plugins to be indispensible:
+<a href="http://www.extensionsmirror.nl/">Session Saver</a>,
+and <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a>.
+(Taboo allows you to replace the practice of keeping many tabs open with a single page of site links.)
 </p>
 
 <p>
-FireFox supports the <a href="http://www.mozilla.org/projects/calendar/sunbird.html">SunBird</a> calendar application.
+FireFox supports the <a href="#calendars">SunBird</a> calendar application.
 </p>
 
 
