@@ -4,18 +4,22 @@ Simple text utilities.
 - WordFreq
 
 :contact: alan dot isaac at gmail dot com
-:date: 2008-08-28
+:date: 2008-12-19
 """
 from __future__ import division, with_statement
-import sys, string, itertools
+import sys, string
+from itertools import izip
 from collections import defaultdict
 
 class SimpleTable:
-	"""Produce a simple ASCII or LaTeX table from a 2D array of data.
-	`data` is 2D rectangular iterable: lists of lists of text.
-	At most one header row, which is length of data[0] (+1 if stubs)
-	At most one stubs column, which must have length of data.
-	See methods `default_txt_fmt` and `default_ltx_fmt` for formatting options.
+	"""Produce a simple ASCII, CSV, or LaTeX table from a
+	rectangular array of data, presumed to be numerical. 
+	Supports at most one header row,
+	which must be the length of data[0] (or +1 if stubs).
+	Supports at most one stubs column, which must be the length of data.
+	See methods `default_txt_fmt`, `default_csv_fmt`,
+	and `default_ltx_fmt` for formatting options.
+
 	Sample use::
 
 		mydata = [[11,12],[21,22]]
@@ -31,7 +35,7 @@ class SimpleTable:
 	csv_fmt=None, txt_fmt=None, ltx_fmt=None):
 		"""
 		:Parameters:
-			data : list of lists
+			data : list of lists or 2d array
 				R rows by K columns of table data
 			headers: tuple
 				sequence of K strings, one per header
@@ -58,8 +62,11 @@ class SimpleTable:
 		self.ltx_fmt.update(ltx_fmt or dict())
 	def __str__(self):
 		return self.as_text()
-	def calc_colwidths(self, data):
-		return [max(len(d) for d in c) for c in itertools.izip(*data)]
+	def calc_colwidths(self, datastrings):
+		"""Return list of int,
+		the max width for each column of `datastrings`.
+		Note that `datastrings` is a rectangular iterable of strings."""
+		return [max(len(d) for d in c) for c in izip(*datastrings)]
 	def format_rows(self, data, colwidths, colaligns, colsep, pre='', post=''):
 		"""Return: list of list of strings,
 		the formatted data with headers and stubs.
@@ -76,6 +83,8 @@ class SimpleTable:
 			rows.append( pre + colsep.join(cols) + post )
 		return rows
 	def pad(self, s, width, align):
+		"""Return string padded with spaces,
+		based on alignment parameter."""
 		if align == 'l':
 			s = s.ljust(width)
 		elif align == 'r':
@@ -99,8 +108,8 @@ class SimpleTable:
 		stub_fmt = fmt_dict.get('stub_fmt','%s')
 		stubs2fmt = stubs or self.stubs
 		return [stub_fmt%stub for stub in stubs2fmt]
-	def merge_table_parts(self, data, headers, stubs): #avoids copy but too implicit ...
-		#insert stubs and headers
+	def merge_table_parts(self, data, headers, stubs): #avoids copy; too implicit?
+		"""Return None. Insert stubs and headers into `data`."""
 		for i in range(len(stubs)):
 			data[i].insert(0,stubs[i])
 		if headers:
@@ -118,7 +127,12 @@ class SimpleTable:
 		dcf['stub_fmt'] = '"%s"'
 		return dcf
 	def default_txt_fmt(self):
-		dtf = dict(colsep=' ', table_dec_above='=', table_dec_below='-', header_dec_below='-', title_align='c')
+		dtf = dict(
+			colsep=' ',
+			table_dec_above='=',
+			table_dec_below='-',
+			header_dec_below='-',
+			title_align='c')
 		colaligns = "c"*(len(self.data[0]))
 		if self.stubs:
 			colaligns = "l" + colaligns
@@ -126,7 +140,11 @@ class SimpleTable:
 		dtf['data_fmt'] = "%s"
 		return dtf
 	def default_ltx_fmt(self):
-		dlf = dict(colsep=' & ', table_dec_above=r'\toprule', table_dec_below=r'\bottomrule', header_dec_below=r'\midrule')
+		dlf = dict(
+			colsep=' & ',
+			table_dec_above=r'\toprule',
+			table_dec_below=r'\bottomrule',
+			header_dec_below=r'\midrule')
 		colaligns = "c"*(len(self.data[0]))
 		if self.stubs:
 			colaligns = "l" + colaligns
@@ -137,12 +155,15 @@ class SimpleTable:
 		dlf['stub_fmt'] = "\\textbf{%s}"
 		return dlf
 	def as_csv(self, **fmt):
+		"""Return string, the table in CSV format.
+		Currently only supports comma separator."""
 		#fetch the format, which may just be default_csv_format
 		fmt_dict = self.csv_fmt.copy()
 		#update format using `fmt`
 		fmt_dict.update(fmt)
 		return self.as_text(**fmt_dict).replace(' ','')
 	def as_text(self, **fmt):  #allow changing fmt here?
+		"""Return string, the table as text."""
 		fmt_dict = self.txt_fmt.copy()
 		fmt_dict.update(fmt)
 		#data_fmt="%s", header_fmt="%s", stub_fmt="%s", colsep=" ", colaligns='', colwidths=(), header_dec=''):
@@ -176,7 +197,8 @@ class SimpleTable:
 			end = below*headerlen + "\n" + end
 		return begin + "\n" + '\n'.join(rows) + "\n" + end
 	def as_latex_tabular(self, **fmt):
-		'''Requires the booktabs package'''
+		'''Return string, the table as a LaTeX tabular environment.
+		Note: will equire the booktabs package.'''
 		fmt_dict = self.ltx_fmt.copy()
 		fmt_dict.update(fmt)
 		ltx_data = self.format_data(fmt_dict)
