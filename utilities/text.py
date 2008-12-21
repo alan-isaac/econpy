@@ -7,35 +7,41 @@ Note that this module depends only on the Python standard library.
 You can "install" it just by dropping it into your working directory.
 
 :contact: alan dot isaac at gmail dot com
-:date: 2008-12-19
 :requires: Python 2.5.1+
+:todo: add support for recarray to SimpleTable
+:todo: allow user access to 2d matrix of strings (the table or table data)
+:date: 2008-12-21
 """
 from __future__ import division, with_statement
 import sys, string
-from itertools import izip
+from itertools import izip, cycle
 from collections import defaultdict
 
 class SimpleTable:
 	"""Produce a simple ASCII, CSV, or LaTeX table from a
-	rectangular array of data, presumed to be numerical. 
+	rectangular array of data, not necessarily numerical. 
 	Supports at most one header row,
 	which must be the length of data[0] (or +1 if stubs).
 	Supports at most one stubs column, which must be the length of data.
 	See methods `default_txt_fmt`, `default_csv_fmt`,
 	and `default_ltx_fmt` for formatting options.
 
-	Sample use::
+	Sample uses::
 
 		mydata = [[11,12],[21,22]]
-		myhdrs = "Column 1", "Column 2"
+		myheaders = "Column 1", "Column 2"
 		mystubs = "Row 1", "Row 2"
-		tbl = SimpleTable(mydata, myhdrs, mystubs)
-		print( tbl.as_csv() )
-		tbl = SimpleTable(mydata, myhdrs, mystubs, title="Title")
+		tbl = text.SimpleTable(mydata, myheaders, mystubs, title="Title")
 		print( tbl.as_text() )
 		print( tbl.as_latex_tabular() )
+		#write table as CSV file
+		#  note column specific formatting
+		tbl = text.SimpleTable(mydata, myheaders, mystubs,
+			fmt={'data_fmt':["%3.2f","%d"]})
+		with open('c:/temp/temp.csv','w') as fh:
+			fh.write( tbl.as_csv() )
 	"""
-	def __init__(self, data, headers=(), stubs=(), title='',
+	def __init__(self, data, headers=(), stubs=(), title='', fmt=None,
 		csv_fmt=None, txt_fmt=None, ltx_fmt=None):
 		"""
 		:Parameters:
@@ -45,6 +51,8 @@ class SimpleTable:
 				sequence of K strings, one per header
 			stubs: tuple
 				sequence of R strings, one per stub
+			fmt : dict
+				formatting options
 			txt_fmt : dict
 				text formatting options
 			ltx_fmt : dict
@@ -61,29 +69,34 @@ class SimpleTable:
 		self.ltx_fmt = self.default_ltx_fmt()
 		self.csv_fmt = self.default_csv_fmt()
 		#substitute any user specified formatting
+		if fmt:
+			self.csv_fmt.update(fmt)
+			self.txt_fmt.update(fmt)
+			self.ltx_fmt.update(fmt)
 		self.csv_fmt.update(csv_fmt or dict())
 		self.txt_fmt.update(txt_fmt or dict())
 		self.ltx_fmt.update(ltx_fmt or dict())
 	def __str__(self):
 		return self.as_text()
-	#def _format_rows(self, data, colwidths, datacols_align, colsep, pre='', post=''):
-	def _format_rows(self, data, fmt_dict):
+	def _format_rows(self, tablestrings, fmt_dict):
 		"""Return: list of strings,
-		the formatted data with headers and stubs.
+		the formatted table data with headers and stubs.
+		Note that `tablestrings` is a rectangular iterable of strings.
 		"""
-		colwidths = self.get_colwidths(data, fmt_dict)
-		cols_align = self.get_cols_aligns(fmt_dict)
-		datacols_align = fmt_dict['datacols_align']
+		fmt = fmt_dict['fmt']
+		colwidths = self.get_colwidths(tablestrings, fmt_dict)
+		cols_aligns = self.get_cols_aligns(fmt_dict)
 		colsep = fmt_dict['colsep']
 		pre = fmt_dict.get('pre','')
 		post = fmt_dict.get('post','')
+		nrows = len(tablestrings)
 		rows = []
-		for row in data:
+		for row in tablestrings:
 			cols = []
-			for k in xrange(len(row)):
-				align = datacols_align[k]
+			for k in range(nrows):
+				d = row[k]
+				align = cols_aligns[k]
 				width = colwidths[k]
-				d = str(row[k])  #convert to string if nec
 				d = self.pad(d, width, align)
 				cols.append(d)
 			rows.append( pre + colsep.join(cols) + post )
@@ -103,7 +116,12 @@ class SimpleTable:
 		the formatted data (without headers or stubs).
 		Note: does *not* change `self.data`."""
 		data_fmt = fmt_dict.get('data_fmt','%s')
-		return [[(data_fmt%drk) for drk in dr] for dr in self.data]
+		if isinstance(data_fmt, str):
+			result = [[(data_fmt%drk) for drk in dr] for dr in self.data]
+		else:
+			fmt = cycle( data_fmt )
+			result = [[(fmt.next()%drk) for drk in dr] for dr in self.data]
+		return result
 	def format_headers(self, fmt_dict, headers=None):
 		"""Return list, the formatted headers."""
 		header_fmt = fmt_dict.get('header_fmt','%s')
@@ -134,7 +152,7 @@ class SimpleTable:
 		"""Return string, the table as text."""
 		fmt_dict = self.txt_fmt.copy()
 		fmt_dict.update(fmt)
-		#data_fmt="%s", header_fmt="%s", stub_fmt="%s", colsep=" ", datacols_align='', colwidths=(), header_dec=''):
+		#data_fmt="%s", header_fmt="%s", stub_fmt="%s", colsep=" ", data_aligns='', colwidths=(), header_dec=''):
 		#format the 3 table parts (data, headers, stubs) and merge in list of lists
 		# first get data as 2d list of strings (no headers or stubs)
 		txt_data = self._format_data(fmt_dict)
@@ -160,22 +178,27 @@ class SimpleTable:
 		if below:
 			end = below*headerlen + "\n" + end
 		return begin + "\n" + '\n'.join(rows) + "\n" + end
-	def get_colwidths(self, datastrings, fmt_dict):
+	def get_colwidths(self, tablestrings, fmt_dict):
 		"""Return list of int, the column widths.
 		Ensure comformable colwidths in `fmt_dict`.
-		Other, compute as the max width for each column of `datastrings`.
-		Note that `datastrings` is a rectangular iterable of strings.
+		Other, compute as the max width for each column of `tablestrings`.
+		Note that `tablestrings` is a rectangular iterable of strings.
 		"""
-		colwidths = fmt_dict.get('colwidths')
-		if colwidths is None or len(colwidths) != len(ltx_data[0]):
-			if fmt_dict.get('fmt') in ('txt', 'ltx'):
-				colwidths = [max(len(d) for d in c) for c in izip(*datastrings)]
-			else:
-				colwidths = [0] * len( datastrings[0] )
-		return colwidths
+		ncols = len(tablestrings[0])
+		request_widths = fmt_dict.get('colwidths')
+		if request_widths is None:
+			result = [0] * ncols
+		else:
+			min_widths = [max(len(d) for d in c) for c in izip(*tablestrings)]
+			if isinstance(request_widths, int):
+				request_widths = cycle([request_widths])
+			elif len(request_widths) != ncols:
+				request_widths = min_widths
+			result = [max(m,r) for m,r in izip(min_widths, request_widths)]
+		return result
 	def get_cols_aligns(self, fmt_dict):
 		"""Return string, sequence of column alignments.
-		Ensure comformable datacols_align in `fmt_dict`."""
+		Ensure comformable data_aligns in `fmt_dict`."""
 		ncols = len(self.data[0])
 		cols_aligns = fmt_dict.get('cols_aligns')
 		if cols_aligns is None or len(cols_aligns) != ncols:
@@ -186,10 +209,10 @@ class SimpleTable:
 					stubs_align = 'l'
 			else:
 				stubs_align = ''
-			datacols_align = fmt_dict.get('datacols_align')
-			if datacols_align is None:
-				datacols_align = 'c'
-			cols_aligns = stubs_align + datacols_align*(ncols)
+			data_aligns = fmt_dict.get('data_aligns')
+			if data_aligns is None:
+				data_aligns = 'c'*(ncols)
+			cols_aligns = stubs_align + data_aligns
 		return cols_aligns
 	def as_latex_tabular(self, **fmt):
 		'''Return string, the table as a LaTeX tabular environment.
@@ -206,10 +229,10 @@ class SimpleTable:
 		self.merge_table_parts(ltx_data, ltx_headers, ltx_stubs)
 		#this just formats output; add real colwidths?
 		fmt_dict['post'] = r'  \\'
-		#rows = self._format_rows(ltx_data, datacols_align, colsep, post=)
+		#rows = self._format_rows(ltx_data, data_aligns, colsep, post=)
 		rows = self._format_rows(ltx_data, fmt_dict)
-		datacols_align = fmt_dict['datacols_align']
-		begin = r'\begin{tabular}{%s}'%datacols_align
+		data_aligns = fmt_dict['data_aligns']
+		begin = r'\begin{tabular}{%s}'%data_aligns
 		above = fmt_dict['table_dec_above']
 		if above:
 			begin += "\n" + above + "\n"
@@ -226,6 +249,7 @@ class SimpleTable:
 	def default_csv_fmt(self):
 		dcf = dict(
 			data_fmt = '%s',
+			colwidths = None,
 			colsep = ',',
 			table_dec_above = '',
 			table_dec_below = '',
@@ -233,28 +257,25 @@ class SimpleTable:
 			title_align = '',
 			header_fmt = '"%s"',
 			stub_fmt = '"%s"',
+			data_aligns = "l"*(len(self.data[0])),
+			stubs_align = "l",
 			fmt = 'csv',
 			)
-		datacols_align = "l"*(len(self.data[0]))
-		if self.stubs:
-			datacols_align = "l" + datacols_align
-		dcf['datacols_align'] = datacols_align
 		return dcf
 	def default_txt_fmt(self):
 		dtf = dict(
 			data_fmt = "%s",
+			colwidths = 0,
 			colsep=' ',
 			table_dec_above='=',
 			table_dec_below='-',
 			header_dec_below='-',
 			title_align='c',
-			stubs_align = 'l',
+			data_aligns = "c"*(len(self.data[0])),
+			stub_fmt = '"%s"',
+			stubs_align = "l",
 			fmt = 'txt',
 			)
-		datacols_align = "c"*(len(self.data[0]))
-		if self.stubs:
-			datacols_align = "l" + datacols_align
-		dtf['datacols_align'] = datacols_align
 		return dtf
 	def default_ltx_fmt(self):
 		dlf = dict(
@@ -266,12 +287,10 @@ class SimpleTable:
 			strip_backslash = True,
 			header_fmt = "\\textbf{%s}",
 			stub_fmt = "\\textbf{%s}",
+			data_aligns = "c"*(len(self.data[0])),
+			stubs_align = "l",
 			fmt = 'ltx',
 			)
-		datacols_align = "c"*(len(self.data[0]))
-		if self.stubs:
-			datacols_align = "l" + datacols_align
-		dlf['datacols_align'] = datacols_align
 		return dlf
 	#########  end: default formats  ##############
 
