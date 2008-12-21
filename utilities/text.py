@@ -272,7 +272,7 @@ class SimpleTable:
 			header_dec_below='-',
 			title_align='c',
 			data_aligns = "c"*(len(self.data[0])),
-			stub_fmt = '"%s"',
+			stub_fmt = '%s',
 			stubs_align = "l",
 			fmt = 'txt',
 			)
