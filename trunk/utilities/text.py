@@ -9,7 +9,6 @@ You can "install" it just by dropping it into your working directory.
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
 :todo: add support for recarray to SimpleTable
-:todo: allow user access to 2d matrix of strings (the table or table data)
 :todo: currently must specify HTML data format to include tags!  Change?
 :date: 2008-12-21
 """
@@ -24,7 +23,7 @@ class SimpleTable:
 	Supports at most one header row,
 	which must be the length of data[0] (or +1 if stubs).
 	Supports at most one stubs column, which must be the length of data.
-	See globals `default_txt_fmt`, `default_csv_fmt`,
+	See globals `default_txt_fmt`, `default_csv_fmt`, `default_html_fmt`,
 	and `default_ltx_fmt` for formatting options.
 
 	Sample uses::
@@ -95,11 +94,11 @@ class SimpleTable:
 		colsep = fmt_dict['colsep']
 		row_pre = fmt_dict.get('row_pre','')
 		row_post = fmt_dict.get('row_post','')
-		nrows = len(tablestrings)
+		ncols = len(tablestrings[0])
 		rows = []
 		for row in tablestrings:
 			cols = []
-			for k in range(nrows):
+			for k in range(ncols):
 				d = row[k]
 				align = cols_aligns[k]
 				width = colwidths[k]
