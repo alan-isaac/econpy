@@ -7,6 +7,7 @@ Unit tests for the `iterate` module.
 '''
 from __future__ import division
 from __future__ import absolute_import
+from math import sqrt, exp
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
@@ -24,7 +25,7 @@ def simplest_bisect(f, x1, x2):
 	eps = 1e-8
 	#require: sign change over initial interval
 	if f(x1)*f(x2) > 0:
-		raise ValueError
+		raise ValueError("Sign changing interval required.")
 	#compute: small interval containing zero
 	while abs(x1-x2) > eps:
 		midpt = (x1+x2)/2
@@ -34,6 +35,54 @@ def simplest_bisect(f, x1, x2):
 			x2 = midpt
 	return (x1+x2)/2
 #END lst:optimize.bisect
+
+
+#simplest implementation of regula falsi
+#BEGIN lst:optimize.falsi
+def simplest_falsepostion(f, x1, x2):
+	#comment: set small number for convergence test
+	eps = 1e-8
+	f1, f2 = f(x1), f(x2)
+	if f1*f2 > 0:
+		raise ValueError("Sign changing interval required.")
+	xnew, fnew = x2, f2
+	while abs(fnew) > eps:
+		#compute: x such that f(x) is near 0
+		lam = f2 / (f2 - f1)
+		xnew = lam*x1 + (1-lam)*x2
+		fnew = f(xnew)
+		if fnew*f1 > 0:
+			x1, f1 = xnew, fnew
+		else:
+			x2, f2 = xnew, fnew
+	return xnew
+#END lst:optimize.falsi
+
+#simplest implementation of Ridders' method
+# comment: does not test midpt (natural extension)
+#BEGIN lst:optimize.ridders
+def simplest_ridders(f, x1, x2):
+	#comment: set small number for convergence test
+	eps = 1e-8
+	f1, f2 = f(x1), f(x2)
+	#require: sign change over initial interval
+	if f1*f2 > 0:
+		raise ValueError("Sign changing interval required.")
+	xnew, fnew = (x2, f2) if (abs(f2)<abs(f1)) else (x1,f1)
+	while abs(fnew) > eps:
+		#compute: x such that f(x) is near 0
+		xmid = (x1 + x2)/2.
+		fmid = f(xmid)
+		xnew = xmid - (x2-xmid)*fmid/sqrt(fmid*fmid-f1*f2)
+		fnew = f(xnew)
+		if fnew*f1 > 0:
+			x1, f1 = xnew, fnew
+		else:
+			x2, f2 = xnew, fnew
+	return xnew
+#END lst:optimize.ridders
+
+
 
 
 #Return: `p` approximate fixed point, `pseq` approximating sequence
@@ -96,6 +145,20 @@ class test_iter(unittest.TestCase):
 		self.assert_(fmath.feq(result1, x4zero, 1e-8))
 		self.assert_(fmath.feq(result2, x4zero, 1e-8))
 		self.assert_(fmath.feq(result3, x4zero, 1e-7))
+	def test_falsi(self):
+		x4zero = random.randrange(20)
+		f = lambda x: (x-x4zero)**3
+		result1 = simplest_falsepostion(f,   x4zero - 1.0, x4zero+1.0)
+		print "testvals", result1
+		self.assert_(fmath.feq(result1, x4zero, 1e-8))
+	def test_ridders(self):
+		shift = random.randrange(20)
+		f = lambda x: x*exp(x) - shift
+		testval = simplest_bisect(f,   -10., 10.)
+		result1 = simplest_ridders(f,   -10., 10.)
+		print "Ridders method with shift=%f"%shift
+		print "testvals", result1
+		self.assert_(fmath.feq(result1, testval, 1e-8))
 	def test_picard(self):
 		f1 = lambda x: 0.5*(x+2/x)  #approx sqrt of 2
 		self.assert_(fmath.feq(iterate.Picard(f1, 1, 100, tol=1e-6).fp,math.sqrt(2),1e-6))

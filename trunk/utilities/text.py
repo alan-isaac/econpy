@@ -207,7 +207,7 @@ class SimpleTable:
 		row0len = len(rows[0])
 		begin = ''
 		if self.title:
-			begin += self.pad(self.title, row0len, fmt_dict['title_align'])
+			begin += self.pad(self.title, row0len, fmt_dict.get('title_align','c'))
 		#decoration above the table, if desired
 		table_dec_above = fmt_dict['table_dec_above']
 		if table_dec_above:
@@ -268,14 +268,16 @@ default_csv_fmt = dict(
 		data_fmt = '%s',
 		colwidths = None,
 		colsep = ',',
+		row_pre = '',
+		row_post = '',
 		table_dec_above = '',
 		table_dec_below = '',
 		header_dec_below = '',
-		title_align = '',
 		header_fmt = '"%s"',
 		stub_fmt = '"%s"',
-		data_aligns = "l",
+		title_align = '',
 		stubs_align = "l",
+		data_aligns = "l",
 		fmt = 'csv',
 		)
 	
@@ -288,10 +290,10 @@ default_html_fmt = dict(
 		table_dec_above=None,
 		table_dec_below=None,
 		header_dec_below=None,
+		header_fmt = '<th>%s</th>',
+		stub_fmt = '<th>%s</th>',
 		title_align='c',
 		data_aligns = "c",
-		stub_fmt = '<th>%s</th>',
-		header_fmt = '<th>%s</th>',
 		stubs_align = "l",
 		fmt = 'html',
 		)
@@ -300,12 +302,15 @@ default_txt_fmt = dict(
 		data_fmt = "%s",
 		colwidths = 0,
 		colsep=' ',
+		row_pre = '',
+		row_post = '',
 		table_dec_above='=',
 		table_dec_below='-',
 		header_dec_below='-',
+		header_fmt = '%s',
+		stub_fmt = '%s',
 		title_align='c',
 		data_aligns = "c",
-		stub_fmt = '%s',
 		stubs_align = "l",
 		fmt = 'txt',
 		)
