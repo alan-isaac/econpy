@@ -1297,33 +1297,11 @@ Plain TeX is supported.
 
 <h3 id="othertex">Other TeX Resources</h3>
 
-<h4>Citation Management</h4>
-
 <p>
-<a href="#bibtex">BibTeX</a> is the traditional choice for citation management.
-(See the <a href="#bibtexhints">BibTeX user hints</a>.)
-An interesting alternative is <a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a> (License: GPL; dependencies: <a href="http://www.python.org">Python</a>, <a href="http://www.dabeaz.com/ply/">PLY</a>)
+There are extensive <a href="#bibtex">citation management</a> resources.
 </p>
 
 <ul>
-<li>
-<a href="http://pybtex.sourceforge.net/">Pybtex</a>
-is a Python implementation of BibTeX.
-</li>
-<li>
-If you need to hack a BibTeX style, you will need <a href="http://www.fz-rossendorf.de/FVTK/latex/doc/bibtex/base/btxhak.pdf">btxhak</a> or the <a href="http://www.arch.ohio-state.edu/crp/faculty/pviton/support/custom-bib.html">Custom-Bib</a> package.
-</li>
-<li> 
-Economics relevant
-<a href="http://tug.ctan.org/tex-archive/biblio/bibtex/contrib/">
-BibTeX Contributions</a>.
-(Note that generally you can use the .bst files with natbib.sty.
-</li>
-<!-- access problem -->
-<li><a href="ftp://ftp.TeX.ac.UK/ctan/tex-archive/macros/plain/contrib/vertex/">
-VerTeX for Economics Journals.</a> 
-</li>
-
 <li><a href="misc/epslatex.pdf">epslatex.pdf</a> has many hints for working with graphics.
 </li>
 <li>The hyperref package produces DVI files that work with
@@ -4149,6 +4127,7 @@ they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros
 (Users switching from natbib will want to know about the natbib-compatibility-mode,
 which allows use of natbib's commands (e.g., \citep, \citet)
 instead of the commands usually provided by biblatex (e.g., \parencite, \textcite).)
+
 Python users can consider the bib4txt component of <a href="http://www.pricklysoft.org/software/bibstuff.html">bibstuff</a>,
 which should particularly interest <a href="#rest">reStructuredText</a> users who need bibliographic support.
 (I recommend you get the <a href="http://code.google.com/p/bibstuff/">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python)
@@ -4157,7 +4136,36 @@ Chris Putnam's <a href="http://www.scripps.edu/~cdputnam/software/bibutils/bibut
 (Bibutils License: GPL; Language: C; binaries are available for many platforms.)
 </p>
 
-<ul id="bibtex">
+
+<h5 id="bibtex">BibTeX related</h5>
+
+<p>
+<a href="#bibtex">BibTeX</a> is the traditional choice for citation management.
+(See the <a href="#bibtexhints">BibTeX user hints</a>.)
+An interesting alternative is <a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a> (License: GPL; dependencies: <a href="http://www.python.org">Python</a>,
+<a href="http://www.dabeaz.com/ply/">PLY</a>)
+</p>
+
+<ul>
+<li>
+<a href="http://pybtex.sourceforge.net/">Pybtex</a>
+is a Python implementation of BibTeX.
+Provides translation across formats.
+(License: GPL, Language: Python)
+</li>
+<li>
+If you need to hack a BibTeX style, you will need <a href="http://www.fz-rossendorf.de/FVTK/latex/doc/bibtex/base/btxhak.pdf">btxhak</a> or the <a href="http://www.arch.ohio-state.edu/crp/faculty/pviton/support/custom-bib.html">Custom-Bib</a> package.
+</li>
+<li> 
+Economics relevant
+<a href="http://tug.ctan.org/tex-archive/biblio/bibtex/contrib/">
+BibTeX Contributions</a>.
+(Note that generally you can use the .bst files with natbib.sty.
+</li>
+<!-- access problem -->
+<li><a href="ftp://ftp.TeX.ac.UK/ctan/tex-archive/macros/plain/contrib/vertex/">
+VerTeX for Economics Journals.</a> 
+</li>
 <li>
 <a href="http://www.zotero.org/">Zotero</a> is a remarkably capable FireFox extension.
 </li>
@@ -5604,10 +5612,6 @@ Approximate file sizes
 ----------------------
 13.9 MB GAUSS_Light_8.0_Mac_OS_Xu.dmg
  8.5 MB GAUSS_8.0_Manual.zip
-
-
-
-
 </pre>
 <!--
 Below is a list of files that you may wish to download and
@@ -5672,6 +5676,20 @@ proc quantilenew(x,e,a,b,c,d);
     retp(r);
 endp;
 </code></pre>
+</li>
+<li>
+GAUSS now has procedures for integrating over an infinite support.
+Documentation can be found in the file, inthp.src.  
+<pre>
+** ===========================================================================
+**   Procedure     Format                       Purpose                 Line
+** ===========================================================================
+**   inthp1   y = inthp1(&amp;f,pds,ctl);   integration over -inf,+inf
+**   inthp2   y = inthp2(&amp;f,pds,ctl,a); integration over a, +inf non-oscil
+**   inthp3   y = inthp3(&amp;f,pds,ctl,a); integration over a, +inf oscill
+**   inthp4   y = inthp3(&amp;f,pds,ctl,c); integration over a, b
+** ===========================================================================
+</pre>
 </li>
 <li>
 To transform part of a multi-dimensional array to a matrix:
@@ -7080,43 +7098,55 @@ syntax is almost like that for the figure environment.<pre>
 
 <h3 id="bibtexhints">BibTeX User hints</h3>
 
-<p>
-The most important hint will prove the least welcome,
-but here it is anyway:
-restrict your characterset in your BibTeX databases.
-Specifically, use only ASCII characters,
-and do not use the colon or plus sign.
-Instead of the key <code>name1+name2:date:journal</code>
-use the key <code>name1.name2-date-journal</code>.
-<br />
-This is not for the sake of LaTeX use,
-but rather to allow you to use your database with other applications
-where <a href="http://www.w3.org/TR/REC-html40/types.html#type-name">id and name tokens</a> may be restricted.
-Suppose for example you want to use your keys as
-the <code>name</code> or <code>id</code> attribute
-in an HTML or XML document.
-The colon is allowed in HTML but is reserved in XML for namespace specification.
-The plus-sign is not allowed in either specification.
-XML allows a whole bunch on non-ASCII characters but HTML does not.  
-</p>
-
-<p>
-<a href="http://www.tug.org/pracjourn/2006-4/fenn/">Managing Citations and Your Bibliography with BibTeX</a>
-by Jürgen Fenn 
-is a good introduction to using BibTeX.
-</p>
-
 <ul>
- <li>If you use cross referencing in your .bib files, there are two important peculiarities. Any book entry that is crossreferenced must come after the referring entry in your .bib file. Also, BibTeX cannot use the TITLE field in the referenced entry in place of a BOOKTITLE field in the referring entry. So in your referenced entry you should include both a TITLE and a BOOKTITLE field (despite these being duplicative). This should be fixed in BibTeX version 1.0 and above.
- </li>
- <li>When you create a BibTeX data base, use appropriate capitalization for all titles. Lower case will be forced by certain styles (like AU-CMS), so you do not have to worry about that. But other styles will maintain the capitalization you provide, and these rely on your correct provision.
- </li>
- <li>Use obvious cite keys (like {mankiw_etal94qje}) so that your bib files remain useful to you years later.
- </li>
- <li>When entering months, always use the default abbreviations e.g., <tt>month = jan,</tt> so that months will end up correctly formatted. (If you say, <tt>month="Jan.",</tt> it will always be formatted your way.)
- </li>
- <li>Page ranges should be entered in LaTeX format, e.g. 29--32 not 29-32.
- </li>
+<li>
+        The most important hint will undoubtedly prove the least welcome,
+        but here it is anyway:
+        restrict your characterset in your BibTeX databases as follows.
+        For the cite key use only ASCII characters,
+        and do not use the colon or plus sign.
+        Instead of the key <code>name1+name2:date:journal</code>
+        use the key <code>name1.name2-date-journal</code>.
+        <br />
+        This is not for the sake of LaTeX use,
+        but rather to allow you to use your database with other applications
+        where <a href="http://www.w3.org/TR/REC-html40/types.html#type-name">id and name tokens</a> may be restricted.
+        Suppose for example you want to use your keys as
+        the <code>name</code> or <code>id</code> attribute
+        in an HTML or XML document.
+        The colon is allowed in HTML but is reserved in XML for namespace specification.
+        The plus-sign is not allowed in either specification.
+        XML allows a whole bunch on non-ASCII characters but HTML does not.  
+</li>
+<li>
+        <a href="http://www.tug.org/pracjourn/2006-4/fenn/">Managing Citations and Your Bibliography with BibTeX</a>
+        by Jürgen Fenn 
+        is a good introduction to using BibTeX.
+</li>
+<li>
+        If you use cross referencing in your .bib files, there are two important peculiarities.
+        Any book entry that is crossreferenced must come after the referring entry in your .bib file.
+        Also, BibTeX cannot use the TITLE field in the referenced entry in place of a BOOKTITLE field in the referring entry.
+        So in your referenced entry you should include both a TITLE and a BOOKTITLE field (despite these being duplicative).
+        This should be fixed in BibTeX version 1.0 and above.
+</li>
+<li>
+        When you create a BibTeX data base, use appropriate capitalization for all titles.
+        Lower case will be forced by certain styles (like AU-CMS), so you do not have to worry about that.
+        But other styles will maintain the capitalization you provide, and these rely on your correct provision.
+</li>
+<li>
+        Use obvious cite keys (like <code>mankiw.etal-1994-qje</code>)
+        so that your bib files remain useful to you years later.
+</li>
+<li>
+        When entering months, always use the default abbreviations
+        (e.g., <code>month = jan,</code>) so that months will end up correctly formatted.
+        (If you say, <tt>month="Jan.",</tt> it will always be formatted that way.)
+</li>
+<li>
+        Page ranges should be entered in LaTeX format, e.g. 29--32 not 29-32.
+</li>
 </ul>
 
 <h3 id="gphints">Gnuplot User hints</h3>
