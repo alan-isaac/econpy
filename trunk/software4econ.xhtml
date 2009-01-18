@@ -38,17 +38,31 @@
 	<li><a href="#wysiwym">WYSIWYM Interfaces</a></li>
         <li><a href="#learntex">Learning TeX</a></li>
         <li><a href="#addchart">Adding drawings to LaTeX documents</a></li>
-        <li><a href="#texconvert">Format Conversion</a></li>
+        <li><a href="#texconvert">LaTeX Format Conversion</a></li>
         <li><a href="#present">Presentations</a></li>
         <li><a href="#textables">Tables</a></li>
         <li><a href="#othertex">Other TeX Resources</a></li>
         </ul>
 </li>
 <li>
-<a href="#GAUSS">GAUSS</a> 
+<a href="#MATRIX">Matrix and Array Programming</a> 
+        <ul>
+        <li>
+        <a href="#numpy">NumPy</a>
+        </li>
+        <li>
+        <a href="#other-mpl-free">Other Free Matrix Programming Languages</a>
+        </li>
+        <li>
+        <a href="#GAUSS">GAUSS</a> 
+        </li>
+        <li>
+        <a href="#other-mpl-com">Other Commercial Matrix Programming Languages</a>
+        </li>
+        </ul>
 </li>
 <li>
-<a href="#MATRIX">Programming</a> 
+<a href="#gplang">General Purpose Languages</a>
 </li>
 <li>
 <a href="#STAT">Statistics</a> 
@@ -77,7 +91,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2008 Aug 26
+Last modified: 2009 Jan 18
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 <br />
@@ -452,35 +466,28 @@ you will see for example the glyph <code>&beta;</code> instead of the LaTeX code
 </p>
 
 <p id="LyX">
-The only cross-platform implementation I know of is <a href="http://www.lyx.org">LyX</a>,
-which can also interface with the <a href="#Maxima">Maxima</a> computer algebra system.
+The only cross-platform implementation I know of is <a href="http://www.lyx.org">LyX</a>.
+Binaries are available for Linux, Mac, and Windows users.
+LyX can interface with the <a href="#Maxima">Maxima</a> computer algebra system.
 (Just add the path to Maxima in Tools -&gt; Preferences -&gt; Paths.)
-As of 2005,
-there is a <a href="http://www.home.zonnet.nl/rareitsma/lyx/">QT based Windows port</a>
-As of 2004,
-there is a <a href="http://wiki.lyx.org/pmwiki.php/LyX/Mac">OSX port</a>.
-(It is also possible to use <a href="http://sources.redhat.com/cygwin/">Cygwin</a> and an X-server (such as <a href="http://sources.redhat.com/cygwin/xfree/">Xfree</a> or <a href="http://www.starnet.com/products/">X-Win32</a>) to run under Windows.
-Useful <a href="http://www.fh-hannover.de/mbau/tim/hentschel/lyx/index.htm">installaton guidance</a> is available.)
-Unix users may be interested in the KDE port of LyX called KLyX,
-however it seems to have lost momentum.</p>
+</p>
 
 <p>
-An interesting alternative is <a href="http://www.texmacs.org/index.php3">TeXmacs</a>.</p>
+An interesting alternative is <a href="http://www.texmacs.org/index.php3">TeXmacs</a>.
+</p>
 
 <p>
 Windows users appear to have a number of commercial choices,
 the most popular of which seems to be <a href="http://www.mackichan.com/">Scientific Notebook</a> and <a href="http://www.mackichan.com/">Scientific Word</a>.
 (Scientific Notebook is not marketed as a LaTeX front end,
 but as of 2004 it still saves in LaTeX format and with a tiny amount of editing can be used that way.)
+See <a href="#swhints">Scientific Word user hints</a>.</p>
+
+<p>
 <a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents.
 </p>
 </div>
 
-<p class="boxed">
-See <a href="#swhints">Scientific Word user hints</a>.
-<br />
-Note that Scientific Word and Scientific Notebook are available on campus via the EagleNet.
-</p>
 
 <p id='mathmlgui'>
 In the WYSIWYM world,
@@ -498,7 +505,7 @@ I find Amaya a bit slow and clumsy for the production of mathematics.
 <h3 id="wysiym">WYSIYM</h3>
 
 <p>
-The most powerful way to produce mathematics and to learn a markup language for type-setting mathematics.
+The most powerful way to produce mathematics is to learn a markup language for type-setting mathematics.
 This also provides a big advantage for the process of writing:
 you get to use your favorite <a href="#EDITORS">text editor</a> and thereby get access to powerful editing facilities.
 The most popular choice is <a href="#TEX">LaTeX</a>,
@@ -875,7 +882,7 @@ and pdflatex will conver them to pdf format on the fly.
 You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed</a> to add editable annotations to a PostScript document. (License: GPL; Platform: X11.)
 </p>
 
-<h3 id="texconvert">Format Conversion</h3>
+<h3 id="texconvert">LaTeX Format Conversion</h3>
 
 <p>See the more complete list at <a href="http://www.loria.fr/services/tex/english/outils.html">http://www.loria.fr/services/tex/english/outils.html</a>.
 </p>
@@ -1361,65 +1368,8 @@ is a perl based replacement for makefiles.
 
 
 
-<h2 id="GAUSS">GAUSS and Related Resources</h2>
 
-<p><a href="http://www.aptech.com/">GAUSS</a> is probably the first choice among U.S. econometricians.
-It is a fast and powerful matrix oriented language.
-Its collection of built-in statistical procedures is not as extensive as specialty languages such as S-Plus,
-but this is offset by its speed and by available free and commercial packages
-(such as <a href="http://www.econotron.com/gaussx/gaussx1.html">
-GAUSSX</a>).
-</p>
-
-<p>
-The  <a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM">
-<b>GAUSS Source Code Archive</b></a> at American University  is the primary source of GAUSS freeware.
-Included in the archive is a partial
-<a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM#OTHER">list of
-other archived code</a>.
-You may also find it useful to visit the
-<a href="http://www.rhkoning.com/gauss/">
-archive for the gaussians mailing list</a>.
-</p>
-
-
-<p class="boxed">
-See <a href="#gausshints">GAUSS user hints.</a>
-<br />
-Note to AU Students:
-<br />
-GAUSS is the primary programming language used in the AU Department of Economics.
-</p>
-
-
-<h3 id="gaussstart">Getting Started with GAUSS</h3>
-
-<ul>
-  <li>
-  You can try my <a href="http://www.american.edu/econ/notes/gauss.htm">GAUSS Basics</a>.
-  </li>
-  <li>Kuan-Pin Lin and Lani Pennington offer <a href="http://eclab.econ.pdx.edu/gpe/toc.htm">an innovative and useful online GAUSS tutorial</a>, which includes applications of their LSQ package.
-  </li>
-  <li>
-  Felix Ritchie's guide <a href="http://www.trigconsulting.co.uk/gauss/manual.html">"Programming in Gauss"</a> (available in .pdf format) is a useful guide to GAUSS programming basics and to improving the efficiency of your GAUSS programs.
-  </li>
-  <li><a href="http://www.wws.princeton.edu/~mwatson/ec518/gauss_tutorial.html">Mark Watson's GAUSS tutorial</a>.
-  </li>
-  <li><a href="http://www.arec.umd.edu/gauss/gauss.htm">Mark Nerlove's GAUSS tutorial</a>, which includes examples with data sets.
-  </li>
-  <li><a href="http://statlab.stat.yale.edu/statlab/software/GAUSS.html">Yale StatLab's Gauss page</a>.
-  </li>
-  <li>Eric Zivot has compiled a useful <a href="http://faculty.washington.edu/ezivot/gaussfaq.htm">GAUSS FAQ</a>.
-  </li>
-  <li>There is also some <a href="http://gurukul.ucc.american.edu/acs/social/documents/gauss/gauss.htm"> documentation on campus</a>.
-  </li>
-  <li>
-  <a href="http://rhkoning.xs4all.nl/">A Short Introduction to GAUSS for Windows</a> by Ruud Koning is not so short and only chapter 2 is currently free, but it might be useful.
-  </li>
-</ul>
-
-
-<h2 id="MATRIX">Other Matrix Programming Languages</h2>
+<h2 id="MATRIX">Matrix Programming Languages</h2>
 
 <p>
 Being able to write code in one matrix programming language and run it in another environment is desirable.
@@ -1437,17 +1387,24 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 (a Python implementation of lex and yacc).
 </p>
 
-<h3>Free Matrix Programming Languages</h3>
+<h3 id="numpy">NumPy</h3>
 
-<ul>
-<li id="scipy">
-You can use <a href="#script">Python</a> to do serious object-oriented scientific programming.
-Matrix and multi-dimensional array math is provided by <a id="numpy" href="http://numpy.scipy.org/">NumPy</a>,
-a remarkably capable package. (License: BSD.)
-A reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>.
-(License: BSD; Dependency: NumPy.)
-(NumPy and SciPy are included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution,
-along with <em>many</em> other useful packages.)
+<p>
+My favorite approach to matrix (and multi-dimesional array) programming is <a href="http://numpy.scipy.org/">NumPy</a> (License: BSD; depednecy: Python).
+This is a <a href="#python">Python</a> package (but it is very fast because it is written as a C extension).
+This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
+while doing serious scientific programming.
+Very high quality 
+Additionally, a reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.)
+</p>
+
+<p>
+You can find everything packaged together for a single install.
+For example: NumPy, SciPy, and Matplotlib are included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution,
+along with <em>many</em> other useful packages.
+</p>
+
+<p>
 Many scientific programming applications can be found on the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware">SciPy Topical Software Wiki</a>.
 <a href="http://dirac.cnrs-orleans.fr/ScientificPython/">ScientificPython</a> offers some useful scientific and visualization modules.
 The are also some additional <a href="http://probstat.sourceforge.net/">probability and statistics utilities</a> available.
@@ -1464,7 +1421,11 @@ and the resources listed at <a href="http://www.astro.cornell.edu/staff/loredo/s
 and possibly various <a href="http://yaroslav.hopto.org/pubwiki/index.php/ai-python">AI resources</a>.
 <a href="http://mdp-toolkit.sourceforge.net/">Modular toolkit for Data Processing (MDP)</a> is a Python data processing library implementing Principal Component Analysis (PCA), Independent Component Analysis (ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
 Finally, it is worth poking around <a href="http://cheeseshop.python.org/">CheeseShop</a>.
-</li>
+</p>
+
+<h3 id="other-mpl-free">Other Free Matrix Programming Languages</h3>
+
+<ul>
 <li>
 <a href="http://www.osl.iu.edu/research/mtl/mtl4/">Matrix Template Language 4 (MTL4)</a>
 provided matrix manipulations for C++ users.
@@ -1574,9 +1535,61 @@ Sun Microsystems has released an open source Fortran "replacement" called <a hre
 </li>
 </ul>
 
+<h3 id="GAUSS">GAUSS and Related Resources</h3>
+
+<p>
+See <a href="#gausshints">GAUSS user hints.</a>
+</p>
+
+Among matrix-oriented programming languages,
+<p><a href="http://www.aptech.com/">GAUSS</a> probably remains the first choice among U.S. econometricians.
+It is known for speed and ease of use.
+Its collection of built-in statistical procedures is not as extensive as specialty languages such as S-Plus/Gnu-S,
+but this can be offset by its speed and by available free and commercial packages
+(such as <a href="http://www.econotron.com/gaussx/gaussx1.html">GAUSSX</a>).
+</p>
+
+<p>
+The  <a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM">
+<b>GAUSS Source Code Archive</b></a> at American University is a primary source of GAUSS freeware.
+Included in the archive is a partial
+<a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM#OTHER">list of
+other archived code</a>.
+You may also find it useful to visit the
+<a href="http://www.rhkoning.com/gauss/">
+archive for the gaussians mailing list</a>.
+</p>
 
 
-<h3>Commercial Matrix Programming Languages</h3>
+<h4 id="gaussstart">Getting Started with GAUSS</h4>
+
+<ul>
+  <li>
+  You can try my <a href="http://www.american.edu/econ/notes/gauss.htm">GAUSS Basics</a>.
+  </li>
+  <li>Kuan-Pin Lin and Lani Pennington offer <a href="http://eclab.econ.pdx.edu/gpe/toc.htm">an innovative and useful online GAUSS tutorial</a>, which includes applications of their LSQ package.
+  </li>
+  <li>
+  Felix Ritchie's guide <a href="http://www.trigconsulting.co.uk/gauss/manual.html">"Programming in Gauss"</a> (available in .pdf format) is a useful guide to GAUSS programming basics and to improving the efficiency of your GAUSS programs.
+  </li>
+  <li><a href="http://www.wws.princeton.edu/~mwatson/ec518/gauss_tutorial.html">Mark Watson's GAUSS tutorial</a>.
+  </li>
+  <li><a href="http://www.arec.umd.edu/gauss/gauss.htm">Mark Nerlove's GAUSS tutorial</a>, which includes examples with data sets.
+  </li>
+  <li><a href="http://statlab.stat.yale.edu/statlab/software/GAUSS.html">Yale StatLab's Gauss page</a>.
+  </li>
+  <li>Eric Zivot has compiled a useful <a href="http://faculty.washington.edu/ezivot/gaussfaq.htm">GAUSS FAQ</a>.
+  </li>
+  <li>There is also some <a href="http://gurukul.ucc.american.edu/acs/social/documents/gauss/gauss.htm"> documentation on campus</a>.
+  </li>
+  <li>
+  <a href="http://rhkoning.xs4all.nl/">A Short Introduction to GAUSS for Windows</a> by Ruud Koning is not so short and only chapter 2 is currently free, but it might be useful.
+  </li>
+</ul>
+
+
+
+<h3 id="other-mpl-com">Other Commercial Matrix Programming Languages</h3>
 
 <p>
 Jens Peter Steffen offers a detailed
@@ -1620,7 +1633,199 @@ You can convert your IDL programs to Python with <a href="http://software.pseudo
 </li>
 </ul>
 
+<h2 id="gplang">General Purpose Programming Languages</h2>
 
+<p>
+This is a very short selection of possibly useful free programming languages.
+</p>
+
+<p>
+If your emphasis is computational, you will want to visit
+<a href="http://gams.nist.gov/serve.cgi/Packages">NIST's Guide to Available Mathematical Software</a> 
+and 
+the <a href="http://www.netlib.org/master/expanded_liblist.html">Netlib repository</a>.
+</p>
+
+<h3>Python</h3>
+
+<p id="python">
+I use <a href="http://www.python.org">Python</a> whenever possible,
+which is almost always.
+(The main exception is when execution speed is at an absolute premium in computationally intensive projects.)
+Traditionally thought of as a scripting language,
+Python has evolved into an extremely powerful very high level general purpose programming language.
+It is still useful (indeed, a first choice) for scripting.
+Use it to find out why.
+In addition, Python has <a href="#scipy">excellent support</a> for scientific computing.
+The <a href="http://docs.python.org/">online documentation</a> is excellent.
+If you lack programming experience,
+try <a href="http://www-uxsup.csx.cam.ac.uk/courses/PythonAB/">Python for the Absolute Beginner</a>
+and <a href="http://swaroopch.info/text/Byte_of_Python:Main_Page">Byte of Python</a>
+before trying the Python tutorial.
+</p>
+
+<p>
+One other note:
+although it is an interpreted language,
+you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>.
+Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> libraries have been developed for Python.
+</p>
+
+<h3>C</h3>
+
+<div id="clang">
+For C/C++ see <a href="http://www.research.att.com/~bs/compilers.html">Bjarne Stroustrup's list</a>.
+However, I will list a few free C and C++ compilers that are reputed to be quite good.
+If you are new to C, see <a href="http://www-ccs.ucsd.edu/c/">Standard C</a> by Plauger and Brodie.
+<br />
+Btw, if you program in C/C++, you should probably be using the 
+<a href="http://cscope.sourceforge.net/">Cscope</a> code browser;
+there is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>,
+which works with Vim's Cscope interface.
+<br />
+Also, <a href="http://www.scons.org/">scons</a> has become a fairly popular alternative to <a href="">make</a>.
+<ul>
+<li>
+There is a <a href="http://www.cygnus.com/misc/gnu-win32/">Windows port</a> of the GNU gcc compiler.
+(I assume you can use the GNU debugger via <a href="http://clewn.sourceforge.net/">Clewn</a> with Vim under Windows,
+but I haven't tried.)
+<a href="http://www.mingw.org/">MinGW</a> is another, possibly better choice.
+To get started with MinGW read <a href="http://www.spacejack.org/games/mingw/">Linkovitch's MinGW Starter Guide</a> and some <a href="http://www.mingw.org/docs.shtml">basic documentation</a>.
+Windows users may also want to look at <a href="http://www.delorie.com/djgpp/doc/eli-m17n99.html">DJGPP</a>.
+</li>
+<li>
+The <a href="http://www.openwatcom.org/">Watcom compiler</a> is being released as open source.
+</li>
+<li>
+<a href="http://www.intel.com">Intel ®</a>
+offers its excellent Math Kernel Library free for noncommercial use.
+</li>
+<li>
+<a href="http://www.digitalmars.com/">Digital Mars</a> offers a good, fast compiler.
+(Formally Zortech and then Symantec's compiler.)
+You need to buy the CD to get the debugger.
+</li>
+<li>
+<a href="http://www.borland.com/bcppbuilder/freecompiler/">Borland's C++ compiler</a> is now free.
+</li>
+<li>
+<a href="http://www.cs.virginia.edu/~lcc-win32/">LCC-Win32</a> is a free C compiler and programming environment for Windows users.
+</li>
+<li>
+SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/Interpreter</a> available free for academic users: you can run C/C++ code in an interpreter and get many Unix utilities in addition.
+</li>
+</ul>
+There is <a href="http://www.ulib.org/webRoot/Books/Numerical_Recipes/">online access to <em>Numerical Recipes in C</em></a>,
+but I have had occasional trouble getting through.
+</div>
+
+
+
+<h3>Other Free Languages</h3>
+
+<h4 id="script">Scripting Languages</h4> 
+
+<p>
+For scripting,
+the most popular choices currently seem to be <a href="#python">Python</a>,
+<a href="http://www.perl.org/">Perl</a>,
+and <a href="http://www.ruby-lang.org/en/">Ruby</a>.
+There have also been some interesting applications of the embeddable <a href="http://www.s-lang.org/">S-Lang</a> interpreter and programmers library.
+<a href="http://www.lua.org/">Lua</a> is especially small and portable,
+and is used in the up and coming <a href="http://www.luatex.org/">LuaTeX</a> extension of pdfTeX.
+<br />
+It is also worth mention that <a href="http://www.jython.org/">Jython</a> implements Python as Java,
+allowing the ease of Python scripting to be combined with the power of Java.
+(As a very cool plus,
+<a href="#vim">Vim</a> supports scripting with Perl, Python, and Ruby.)
+</p>
+<p>More Scripting:
+<br />
+<a href="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/">Active Perl</a> is available for many platforms and is getting excellent reviews.
+<a href="http://www.python.org/">Python</a> is growing in popularity,
+as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
+(which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).
+</p>
+
+<h4>Languages for Scientific Computing</h4>
+
+<p>
+We have alread discussed C above.
+Certainly C++ and Fortran have to be mentioned.
+The <a href="http://gcc.gnu.org/">GNU Compiler Collection (GCC)</a>
+includes front ends and libraries for these
+(as well as Objective-C, Java, and Ada).
+</p>
+
+<p>The <a href="http://www.fortran.com/F/">F
+programming language</a> is a carefull selected
+subset of the most useful Fortran 95.
+You can compile F with the g95 compiler:
+<code>g95 -std=F my_program.f95</code>,
+available for free from <a href="http://www.g95.org/">G95</a>.
+</p>
+
+<p>
+<a href="http://www.freepascal.org/">FreePascal</a> includes very substantial Delphi compatibility.
+(License: LGPL and GPL)
+</p>
+
+<p>
+<a href="http://www.gnu.org/software/gnat/gnat.html">Ada</a>,
+which is a preferred languge for the security conscious.
+</p>
+
+<p>
+<a href="http://www.eiffel.com/">Eiffel</a> supports desing by contract.
+There is now open source licensing of Eiffel Studio.
+(License: GPL)
+</p>
+
+<p>
+<a href="http://www.swiss.ai.mit.edu/projects/scheme/">Scheme</a>.
+<br />
+<a href="http://www.plt-scheme.org/software/mzscheme/">MzScheme</a> is a free and open source implementation for Linux, Mac, and Windows.
+(As a very cool plus,
+as of version 7 <a href="#vim">Vim</a> supports MzScheme scripting.)
+</p>
+
+
+
+
+<p>
+<a href="http://www.scheme.com/">Scheme</a>, and R. Kent Dybvig's <a href="http://www.scheme.com/tspl2d/index.html">
+The Scheme Programming Language, Second Edition</a> is now online.
+</p>
+
+<p>
+<a href="http://www.info.uni-karlsruhe.de/~sather/index_engl.html">Sather-K</a> is Eiffel based but adds innovations (and is free).
+</p>
+
+<p><a href="http://www.object-tools.com/">Visual Eiffel Lite</a> is free.
+Documentation is in
+<a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">Eiffel: Object Oriented Programming</a>
+</p>
+
+<p>
+<a href="http://www.salasaga.org/">Salasaga</a>
+is "an Integrated Development Environment for producing eLearning".
+Roughly, it's an open source IDE for producing interactive web pages.
+(License: LGPL)
+</p>
+
+<h4>Other Useful Languages</h4>
+
+<h5>PostScript</h5>
+
+<p>
+<a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
+<br />
+Related: <a href="http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/lang/lisp/code/io/plisp/0.html">PLisp</a> takes the basic structure of Common Lisp and uses it as an alternative representation of a PostScript program.
+While the basic graphic operators of PostScript are retained, Lisp-like function definition, control flow,
+and variable binding become available.
+Macros, defined constants, and function libraries have also been provided.
+The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
+</p>
 
 
 <h2 id="STAT">Other Useful Statistical Software</h2>
@@ -3839,6 +4044,7 @@ editor for TikZ graphics.  (Linux only?)
 </div>
 
 
+
 <h2 id="MISC">Other Useful Software and Sites</h2>
 
 <ul class="menu">
@@ -3936,9 +4142,7 @@ There are lots of good calendars out there.
 But for the "always connected"
 I have not been able to beat Google Calendar.
 (I have not tried to use it offline.)
-Note that you can <a href="http://www.downloadsquad.com/2008/01/14/google-calendar-now-available-on-your-firefox-sidebar/">add Google Calendar to your FireFox sidebar</a>:
-just bookmark <a href="http://www.google.com/calendar/gadget?up_showAgenda=false&upt_showAgenda=hidden&up_calendarFeeds=({})&upt_calendarFeeds=hidden&up_firstDay=0&upt_firstDay=enum&up_dateFormat=0&upt_dateFormat=enum&up_timeFormat=1:00pm&upt_timeFormat=enum&up_calendarFeedsImported=0&upt_calendarFeedsImported=hidden&up_showCalendar2=1&upt_showCalendar2=bool&lang=en&country=us&.lang=en&.country=us&synd=ig&mid=0&parent=&libs=9yKJTwdwCZw/lib/libcore.js,DXEULJSfpLM/lib/libdynamic-height.js,c64nWSZKWFg/lib/libsetprefs.js">this link</a>
-and add it to your sidebar.
+Note that you can <a href="http://www.downloadsquad.com/2008/01/14/google-calendar-now-available-on-your-firefox-sidebar/">add Google Calendar to your FireFox sidebar</a>.
 Comment: if you ever see a corrupted screen when viewing Google Calendar,
 try clearing your browser's cache and cookies.
 </p>
@@ -4994,162 +5198,6 @@ It has roots in the <a href="http://www.openpgp.org/">OpenPGP</a> encryption sta
 
 
 
-<h3>Possibly Useful Free Programming Languages Languages</h3>
-
-<p>
-If your emphasis is computational, you will want to visit
-<a href="http://gams.nist.gov/serve.cgi/Packages">NIST's Guide to Available Mathematical Software</a> 
-and 
-the <a href="http://www.netlib.org/master/expanded_liblist.html">Netlib repository</a>.
-</p>
-
-<p id="script">
-For scripting,
-the most popular choices currently seem to be <a href="http://www.python.org/">Python</a>,
-<a href="http://www.perl.org/">Perl</a>,
-and <a href="http://www.ruby-lang.org/en/">Ruby</a>.
-There have also been some interesting applications of the embeddable <a href="http://www.s-lang.org/">S-Lang</a> interpreter and programmers library.
-<br />
-It is also worth mention that <a href="http://www.jython.org/">Jython</a> implements Python as Java,
-allowing the ease of Python scripting to be combined with the power of Java.
-One other note:
-although it is an interpreted language,
-you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>.
-Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> libraries have been developed for Python.
-(As a very cool plus,
-<a href="#vim">Vim</a> supports scripting with Perl, Python, and Ruby.)
-</p>
-<p>More Scripting:
-<br />
-<a href="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/">Active Perl</a> is available for many platforms and is getting excellent reviews.
-<a href="http://www.python.org/">Python</a> is growing in popularity,
-as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
-(which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).
-<a href="http://www.lua.org/">Lua</a> is especially small and portable.
-</p>
-
-<p id="python">
-My choice of scripting language is inflexible:
-I always use <a href="http://www.python.org">Python</a>.
-Use it to find out why.
-In addition, Python has <a href="#scipy">excellent support</a> for scientific computing.
-The <a href="http://docs.python.org/">online documentation</a> is excellent.
-If you lack programming experience,
-try <a href="http://www-uxsup.csx.cam.ac.uk/courses/PythonAB/">Python for the Absolute Beginner</a>
-and <a href="http://swaroopch.info/text/Byte_of_Python:Main_Page">Byte of Python</a>
-before trying the Python tutorial.
-Otherwise
-</p>
-
-<div id="clang">
-For C/C++ see <a href="http://www.research.att.com/~bs/compilers.html">Bjarne Stroustrup's list</a>.
-However, I will list a few free C and C++ compilers that are reputed to be quite good.
-If you are new to C, see <a href="http://www-ccs.ucsd.edu/c/">Standard C</a> by Plauger and Brodie.
-<br />
-Btw, if you program in C/C++, you should probably be using the 
-<a href="http://cscope.sourceforge.net/">Cscope</a> code browser;
-there is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>,
-which works with Vim's Cscope interface.
-<br />
-Also, <a href="http://www.scons.org/">scons</a> has become a fairly popular alternative to <a href="">make</a>.
-<ul>
-<li>
-There is a <a href="http://www.cygnus.com/misc/gnu-win32/">Windows port</a> of the GNU gcc compiler.
-(I assume you can use the GNU debugger via <a href="http://clewn.sourceforge.net/">Clewn</a> with Vim under Windows,
-but I haven't tried.)
-<a href="http://www.mingw.org/">MinGW</a> is another, possibly better choice.
-To get started with MinGW read <a href="http://www.spacejack.org/games/mingw/">Linkovitch's MinGW Starter Guide</a> and some <a href="http://www.mingw.org/docs.shtml">basic documentation</a>.
-Windows users may also want to look at <a href="http://www.delorie.com/djgpp/doc/eli-m17n99.html">DJGPP</a>.
-</li>
-<li>
-The <a href="http://www.openwatcom.org/">Watcom compiler</a> is being released as open source.
-</li>
-<li>
-<a href="http://www.intel.com">Intel ®</a>
-offers its excellent Math Kernel Library free for noncommercial use.
-</li>
-<li>
-<a href="http://www.digitalmars.com/">Digital Mars</a> offers a good, fast compiler.
-(Formally Zortech and then Symantec's compiler.)
-You need to buy the CD to get the debugger.
-</li>
-<li>
-<a href="http://www.borland.com/bcppbuilder/freecompiler/">Borland's C++ compiler</a> is now free.
-</li>
-<li>
-<a href="http://www.cs.virginia.edu/~lcc-win32/">LCC-Win32</a> is a free C compiler and programming environment for Windows users.
-</li>
-<li>
-SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/Interpreter</a> available free for academic users: you can run C/C++ code in an interpreter and get many Unix utilities in addition.
-</li>
-</ul>
-There is <a href="http://www.ulib.org/webRoot/Books/Numerical_Recipes/">online access to <em>Numerical Recipes in C</em></a>,
-but I have had occasional trouble getting through.
-</div>
-
-<p>
-<a href="http://www.freepascal.org/">FreePascal</a> includes very substantial Delphi compatibility.
-(License: LGPL and GPL)
-</p>
-
-<p>
-<a href="http://www.gnu.org/software/gnat/gnat.html">Ada</a>,
-which is a preferred languge for the security conscious.
-</p>
-
-<p>
-<a href="http://www.eiffel.com/">Eiffel</a> supports desing by contract.
-There is now open source licensing of Eiffel Studio.
-(License: GPL)
-</p>
-
-<p>
-<a href="http://www.swiss.ai.mit.edu/projects/scheme/">Scheme</a>.
-<br />
-<a href="http://www.plt-scheme.org/software/mzscheme/">MzScheme</a> is a free and open source implementation for Linux, Mac, and Windows.
-(As a very cool plus,
-as of version 7 <a href="#vim">Vim</a> supports MzScheme scripting.)
-</p>
-
-
-
-<p>
-<a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
-<br />
-Related: <a href="http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/lang/lisp/code/io/plisp/0.html">PLisp</a> takes the basic structure of Common Lisp and uses it as an alternative representation of a PostScript program.
-While the basic graphic operators of PostScript are retained, Lisp-like function definition, control flow,
-and variable binding become available.
-Macros, defined constants, and function libraries have also been provided.
-The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
-</p>
-
-
-<p>
-<a href="http://www.scheme.com/">Scheme</a>, and R. Kent Dybvig's <a href="http://www.scheme.com/tspl2d/index.html">
-The Scheme Programming Language, Second Edition</a> is now online.
-</p>
-<p>The <a href="http://www.uni-comp.com/imagine1/">F
-programming language</a> is a carefull selected
-subset of the most useful Fortran 95.
-A <a href="ftp://www.meltingsand.com/pub/F/">free
-version</a> is available.
-</p>
-<p>
-<a href="http://www.info.uni-karlsruhe.de/~sather/index_engl.html">Sather-K</a> is Eiffel based but adds innovations (and is free).
-</p>
-
-<p><a href="http://www.object-tools.com/">Visual Eiffel
-Lite</a> is free. Documentation is in
-<a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">
-Eiffel: Object Oriented Programming</a>
-</p>
-
-<p>
-<a href="http://www.salasaga.org/">Salasaga</a>
-is "an Integrated Development Environment for producing eLearning".
-Roughly, it's an open source IDE for producing interactive web pages.
-(License: LGPL)
-</p>
 
 <h3>Agent-Based Simulation</h3>
 
