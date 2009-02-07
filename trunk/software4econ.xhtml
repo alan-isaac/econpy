@@ -29,7 +29,15 @@
         </ul>
 </li>
 <li>
-<a href="#typemath">Producing Mathematical Documents</a> 
+<a href="#typemath">Producing Scientific Documents</a> 
+        <ul> 
+        <li>
+        <a href="#docbasics">Basic Considerations</a>
+        </li>
+        <li>
+        <a href="#metafmt">Meta Formats</a>
+        </li>
+        </ul>
 </li>
 <li>
 <a href="#TEX">TeX</a> 
@@ -179,6 +187,8 @@ This makes it very powerful, and it has some unusual and excellent features
 <a href="http://scintilla.sourceforge.net/SciTE.html">SciTE</a> is a multi-platform source-code editor with some interesting and powerful features:
 it can be scripted with the Lua programming language,
 and it is based on <a href="http://www.scintilla.org/">Scintilla</a>.
+<a href="http://www.activestate.com/komodo_edit/">Komodo Edit</a> is a promising open-source editor,
+the same one used in ActiveState's commercial Komodo IDE.
 Finally I have to mention the unusual <a href="http://www-2.cs.cmu.edu/~rcm/lapis/">Lapis editor</a>,
 which allows simultaneous selection of discontinuous segments of text.
 </p>
@@ -372,11 +382,19 @@ if (nRet==1){
 <h3>Dictionaries and Thesauri</h3>
 
 <p>
-<a href="http://www.aiksaurus.com/">Aiksaurus</a> is a powerful, free, cross-platform thesaurus.
-The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a>.
-You can submit a query for "yourword" directly as <tt>http://www.dict.org/bin/Dict?Form=Dict1&amp;Query=yourword&amp;Strategy=*&amp;Database=*</tt>.
-Windows users can download <a href="http://wordweb.info/free/">WordWeb</a> for free.
+These days, your favorite dictionaries and thesauri are probably available free online.
+My favorite is <a href="http://www.bartleby.com/61/">The American Heritage® Dictionary of the English Language</a>.
+Unfortunately the online interface is rather clunky.
+The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that is very fast.
+<a href="http://www.wiktionary.org/">Wiktionary</a> shows great promise and is pretty fast.
+In addition,
+you can submit a query for "yourword" directly as <tt>http://www.dict.org/bin/Dict?Form=Dict1&amp;Query=yourword&amp;Strategy=*&amp;Database=*</tt>.
 Windows users can download for free the <a href="http://www.freelang.net/dictionary/">Freelang</a> translation dictionaries.
+</p>
+
+<p>
+<a href="http://www.aiksaurus.com/">Aiksaurus</a> is a powerful, free, cross-platform thesaurus.
+Windows users can download <a href="http://wordweb.info/free/">WordWeb</a> for free.
 </p>
 
 <h3>Stream Editors</h3>
@@ -394,7 +412,9 @@ and Python-based sed debugger.
 
 
 
-<h2 id="typemath">Producing Mathematical Documents</h2>
+<h2 id="typemath">Producing Scientific Documents</h2>
+
+<h3 id="docbasics">Basic Considerations</h3>
 
 <div>
 There are three basic approaches to producing mathematical documents.
@@ -421,7 +441,7 @@ and your markup commands will not be visible in the typeset document.
 </ol> 
 </div>
 
-<h3>WYSIWYG</h3>
+<h4>WYSIWYG</h4>
 
 <p>
 A good cross platform solution is <a href="http://www.openoffice.org/">Open Office</a>,
@@ -448,7 +468,7 @@ The scientific word processor <a href="http://www.expswp.com/">EXP</a> has a WYS
 <a href="http://www.micropress-inc.com/eqmlite.htm">Equation Magic Lite</a> is a free OLE-based equation editor for Win 95/98 and WinNT/4.
 </p>
 
-<h3 id="wysiwym">WYSIWYM</h3>
+<h4 id="wysiwym">WYSIWYM</h4>
 
 <p>
 Some working environments allow you to see your mathematics in a form closely related to how it will be printed,
@@ -502,7 +522,7 @@ I find Amaya a bit slow and clumsy for the production of mathematics.
 </p>
 
 
-<h3 id="wysiym">WYSIYM</h3>
+<h4 id="wysiym">WYSIYM</h4>
 
 <p>
 The most powerful way to produce mathematics is to learn a markup language for type-setting mathematics.
@@ -519,7 +539,10 @@ The math in a Lout source document looks a lot like math in the <a href="http://
 (Speaking of which, some people insist that EQN and <a href="http://www.gnu.org/software/groff/groff.html">GROFF</a> remain the right way to typeset mathematics.)
 </p>
 
-<p id="metafmt">
+
+<h3 id="metafmt">Meta Formats</h3>
+
+<p>
 There are a number of efforts to provide a meta-format from which
 both LaTeX and XHTML/MathML documents can be generated.
 The most notable and currently developed is probably <a href="http://www.albany.edu/~hammond/gellmu/">GELLMU</a>,
@@ -527,11 +550,11 @@ although <a href="http://tbookdtd.sourceforge.net/">tbook</a> is also interestin
 I like the much simpler <a href="http://docutils.sourceforge.net/rst.html">restructured text (reST)</a>,
 which allows inline and display math in LaTeX format.
 Citation handling is currently (2005) weak,
-but <a href="http://www.pricklysoft.org/software/bibstuff.html">bibstuff</a> provides some basic capabilities.
+but <a href="http://code.google.com/p/bibstuff/">bibstuff</a> provides some basic capabilities.
 Math support is improving.
-It is also worth trying reST plus Mozilla's itex for web math.
+It may also be worth trying reST plus Mozilla's itex for web math.
 <!-- add link to my document -->
-Other options include:
+Other metaformat options include:
 <a href="http://www.maplefish.com/todd/aft.html">Almost Free Text (AFT)</a>,
 <a href="http://daringfireball.net/projects/markdown/">MarkDown</a>,
 <a href="http://hobix.com/textile/">TextTile</a>,
@@ -539,10 +562,40 @@ and
 <a href="http://www.valdemar.net/~erik/setext/">setext</a>.
 </p>
 
+<h4>reStructuredText</h4>
+
+<p>
+reST to HTML:
+just use the rst2html writer.
+If you have included math in the document,
+use the rst2mathml writer.
+</p>
+
+<h5>reST to PDF</h5>
+
+<p>
+The usual way of creating PDF from an reST document is the following:
+use the rst2latex writer
+(or the <a href="http://docutils.sourceforge.net/sandbox/jensj/latex_math/tools/rst2latexmath.py">rst2latexmath</a> writer)
+to convert the document to LaTeX format,
+and then use pdftex to produce the PDF.
+</p>
+
+<p>
+<a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>
+produces PDF directly using the <a href="#reportlab">ReportLab</a> library. 
+</p>
+
+<p>
+You can also produce HTML with rst2html and then convert it.
+Using Adobe Acrobat can work moderately well,
+either by printing from a browser or by directly importing the HTML document.
+Alternatively, you can use the <a href="http://www.htmltopdf.org/">xhtml2pdf</a> converter (License: GPL or commercial)
+or the <a href="http://en.wikipedia.org/wiki/Prince_XML">Prince</a> XML converter.
+</p>
 
 
-
-<h2 id="TEX">LaTeX and Related Software</h2>
+<h3 id="TEX">LaTeX and Related Software</h3>
 
 <p>
 Background:
@@ -1671,6 +1724,15 @@ you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>.
 Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> libraries have been developed for Python.
 </p>
 
+<h4>L3</h4>
+
+<p>
+<a href="http://l3lang.sourceforge.net/">L3</a> is a large subset of Python
+along with a GUI interface that provides a "worksheet" like environment. (License: BSD.)
+Easy and powerful.
+</p>
+
+
 <h3>C</h3>
 
 <div id="clang">
@@ -1746,6 +1808,7 @@ allowing the ease of Python scripting to be combined with the power of Java.
 as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
 (which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).
 </p>
+
 
 <h4>Languages for Scientific Computing</h4>
 
@@ -1833,6 +1896,7 @@ The PLisp compiler generates PostScript code which is guaranteed not to contain 
 <p>
 See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a> and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman </a>.
 (The latter offers some package comparisons.)
+Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page.
 </p>
 
 <ul>
@@ -4975,7 +5039,9 @@ A recent review of <a href="http://franticindustries.com/blog/2006/12/21/big-web
 
 
 
-<h4>Unix Tools for Windows and System Tools</h4>
+<h4>Unix Tools</h4>
+
+<h5>Unix Tools for Windows and System Tools</h5>
 
 <p>
 Where to get a decent shell for Windows?
@@ -5047,6 +5113,11 @@ Stanislav Sitar compiled <a href="http://www.nicemice.net/par/par152ex.zip">par.
 </li>
 </ul>
 
+<h5>Unix Tools for MacIntosh</h5>
+<p>
+<a href="http://fink.sourceforge.net/">Fink</a> has an extensive collection of Unix tools for Mac users.
+</p>
+
 
 
 <h4 id="pdf">View and Manipulate PDF</h4>
@@ -5080,6 +5151,14 @@ is free and can annotate. (Commercial product.)
 <li>
 <a href="http://sourceforge.net/projects/arenable/">AREnable</a> enables the commenting features in Reader.
 </li>
+<li>
+<a href="http://www.cs.wisc.edu/~ghost/">GhostScript, GhostView, and GSView</a>.
+Ghostview and GSView can create pdf-files.
+Here is one of many ways.
+1. Print your documents to a file, using a postscript printer.
+2. Open the file in Ghostview.
+3. Print the document again to a file using the printer "pdfwrite".
+</li>
 </ul>
 
 <h5>PDF Viewing</h5>
@@ -5090,35 +5169,23 @@ The most popular viewer is the free (but closed source)
 <a href="http://www.adobe.com/acrobat/">Adobe Acrobat Reader</a>.
 </li>
 <li>
+For a list of free and open source readers,
+see <a href="http://pdfreaders.org/">PDFreaders.org</a>.
+My favorite reader on Windows platforms is
+<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a>,
+which is amazing, fast, and free.
+SumatraPDF is based on <a href="http://poppler.freedesktop.org/">poppler</a>
+and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
+(<a href="http://www.opengroup.org/infosrv/PDF/xpdf/">xpdf</a> is a cross platform PDF viewer,
+which comes with tools for PDF file manipulation.)
+</li>
+<li>
 <a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is cross platform.
 Can view PostScript and PDF.
-</li>
-<li> 
-<a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a> is Windows only,
-but is amazing, fast, and free.
-It is based on <a href="http://poppler.freedesktop.org/">poppler</a>
-and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
-</li>
-<li>
-<a href="http://www.cs.wisc.edu/~ghost/">GhostScript, GhostView, and GSView</a>.
-Ghostview and GSView can create pdf-files.
-Here is one of many ways.
-1. Print your documents to a file, using a postscript printer.
-2. Open the file in Ghostview.
-3. Print the document again to a file using the printer "pdfwrite".
-</li>
-<li>
-<a href="http://www.opengroup.org/infosrv/PDF/xpdf/">xpdf</a> is a cross platform PDF viewer,
-which comes with tools for PDF file manipulation.
 </li>
 </ul>
 
 
-
-<h4>Unix Tools for MacIntosh</h4>
-<p>
-<a href="http://fink.sourceforge.net/">Fink</a> has an extensive collection of Unix tools for Mac users.
-</p>
 
 
 

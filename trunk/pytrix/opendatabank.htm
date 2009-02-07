@@ -3,12 +3,287 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
 <title>Open-Databank Format</title>
 <meta name="author" content="Alan G. Isaac" />
-<meta name="date" content="20050826" />
+<meta name="date" content="2009-02-06" />
 <meta name="copyright" content="Creative Commons Attribution-ShareAlike 2.5 (or later version)." />
-<link rel="stylesheet" href="http://docutils.sourceforge.net/tools/stylesheets/default.css" type="text/css" />
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5631 2008-08-24 13:01:23Z goodger $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
 </head>
 <body>
 <div class="document" id="open-databank-format">
@@ -18,18 +293,18 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Author:</th>
-<td><a class="first last reference" href="http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm">Alan G. Isaac</a></td></tr>
+<td><a class="first last reference external" href="http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm">Alan G. Isaac</a></td></tr>
 <tr><th class="docinfo-name">Date:</th>
-<td>20050826</td></tr>
-<tr class="field"><th class="docinfo-name">First Posted:</th><td class="field-body">20050718</td>
+<td>2009-02-06</td></tr>
+<tr class="field"><th class="docinfo-name">First Posted:</th><td class="field-body">2005-07-18</td>
 </tr>
 <tr><th class="docinfo-name">Version:</th>
-<td>1.1.0</td></tr>
+<td>1.1.1</td></tr>
 <tr><th class="docinfo-name">Copyright:</th>
-<td><a class="first reference" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5</a> (or later version).</td></tr>
-<tr class="field"><th class="docinfo-name">Document URL:</th><td class="field-body"><a class="reference" href="http://www.american.edu/econ/pytrix/opendatabank.txt">http://www.american.edu/econ/pytrix/opendatabank.txt</a></td>
+<td><a class="first reference external" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5</a> (or later version).</td></tr>
+<tr class="field"><th class="docinfo-name">Document URL:</th><td class="field-body"><a class="reference external" href="http://www.american.edu/econ/pytrix/opendatabank.txt">http://www.american.edu/econ/pytrix/opendatabank.txt</a></td>
 </tr>
-<tr class="field"><th class="docinfo-name">HTML version:</th><td class="field-body"><a class="reference" href="http://www.american.edu/econ/pytrix/opendatabank.htm">http://www.american.edu/econ/pytrix/opendatabank.htm</a></td>
+<tr class="field"><th class="docinfo-name">HTML version:</th><td class="field-body"><a class="reference external" href="http://www.american.edu/econ/pytrix/opendatabank.htm">http://www.american.edu/econ/pytrix/opendatabank.htm</a></td>
 </tr>
 </tbody>
 </table>
@@ -40,15 +315,46 @@ to include multi-line comments and label comments.
 This document also serves to document both the original standard,
 which seems largely undocumented on the internet,
 and the open-databank extension.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-microtsp-databank-format" id="id10">The MicroTSP Databank Format</a><ul>
+<li><a class="reference internal" href="#in-more-detail" id="id11">In More Detail</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-databank-modifications-of-the-specification" id="id12">Open-Databank: Modifications of the Specification</a><ul>
+<li><a class="reference internal" href="#comment-lines" id="id13">Comment Lines</a></li>
+<li><a class="reference internal" href="#details" id="id14">Details</a></li>
+<li><a class="reference internal" href="#comments-on-backward-compatibility" id="id15">Comments on Backward Compatibility</a><ul>
+<li><a class="reference internal" href="#eviews-tsp-and-rats" id="id16">EViews, TSP, and RATS</a></li>
+<li><a class="reference internal" href="#converters" id="id17">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recommendations" id="id18">Recommendations</a><ul>
+<li><a class="reference internal" href="#writer-recommendations" id="id19">Writer recommendations</a></li>
+<li><a class="reference internal" href="#reader-recommendations" id="id20">Reader recommendations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-databank-multifiles" id="id21">Open-Databank Multifiles</a><ul>
+<li><a class="reference internal" href="#basic-concepts" id="id22">Basic Concepts</a></li>
+<li><a class="reference internal" href="#extensions" id="id23">Extensions</a></li>
+<li><a class="reference internal" href="#possible-future-extensions" id="id24">Possible Future Extensions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notes-and-references" id="id25">Notes and References</a></li>
+</ul>
+</div>
 <div class="section" id="the-microtsp-databank-format">
-<h2><a name="the-microtsp-databank-format">The MicroTSP Databank Format</a></h2>
-<p>The original databank format was promulgated by <a class="reference" href="http://www.eviews.com">microTSP</a>.
+<h1><a class="toc-backref" href="#id10">The MicroTSP Databank Format</a></h1>
+<p>The original databank format was promulgated by <a class="reference external" href="http://www.eviews.com">microTSP</a>.
 It is primarily useful for data of a fixed annual sample frequency
 (annual, quarterly, monthly) and for undated data.
-It is supported by <a class="reference" href="http://www.tspintl.com/">TSP</a> and <a class="reference" href="http://www.eviews.com">EViews</a>
+It is supported by <a class="reference external" href="http://www.tspintl.com/">TSP</a> and <a class="reference external" href="http://www.eviews.com">EViews</a>
 (by means of their <tt class="docutils literal"><span class="pre">store</span></tt> and <tt class="docutils literal"><span class="pre">fetch</span></tt> commands)
 and by many other applications.
-A brief description of the microTSP specification follows.<a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a></p>
+A brief description of the microTSP specification follows. <a class="footnote-reference" href="#id4" id="id1">[1]</a></p>
 <p>A microTSP databank file is an ASCII text file.
 Traditionally the name of the file ends with extension <tt class="docutils literal"><span class="pre">.db</span></tt>.
 A databank file is formatted linewise.
@@ -59,12 +365,12 @@ For undated series, the next two (n+1--n+2) lines specify the start index
 and end index.
 The remaining lines are data: one observation per line, or NA if missing.</p>
 <div class="section" id="in-more-detail">
-<h3><a name="in-more-detail">In More Detail</a></h3>
+<h2><a class="toc-backref" href="#id11">In More Detail</a></h2>
 <ul>
 <li><p class="first">Dated and Undated Series:</p>
 <dl class="docutils">
 <dt>Line 1--n:</dt>
-<dd><p class="first last">A databankfile begins with n comment lines,
+<dd><p class="first last">A databank file begins with n comment lines,
 each starting with quote-c: <tt class="docutils literal"><span class="pre">&quot;c</span></tt>
 The first comment is the creation/update date, formatted as follows:
 <tt class="docutils literal"><span class="pre">cLast</span> <span class="pre">updated:</span> <span class="pre">08-18-2006</span></tt>
@@ -77,7 +383,7 @@ of the comment lines.)</p>
 </li>
 <li><p class="first">Undated Series:</p>
 <dl class="docutils">
-<dt>Line n+1--n+2 </dt>
+<dt>Line n+1--n+2</dt>
 <dd><p class="first last">Positive integers, coding the starting index and ending index
 of an undated series.</p>
 </dd>
@@ -85,13 +391,13 @@ of an undated series.</p>
 <p>E.g.,</p>
 <pre class="literal-block">
 1
-300 
+300
 </pre>
 </li>
 <li><p class="first">Dated Series:</p>
 <dl class="docutils">
 <dt>Line n+1</dt>
-<dd><p class="first last">A negative integer, coding the annual frequency of the time series (times -1): 
+<dd><p class="first last">A negative integer, coding the annual frequency of the time series (times -1):
 -12 (monthly),
 -4  (quarterly), or
 -1  (annual).</p>
@@ -132,7 +438,7 @@ or a missing value, coded as <cite>NA</cite></p>
 </div>
 </div>
 <div class="section" id="open-databank-modifications-of-the-specification">
-<h2><a name="open-databank-modifications-of-the-specification">Open-Databank: Modifications of the Specification</a></h2>
+<h1><a class="toc-backref" href="#id12">Open-Databank: Modifications of the Specification</a></h1>
 <p>The open-databank format enhances the original databank specification
 for the comment lines and adds a couple details.  It retains
 all of the advantages of the microTSP databank format for fixed-frequency
@@ -140,7 +446,7 @@ time series data. (That is, it is easily human readable, almost self
 documenting, easily parsed, and terse.)  Any correctly formatted microTSP
 databank file is an open-databank file.</p>
 <div class="section" id="comment-lines">
-<h3><a name="comment-lines">Comment Lines</a></h3>
+<h2><a class="toc-backref" href="#id13">Comment Lines</a></h2>
 <ul>
 <li><p class="first">A comment line begins with a comment marker,
 which is followed by comment content.
@@ -207,7 +513,7 @@ possibly on one or more continuation lines.</li>
 </ul>
 </div>
 <div class="section" id="details">
-<h3><a name="details">Details</a></h3>
+<h2><a class="toc-backref" href="#id14">Details</a></h2>
 <p>A line may contain 1024 characters, including end-of-line characters.
 Readers may truncate longer lines.
 Any standard (Unix, DOS, Mac) line-termination sequence may be used to indicate the end of a line.
@@ -215,12 +521,19 @@ It is recommended that the line-termination sequence be consistent throughout a 
 The last line of a file should include a line-termination sequence.
 A file-termination sequence should not be used.</p>
 </div>
-<div class="section" id="comments-on-backward-compatability">
-<h3><a name="comments-on-backward-compatability">Comments on Backward Compatability</a></h3>
+<div class="section" id="comments-on-backward-compatibility">
+<h2><a class="toc-backref" href="#id15">Comments on Backward Compatibility</a></h2>
+<p>The new format is essentially backwards compatible,
+although newer readers will handle information that old readers discard.</p>
+<div class="section" id="eviews-tsp-and-rats">
+<h3><a class="toc-backref" href="#id16">EViews, TSP, and RATS</a></h3>
+<p>TSP and RATS are believed to share the modest limitations
+of EViews in handling the open-database format.
+As of version 5, EViews:</p>
 <ul>
-<li><p class="first">As of version 5, EViews simply discards comment continuation lines.</p>
+<li><p class="first">simply discards comment continuation lines.</p>
 </li>
-<li><p class="first">As of version 5, EViews recognizes only three labels:</p>
+<li><p class="first">recognizes only three labels:</p>
 <blockquote>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Last</span> <span class="pre">updated</span></tt></li>
@@ -230,16 +543,21 @@ A file-termination sequence should not be used.</p>
 </blockquote>
 <p>All other labels are treated as ordinary comments.</p>
 </li>
-<li><p class="first">Eviews writes a quote at the end of each comment line.
+<li><p class="first">writes a quote at the end of each comment line.
 (This practice is discouraged.)</p>
 </li>
 </ul>
 </div>
+<div class="section" id="converters">
+<h3><a class="toc-backref" href="#id17">Converters</a></h3>
+<p><a class="reference external" href="http://code.google.com/p/econpy/">EconPy</a> provides an open-databank reader and a writer in its <a class="reference external" href="http://econpy.googlecode.com/svn/trunk/pytrix/io.py">io module</a>.</p>
+</div>
+</div>
 </div>
 <div class="section" id="recommendations">
-<h2><a name="recommendations">Recommendations</a></h2>
+<h1><a class="toc-backref" href="#id18">Recommendations</a></h1>
 <div class="section" id="writer-recommendations">
-<h3><a name="writer-recommendations">Writer recommendations</a></h3>
+<h2><a class="toc-backref" href="#id19">Writer recommendations</a></h2>
 <ul class="simple">
 <li>Write the file with a <tt class="docutils literal"><span class="pre">.db</span></tt> extension unless otherwise specified.</li>
 <li>Follow each comment marker with one space.</li>
@@ -251,10 +569,10 @@ possible later extensions of the open-databank format.  E.g.,
 </ul>
 </div>
 <div class="section" id="reader-recommendations">
-<h3><a name="reader-recommendations">Reader recommendations</a></h3>
+<h2><a class="toc-backref" href="#id20">Reader recommendations</a></h2>
 <ul class="simple">
 <li>Ignore blank lines and lines containing only white space.</li>
-<li>Read any line starting with a quote as a comment line.  
+<li>Read any line starting with a quote as a comment line.
 (EViews 5 discards lines starting with a quote but not with quote-c.)</li>
 <li>Disregard white space immediately following a comment marker.
 (EViews 5 follows this practice.)</li>
@@ -263,7 +581,7 @@ disregard white space at the end of a comment line.
 (EViews 5 disregards the final quote but preserves the white space.)</li>
 <li>Ensure that the sample specified implies the number
 of observations actually listed.  If not, offer a warning.</li>
-<li>Some existing <tt class="docutils literal"><span class="pre">.db</span></tt> files code missing values as 0.10E-36.<a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a>
+<li>Some existing <tt class="docutils literal"><span class="pre">.db</span></tt> files code missing values as 0.10E-36. <a class="footnote-reference" href="#id7" id="id2">[2]</a>
 Readers are recommended but not required to accommodate this practice,
 as an option.</li>
 <li>If the series has a label comment with key = <tt class="docutils literal"><span class="pre">SeriesName</span></tt> and non-empty value,
@@ -274,7 +592,7 @@ such as <tt class="docutils literal"><span class="pre">.db</span></tt> or <tt cl
 </div>
 </div>
 <div class="section" id="open-databank-multifiles">
-<h2><a name="open-databank-multifiles">Open-Databank Multifiles</a></h2>
+<h1><a class="toc-backref" href="#id21">Open-Databank Multifiles</a></h1>
 <p>The open-databank multifile format specification is still in progress.
 However it is usable in its current state and files meeting the current
 specification will remain valid.  (Comments are welcome.)
@@ -286,11 +604,11 @@ The open-databank multifile format specification
 includes a set of basic extensions to the open-databank single-series format.
 Use of these extensions breaks compatibility with the single-series format.</p>
 <div class="section" id="basic-concepts">
-<h3><a name="basic-concepts">Basic Concepts</a></h3>
+<h2><a class="toc-backref" href="#id22">Basic Concepts</a></h2>
 <p>The Open-Databank Multifile format allows stacked series.</p>
 <ul>
 <li><p class="first">Each series should follow the open-databank format described above,
-except as noted in <a class="reference" href="#extensions">Extensions</a>.</p>
+except as noted in <a class="reference internal" href="#extensions">Extensions</a>.</p>
 </li>
 <li><p class="first">Preceding each series, including the first series in the file,
 must be a line containing only the series-boundary marker:</p>
@@ -310,9 +628,9 @@ It is recommended that this be the first comment line for the series.</p>
 --series-boundary--
 </pre>
 <p>Note that the series-boundary markers thereby mimic a MIME standard,
-making the open-databank multifile format easy to parse.<a class="footnote-reference" href="#id9" id="id3" name="id3">[3]</a></p>
+making the open-databank multifile format easy to parse. <a class="footnote-reference" href="#id9" id="id3">[3]</a></p>
 </li>
-<li><p class="first">Lines above the first <tt class="docutils literal"><span class="pre">--series-boundary</span></tt> marker are considered 
+<li><p class="first">Lines above the first <tt class="docutils literal"><span class="pre">--series-boundary</span></tt> marker are considered
 to be comment lines, used for comments on the entire file rather
 on a specific series.  Since this entire area is reserved for comments,
 there is no special comment marker.</p>
@@ -321,14 +639,14 @@ there is no special comment marker.</p>
 <li>The first character on a comment continuation line must be
 the space-character (ASCII 31).</li>
 <li>A new comment line containing a colon (ASCII 58) specifies a label comment.
-(Note: see <a class="reference" href="http://research.stlouisfed.org/fred2/">FRED</a> for examples of this comment format.
+(Note: see <a class="reference external" href="http://research.stlouisfed.org/fred2/">FRED</a> for examples of this comment format.
 Note: be careful not to place a URL on the first line of an ordinary comment.)</li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="extensions">
-<h3><a name="extensions">Extensions</a></h3>
+<h2><a class="toc-backref" href="#id23">Extensions</a></h2>
 <ul class="simple">
 <li>The frequency, sample start, and sample end information may be placed
 on a single line, separated by white space.  No data is allowed on this line.</li>
@@ -336,7 +654,7 @@ on a single line, separated by white space.  No data is allowed on this line.</l
 </ul>
 </div>
 <div class="section" id="possible-future-extensions">
-<h3><a name="possible-future-extensions">Possible Future Extensions</a></h3>
+<h2><a class="toc-backref" href="#id24">Possible Future Extensions</a></h2>
 <p>These extensions are listed in rank order of likelihood of implementation.</p>
 <ul class="simple">
 <li>Allow specifying frequency, sample start, and sample end in comment lines.</li>
@@ -346,15 +664,15 @@ on a single line, separated by white space.  No data is allowed on this line.</l
 </div>
 <hr class="docutils" />
 <div class="section" id="notes-and-references">
-<h2><a name="notes-and-references">Notes and References</a></h2>
+<h1><a class="toc-backref" href="#id25">Notes and References</a></h1>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id4">[1]</a></td><td><p class="first">Details on the original format were derived from the following sources:</p>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first">Details on the original format were derived from the following sources:</p>
 <ul class="last simple">
-<li><a class="citation-reference" href="#nber-2001" id="id5" name="id5">[NBER_2001]</a></li>
-<li>experimentation with the <a class="reference" href="http://www.eviews.com">EViews</a> software</li>
-<li>a summary description kindly provided by <a class="reference" href="http://www.stanford.edu/~clint/">Clint Cummins</a>, which drew on <a class="citation-reference" href="#hall-and-lilien-1989" id="id6" name="id6">[Hall_and_Lilien_1989]</a>.</li>
+<li><a class="citation-reference" href="#nber-2001" id="id5">[NBER_2001]</a></li>
+<li>experimentation with the <a class="reference external" href="http://www.eviews.com">EViews</a> software</li>
+<li>a summary description kindly provided by <a class="reference external" href="http://www.stanford.edu/~clint/">Clint Cummins</a>, which drew on <a class="citation-reference" href="#hall-and-lilien-1989" id="id6">[Hall_and_Lilien_1989]</a>.</li>
 </ul>
 </td></tr>
 </tbody>
@@ -362,26 +680,26 @@ on a single line, separated by white space.  No data is allowed on this line.</l
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2" name="id7">[2]</a></td><td>See e.g. <a class="citation-reference" href="#nber-2001" id="id8" name="id8">[NBER_2001]</a> and associated historical files.
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>See e.g. <a class="citation-reference" href="#nber-2001" id="id8">[NBER_2001]</a> and associated historical files.
 (The missing value code in the .db files of this database was 0.1E-36 until August 2005, when it was replaced with <tt class="docutils literal"><span class="pre">NA</span></tt>.)</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3" name="id9">[3]</a></td><td>See for example the Python <a class="reference" href="http://www.python.org/doc/1.5.2p2/lib/MultiFile-objects.html">multifile module</a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>See for example the Python <a class="reference external" href="http://www.python.org/doc/1.5.2p2/lib/MultiFile-objects.html">multifile module</a>.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="hall-and-lilien-1989" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6" name="hall-and-lilien-1989">[Hall_and_Lilien_1989]</a></td><td>Hall, Robert E., and Lilien, David, <em>microTSP Version 6.5 User's Manual</em>, Quantitative Micro Software, 1989.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[Hall_and_Lilien_1989]</a></td><td>Hall, Robert E., and Lilien, David, <em>microTSP Version 6.5 User's Manual</em>, Quantitative Micro Software, 1989.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="nber-2001" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="nber-2001">[NBER_2001]</a></td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> Feenberg, Daniel and Jeff Miron, <a class="reference" href="http://www.nber.org/databases/macrohistory/contents/index.html">NBER Macrohistory Database</a>, NBER, 2001.</td></tr>
+<tr><td class="label">[NBER_2001]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> Feenberg, Daniel and Jeff Miron, <a class="reference external" href="http://www.nber.org/databases/macrohistory/contents/index.html">NBER Macrohistory Database</a>, NBER, 2001.</td></tr>
 </tbody>
 </table>
 </div>
