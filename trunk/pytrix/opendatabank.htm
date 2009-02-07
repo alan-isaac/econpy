@@ -299,7 +299,7 @@ ul.auto-toc {
 <tr class="field"><th class="docinfo-name">First Posted:</th><td class="field-body">2005-07-18</td>
 </tr>
 <tr><th class="docinfo-name">Version:</th>
-<td>1.1.1</td></tr>
+<td>1.1.2</td></tr>
 <tr><th class="docinfo-name">Copyright:</th>
 <td><a class="first reference external" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5</a> (or later version).</td></tr>
 <tr class="field"><th class="docinfo-name">Document URL:</th><td class="field-body"><a class="reference external" href="http://www.american.edu/econ/pytrix/opendatabank.txt">http://www.american.edu/econ/pytrix/opendatabank.txt</a></td>
@@ -371,13 +371,13 @@ The remaining lines are data: one observation per line, or NA if missing.</p>
 <dl class="docutils">
 <dt>Line 1--n:</dt>
 <dd><p class="first last">A databank file begins with n comment lines,
-each starting with quote-c: <tt class="docutils literal"><span class="pre">&quot;c</span></tt>
-The first comment is the creation/update date, formatted as follows:
-<tt class="docutils literal"><span class="pre">cLast</span> <span class="pre">updated:</span> <span class="pre">08-18-2006</span></tt>
-Subsequent comments contain optional documentation, e.g.,
-<tt class="docutils literal"><span class="pre">cMy</span> <span class="pre">useful</span> <span class="pre">comment.</span></tt>
-(See below for the open-databank modification of this specification
-of the comment lines.)</p>
+each starting with quote-c (<tt class="docutils literal"><span class="pre">&quot;c</span></tt>).
+The first comment is the creation/update date,
+formatted as follows: <tt class="docutils literal"><span class="pre">cLast</span> <span class="pre">updated:</span> <span class="pre">08-18-2006</span></tt>.
+Subsequent comments contain optional documentation,
+e.g., <tt class="docutils literal"><span class="pre">cMy</span> <span class="pre">useful</span> <span class="pre">comment.</span></tt>
+(See below for the open-databank modification
+of this specification of the comment lines.)</p>
 </dd>
 </dl>
 </li>
@@ -397,7 +397,7 @@ of an undated series.</p>
 <li><p class="first">Dated Series:</p>
 <dl class="docutils">
 <dt>Line n+1</dt>
-<dd><p class="first last">A negative integer, coding the annual frequency of the time series (times -1):
+<dd><p class="first last">A negative integer, coding the annual frequency of the time series:
 -12 (monthly),
 -4  (quarterly), or
 -1  (annual).</p>
@@ -563,9 +563,11 @@ As of version 5, EViews:</p>
 <li>Follow each comment marker with one space.</li>
 <li>Include a label comment with the <tt class="docutils literal"><span class="pre">DBversion</span></tt> key to accommodate
 possible later extensions of the open-databank format.  E.g.,
-<tt class="docutils literal"><span class="pre">DBversion:</span> <span class="pre">1.0</span></tt></li>
+<tt class="docutils literal"><span class="pre">DBversion:</span> <span class="pre">1.1.2</span></tt></li>
 <li>Provide an option for writing microTSP compatible output.
 (Essentially: each comment is written to a single line.)</li>
+<li>For the <tt class="docutils literal"><span class="pre">Last</span> <span class="pre">updated</span></tt> label,
+write the date in ISO 8601 format.</li>
 </ul>
 </div>
 <div class="section" id="reader-recommendations">
