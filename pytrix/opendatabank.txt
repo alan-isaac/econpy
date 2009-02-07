@@ -5,7 +5,7 @@ Open-Databank Format
 :Author:        `Alan G. Isaac`_
 :Date:          2009-02-06
 :First Posted:  2005-07-18
-:Version:       1.1.1
+:Version:       1.1.2
 :Copyright:     `Creative Commons Attribution-ShareAlike 2.5`_ (or later version).
 :Document URL:  http://www.american.edu/econ/pytrix/opendatabank.txt
 :HTML version:  http://www.american.edu/econ/pytrix/opendatabank.htm
@@ -48,13 +48,13 @@ In More Detail
 
   Line 1--n:
         A databank file begins with n comment lines,
-        each starting with quote-c: ``"c``
-        The first comment is the creation/update date, formatted as follows:
-        ``cLast updated: 08-18-2006``
-        Subsequent comments contain optional documentation, e.g.,
-        ``cMy useful comment.``
-        (See below for the open-databank modification of this specification
-        of the comment lines.) 
+        each starting with quote-c (``"c``).
+        The first comment is the creation/update date,
+        formatted as follows: ``cLast updated: 08-18-2006``.
+        Subsequent comments contain optional documentation,
+        e.g., ``cMy useful comment.``
+        (See below for the open-databank modification
+        of this specification of the comment lines.) 
 
 + Undated Series: 
 
@@ -70,7 +70,7 @@ In More Detail
 + Dated Series: 
 
   Line n+1
-        A negative integer, coding the annual frequency of the time series (times -1): 
+        A negative integer, coding the annual frequency of the time series: 
         -12 (monthly),
         -4  (quarterly), or
         -1  (annual).
@@ -221,9 +221,11 @@ Writer recommendations
 - Follow each comment marker with one space.
 - Include a label comment with the ``DBversion`` key to accommodate
   possible later extensions of the open-databank format.  E.g.,
-  ``DBversion: 1.0`` 
+  ``DBversion: 1.1.2`` 
 - Provide an option for writing microTSP compatible output.
   (Essentially: each comment is written to a single line.)
+- For the ``Last updated`` label,
+  write the date in ISO 8601 format.
 
 Reader recommendations
 ----------------------

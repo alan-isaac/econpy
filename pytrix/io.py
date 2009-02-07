@@ -1,4 +1,4 @@
-'''A collection input-output utilities.
+"""A collection input-output utilities.
 These are intended a lightweight supplements to those in SciPy_,
 not to provide a full set of service.
 
@@ -11,9 +11,10 @@ not to provide a full set of service.
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 .. _`SciPy`: http://www.scipy.org/
-'''
+"""
 __docformat__ = "restructuredtext en"
 
+import csv
 import types
 import urllib
 import datetime
@@ -46,8 +47,10 @@ def read_odb(fp):
 		fp.seek(0)
 		data,smpl,comments = read_db(fp)
 		dates = None  #maybe ...
-	elif line[0].isalpha():
-		pass #read FRED
+	#elif line[0].isalpha(): pass #read FRED
+	else:
+		msg = "File does not appear to be a databank."
+		raise ValueError(msg)
 	return data,smpl,comments,dates
 
 
@@ -58,13 +61,20 @@ def next_stripped_notempty(fp):  #ignore blank lines
 	return line
 
 def read_db(fp):
+	"""Return tuple: data, smpl, comments.
+	Reads an open-database file.
+	"""
+	#fp may be a string instead of a file handle
 	if isinstance(fp,str):
 		fp = file(fp,'r')
 	assert isinstance(fp,file), "%s not recognized as a file"%(fp)
+	#empty dict to hold comments
 	comments = dict()
 	ckey = ''
 	cval = ''
+	#empty list to hold data
 	data = []
+	#get the first non-empty line
 	line = next_stripped_notempty(fp)
 	while line.startswith('"'):   #it's a comment
 		if line.endswith('"'):
@@ -80,38 +90,50 @@ def read_db(fp):
 				cval = line
 		else: #comment continuation line
 			cval = line
-		if comments.has_key(ckey):
-			cval = comments[ckey]+'\n'+cval
-		comments.update({ckey:cval})
+		if ckey in comments:
+			comments[ckey] += '\n'+cval
+		else:
+			comments[ckey] = cval
 		line = next_stripped_notempty(fp)
-	# need to change next to allow undated series
-	try: assert '-'==line[0]  #freq specifier starts w '-'
-	except IndexError:
-		print fp.tell()
-		exit
-	freq = -int(line)
-	assert freq in [1,4,12]
-	start, freq_implied = datestring2date(next_stripped_notempty(fp),freq)
-	end, freq_implied = datestring2date(next_stripped_notempty(fp),freq)
-	smpl = Sample(start,end,freq)
-	for line in fp.readlines():  #needs to work with multifile
-		if line.startswith('"c'):
+	if line.startswith('-'):  #fixed frequency series
+		freq = -int(line)
+		line = next_stripped_notempty(fp)
+	else: # undated series
+		freq = 'u'
+	start = line
+	end = next_stripped_notempty(fp)
+	if freq in [1,4,12]:
+		start = datestr2date(start,freq)
+		end = datestr2date(end,freq)
+	elif freq == 'u':
+		start, end = int(start), int(end)
+	else:
+		raise ValueError("Unrecognized frequency.")
+	smpl = Sample(start, end, freq)
+	for line in fp.readlines():  #TODO: work with multifile
+		if line.startswith('"'):
 			logging.warn("comment in data discarded")
 			continue #ignore comments in data
 		else:
 			try:
 				data.append(float(line))
 			except ValueError:
-				logging.warn("corrupt data discarded")
+				logging.warn("corrupt data discarded:"+line)
 	#logging.info(str(comments))
-	return data,smpl,comments
+	return data, smpl, comments
 
 def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None):
-	'''Write data to an opendatabank file.
+	"""Return None. Write data to an opendatabank file.
 	Priority to smpl if provided.
 
+	Although other comments are harmless,
+	many readers only recognize three labels:
+	"Last updated", "Display Name", and "Modified".
+	The last of these is automatically set to the
+	current date by this writer.
+
 	:see: http://www.american.edu/econ/pytrix/opendatabank.txt
-	'''
+	"""
 	logging.debug("\n\tEntering write_db...")
 	if smpl is None:
 		try:
@@ -135,7 +157,7 @@ def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None)
 		raise TypeError('Unknown sample type.')
 	logging.debug("Writing data with"+data_type+"sample:\n%s"%(freq_smpl,))
 	try:
-		fp = file(file_name,'w')
+		fp = open(file_name,'w')
 	except:
 		logging.error("Cannot write to %s; invalid file name?"%(file_name))
 		raise IOError
@@ -147,79 +169,118 @@ def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None)
 		fp.write(str(datum)+'\n')
 	fp.close()
 
-def parse_date(dt,freq=None):
-	'''Determine date and return beginning-of-period equivalent,
-	as implied by `freq`.
-	'''
+def parse_date(dt, freq=None):
+	"""Return: datetime.date,
+	as implied by `dt` and `freq`.
+	"""
 	logging.debug("\n\tEntering parse_date...")
-	if isinstance(dt,datetime.date):
-		new_dt = dt
-	elif isinstance(dt,list):
+	if isinstance(dt, datetime.date):
+		new_dt = dt   #is a copy wanted?
+	elif isinstance(dt, list):
 		new_dt = datetime.date(dt[0],dt[1],1)
-	elif isinstance(dt,str):
-		new_dt, freq_implied = datestring2date(dt,freq)
-		if freq is None:
-			freq = freq_implied
-		else:
-			assert (freq == freq_implied), "Stated frequency does not match format"
+	elif isinstance(dt, str):
+		new_dt = datestr2date(dt, freq)
 	else:
 		raise ValueError('parse_date: Unsupported date type.')
-	return date2periodstart(new_dt,freq)
+	return new_dt
 
-def date2periodstart(dt,freq=None):
-	'''Returns beginning of the period in which dt falls, based on freq.
+def date2bop(dt, freq):
+	"""Returns beginning of the period in which dt falls, based on freq.
 
 	:param dt: datetime.date object
 	:param freq: int, representaton of frequency
-	'''
-	logging.debug("\n\tEntering date2periodstart...")
-	assert isinstance(dt,datetime.date), "Requires datetime.date input."
+	"""
+	logging.debug("\n\tEntering date2bop...")
 	freq = freq2num(freq)
-	if freq is None: new_dt = dt
-	elif freq==1: new_dt = datetime.date(dt.year,1,1)
-	elif freq==4: new_dt = datetime.date(dt.year,1+((dt.month-1)//3)*3,1)
-	elif freq==12: new_dt = datetime.date(dt.year,dt.month,1)
-	else: raise ValueError('Unsupported frequency: %s'%(freq))
+	if isinstance(dt, str):
+		dt = datestr2date(dt, freq)
+	if not isinstance(dt, datetime.date):
+		raise ValueError('`date2bop` requires datetime.date input.')
+	if freq==1:
+		new_dt = datetime.date(dt.year,1,1)
+	elif freq==4:
+		new_dt = datetime.date(dt.year,1+((dt.month-1)//3)*3,1)
+	elif freq==12:
+		new_dt = datetime.date(dt.year,dt.month,1)
+	else:
+		raise ValueError('Unsupported frequency: %s'%(freq))
 	if new_dt != dt:
-		logging.warning("Date changed to start of period for frequency of %s times per year."%(freq))
+		logging.info("Date changed to start of period for frequency of %s times per year."%(freq))
 	return new_dt
 	
-def datestring2date(date_str,freq=None):
-	'''Return yyyy or yyyy.q or yyyy.mm as datetime.date object.
-	Also return implied `freq`.
+def parse_datestr(datestr):
+	"""Return dict containing year, quarter, month, day, freq.
 
-	:param date_str: string, representation of a date
+	Allowable input formats:
+
+	- Annual: yyyy
+	- Quarterly: yyyy.q, yyyyQq,
+	- Monthly: yyyy.mm, yyyyMmm, yyyy-mm, Mmm yyyy
+
+	:param datestr: string, representation of a date
 	:param freq: int, representaton of frequency
 
 	:note: Also handles some hyphenated dates: e.g., 2005-10-01.
-	'''
-	assert isinstance(date_str,str), "datestring2date only converts strings."
-	date_str = date_str.replace(':','.').replace('-','.')
-	date_parts = date_str.split('.')
-	logging.debug('date_parts: '+str(date_parts))
-	year = int(date_parts[0])
-	if len(date_parts) == 1:   #implies annual data
-		if freq:
-			assert freq == 1, "frequency %s does not match format"%(freq)
-		else:
-			freq = 1
-		month = 1        #set month = 1 for consistency and nice graphs
-	if len(date_parts) >= 2:
-		if len(date_parts[1]) == 1:  #implies quarterly data
-			if freq:
-				assert freq==4, "frequency must match format"
-			else:
-				freq = 4
-			month = int(date_parts[1])*3-2  #better to subtract 2 for quarterly graphs??
-		else:
-			month = int(date_parts[1])
-	return datetime.date(year,month,1),freq
+	"""
+	datestr = datestr.strip()
+	monthly = re.compile('^\d\d\d\d[Mm.-]\d\d$')
+	monthly_ifs = re.compile('^[Mm](\d{1,2})\s+(\d\d\d\d)$')
+	quarterly = re.compile('^\d\d\d\d[Qq.-]\d$')
+	annual = re.compile('^\d\d\d\d$')
+	result = dict()
+	if not isinstance(datestr, str):
+		raise ValueError("parse_datestr only converts strings.")
+	if monthly.match(datestr):
+		year, month = map(int, re.split('[Mm.-]', datestr) )
+		result['month'] = month
+		result['freq'] = 12
+	elif monthly_ifs.match(datestr):
+		month, year = map( int, monthly_ifs.match(datestr).groups() )
+		result['month'] = month
+		result['freq'] = 12
+	elif quarterly.match(datestr):
+		year, quarter = map(int, re.split('[Qq.-]', datestr))
+		result['quarter'] = quarter
+		result['freq'] = 4
+	elif annual.match(datestr):
+		year = int(datestr)
+		result['freq'] = 1
+	else:
+		raise ValueError('Unrecognized date format: '+datestr)
+	result['year'] = year
+	return result
+
+def datestr2date(datestr, freq=None, month4yearly=1, month4quarterly=1, day=15):
+	"""Return datetime.date instance,
+	representing datestr.
+
+	Allowable input formats: see `parse_datestr`
+
+	:param datestr: string, representation of a date
+	:param freq: int, representaton of frequency
+	"""
+	parsed = parse_datestr(datestr)
+	implied_freq = parsed['freq']
+	if freq and freq != implied_freq:
+		raise ValueError('`freq` must match date format')
+	year = parsed['year']
+	if implied_freq == 12:
+		month = parsed['month']
+	elif implied_freq == 4:
+		quarter = parsed['quarter']
+		month = (quarter-1)*3 + month4quarterly
+	elif implied_freq == 1:
+		#set month = 1 for consistency and nice graphs?
+		month = month4yearly
+	else:
+		raise ValueError('Unrecognized frequency: %s'%implied_freq)
+	return datetime.date(year,month,day)
 
 def date2dbdate(dtdate,freq):
-	'''Convert datetime.date to opendatabank format.
+	"""Convert datetime.date to opendatabank format.
 	
 	:see: http://www.american.edu/econ/pytrix/opendatabank.txt
-	'''
+	"""
 	freq = freq2num(freq)
 	dtstr = str(dtdate.year)
 	if freq==12:
@@ -231,7 +292,7 @@ def date2dbdate(dtdate,freq):
 
 
 class ReadFRED(object):
-	'''Read data from `FRED2`_ files.
+	"""Read data from `FRED2`_ files.
 	Example use::
 
 		fredbase = "http://research.stlouisfed.org/fred2/data/"
@@ -242,7 +303,7 @@ class ReadFRED(object):
 	:note: logs errors to root log
 
 	.. _`FRED2`: http://research.stlouisfed.org/fred2/
-	'''
+	"""
 	def __init__(self, source):
 		#source is a URL, a path, or a file handle
 		self.source = source
@@ -272,8 +333,8 @@ class ReadFRED(object):
 			fh = filehandle
 		return fh
 	def parse_source(self, fh):
-		'''Parse source into header, dates, and data.
-		'''
+		"""Parse source into header, dates, and data.
+		"""
 		header_lines = []
 		dates = []
 		data = []
@@ -305,9 +366,9 @@ class ReadFRED(object):
 			self.dates = dates
 			self.data = data
 	def parse_header(self):
-		'''Parse header into individual comments.
+		"""Parse header into individual comments.
 		Skips blank lines.
-		'''
+		"""
 		keyval = ['','']
 		comments = {}
 		for line in self.header.split("\n"):
@@ -329,15 +390,38 @@ class ReadFRED(object):
 		start = self.dates[0]
 		end = self.dates[-1]
 		freq = self.comments['Frequency']
-		sample = Sample(start,end,freq=freq,dates=None,condition=None)
+		sample = Sample(start, end, freq=freq, dates=None, condition=None)
 		return sample
 	def write_db(self, file_name):
 		smpl = self.get_sample()
 		write_db(file_name,self.data,smpl=smpl,comments={},freq=None,start=None,end=None)
 		
 
+def read_ifs_csv(filename, skiplines=10):
+	"""Return tuple.
+	Very basic reader for IFS CSV files.
+	Only reads sequential valid observations.
+	"""
+	reader = csv.reader(open(filename))
+	#skip header
+	for _ in range(skiplines):
+		reader.next()
+		
+	data = list()
+	dates = list()
+	startdata = False
+	for row in reader:
+		if "n.a." in row:
+			if not startdata: continue
+			else: break
+		startdata = True
+		date, vals = row[0], map(float,row[1:])
+		dates.append( datestr2date(date) )
+		data.append(vals)
+	return data, dates
+
 def read_fred(source):
-	'''Return data, dates, comments.
+	"""Return data, dates, comments.
 	Read data from `FRED2`_ files.
 	Example use::
 
@@ -347,7 +431,7 @@ def read_fred(source):
 	:note: deprecated in favor of ReadFRED class
 
 	.. _`FRED2`: http://research.stlouisfed.org/fred2/
-	'''
+	"""
 	series = ReadFRED(source)
 	data = series.data
 	dates = series.dates
@@ -356,10 +440,10 @@ def read_fred(source):
 
  
 def read_odbmulti(fname):
-	'''Read data from opendatabank multi files.
+	"""Read data from opendatabank multi files.
 
 	:see: http://www.american.edu/econ/pytrix/opendatabank.txt
-	'''
+	"""
 	import multifile
 	fp = open(fname,'r')
 	mfp = multifile.MultiFile(fp)
@@ -375,35 +459,43 @@ def read_odbmulti(fname):
 	fp.close()
 
 class Sample:
-	'''A 'sample' (i.e., date range) class for tseries.series objects.
+	"""A 'sample' (i.e., date range) class for tseries.series objects.
 
 	:note: each observation is dated to first day of its period
-	'''
+	"""
 	def __init__(self,start,end,freq=None,dates=None,condition=None):
-		self.start = parse_date(start,freq) #gets *beginning* of period in which `start` falls
-		self.end = parse_date(end,freq) #gets *beginning* of period in which `end` falls
+		if freq == 'u':
+			self.freq = freq
+			self.start, self.end = int(start), int(end)
+			self.dates = dates or list(range(start,end+1))
+			self.condition = condition
+		else:
+			self.freq = freq2num(freq)
+			#get *beginning* of period in which `start` falls
+			self.start = date2bop(start, freq)
+			#get *beginning* of period in which `end` falls
+			self.end = date2bop(end, freq)
+			self.dates = dates
+			self.condition = condition
 		logging.info("Class Sample: "+str(self))
 		logging.info("Class Sample: freq = "+str(freq))
-		self.freq = freq2num(freq)
-		self.dates = dates
-		self.condition = condition
 	def __str__(self):
 		return str(self.start)+' to '+str(self.end)
 	#define equality comparison
-	def __eq__(self,smpl):
+	def __eq__(self, smpl):
 		return (self.start == smpl.start)and(self.end==smpl.end)and(self.freq==smpl.freq)
-	def __ne__(self,smpl):
+	def __ne__(self, smpl):
 		return (self.start != smpl.start)or(self.end!=smpl.end)or(self.freq!=smpl.freq)
 	def __len__(self):
 		return len(self.get_dates())
 	def copy(self):
 		return Sample(self.start,self.end,self.freq,self.condition)
 	def set_start(self,dt):
-		self.start = parse_date(dt,freq)
+		self.start = date2bop(dt,freq)
 	def set_end(self,dt):
-		self.end = parse_date(dt,freq)
+		self.end = date2bop(dt,freq)  #chk bop?
 	def get_rrule(self):
-		'''Convert sample `smpl` dates to rrule.  '''
+		"""Convert sample `smpl` dates to rrule.  """
 		if self.freq == 12:
 			return matplotlib.dates.rrule(MONTHLY,dtstart=self.start,until=self.end)
 		elif self.freq == 4:
@@ -416,7 +508,7 @@ class Sample:
 		if dates is None:
 			self.dates =  [xi.date() for xi in self.get_rrule()]
 	def get_dates(self):
-		'''Return list of datetime.date objects corresponding to sample.'''
+		"""Return list of datetime.date objects corresponding to sample."""
 		if self.dates is None:
 			self.set_dates()
 		return self.dates
@@ -430,7 +522,7 @@ class Sample:
 		try:
 			date_idx = self.dates.index(dt)
 		except ValueError:
-			new_dt = date2periodstart(dt,self.freq)
+			new_dt = date2bop(dt,self.freq)
 			logging.warning("Sample: "+str(dt)+ "within sample but not in dates. Seeking "+str(new_dt)+" instead.")
 		return self.dates.index(dt)
 	def intersect(self,smpl):
@@ -446,14 +538,16 @@ class Sample:
 
 def freq2num(freq):
 	if freq in (1,4,12,52) or freq is None:
-		return freq
+		result = freq
 	elif isinstance(freq,str):
-		if freq.upper().startswith('A'): return 1
-		if freq.upper().startswith('Q'): return 4
-		if freq.upper().startswith('M'): return 12
-		if freq.upper().startswith('W'): return 52
+		if freq.upper().startswith('A'): result = 1
+		elif freq.upper().startswith('Q'): result = 4
+		elif freq.upper().startswith('M'): result = 12
+		elif freq.upper().startswith('W'): result = 52
+		elif freq.upper() == 'U': result = None
 	else:
 		raise ValueError('Unsupported frequency: %s'%(freq))
+	return result
 
 def col2list(fname='stdin',colnum=1,commentchar='#'):
 	"""Read vector from stdin (keyboard) or file.  
