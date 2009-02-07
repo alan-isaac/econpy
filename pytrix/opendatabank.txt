@@ -3,9 +3,9 @@ Open-Databank Format
 ====================
 
 :Author:        `Alan G. Isaac`_
-:Date:          20050826
-:First Posted:  20050718
-:Version:       1.1.0
+:Date:          2009-02-06
+:First Posted:  2005-07-18
+:Version:       1.1.1
 :Copyright:     `Creative Commons Attribution-ShareAlike 2.5`_ (or later version).
 :Document URL:  http://www.american.edu/econ/pytrix/opendatabank.txt
 :HTML version:  http://www.american.edu/econ/pytrix/opendatabank.htm
@@ -18,6 +18,7 @@ This document also serves to document both the original standard,
 which seems largely undocumented on the internet,
 and the open-databank extension.
 
+.. contents::
 
 The MicroTSP Databank Format
 ============================
@@ -46,7 +47,7 @@ In More Detail
 + Dated and Undated Series: 
 
   Line 1--n:
-        A databankfile begins with n comment lines,
+        A databank file begins with n comment lines,
         each starting with quote-c: ``"c``
         The first comment is the creation/update date, formatted as follows:
         ``cLast updated: 08-18-2006``
@@ -178,12 +179,22 @@ The last line of a file should include a line-termination sequence.
 A file-termination sequence should not be used.
 
 
-Comments on Backward Compatability
+Comments on Backward Compatibility
 ----------------------------------
 
-- As of version 5, EViews simply discards comment continuation lines.
+The new format is essentially backwards compatible,
+although newer readers will handle information that old readers discard.
 
-- As of version 5, EViews recognizes only three labels:
+EViews, TSP, and RATS
+~~~~~~~~~~~~~~~~~~~~~
+
+TSP and RATS are believed to share the modest limitations
+of EViews in handling the open-database format.
+As of version 5, EViews:
+
+- simply discards comment continuation lines.
+
+- recognizes only three labels:
 
         * ``Last updated``
         * ``Display Name``
@@ -191,8 +202,13 @@ Comments on Backward Compatability
 
   All other labels are treated as ordinary comments.      
 
-- Eviews writes a quote at the end of each comment line.
+- writes a quote at the end of each comment line.
   (This practice is discouraged.)
+
+Converters
+~~~~~~~~~~
+
+EconPy_ provides an open-databank reader and a writer in its `io module`_.
 
 
 Recommendations
@@ -322,13 +338,15 @@ Notes and References
 .. [NBER_2001] Feenberg, Daniel and Jeff Miron, `NBER Macrohistory Database`_, NBER, 2001.
 
 
-.. _`Alan G. Isaac`: http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm
-.. _`Clint Cummins`: http://www.stanford.edu/~clint/
-.. _`Creative Commons Attribution-ShareAlike 2.5`: http://creativecommons.org/licenses/by-sa/2.5/
+.. _Alan G. Isaac: http://www.american.edu/cas/econ/faculty/isaac/isaac1.htm
+.. _Clint Cummins: http://www.stanford.edu/~clint/
+.. _Creative Commons Attribution-ShareAlike 2.5: http://creativecommons.org/licenses/by-sa/2.5/
+.. _EconPy: http://code.google.com/p/econpy/
 .. _EViews: http://www.eviews.com 
 .. _FRED: http://research.stlouisfed.org/fred2/
+.. _io module: http://econpy.googlecode.com/svn/trunk/pytrix/io.py
 .. _microTSP: http://www.eviews.com 
-.. _`multifile module`: http://www.python.org/doc/1.5.2p2/lib/MultiFile-objects.html
-.. _`NBER Macrohistory Database`: http://www.nber.org/databases/macrohistory/contents/index.html
+.. _multifile module: http://www.python.org/doc/1.5.2p2/lib/MultiFile-objects.html
+.. _NBER Macrohistory Database: http://www.nber.org/databases/macrohistory/contents/index.html
 .. _TSP: http://www.tspintl.com/
 
