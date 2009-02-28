@@ -1,70 +1,30 @@
-'''
+"""
 Provides an uncategorized collection of possibly useful utilities.
 
-:copyright: 2005-2007 Alan G. Isaac, except where another author is specified.
+:copyright: 2005-2009 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_
+:author: Alan G. Isaac (and others where specified)
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
-from __future__ import division
-from __future__ import absolute_import
+"""
+from __future__ import division, absolute_import
 
 __docformat__ = "restructuredtext en"
-__author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '20070922'
 
 import logging, random, itertools, operator
 
 have_numpy = False
 try:
 	import numpy as np
-	from numpy import linalg
 	have_numpy = True
 	logging.info("have_numpy is True")
 except ImportError:
 	logging.info("NumPy not available.")
 
-have_scipy = False
-if have_numpy:
-	try:
-		from scipy import stats
-		logging.info("successful import of scipy.stats as stats")
-	except ImportError:
-		logging.info("scipy.stats cannot be imported -> no probabilities computed.")
-	else:
-		have_scipy = True
-		logging.info("have_scipy is True")
-
-''' uncomment if you might not have SSE2
-if have_numpy:
-	try:
-		from numpy.distutils import cpuinfo
-	except ImportError:
-		logging.warn("numpy.distutils unavailable, cannot test for SSE2 -> SciPy disabled.")
-		pass                  #safest to leave have_scipy = False
-	else:
-		#unfortunately some of scipy.stats expects sse2 and will segfault if absent!!
-		cpu = cpuinfo.cpuinfo()
-		if cpu._has_sse2():
-			logging.info("SSE2 detected")
-			try:
-				from scipy import stats
-				logging.info("successful import of scipy.stats as stats")
-			except ImportError:
-				logging.info("SciPy cannot be imported -> no probabilities computed.")
-			else:
-				have_scipy = True
-				logging.info("have_scipy is True")
-		else:
-			logging.warn("Cannot detect SSE2; disabling SciPy")
-'''
-
-
-
-def unique(x, use_numpy=True, key=None, reverse=False):
-	'''Return sorted list or array or unique items.
+def unique(x, key=None, reverse=False, use_numpy=True):
+	"""Return sorted list or array of unique items.
 	Does not support ``key`` for NumPy arrays.
-	'''
+	"""
 	if have_numpy and use_numpy:
 		result = np.unique(x)
 		if reverse:
@@ -73,60 +33,6 @@ def unique(x, use_numpy=True, key=None, reverse=False):
 		result = sorted(set(x), key=key, reverse=False)
 	return result
 
-def scanl(func, seq, init = None):
-    """
-    Like reduce/foldl, but returns a list of the results of each step...
-
-    For example:
-    >>> scanl(operator.add, [1, 1, 1, 1, 1, 1])
-    [2, 3, 4, 5, 6]
-
-    :author: Bryn Keller
-    :see: http://www.xoltar.org/languages/python/datastruct.py
-    :note: changed Unsupplied to None
-    :license: LGPL
-    >>>    
-    """
-    res = []
-    seqiter = iter(seq)
-    if init == None:
-        res.append(seqiter.next())        
-    else:
-        res.append(init)
-    first = res[0]
-    while 1:
-        try:
-            next = seqiter.next()
-        except StopIteration:
-            break
-        first = func(first, next)
-        res.append(first)
-    return res
-
-
-def cumreduce(func, seq, init = None):
-	"""Return list of sequential reductions.
-	Used by cumsum and cumprod.
-
-	Example use:
-	>>> cumreduce(operator.mul, range(1,5),init=1)
-	[1, 2, 6, 24]
-	>>>	
-
-	:note: for another approach, see Bryn Keller's scanl
-	:author: Alan Isaac
-	:since: 2005-11-19
-	"""
-	#initialize list
-	cr = seq[:]
-	if not(init is None):
-		if seq:
-			cr[0] = func(init,seq[0])
-		else:
-			cr = [init]
-	for idx in range(1,len(seq)):
-		cr[idx] = func(cr[idx-1],seq[idx])
-	return cr
 
 def ireduce(func, iterable, init=None):
 	"""Return generator of sequential reductions.
@@ -136,24 +42,38 @@ def ireduce(func, iterable, init=None):
 	[1, 2, 6, 24]
 	>>>	
 
-	:author: Alan Isaac and Michael Spencer
-	:thanks: Peter Otten
+	:thanks: Peter Otten and Michael Spencer
 	:see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/413614
+	:see: Bryn Keller's scanl (for a different approach)
+		http://www.xoltar.org/languages/python/datastruct.py
 	:since: 2005-11-23
+	:change: 2009-02-14 do not yield init for empty iterable
 	"""
 	iterable = iter(iterable)
 	if init is None:
 		init = iterable.next()
 		yield init
 	else:
-		try:
-			init = func(init, iterable.next())
-			yield init
-		except StopIteration:
-			yield init
+		init = func(init, iterable.next())
+		yield init
 	for item in iterable:
 		init = func(init, item)
 		yield init
+
+def cumreduce(func, seq, init = None):
+	"""Return list of length len(seq),
+	the sequential reductions of seq.
+	Used by cumsum and cumprod.
+
+	Example use:
+	>>> cumreduce(operator.mul, range(1,5), init=1)
+	[1, 2, 6, 24]
+	>>>	
+
+	:since: 2005-11-19
+	:change: 2009-02-14 empty seq always returns empty list
+	"""
+	return list( ireduce(func, seq, init) )
 
 def cumsum(seq):
 	return cumreduce(operator.add, seq)
@@ -162,23 +82,31 @@ def cumprod(seq):
 	return cumreduce(operator.mul, seq)
 
 
-
-
-def safe_iter(obj, atomic_types = (basestring, int, float, complex)):
-	"""Equivalent to iter when obj is iterable and not defined as atomic.
-	If obj is defined atomic or found to be not iterable, returns iter((obj,)).
-	safe_iter(None) returns an empty iterator.
+def safe_iter(obj):
+	"""Returns iterator.
+	Returns iter((,)) when obj is None.
+	Returns iter(obj) when obj is iterable and not "atomic".
+	Returns iter((obj,)) when obj is "atomic" or not iterable.
+	Based *very* closely on Michael Spencer's `safe_iter`.
 	
-	:Author: Michael Spencer <mahs telcopartners.com>
+	:thanks: Michael Spencer <mahs telcopartners.com>
 	:since:  2006-01-11
 	"""
-	if not isinstance(obj, atomic_types):
-		try:
-			return iter(obj)
-		except TypeError:
-			pass
-	return iter((obj,) * (obj is not None))
+	iter2atomic = (basestring,)
+	if obj is None:
+		obj = ()
+	elif isinstance(obj, iter2atomic):
+		obj = (obj,)
+	try:
+		result = iter(obj)
+	except TypeError:
+		result = iter((obj,))
+	return result
+
 def test_safe_iter():
+	"""
+	:author: Michael Spencer <mahs telcopartners.com>
+	"""
 	assert list(safe_iter(1)) == [1]
 	assert list(safe_iter("string")) == ["string"]
 	assert list(safe_iter(range(10))) == range(10)
@@ -196,9 +124,9 @@ def test_safe_iter():
 # TODO: speed comparison
 
 def calc_gini4(x, use_numpy=True): #follow transformed formula
-	'''Return computed Gini coefficient.
+	"""Return computed Gini coefficient.
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	xsort = sorted(x) # increasing order
 	if have_numpy and use_numpy:
 		y = np.cumsum(xsort)
@@ -208,9 +136,9 @@ def calc_gini4(x, use_numpy=True): #follow transformed formula
 	return 1 + 1./len(x) - 2*B
 
 def calc_gini3(x): #follow transformed formula
-	'''Return computed Gini coefficient.
+	"""Return computed Gini coefficient.
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	yn, ysum = 0.0, 0.0
 	for xn in sorted(x):
 		yn += xn
@@ -219,12 +147,12 @@ def calc_gini3(x): #follow transformed formula
 	return 1 + 1./len(x) - 2*B
 
 def calc_gini2(x): #follow transformed formula
-	'''Return computed Gini coefficient.
+	"""Return computed Gini coefficient.
 
 	:note: follows tranformed formula, like R code in 'ineq'
 	:see: `calc_gini`
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	x = sorted(x)  # increasing order
 	n = len(x)
 	G = sum(xi * (i+1) for i,xi in enumerate(x))
@@ -232,12 +160,12 @@ def calc_gini2(x): #follow transformed formula
 	return G - 1 - (1./n)
 
 def calc_gini(x):
-	'''Return computed Gini coefficient.
+	"""Return computed Gini coefficient.
 
 	:note: follows basic formula
 	:see: `calc_gini2`
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	x = sorted(x)  # increasing order
 	N = len(x)
 	B = sum( xi * (N-i) for i,xi in enumerate(x) ) / (N*sum(x))
@@ -251,13 +179,13 @@ def groupsof(seq,n):
 
 
 def n_each_rand(n,itemtuple=(True,False)):
-	'''Yield: n of each of two items,
+	"""Yield: n of each of two items,
 	one at a time, in random order.
 
 	:since:  2006-06-20
 	:date:   2007-07-11
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	item0, item1 = itemtuple
 	ct0, ct1 = 0, 0
 	while ct0+ct1<2*n:
@@ -271,12 +199,12 @@ def n_each_rand(n,itemtuple=(True,False)):
 
 
 def permute(x):
-	'''Return one permutation of a sequence or array.
+	"""Return one permutation of a sequence or array.
 
 	:since:  2005-06-20
 	:date:   2007-06-22
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	#use numpy if available
 	try:
 		x = numpy.array(x,copy=True)
@@ -287,7 +215,7 @@ def permute(x):
 	return x
 
 def permutations(lst):
-	'''Return all permutations of `lst`.
+	"""Return all permutations of `lst`.
 	
 	:type lst:  sequence
 	:rtype:     list of lists
@@ -296,7 +224,7 @@ def permutations(lst):
 	:date:      2007-06-22
 	:note:      recursive
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	lst = list(lst)
 	return [ [lst[i]] + x
 					for i in range(len(lst))
@@ -305,7 +233,7 @@ def permutations(lst):
 
 
 def permutationsg(lst):
-	'''Return generator of all permutations of a list.
+	"""Return generator of all permutations of a list.
 
 	:type `lst`: sequence
 	:rtype:      list of lists
@@ -316,7 +244,7 @@ def permutationsg(lst):
 	:date:       2006-12-18
 	:see:        http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/190465
 	:contact:    mailto:aisaac AT american.edu
-	'''
+	"""
 	if len(lst)>1:
 		for i in range(len(lst)):
 			for x in permutationsg(lst[:i]+lst[i+1:]):
@@ -325,7 +253,7 @@ def permutationsg(lst):
 		yield lst
 
 def combinations(n,t) :
-	'''Return all t-combinations (as indices).
+	"""Return all t-combinations (as indices).
 
 	:type `lst`: sequence
 	:rtype:      list of lists
@@ -334,7 +262,7 @@ def combinations(n,t) :
 	:since:      2007-09-19
 	:see:        Knuth vol.4 ch.3
 	:author:     Charles Harris (using Knuth's algorithm)
-	'''
+	"""
 	c = range(t + 2)  #use range not arange because it is faster and ...
 	c[-2] = n
 	c[-1] = 0
@@ -352,9 +280,9 @@ def combinations(n,t) :
 ###### set utilities ###########################################
 #BEGIN subsetid
 def subsetid(length):
-	'''Return: binary representations of all subsets
+	"""Return: binary representations of all subsets
 	of a set of length `length`.
-	'''
+	"""
 	if length==0:
 		return ['']
 	else:
@@ -365,14 +293,14 @@ def subsetid(length):
 #:see: http://mail.python.org/pipermail/python-list/2001-May/085964.html
 #BEGIN PowerSet
 class PowerSet:
-	'''
+	"""
 	All 2**n subsets are available by index in range(2**n).
 	Binary representation of index is used for element selection.
-	'''
+	"""
 	def __init__(self, s):
-		'''
-		:note: to know order ex ante, `s` shd be lst or tuple 
-		'''
+		"""
+		:note: to know order ex ante, `s` shd be a sequence
+		"""
 		self.s = s
 		self.scard = len(s)  #cardinality of set s
 		self.pscard = 2**self.scard #cardinality of powerset
@@ -408,11 +336,11 @@ def int2binary(i, strlen=None, reverse=False):
 	return result
 
 def grep(pattern, *files):
-	'''Usage: grep("grep", *glob.glob("*.py"))
+	"""Usage: grep("grep", *glob.glob("*.py"))
 
 	:author: Fredrik Lundh
 	:since: 2005-10-25
-	'''
+	"""
 	try:
 		search = re.compile(pattern).search
 	except NameError:

@@ -1042,7 +1042,7 @@ You can also go LaTeX to HTML via PDF:
 <a href="http://pdftohtml.sourceforge.net/">pdftohtml</a>
 </li>
 <li>
-Convert <a href="latex2word">PDF to Word</a>,
+Convert <a href="#latex2word">PDF to Word</a>,
 which then can be exported as HTML.
 </li>
 </ul>
@@ -1116,9 +1116,8 @@ and then use Acrobat 7+ to convert this to Word format.
 Version 5+ of Scientific Word (and possibly Scientific Notebook) offer substantial abilities to importing LaTeX and export rich text format (RTF) documents.
 </li>
 <li>
-Here an odd thought:
-after LaTeX to PDF,
-try <a href="http://www.investintech.com/">Able2Extract</a> to convert the PDF to Word or WordPerfect.
+After LaTeX to PDF,
+you might try <a href="http://www.investintech.com/">Able2Extract</a> to convert the PDF to Word or WordPerfect.
 (Let me know if you try this.)
 </li>
 </ul>
@@ -1489,6 +1488,11 @@ the "PDL numerical array," often referred to as a "piddle."
 A piddle can contain a large block of efficiently-stored numbers for manipulation with normal mathematical expressions.
 Each operation is implemented via compiled C code,
 so it's nearly as fast as a C program.
+</li>
+<li>
+<a href="http://root.cern.ch/">ROOT</a> is an extremely capable "object-oriented data analysis package"
+developed at <a href="http://public.web.cern.ch/public/">CERN</a>.
+(License: LGPL; Language: C++)
 </li>
 <li>
 <a href="http://scilabsoft.inria.fr/">SciLab</a>, a free MatLab-like numerical computation package.
@@ -3669,7 +3673,8 @@ viewable .pdf file.
 <a href="http://www.pstoedit.com/">pstoedit</a> translated PostScript and <acronym class="help" title="Portable Document Format">PDF</acronym> graphics into other vector formats, including (on Windows platforms) WMF.
 It is included on the GhostView menu <tt>Edit/Convert to Vector Format</tt>.
 </li>
-<li><a href="http://www.wizards.dupont.com/cristy/ImageMagick.html">ImageMagick</a> is a set of free graphics utilities that can convert from virtually any format to any other format.
+<li>
+<a href="http://www.imagemagick.org/">ImageMagick</a> is a set of free graphics utilities that can convert from virtually any format to any other format.
 (Binaries for the Windows platform can be found by following the appropriate links from the home page.)
 Support for some of the formats are delegated to libraries or external programs.
 For example, ImageMagick requires GhostScript to read PostScript and <acronym class="help" title="Portable Document Format">PDF</acronym> files.
@@ -6663,6 +6668,42 @@ ax.get_yaxis().set_ticks_postion('left')
 
 
 <h3 id="evhints">EViews User hints</h3>
+
+<div id="eviews_bugs">
+Eviews 6 appears to have some bugs and some annoyances:
+<ul>
+<li>
+If you run a program that shows a graph and then creates and new page in your workfile,
+the old page remains active. (Very serious!)
+</li>
+<li>
+String concatenation does not work when string variables are used in commands.
+</li>
+<li>
+Table copying to clipboard is very badly broken.
+Tables can be copied to clipboard only as tab deliminted text.
+This is almost useless: it does not reproduce the table formatting.
+Space delimited text would be more useful.
+RTF is clearly needed.
+LaTeX would be helpful.
+</li>
+<li>
+Table writing to disk is very badly broken.
+The tab-delimited text export does not reproduce the table formatting
+(e.g., of regression results).
+It looks like this is essentially a CSV table with tabs substituted
+for commas: is anyone actually using this format?
+Space delimited text would be more useful:
+at least it could be directly inserted in a document.
+HTML export of user modified tables (e.g., of regression results) is buggy.
+RTF export works OK:
+one must assume this is the only option used by the EViews developers.
+</li>
+<li>
+Text objects have no useful methods.
+</li>
+</ul>
+</div>
 
 <p>
 Kawa offers a very useful collection of <a href="http://aris.ss.uci.edu/econ/personnel/kawa/codes/eviews.html">supplemental programs and data in EViews format</a>,
