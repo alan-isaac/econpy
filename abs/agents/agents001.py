@@ -1,49 +1,56 @@
 """
 Provides a base collection of deterministic, non-optimizing
-agents for macro simulations.  Does not include a "World"
-or "Economy" class to run the simulation, since these vary
-too greatly by application.
+agents for macro simulations.  Does not include a usable
+"Economy" (or "World") class to run the simulation,
+since these vary greatly by application.
 
+Comment on model parameter passing:
+an individual gets parameters from its cohort,
+a cohort gets parameters from its population,
+and a population gets parameters from its economy
+(or "world").
+
+Transactor
+	- Data and properties: cash, networth
+	- Protected data: _cash, _accounts
+	- Methods: payin, payout, open_account
 Indiv
-	- Data: alive, sex, age, parents, siblings, spouse, _children, _accounts,
-	employers, economy, state, contracts, _cash
-	- Methdods:
+	- Inherit data and methods from Transactor
+	- Protected data:  _alive, _params, _cohort
+	- Data: sex, age, parents, siblings, spouse, children, employers, economy, state, contracts
+	- Methods:
 	  payin, payout, get_worth, calc_household_wealth, wed,
-	  bear_children, adopt_children, get_children, adopt, open_account,
+	  bear_children, adopt_children, adopt,
 	  gift2kids, liquidate, distribute_estate, labor_supply, accept_contract,
 	  fulfill_contract, 
 
 Cohort
-	- Data: _age, males, females
-	- Methdods: marry, set_age, increment_age
-
-PestieauCohort(Cohort)
-	- NewData: _lock
-	- NewMethdods:
-	- Override: marry
+	- Data and properties: age, males, females
+	- Protected data: _age
+	- Methods: marry, set_age
 
 Population
-	- Data:
+	- Data and properties:
 	- Methdods:
 
 Firm
-	- Data:
+	- Data and properties:
 	- Methdods:
 
 Fund
-	- Data:
+	- Data and properties:
 	- Methdods:
 
-FundAcct
-	- Data: fund, owner, _value
+FundAccount
+	- Data and properties: fund, owner, _value
 	- Methdods: payin, payout, close, transferto
 
 State
-	- Data:
+	- Data and properties:
 	- Methdods:
 
 
-:copyright: Alan G. Isaac, except where another author is specified.
+:author: Alan G. Isaac
 :license: `MIT license`_
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
@@ -51,10 +58,17 @@ State
 from __future__ import division
 #from __future__ import absolute_import
 __docformat__ = "restructuredtext en"
-__author__ = 'Alan G. Isaac (and others as specified)'
-__lastmodified__ = '2008-11-29'
+from collections import deque  #subclassed by Population
 
+#logging
+import logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)-8s %(message)s',
+                    datefmt='%a, %d %b %Y %H:%M:%S')
+agents_logger = logging.getLogger('agents_logger')
+agents_logger.debug("Enter agents001.py.")
 
+from ...pytrix.utilities import calc_gini
 
 #################  module specific exceptions  ########################
 
@@ -67,7 +81,7 @@ class InsufficientFundsError(AbsError):
 	pass
 
 class NegativeTransferError(AbsError):
-	"""Raised when payout exceeds net worth."""
+	"""Raised when tranfer amount is negative."""
 	pass
 
 
@@ -82,9 +96,34 @@ def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here,
 
 ####################  basic agent classes  #############################
 
-class TransactorMI(object):
+class Lockable(object):
+	"""Provide a mix-in enabling 'locking' a
+	class so that no new attributes can be set.
 	"""
-	Provides a basic transactor mixin,
+	_attrlock = False
+	def __setattr__(self, attr, val):
+		agents_logger.debug("Enter __setattr__ with %s,%s"%(attr,val))
+		"""Lock. (Allow no new attributes.)"""
+		try:
+			#get the class attribute if it exists
+			p = getattr(type(self),attr)
+			#if it's a descriptor, use it to set val
+			p.__set__(self, val)
+		except AttributeError:
+			if hasattr(self, attr):
+				self.__dict__[attr] = val 
+			elif getattr(self, '_attrlock', False):
+				raise AttributeError("Unlock to add new attributes.")
+			else:
+				self.__dict__[attr] = val 
+	def lock_attributes(self):
+		self._attrlock = True
+	def unlock_attributes(self):
+		self._attrlock = False
+
+class Transactor(object):
+	"""
+	Provide a basic transactor mixin,
 	with `payin` and `payout` methods,
 	which increment or decrement
 	the `_cash` instance attribute.
@@ -93,116 +132,149 @@ class TransactorMI(object):
 	_cash = 0
 	_accounts = ()
 	def payin(self, amt):
-		assert(amt >= 0)
+		if amt < 0:
+			raise NegativeTransferError()
 		self._cash += amt
 	def payout(self, amt):
 		assert(amt >= 0)
-		if self.get_worth() < amt:
-			raise InsufficientFundsError
+		if self.networth < amt:
+			raise InsufficientFundsError()
 		else:
 			self._cash -= amt
-	def get_worth(self):
+
+	@property
+	def networth(self):
 		result = self._cash
 		for acct in self._accounts:
-			result += acct.get_worth()
+			result += acct.networth
 		return result
 
-class Indiv(TransactorMI):
-	def __init__(self, sex=None, economy=None):
+	def get_cash(self):
+		return self._cash
+	def set_cash(self, val):
+		self._cash = val
+	cash = property(get_cash, set_cash)
+
+
+class Indiv(Transactor):
+	def __init__(self, sex=None):
 		if sex:
 			self.sex = sex
-		if economy:
-			self.economy = economy
-			self.state = economy.state
-		self.alive = True
-		self.age = 0
-		#list of *living* parents
-		self.parents = list()
+		self._cohort = None
+		self._params = None
+		self._alive = True
+		self.parents = list() #*living* parents
 		self.siblings = list()
 		self.spouse = None
-		self._children = list()  #use list to track birth order
-		self._cash = 0
-		self._accounts = list()  #accounts[0] is the cash acct
+		self._children = list()  #list tracks birth order
 		self.employers = set()
 		self.contracts = dict(labor=[], capital=[])
-		self._locked = True
-	def __setattr__(self, attr, val):
-		"""Lock. (Allow no new attributes.)"""
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val 
-	def get_children(self):
+	def __str__(self):
+		return "%s with wealth %5.2f"%(self.sex,self.networth)
+	@property
+	def age(self):
+		return self._cohort.age
+	@property
+	def params(self):
+		if self._params is None:
+			self._params = self.cohort.params
+		return self._params
+	#cohort property
+	def get_cohort(self):
+		return self._cohort
+	def set_cohort(self, cohort):
+		self._cohort = cohort
+	cohort = property(get_cohort, set_cohort)
+	@property
+	def children(self):
 		return self._children
-	def wed(self, other): #may be better to have state perform marriage? TODO
+	def wed(self, other):
+		agents_logger.debug("Enter Indiv.wed")
 		assert (self.spouse==None) , "no polygamy or polygony allowed"
-		assert (self.sex is 'F' or other.sex is 'F'), "partial check, allwoing MF or FF (unisex)"
+		assert (self.sex is 'F' or other.sex is 'F'), "partial check, allowing MF or FF (unisex)"
 		self.spouse = other
 		if other.spouse:
 			assert (other.spouse == self)
 		else:
 			other.wed(self)
-		newkids = other.get_children()
-		if newkids:
-			script_logger.warn("New spouse already has kids.")
-			self.adopt_children(newkids)
-	def adopt(self,child): #used by bear_children
+		new_kids = other.children
+		if new_kids:
+			agents_logger.warn("New spouse already has kids.")
+			self.adopt_children(new_kids)
+		assert (self.spouse is other and other.spouse is self)
+	def adopt(self, kid): #used by bear_children
 		"""Return: None.
 		Note that `adopt` just establishes parent-child relationship."""
 		mykids = self._children
-		assert (child not in mykids)
-		mykids.append(child)
+		assert (kid not in mykids)
+		mykids.append(kid)
 	def adopt_children(self, kids):
 		"""Return: None.
 		:see: `adopt` """
 		for kid in kids:
 			self.adopt(kid)
 	def bear_children(self, sexes=None):
-		"""Return list of this Indiv's new kids.
+		"""Return list of this indiv's new kids.
 		Used by Pop.append_new_cohort
 		"""
 		assert self.spouse, "for now, must be married (i.e., paired)"
-		assert (self.sex == 'F')  #only women can bear children
-		#need `newkids` to be a sequence
-		newkids = [self.__class__(sex=s,economy=self.economy) for s in sexes]
-		for kid in newkids:
-			#mother's spouse is assumed to be a parent
-			kid.parents = [self.spouse, self] #father,mother (biological)
+		assert (self.sex == 'F')  #only women bear children
+		# TODO: should KidClass use own class or set parametrically?
+		KidClass = self.params.INDIVIDUAL
+		new_kids = [KidClass(sex=s) for s in sexes]
+		for kid in new_kids:
+			"""mother's spouse is assumed to be a parent
+			- these are *living* parents
+			- use list: parent is removed when dead"""
+			kid.parents = [self, self.spouse] #mother ("biological"), father
 			self.adopt(kid)
-			self.spouse.adopt(kid)  #TODO: but maybe a child shd be born to a household???
-		#each kid will know its siblings directly (not just via parents) chk
-		my_kids = self._children
-		for kid in my_kids:
-			for sib in my_kids:
-				if sib not in kid.siblings:
-					kid.siblings.append(sib)
-			#kid.siblings.update(my_kids) #TODO: better approaches?
-		return newkids
+			self.spouse.adopt(kid)
+		#each kid knows its siblings directly (not just via parents)
+		#  otherwise, info gone when parents die (and are removed from `parents`)
+		for kid in self._children:
+			new_siblings = list(new_kids)
+			if kid in new_siblings:
+				new_siblings.remove(kid)
+			kid.siblings.extend(new_siblings)
+			assert (len(kid.siblings)==len(self._children)-1)
+		return new_kids
+	def die(self):
+		assert (self._alive is True)
+		self._alive = False
+		#inform kids
+		# comment: w/o this, wd have references forever
+		for k in self.children:
+			k.parents.remove(self)
 	def liquidate(self):
 		"""Return: None.
 		Pay estate tax; distribute estate; close out accounts.
 		"""
-		assert (self.alive is False)
-		self.state.tax_estate(self)
+		assert (self._alive is False)
+		#tax estate if applicable
+		try:
+			state = self.economy.state
+			state.tax_estate(self)
+		except AttributeError:
+			agents_logger.debug("Skipping estate taxation.")
+		#distribute estate (e.g., to kids)
 		self.distribute_estate()
 		#close accounts
-		assert abs(self.get_worth())<1e-5
+		assert abs(self.networth)<1e-5
 		for acct in self._accounts:
 			acct.close()  #acct asks its fund to close it
-		#inform kids
-		for k in self._children:
-			k.parents.remove(self)
 	def distribute_estate(self):
-		assert (self.alive is False)
-		self.economy.BEQUEST_FN(self)
+		"""Return None.
+		Distribute estate upon death."""
+		raise NotImplementedError
 	def gift2kids(self,amt):
 		"""Return: None.
 		Distribute `amt` equally among one's kids."""
-		assert (0 <= amt <= self.get_worth()),\
-		"Cannot distribute %s with wealth %s"%(amt,self.get_worth())
+		assert (0 <= amt <= self.networth),\
+		"Cannot distribute %s with wealth %s"%(amt,self.networth)
 		kids = self._children()
 		n = len(kids)
 		for kid in kids:
-			agents001.transfer(payer=self, payee=kid, amount=amt/n)
+			transfer(payer=self, payee=kid, amount=amt/n)
 	def open_account(self, fund, amt=0):
 		"""Return: None.
 
@@ -213,8 +285,8 @@ class Indiv(TransactorMI):
 		acct = fund.create_account(self, amt=amt)
 		self._accounts.append(acct)
 
-class Fund(TransactorMI):
-	"""Provides a basic financial institution.
+class Fund(Transactor):
+	"""Provide a basic financial institution.
 	Often just for accounting (e.g., handling transfers)
 	Currently only individuals should hold fund accounts.
 	"""
@@ -222,14 +294,8 @@ class Fund(TransactorMI):
 		self.account_type = account_type
 		self.economy = economy  #TODO: rethink
 		self._accounts = list()
-		self._locked = True
-	def __setattr__(self, attr, val):
-		"""Lock. (Allow no new attributes.)"""
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val 
 	def calc_accts_value(self):
-		return sum( acct.get_worth() for acct in self._accounts )
+		return sum( acct.networth for acct in self._accounts )
 	def create_account(self, indiv, amt = 0):
 		assert len(indiv._accounts)==0,\
 		"num accts shd be 0 but is %d"%(len(self._accounts))
@@ -250,21 +316,15 @@ class Fund(TransactorMI):
 	def distribute_gains(self):
 		raise NotImplementedError
 
-class FundAccount(TransactorMI):
-	"""Provides a basic security (account)."""
+class FundAccount(Transactor):
+	"""Provide a basic security (account)."""
 	def __init__(self, fund, indiv, amt=0):
 		self.fund = fund
 		self.owner = indiv
-		self._cash = amt	#needed by TransactorMI
-		self._locked = True
-	def __setattr__(self, attr, val):
-		"""Lock. (Allow no new attributes.)"""
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val 
+		self._cash = amt	#needed by Transactor
 	def close(self):
-		assert (-1e-9 < self.get_worth() < 1e-9),\
-		"Zero value required to close acct."
+		assert ( abs(self.networth) < 1e-9 ),\
+			"Zero value required to close acct."
 		self.fund.close_account(self)
 
 class Cohort(tuple):
@@ -277,130 +337,180 @@ class Cohort(tuple):
 		:note: tuple.__init__(self, seq) not needed bc tuples are immutable
 		"""
 		self._age = 0
+		self._population = None
+		self._params = None
+		for indiv in self:
+			indiv.cohort = self
 		self.males = tuple(indiv for indiv in self if indiv.sex=='M')
 		self.females = tuple(indiv for indiv in self if indiv.sex=='F')
 		assert (len(self)==len(self.males)+len(self.females)),\
 		"Every indiv must have a sex."
-		self._locked = True
-	def __setattr__(self, attr, val):
-		"""Lock. (Allow no new attributes.)"""
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val
-	def set_age(self,age):
-		self._age = age
-		for indiv in self:
-			indiv.age = age
+	@property
+	def params(self):
+		agents_logger.debug('get Cohort params') 
+		if self._params is None:
+			agents_logger.debug('get Cohort params from pop') 
+			self._params = self.population.params
+		return self._params
+	#population property
+	def get_population(self):
+		return self._population
+	def set_population(self, ppl):
+		self._population = ppl
+	population = property(get_population, set_population)
+	#age property
 	def get_age(self):
+		"note: indiv age references cohort age"
 		return self._age
-	def increment_age(self):
-		assert (indiv.age == self._age for indiv in self),\
-		"indiv age shd not diverge from cohort age"
-		self._age += 1
-		for indiv in self:
-			indiv.age += 1
-	def marry(self,mating):  #TODO: rename
-		return NotImplemented
-	def have_kids(self,mating):  #TODO: rename
-		return NotImplemented
+	def set_age(self, age):
+		self._age = age
+	age = property(get_age, set_age)
 
-class Population(list):
-	"""Provide a basic population as a list of `Cohort` instances."""
+class Population(deque):
+	"""Provide a basic population,
+	usually as a deque of `Cohort` instances.
+	"""
 	def evolve(self):  #this will be called each "tick" of the economy
+		"""Return None.  This is where all the work is done,
+		in a way particular to each application.
+		Usually relies on a collection of helper methods, such as:
+		- get_new_cohort
+		- remove_new_dead
+		- finalize_dead
+		- etc
+		""" 
 		raise NotImplementedError
-	def have_kids(self):
-		raise NotImplementedError
-	def initialize_kids(self):
-		raise NotImplementedError
-	def get_labor_force(self):
-		raise NotImplementedError
-	def get_size(self):
+	#economy property
+	def get_economy(self):
+		return self._economy
+	def set_economy(self, val):
+		if getattr(self, 'economy', None):
+			raise ValueError('The economy should be set *once*.')
+		self._economy = val
+	economy = property(get_economy, set_economy)
+	@property
+	def params(self):
+		#population gets params from economy
+		if getattr(self,'_params',None) is None:
+			agents_logger.info('get pop params from ec') 
+			self._params = self.economy.params
+		return self._params
+	@property
+	def size(self):
 		return sum( len(cohort) for cohort in self )  #assumes cohort only contains living
-	def get_new_dead(self):
-		"""Return: new_dead (sequence)
-		Removes dead from population, sets alive=False, and returns them as sequence.
-		"""
-		dead = self.pop(0)                     #remove dead cohort from population
-		assert all(indiv.alive for indiv in dead) #just an error check
-		for indiv in dead:  #do this first! (so that estates do not get distributed to dead)
-			indiv.alive = False
-		return dead
-	def age_ppl(self):
-		for cohort in self:
-			cohort.increment_age()
-	def marry(self):
-		"""Return: None.
-		"""
-		params = self.economy.params
-		newlyweds = self[params.AGE4MARRIAGE-1] #Marry within one cohort.  TODO: change this eventually.
-		for indiv in newlyweds:
-			assert (indiv.spouse is None)
-		newlyweds.marry(params.MATING)  #TODO: change to a Pop method??
-	def get_new_cohort(self, parents):
-		"""Return: COHORT
-		Called by evolve.
-		Number and sexes determined by params.KIDSEXGEN
-		"""
-		cohort_type = self[0].__class__
-		params = self.economy.params
-		#currently handle parthenogenic economies as all female and impose marriage  TODO
-		kids = self.have_kids(parents)
-		self.initialize_kids( kids )
-		return cohort_type( kids )
-	def get_indivs(self):
-		"""Return list: all individuals."""
-		return [indiv for cohort in self for indiv in cohort]
-	def gen_indivs(self):
+	@property
+	def individuals(self):
 		"""Return generator: all individuals."""
 		return (indiv for cohort in self for indiv in cohort)
+	def get_wealth_distribution(self):
+		"""Return float, the wealth distribution.
+		This default looks at the distribution across
+		*individuals*, not households. Override to change.
+		"""
+		return calc_gini( indiv.networth for indiv in self.individuals )
+	'''
 	def gen_new_mothers(self):
-		params = self.economy.params
+		params = self.params
 		# AGE4KIDS -1 (for index: nobody in economy has age 0) -1 (this is conception, not birth)
 		new_parents = self[params.AGE4KIDS-2]  #currently restricted to a single cohort TODO
-		script_logger.debug( "Number of new parents: %d"%(len(new_parents)) )
+		agents_logger.debug( "Number of new parents: %d"%(len(new_parents)) )
 		#only married females can have kids
 		return ( indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F') )
-	def calc_dist(self):
-		params = self.params
-		#return calc_gini( indiv.get_worth() for indiv in self.gen_indivs() )
-		return  params.calc_dist(self)
+	'''
+	def get_labor_force(self):
+		raise NotImplementedError
+	#############   HELPER METHODS FOR `evolve`  ####################
+	def increment_age(self):
+		"""Return None. Increment population age."""
+		for cohort in self:
+			cohort.age += 1
+	def get_new_cohort(self, kidsexgen=None):
+		"""Return: COHORT instance.
+		Called by evolve.
+		"""
+		agents_logger.debug(
+			"enter Population.get_new_cohort.")
+		#currently handle parthenogenic economies as all female and impose marriage  TODO
+		#get list of new kids
+		# Number and sexes determined by params.KIDSEXGEN
+		parents = self.get_parents()
+		kids = self.get_new_kids(parents, kidsexgen)
+		#turn list into cohort
+		kids = self.params.COHORT(kids)
+		kids.population = self
+		return kids
+	def marry(self, prospects, mating):  #TODO: rename
+		"""Return None; marry off the prospects."""
+		return NotImplemented
+	def get_parents(self):
+		"""Return sequence the new parents to be.
+		(Just a helper method for get_new_cohort.)"""
+		return NotImplemented
+	def get_new_kids(self):
+		"""Return sequence of Indiv instances,
+		the new kids.
+		Just a helper method for get_new_cohort."""
+		return NotImplemented
 
-class State(TransactorMI):
+class State(Transactor):
 	"""Provide a basic state for estate taxation."""
 	def __init__(self, economy):
 		self.economy = economy
 		self.params = economy.params
 		self._cash = 0
-		self._locked = True
-	def __setattr__(self, attr, val):
-		"""Lock. (Allow no new attributes.)"""
-		if not hasattr(self,attr) and getattr(self,'_locked',False) is True:
-			raise ValueError("This object accepts no new attributes.")
-		self.__dict__[attr] = val
 	def tax_estate(self, indiv):
-		estate = indiv.get_worth()
-		tax = self.params.ESTATE_TAX(estate)
+		assert (indiv._alive==False), "Tax estate only of dead."
+		estate = indiv.networth
+		if estate < -1e-5:
+			agents_logger.warn("Individual has negative estate value.")
+		tax = self.params.TAX_ESTATE(estate)
 		#call module level `transfer` function  #is this best? (or having economy handle transfers?)
 		transfer(payer=indiv, payee=self, amount=tax)
 
+class Economy(object):
+	"""Provides a controller for the simulation.
+	A rough example:  Do not use as is!"""
+	def __init__(self, params):
+		self.params = params
+		self.history = list()  #to record state from each period
+		self.funds = list()
+		self.state = params.STATE(self)
+		self.population = self.get_initial_population()
+	def run():
+		"""Return None. Run the simulation."""
+		raise NotImplementedError
+	### helper methods for initialization ###
+	def get_initial_population(self):
+		"""Return Population instance.
+		Create initial population,
+		establish any initial familial relations,
+		and impose any initial wealth distribution.
+		"""
+		raise NotImplementedError()
+	### helper methods for run ###
+	def distribute_gains(self):
+		for fund in self.funds:
+			fund.distribute_gains()
+
 class EconomyParams(object): #default params, needs work
-	"""This is just a simple example of one way to group
-	parameters together in a class.
+	"""This is just a rough example of one way to group
+	parameters together in a class.  Not usable without
+	overriding `__init__`!
 	"""
+	FUND = Fund
+	FUNDACCOUNT = FundAccount
+	STATE = State
+	INDIVIDUAL = Indiv
+	COHORT = Cohort
+	POPULATION = Population
+	SEED = None
+	DEBUG = False
 	def __init__(self):
-		self.DEBUG = False
 		#set class to use in Economy construction
-		self.FUND = Fund
-		self.FUNDACCOUNT = FundAccount
-		self.STATE = State
-		self.INDIV = Indiv
-		self.COHORT = Cohort
-		self.Population = Population
-		self.LABORMARKET = None
 		#self.FIRM = FirmKN
 		#list life periods Indivs work (e.g., range(16,66))
 		self.WORKING_AGES = list()
-		self.SEED = None
+		self.LABORMARKET = None
 		#default is individual based Gini
 		#TODO: household or indiv distributions? (household might be better)
 		self.SHUFFLE_NEW_W = False
@@ -410,9 +520,8 @@ class EconomyParams(object): #default params, needs work
 		#### ALWAYS provide new values for the following
 		################################################
 		self.N_YEARS = 0
-		self.ESTATE_TAX = None
-		self.BEQUEST_TYPE = None
-		self.BEQUEST_FN = None
+		self.TAX_ESTATE = None
+		self.BEQUEST_TYPE = None        #e.g., child-directed, or random
 		self.MATING = None
 		#sex generator for new births
 		self.KIDSEXGEN = None

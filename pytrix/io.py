@@ -397,16 +397,19 @@ class ReadFRED(object):
 		write_db(file_name,self.data,smpl=smpl,comments={},freq=None,start=None,end=None)
 		
 
-def read_ifs_csv(filename, skiplines=10):
-	"""Return tuple.
+def read_ifs_csv(filename, commentlines=10):
+	"""Return tuple: data (by obs), dates, comments.
 	Very basic reader for IFS CSV files.
 	Only reads sequential valid observations.
 	"""
 	reader = csv.reader(open(filename))
-	#skip header
-	for _ in range(skiplines):
-		reader.next()
-		
+	#get comments
+	commentdict = dict()
+	for _ in range(commentlines):
+		row = reader.next()
+		key = row[0]
+		commentdict[key] = row[1:]
+	#get data and dates
 	data = list()
 	dates = list()
 	startdata = False
@@ -418,7 +421,16 @@ def read_ifs_csv(filename, skiplines=10):
 		date, vals = row[0], map(float,row[1:])
 		dates.append( datestr2date(date) )
 		data.append(vals)
-	return data, dates
+	#make comments by series
+	nseries = len(data[0])
+	comments = [dict() for _ in range(nseries)]
+	for key in commentdict:
+		if len(commentdict[key]) == nseries:
+			for i in range(nseries):
+				comments[i][key] = commentdict[key][i]
+		else:
+			logging.info("Missing comments?"+commendict[key])
+	return data, dates, comments
 
 def read_fred(source):
 	"""Return data, dates, comments.

@@ -1,12 +1,13 @@
 from ..pytrix.utilities import permutations, calc_gini
 import logging
+from itertools import izip
 
 import random
 rng = random.Random()
 rng.seed(314)
 
 def match_exclude(group1, group2, exclude):
-	'''Return list of matched pairs meeting an exclusion criterion.
+	"""Return list of matched pairs meeting an exclusion criterion.
 
 	:Parameters:
 	  group1 : sequence
@@ -22,7 +23,7 @@ def match_exclude(group1, group2, exclude):
 	:since:      2005-06-20
 	:date:       2007-12-05
 	:contact:    mailto:aisaac AT american.edu
-	'''
+	"""
 	#one group may be larger; call it group2
 	success = False
 	if len(group1) <= len(group2):
@@ -30,7 +31,7 @@ def match_exclude(group1, group2, exclude):
 		# TODO: use k-permuations
 		biggroup_permutations = permutations(group2)
 		for g in biggroup_permutations:
-			result = zip(group1,g)
+			result = zip(group1, g)
 			if not any( exclude(m,f) for (m,f) in result ):
 				success = True
 				break
@@ -47,7 +48,7 @@ def match_exclude(group1, group2, exclude):
 
 
 def n_each_rand(n,kindtuple=('M','F')):
-	'''Yields n of each of two (immutable) objects,
+	"""Yields n of each of two (immutable) objects,
 	in random order.
 
 	If we still need to generate
@@ -64,7 +65,7 @@ def n_each_rand(n,kindtuple=('M','F')):
 	:since:      2005-06-20
 	:date:       2007-12-05
 	:contact:    mailto:aisaac AT american.edu
-	'''
+	"""
 	assert (n>0), "n shd be a positive integer"
 	kind0, kind1 = kindtuple
 	ct0, total = n, n+n
@@ -80,7 +81,7 @@ def n_each_rand(n,kindtuple=('M','F')):
 
 
 def gini2shares(gini, nbrackets):
-	'''Return: income share for each bracket implied by `gini`.
+	"""Return generator: income share for each bracket implied by `gini`.
 
 	:note: based on Yunker 1999, p.238
 	:todo: improve computation accuracy
@@ -92,24 +93,28 @@ def gini2shares(gini, nbrackets):
 	:since:  2006-06-20
 	:date:   2007-07-11
 	:contact: aisaac AT american DOT edu
-	'''
+	:todo: replace with an indexable class
+	"""
 	assert (0 <= gini < 1)
 	g = (1+gini)/(1-gini) # (2A+B)/B
 	sb = 1.0/nbrackets  #width of brackets
 	#cum prop =  ((i+1)*sb)**g = (i+1)**g * sb**g
 	#change prop = [(1+i)**g-(i)**g]*sb**g
 	#cumulative_proportions = list( ((i+1)*sb)**g for i in range(nbrackets) )
-	shares = [ ((1+i)**g-(i)**g)*sb**g for i in range(nbrackets)]  #chk TODO
+	shares = ( ((1+i)**g-(i)**g)*sb**g for i in range(nbrackets) )  #chk TODO
 	return shares
 
-def distribute(wtotal, units, gini, shuffle=False):
-	'''Distribute resources `wtotal` among members of `units` based on `gini`.
+
+def impose_gini(wtotal, units, gini, shuffle=False):
+	"""Return None.
+	Distribute resources `wtotal` among members of `units` based on `gini`,
+	imposing a `gini` based distribution.
 
 	:Parameters:
 	  wtotal : number
 	    total resources to distribute
 	  units : list
-	    units (households) to share `wtotal`
+	    units (households) to share `wtotal`, must have `payin` method
 	  gini : float
 	    Gini coefficient that should result from distribution
 	  shuffle : bool
@@ -118,7 +123,7 @@ def distribute(wtotal, units, gini, shuffle=False):
 	:note: need to compute number of units *before* distributing.
 	:todo: eliminate redundant error checks
 	:comment: uses Indiv methods ...
-	'''
+	"""
 	units = list(units)
 	logging.debug("""Enter utilities.distribute.
 	wtotal: %f
@@ -126,15 +131,15 @@ def distribute(wtotal, units, gini, shuffle=False):
 	gini: %f
 	shuffle: %s"""%(wtotal,units[:5],gini, shuffle) )
 	nb = len(units)  #number of brackets 
-	units2 = set(units)  #this is just for error check
-	assert len(units2)==nb, "`units` shd not contain duplicates"
-	g = (1+gini)/(1-gini) # (2A+B)/B
-	shares = gini2shares(gini, nb)
+	shares = list( gini2shares(gini, nb) )
 	if shuffle:   #enforce Gini but distribute randomly
 		rng.shuffle(shares)
 	w = ( wtotal*share for share in shares )
-	for w_i in w:
-		units.pop().payin(w_i)   #ADD to individual wealth
-	assert (not units),  "Length shd now be zero."
-	logging.info( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,calc_gini( i.get_worth() for i in units2 )))
-
+	ct = 0
+	units2 = set()  #this is just for error check
+	for i, w_i in izip(units, w):
+		i.payin(w_i)   #ADD to individual wealth
+		units2.add(i)
+	assert len(units2)==nb, "`units` shd not contain duplicates"
+	logging.debug( "Desired gini: %4.2f,  Achieved Gini: %4.2f"%( gini,calc_gini( i.networth for i in units2 )))
+ 

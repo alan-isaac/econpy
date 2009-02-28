@@ -10,6 +10,7 @@ You can "install" it just by dropping it into your working directory.
 :requires: Python 2.5.1+
 :todo: add support for recarray to SimpleTable
 :todo: currently must specify HTML data format to include tags!  Change?
+:todo: add direct import from CSV
 :date: 2008-12-21
 """
 from __future__ import division, with_statement

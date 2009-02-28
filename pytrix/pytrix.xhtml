@@ -15,7 +15,7 @@
 <body>
 
 <p style="font-size: x-small">
-Last modified: 2008 Dec 23
+Last modified: 2009 Feb 16
 </p>
 
 <h1>pyTrix</h1>
@@ -198,13 +198,6 @@ Depends on <a href="http://www.american.edu/econ/notes/soft.htm#scipy">SciPy</a>
 </p>
 
 <p>
-The <a href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing (MDP)</a> is a Python library to implement data processing elements (nodes) and to combine them into data processing sequences (flows).
-Includes Principal Components analysis in its <a href="http://mdp-toolkit.sourceforge.net/#IMNODES">implemented algorithms</a>.
-Use MDP together with <a href="http://mdp-toolkit.sourceforge.net/symeig.html">Symeig</a>,
-which wraps useful LAPACK eigenvalue functions.
-</p>
-
-<p>
 <a href="http://math.colgate.edu:16080/~wweckesser/software/vfgen/">VFGEN</a>
 can for generate Python code to be used with the SciPy ODEINT function.
 </p>
@@ -261,8 +254,11 @@ but others may find the code useful as well.
 </p>
 
 <p>
-<a href="http://mdp-toolkit.sourceforge.net/">Modular toolkit for Data Processing (MDP)</a>
-includes
+The <a href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing (MDP)</a> is a Python library to implement data processing elements (nodes) and to combine them into data processing sequences (flows).
+Includes Principal Components analysis in its <a href="http://mdp-toolkit.sourceforge.net/#IMNODES">implemented algorithms</a>.
+Use MDP together with <a href="http://mdp-toolkit.sourceforge.net/symeig.html">Symeig</a>,
+which wraps useful LAPACK eigenvalue functions.
+Includes
 "Principal Component Analysis (PCA),
 Independent Component Analysis (ICA),
 Slow Feature Analysis (SFA),
@@ -298,7 +294,8 @@ the Computational Geometry Algorithms Library (a C++ library of geometric algori
 
 <p>
 OT:
-I'm hoping someone will translate <a href="http://www.texlips.net/svar/source.html">SVAR</a>'s Matlab code to numpy very soon.
+I'm hoping someone will translate Andy Warne's <a href="http://www.texlips.net/svar/source.html">SVAR</a>
+Matlab code to numpy very soon.
 </p>
 
 <p>
@@ -362,7 +359,14 @@ fit themselves to 2D and 3D data sets.
 </ul>
 
 
+<h2>Simulation</h2>
 
+<p>
+<a href="http://pysces.sourceforge.net/">PySCeS: The Python Simulator for Cellular Systems</a>. (License: GPL)
+Hint: for larger systems,
+increase the parameter mxstep in the odeint function call
+from its default of 500 to a higher value (such as 1000 or 3000).  
+</p>
 
 
 
