@@ -170,6 +170,7 @@ See <a href="#vimhints">Vim user hints.</a>
 Other multi-platform solutions:
 <br />
 There are many <a href="http://www.micro.org/novell/faq/nvfaq-r.htm">alternatives</a>.
+A newer and interesting possibility is <a href="http://www.geany.org/">Geany</a>. (License: GPL)
 If you are looking for small, fast, and free,
 start with <a href="http://www.nano-editor.org/">nano</a>.
 For big, powerful, and free you can try <a id="emacs" href="http://www.emacs.org">emacs</a>.
@@ -4130,6 +4131,10 @@ editor for TikZ graphics.  (Linux only?)
 <a href="#pims">
 Personal Information Managers (PIMs)</a>
 </li>
+<li>
+<a href="#addressbooks">
+Address Books</a>
+</li>
 <li> <!--  moved to utilities -->
 <a href="#graphics">Graphics</a> 
 </li>
@@ -4192,8 +4197,8 @@ Vim users can use the <a href="http://vim.sourceforge.net/script.php?script_id=4
 
 <p>
 Cross-platform PIMs <a href="http://chandlerproject.org/">Chandler</a>,
-which is very promising but still early in development,
-and <a href="http://www.thekompany.com/projects/aethera/">Aethera</a>.
+which is very promising. (License: Apache. Language: Python.)
+Also look at <a href="http://www.thekompany.com/projects/aethera/">Aethera</a>.
 In the meantime, the <a href="http://www.palm.com/support/downloads/palmdt_4.html">Palm Desktop</a> is free,
 available on Windows and Mac,
 and quite functional
@@ -4208,7 +4213,7 @@ and quite functional
 
 <p>
 There are lots of good calendars out there.
-But for the "always connected"
+But if you are "always connected"
 I have not been able to beat Google Calendar.
 (I have not tried to use it offline.)
 Note that you can <a href="http://www.downloadsquad.com/2008/01/14/google-calendar-now-available-on-your-firefox-sidebar/">add Google Calendar to your FireFox sidebar</a>.
@@ -4240,9 +4245,33 @@ For an interesting and "light" calendar, you can try <a href="http://freshmeat.n
 (Linux Journal has a <a href="http://www.linuxjournal.com/article/3529">review</a>.)
 </p>
 
+
+<h4 id="addressbooks">Address Books</h4>
+
 <p>
-Address Books:
-<br />
+The address book situation is a scandal.
+Applications have not settled on a standard for data sharing
+and do not even adequately document their own formats.
+The best documented formats,
+<a href="https://wiki.mozilla.org/Examples_of_various_Address_Book_formats">VCARD and LDIF</a>,
+are not great.
+For such a widespread need, this is a rather astonishing situation.
+</p>
+
+<p>
+Thunderbird comes with a pretty good address book tool.
+Unfortunately,
+it saves address books in Mork (.mab) format,
+and if you back these up it cannot import them!
+Fortunately, there is a
+<a href="http://tarvid.kallimagarden.com/mork/index-parser.html">Mork parser library</a>
+(Language: Python)
+Note that Thunderbird 3 should replace the horrible Mork format
+with <a href="http://en.wikipedia.org/wiki/MozStorage">MozStorage</a>,
+thereby adopting the storage format now used in FireFox.
+</p>
+
+<p>
 Most PIMs include address book functionality.
 Most email clients do as well.
 You can also get such (database) functionality in stand-alone applications.

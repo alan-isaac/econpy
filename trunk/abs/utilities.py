@@ -26,9 +26,9 @@ def match_exclude(group1, group2, exclude):
 	"""
 	#one group may be larger; call it group2
 	success = False
+	#get all the permutations of the larger group
+	# TODO: use k-permuations
 	if len(group1) <= len(group2):
-		#get all the permutations of the larger group
-		# TODO: use k-permuations
 		biggroup_permutations = permutations(group2)
 		for g in biggroup_permutations:
 			result = zip(group1, g)
@@ -38,7 +38,7 @@ def match_exclude(group1, group2, exclude):
 	else:
 		biggroup_permutations = permutations(group1)
 		for g in biggroup_permutations:
-			result = zip(g,group2)
+			result = zip(g, group2)
 			if not any( exclude(m,f) for (m,f) in result ):
 				success = True
 				break
