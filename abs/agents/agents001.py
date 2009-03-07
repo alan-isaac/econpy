@@ -1,53 +1,42 @@
 """
-Provides a base collection of deterministic, non-optimizing
-agents for macro simulations.  Does not include a usable
-"Economy" (or "World") class to run the simulation,
+Provides a base collection of deterministic, *non-optimizing*
+agents for macro simulations.
+
+Does not include a usable "Economy" (or "World") class
+(to run the simulation),
 since these vary greatly by application.
 
-Comment on model parameter passing:
-an individual gets parameters from its cohort,
-a cohort gets parameters from its population,
-and a population gets parameters from its economy
-(or "world").
+:comment:
+	Data structures influenced by a cohort focus.
+	For example, an Indiv's age is just its Cohort's age.
+:comment:
+	Economy class is parameterized.
+	An individual gets parameters from its cohort,
+	a cohort gets parameters from its population,
+	and a population gets parameters from its economy
+	(or "world").
+:requires: Python 2.5 now, but will move to Python 2.6
 
 Transactor
-	- Data and properties: cash, networth
-	- Protected data: _cash, _accounts
-	- Methods: payin, payout, open_account
-Indiv
-	- Inherit data and methods from Transactor
-	- Protected data:  _alive, _params, _cohort
-	- Data: sex, age, parents, siblings, spouse, children, employers, economy, state, contracts
-	- Methods:
-	  payin, payout, get_worth, calc_household_wealth, wed,
-	  bear_children, adopt_children, adopt,
-	  gift2kids, liquidate, distribute_estate, labor_supply, accept_contract,
-	  fulfill_contract, 
-
+	Basic mixin for agents conducting cash transactions.
+Indiv(Transactor)
+	Basic deterministic individual with demographic features.
 Cohort
-	- Data and properties: age, males, females
-	- Protected data: _age
-	- Methods: marry, set_age
-
+	Tuple of Indiv instances.
 Population
-	- Data and properties:
-	- Methdods:
-
+	Deque of Cohort instance, with demographic methods.
 Firm
-	- Data and properties:
-	- Methdods:
-
+	Basic firm (production unit).
 Fund
-	- Data and properties:
-	- Methdods:
-
-FundAccount
-	- Data and properties: fund, owner, _value
-	- Methdods: payin, payout, close, transferto
-
-State
-	- Data and properties:
-	- Methdods:
+	Basic account issuer.
+FundAccount(Transactor)
+	Basic account.
+State(Transactor)
+	Basic state for estate taxation.
+Economy
+	For illustrative purposes only.
+EconomyParams
+	Example of a parameters object.
 
 
 :author: Alan G. Isaac
@@ -87,14 +76,14 @@ class NegativeTransferError(AbsError):
 
 #####################  global functions  ###############################
 
-def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here, cd be a fn
+def transfer(payer, payee, amount):  #TODO: cd introduce transactions cost here
 	if amount < 0:
 		raise NegativeTransferError("Transfers must be nonnegative.")
 	payer.payout(amount)
 	payee.payin(amount)
 
 
-####################  basic agent classes  #############################
+####################  BASIC AGENT CLASSES  #############################
 
 class Lockable(object):
 	"""Provide a mix-in enabling 'locking' a
@@ -121,13 +110,22 @@ class Lockable(object):
 	def unlock_attributes(self):
 		self._attrlock = False
 
+
 class Transactor(object):
 	"""
 	Provide a basic transactor mixin,
 	with `payin` and `payout` methods,
 	which increment or decrement
 	the `_cash` instance attribute.
-	:todo: accommodate multiple accounts
+	:todo: ?accommodate multiple accounts?
+
+	Attributes
+	----------
+	cash : float
+		value of cash account
+	networth : float
+		value of all accounts
+		(read only property)
 	"""
 	_cash = 0
 	_accounts = ()
@@ -148,7 +146,7 @@ class Transactor(object):
 		for acct in self._accounts:
 			result += acct.networth
 		return result
-
+	#cash property
 	def get_cash(self):
 		return self._cash
 	def set_cash(self, val):
@@ -157,16 +155,34 @@ class Transactor(object):
 
 
 class Indiv(Transactor):
+	"""Provide a basic non-optimizing individual.
+
+	Attributes
+	----------
+	age : int
+		Age of indiv in cohorts.
+		(Read only property.)
+	params : object
+		Model parameters provided by cohort.
+		(Read only property.)
+	cohort : Cohort
+		Indiv's cohort. (Settable property.)
+	spouse : Indiv
+		The spouse or None.
+	children : list
+		Indiv's children, in order of "birth".
+		(Read only property.)
+	"""
 	def __init__(self, sex=None):
-		if sex:
-			self.sex = sex
 		self._cohort = None
 		self._params = None
 		self._alive = True
+		self._spouse = None
+		self._children = list()  #list tracks birth order
+		if sex:
+			self.sex = sex
 		self.parents = list() #*living* parents
 		self.siblings = list()
-		self.spouse = None
-		self._children = list()  #list tracks birth order
 		self.employers = set()
 		self.contracts = dict(labor=[], capital=[])
 	def __str__(self):
@@ -188,31 +204,24 @@ class Indiv(Transactor):
 	@property
 	def children(self):
 		return self._children
-	def wed(self, other):
-		agents_logger.debug("Enter Indiv.wed")
-		assert (self.spouse==None) , "no polygamy or polygony allowed"
+	#spouse property
+	def get_spouse(self):
+		return self._spouse
+	def set_spouse(self, other):
+		agents_logger.debug("Enter Indiv.set_spouse")
+		assert (self._spouse is None) , "no divorce, polygamy or polygony allowed"
 		assert (self.sex is 'F' or other.sex is 'F'), "partial check, allowing MF or FF (unisex)"
-		self.spouse = other
+		self._spouse = other
 		if other.spouse:
 			assert (other.spouse == self)
 		else:
-			other.wed(self)
+			other.spouse = self
 		new_kids = other.children
 		if new_kids:
 			agents_logger.warn("New spouse already has kids.")
 			self.adopt_children(new_kids)
-		assert (self.spouse is other and other.spouse is self)
-	def adopt(self, kid): #used by bear_children
-		"""Return: None.
-		Note that `adopt` just establishes parent-child relationship."""
-		mykids = self._children
-		assert (kid not in mykids)
-		mykids.append(kid)
-	def adopt_children(self, kids):
-		"""Return: None.
-		:see: `adopt` """
-		for kid in kids:
-			self.adopt(kid)
+		assert (self._spouse is other and other.spouse is self)
+	spouse = property(get_spouse, set_spouse)
 	def bear_children(self, sexes=None):
 		"""Return list of this indiv's new kids.
 		Used by Pop.append_new_cohort
@@ -229,15 +238,27 @@ class Indiv(Transactor):
 			kid.parents = [self, self.spouse] #mother ("biological"), father
 			self.adopt(kid)
 			self.spouse.adopt(kid)
-		#each kid knows its siblings directly (not just via parents)
-		#  otherwise, info gone when parents die (and are removed from `parents`)
+		#update siblings
+		# each kid knows its siblings directly (not just via parents)
+		# otherwise, info gone when parents die (and are removed from `parents`)
 		for kid in self._children:
-			new_siblings = list(new_kids)
+			new_siblings = list(new_kids)  #copy!
 			if kid in new_siblings:
 				new_siblings.remove(kid)
 			kid.siblings.extend(new_siblings)
 			assert (len(kid.siblings)==len(self._children)-1)
 		return new_kids
+	def adopt(self, kid): #used by bear_children
+		"""Return: None:
+		`adopt` just establishes parent-child relationship."""
+		mykids = self._children
+		assert (kid not in mykids)
+		mykids.append(kid)
+	def adopt_children(self, kids):
+		"""Return: None.
+		:see: `adopt` """
+		for kid in kids:
+			self.adopt(kid)
 	def die(self):
 		assert (self._alive is True)
 		self._alive = False
@@ -281,7 +302,6 @@ class Indiv(Transactor):
 		:param fund: Fund object to open account with
 		:param amt: initial deposit in new account
 		"""
-		assert (len(self._accounts) == 0) #TODO: eventually allow multiple accounts
 		acct = fund.create_account(self, amt=amt)
 		self._accounts.append(acct)
 
@@ -370,16 +390,6 @@ class Population(deque):
 	"""Provide a basic population,
 	usually as a deque of `Cohort` instances.
 	"""
-	def evolve(self):  #this will be called each "tick" of the economy
-		"""Return None.  This is where all the work is done,
-		in a way particular to each application.
-		Usually relies on a collection of helper methods, such as:
-		- get_new_cohort
-		- remove_new_dead
-		- finalize_dead
-		- etc
-		""" 
-		raise NotImplementedError
 	#economy property
 	def get_economy(self):
 		return self._economy
@@ -403,23 +413,24 @@ class Population(deque):
 		"""Return generator: all individuals."""
 		return (indiv for cohort in self for indiv in cohort)
 	def get_wealth_distribution(self):
-		"""Return float, the wealth distribution.
+		"""Return float, summary statistic for the wealth distribution.
 		This default looks at the distribution across
 		*individuals*, not households. Override to change.
 		"""
 		return calc_gini( indiv.networth for indiv in self.individuals )
-	'''
-	def gen_new_mothers(self):
-		params = self.params
-		# AGE4KIDS -1 (for index: nobody in economy has age 0) -1 (this is conception, not birth)
-		new_parents = self[params.AGE4KIDS-2]  #currently restricted to a single cohort TODO
-		agents_logger.debug( "Number of new parents: %d"%(len(new_parents)) )
-		#only married females can have kids
-		return ( indiv for indiv in new_parents if (indiv.spouse and indiv.sex=='F') )
-	'''
-	def get_labor_force(self):
+	def evolve(self):  #this will be called each "tick" of the economy
+		"""Return None.  This is where all the work is done,
+		in a way particular to each application.
+		Usually relies on a collection of helper methods, such as:
+		- get_new_cohort
+		- remove_new_dead
+		- finalize_dead
+		- etc
+		""" 
 		raise NotImplementedError
 	#############   HELPER METHODS FOR `evolve`  ####################
+	def get_labor_force(self):
+		raise NotImplementedError
 	def increment_age(self):
 		"""Return None. Increment population age."""
 		for cohort in self:
@@ -439,7 +450,7 @@ class Population(deque):
 		kids = self.params.COHORT(kids)
 		kids.population = self
 		return kids
-	def marry(self, prospects, mating):  #TODO: rename
+	def marry(self, prospects):  #TODO: rename
 		"""Return None; marry off the prospects."""
 		return NotImplemented
 	def get_parents(self):
@@ -506,6 +517,8 @@ class EconomyParams(object): #default params, needs work
 	SEED = None
 	DEBUG = False
 	def __init__(self):
+		if self.SEED:
+			self.RNG = random.Random(self.SEED)
 		#set class to use in Economy construction
 		#self.FIRM = FirmKN
 		#list life periods Indivs work (e.g., range(16,66))
@@ -515,7 +528,6 @@ class EconomyParams(object): #default params, needs work
 		#TODO: household or indiv distributions? (household might be better)
 		self.SHUFFLE_NEW_W = False
 		self.MSHARE = 0.5
-		self.FSHARE = 0.5
 		################################################
 		#### ALWAYS provide new values for the following
 		################################################
@@ -527,12 +539,12 @@ class EconomyParams(object): #default params, needs work
 		self.KIDSEXGEN = None
 		#number of Cohorts
 		self.N_COHORTS = 0
+		self.COHORT_SIZE = 0
 		#number of Firms
 		self.N_FIRMS = 0
 		#initial Gini for Wealth
 		self.GW0 = 0
 		self.WEALTH_INIT = 0
-		self.COHORT_SIZE = 0
 		#Life Events  (MUST OVERRIDE)
 		# AGE4KIDS is how old you are when you kids APPEAR in the economy (you may be dead)
 		self.AGE4KIDS = 0   #NOTE: no cohort has age 0!
