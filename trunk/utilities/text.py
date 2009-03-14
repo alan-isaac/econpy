@@ -9,7 +9,7 @@ You can "install" it just by dropping it into your working directory.
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
 :todo: add support for recarray to SimpleTable
-:todo: currently must specify HTML data format to include tags!  Change?
+:todo: HTML data format current specifies tags.  Change?
 :todo: add direct import from CSV
 :date: 2008-12-21
 """
@@ -87,7 +87,7 @@ class SimpleTable:
 	def _format_rows(self, tablestrings, fmt_dict):
 		"""Return: list of strings,
 		the formatted table data with headers and stubs.
-		Note that `tablestrings` is a rectangular iterable of strings.
+		Note that `tablestrings` is a *rectangular* iterable of strings.
 		"""
 		fmt = fmt_dict['fmt']
 		colwidths = self.get_colwidths(tablestrings, fmt_dict)
@@ -95,16 +95,12 @@ class SimpleTable:
 		colsep = fmt_dict['colsep']
 		row_pre = fmt_dict.get('row_pre','')
 		row_post = fmt_dict.get('row_post','')
-		ncols = len(tablestrings[0])
 		rows = []
 		for row in tablestrings:
 			cols = []
-			for k in range(ncols):
-				d = row[k]
-				align = cols_aligns[k]
-				width = colwidths[k]
-				d = self.pad(d, width, align)
-				cols.append(d)
+			for content, width, align in izip(row, colwidths, cols_aligns):
+				content = self.pad(content, width, align)
+				cols.append(content)
 			rows.append( row_pre + colsep.join(cols) + row_post )
 		return rows
 	def pad(self, s, width, align):
@@ -135,10 +131,10 @@ class SimpleTable:
 		Note: does *not* change `self.data`."""
 		data_fmt = fmt_dict.get('data_fmt','%s')
 		if isinstance(data_fmt, str):
-			result = [[(data_fmt%drk) for drk in dr] for dr in self.data]
+			result = [[(data_fmt%datum) for datum in row] for row in self.data]
 		else:
 			fmt = cycle( data_fmt )
-			result = [[(fmt.next()%drk) for drk in dr] for dr in self.data]
+			result = [[(fmt.next()%datum) for datum in row] for row in self.data]
 		return result
 	def format_headers(self, fmt_dict, headers=None):
 		"""Return list, the formatted headers."""
@@ -264,7 +260,7 @@ class SimpleTable:
 			end = below + "\n" + end
 		return begin + '\n'.join(rows) + "\n" + end
 
-#########  begin: default formats  ##############
+#########  begin: default formats for SimpleTable  ##############
 default_csv_fmt = dict(
 		data_fmt = '%s',
 		colwidths = None,

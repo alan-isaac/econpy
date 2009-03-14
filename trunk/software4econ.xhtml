@@ -3405,8 +3405,8 @@ try <code>convert -delay 20 c:/myimages/img*.png c:/myvideo/imgs.mpg</code>.
 </li>
 
 <li id="ffmpeg">
-Un*x and Windows users can use <a href="http://ffmpeg.mplayerhq.hu/">FFMPEG</a> to
-"record, convert and stream audio and video".  (License: LGPL)
+<a href="http://ffmpeg.org/">FFMPEG</a> can "record, convert and stream audio and video".
+(License: LGPL; Language: C)
 For example, you can pipe a series of Matplotlib graphs to FFMPEG to produce an animated graph.
 Or you can save them as PNG files named (frame000.png, frame001.png, etc) and do
 <code>ffmpeg -b 8000 -f mpeg2video -r 30 -i frame%03d.png movie.mpeg</code>.

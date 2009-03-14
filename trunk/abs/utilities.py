@@ -45,9 +45,31 @@ def match_exclude(group1, group2, exclude):
 	if success:
 		return result
 
+def sexer_mf(n):
+	"""Yield str: M, F n times each."""
+	for i in range(n):
+		yield 'M'
+		yield 'F'
+
+def sexer_random2(n, rng=rng):
+	"""Yield str: 'M' or 'F' randomly,
+	holding overall sex ratio constant.
+	
+	n : int
+		number of each sex
+	rng : Random instance
+		random number generator
+	:note: wasteful if cohorts are very large,
+	       use n_each_rand instead
+	"""
+	sexes = list('MF'*n)
+	rng.shuffle(sexes)
+	for s in sexes:
+		yield s
 
 
-def n_each_rand(n,kindtuple=('M','F')):
+
+def n_each_rand(n, kindtuple=('M','F'), rng=rng):
 	"""Yields n of each of two (immutable) objects,
 	in random order.
 
@@ -56,15 +78,17 @@ def n_each_rand(n,kindtuple=('M','F')):
 	then we will yield
 	a kind0 object with probability ct0/(ct0+ct1)
 
-	:Parameters:
-	  n : int
-	    number of *each* kind to generate
-	  kindtuple : tuple
-	    tuple contains the two immutable objects
+	Parameters
+	----------
+
+	n : int
+		number of *each* kind to generate
+	kindtuple : tuple
+		2-tuple contains the two immutable objects
+
 	:requires:   Python 2.4+
 	:since:      2005-06-20
 	:date:       2007-12-05
-	:contact:    mailto:aisaac AT american.edu
 	"""
 	assert (n>0), "n shd be a positive integer"
 	kind0, kind1 = kindtuple

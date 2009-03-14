@@ -514,6 +514,7 @@ class EconomyParams(object): #default params, needs work
 	INDIVIDUAL = Indiv
 	COHORT = Cohort
 	POPULATION = Population
+	MAX_KIDS = 2
 	SEED = None
 	DEBUG = False
 	def __init__(self):
