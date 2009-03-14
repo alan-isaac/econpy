@@ -193,7 +193,7 @@ class SimpleTable:
 		#update format using `fmt`
 		fmt_dict.update(fmt)
 		return self.as_text(**fmt_dict)
-	def as_text(self, **fmt):  #allow changing fmt here?
+	def as_text(self, **fmt):
 		"""Return string, the table as text."""
 		#fetch the format, which may just be default_txt_format
 		fmt_dict = self.txt_fmt.copy()
@@ -213,10 +213,8 @@ class SimpleTable:
 			hdec = fmt_dict['header_dec_below']
 			if hdec:
 				rows[0] = rows[0] + "\n" + hdec*row0len
-		end = ''
 		below = fmt_dict['table_dec_below']
-		if below:
-			end = below*row0len + "\n" + end
+		end = (below*row0len + "\n") if below else ''
 		return begin + "\n" + '\n'.join(rows) + "\n" + end
 	def as_html(self, **fmt):
 		"""Return string, the table as an HTML table."""
