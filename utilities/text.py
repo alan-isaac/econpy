@@ -8,15 +8,50 @@ You can "install" it just by dropping it into your working directory.
 
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
+:note: HTML data format currently specifies tags
 :todo: add support for recarray to SimpleTable
-:todo: HTML data format current specifies tags.  Change?
-:todo: add direct import from CSV
+:todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
 :date: 2008-12-21
 """
 from __future__ import division, with_statement
 import sys, string
 from itertools import izip, cycle
 from collections import defaultdict
+import csv
+
+def csv2st(csvfile, headers=False, stubs=False, title=None):
+	"""Return SimpleTable instance,
+	created from the data in `csvfile`,
+	which is in comma separated values format.
+	The first row may contain headers: set headers=True.
+	The first column may contain stubs: set stubs=True.
+	Can also supply headers and stubs as tuples of strings.
+	"""
+	rows = list()
+	with open(csvfile,'r') as fh:
+		reader = csv.reader(fh)
+		if headers is True:
+			headers = reader.next()
+		elif headers is False:
+			headers=()
+		if stubs is True:
+			stubs = list()
+			for row in reader:
+				if row:
+					stubs.append(row[0])
+					rows.append(row[1:])
+		else: #no stubs, or stubs provided
+			for row in reader:
+				print(row)
+				if row:
+					rows.append(row)
+		if stubs is False:
+			stubs = ()
+	nrows = len(rows)
+	ncols = len(rows[0])
+	if any(len(row)!=ncols for row in rows):
+		raise IOError('All rows of CSV file must have same length.')
+	return SimpleTable(data=rows, headers=headers, stubs=stubs)
 
 class SimpleTable:
 	"""Produce a simple ASCII, CSV, HTML, or LaTeX table from a
@@ -47,7 +82,7 @@ class SimpleTable:
 		"""
 		:Parameters:
 			data : list of lists or 2d array
-				R rows by K columns of table data
+				R rows by K columns of table elements
 			headers: tuple
 				sequence of K strings, one per header
 			stubs: tuple
@@ -63,7 +98,7 @@ class SimpleTable:
 			hmtl_fmt : dict
 				hmtl formatting options
 		"""
-		self.data = data
+		self.raw_data = data
 		self.headers = headers
 		self.stubs = tuple(str(stub) for stub in stubs)
 		self.title = title
@@ -86,7 +121,7 @@ class SimpleTable:
 		return self.as_text()
 	def _format_rows(self, tablestrings, fmt_dict):
 		"""Return: list of strings,
-		the formatted table data with headers and stubs.
+		the formatted table data *including* headers and stubs.
 		Note that `tablestrings` is a *rectangular* iterable of strings.
 		"""
 		fmt = fmt_dict['fmt']
@@ -113,8 +148,8 @@ class SimpleTable:
 		else:
 			s = s.center(width)
 		return s
-	def merge_table_parts(self, fmt_dict):
-		"""Return list of lists of string,
+	def merge_table_parts(self, fmt_dict=dict()):
+		"""Return list of lists of strings,
 		all table parts merged.
 		Inserts stubs and headers into `data`."""
 		data = self.format_data(fmt_dict)
@@ -128,17 +163,17 @@ class SimpleTable:
 	def format_data(self, fmt_dict):
 		"""Return list of lists,
 		the formatted data (without headers or stubs).
-		Note: does *not* change `self.data`."""
+		Note: does *not* change `self.raw_data`."""
 		data_fmt = fmt_dict.get('data_fmt','%s')
 		if isinstance(data_fmt, str):
-			result = [[(data_fmt%datum) for datum in row] for row in self.data]
+			result = [[(data_fmt%datum) for datum in row] for row in self.raw_data]
 		else:
 			fmt = cycle( data_fmt )
-			result = [[(fmt.next()%datum) for datum in row] for row in self.data]
+			result = [[(fmt.next()%datum) for datum in row] for row in self.raw_data]
 		return result
 	def format_headers(self, fmt_dict, headers=None):
 		"""Return list, the formatted headers."""
-		dcols = len(self.data[0])
+		dcols = len(self.raw_data[0])
 		headers2fmt = list(headers or self.headers)
 		header_fmt = fmt_dict.get('header_fmt') or '%s'
 		if self.stubs and len(headers2fmt)==dcols:
@@ -170,7 +205,7 @@ class SimpleTable:
 	def get_cols_aligns(self, fmt_dict):
 		"""Return string, sequence of column alignments.
 		Ensure comformable data_aligns in `fmt_dict`."""
-		dcols = len(self.data[0])  # number of data columns
+		dcols = len(self.raw_data[0])  # number of data columns
 		has_stubs = bool(self.stubs)
 		cols_aligns = fmt_dict.get('cols_aligns')
 		if cols_aligns is None or len(cols_aligns) != dcols + has_stubs:
@@ -215,7 +250,7 @@ class SimpleTable:
 				rows[0] = rows[0] + "\n" + hdec*row0len
 		below = fmt_dict['table_dec_below']
 		end = (below*row0len + "\n") if below else ''
-		return begin + "\n" + '\n'.join(rows) + "\n" + end
+		return begin + '\n' + '\n'.join(rows) + '\n' + end
 	def as_html(self, **fmt):
 		"""Return string, the table as an HTML table."""
 		fmt_dict = self.html_fmt.copy()

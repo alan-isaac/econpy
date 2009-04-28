@@ -14,9 +14,10 @@ Most are lightweight, in the sense that they do not depend on an array package.
 :note: Please include proper attribution should this code be used in a research project or in other code.
 :see: The code below by William Park and more can be found in his `Simple Recipes in Python`_
 :author: Alan G. Isaac, except where otherwise specified.
-:copyright: 2005 Alan G. Isaac, except where another author is specified.
+:copyright: 2004-2009 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_ except where otherwise specified.
 :since: 2004-08-04
+:requires: Python 2.4+ (for generators)
 
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
@@ -25,7 +26,8 @@ from __future__ import division
 from __future__ import absolute_import
 __docformat__ = "restructuredtext en"
 
-import random, math
+from itertools import imap, izip
+import random, math, operator
 import types
 import sys,os
 import logging
@@ -166,7 +168,7 @@ def sinc(x):
 
 #Vectors and Points
 
-class vector(object):
+class Vector(object):
 	'''Simple vector class.
 	
 	:note: slice returns vector
@@ -175,7 +177,7 @@ class vector(object):
 	:author: Alan G. Isaac
 	:since: 2005-08-19
 	'''
-	def __init__(self,seq,**kwds):
+	def __init__(self, seq, **kwds):
 		self.data = list(seq)  #forces copy of data!
 		self.length = len(self.data)
 		if 'length' in kwds:
@@ -202,16 +204,16 @@ class vector(object):
 		return iter(self.data)
 	def __add__(self,other):
 		self.require_samecore(other)
-		return self.result_class([xi+yi for (xi,yi) in zip(self,other)],**self.core_attr)
+		return self.result_class([xi+yi for (xi,yi) in izip(self,other)],**self.core_attr)
 	def __sub__(self,other):
 		self.require_samecore(other)
-		return self.result_class([xi-yi for (xi,yi) in zip(self,other)],**self.core_attr)
+		return self.result_class([xi-yi for (xi,yi) in izip(self,other)],**self.core_attr)
 	def __neg__(self):
 		return self.result_class([-xi for xi in self],**self.core_attr)
 	def __abs__(self):
 		return self.result_class([abs(xi) for xi in self],**self.core_attr)
 	def __rmul__(self,scalar): #scalar multiplication
-		assert(isinstance(scalar,(int,float,complex))), "scalar multiplication needs number"
+		assert (isinstance(scalar,(int,float,complex))), "scalar multiplication needs number"
 		return self.result_class([scalar*xi for xi in self.data],**self.core_attr)
 	def __eq__(self,other):
 		try:
@@ -233,48 +235,73 @@ class vector(object):
 		'''Returns vector as 2-dimensional column vector.
 		'''
 		return [[datum] for datum in self]
-	def dot(self,other):
-		"""Simple vector dot (inner) product. ::
+	def dot(self, other):
+		"""Return float;
+		see documentation for the ``dot`` function."""
+		return dot(self, other)
+	def norm(self, p=2) :
+		"""Return float;
+		see documentation for the ``norm`` function."""
+		return norm(self.data, p, normtype)
 
-			dot(x, y) = \sum_i x_i y_i
+vector = Vector
 
-		:param `y`: list of floats
-		:note: inputs can be any iterables of numbers
-		:see: http://en.wikipedia.org/wiki/Dot_product
-		"""
-		assert(len(self)==len(other))
-		return sum([xi*yi for xi,yi in zip(self,other)])
-	def norm(self,p=2,normtype=None):
-		"""Vector norm. ::
+def dot(x, y):
+	"""Return float, the vector dot (inner) product. ::
 
-					||x||1 = \sum_i |x_i|
-					||x||2 = \sqrt{\sum_i x_i^2}
-					||x||infty = \max |x_i|
+		dot(x, y) = \sum_i x_i y_i
 
-		:Parameters:
-			`p`: float
-				the normtype: ``||x||p = (\sum_i |x_i|^p)^(1/p)``
-			`normtype`: string
-				the normtype: 'taxi' (p=1) or 'euclid' (p=2) or 'max' (p=infty)
-		:see: http://en.wikipedia.org/wiki/Vector_norm
-		"""
-		if normtype:
-			normdict = {'taxi':1,'euclid':2,'max':'infty','infty':'infty'}
-			try: p = normdict[normtype]
-			except: raise ValueError, 'unknown norm type'
-		if p == 1:            # ||x||1
-			return sum([abs(xi) for xi in self.data])
-		elif p == 2:	      # ||x||2 (the default)
-			return math.sqrt(sum([xi*xi for xi in self.data]))
-		elif p == 'infty':    # ||x||oo
-			return max([abs(xi) for xi in self.data])
-		else:
-			try: return math.pow(sum([abs(xi)**p for xi in self.data]),1./p)
-			except: raise ValueError, 'unknown norm type'
-		
-class vplus(vector):
+	Parameters
+	----------
+
+	- `x` : sequence of floats
+	- `y` : sequence of floats
+
+	:see: http://en.wikipedia.org/wiki/Dot_product
+	"""
+	assert(len(x)==len(y))
+	return sum(imap(operator.mul, x, y))
+
+def norm(seq, p=2):
+	"""Vector norm. ::
+
+		||x||1 = \sum_i |x_i|
+		||x||2 = \sqrt{\sum_i x_i^2}
+		||x||infty = \max |x_i|
+
+	Parameters
+	----------
+
+	`p` : float (>0) or str (in infty, max, taxi, euclid)
+		the normtype: ``||x||p = (\sum_i |x_i|^p)^(1/p)``
+	`normtype` : string
+		the normtype: 'taxi' (p=1) or 'euclid' (p=2) or 'max' (p=infty)
+
+	:see: http://en.wikipedia.org/wiki/Vector_norm
+	"""
+	if (p=='taxi') :
+		p = 1
+	elif (p == 'euclid') :
+		p = 2
+	if p == 1:            # ||x||1
+		result = sum(abs(xi) for xi in seq)
+	elif p == 2:	      # ||x||2 (the default)
+		result = math.sqrt( sum(xi*xi for xi in seq) )
+	elif (p in ('max','infty')) : # ||x||oo
+		result = max([abs(xi) for xi in seq])
+	elif (p < 1):
+		raise ValueError('p=%s<1 does not define a norm'%p)
+	else:
+		try:
+			result = math.pow(sum(abs(xi)**p for xi in seq), 1./p)
+		except:
+			raise ValueError, 'unknown norm type: %s'%p
+	return result
+
+
+class Vplus(Vector):
 	'''Augments the vector class to include element-by-element operations.'''
-	def __init__(self,seq,**kwds):
+	def __init__(self, seq, **kwds):
 		self.data = list(seq)  #forces copy of data!
 		self.length = len(self.data)
 		if 'length' in kwds:
@@ -283,10 +310,11 @@ class vplus(vector):
 		self.core_attr = dict(length=self.length)
 	def __repr__(self):
 		return "vplus: "+repr(self.data)
-	def __mul__(self,other):
+	def __mul__(self, other):
 		self.require_samecore(other)
-		return self.result_class([xi*yi for (xi,yi) in zip(self.data,other)],**self.core_attr)
-	def __div__(self,other):  #careful: not insisting on truediv
+		result = imap(operator.mul, self.data, other)
+		return self.result_class(result, **self.core_attr)
+	def __div__(self, other):  #careful: not insisting on truediv
 		self.require_samecore(other)
 		return self.result_class([xi/yi for (xi,yi) in zip(self.data,other)],self.core_attr)
 	def __pow__(self,expon):
@@ -297,9 +325,9 @@ class vplus(vector):
 			self2expon = self.result_class([xi**yi for (xi,yi) in zip(self,y)])
 		return self2expon
 
+vplus = Vplus
 
-
-class Pt2d(vector):
+class Pt2d(Vector):
 	def __init__(self,p,polar=False,in_degrees=False):
 		if polar: #convert to rectangular coordinates
 			self.data=circ2rect(p,in_degrees=in_degrees)
