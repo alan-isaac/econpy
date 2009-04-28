@@ -264,8 +264,8 @@ I must note the wonderful <a href="http://www.stixfonts.org">STIX</a> font proje
 These are "a comprehensive set of fonts that serve the scientific and engineering community".
 and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
-The fonts are in beta test until the end of 2008,
-at which time a production release is expected.
+There has been a candidate release of the fonts,
+and  a production release is expected in May 2009.
 </p>
 
 <p>
@@ -280,7 +280,7 @@ or LucidaConsole, which is pretty good.
 and many monospace fonts share this failing.)
 My favorite is the TrueType font <a href="http://corefonts.sourceforge.net/">Andale Mono</a>,
 which is very readable even at small font sizes.
-<a href="http://dradul.tripod.com/font_stuff/Courier_Dot_15_CPI.htm">Courier Dot 15 CPI</a> is a very promising free and open source effort.
+<a href="http://vorbote.wordpress.com/">Courier Dot 15 CPI</a> is a very promising free and open source effort.
 Mac users may wish to investigate <a href="http://world.std.com/~wij/courier/about-courier-web.html">Courier Web</a>.
 There is a <a href="http://bibliofile.mc.duke.edu/gww/fonts/Monospace/index.html">public domain, monospace, Unicode (!) font</a>,
 which will hopefully be superceded by the recently quiescent <a href="http://www.nongnu.org/freefont/">FreeFont</a> fonts
@@ -294,6 +294,8 @@ which looks great at 9pt.
 I have heard good things about <a href="http://www.gnome.org/fonts/">Bitstream's Vera Fonts</a>,
 from which the <a href="http://dejavu.sourceforge.net/">DejaVu</a> fonts are derivative.
 (The DejaVu fonts are available as a Latin-Cyrillic-Greek subset.)
+Linux users can consider the <a href="http://www.is-vn.bg/hamster/">Terminus Font</a>,
+which I have heard good things about.
 Finally, should you get ambitious enough to design your own,
 consider using <a href="http://doubletype.sourceforge.net/">DoubleType</a>,
 and let me know about your efforts.
@@ -621,11 +623,16 @@ e.g. on <a href="news://comp.text.tex">comp.text.tex</a> or
 AU Students:
 <br />
 For mathematical documents and for long documents (like dissertations!) you should use the LaTeX document preparation system.
-There is an <a href="http://www.american.edu/cas/econ/misc/austyl/authesis.htm">AU Thesis Class</a>,
+There is an <a href="http://www1.american.edu/cas/econ/misc/austyl/authesis.htm">AU Thesis Class</a>,
 which automatically handles all the formatting of your dissertation or thesis.
 Instructions for using this with Scientific Word are included.
 Also see MacKichan Software's <a href="http://www.mackichan.com/techtalk/v30/AddingLaTeXStyle.htm">basic instructions</a> and
 <a href="http://www.mackichan.com/techtalk/v30/addinglatexstyle-closerlook.htm">detailed instructions</a>.
+You can also <a href="http://stefaanlippens.net/customLaTeXclassesinLyX">use this custom document class</a>
+with <a href="#lyx">LyX</a>.
+That said,
+my recommendation is to us <a href="#vim">Vim</a> with my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai_texmenus.vim">MiKTeX menus</a>,
+or with <a href="http://vim-latex.sourceforge.net/">Vim-LaTeX</a>.
 </p>
 
 
@@ -753,7 +760,7 @@ The <a href="http://www.latexeditor.org/">LEd (LaTeX Editor)</a> is free
 <ul>
 <li>
 <li>
-<a id="texniccenter" href="http://www.toolscenter.org/">TeXnicCenter</a> is a popular LaTeX IDE for Windows&reg; users (License: GPL).
+<a id="texniccenter" href="http://www.texniccenter.org/">TeXnicCenter</a> is a popular LaTeX IDE for Windows&reg; users (License: GPL).
 </li>
 <li>
 </li>
@@ -945,7 +952,7 @@ You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed
 
 <p>
 <a href="http://www.tug.org/utilities/texconv/textopc.html">TeX to PC</a> has a more complete discussion.
-One interesting possibility is <a href="http://pylatex.sourceforge.net/index.html">pyLaTeX</a>,
+One interesting possibility is <a href="http://plastex.sourceforge.net/plastex/">plasTeX</a>,
 which parses LaTeX for output in various formats.
 More extensive conversion capabilities may be provided by <a href="http://johnmacfarlane.net/pandoc">pandoc</a>.
 (Language: Haskell; License: GPL)
@@ -1262,10 +1269,20 @@ Once you have the software installed,
 this is about as easy as it can get!
 </p>
 
-<p>
+<h4>Presentations via RestructuredText</h4>
+
+<div>
+You can produce very nice presentations using <a href="#rest">reStructuredText</a> with one of it presentation oriented writers.
+<ul>
+<li> 
+S5 or <a href="http://www.netzgesta.de/S5/">S5 Reloaded</a>. (License: GPL)
+</li>
+<li> 
 <a href="http://pypi.python.org/pypi/bruce">Bruce</a> is a very interesting presentation option.
-Slides are written in <a href="#rest">restructured text (reST)</a>.
-</p>
+It supports images and video, and even interactive Python sessions.
+</li>
+</ul>
+</div>
 
 <p>
 <a href="http://www.masterviews.com/2004/11/21/xhtml_to_powerpoint_browserbased_css.htm">S5</a> [<a href="http://meyerweb.com/eric/tools/s5/">2</a>] can simply create beautiful browser based presentations.
@@ -1702,6 +1719,7 @@ If your emphasis is computational, you will want to visit
 <a href="http://gams.nist.gov/serve.cgi/Packages">NIST's Guide to Available Mathematical Software</a> 
 and 
 the <a href="http://www.netlib.org/master/expanded_liblist.html">Netlib repository</a>.
+Also, see Jack and Hatem's <a href="http://www.netlib.org/utk/people/JackDongarra/la-sw.html">list of free linear algebra software</a>.
 </p>
 
 <h3>Python</h3>
@@ -1966,7 +1984,7 @@ Another useful resource is the
 <a href="http://www.uni-frankfurt.de/~stst/scproge.html"> scientific software list</a>
 on the <a href="http://www.scientificweb.com">Scientific Web</a>
 </li>
-<li>
+<li id="eviews">
 <a href="http://www.eviews.com/">EViews</a>
 is an extremely simple-to-use Windows-based econometric package whose strength lies in time-series analysis.
 It is used in many AU economics courses.
@@ -3666,6 +3684,15 @@ viewable .pdf file.
 </li>
 </ul>
 
+<div>
+Abiword allows you to convert/print from the command line.
+It reads ODF and RTF (which can be produced by Word).
+<br />
+unoconv is a Python script that uses the uno/pyuno access to the OpenOffice API.
+You my need to start an instance of oowriter:
+problems were reported with the --listener option as late as 2009.
+</div>
+
 
 
 <h4>Other Graphics Format Conversions</h4>
@@ -4315,8 +4342,8 @@ Spreadsheets are a risky way to handle data
 [<a href="http://www.burns-stat.com/pages/Tutor/spreadsheet_addiction.html">1</a>
 |<a href="http://www.it-director.com/dl/free/spreadsheet.pdf">2</a>]:
 use a simple matrix programming language instead.
-The virtues of existing presentation packages do not outweigh their weaknesses:
-use LaTeX with the Prosper or beamer document class.
+The virtues of existing presentation packages do not outweigh their weaknesses,
+espeically if you need to present mathematical formulae.
 </p>
 <p id="officesuites">
 Now, since you are going to use them anyway, what should you use?
@@ -4407,6 +4434,16 @@ Another alternative:
 <a href="http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html">Tinydict</a>.
 </p>
 
+<h4>Cloud</h4>
+
+<p>
+It is now perfectly possible to rely on internet applications for word processing.
+I have had good experiences with <a href="http://docs.google.com">Google Docs</a> for basic word processing tasks
+and online collaboration.
+<a href="http://writer.zoho.com">Zoho Writer</a> looks even more capable,
+and has good math support as well.
+(Including the ability to produce math by inputting LaTeX.)
+</p>
 
 <h4 id="bibmanage">Bibliography Management</h4>
 
@@ -4598,6 +4635,11 @@ Free for educational use.
 <li>
 <a href="http://www.dadisp.com/">DaDisp</a> is an "engineering spreadsheet"
 that is currently free for academics.
+</li>
+<li>
+<a href="http://pyspread.sourceforge.net/">Pyspread</a> is
+"provides an arbitrary size, three-dimensional grid for spreadsheet calculations. Each grid cell accepts a Python expression."
+Cross platform.  (Language: Python. License: GPL 3.)
 </li>
 </ul>
 </div>
@@ -4894,7 +4936,8 @@ and
 For example, you may want to generate your own PostScript or PDF.
 As a more specific example,
 the wordaxe hyphenation library offers <a href="#reportlab">ReportLab</a> support.
-For an easy interface, try <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>.
+For an easy interface, try <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>,
+which offers cascading stylesheets and supports TTF and Type1 font embedding.
 </p>
 
 <h4>Version Control</h4>

@@ -276,6 +276,19 @@ def combinations(n,t) :
 			return
 		c[j] += 1
 
+def pascal_row(n):
+	"""Yield elements of row n of Pascal's triangle
+	the coefficients of (x+y)**n.
+	:see: http://www.bedroomlan.org/coding/pascals-triangle-python
+	      for a different approach
+	"""
+	Cnk = 1
+	yield Cnk
+	for k in range(0, n):
+		Cnk *= (n - k)
+		Cnk /= (k + 1)
+		yield Cnk
+
 
 ###### set utilities ###########################################
 #BEGIN subsetid
