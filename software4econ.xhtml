@@ -3104,6 +3104,11 @@ consider using <a href="http://pmw.sourceforge.net/">Python megawidgits (Pmw)</a
 You may want to also get <a href="http://cars9.uchicago.edu/software/python/index.html">Mark Rivers's enhancements</a>.
 </p>
 
+<p>
+<a href="http://tk-happy.sourceforge.net/">tk_happy</a>
+allows very fast, menu guided tkinter GUI creation.
+</p>
+
 <h4>Curses</h4>
 
 <p>
@@ -3246,8 +3251,31 @@ This section concentrates on 2-D drawing, with emphasis on the PostScript drawin
 while mentioning a few other interesting possibilities.
 </p>
 
+<h4 id="drawlang3d">3D Drawing</h4>
+
 <p>
 3D drawing:
+For simplicity and power,
+it will be hard to beat <a href="http://www.frontiernet.net/~eugene.ressler/">Sketch</a>.
+(Langauge: C++ (binaries available); License GPL)
+Particularly helpful to LaTeX users is its support of <a href="#tikz">tikz</a>.
+(See Kjell Magne Fauske's nice <a href="http://www.fauskes.net/nb/introduction-to-sketch/">introduction to Sketch</a>,
+which includes full examples.)
+</p>
+
+<p>
+Try the <a href="http://www.povray.org/">Persistence of Vision Ray Tracer (POV-Ray)</a>.
+If you need high performance real-time 3D,
+consider <a href="http://irrlicht.sourceforge.net/">Irrlicht</a>.
+If you are an OpenGL user,
+<a href="http://handhelds.freshmeat.net/projects/superficie">superficie</a> may be useful,
+although development appears quiescent. (License: GPL)
+</p>
+
+<h4 id="plotlang3d">3D Plotting</h4>
+
+<p>
+3D plotting:
 For nice, accurate surface plots,
 there is probably no simpler solution than <a href="#gnuplot">gnuplot</a>.
 The <a href="http://code.google.com/p/sympy/wiki/PlottingModule">SymPy plotting module</a> is very interesting.
@@ -3256,10 +3284,6 @@ and <a href="http://pyqwt.sourceforge.net/">PyQwt3D</a>
 provides bindings for Python users who wish to produce scientific 3D plots. (Now supports NumPy arrays.).
 Other possibilities include <a href="http://www.vpython.org/">Visual Python</a>
 and <a href="http://cgkit.sourceforge.net/">Python Computer Graphics Kit</a>.
-Try the <a href="http://www.povray.org/">Persistence of Vision Ray Tracer (POV-Ray)</a>.
-If you need high performance real-time 3D,
-consider <a href="http://irrlicht.sourceforge.net/">Irrlicht</a>.
-If you are an OpenGL user, <a href="http://superficie.sourceforge.net/">superficie</a> may be useful.
 Also, <a href="http://www.opendx.org/">OpenDX</a> looks like a very powerful open source implementation of the IBM Data Explorer (DX), and there is also a <a href="http://people.freebsd.org/~rhh/py-opendx/">Python binding</a>.
 <a href="http://www.llnl.gov/visit/home.html">VisIt</a> looks to be an extremely powerful way to produce 3D animations.
 </p>
@@ -3268,11 +3292,9 @@ Also, <a href="http://www.opendx.org/">OpenDX</a> looks like a very powerful ope
 The <a href="http://www.vtk.org/">Visualization Toolkit (VTK)</a>
 "software system for 3D computer graphics, image processing, and visualization"
 consisting of "a C++ class library, and several interpreted interface layers including Tcl/Tk, Java, and Python."
-(License: BSD-like, but containing some patented technology.)</p>
-
-<p>
-Hint:
-Find yourself a good interface to VTK.
+(License: BSD-like, but containing some patented technology.)
+<br />
+Hint: Find yourself a good interface to VTK.
 VTK provides wrappers for Python, Tcl, and Java, but the wrappers resemble VTK more than the supported language.
 Python users may like <a href="#MayaVi">MayaVi</a>,
 but this still requires VTK knowledge.
@@ -3291,7 +3313,7 @@ More 3D plotting solutions:
 <a href="http://plplot.sourceforge.net/">PLplot</a> is a powerful plotting library,
 which can be by a variety of languages.
 This library has an excellent reputation.
-(Language: C, Python.) (License: LGPL)
+(Language: C, with many bindings including Python; License: LGPL)
 </li>
 <li>
 <a href="http://blender3d.org/">Blender</a> allows Python scripted 3D animation.
@@ -3929,7 +3951,7 @@ The related but apparently more active <a href="http://sk1project.org/">sk1proje
 a serious vector graphic package for Linux users. (License: GPL and LGPL)
 </li>
 <li>
-<a href="http://www.graphsketcher.com/">Graph Sketcher</a> is a very reasonably priced
+<a href="http://www.omnigroup.com/applications/omnigraphsketcher">OmniGraph Sketcher</a> is a very reasonably priced
 commercial program that allows very fast drawing of nice looking economics-related graphs.
 </li>
 <li>
@@ -4509,27 +4531,18 @@ VerTeX for Economics Journals.</a>
 <a href="http://www.zotero.org/">Zotero</a> is a remarkably capable FireFox extension.
 </li>
 <li>
-<a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX databases: requires Java 1.4.2. License: GPL.
-Great application, although under Linux you you must install Sun's JVM, as currently does not work under Gnu's JVM.
-<br />
-Brief installation instructions:
-just download the <a href="http://jabref.sourceforge.net/">java binary</a>
-into <code>/opt/jabref</code> and create a starter file in your path.
-E.g., under Linux
-<pre>
-#! /bin/sh
-###script to start JabRef
-export JABREF_BASE_DIR='/opt/local/jabref' ;
-#cd $JABREF_BASE_DIR ;
-java -jar $JABREF_BASE_DIR/JabRef.jar ; 
-</pre>
+<a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX databases
+(Language: Java 1.5+. License: GPL.)
+Recommended.
+The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a> included very simple installation instructions.
 </li>
 <li>
 <a href="http://www.unix-ag.uni-kl.de/~fischer/kbibtex/">kbibtex</a>
 is a nice looking and functional BibTeX editor.
 </li>
 <li>
-<a href="http://pybliographer.org/">Pybliographer</a> is a cross-platform (but not yet for Windows, unfortunately) tool for managing bibliographic databases. It can be used for searching, editing, reformatting the following file formats: BibTeX, ISI, Medline, Ovid, Refer. 
+<a href="http://pybliographer.org/">Pybliographer</a> is a cross-platform (but not yet for Windows, unfortunately) tool for managing bibliographic databases.
+It can be used for searching, editing, reformatting the following file formats: BibTeX, ISI, Medline, Ovid, Refer. 
 </li>
 <li>
 You can use <a href="http://www.mackichan.com/BibDB/default.htm">BibTeX Database Manager (BibDB)</a> (which has a <a href="http://www.mackichan.com/techtalk/userforums.htm">mailing list</a>) to manage your citation database.
