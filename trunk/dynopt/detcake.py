@@ -4,12 +4,8 @@
 **  to improve efficiency and avoid propagating missing values.
 
 
-Author: Alan G. Isaac
-	Department of Economics
-	American University
-	Washington, DC 20016
-	emailto: aisaac AT american DOT edu
-Date:   29 Dec 2003
+:contact: aisaac AT american DOT edu
+:since:   29 Dec 2003
 
 Comments:
 Some simplifying tricks are used:
