@@ -64,6 +64,14 @@ class WordFreq:
 			wordsize_min=self.wordsize_min
 			)
 		fmt = "\n%24s %6d"
+		#create word list in alpha order
+		acceptable = ((k,v) for k,v in word_hash.iteritems() if v>=freq_min)
+		summary['alpha'] = ''.join( fmt%(k,v) for k,v in sorted(acceptable) )
+		#create word list in occurrence order
+		acceptable = ((k,v) for k,v in word_hash.iteritems() if v>=freq_min)
+		summary['occur'] = ''.join(
+			fmt%(k,v)
+			for k,v in sorted(acceptable, key = lambda x: (-x[1], x[0]) ))
 		result = """
 		Results for 'longer' words (length >= %(wordsize_min)d):
 		
@@ -73,23 +81,18 @@ class WordFreq:
 		Total number of words: %(ct_words)d
 		Total number of 'longer' words : %(ct_longwords)d
 
+
 		=================================================
 		=============== ALPHA ORDER =====================
 		=================================================
 		%(alpha)s
-		"""
-		acceptable = ((k,v) for k,v in word_hash.iteritems() if v>=freq_min)
-		summary['alpha'] = ''.join( fmt%(k,v) for k,v in sorted(acceptable) )
-		result += """
+
+
 		=================================================
 		============ OCCURRENCE ORDER ===================
 		=================================================
 		%(occur)s
 		"""
-		acceptable = ((k,v) for k,v in word_hash.iteritems() if v>=freq_min)
-		summary['occur'] = ''.join(a
-			fmt%(k,v)
-			for k,v in sorted(acceptable, key = lambda x: (-x[1], x[0]) ))
 		return result%summary
 
 def main():
