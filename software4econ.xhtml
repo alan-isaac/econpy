@@ -4177,6 +4177,9 @@ editor for TikZ graphics.  (Linux only?)
 <a href="#ftpclients">File Transfer (FTP)</a> 
 </li>
 <li>
+<a href="#filesearch">File Search</a>
+</li>
+<li>
 <a href="#pims">
 Personal Information Managers (PIMs)</a>
 </li>
@@ -4224,6 +4227,18 @@ Also:
 Copernicus</a> is a company specializing in the publication of open access journals.  
 </p>
 
+<h3 id="filesearch">File Search</h3>
+<div>
+Windows:
+If you downloaded Window Desktop Search for XP, you found that
+the default search in Windows Explorer is no longer the Windows search companion.
+To change this back, start regedit, and find the following node:
+<pre>
+HKEY_CURRENT_USER\Software\Microsoft\Windows Desktop Search\DS
+</pre>
+Double-click on 'ShowStartSearchBand' and change the value from '1' to '0'.
+Thanks to <a href="http://www.johnsadventures.com/archives/2006/11/how_to_default_to_search_companion_with_windows_de/">John Conners</a> for this tip.)
+</div>
 
 <h3 id="keyboard">Keyboards</h3>
 <p>
@@ -4534,7 +4549,9 @@ VerTeX for Economics Journals.</a>
 <a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX databases
 (Language: Java 1.5+. License: GPL.)
 Recommended.
-The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a> included very simple installation instructions.
+You can directly use the web version.
+The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a>
+also includes very simple installation instructions.
 </li>
 <li>
 <a href="http://www.unix-ag.uni-kl.de/~fischer/kbibtex/">kbibtex</a>
@@ -4576,6 +4593,7 @@ For serious work,
 they are too opaque.
 (If you have ever tried to figure out another person's complex spreadsheet, you know what I mean.)
 Studies indicate that almost all large spreadsheet have serious errors.<sup><a href="http://www.ifs.org.uk/~popx/eusprig2001_as_html/eusprig2001.html">*</a></sup>
+Basic <a href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=15214961">data handling glitches</a> have been documented even in the most popular spreadsheet applications.
 The complete lack of object orientation and the lack of transparent scripting facilities means that it is very difficult to understand someone else's spreadsheet or even one's own spreadsheet developed months or years ago.
 If all you want to educate someone to do is one-time, never-to-be-revisited, quick-and-dirty computations,
 then teach them a traditional spreadsheet.
