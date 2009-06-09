@@ -75,17 +75,20 @@ def diag(x):
 
 #diagrv: insert v as diagonal of matrix x (2D only!)
 def diagrv(x, v, copy=True):
+	"""Return matrix, the matrix `x` with the vector `v`
+	substituted for its diagonal.  Equivalent to::
+
+		idx = list( range( min(nrows,ncols) ) )
+		x[idx, idx] = v
+	"""
 	try:
 		nrow, ncols = x.shape
 	except ValueError:
 		raise ValueError("diagrv is defined for 2-d arrays only.")
 	x = numpy.matrix( x, copy=copy )
-	if x.iscontiguous(): #new arrays always contiguous
-		stride = 1 + ncols
-		x.flat[ slice(0,None,stride) ] = v
-	else:
-		idx = list( range( min(nrows,ncols) ) )
-		x[idx, idx] = v
+	stride = 1 + ncols
+	#flat works even if `x` not continguous!
+	x.flat[ slice(0,None,stride) ] = v
 	return x
 
 #ln: natural log
