@@ -8,7 +8,7 @@ __author__ = 'Alan G. Isaac if not specified (and others as specified)'
 
 import logging, math, random
 from itertools import groupby, izip
-import numpy as N
+import numpy as np
 import pylab
 import scipy
 
@@ -16,19 +16,19 @@ from .utilities import have_numpy, have_scipy
 
 class EmpiricalCDF(object):
 	'''Empirical cdf.
+	Incomplete: just calls D. Huard's code.
 	First point will be (xmin,0).
 	Last point will be (xmax,1).
-
 
 	:contact: aisaac AT american.edu
 	'''
 	def __init__(self, data, sortdata=True):
 		if sortdata:
-			data = N.sort(data)
+			data = np.sort(data)
 		self.data = data
 		self.nobs = len(data)
-
-
+	def cdf(self, method='Hazen'):
+		return empiricalcdf(method=method)
 
 
 class Dstat1(object):
@@ -202,7 +202,7 @@ class Dstat1(object):
 		'''
 		xsteps, psteps = self.gen_ecdf()
 		if use_numpy:
-			ecdf = N.fromiter(xsteps,'f'), N.fromiter(psteps,'f')
+			ecdf = np.fromiter(xsteps,'f'), np.fromiter(psteps,'f')
 		else:
 			ecdf = list(xsteps), list(psteps)
 		return ecdf
@@ -309,7 +309,7 @@ def welchs_approximate_ttest(n1, mean1, sem1, n2, mean2, sem2, alpha):
 	'''
 	svm1 = sem1**2 * n1
 	svm2 = sem2**2 * n2
-	t_s_prime = (mean1 - mean2)/N.sqrt(svm1/n1+svm2/n2)
+	t_s_prime = (mean1 - mean2)/np.sqrt(svm1/n1+svm2/n2)
 	if have_scipy:
 		from scipy import stats as Sstats
 		t_alpha_df1 = Sstats.t.ppf(1-alpha/2, n1 - 1)
@@ -331,12 +331,11 @@ def empiricalcdf(data, method='Hazen'):
 		Cunnane:	 (i-.4)/(N+.2)
 		Gringorten:  (i-.44)/(N+.12)
 		California:  (i-1)/N
-	
 
 	:see: http://svn.scipy.org/svn/scipy/trunk/scipy/sandbox/dhuard/stats.py
 	:author: David Huard
 	"""
-	i = N.argsort(N.argsort(data)) + 1.
+	i = np.argsort(np.argsort(data)) + 1.
 	nobs = len(data)
 	method = method.lower()
 	if method == 'hazen':
