@@ -18,19 +18,21 @@ import csv
 import types
 import urllib
 import datetime
-import matplotlib.dates
-from matplotlib.dates import date2num, MONTHLY, YEARLY
 import re, glob  #just for grep
-try: from scipy import nan
-except ImportError: nan=1e300*1e300-1e300*1e300
-#see http://www.cs.ucla.edu/classes/winter04/cs131/hw/hw4.html for problems w this ^
 import logging
 logging.getLogger().setLevel(logging.WARN) #sets root logger level
 #see http://www.python.org/doc/2.3.5/lib/node304.html to log to a file
 #(after Python 2.4 can use basicConfig)
+
 # for other IO options see:
 #	pylab.load()
 #	scipy.io.read_array()
+
+import matplotlib.dates
+from matplotlib.dates import date2num, MONTHLY, YEARLY
+try: from scipy import nan
+except ImportError: nan=1e300*1e300-1e300*1e300
+#see http://www.cs.ucla.edu/classes/winter04/cs131/hw/hw4.html for problems w this ^
 
 def fetch(file_name,file_type='databank'):
 	if file_type=='databank':
@@ -122,7 +124,7 @@ def read_db(fp):
 	#logging.info(str(comments))
 	return data, smpl, comments
 
-def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None):
+def write_db(file_name, data, smpl=None, comments=None, freq=None, start=None, end=None):
 	"""Return None. Write data to an opendatabank file.
 	Priority to smpl if provided.
 
@@ -137,20 +139,20 @@ def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None)
 	logging.debug("\n\tEntering write_db...")
 	if smpl is None:
 		try:
-			smpl = Sample(start,end,freq)
+			smpl = Sample(start, end, freq)
 		except:
 			logging.debug("No sample provided: treating as undated data.")
 			smpl = (1,len(data))
-	if isinstance(smpl,tuple):
+	if isinstance(smpl, tuple):
 		freq = None
 		start = smpl[0]
 		end = smpl[1]
 		freq_smpl = str(start)+"\n"+str(end)+"\n"
 		data_type = ' undated '
-	elif isinstance(smpl,Sample):
+	elif isinstance(smpl, Sample):
 		freq = smpl.freq
-		start = date2dbdate(smpl.start,freq)
-		end = date2dbdate(smpl.end,freq)
+		start = date2dbdate(smpl.start, freq)
+		end = date2dbdate(smpl.end, freq)
 		freq_smpl = str(-freq)+"\n"+str(start)+"\n"+str(end)+"\n"
 		data_type = ' dated '
 	else:
@@ -159,7 +161,9 @@ def write_db(file_name,data,smpl=None,comments={},freq=None,start=None,end=None)
 	try:
 		fp = open(file_name,'w')
 	except:
-		logging.error("Cannot write to %s; invalid file name?"%(file_name))
+		msg = """Cannot write to %s;
+		invalid file or directory name?"""%(file_name)
+		logging.error(msg)
 		raise IOError
 	comments['Last updated'] = str(datetime.date.today())
 	for key in comments:
@@ -304,14 +308,14 @@ class ReadFRED(object):
 
 	.. _`FRED2`: http://research.stlouisfed.org/fred2/
 	"""
+	#convenience declarations
+	header = None
+	comments = None
+	dates = None
+	data = None
 	def __init__(self, source):
 		#source is a URL, a path, or a file handle
 		self.source = source
-		#convenience declarations
-		self.header = None
-		self.comments = None
-		self.dates = None
-		self.data = None
 		#parse the source
 		fh = self.get_fh()
 		self.parse_source(fh)
@@ -370,7 +374,7 @@ class ReadFRED(object):
 		Skips blank lines.
 		"""
 		keyval = ['','']
-		comments = {}
+		comments = dict()
 		for line in self.header.split("\n"):
 			if line and line[0].isalpha(): #shd start a new comment
 				try:
@@ -386,12 +390,12 @@ class ReadFRED(object):
 			elif line: #continue an old comment
 				keyval[1] += ' ' + line.strip()
 		self.comments = comments
-	def get_sample(self):
+	@property
+	def sample(self):
 		start = self.dates[0]
 		end = self.dates[-1]
 		freq = self.comments['Frequency']
-		sample = Sample(start, end, freq=freq, dates=None, condition=None)
-		return sample
+		return Sample(start, end, freq=freq, dates=None, condition=None)
 	def write_db(self, file_name):
 		smpl = self.get_sample()
 		write_db(file_name,self.data,smpl=smpl,comments={},freq=None,start=None,end=None)
@@ -475,19 +479,18 @@ class Sample:
 
 	:note: each observation is dated to first day of its period
 	"""
-	def __init__(self,start,end,freq=None,dates=None,condition=None):
-		if freq == 'u':
-			self.freq = freq
-			self.start, self.end = int(start), int(end)
-			self.dates = dates or list(range(start,end+1))
-			self.condition = condition
-		else:
-			self.freq = freq2num(freq)
+	def __init__(self, start, end, freq=None, dates=None, condition=None):
+		self.freq = freq2num(freq)
+		if freq:
 			#get *beginning* of period in which `start` falls
 			self.start = date2bop(start, freq)
 			#get *beginning* of period in which `end` falls
 			self.end = date2bop(end, freq)
 			self.dates = dates
+			self.condition = condition
+		else:
+			self.start, self.end = int(start), int(end)
+			self.dates = dates or list(range(start,end+1))
 			self.condition = condition
 		logging.info("Class Sample: "+str(self))
 		logging.info("Class Sample: freq = "+str(freq))
@@ -551,14 +554,12 @@ class Sample:
 def freq2num(freq):
 	if freq in (1,4,12,52) or freq is None:
 		result = freq
-	elif isinstance(freq,str):
-		if freq.upper().startswith('A'): result = 1
-		elif freq.upper().startswith('Q'): result = 4
-		elif freq.upper().startswith('M'): result = 12
-		elif freq.upper().startswith('W'): result = 52
-		elif freq.upper() == 'U': result = None
-	else:
-		raise ValueError('Unsupported frequency: %s'%(freq))
+	elif isinstance(freq, str):
+		key = freq[0].upper()
+		try:
+			result = dict(A=1,Q=4,M=12,W=52,U=None)[key]
+		except KeyError:
+			raise ValueError('Unsupported frequency: %s'%(freq))
 	return result
 
 def col2list(fname='stdin',colnum=1,commentchar='#'):

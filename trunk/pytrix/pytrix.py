@@ -1,4 +1,4 @@
-'''Various utilities useful for economists.
+"""Various utilities useful for economists.
 Most are lightweight, in the sense that they do not depend on an array package.
 
 :see: `pytrix.py <http://www.american.edu/econ/pytrix/pytrix.py>`
@@ -21,9 +21,8 @@ Most are lightweight, in the sense that they do not depend on an array package.
 
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
-from __future__ import division
-from __future__ import absolute_import
+"""
+from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 
 from itertools import imap, izip
@@ -46,11 +45,8 @@ except ImportError:
 
 
 
-
-
-
 def gcd_euclid(r,n):
-	'''Return greatest common divisor of r and n.
+	"""Return greatest common divisor of r and n.
 
 	:Parameters:
 		- `r` : int
@@ -63,7 +59,7 @@ def gcd_euclid(r,n):
 	:since:     2004-10-28
 	:contact:   mailto:aisaac AT american.edu
 	:note:      uses only integer part of mn
-	''' 
+	""" 
 	n=int(max(abs( [r,n] )))
 	r=int(min(abs( [r,n] )))
 	while r!=0: (n,r)=(r,n%r)
@@ -75,8 +71,9 @@ def choice(x, axis=None):
 	If axis is None, then a single element is chosen from the entire array.
 	Otherwise, a subarray is chosen from the given axis.
 
-	:author: Robert Kern
+	:requires: numpy
 	:since: 20060220
+	:author: Robert Kern
 	"""
 	x = np.asarray(x)
 	if axis is None:
@@ -92,7 +89,7 @@ def choice(x, axis=None):
 
 
 def step_pts(x, y, use_numpy=True):
-	'''Given x and y, return points for step function plot.
+	"""Given x and y, return points for step function plot.
 
 	:Parameters:
 	 - `x`: [x0,x1,...,xn] list of x values (first coordinate)
@@ -102,7 +99,8 @@ def step_pts(x, y, use_numpy=True):
 		where xnew=(x0,x1,x1,...,xn,xn) and ynew=(y0,y0,y1,y1,...,yn).
 	:since: 2005-05-15
 	:date: 2007-09-27
-	''' 
+	:requires: numpy
+	""" 
 	nobs = len(x)
 	assert nobs==len(y), "Inputs must be same length."
 	if use_numpy and have_numpy:
@@ -116,7 +114,7 @@ def step_pts(x, y, use_numpy=True):
 
 
 def cbrt(r, n=3):
-	'''Cube root of real number.
+	"""Cube root of real number.
 	
 	:Parameters:
 	 - `r`: real number
@@ -134,7 +132,7 @@ def cbrt(r, n=3):
 	:see: http://www.gnu.org/software/libc/manual/html_node/Exponents-and-Logarithms.html
 	:author: Alan G. Isaac
 	:since: 2005-08-16
-	'''
+	"""
 	assert n%2 and n==int(n) or r>=0, "n must be an odd integer if r<0"
 	try: return r>=0 and math.pow(r,1./n) or -math.pow(-r,1./n)
 	except: print "%s is not a real number"%(r)
@@ -145,7 +143,7 @@ def cbrt(r, n=3):
 
 
 def sinc(x):
-	'''Sinus cardinalus. ::
+	"""Sinus cardinalus. ::
 	
 		sinc(x) = sin(\pi x) / (\pi x),  if x != 0
 		        = 1,                     if x = 0
@@ -158,7 +156,7 @@ def sinc(x):
 	:warning: Attend to the definition.
 	          Contrast with http://en.wikipedia.org/wiki/Sinc_function
 	:author: William Park
-	'''
+	"""
 	from math import pi, sin
 	try:
 		x = pi * x
@@ -169,14 +167,14 @@ def sinc(x):
 #Vectors and Points
 
 class Vector(object):
-	'''Simple vector class.
+	"""Simple vector class.
 	
 	:note: slice returns vector
 	:note: returns vector instead of list from arithmetic operations
 	:todo: switch dot and norm to generators (req. Python 2.4+)
 	:author: Alan G. Isaac
 	:since: 2005-08-19
-	'''
+	"""
 	def __init__(self, seq, **kwds):
 		self.data = list(seq)  #forces copy of data!
 		self.length = len(self.data)
@@ -232,8 +230,8 @@ class Vector(object):
 		if missing:
 			raise TypeError('Operand missing core attributes: '+str(missing))
 	def as_column(self):
-		'''Returns vector as 2-dimensional column vector.
-		'''
+		"""Returns vector as 2-dimensional column vector.
+		"""
 		return [[datum] for datum in self]
 	def dot(self, other):
 		"""Return float;
@@ -300,7 +298,7 @@ def norm(seq, p=2):
 
 
 class Vplus(Vector):
-	'''Augments the vector class to include element-by-element operations.'''
+	"""Augments the vector class to include element-by-element operations."""
 	def __init__(self, seq, **kwds):
 		self.data = list(seq)  #forces copy of data!
 		self.length = len(self.data)
@@ -336,7 +334,7 @@ class Pt2d(Vector):
 	def __repr__(self):
 		"pt2d(%s,%s)"%self.data
 	def move(self,dp):
-		'''Move point by dp=(dx,dy)'''
+		"""Move point by dp=(dx,dy)"""
 		self.data=self+dp
 	def __str__(self):
 		"(%s,%s)"%self.data
@@ -414,14 +412,14 @@ def nearest2d(pt,ptlst,polar=False,in_degrees=False):
 
 
 class kdtree:
-	'''kd-tree class with nearest neighbor detection for new points.
+	"""kd-tree class with nearest neighbor detection for new points.
 
 	:see: http://mail.python.org/pipermail/python-list/2003-November/192870.html
 	:see: http://en.wikipedia.org/wiki/Kd-tree
 	:since: Mon Nov 3 20:11:45 EST 2003
 	:author: David Eppstein
 	:contact: eppstein at ics.uci.edu
-	'''
+	"""
 	def __init__(self,dim=2,index=0):
 		self.dim = dim
 		self.index = index
@@ -1221,7 +1219,7 @@ def solveRSquared(rawData, coefficients, xEquationForm, \
 	return sumsquare / (ysquare - (samples * yaverage * yaverage))
 
 def gauss(AMatrix, BMatrix):
-	'''Solve linear equations of the form ::
+	"""Solve linear equations of the form ::
 
 	      |A00 A01 ... A0n|   |coefficient0|   |B0|
 	      |A10 A11 ... A1n| * |coefficient1| = |B1|
@@ -1230,7 +1228,7 @@ def gauss(AMatrix, BMatrix):
 	
 	where ``|A|`` and ``|B|`` are supplied and ``|coefficient|`` is the solution.
 	:author: William Park
-	'''
+	"""
 
 	# require part of contract
 	assert(type(AMatrix) == types.ListType), \
@@ -1535,9 +1533,8 @@ class interp2:
 
 		return (out_of_xbounds, out_of_ybounds)
 
-	# The following are cluges to fix brain-deadness of take and
+	# The following are clues to fix brain-deadness of take and
 	# sometrue when dealing with 0 dimensional arrays.
-	# Shouldn't they go to scipy_base??
 
 	_sometrue = sometrue
 	def sometrue(a,axis=0):	
@@ -1565,13 +1562,13 @@ class interp2:
 
 
 def asciihist(it,numbins=10,minmax=None,eps=0):
-	'''Create an ASCII histogram from an interable of numbers.
+	"""Create an ASCII histogram from an interable of numbers.
 
 	:since: 2005-11-12
 	:note: value must be strictly less than cutoff to be binned
 	:note: unless eps>0, values >= minmax[1] are discarded
 	:contact: alan DOT isaac AT gmail DOT com
-	'''
+	"""
 	bins = range(numbins)
 	freq = {}.fromkeys(bins,0)
 	itlist=list(it)
@@ -1604,11 +1601,11 @@ def asciihist(it,numbins=10,minmax=None,eps=0):
 		print "%2.2f |"%(cutoffs[bin]) + "*"*freq[bin]
 
 def pascal_triangle(n):
-	'''The first n+1 rows of Pascal's triangle.
+	"""The first n+1 rows of Pascal's triangle.
 
 	:since: 2005-11-18
 	:contact: alan DOT isaac AT gmail DOT com
-	'''
+	"""
 	triangle = []
 	for i in range(n+1):
 		triangle.append([1]*(i+1))
@@ -1644,12 +1641,12 @@ def combinations(s,n):
 	"""
 
 def pascal_row(n):
-	'''Row n (counting from 0) of Pascal's triangle.
+	"""Row n (counting from 0) of Pascal's triangle.
 	Equivalently: the coefficients of (a+b)^n.
 
 	:author: Alan Isaac
 	:since: 2005-11-17
-	'''
+	"""
 	row = [1]*(n+1)
 	for i in xrange(1,(n+1)//2):
 		row[i] = n_take_k(n,i)
@@ -1660,10 +1657,10 @@ def pascal_row(n):
 	return row
 
 def n_take_k(n,k):
-	'''Returns (n take k).
+	"""Returns (n take k).
 
 	:since: 2005-11-17
-	'''
+	"""
 	assert(k<=n and k==int(k) and n==int(n)),"n=%f, k=%f"%(n,k)
 	k = min(k,n-k)
 	if k==0:
@@ -1703,7 +1700,7 @@ def gosper(x):
 	return result
 
 def factorial(n, exact=False):
-	'''Returns number:
+	"""Returns number:
 	n! (exact integer or real approximation)
 
 	:date: 2008-07-15
@@ -1711,7 +1708,7 @@ def factorial(n, exact=False):
 	:note: uses Gosper's approximation for n>=10
 	:note: for Python 2.6+, use math.factorial
 	:see: http://www.luschny.de/math/factorial/approx/SimpleCases.html
-	'''
+	"""
 	assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
 	if n<15 or exact:
 		fac = 1
@@ -1762,6 +1759,7 @@ def matrix_rank(arr,tol=1e-8):
 	:author: Bill Baxter <wbaxter gmail.com>
 	:author: Alan G. Isaac
 	:date: 18 Feb 2006
+	:requires: numpy
 	"""
 	if not have_numpy:
 		raise NotImplementedError('numpy required for this function')
@@ -1896,7 +1894,7 @@ def slopes(x,y):
 		
 
 def chebyu(N,x):
-	'''
+	"""
 	:author: Norbert Nemec <Norbert.Nemec.list gmx.de>
 	:date: 2005-04-24
 
@@ -1905,7 +1903,7 @@ def chebyu(N,x):
 	up the polynomial. In the numerical range of question, this means adding
 	up huge numbers with alternating sign, producing bad numerical errors.  
 	I found a ridiculously simple solution:
-	'''
+	"""
 	previous = 0.0
 	current = 1.0
 	for n in range(N):
@@ -1918,9 +1916,10 @@ import numpy.linalg.linalg as la
 
 
 def fnnls(XtX, Xty, tol = 0) :
-	'''
+	"""
 	:author: Graeme O'Keefe, PhD, MACPSEM <gjok netspace.net.au>
 	:date: 20050816
+	:requires: numpy
 	:comments: below
 
 	ported fnnls.m to fnnls.py::
@@ -1967,7 +1966,7 @@ def fnnls(XtX, Xty, tol = 0) :
 	http://newton.foodsci.kvl.dk/users/rasmus.html
 	Reference:
 	Lawson and Hanson, "Solving Least Squares Problems", Prentice-Hall, 1974.
-	''' 
+	""" 
 	def any(X)     : return len(np.nonzero(X)) != 0
 	def find(X)    : return np.nonzero(X)
 	def norm(X, d) : return max(np.sum(abs(X)))
@@ -2422,7 +2421,7 @@ class Histogram(object):
 		return self.__interp_score[method](percent)
 
 def locate_minima(x):
-	''' Locate local minima in a 1-d array.
+	""" Locate local minima in a 1-d array.
 
 	Sample use::
 
@@ -2430,7 +2429,7 @@ def locate_minima(x):
 		minima = x[idx]
 
 	:date: 2006-06-19
-	'''
+	"""
 	from numpy import empty, asarray
 	x = asarray(x)
 	dx =  x[1:]-x[:-1]
@@ -2442,11 +2441,11 @@ def locate_minima(x):
 	return minima
 
 def dist(A,B):
-	''' Find distance between rows of A and rows of B.
+	""" Find distance between rows of A and rows of B.
 	Result[i,j] = sqrt((A[i]-B[j])**2)
 
 	:date: 2006-06-19
-	'''
+	"""
 	assert A.shape[1]==B.shape[1]
 	rowsA, rowsB = A.shape[0], B.shape[0]
 	distanceAB = empty( [rowsA,rowsB] , dtype=float)
@@ -2472,7 +2471,7 @@ def dist(A,B):
 
 
 def gen_convKern( self):
-	'''
+	"""
 	Generate a (2-gaussian by 1-gaussian) convolution kernel with limits at
 	multiples of the distribution sigmas -for 2Gauss: sigma(tail), for 1Gauss:
 	sigma(core)
@@ -2480,7 +2479,7 @@ def gen_convKern( self):
 	:author: Gerald Richter
 	:date: Thu Jun 22 16:43:58 CEST 2006
 	:note: requires integrate_grid()
-	'''
+	"""
 	tss = self.tstepSize;		# shortcut 4 stepsizes in [x, y]
 	mSigMul = 5.0;		# the measurement sigma multiplier
 
@@ -2547,11 +2546,11 @@ def gen_convKern( self):
 
 
 def integrate_grid( self, grid):
-	'''
+	"""
 	:author: Gerald Richter
 	:date: Thu Jun 22 16:43:58 CEST 2006
 	:note: see integrate_grid()
-	'''
+	"""
 	xrange = grid[0,:,0]	# take first x range vector
 	yrange = grid[1,0,:]	# take first y range vector
 
@@ -2591,7 +2590,7 @@ def makeGaussian(size, fwhm = 3):
 
 
 class Stats:
-	'''
+	"""
 	Calculate standard statistics while ignoring data gaps,
 	which may be indicated by nan values or by masked array input.
 
@@ -2638,11 +2637,12 @@ class Stats:
 	:date: 2006-07-14
 	:note: compare functionality (but not interface) to Matlabs mstdgap.m
 	:note: lightly tested, so use with care
-	'''
+	:requires: numpy
+	"""
 	def __init__(self, y, axis=0, squeeze=True, masked='auto'):
-		'''
+		"""
 		See the class docstring.
-		'''
+		"""
 		self._axis = axis
 		self._squeeze = squeeze
 		if hasattr(y, 'mask'):
@@ -2671,12 +2671,12 @@ class Stats:
 			return self.mean, self.std, self.N
 
 	def broadcastable(self, x):
-		'''
+		"""
 		Change the shape of a summary statistic (mean, N, std,
 		or median) so that it is broadcastable to the shape of
 		the input array.  This is needed only if the class
 		constructor was called with squeeze=False.
-		'''
+		"""
 		# as of 2006/07/08 the view method is not implemented
 		#return x.view().reshape(*self.b_shape)
 		if hasattr(x, 'mask'):
@@ -2765,6 +2765,7 @@ def pnpoly(verts,point):
 	:see: test_poly
 	:author: Stefan van der Walt <stefan sun.ac.za>
 	:date: Jul 07, 2006
+	:requires: numpy
 	"""
 	
 	verts = verts.astype(float)
@@ -2784,17 +2785,4 @@ def pnpoly(verts,point):
 	ypj = ypj[possible_crossings]
 	crossings = x < (xpj-xpi)*(y - ypi) / (ypj - ypi) + xpi
 	return sum(crossings) % 2
-
-# tests for pnpoly
-from numpy.testing import NumpyTest, NumpyTestCase
-class test_poly(NumpyTestCase):
-	def test_square(self):
-		v = np.array([[0,0], [0,1], [1,1], [1,0]])
-		assert(pnpoly(v,[0.5,0.5]))
-		assert(not pnpoly(v,[-0.1,0.1]))
-	def test_triangle(self):
-		v = np.array([[0,0], [1,0], [0.5,0.75]])
-		assert(pnpoly(v,[0.5,0.7]))
-		assert(not pnpoly(v,[0.5,0.76]))
-		assert(not pnpoly(v,[0.7,0.5]))
 
