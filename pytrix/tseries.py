@@ -1,4 +1,4 @@
-'''Simple time series manipulations.
+"""Simple time series manipulations.
 
 :note: Run as __main__ to see example use.
 :author: Alan G. Isaac, except where otherwise specified.
@@ -12,7 +12,7 @@
 :see: pyGAUSS.py
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
+"""
 from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 
@@ -32,7 +32,7 @@ import Tkinter as Tk
 
 #package imports
 from .pytrix import vector, vplus   #`series` subclasses `vector`
-from .io import freq2num, Sample, fetch
+from .io import freq2num, Sample, fetch, write_db
 from .stat import Dstat1
 
 have_numpy = False
@@ -49,7 +49,7 @@ except ImportError:
 	logging.info("SciPy not available")
 
 
-'''
+"""
 To Do
 -----
 
@@ -84,7 +84,7 @@ Extensions
 	Units: 
 	Remarks: 
 	History:
-'''
+"""
 
 
 class coef(vector):
@@ -98,28 +98,29 @@ class coef(vector):
 		self.core_attr = dict(length=self.length)
 
 class Series(vplus):
-	'''Basic class for fixed frequency time series.
+	"""Basic class for fixed frequency time series.
 	(Subclasses pytrix.vplus which subclasses pytrix.vector.)
 
 	:todo: rethink full and current smpl
-	'''
-	def __init__(self,data,smpl=None,**kwds):
+	"""
+	def __init__(self, data, smpl=None, comments=None, **kwds):
 		logging.debug("\n\tEntering class series.")
 		self.result_class = series  #override vplus
 		self.data = list(data)
 		self.nobs = len(data)
+		self.comments = comments or dict()
 		if 'length' in kwds:
 			assert(self.nobs==kwds['length']),"Data length does not match provided length"
-		if 'smpl' is None:
+		if smpl is None:
 			self.smpl_full = (1,self.nobs)
 		elif isinstance(smpl,tuple):
 			assert(self.nobs==1+self.smpl_full[1]-self.smpl_full[0]), "Number of obs does not match sample."
 			self.smpl_full = smpl
-		elif isinstance(smpl,Sample):
+		elif isinstance(smpl, Sample):
 			assert len(data)==len(smpl.get_dates()), "Number of obs does not match sample."
 			self.smpl_full = smpl.copy()
 		else:
-			raise TypeError('class series: Unrecognized smpl type.')
+			raise TypeError('class Series: %s is an unrecognized smpl type.'%smpl)
 		#self.label = label             #TODO: add label object?
 		self.dstat = None
 		self.core_attr = dict(length=self.nobs,smpl=self.smpl_full)  #TODO: is this the best core?
@@ -128,13 +129,13 @@ class Series(vplus):
 		return "series:\n"+str(self.data)
 	def __getitem__(self, item):  #http://www.python.org/doc/2.3.4/whatsnew/section-slices.html
 		return self.data.__getitem__(item)
-		'''
+		"""
 		if isinstance(item, slice):
 			indices = item.indices(len(self.data))  #TODO: shd this interact w sample??
 			return [self.calc_item(i) for i in range(*indices)]  #TODO:return list or series (w appropriate sample)??
 		else:
 			return self.calc_item(item)
-		'''
+		"""
 	def stat(self):
 		# for comparable functionality see http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/409413
 		if not self.dstat:
@@ -155,9 +156,9 @@ class Series(vplus):
 		]
 	#TODO: shd we use __call__ for shifting?
 	#see: http://docs.python.org/ref/callable-types.html
-	def shift(self,offset):
-		'''Return lead or lag of series: x.shift(n) = F^n x
-		'''
+	def shift(self, offset):
+		"""Return lead or lag of series: x.shift(n) = F^n x
+		"""
 		assert(isinstance(offset,int))
 		if offset < 0: #lag series
 			new_data = self.data[0:offset]
@@ -169,8 +170,8 @@ class Series(vplus):
 			return self.copy()
 		else:
 			return series(new_data,Sample(new_dates[0],new_dates[-1],freq=self.smpl_full.freq,dates=new_dates))
-	def d(self,n=1,s=0):
-		'''Return (1-L)^n(1-L^s)x.'''
+	def d(self, n=1, s=0):
+		"""Return (1-L)^n(1-L^s)x."""
 		assert(s==int(s) and n==int(n)), "Fractional differences not supported."
 		assert(s >= 0 and n >=0), "Postive differences required"	#TODO
 		dnsx = self[:]
@@ -191,13 +192,13 @@ class Series(vplus):
 			logging.debug('series.d(): Modified sample: '+str(dsmpl))
 		logging.debug("series.d(): n=%i,s=%i,dsmpl=%s"%(n,s,dsmpl))
 		return series(dnsx,smpl=dsmpl)
-	def transform(self,fn):
+	def transform(self, fn):
 		if isinstance(self.smpl_full,Sample):
 			smpl_copy=self.smpl_full.copy()
 		else:
 			smpl_copy=self.smpl_full
 		return series([fn(xi) for xi in self],smpl=smpl_copy)
-	def detrend_linear(self,zeroperiod=0): #TODO allow normalization to different date
+	def detrend_linear(self, zeroperiod=0): #TODO allow normalization to different date
 		#wd it be worth doing it directly, e.g. TODO
 		if have_scipy:
 			x11 = self.nobs
@@ -208,6 +209,60 @@ class Series(vplus):
 		trend = xrange(self.nobs)
 		X = zip(intercept,trend)
 		return OLS(self.data,X).resids   #from ls.py
+	def tolist(self, copy=True):
+		"""Return series data, possibly subsampled.
+
+		"""
+		logging.debug("Enter Series.tolist.")
+		if copy:
+			data = list(self.data)
+		else:
+			data = self.data
+		return data
+	def write2databank(self, file_name):
+		write_db(file_name=file_name, data=self.tolist(), smpl=self.smpl_full, comments=self.comments)
+	def subsample(self, smpl=None, freq=None):
+		"""Return list of series data, possibly subsampled.
+
+		:note: freq overrides smpl.freq
+		:note: currently tolist already returns a list; see get_item in vector class
+		:todo: frequency conversion  NEEDS MUCH WORK!!!
+		"""
+		logging.debug("Enter Series.subsample.")
+		data = self.tolist(copy=True)
+		full = self.smpl_full
+		if smpl is not None:
+			assert (isinstance(self.smpl_full,Sample) and isinstance(smpl,Sample))
+			assert (smpl.start >= self.smpl_full.start)and(smpl.end <= self.smpl_full.end)
+			logging.debug("\n\tSubsample based on smpl.")
+			#we do NOT (!) change frequency at this point
+			if isinstance(smpl, tuple):
+				idx_start = smpl[0]
+				idx_end = smpl[1]
+			elif isinstance(smpl, Sample):
+				idx_start = full.get_date_index(smpl.start)
+				idx_end = full.get_date_index(smpl.end)
+			else:
+				raise ValueError('smpl must be tuple or sample instance')
+			data = data[idx_start:idx_end+1]
+		newfreq = freq2num(freq or smpl.freq)
+		if smpl and (smpl.freq != newfreq):
+			msg = """Frequency of %s
+			does not match smpl frequency of %s"%(newfreq,smpl.freq)).
+			Adjusting smpl frequency."""
+			logging.warn(msg)
+			smpl = Sample(smpl.start, smpl.end, freq=newfreq)
+		oldfreq = full.freq 
+		if newfreq != oldfreq:
+			logging.debug("Frequency conversion required.")
+			if newfreq ==1 and oldfreq == 4:
+				dataslice = slice(0, len(data), 4)
+			elif newfreq == 1 and oldfreq == 12:
+				dataslice = slice(0, len(data), 12)
+			else:
+				raise NotImplementedError('frequency conversion not yet implemented')
+			data = data[dataslice]
+		return Series(data=data, smpl=smpl, comments=self.comments)
 	def plot(self, plottype='line', smpl=None):
 		if not smpl:
 			dates = self.smpl_full.get_dates()
@@ -235,50 +290,13 @@ class Series(vplus):
 			show_tkagg(fig)
 		#pylab.plot(range(len(self.data)),self.data,'r-')
 		#pylab.show()
-	def get_data(self,smpl=None,freq=None):
-		'''Return series data, possibly subsampled.
-
-		:todo: frequency conversion  NEEDS MUCH WORK!!!
-		'''
-		data = self.data
-		if freq:
-			oldfreq = self.smpl_full.freq 
-			newfreq = freq2num(freq)
-			if newfreq == oldfreq:
-				pass
-			elif newfreq ==1 and oldfreq == 4:
-				return [data[i] for i in range(0,len(data),4) ]
-			elif newfreq == 1 and oldfreq == 12:
-				return [data[i] for i in range(0,len(data),12) ]
-			else:
-				raise NotImplementedError('frequency conversion not yet implemented')
-		if smpl is not None:
-			if isinstance(smpl,tuple):
-				firstind = smpl[0]
-				lastind = smpl[1]
-			elif isinstance(smpl,Sample):
-				firstind = self.smpl_full.get_date_index(smpl.start)
-				lastind = self.smpl_full.get_date_index(smpl.end)
-			else:
-				raise ValueError('smpl must be tuple or sample instance')
-			return self.data[firstind:lastind+1]
-		else:
-			return self.data
-	def get_subsample(self,smpl=None,freq=None):
-		'''Return list of series data, possibly subsampled.
-
-		:note: currently get_data already returns a list; see get_item in vector class
-		'''
-		assert(isinstance(self.smpl_full,Sample) and isinstance(smpl,Sample))
-		assert (smpl.start >= self.smpl_full.start)and(smpl.end <= self.smpl_full.end)
-		return series(self.get_data(smpl,freq),smpl)
 
 class series(Series):
-	#old name; deprecated
-	pass
+	def __init__(self):
+		Series.__init__(self)
+		logging.info("\n\tWe have deprecated `series`; please use `Series`.")
 
-
-def show_tkagg(figure,title=''):
+def show_tkagg(figure, title=''):
 	"""Create a new matplotlib figure manager instance.
 	"""
 	from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -294,8 +312,8 @@ def show_tkagg(figure,title=''):
 
 
 		
-def varlags(var,lags):
-	'''Prepare data for VAR. ::
+def varlags(var, lags):
+	"""Prepare data for VAR. ::
 	
 	         x,xlags  = varlags(var,lags)
 
@@ -312,7 +330,7 @@ def varlags(var,lags):
 	:author: Alan G. Isaac
 	:since: 5 Aug 2004
 	:note: get current version from pyGAUSS
-	'''
+	"""
 	xlags=var[lags-1:-1]
 	for i in range(2,lags+1):
 		xlags=N.concatenate([xlags,var[lags-i:-i]],1)
@@ -321,10 +339,10 @@ def varlags(var,lags):
 
 
 #https://stat.ethz.ch/pipermail/r-help/2002-March/019283.html
-'''
-'''
+"""
+"""
 def hpfilter(y, penalty=1600):
-	'''Return: (t,d) trend and deviation
+	"""Return: (t,d) trend and deviation
 	Based on Lubuele's GAUSS code:
 	http://www.american.edu/academic.depts/cas/econ/gaussres/timeseri/hodrick.src
 	which is a translation of Prescott's fortran code:
@@ -337,7 +355,7 @@ def hpfilter(y, penalty=1600):
 	eye <- diag( length(y) )
 	d2 <- diff( eye, d=2 )
 	z <- solve( eye + penalty * crossprod(d2),  y )
-	'''
+	"""
 	s = penalty
 	assert (s>0)
 	n = len(y)
@@ -454,14 +472,14 @@ def hpfilter(y, penalty=1600):
 
 
 if __name__ == "__main__":
-	'''Example use for module.
-	'''
+	"""Example use for module.
+	"""
 	cpi = series(*fetch(r'h:\data\FRED\cpi\CPIAUCNS.db'))
 	sub = Sample([1950,1],[1990,1],12)
 	print sub
 	cpi.plot()
 	cpi.plot(smpl=sub)
 	#print Dstat1([1,1,2,2,3,3,3]Last modified: 2006 Jun 30
-	#print Dstat1(cpi.get_data(),'cpi',cpi.smpl_full)
+	#print Dstat1(cpi.tolist(),'cpi',cpi.smpl_full)
 	#pylab.show()
 

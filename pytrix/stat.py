@@ -9,10 +9,14 @@ __author__ = 'Alan G. Isaac if not specified (and others as specified)'
 import logging, math, random
 from itertools import groupby, izip
 import numpy as np
-import pylab
-import scipy
+from matplotlib import pyplot as plt
 
-from .utilities import have_numpy, have_scipy
+from .utilities import have_numpy
+try:
+	import scipy as sp
+	have_scipy = True
+except ImportError:
+	have_scipy = False
 
 class EmpiricalCDF(object):
 	'''Empirical cdf.
@@ -40,7 +44,7 @@ class Dstat1(object):
 		#print descriptive statistics
 		print dstat
 		#get and plot empirical CDF
-		pylab.plot(*dstat.get_ecdf())
+		plt.plot(*dstat.get_ecdf())
 
 	References::
 
@@ -98,7 +102,7 @@ class Dstat1(object):
 		self.id = id(self) #instance id
 		self.name = name
 		self.smpl = smpl
-		#from scipy.stats.stats import mean, variation, skew, kurtosis, histogram
+		#from sp.stats.stats import mean, variation, skew, kurtosis, histogram
 		#storage attributes for associated properties (semi-private)
 		self._nobs = None
 		self._sum = None
@@ -120,12 +124,12 @@ class Dstat1(object):
 		#Jarque-Bera: JB(X)=\frac{T}{6}\left[S^{2}(X) + \frac{[K(X)-3]^{2}}{4}\right]
 		self.jb = (self.skew**2 + (self.kurtosis-3)**2/4)*self.nobs/6
 		if have_scipy:
-			self.jbpval = scipy.stats.stats.chisqprob(self.jb,2) #check TODO
+			self.jbpval = sp.stats.stats.chisqprob(self.jb,2) #check TODO
 		else:
 			self.jbpval = None
 		self.min , self.max = self.get_range()
-		#pylab.figure()
-		#pylab.hist(data1d)
+		#plt.figure()
+		#plt.hist(data1d)
 		#self.valid =      K-vector, the number of valid cases.
 		#self.missing =     K-vector, the number of missing cases.
 	def __str__(self):
