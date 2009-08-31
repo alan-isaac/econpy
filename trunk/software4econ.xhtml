@@ -91,15 +91,12 @@
 
 
 
-
-
-
 <h1 id="top">Software for Economists</h1>
 
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2009 Jan 18
+Last modified: 2009-06-29
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 <br />
@@ -587,6 +584,7 @@ and then use pdftex to produce the PDF.
 <p>
 <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>
 produces PDF directly using the <a href="#reportlab">ReportLab</a> library. 
+Good math handling via Matplotlib's mathtext!
 </p>
 
 <p>
@@ -1194,12 +1192,24 @@ Interesting, the <a href="#abiword">AbiWord</a> word processor supports itex for
 <h3 id="present">Presentations</h3>
 
 <p>
-Recommendation: use LaTeX with the  <a href="http://latex-beamer.sourceforge.net/">beamer</a>,
+A fuller discussion of options can be found in
+<a href="http://www.miwie.org/presentations/presentations.html">Wiedman on Screen Presentation Tools</a>.
+</p>
+
+<p>
+For great control with remarkable simplicity,
+try <a href="http://lateral.netmanagers.com.ar/stories/BBS52.html">rst2pdf</a>.
+Good math handling via Matplotlib's mathtext!
+</p>
+
+<p>
+If you know LaTeX,
+the  <a href="http://latex-beamer.sourceforge.net/">beamer</a> is great,
+You can use it with the
 <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/powerdot.html">powerdot</a>,
 or
 <a href="http://prosper.sourceforge.net/prosper.html">Prosper</a> document class.
 (I found getting started with the <tt>beamer</tt> document class using MiKTeX's pdflatex to be completely painless.)
-A fuller discussion of options can be found in <a href="http://www.miwie.org/presentations/presentations.html">Wiedman on Screen Presentation Tools</a>.
 Some people like the commercial <a href="http://www.utopiatype.com.au/products/ubundle.html">Utopia presentations bundle</a>.
 </p>
 
@@ -2196,6 +2206,12 @@ Below I list only a few interesting packages, with an emphasis on multi-platform
 
 <ul>
 <li>
+<a href="http://www.sagemath.org/">Sage</a>
+is an interesting, Python-based CAS with excellent documentation
+(including a simple <a href="http://www.sagemath.org/help.html#tutorial">tutorial</a>.
+(License: GPL)
+</li>
+<li>
 <a href="http://maxima.sourceforge.net/">Maxima</a> has been released under the GNU public license!
 This is a free cross-platform solution.
 (A windows binary is available.)
@@ -2863,6 +2879,10 @@ The cross-platform <a href="http://pymedia.org/">PyMedia</a> Python module provi
 (wav, mp3, ogg, avi, divx, dvd, cdda, etc).
 It includes parsing, demutiplexing, multiplexing, coding and decoding.
 </li>
+<li>
+<a href="http://www.videolan.org/">VideoLAN</a> provides "a highly portable multimedia player for various audio and video formats".
+(License: GPL)
+</li>
 </ul>
 
 
@@ -3003,6 +3023,7 @@ But it has limited support for threading.
 For Java,
 consider the <a href="http://www.eclipse.org/">Eclipse</a> IDE.
 (Eclipse is a "general purpose" IDE.)
+Python users can also use Eclipse via the <a href="http://pydev.sourceforge.net/">Pydev</a> plugin.
 </p>
 <p>
 For C and C++,
@@ -3416,6 +3437,10 @@ it is a PostScript-like syntax that adds alpha blending.
 produces interactive graphics for data analysis.
 </p>
 
+<h4>Rendering Engines</h4>
+
+<a href="http://www.antigrain.com/">Anti-Grain Geometry</a> (Language: C++; License: GPL 2+)
+
 <h4 id="animate">Animation</h4>
 
 <p>
@@ -3488,6 +3513,14 @@ can record analog audio
 (License: GPL)
 </p>
 
+<p>
+HTML % includes a VIDEO element, supported by FireFox 3.5+ and Chrome 3.0+.
+(See <a href="http://camendesign.com/code/video_for_everybody">Video For Everybody</a> for usage hints.)
+This enables native <a href="http://www.theora.org/">OGG/Theora</a> video playback in Firefox 3.5!
+For conversion of video formats,
+you might try <a href="http://handbrake.fr/">HandBrake</a>. (License: GPL)
+</p>
+
 
 <h3 id="pyplot">Plotting in Python</h3>
 
@@ -3499,14 +3532,19 @@ See the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware#Vis
 
 <ul>
 <li>
-For publication quality 2-D graphics,
+For publication quality 2d graphics,
 I like <a href="http://matplotlib.sourceforge.net/">Matplotlib</a>.
+(It also supports 3d graphics, but I have not used this functionality.)
 This is truly amazing free and open source graphics software.
-It's <code>pylab</code> module provides quick-and-easy Matlab-like functionality.
+Its <code>pylab</code> module provides quick-and-easy Matlab-like functionality.
 For finer grained control, you may prefer Matplotlib's <a href="#oompl">object-oriented API</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
 See the <a href="#mpl_hints">Matplotlib hints</a> below.
+</li>
+<li>
+<a href="http://soft.proindependent.com/qtiplot.html">QtiPlot</a> is fully Python scriptable.
+(License: GPL)
 </li>
 <li>
 It is possible to <a href="#gphints">control gnuplot</a> from Python
@@ -3959,8 +3997,8 @@ commercial program that allows very fast drawing of nice looking economics-relat
 </li>
 <li>
 <a href="http://tams-www.informatik.uni-hamburg.de/applets/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
-There is also the classic <a href="http://www.xfig.org/">Xfig</a> for X Windows,
-and the new <a href="http://user.cs.tu-berlin.de/~huluvu/WinFIG.htm">WinFIG</a> for MS Windows.
+There is also the classic <a href="http://www.xfig.org/">Xfig</a> for X Windows.
+<a href="http://www.schmidt-web-berlin.de/winfig/">WinFIG</a> for MS Windows can read Xfig files. (License: Shareware)
 </li>
 <li> 
 For Windows users,
@@ -3969,7 +4007,7 @@ is a free mathematical package for plotting in two or three dimensions.
 For precise geometric drawings there is also <a href="http://math.exeter.edu/rparris/wingeom.html">Wingeom</a>.
 </li>
 <li>
-<a href="http://www.lysator.liu.se/~alla/dia/">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+<a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 There is a <a href="http://dia-installer.sourceforge.net">Windows installer</a>.
 (If you are interested in Dia's UML capabilities,
 you might also like to look at <a href="http://www.umlet.com">UMLet</a> or <a href="http://uml.sourceforge.net">Umbrello</a>.)
@@ -4498,7 +4536,8 @@ to manage your reference and format your citations.
 However there are some interesting alternatives.
 In particular,
 LaTeX users have the traditional (and very powerful) <a href="http://www.ctan.org/tex-archive/biblio/bibtex/">BibTeX</a> to manage the citations in their documents.
-(See the <a href="#bibtexhints">BibTeX user hints</a>).
+Even users of commercial word processors can take advantage of BibTeX by using <a href="http://www.ee.ic.ac.uk/hp/staff/dmb/perl/index.html">Bibtex4Word</a>.
+New users should see the <a href="#bibtexhints">BibTeX user hints</a>.
 Now for the design of citation reference and citation style,
 they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros/latex/exptl/biblatex/">biblatex</a>
 (which greatly simplifies writing new styles).
@@ -4747,6 +4786,19 @@ is a high-performance Internet communications platform.
 
 
 <h3 id="projectmanager">Project Managers</h3>
+
+<p>
+<a href="http://faces.homeip.net/">faces</a> is a user friendly project management tool. (License: GPL; Language: Python)
+</p>
+
+<p>
+<a href="http://www.taskcoach.org/">Task Coach</a> is a lightweight task manager. (License: GPL; Language: Python)
+</p>
+
+<p>
+<a href="http://www.taskjuggler.org/example.php">Task Juggler</a> is very popular. (License: GPL)
+</p>
+
 <p>
 <a href="http://www.openoffice.org/">OpenOffice</a> includes a database.
 GNOME Office includes <a href="http://mrproject.codefactory.se/">MrProject</a>,
@@ -4887,8 +4939,10 @@ Python users get a basic cross-platform solution automatically via the ftplib mo
 The Python Cookbook uses this module to provide a <a href="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/302592">threaded ftp client</a>.
 As of August 2005, ftplib does not provide any secure services, however.
 For SSH2 services you can use <a href="http://www.lag.net/paramiko/">paramiko</a>,
-which relies on <a href="http://www.amk.ca/python/code/crypto">pycrypto</a>.
+which relies on <a href="http://www.dlitz.net/software/pycrypto/">pycrypto</a>.
 These are very easy installs!
+(See the paramiko README file for instructions.
+Windows users can also look at <a href="http://www.voidspace.org.uk/python/modules.shtml#pycrypto">Voidspace</a> for prebuilt PyCrypto binaries.)
 I provide an <a href="http://www.american.edu/econ/pytrix/sftp_client.py">example (usable) SFTP client</a> using these modules,
 but you can even have a graphical interface with SFTP support via <a href="http://home.gna.org/wxsftp/">wxSFTP</a>.
 (If your needs are more substantial,
@@ -5004,10 +5058,21 @@ This is probably not important for small projects.
 See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">OpenSolaris evaluations</a>.
 </p>
 
+<h5 id="svn">SVN</h5>
+
+<p>
+<a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system for new projects.
+There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>.
+(Be sure to read about the <a href="http://svnbook.red-bean.com/en/1.5/svn.tour.cycle.html">basic work cycle</a>.
+Simplest bottom line: change to your working directory and enter
+<code>svn update</code>, <em>then</em> make changes to your files,
+and finally commit the changes with <code>svn commit -m "My message about the changes."</code>.)
+</p>
+
 <p>
 SVN on windows:
 download and execute the <a href="http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91">Windows installer</a>.
-Windows users are lucky to have <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a>
+Users who dislike the command line should consider <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a>
 as a user-friendly <a href="http://subversion.tigris.org/">Subversion</a> client.
 </p>
 
@@ -5032,6 +5097,8 @@ Free and low cost SVN repositories:
 <br />
 <a href="http://www.nexumoja.org">nexUmoja</a>
 </p>
+
+<h5>Mercurial</h5>
 
 <p>
 Free and low cost Mercurial repositories:
@@ -5305,8 +5372,16 @@ and therefore on <a href="http://www.foolabs.com/xpdf/">X pdf</a>.
 which comes with tools for PDF file manipulation.)
 </li>
 <li>
-<a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is cross platform.
-Can view PostScript and PDF.
+Also using poppler is
+<a href="http://okular.kde.org/">Okular</a>,
+"a universal document viewer based on KPDF for KDE 4."
+</li>
+<li>
+<a href="http://www.cs.wisc.edu/~ghost/">GhostView</a>
+is a cross platform viewer for PostScript and PDF.
+(License: Aladdin Free Public Licence)
+It depends on the <a href="http://pages.cs.wisc.edu/~ghost/">GhostScript</a> interpreter.
+(License: GPL)
 </li>
 </ul>
 
@@ -5385,6 +5460,11 @@ It has roots in the <a href="http://www.openpgp.org/">OpenPGP</a> encryption sta
 <li>
 <a href="http://www.truecrypt.org/">TrueCrypt</a> provides sophisticated encryption on Windows XP.
 </li>
+<li>
+<a href="http://www.boo.net/~jasonp/qs.html">msieve</a> does fast integer factorization.
+If your needs are a bit less demanding and you are a Python user,
+you can also try <a href="http://tnt.math.metro-u.ac.jp/nzmath/">NZMATH</a>.
+</li>
 </ul>
 
 
@@ -5408,12 +5488,24 @@ It has roots in the <a href="http://www.openpgp.org/">OpenPGP</a> encryption sta
 
 <h3 id="kids">Stuff for Kids (and Educators)</h3>
 
+<p>
+<a href="http://banshee-project.org/">Banshee</a> music player.
+</p>
+
+<p>
+<a href="http://projects.gnome.org/tomboy/">Tomboy</a> note-taking application.
+</p>
+
 <ul>
 <li>
 <a href="http://www.squeak.org/">Squeak</a> may be the easiest way to get your kid into object oriented programming.
 The cross-platform language is not a toy!
 Educators may be interested in its potential for
 <a href="http://www.squeak.org/Features/FunandGames/">game development</a>.
+</li>
+<li>
+<a href="http://www.alice.org">Alice</a>
+is an innovative approach to 3d programming for kids.
 </li>
 <li>
 <a href="http://www.blender.org/">Blender GameKit</a>
@@ -5617,7 +5709,7 @@ but <code>mylist</code> is now sorted.
 <h3 id="rproject_hints">R Hints</h3>
 <p>Documentation:
 <br />
-Windows users may want to read <a href="http://www.stat.auckland.ac.nz/~kwan022/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
+Windows users may want to read <a href="http://wwwmaths.anu.edu.au/~wangk/personal/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
 Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplementary documentation</a>;
 also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell's R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful.
 Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.
