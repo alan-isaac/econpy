@@ -31,7 +31,7 @@ import datetime
 import Tkinter as Tk
 
 #package imports
-from .pytrix import Vector, Vplus   #`series` subclasses `vector`
+from .pytrix import Vector, Vplus   #`Series` subclasses `Vector`
 from .io import freq2num, Sample, fetch, write_db
 from .stat import Dstat1
 
@@ -87,7 +87,7 @@ Extensions
 """
 
 
-class coef(vector):
+class coef(Vector):
 	def __init__(self,coefs):
 		self.data = list(coefs)  #name matters: see superclass methods
 		self.coefSE = None
@@ -97,7 +97,7 @@ class coef(vector):
 		#core_attr: attributes to check conformability (see require_samecore)
 		self.core_attr = dict(length=self.length)
 
-class Series(vplus):
+class Series(Vplus):
 	"""Basic class for fixed frequency time series.
 	(Subclasses pytrix.vplus which subclasses pytrix.vector.)
 
