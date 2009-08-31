@@ -313,6 +313,7 @@ class ReadFRED(object):
 	comments = None
 	dates = None
 	data = None
+	_sample = None
 	def __init__(self, source):
 		#source is a URL, a path, or a file handle
 		self.source = source
@@ -390,15 +391,17 @@ class ReadFRED(object):
 			elif line: #continue an old comment
 				keyval[1] += ' ' + line.strip()
 		self.comments = comments
-	@property
-	def sample(self):
-		start = self.dates[0]
-		end = self.dates[-1]
-		freq = self.comments['Frequency']
-		return Sample(start, end, freq=freq, dates=None, condition=None)
 	def write_db(self, file_name):
 		smpl = self.get_sample()
 		write_db(file_name,self.data,smpl=smpl,comments={},freq=None,start=None,end=None)
+	@property
+	def sample(self):
+		if self._sample is None:
+			start = self.dates[0]
+			end = self.dates[-1]
+			freq = self.comments['Frequency']
+			self._sample = Sample(start, end, freq=freq, dates=None, condition=None)
+		return self._sample
 		
 
 def read_ifs_csv(filename, commentlines=10):
@@ -486,11 +489,11 @@ class Sample:
 			self.start = date2bop(start, freq)
 			#get *beginning* of period in which `end` falls
 			self.end = date2bop(end, freq)
-			self.dates = dates
+			self._dates = dates
 			self.condition = condition
 		else:
 			self.start, self.end = int(start), int(end)
-			self.dates = dates or list(range(start,end+1))
+			self._dates = dates or list(range(start,end+1))
 			self.condition = condition
 		logging.info("Class Sample: "+str(self))
 		logging.info("Class Sample: freq = "+str(freq))
@@ -502,7 +505,7 @@ class Sample:
 	def __ne__(self, smpl):
 		return (self.start != smpl.start)or(self.end!=smpl.end)or(self.freq!=smpl.freq)
 	def __len__(self):
-		return len(self.get_dates())
+		return len(self.dates)
 	def copy(self):
 		return Sample(self.start,self.end,self.freq,self.condition)
 	def set_start(self,dt):
@@ -519,14 +522,6 @@ class Sample:
 			return matplotlib.dates.rrule(YEARLY,dtstart=self.start,until=self.end)
 		else:
 			raise ValueError('class Sample: unknown frequency')
-	def set_dates(self,dates=None):  #TODO: use for date checking of supplied dates
-		if dates is None:
-			self.dates =  [xi.date() for xi in self.get_rrule()]
-	def get_dates(self):
-		"""Return list of datetime.date objects corresponding to sample."""
-		if self.dates is None:
-			self.set_dates()
-		return self.dates
 	def get_date_index(self,dt):
 		assert isinstance(dt,datetime.date), "class Sample: Requires datetime.date instance as argument."
 		if self.dates is None:
@@ -549,6 +544,18 @@ class Sample:
 			return None
 		else:
 			return Sample(start,end,self.freq)
+	def get_dates(self):
+		logging.warn('Deprecated method get_dates; use the dates property')
+		return self.dates
+	def set_dates(self,dates=None):  #TODO: use for date checking of supplied dates
+		if dates is None:
+			self._dates =  [xi.date() for xi in self.get_rrule()]
+	@property
+	def dates(self):
+		"""Return list of datetime.date objects corresponding to sample."""
+		if self._dates is None:
+			self.set_dates()
+		return self._dates
 
 
 def freq2num(freq):

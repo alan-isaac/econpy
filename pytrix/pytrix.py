@@ -240,7 +240,7 @@ class Vector(object):
 	def norm(self, p=2) :
 		"""Return float;
 		see documentation for the ``norm`` function."""
-		return norm(self.data, p, normtype)
+		return norm(self.data, p)
 
 vector = Vector
 
@@ -304,17 +304,20 @@ class Vplus(Vector):
 		self.length = len(self.data)
 		if 'length' in kwds:
 			assert(self.length==kwds['length']),"Data length does not match provided length"
-		self.result_class = vplus
+		self.result_class = Vplus
 		self.core_attr = dict(length=self.length)
 	def __repr__(self):
-		return "vplus: "+repr(self.data)
+		return "Vplus: "+repr(self.data)
 	def __mul__(self, other):
 		self.require_samecore(other)
 		result = imap(operator.mul, self.data, other)
 		return self.result_class(result, **self.core_attr)
 	def __div__(self, other):  #careful: not insisting on truediv
 		self.require_samecore(other)
-		return self.result_class([xi/yi for (xi,yi) in zip(self.data,other)],self.core_attr)
+		return self.result_class([xi/yi for (xi,yi) in zip(self.data,other)],**self.core_attr)
+	def __truediv__(self, other):
+		self.require_samecore(other)
+		return self.result_class([float(xi)/yi for (xi,yi) in zip(self.data,other)],**self.core_attr)
 	def __pow__(self,expon):
 		if isinstance(expon,(int,float)):
 			self2expon  = self.result_class([xi**expon for xi in self.data])

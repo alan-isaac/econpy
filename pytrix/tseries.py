@@ -18,7 +18,7 @@ __docformat__ = "restructuredtext en"
 
 #standard library imports
 import logging
-logging.getLogger().setLevel(logging.DEBUG) #sets root logger level
+logging.getLogger().setLevel(logging.WARN) #sets root logger level
 #see http://www.python.org/doc/2.3.5/lib/node304.html to log to a file
 #(after Python 2.4 can use basicConfig)
 import math
@@ -31,7 +31,7 @@ import datetime
 import Tkinter as Tk
 
 #package imports
-from .pytrix import vector, vplus   #`series` subclasses `vector`
+from .pytrix import Vector, Vplus   #`series` subclasses `vector`
 from .io import freq2num, Sample, fetch, write_db
 from .stat import Dstat1
 
@@ -104,8 +104,8 @@ class Series(vplus):
 	:todo: rethink full and current smpl
 	"""
 	def __init__(self, data, smpl=None, comments=None, **kwds):
-		logging.debug("\n\tEntering class series.")
-		self.result_class = series  #override vplus
+		logging.debug("\n\tEntering Series.__init__.")
+		self.result_class = Series  #override vplus
 		self.data = list(data)
 		self.nobs = len(data)
 		self.comments = comments or dict()
@@ -117,7 +117,7 @@ class Series(vplus):
 			assert(self.nobs==1+self.smpl_full[1]-self.smpl_full[0]), "Number of obs does not match sample."
 			self.smpl_full = smpl
 		elif isinstance(smpl, Sample):
-			assert len(data)==len(smpl.get_dates()), "Number of obs does not match sample."
+			assert len(data)==len(smpl.dates), "Number of obs does not match sample."
 			self.smpl_full = smpl.copy()
 		else:
 			raise TypeError('class Series: %s is an unrecognized smpl type.'%smpl)
@@ -162,10 +162,10 @@ class Series(vplus):
 		assert(isinstance(offset,int))
 		if offset < 0: #lag series
 			new_data = self.data[0:offset]
-			new_dates = self.smpl_full.get_dates()[-offset:]
+			new_dates = self.smpl_full.dates[-offset:]
 		if offset > 0: #lead series
 			new_data = self.data[offset:]
-			new_dates = self.smpl_full.get_dates()[:-offset]
+			new_dates = self.smpl_full.dates[:-offset]
 		if offset == 0:
 			return self.copy()
 		else:
@@ -185,7 +185,7 @@ class Series(vplus):
 			dsmpl = (self.smpl_full[0]+n+s,self.smpl_full[1]) 
 			logging.debug('series.d(): Modified tuple: '+str(dsmpl))
 		else:
-			old_dates = self.smpl_full.get_dates()
+			old_dates = self.smpl_full.dates
 			dsmpl = Sample(old_dates[n+s],
 							  old_dates[-1],
 							  freq=self.smpl_full.freq)
@@ -265,7 +265,7 @@ class Series(vplus):
 		return Series(data=data, smpl=smpl, comments=self.comments)
 	def plot(self, plottype='line', smpl=None):
 		if not smpl:
-			dates = self.smpl_full.get_dates()
+			dates = self.smpl_full.dates
 			data = self.data
 		else:
 			# specified sample may be outside data range: compensate
@@ -273,9 +273,9 @@ class Series(vplus):
 			smpl_sub = Sample(max(smpl.start,self.smpl_full.start),
 			                  min(smpl.end,self.smpl_full.end),
 			                  self.smpl_full.freq)
-			dates = smpl_sub.get_dates()
+			dates = smpl_sub.dates
 			# make list of dates for full sample (from its rrule)
-			temp = self.smpl_full.get_dates()
+			temp = self.smpl_full.dates
 			# get the index for the start & end dates of the subsample
 			idx_start = temp.index(dates[0])
 			idx_end = temp.index(dates[-1])
@@ -294,7 +294,7 @@ class Series(vplus):
 class series(Series):
 	def __init__(self):
 		Series.__init__(self)
-		logging.info("\n\tWe have deprecated `series`; please use `Series`.")
+		logging.warn("\n\tWe have deprecated `series`; please use `Series`.")
 
 def show_tkagg(figure, title=''):
 	"""Create a new matplotlib figure manager instance.
