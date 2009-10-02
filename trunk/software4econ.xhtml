@@ -917,7 +917,7 @@ you can tell dvips to embed all fonts with the -Pdownload35 option
 If you are producing PDF files, you can use
 <a href="http://www.linuxcommand.org/man_pages/pdffonts1.html">pdffonts</a>
 to check for font embedding.
-If useing ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
+If using ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
 See <a href="http://multimedia.polito.it/masala/pub_font_embedding_pdf_linux.html">this document</a>
 for more discussion.
 </div>
@@ -1096,6 +1096,8 @@ Good luck.
 <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
 GhostScript includes ps2pdf, for generating .pdf files.
 Be sure to see the <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=dvips-pdf">relevant FAQ</a>.
+(To convert an entire direction at the Windows command line,
+you can use: <tt>for %i in (*.eps) do epstopdf %i</tt>.
 Windows users may be interested in the small, fast <a href="http://www.rops.org/">RoPS</a> interpreter,
 which has a free Language Level 1 version.
 (<a href="http://tetley.rops.org/sourcecode/">RoPS source code</a> appears to be available.)

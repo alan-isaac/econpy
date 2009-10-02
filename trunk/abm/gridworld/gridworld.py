@@ -432,7 +432,7 @@ class GridWorldBase(WorldBase):
 		Patch creation should take place **before** agent creation.
 		:todo: chk generalize to Nd
 		"""
-		logging.warn('Enter create_patches.')
+		logging.debug('Enter create_patches.')
 		width, height = self.grid.shape
 		if self._patches2d is not None:
 			logging.warn('This world already seems to have patches.')
@@ -441,7 +441,7 @@ class GridWorldBase(WorldBase):
 		patches = [[PatchType(world=self, position=(r,k))
 						for k in range(height)] for r in range(width)]
 		self._patches2d = patches
-		logging.warn('Leave create_patches.')
+		logging.debug('Leave create_patches.')
 		return patches
 	def patches_at(self, locations, preconstrained=True):
 		"""Return generator, the patches at the locations.
@@ -892,7 +892,7 @@ class Agent(turtle.Turtle):
 	def __init__(self, world=None):
 		turtle.Turtle.__init__(self)
 		self._world = world
-		self.__position = 0,0
+		self._position = 0,0
 		self._is_alive = True
 		self.pen(pendown=False, speed=0)
 		self.initialize()
@@ -915,7 +915,7 @@ class Agent(turtle.Turtle):
 			raise ValueError(msg)
 		if self.world:
 			coordinates = self.world.set_position(self, coordinates)
-		self.__position = coordinates
+		self._position = coordinates
 		turtle.Turtle.goto(self, coordinates)
 	#aliases (to overrid turtle.Turtle)
 	goto = setpos = setposition = set_position
@@ -926,28 +926,28 @@ class Agent(turtle.Turtle):
 		locations = self._world.hood_locs(
 			shape=shape,
 			radius=radius,
-			center=self.__position,
+			center=self._position,
 			keepcenter=keepcenter)
 		patches = self._world.patches_at(locations, preconstrained=True)
 		return list(patches)
 	def patch_here(self):
-		return self._world.patch_at( self.__position )
+		return self._world.patch_at( self._position )
 	def patch_at(self, location, relative=False):
 		"""Return Patch or None, the patch at self.pos()+rloc.
 		CAUTION: note the use of relative location is not the default!!
 		"""
-		pos = self.__position
+		pos = self._position
 		assert len(location)==len(pos)
 		if relative:
 			location = tuple(x+dx for (x,dx) in zip(pos, location))
 		return self._world.patch_at(location, preconstrained=False)	
 	def agents_here(self, AgentType=None):
-		return self._world.agents_at(self.__position, AgentType=AgentType)	
+		return self._world.agents_at(self._position, AgentType=AgentType)	
 	def agents_at(self, location, AgentType=None, relative=False):
 		"""Return set, the agents on the patch at `location`.
 		CAUTION: note the use of relative location is not the default!!
 		"""
-		pos = self.__position
+		pos = self._position
 		assert len(location)==len(pos)
 		if relative:
 			location = tuple(x+dx for (x,dx) in izip(pos, location))
@@ -986,18 +986,18 @@ class Agent(turtle.Turtle):
 			raise ValueError('Attempting to reset `world`.')
 	@property
 	def position(self):
-		return self.__position
+		return self._position
 	@position.setter
 	def position(self, loc):
 		self.set_position(loc)
-		assert self.__position == turtle.Turtle.position(self)
+		assert self._position == turtle.Turtle.position(self)
 
 #END AGENT CLASSES
 
 class PatchBase(object):
 	def __init__(self, world=None, position=None):
 		self._world = world
-		self.__position = position
+		self._position = position
 		self._agentset = set()
 		self.initialize()
 	def initialize(self):
@@ -1024,7 +1024,7 @@ class PatchBase(object):
 		return self._agentset
 	@property
 	def position(self):
-		return self.__position
+		return self._position
 
 class Patch(PatchBase):
 	"""Provides a 2d patch for a Tkinter canvas."""
@@ -1076,7 +1076,7 @@ class Patch(PatchBase):
 	def rectangle(self):
 		rect = self._rectangle
 		if not rect:
-			x, y = self.__position
+			x, y = self._position
 			x1 = x - 0.5
 			y1 = y - 0.5
 			x2 = x + 0.5
