@@ -3,19 +3,40 @@ Simple table class.
 Note that this module depends only on the Python standard library.
 You can "install" it just by dropping it into your working directory.
 
-Potential problems for Python 3: calls ``next`` instead of ``__next__``.
-The 2to3 tool should handle that no problem.  Let me know if you
-find other problems.
+A SimpleTable is inherently (but not rigidly) rectangular.
+A SimpleTable can be concatenated with another SimpleTable
+or extended by another SimpleTable. ::
+
+	table1.extend_right(table2)
+	table1.extend(table2)
+
+Although a SimpleTable only allows one column (the first) of stubs,
+concatenation allows you to produce tables with interior stubs.
+(You can also assign the datatype 'stub' to the cells in any column.)
+
+Potential problems for Python 3
+-------------------------------
+
+- Calls ``next`` instead of ``__next__``.
+  The 2to3 tool should handle that no problem.
+- from __future__ import division, with_statement
+- from itertools import izip as zip
+- Let me know if you find other problems.
 
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
 :note: HTML data format currently specifies tags
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
+:todo: add colspan support to Cell
 :date: 2008-12-21
 """
 from __future__ import division, with_statement
 import sys, string
-from itertools import cycle, ifilter, izip
+try: #accommodate Python 3
+	from itertools import izip as zip
+except ImportError:
+	pass
+from itertools import cycle, ifilter
 from collections import defaultdict
 import csv
 
@@ -182,20 +203,20 @@ class SimpleTable(list):
 		fmt = self.output_formats[output_format].copy()
 		fmt.update(fmt_dict)
 		ncols = max(len(row) for row in self)
-		request_widths = fmt.get('colwidths')
-		if request_widths is 0: #assume no extra space desired (e.g, CSV)
+		request = fmt.get('colwidths')
+		if request is 0: #assume no extra space desired (e.g, CSV)
 			return [0] * ncols
-		elif request_widths is None: #assume no extra space desired (e.g, CSV)
-			request_widths = [0] * ncols
-		elif isinstance(request_widths, int):
-			request_widths = cycle([request_widths])
-		elif len(request_widths) != ncols:
-			request_widths = cycle(request_widths)
+		elif request is None: #assume no extra space desired (e.g, CSV)
+			request = [0] * ncols
+		elif isinstance(request, int):
+			request = [request] * ncols
+		elif len(request) < ncols:
+			request = [request[i%len(request)] for i in range(ncols)]
 		min_widths = []
-		for col in izip(*self):
+		for col in zip(*self):
 			maxwidth = max(len(c.as_string(output_format,**fmt)) for c in col)
 			min_widths.append(maxwidth)
-		result = [max(m,r) for m,r in izip(min_widths, request_widths)]
+		result = map(max, min_widths, request)
 		return result
 	def get_cols_aligns(self, output_format, **fmt_dict):
 		"""Return string, sequence of column alignments.
@@ -204,15 +225,15 @@ class SimpleTable(list):
 		fmt.update(fmt_dict)
 
 		has_stubs = bool(self.stubs)
-		dcols = len(self[0]) - has_stubs  # number of data columns
+		dcols = max(len(row) for row in self) - has_stubs  # number of data columns
 		cols_aligns = fmt_dict.get('cols_aligns')
 		if cols_aligns is None or len(cols_aligns) != dcols + has_stubs:
 			if has_stubs:
-				stubs_align = fmt_dict.get('stubs_align') or 'l'
+				stubs_align = fmt_dict.get('stubs_align','l')
 				assert len(stubs_align)==1
 			else:
 				stubs_align = ''
-			data_aligns = fmt_dict.get('data_aligns') or 'c'
+			data_aligns = fmt_dict.get('data_aligns', 'c')
 			if len(data_aligns) != dcols:
 				c = cycle(data_aligns)
 				data_aligns = ''.join(c.next() for _ in range(dcols))
@@ -233,7 +254,6 @@ class SimpleTable(list):
 		#update format using `fmt`
 		fmt.update(fmt_dict)
 		#get rows formatted as strings
-		print 'here1', fmt.get('header_fmt')
 		formatted_rows = [ row.as_string('text', **fmt) for row in self ]
 		formatted_table_body = '\n'.join(formatted_rows)
 
@@ -299,7 +319,7 @@ class SimpleTable(list):
 			end = below + "\n" + end
 		return begin + '\n' + formatted_table_body + "\n" + end
 	def extend_right(self, table):
-		for row1, row2 in izip(self, table):
+		for row1, row2 in zip(self, table):
 			row1.extend(row2)
 	@property
 	def data(self):
@@ -368,7 +388,6 @@ class Row(list):
 		#finally, add formatting for this cell and this call
 		fmt.update(self._fmt)
 		fmt.update(fmt_dict)
-		print 'here2', fmt.get('header_fmt')
 
 		#get column widths
 		try:
@@ -390,7 +409,7 @@ class Row(list):
 		row_pre = fmt.get('row_pre','')
 		row_post = fmt.get('row_post','')
 		formatted_cells = []
-		for cell, width, align in izip(self, colwidths, cols_aligns):
+		for cell, width, align in zip(self, colwidths, cols_aligns):
 			content = cell.as_string(output_format=output_format, **fmt)
 			content = pad(content, width, align)
 			formatted_cells.append(content)
