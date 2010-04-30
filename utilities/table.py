@@ -25,10 +25,11 @@ Potential problems for Python 3
 
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
+:note: current version
 :note: HTML data format currently specifies tags
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
 :todo: add colspan support to Cell
-:date: 2008-12-21
+:since: 2008-12-21
 """
 from __future__ import division, with_statement
 import sys, string
@@ -319,6 +320,15 @@ class SimpleTable(list):
 			end = below + "\n" + end
 		return begin + '\n' + formatted_table_body + "\n" + end
 	def extend_right(self, table):
+		"""Return None.
+		Extend each row of `self` with corresponding row of `table`.
+		This generally makes sense only if the two tables have
+		the same number of rows, but that is not enforced.
+		:note: To extend append a table below, just use `extend`,
+		which is the ordinary list method.  This generally makes sense
+		only if the two tables have the same number of columns,
+		but that is not enforced.
+		"""
 		for row1, row2 in zip(self, table):
 			row1.extend(row2)
 	@property
@@ -494,7 +504,11 @@ class Cell(object):
 """
 A SimpleTable can be initialized with `datatypes`:
 a list of ints that are indexes into `data_fmts`.
-These control formatting.
+These control formatting.  If you do not specify
+the `datatypes` list, it will be set to ``range(ncols)``
+where `ncols` is the number of columns in the data.
+This means that you can just specify `data_fmts`
+without bother to provide a `datatypes` list.
 """
 default_csv_fmt = dict(
 		data_fmts = ['%s'],
