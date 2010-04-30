@@ -6,7 +6,7 @@
   <title>Software for Economists (TM)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
   <link rel="stylesheet" type="text/css" href="../dpt/isaac/isaac.css" />
-  <link rel="stylesheet" type="text/css" href="http://www.american.edu/econ/notes/isaac.css" />
+  <link rel="stylesheet" type="text/css" href="http://www1.american.edu/cas/econ/faculty/isaac/isaac.css" />
    <meta name="Author"
          content="Alan G. Isaac" />
    <meta name="Keywords"
@@ -53,7 +53,7 @@
         </ul>
 </li>
 <li>
-<a href="#MATRIX">Matrix and Array Programming</a> 
+<a href="#matrixlanguages">Matrix and Array Programming</a> 
         <ul>
         <li>
         <a href="#numpy">NumPy</a>
@@ -101,7 +101,8 @@ Last modified: 2009-06-29
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 <br />
 <span style="color:red">Caveat lector:</span> do not assume the information below is accurate.
-In particular: please confirm licensing information with the software copyright holders.
+In particular: the advice below comes without any warrantted whatsoever,
+and please confirm licensing information with the software copyright holders.
 </div>
 
 
@@ -269,14 +270,16 @@ and  a production release is expected in May 2009.
 Once you have chosen your editor, you may want to find yourself a
 <a href="http://home.bsu.edu/prn/monofont/">decent monospaced font</a>,
 especially if you anticipate doing much programming.
-More extensive discussions are offered by <a href="http://keithdevens.com/wiki/ProgrammerFonts">Keith Devens</a> and <a href="http://www.kuro5hin.org/story/2004/12/6/11739/5249">n8f8</a>;
+More extensive discussions are offered by <a href="http://keithdevens.com/wiki/ProgrammerFonts">Keith Devens</a> and <a href="http://www.kuro5hin.org/story/2004/12/6/11739/5249">Kuro5hin</a>;
 my brief observations follow.
 Most systems include some version of CourierNew, which is adequate,
 or LucidaConsole, which is pretty good.
 (Unfortunately, neither adequately distinguishes 0 from O,
 and many monospace fonts share this failing.)
+A newer and popular option is MicroSoft <a href="http://www.microsoft.com/downloads/details.aspx?familyid=22e69ae4-7e40-4807-8a86-b3d36fab68d3&displaylang=en">Consolas</a>,
+which is a TrueTypeClearType font.
 My favorite is the TrueType font <a href="http://corefonts.sourceforge.net/">Andale Mono</a>,
-which is very readable even at small font sizes.
+a TrueType font that I find exceptionally readable even at small font sizes.
 <a href="http://vorbote.wordpress.com/">Courier Dot 15 CPI</a> is a very promising free and open source effort.
 Mac users may wish to investigate <a href="http://world.std.com/~wij/courier/about-courier-web.html">Courier Web</a>.
 There is a <a href="http://bibliofile.mc.duke.edu/gww/fonts/Monospace/index.html">public domain, monospace, Unicode (!) font</a>,
@@ -549,6 +552,7 @@ The most notable and currently developed is probably <a href="http://www.albany.
 although <a href="http://tbookdtd.sourceforge.net/">tbook</a> is also interesting.
 I like the much simpler <a href="http://docutils.sourceforge.net/rst.html">restructured text (reST)</a>,
 which allows inline and display math in LaTeX format.
+(See my <a href="#reST_hints">reST hints</a>.)
 Citation handling is currently (2005) weak,
 but <a href="http://code.google.com/p/bibstuff/">bibstuff</a> provides some basic capabilities.
 Math support is improving.
@@ -935,10 +939,12 @@ In your header put: <code>\usepackage[pdftex]{graphicx}\usepackage{epstopdf}</co
 Run pdflatex with the <code>--shell-escape</code> command line switch.
 </li>
 </ul>
-That's all!
-Note that you will need to have installed <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/supported/oberdiek/epstopdf.sty">epstopdf</a>, perhaps by installing GhostScript.
+Note that you will need to have installed <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/supported/oberdiek/epstopdf.sty">epstopdf</a>,
+which you get when you install GhostScript.
 Then just <code>\includegraphics{filename.eps}</code> as usual to include your EPS graphic,
 and pdflatex will conver them to pdf format on the fly.
+(Be sure to return the extension! Otherwise you will get conversion the first time,
+and use of the old PDF after that.)
 </div>
 
 <p>
@@ -1095,9 +1101,10 @@ Good luck.
 <li>
 <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
 GhostScript includes ps2pdf, for generating .pdf files.
-Be sure to see the <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=dvips-pdf">relevant FAQ</a>.
+Be sure to see the <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=dvips-pdf">relevant FAQ</a>
+and a <a href="http://phaseportrait.blogspot.com/2007/06/bounding-boxes-and-eps-to-pdf.html">useful discussion</a>.
 (To convert an entire direction at the Windows command line,
-you can use: <tt>for %i in (*.eps) do epstopdf %i</tt>.
+you can use: <tt>for %i in (*.eps) do epstopdf --gsopt=-dPDFSETTINGS=/prepress %i</tt>.
 Windows users may be interested in the small, fast <a href="http://www.rops.org/">RoPS</a> interpreter,
 which has a free Language Level 1 version.
 (<a href="http://tetley.rops.org/sourcecode/">RoPS source code</a> appears to be available.)
@@ -1455,12 +1462,26 @@ is a perl based replacement for makefiles.
 
 
 
-<h2 id="MATRIX">Matrix Programming Languages</h2>
+<h2 id="matrixlanguages">Matrix Programming Languages</h2>
+
+<p>
+Here are two big factors to consider in making a language choice:
+what software in your area is already written in the language,
+and how much original coding you will be doing.
+For econometrics, the big collections of extant code are in Gauss and MATLAB.
+Of these two, Gauss has the advantage of real array broadcasting,
+while MATLAB relies on the clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
+Neither language is truly object oriented.
+(Gauss has structs; MATLAB has some object-oriented functionality.)
+If you are going to write a lot of your own code,
+object orientation becomes critical.
+You can get this very nicely with <a href="#numpy">NumPy</a>.
+</p>
 
 <p>
 Being able to write code in one matrix programming language and run it in another environment is desirable.
 Examples include 
-Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting Matlab to Python,
+Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting MATLAB to Python,
 <a href="http://www.cameronrookley.com">Rookley's</a>
 <a href="http://www.cameronrookley.com/gtoml/maingtm.html">gtoml</a>
 Perl program for converting Gauss code to Matlab,
@@ -1480,8 +1501,11 @@ My favorite approach to matrix (and multi-dimesional array) programming is <a hr
 This is a <a href="#python">Python</a> package (but it is very fast because it is written as a C extension).
 This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
 while doing serious scientific programming.
-Very high quality 
+Very high quality.
 Additionally, a reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.)
+To complete this scientific computing environment,
+add the extraordinarily high quality graphics package <a href="#matplotlib">Matplotlib</a>.
+(License: BSD; Dependency: NumPy.)
 </p>
 
 <p>
@@ -1760,7 +1784,7 @@ before trying the Python tutorial.
 One other note:
 although it is an interpreted language,
 you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>.
-Interesting <a href="#psmeta">graphics</a> and <a href="#MATRIX">numerical</a> libraries have been developed for Python.
+Interesting <a href="#psmeta">graphics</a> and <a href="#matrixlanguages">numerical</a> libraries have been developed for Python.
 </p>
 
 <h4>L3</h4>
@@ -1968,9 +1992,10 @@ a nice replacement for the basic code editor provided by Rgui. (License: GPL)
 <li id="gretl">
 <a href="http://gretl.sourceforge.net/">gretl</a> is the Gnu Regression, Econometrics and Time-series Library,
 a free, open source regression package.
-This is a very user friendly package suitable for a large range of time-series econometrics.
+This is a very user friendly yet powerfulpackage suitable for a large range of time-series econometrics.
 Note that gretl uses <a href="#gnuplot">gnuplot</a> for its graphics and provides substantial script access to it,
 so that graphics are fast and powerful.
+See the 
 </li>
 <li>
 <a href="http://forrest.psych.unc.edu/research/">ViSta</a> is freeware visual statistics program.
@@ -2236,7 +2261,7 @@ This CAS in Python may be small, but it is <em>very</em> easily extensible.
 <a href="http://code.google.com/p/sympycore/">SympyCore</a> released version 0.1 in Feb. 2008.
 (License: new BSD; Language: Python)
 </li>
-<li><a href="http://page.axiom-developer.org/zope/mathaction/FrontPage">Axiom</a> is now free and open source!
+<li><a href="http://page.axiom-developer.org">Axiom</a> (formerly ScratchPad) is now free and open source!
 "Axiom ... defines a strongly typed, mathematically correct type hierarchy.
 It has a programming language and a built-in compiler."
 </li>
@@ -2258,17 +2283,21 @@ Also see <a href="http://servus.math.su.se/bergman/">Bergman</a>,
 <a href="http://www.sciface.com/products/index.shtml">MuPad</a> is professional and cross-platform.
 There is a "freeware" version for academic and individual non-commercial use.
 </li>
-<li> Mathematica is the most popular symbolic math program.
-(Mathematica for Students is available for full-time students at a big discount: $139.95 at this time.)
-Check out the <a href="http://www.wolfram.com/mathsource/">
-MathSource</a> code for Mathematica.
-(Mathematica is available in Anderson Lab and Clark Lab.)
-You may also want to see the
-<a href="news:comp.soft-sys.math.mathematica">Mathematica Users Group</a>
+<li>
+Mathematica remains the most popular symbolic math program.
+Check out the <a href="http://www.wolfram.com/mathsource/">MathSource</a> code for Mathematica.
+Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a>
+and <a href="http://library.wolfram.com/infocenter/MathSource/585/">PYML</a>.
+For support,
+see the <a href="news:comp.soft-sys.math.mathematica">Mathematica Users Group</a>
 or look into the <a href="http://smc.vnet.net/MathGroup.html">MathGroup email
 list</a>.
-Finally, <a href="http://www.dataweb.nl/~cool/TheEconomicsPack/index.html">Thomas Cool's page</a> offers
-a collection of economics programs written in Mathematica.
+Finally, <a href="http://www.dataweb.nl/~cool/TheEconomicsPack/index.html">Thomas Cool's page</a> offers a collection of economics programs written in Mathematica.
+        <div class="boxed">
+        Mathematica for Students is available for full-time students at a big discount: $139.95 at this time.
+        On the AU campus,
+        Mathematica is available in Anderson Lab and Clark Lab.
+        </div>
 </li>
 <li> <a href="http://www.maplesoft.com/">Maple</a> is also very popular. Maple V got wonderful reviews.
 (Note that you get a stripped down version of the Maple V kernel when you buy Scientific Notebook, which is available on campus as an EagleNet Application.)
@@ -2828,8 +2857,7 @@ Also dangerous are <tt>.doc</tt> and <tt>.xls</tt>.
 which means you should not open such attachments with Adobe Acrobat either.)
 <br />
 iii. <strong>Never</strong> send or receive <strong>anything</strong>
-in proprietary formats (such
-as Word or Excel). Related to this,
+in proprietary formats (such as Word or Excel). Related to this,
 <strong>never</strong> use Outlook unless you know
 how to turn off all its dangerous features.
 And if you simply <strong>must</strong> open a document
@@ -2901,6 +2929,12 @@ It includes parsing, demutiplexing, multiplexing, coding and decoding.
 (License: GPL)
 </li>
 </ul>
+
+<p>
+Attention Vista users: your operating system came without the Windows Media Player plugin.
+Fortunately,
+mozillaZine explains <a href="http://kb.mozillazine.org/Windows_Media_Player">how to install the WMP plugin</a>.
+</p>
 
 
 <h2>Programming</h2>
@@ -3289,6 +3323,78 @@ This section concentrates on 2-D drawing, with emphasis on the PostScript drawin
 while mentioning a few other interesting possibilities.
 </p>
 
+<h4 id="postscript">PostScript</h4>
+
+<p>
+PostScript is a very useful device independent page description language.
+If you want to precisely render a vector graphic,
+you may well find it convenient to draw it yourself in PostScript.
+I offer a <a href="http://www.american.edu/econ/notes/psdraw.pdf">brief introduction to PostScript drawing</a>,
+which is still under revision.
+Also, see some <a href="#ps_hints">PostScript hints</a> below.
+</p>
+
+<!--
+Starting points:
+ The introductory chapter Casselman's A Manual of Mathematical Illustration
+ http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html
+ First Guide to PostScript
+ http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html
+ David Maxwell's online PostScript manual maxwell@math.ubc.ca
+ http://adela.karlin.mff.cuni.cz/netkarl/prirucky/Flat/PS-toc.html
+Then get the then get the  PostScript Language Tutorial &amp; Cookbook
+http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF
+and possibly Glenn Reid's Thinking in PostScript
+http://www.rightbrain.com/pages/books.html
+Finally, you will probably want the PostScript Language Reference Manual
+(also known as the Red Book)
+http://partners.adobe.com/asn/developer/technotes.html#postscript
+One last suggestion:
+You will have to buy McGilton and Campione's PostScript by Example,
+but it is worth it!
+-->
+
+
+<div>
+There are many other online resources.
+Start with:
+the introductory chapter <a href="http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html">Casselman's A Manual of Mathematical Illustration</a>.
+and <a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">First Guide to PostScript</a>.
+Then get the then get the <a href="http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF">PostScript Language Tutorial &amp; Cookbook</a> 
+and possibly 
+Glenn Reid's <a href="http://www.rightbrain.com/pages/books.html">Thinking in PostScript</a>.
+Finally, you will probably want the <a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a> 
+(also known as the Red Book) by Adobe Systems.
+Jim Land offers a metalist of  <a href="http://www.inkguides.com/postscript.asp">Internet Resources for PostScript and GhostScript</a>,
+and there is a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
+<a href="http://www.acumentraining.com/acumen_journal.html">Acumen Journal</a> 
+publishes PostScript code examples.
+So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScript Library</a>.
+You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
+For some cool PostScript code,
+look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
+</div>
+
+<div>
+Many people prefer to use a <a href="#psmeta">meta-language</a> to produce their PostScript graphics.
+Most of these can also produce PDF.
+Some produce other formats as well.
+</div>
+
+<h4>Flash</h4>
+
+<div>
+Acrobat fully supports Flash since version 9,
+making PDF an attractive format for interactive documents.
+(Unfortunately, Acrobat's support for SVG appears to have been dropped,
+but you may be able to convert your graphics using <a href="http://freshmeat.net/projects/svg2swf/">svg2pdf</a>.)
+<a href="http://pyswftools.sourceforge.net/">PySWFtools</a> provides a higher
+level interface to the <a href="http://www.libming.org/">Ming</a> libary.
+The easiest way to place SWF files in PDF documents is probably pdftex with the <a href="http://ctan.tug.org/tex-archive/macros/latex/contrib/movie15/">movie15</a> package.
+(Jens Nockel offers a <a href="http://www.uoregon.edu/~noeckel/PDFmovie.html">very simple example</a>.)
+</div>
+
+
 <h4 id="drawlang3d">3D Drawing</h4>
 
 <p>
@@ -3361,93 +3467,6 @@ This library has an excellent reputation.
 </li>
 </ul>
 
-<p id="postscript">
-PostScript is a very useful device independent page description language.
-If you want to precisely render a vector graphic,
-you will probably want to draw it yourself in PostScript.
-I offer a <a href="http://www.american.edu/econ/notes/psdraw.pdf">brief introduction to PostScript drawing</a>,
-which is still under revision.
-Also, see some <a href="#ps_hints">PostScript hints</a> below.
-</p>
-
-<!--
-Starting points:
- The introductory chapter Casselman's A Manual of Mathematical Illustration
- http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html
- First Guide to PostScript
- http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html
- David Maxwell's online PostScript manual maxwell@math.ubc.ca
- http://adela.karlin.mff.cuni.cz/netkarl/prirucky/Flat/PS-toc.html
-Then get the then get the  PostScript Language Tutorial &amp; Cookbook
-http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF
-and possibly Glenn Reid's Thinking in PostScript
-http://www.rightbrain.com/pages/books.html
-Finally, you will probably want the PostScript Language Reference Manual
-(also known as the Red Book)
-http://partners.adobe.com/asn/developer/technotes.html#postscript
-One last suggestion:
-You will have to buy McGilton and Campione's PostScript by Example,
-but it is worth it!
--->
-
-
-<div>
-There are many other online resources.
-Start with:
-the introductory chapter <a href="http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html">Casselman's A Manual of Mathematical Illustration</a>.
-and <a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">First Guide to PostScript</a>.
-Then get the then get the <a href="http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF">PostScript Language Tutorial &amp; Cookbook</a> 
-and possibly 
-Glenn Reid's <a href="http://www.rightbrain.com/pages/books.html">Thinking in PostScript</a>.
-Finally, you will probably want the <a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a> 
-(also known as the Red Book) by Adobe Systems.
-Jim Land offers a metalist of  <a href="http://www.inkguides.com/postscript.asp">Internet Resources for PostScript and GhostScript</a>,
-and there is a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
-<a href="http://www.acumentraining.com/acumen_journal.html">Acumen Journal</a> 
-publishes PostScript code examples.
-So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScript Library</a>.
-You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
-For some cool PostScript code,
-look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
-</div>
-
-<div id="metaps">
-Many people prefer to use a <a href="#psmeta">meta-language</a> to produce their PostScript graphics.
-Most of these can also produce PDF.
-</div>
-
-
-<p>
-<a href="http://ngwww.ucar.edu/">NCAR command language</a> is free on Unix platforms.
-<a href="http://ngwww.ucar.edu/">NCAR graphics</a> is free and open source.
-It can be run under Windows in a CygWin environment.
-</p>
-
-<p>
-<a href="http://perso.wanadoo.fr/obrecht/index.html">Eukleides</a> is an amazing Euclidean drawing language that can save your drawings as pstricks or in <acronym class="help" title="Encapsulated PostScript">EPS</acronym> format.
-It is designed to be very natural for geometric thinking.
-Sadly it is so far for Unix only.
-</p>
-
-<p>
-<a href="http://www.research.att.com/~north/graphviz/download.html">Graphviz</a> is an open source package with special abilities in drawing directed (via dot) and undirected (via neato) graphs.
-The focus is on <a href="http://www.research.att.com/sw/tools/graphviz/GI94.pdf">Graph Visualization</a>.
-<a href="http://www.dkbza.org/pydot.html">pydot</a> provides a Python interface to dot.
-<br />
-<a href="http://www.yworks.com/en/products_yed_about.html">yED</a> is a
-"powerful graph editor that is written entirely in the Java programming language. It can be used to quickly and effectively generate drawings and to apply automatic layouts to a range of different diagrams and networks."
-</p>
-
-<p>
-The <a href="http://www.astro.caltech.edu/~tjp/pgplot/">PGPLOT</a> Graphics Subroutine Library is a "Fortran- or C-callable, device-independent graphics package for making simple scientific graphs. It is intended for making graphical images of publication quality with minimum effort on the part of the user. For most applications, the program can be device-independent, and the output can be directed to the appropriate device at run time."
-There appears to be some overlap in functionality with the popular
-<a href="http://www.boutell.com/gd/">GD Graphics</a> C library.
-</p>
-
-<p>
-<a href="http://www.13thmonkey.org/">Artdraw</a> may prove promising:
-it is a PostScript-like syntax that adds alpha blending.
-</p>
 
 <p>
 <a href="http://www.slac.stanford.edu/grp/ek/hippodraw/">HippoDraw</a>
@@ -3548,12 +3567,12 @@ See the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware#Vis
 <h4 id="python2d">2D Graphics</h4>
 
 <ul>
-<li>
+<li id="matplotlib">
 For publication quality 2d graphics,
 I like <a href="http://matplotlib.sourceforge.net/">Matplotlib</a>.
 (It also supports 3d graphics, but I have not used this functionality.)
 This is truly amazing free and open source graphics software.
-Its <code>pylab</code> module provides quick-and-easy Matlab-like functionality.
+Its <code>pyplot</code> module provides quick-and-easy MATLAB-like graphing functionality.
 For finer grained control, you may prefer Matplotlib's <a href="#oompl">object-oriented API</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
@@ -3613,6 +3632,19 @@ with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 <li>
 <a href="http://ivupy.sourceforge.net/">IVuPy</a>
 provides 3-D visualization classes.  Qt based. (GPL)
+</li>
+</ul>
+
+<h4>Network Graphics</h4>
+
+<ul>
+<li>
+<a href="http://projects.forked.de/graph-tool/">graph-tool</a>
+is a very fast Python module (based on a C++ library).
+(License: GPL)
+</li>
+<li>
+<a href="http://networkx.lanl.gov/">NetworkX</a>
 </li>
 </ul>
 
@@ -3891,12 +3923,51 @@ Alternatively, some applications allow you to produce EPS files with supporting 
 I find <a href="#gnuplot">gnuplot</a> to do this very well.
 </li>
 <li>
-The matlab m-function <a href="http://www.uni-kassel.de/~linne/matlab/">laprint.m</a>is a graphical user interface which saves a matlab plot in an .eps file with an accompanying tex file. The .eps file contains PSfrag replacements which are matched by the .tex file (so the .tex file inserts corresponding LaTeX code).
-It requires Matlab 5.
+The MATLAB m-function <a href="http://www.uni-kassel.de/~linne/matlab/">laprint.m</a>is a graphical user interface which saves a MATLAB plot in an .eps file with an accompanying tex file. The .eps file contains PSfrag replacements which are matched by the .tex file (so the .tex file inserts corresponding LaTeX code).
+It requires MATLAB 5.
     <a href="http://yoyo.cc.monash.edu.au/~wigs/postscript/">1</a>
     <a href="http://www.ncf.carleton.ca/~cj434/">2</a>.
 </li>
 </ul>
+
+<ul>
+<li>
+<a href="http://glx.sourceforge.net/">Graphics Layout Engine (GLE)</a>
+allows output as EPS, PS, PDF, JPEG, and PNG.
+(License: BSD)
+</li>
+<li>
+<a href="http://ngwww.ucar.edu/">NCAR command language</a> is free on Unix platforms.
+<a href="http://ngwww.ucar.edu/">NCAR graphics</a> is free and open source.
+It can be run under Windows in a CygWin environment.
+</li>
+<li>
+The <a href="http://www.astro.caltech.edu/~tjp/pgplot/">PGPLOT</a> Graphics Subroutine Library is a "Fortran- or C-callable, device-independent graphics package for making simple scientific graphs. It is intended for making graphical images of publication quality with minimum effort on the part of the user. For most applications, the program can be device-independent, and the output can be directed to the appropriate device at run time."
+There appears to be some overlap in functionality with the popular
+<a href="http://www.boutell.com/gd/">GD Graphics</a> C library.
+</li>
+</ul>
+
+<p>
+<a href="http://perso.wanadoo.fr/obrecht/index.html">Eukleides</a> is an amazing Euclidean drawing language that can save your drawings as pstricks or in <acronym class="help" title="Encapsulated PostScript">EPS</acronym> format.
+It is designed to be very natural for geometric thinking.
+Sadly it is so far for Unix only.
+</p>
+
+<p>
+<a href="http://www.research.att.com/~north/graphviz/download.html">Graphviz</a> is an open source package with special abilities in drawing directed (via dot) and undirected (via neato) graphs.
+The focus is on <a href="http://www.research.att.com/sw/tools/graphviz/GI94.pdf">Graph Visualization</a>.
+<a href="http://www.dkbza.org/pydot.html">pydot</a> provides a Python interface to dot.
+<br />
+<a href="http://www.yworks.com/en/products_yed_about.html">yED</a> is a
+"powerful graph editor that is written entirely in the Java programming language. It can be used to quickly and effectively generate drawings and to apply automatic layouts to a range of different diagrams and networks."
+</p>
+
+
+<p>
+<a href="http://www.13thmonkey.org/">Artdraw</a> may prove promising:
+it is a PostScript-like syntax that adds alpha blending.
+</p>
 
 <p>
 If you are considering PostScript graphics on the way to PDF documents,
@@ -3937,7 +4008,7 @@ See the <a href="#gphints">gnuplot hints</a> below.
 <ul>
 <li>
 For basic data driven or function driven graphics,
-it is possible to use a <a href="#spread">spread sheet</a>.
+it is possible to use a <a href="#spreadsheets">spread sheet</a>.
 </li>
 <li>
 For complex data driven graphics,
@@ -4655,7 +4726,7 @@ Mac users can consider <a href="http://bibdesk.sourceforge.net/">BibDesk</a>.
 
 
 
-<h3 id="spread">Spreadsheets</h3>
+<h3 id="spreadsheets">Spreadsheets</h3>
 
 <p>Traditional spreadsheets:
 <br />
@@ -4672,7 +4743,7 @@ If all you want to educate someone to do is one-time, never-to-be-revisited, qui
 then teach them a traditional spreadsheet.
 Otherwise teach them a format that allows serious documentation and transparency of manipulations.
 At the very least,
-eschew traditional spreadsheets in favor of <a href="#scispread">newer alternatives</a>,
+eschew traditional spreadsheets in favor of <a href="#scispreadsheets">newer alternatives</a>,
 such as scientific spreadsheets and engineering spreadsheets.
 </p>
 
@@ -4712,7 +4783,7 @@ Many more spreadsheets are listed in the <a href="http://www.faqs.org/faqs/sprea
 </li>
 </ul>
 
-<div id="scispread">
+<div id="scispreadsheets">
 Scientific spreadsheets,
 often called engineering spreadsheets,
 are much better working environments than traditional spreadsheets.
@@ -4744,6 +4815,11 @@ that is currently free for academics.
 <a href="http://pyspread.sourceforge.net/">Pyspread</a> is
 "provides an arbitrary size, three-dimensional grid for spreadsheet calculations. Each grid cell accepts a Python expression."
 Cross platform.  (Language: Python. License: GPL 3.)
+</li>
+<li>
+If you really want to attempt scientific computing using Excel,
+you can treat it as a compuing engine and script it.
+One interesting approach is to embed a Python interpreter in Excel using <a href="http://code.google.com/p/pyinex/">pyinex</a>.
 </li>
 </ul>
 </div>
@@ -5075,7 +5151,11 @@ This is probably not important for small projects.
 See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">OpenSolaris evaluations</a>.
 </p>
 
-<h5 id="svn">SVN</h5>
+<h5 id="svn">Subversion</h5>
+
+<p>
+See my <a href="#svn_hints">SVN hints</a>.
+</p>
 
 <p>
 <a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system for new projects.
@@ -5563,7 +5643,7 @@ you will need to get the <a href="ftp://ftp.ncsa.uiuc.edu/HDF/HDF5/current/bin/w
 Users of Python 2.3 on Windows will have to download the version of
 <a href="ftp://ftp.ncsa.uiuc.edu/HDF/HDF5/current/bin/windows/5-165-win.ZIP">HDF5 compiled with MSVC 6.0</a>.)
 <a href="#octave">Octave</a> and <a href="#Rproject">R</a> provide HDF5 support.
-Commercial applications supporting HDF5 include Mathematica and Matlab version 6.5+,
+Commercial applications supporting HDF5 include Mathematica and MATLAB version 6.5+,
 among many others.
 </p>
 
@@ -6341,6 +6421,20 @@ see the Aspell and Vim helpfiles!
 In either case, make sure aspell is in your path or use the fully qualified file name.
 </div>
 
+<h3 id="command_hints">Windows command shell hints.</h3>
+
+<div>
+Redirection:
+see <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/redirection.mspx?mfr=true">Microsoft's documentation</a>.
+I often need to redirect all script output to a text file,
+both stdout and stderr.
+Example:
+<pre>
+c:\Python26\python.exe -c "import scipy;scipy.test()" &gt;c:\file.txt 2&gt;&amp;1
+</pre>
+</div>
+<!-- c:\Python26\python.exe -c "import scipy;scipy.test()" >c:\temp\temp.txt 2>&1 -->
+
 <h3 id="pyx_hints">PyX user hints.</h3>
 
 <div>
@@ -6666,11 +6760,146 @@ Since it is a 5-user license, you may occasionally find you have to wait  until 
 </p>
 
 
+<h3 id="svn_hints">SVN User hints</h3>
+
+<p>
+<a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a>
+</p>
+
+<div>
+Remember your work cycle must be very rigid:
+1. before you start work, *update*
+2. then do your work
+3. as soon as you are done, *commit*.
+</div>
+
+<h3 id="reST_hints">Docutils User hints</h3>
+
+<div>
+If you are using rst2latex,
+it will include the following in your header:
+<code> \usepackage[T1]{fontenc} </code>.
+Unfortunately, on its own, this will probably lead to the
+use of bitmap fonts and thus "fuzzy" screen output.
+According to Guenter Milde,
+there are several reasons for this choice.
+<ul>
+<li> 
+T1 is the recommended (by the LaTeX team) font encoding. (OT1 is the
+default only because of the TeX policy of no changes to the defauls,
+not even improvements/fixes.)
+</li> 
+<li>
+Using the advantage of the several output options for a common source,
+documents for web viewing are best produced with the HTML writer and
+the print version with the LaTeX writer.
+</li>
+<li>
+While the bad look will be visible at first glance,
+use of the traditional OT1 encoding will make text extraction faulty.
+(That is, it creates problems with search and extraction of text that
+contains characters outside the ASCII range.)
+</li>
+</ul>
+The real question is what to do about it.
+The recommended workaround is to select a T1-encoded "Type 1" (vector) font.
+For example you can use Latin Modern either by adding it to your LaTeX style sheet
+(<code>\usepackage{lmodern}</code>)
+or by using a Docutils command line argument
+(<code>--stylesheet=lmodern</code>).
+Another popular solution is the "Times/Helvetica/Courier" combination,
+which you can get by adding the following to your style sheet:
+<pre>
+\usepackage{mathptmx}            % Times for serif and math
+\usepackage[scaled=.90]{helvet}  % downscaled Helvetica for sans serif
+\usepackage{courier}             % Courier for teletype (mono-space)
+</pre>
+or with the following Docutils command line options:
+<code>--documentoptions="scaled=.90" --stylesheet="mathptmx,helvet,courier"</code>.
+<br />
+You can also just turn it off with the following Docutils command line option:
+<code>--font-encoding=OT1</code>
+(or even <code>--font-encoding=""</code>).
+</div>
+
+
+<h3 id="jabref_hints">JabRef User hints</h3>
+
+<div>
+<ol>
+<li>
+Go to http://jabref.sourceforge.net/ and click Web Start,
+to start the JabRef reference manager.
+</li>
+<li>
+To enter a new article, click the green + and click Article.
+To enter a new working paper, click the green + and click TechReport.
+</li>
+<li>
+Multiple authors are separated by <tt>and</tt>
+(*not* by commas).
+</li>
+<li>
+Do not put quotes around titles.
+</li>
+<li>
+Use two hyphens for page number ranges (e.g., 99--101).
+For page numbers, put only the page ranges (e.g., no "pp.").
+</li> 
+<li>
+For articles you will often have volume and issue number data,
+like <tt>vol. 2 no. 1</tt> or <tt>2(1)</tt>.
+The volume is entered on the <code>Required</code> tab
+and the issue number is entered on the <code>Optional</code> tab.
+</li>
+Months are entered like this: #jan#, #feb#, #mar#, etc.
+(Three letter abbreviations bracketed by hash marks.)
+<li>
+The <tt>url</tt> field is under the <code>General</code> tab.
+</li>
+<li>
+If you are missing information for any Required fields,
+you can often get the missing information from RePEc
+(http://ideas.repec.org/) if you do a Google search on
+the title.
+</li>
+</ol> 
+</div>
+
+
+
 <h3 id="mpl_hints">Matplotlib User hints</h3>
 
 <p>
 Make sure you have installed <a href="#numpy">NumPy</a>.
 </p>
+
+<p>
+To get the most from Matplotlib,
+you need to clearly understand the difference
+between a figure instance and an axes instance.
+<br />
+A figure instance holds a drawing.
+Just like a figure in a journal article.
+<br />
+When you call `subplot` it creates an axes instance
+on the **current** figure.  If you call `subplot` again
+in a way that overlaps your previous subplot,
+this **replaces** your previous axes in the current figure.
+Instead, make sure you create a new figure instance
+in which to create your new drawing.
+</p>
+
+<pre> 
+import matplotlib.pyplot as plt
+fig1 = plt.figure()
+ax1 = fig1.add_subplot(1,1,1)
+#now draw on ax1
+fig2 = plt.figure()
+ax2 = fig2.add_subplot(1,1,1)
+#now draw on ax2
+</pre>
+
 
 <p>
 Here is a simple example for creating a figure
@@ -6682,15 +6911,15 @@ It assumes that you have version 0.92.1 or newer.
 <pre>
 # preliminaries
 import matplotlib
-matplotlib.use('TkAgg')  #note choice of backend!
-from matplotlib import pyplot
+matplotlib.use('TkAgg')  #note choice of GUI backend!
+import matplotlib.pyplot as plt
 # create a new figure
-fig = pyplot.figure(1)
+fig = plt.figure(1)
 ax = fig.gca()  #get current axes, making one if nec
 ax.plot([1,2,3],'r-')
 ax.set_title('Easy Line Plot')
 # display your figure onscreen
-pyplot.show() 
+plt.show() 
 </pre>
 
 <p id="mpl_no_gui">
@@ -6722,7 +6951,7 @@ fig.savefig('/temp/myfig.png', dpi=96)
 </pre>
 
 <p id="mpl_no_plt">
-Matplotlib's pyplot/pylab facilities are convenience facilities for the user with modest needs.
+Matplotlib's pyplot facilities are convenience facilities for the user with modest needs.
 For some examples (e.g., embedding Matplotlib in other applications)
 it is important not to use these facilities.
 In this case, you will need to handle figure and canvas creation yourself.
@@ -6794,13 +7023,13 @@ is supposed to be the best way to integrate Matplotlib into wx.
 
 <div>
 Changing Matplotlib backends:
-you have to call 'use' before importing matplotlib.matlab;
-the backend choice must be set at the time of the matplotlib.matlab import.
+you have to call 'use' before importing matplotlib.pyplot;
+the backend choice must be set at the time of the matplotlib.pyplot import.
 For example,
 <pre>
 import matplotlib
 matplotlib.use('GTKAgg')
-from matplotlib.pylab import *
+from matplotlib.pyplot import *
 </pre>
 </div>
 
@@ -6882,13 +7111,13 @@ plot([0,1], [0,0], transform=trans)
 
 <div>
 You can set an arbitrary color for any matplotlib plot.
-E.g., <code>matlab.plot(d, f(d), color = (1,0,0))</code>.
+E.g., <code>pyplot.plot(d, f(d), color = (1,0,0))</code>.
 </div>
 
 <div>
 To get rid of the redundant ticks on the top and right edges:
 <pre>
-ax = pylab.gca()
+ax = pyplot.gca()
 ax.get_xaxis().set_ticks_postion('bottom') 
 ax.get_yaxis().set_ticks_postion('left') 
 </pre> 
@@ -7699,6 +7928,26 @@ SVG6RR.DLL
 Restart Opera and test the plugin at the
 <a href="http://www.adobe.com/svg/viewer/install/svgtest.html">Adobe SVG test page</a>.
 You should see 3 animated images.
+</div>
+
+<h3 id="gretl-hints">gretl hints</h3>
+
+<div>
+To install gretl on an Intel Mac,
+make sure you do a 3-step install:
+<li>
+Make sure X11 is installed. (On Tiger you will need to install from your system disk.
+On Leopard,
+update your X11 from
+<a href="http://xquartz.macosforge.org/trac/wiki">http://xquartz.macosforge.org/trac/wiki</a>.
+</li>
+<li>
+install the GTK+ Framework,
+</li>
+<li>
+install the **intel** disk image.
+</li>
+The last two are at <a href="http://gretl.sourceforge.net/osx.html">http://gretl.sourceforge.net/osx.html</a>.
 </div>
 
 <h3 id="gnuwin32-hints">GnuWin32 hints</h3>
