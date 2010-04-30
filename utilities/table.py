@@ -4,11 +4,12 @@ Note that this module depends only on the Python standard library.
 You can "install" it just by dropping it into your working directory.
 
 Potential problems for Python 3: calls ``next`` instead of ``__next__``.
+The 2to3 tool should handle that no problem.  Let me know if you
+find other problems.
 
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
 :note: HTML data format currently specifies tags
-:todo: add support for recarray to SimpleTable
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
 :date: 2008-12-21
 """
@@ -75,8 +76,11 @@ class SimpleTable(list):
 		with open('c:/temp/temp.tex','w') as fh:
 			fh.write( tbl.as_latex_tabular() )
 	"""
-	def __init__(self, data, headers=(), stubs=(), title='', formatter=None,
-		fmt=None, csv_fmt=None, txt_fmt=None, ltx_fmt=None, html_fmt=None):
+	def __init__(self, data, headers=(), stubs=(), title='', 
+		datatypes=None,
+		csv_fmt=None, txt_fmt=None, ltx_fmt=None, html_fmt=None,
+		celltype= None, rowtype=None,
+		**fmt_dict):
 		"""
 		Parameters
 		----------
@@ -86,8 +90,10 @@ class SimpleTable(list):
 			sequence of K strings, one per header
 		stubs : tuple
 			sequence of R strings, one per stub
-		fmt : dict
-			formatting options
+		title: string
+			title of the table
+		datatypes : list of int
+			indexes to `data_fmts`
 		txt_fmt : dict
 			text formatting options
 		ltx_fmt : dict
@@ -96,152 +102,107 @@ class SimpleTable(list):
 			csv formatting options
 		hmtl_fmt : dict
 			hmtl formatting options
+		fmt_dict : dict
+			general formatting options
 		"""
 		#self._raw_data = data
 		self.headers = headers
 		self.stubs = tuple(str(stub) for stub in stubs)
 		self.title = title
+		self._datatypes = datatypes or [0]
 		#start with default formatting
-		self.txt_fmt = default_txt_fmt.copy()
-		self.ltx_fmt = default_latex_fmt.copy()
-		self.csv_fmt = default_csv_fmt.copy()
-		self.html_fmt = default_html_fmt.copy()
-		#substitute any user specified formatting
-		if fmt:
-			self.csv_fmt.update(fmt)
-			self.txt_fmt.update(fmt)
-			self.ltx_fmt.update(fmt)
-			self.html_fmt.update(fmt)
-		self.csv_fmt.update(csv_fmt or dict())
-		self.txt_fmt.update(txt_fmt or dict())
-		self.ltx_fmt.update(ltx_fmt or dict())
-		self.html_fmt.update(html_fmt or dict())
+		self._text_fmt = default_txt_fmt.copy()
+		self._latex_fmt = default_latex_fmt.copy()
+		self._csv_fmt = default_csv_fmt.copy()
+		self._html_fmt = default_html_fmt.copy()
+		#substitute any general user specified formatting
+		#:note: will be overridden by output specific arguments
+		self._csv_fmt.update(fmt_dict)
+		self._text_fmt.update(fmt_dict)
+		self._latex_fmt.update(fmt_dict)
+		self._html_fmt.update(fmt_dict)
+		#substitute any output-type specific formatting
+		self._csv_fmt.update(csv_fmt or dict())
+		self._text_fmt.update(txt_fmt or dict())
+		self._latex_fmt.update(ltx_fmt or dict())
+		self._html_fmt.update(html_fmt or dict())
 		self.output_formats = dict(
-			text=self.txt_fmt,
-			txt=self.txt_fmt,
-			csv=self.csv_fmt,
-			html=self.html_fmt,
-			latex=self.ltx_fmt)
+			text=self._text_fmt,
+			txt=self._text_fmt,
+			csv=self._csv_fmt,
+			htm=self._html_fmt,
+			html=self._html_fmt,
+			latex=self._latex_fmt,
+			ltx=self._latex_fmt)
+		self._Cell = celltype or Cell
+		self._Row = rowtype or Row
 		rows = self._make_rows(data)  # a list of Row instances
 		list.__init__(self, rows)
 	def __str__(self):
 		return self.as_text()
 	def _make_rows(self, raw_data):
+		_Cell = self._Cell
+		_Row = self._Row
 		rows = self._data2rows(raw_data)
 		headers = self.headers
 		stubs = self.stubs
 		for i, stub in enumerate(stubs):
 			row = rows[i]
-			cell = Cell(data=stub, datatype='stub')
+			cell = _Cell(data=stub, datatype='stub')
 			cell.row = row
 			row.insert_stub(cell)
 		if headers:
-			headers = Row([Cell(h) for h in headers])
+			headers = _Row([_Cell(h) for h in headers])
 			headers.datatype = 'header'
 			headers.table = self
 			if stubs:
-				headers.insert_stub(Cell('','stub'))
+				headers.insert_stub(_Cell('','stub'))
 			rows.insert(0,headers)
 			for cell in headers:
 				cell.datatype = 'header'
 				cell.row = headers
 		return rows
 	def _data2rows(self, raw_data):
+		_Cell = self._Cell
+		_Row = self._Row
 		rows = []
 		for datarow in raw_data:
-			newrow = Row([Cell(datum) for datum in datarow])
+			dtypes = cycle(self._datatypes)
+			newrow = _Row([_Cell(datum) for datum in datarow])
 			newrow.table = self  #row knows its SimpleTable
 			for cell in newrow:
-				cell.datatype = 'data'
+				cell.datatype = dtypes.next()
 				cell.row = newrow  #a cell knows its row
 			rows.append( newrow)
-		return rows
-	def _format_rows(self, tablestrings, fmt_dict):
-		"""Return: list of strings,
-		the formatted table data *including* headers and stubs.
-		Note that `tablestrings` is a *rectangular* iterable of strings.
-		"""
-		#fmt = fmt_dict['fmt']
-		colwidths = self.get_colwidths(tablestrings, fmt_dict)
-		cols_aligns = self.get_cols_aligns(fmt_dict)
-		colsep = fmt_dict['colsep']
-		row_pre = fmt_dict.get('row_pre','')
-		row_post = fmt_dict.get('row_post','')
-		rows = []
-		for row in tablestrings:
-			cols = []
-			for content, width, align in izip(row, colwidths, cols_aligns):
-				content = pad(content, width, align)
-				cols.append(content)
-			rows.append( row_pre + colsep.join(cols) + row_post )
 		return rows
 	def pad(self, s, width, align):
 		"""DEPRECATED: just use the pad function"""
 		return pad(s, width, align)
-	'''
-	def merge_table_parts(self, fmt_dict=dict()):
-		"""Return list of lists of strings,
-		all table parts merged.
-		Inserts stubs and headers into `data`."""
-		data = self.format_data(fmt_dict)
-		headers = self.format_headers(fmt_dict)
-		stubs = self.format_stubs(fmt_dict)
-		for i in range(len(stubs)):
-			data[i].insert(0,stubs[i])
-		if headers:
-			data.insert(0,headers)
-		return data
-	def format_data(self, fmt_dict):
-		"""Return list of lists,
-		the formatted data (without headers or stubs).
-		Note: does *not* change `self._raw_data`."""
-		data_fmt = fmt_dict.get('data_fmt','%s')
-		if isinstance(data_fmt, str):
-			result = [[(data_fmt%datum) for datum in row] for row in self._raw_data]
-		else:
-			fmt = cycle( data_fmt )
-			result = [[(fmt.next()%datum) for datum in row] for row in self._raw_data]
-		return result
-	def format_headers(self, fmt_dict, headers=None):
-		"""Return list, the formatted headers."""
-		dcols = len(self._raw_data[0])
-		headers2fmt = list(headers or self.headers)
-		header_fmt = fmt_dict.get('header_fmt') or '%s'
-		if self.stubs and len(headers2fmt)==dcols:
-			headers2fmt.insert(0,'')
-		return [header_fmt%(header) for header in headers2fmt]
-	def format_stubs(self, fmt_dict, stubs=None):
-		"""Return list, the formatted stubs."""
-		stub_fmt = fmt_dict.get('stub_fmt','%s')
-		stubs2fmt = stubs or self.stubs
-		return [stub_fmt%stub for stub in stubs2fmt]
-	'''
-	def get_colwidths_from_cells(self, output_format):
-		colwidths = []
+	def get_colwidths(self, output_format, **fmt_dict):
+		fmt = self.output_formats[output_format].copy()
+		fmt.update(fmt_dict)
+		ncols = max(len(row) for row in self)
+		request_widths = fmt.get('colwidths')
+		if request_widths is 0: #assume no extra space desired (e.g, CSV)
+			return [0] * ncols
+		elif request_widths is None: #assume no extra space desired (e.g, CSV)
+			request_widths = [0] * ncols
+		elif isinstance(request_widths, int):
+			request_widths = cycle([request_widths])
+		elif len(request_widths) != ncols:
+			request_widths = cycle(request_widths)
+		min_widths = []
 		for col in izip(*self):
-			colwidths.append(max(len(c.as_string(output_format)) for c in col))
-		return colwidths
-	def get_colwidths(self, tablestrings, fmt_dict):
-		"""Return list of int, the column widths.
-		Ensure comformable colwidths in `fmt_dict`.
-		Other, compute as the max width for each column of `tablestrings`.
-		Note that `tablestrings` is a rectangular iterable of strings.
-		"""
-		ncols = len(tablestrings[0])
-		request_widths = fmt_dict.get('colwidths')
-		if request_widths is None:
-			result = [0] * ncols
-		else:
-			min_widths = [max(len(d) for d in c) for c in izip(*tablestrings)]
-			if isinstance(request_widths, int):
-				request_widths = cycle([request_widths])
-			elif len(request_widths) != ncols:
-				request_widths = min_widths
-			result = [max(m,r) for m,r in izip(min_widths, request_widths)]
+			maxwidth = max(len(c.as_string(output_format,**fmt)) for c in col)
+			min_widths.append(maxwidth)
+		result = [max(m,r) for m,r in izip(min_widths, request_widths)]
 		return result
-	def get_cols_aligns(self, fmt_dict):
+	def get_cols_aligns(self, output_format, **fmt_dict):
 		"""Return string, sequence of column alignments.
 		Ensure comformable data_aligns in `fmt_dict`."""
+		fmt = self.output_formats[output_format].copy()
+		fmt.update(fmt_dict)
+
 		has_stubs = bool(self.stubs)
 		dcols = len(self[0]) - has_stubs  # number of data columns
 		cols_aligns = fmt_dict.get('cols_aligns')
@@ -271,19 +232,10 @@ class SimpleTable(list):
 		fmt = self.output_formats['text'].copy()
 		#update format using `fmt`
 		fmt.update(fmt_dict)
-		#format table body, including header and header decoration (if any)
-		#colwidths = self.get_colwidths_from_cells(output_format='html') #chk
-		#cols_aligns = self.get_cols_aligns(fmt)
-		formatted_rows = [] #list of strings
-		for row in self:
-			formatted_rows.append( row.as_string('text', **fmt) )
+		#get rows formatted as strings
+		formatted_rows = [ row.as_string('text', **fmt) for row in self ]
 		formatted_table_body = '\n'.join(formatted_rows)
 
-		"""
-		#format the 3 table parts (data, headers, stubs) and merge in list of lists
-		txt_data = self.merge_table_parts(fmt)
-		rows = self._format_rows(txt_data, fmt)
-		"""
 		rowlen = len(formatted_rows[-1]) #don't use header row
 		begin = ''
 		if self.title:
@@ -336,7 +288,7 @@ class SimpleTable(list):
 			formatted_rows.append( row.as_string('latex', **fmt) )
 		formatted_table_body = '\n'.join(formatted_rows)
 
-		begin = r'\begin{tabular}{%s}'%(self.get_cols_aligns(fmt))
+		begin = r'\begin{tabular}{%s}'%(self.get_cols_aligns('latex', **fmt))
 		above = fmt['table_dec_above']
 		if above:
 			begin += "\n" + above
@@ -364,50 +316,12 @@ def pad(s, width, align):
 		s = s.center(width)
 	return s
 
-class Cell(object):
-	def __init__(self, data='', datatype='data', row=None):
-		self.data = data
-		self.datatype = datatype
-		self.row = row
-	def as_string(self, output_format='txt', **fmt_dict):
-		"""Return string.
-		This is the default formatter for cells.
-		Override this to get different formating.
-		A cell formatter must accept as arguments
-		a cell (self) and an output format,
-		one of ('html', 'txt', 'csv', 'latex').
-		It will generally respond to the datatype,
-		one of ('data', 'header', 'stub').
-		"""
-		try:
-			fmt = default_fmts[output_format].copy()
-		except KeyError:
-			raise ValueError('Unknown format: %s' % output_format)
-		fmt.update(fmt_dict)
-
-		datatype = self.datatype
-		data = self.data
-		if datatype == 'data':
-			data_fmt = fmt.get('data_fmt','%s')
-			result = data_fmt % data
-		elif datatype == 'header':
-			data_fmt = fmt.get('header_fmt','%s')
-			result = data_fmt % data
-		elif datatype == 'stub':
-			data_fmt = fmt.get('stub_fmt','%s')
-			result = data_fmt % data
-		else:
-			raise ValueError('Unknown cell type: %s'%datatype)
-		return result
-
-
-
 
 class Row(list):
 	"""A Row is a list of cells;
 	a row can belong to a SimpleTable.
 	"""
-	def __init__(self, cells, datatype='', table=None, formatter=None):
+	def __init__(self, cells, datatype='', table=None, celltype=None, **fmt_dict):
 		"""
 		Parameters
 		----------
@@ -416,9 +330,19 @@ class Row(list):
 		list.__init__(self, cells)
 		self.datatype = datatype # data or header
 		self.table = table
-		self.formatter = formatter
-	def insert_stub(self, stub):
-		self.insert(0, stub)
+		if celltype is None:
+			try:
+				celltype = table._Cell
+			except AttributeError:
+				celltype = Cell
+		self._Cell = celltype
+		self._fmt = fmt_dict
+	def insert_stub(self, stub, loc=0):
+		_Cell = self._Cell
+		if not isinstance(stub, _Cell):
+			stub = str(stub)
+			stub = _Cell(stub, datatype='stub', row=self)
+		self.insert(loc, stub)
 	@property
 	def data(self):
 		return [cell.data for cell in self]
@@ -430,25 +354,35 @@ class Row(list):
 		a row (self) and an output format,
 		one of ('html', 'txt', 'csv', 'latex').
 		"""
+		#first get the default formatting
 		try:
 			fmt = default_fmts[output_format].copy()
 		except KeyError:
 			raise ValueError('Unknown format: %s' % output_format)
+		#second get table specific formatting (if possible)
+		try:
+			fmt.update(self.table.output_formats[output_format])
+		except AttributeError:
+			pass
+		#finally, add formatting for this cell and this call
+		fmt.update(self._fmt)
 		fmt.update(fmt_dict)
 
-		#:TODO: find better approach to this?
-		colwidths = fmt.get('colwidths')
-		cols_aligns = fmt.get('cols_aligns')
+		#get column widths
+		try:
+			colwidths = self.table.get_colwidths(output_format, **fmt)
+		except AttributeError:
+			colwidths = fmt.get('colwidths')
 		if colwidths is None:
-			try:
-				colwidths = self.table.get_colwidths_from_cells(output_format=output_format)
-			except AttributeError:
-				colwidths = (0,) * len(self)
+			colwidths = (0,) * len(self)
+
+		#get column alignments
+		try:
+			cols_aligns = self.table.get_cols_aligns(output_format, **fmt)
+		except AttributeError:
+			cols_aligns = fmt.get('cols_aligns')
 		if cols_aligns is None:
-			try:
-				cols_aligns = self.table.get_cols_aligns(fmt)
-			except AttributeError:
-				cols_aligns = 'c' * len(self)
+			cols_aligns = 'c' * len(self)
 
 		colsep = fmt['colsep']
 		row_pre = fmt.get('row_pre','')
@@ -473,12 +407,78 @@ class Row(list):
 		else:
 			raise ValueError("I can't decorate a %s header."%output_format)
 		return result
+
+class Cell(object):
+	def __init__(self, data='', datatype=0, row=None, **fmt_dict):
+		self.data = data
+		self.datatype = datatype
+		self.row = row
+		self._fmt = fmt_dict
+	def __str__(self):
+		return self.as_string()
+	def as_string(self, output_format='txt', **fmt_dict):
+		"""Return string.
+		This is the default formatter for cells.
+		Override this to get different formating.
+		A cell formatter must accept as arguments
+		a cell (self) and an output format,
+		one of ('html', 'txt', 'csv', 'latex').
+		It will generally respond to the datatype,
+		one of (int, 'header', 'stub').
+		"""
+		#first get the default formatting
+		try:
+			fmt = default_fmts[output_format].copy()
+		except KeyError:
+			raise ValueError('Unknown format: %s' % output_format)
+		#then get any table specific formtting
+		try:
+			fmt.update(self.row.table.output_formats[output_format])
+		except AttributeError:
+			pass
+		#then get any row specific formtting
+		try:
+			fmt.update(self.row._fmt)
+		except AttributeError:
+			pass
+		#finally add formatting for this instance and call
+		fmt.update(self._fmt)
+		fmt.update(fmt_dict)
+
+		datatype = self.datatype
+		data = self.data
+		data_fmts = fmt.get('data_fmts')
+		if data_fmts is None:
+			#chk allow for deprecated use of data_fmt
+			data_fmt = fmt.get('data_fmt')
+			if data_fmt is None:
+				data_fmt = '%s'
+			data_fmts = [data_fmt]
+		if isinstance(datatype, int):
+			result = data_fmts[datatype] % data
+		elif datatype == 'header':
+			data_fmt = fmt.get('header_fmt','%s')
+			result = data_fmt % data
+		elif datatype == 'stub':
+			data_fmt = fmt.get('stub_fmt','%s')
+			result = data_fmt % data
+		else:
+			raise ValueError('Unknown cell datatype: %s'%datatype)
+		return result
+
+
 		
 			
 
 #########  begin: default formats for SimpleTable  ##############
+"""
+A SimpleTable can be initialized with `datatypes`:
+a list of ints that are indexes into `data_fmts`.
+These control formatting.
+"""
 default_csv_fmt = dict(
-		data_fmt = '%s',
+		data_fmts = ['%s'],
+		data_fmt = '%s',  #deprecated; use data_fmts
 		colwidths = None,
 		colsep = ',',
 		row_pre = '',
@@ -495,7 +495,8 @@ default_csv_fmt = dict(
 		)
 	
 default_html_fmt = dict(
-		data_fmt = "<td>%s</td>",
+		data_fmts = ['<td>%s</td>'],
+		data_fmt = "<td>%s</td>",  #deprecated; use data_fmts
 		colwidths = None,
 		colsep=' ',
 		row_pre = '<tr>\n  ',
@@ -512,7 +513,8 @@ default_html_fmt = dict(
 		)
 
 default_txt_fmt = dict(
-		data_fmt = "%s",
+		data_fmts = ["%s"],
+		data_fmt = "%s",  #deprecated; use data_fmts
 		colwidths = None,
 		colsep=' ',
 		row_pre = '',
@@ -529,7 +531,8 @@ default_txt_fmt = dict(
 		)
 
 default_latex_fmt = dict(
-		data_fmt = "%s",
+		data_fmts = ["%s"],
+		data_fmt = "%s",  #deprecated; use data_fmts
 		colwidths = None,
 		colsep=' & ',
 		table_dec_above = r'\toprule',
