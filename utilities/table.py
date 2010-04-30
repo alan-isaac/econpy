@@ -109,7 +109,7 @@ class SimpleTable(list):
 		self.headers = headers
 		self.stubs = tuple(str(stub) for stub in stubs)
 		self.title = title
-		self._datatypes = datatypes or [0]
+		self._datatypes = datatypes or range(len(data[0]))
 		#start with default formatting
 		self._text_fmt = default_txt_fmt.copy()
 		self._latex_fmt = default_latex_fmt.copy()
@@ -152,7 +152,7 @@ class SimpleTable(list):
 			cell.row = row
 			row.insert_stub(cell)
 		if headers:
-			headers = _Row([_Cell(h) for h in headers])
+			headers = _Row([_Cell(h,datatype='header') for h in headers])
 			headers.datatype = 'header'
 			headers.table = self
 			if stubs:
@@ -173,7 +173,7 @@ class SimpleTable(list):
 			for cell in newrow:
 				cell.datatype = dtypes.next()
 				cell.row = newrow  #a cell knows its row
-			rows.append( newrow)
+			rows.append(newrow)
 		return rows
 	def pad(self, s, width, align):
 		"""DEPRECATED: just use the pad function"""
@@ -233,6 +233,7 @@ class SimpleTable(list):
 		#update format using `fmt`
 		fmt.update(fmt_dict)
 		#get rows formatted as strings
+		print 'here1', fmt.get('header_fmt')
 		formatted_rows = [ row.as_string('text', **fmt) for row in self ]
 		formatted_table_body = '\n'.join(formatted_rows)
 
@@ -264,9 +265,9 @@ class SimpleTable(list):
 			formatted_rows.append( row.as_string('html', **fmt) )
 		formatted_table_body = '\n'.join(formatted_rows)
 
-		begin = "<table class='simpletable'>"
+		begin = '<table class="simpletable">'
 		if self.title:
-			begin += "<caption>%s</caption>\n"%(self.title,)
+			begin += '<caption>%s</caption>\n'%(self.title,)
 		end = r'</table>'
 		return begin + '\n' + formatted_table_body + "\n" + end
 	def as_latex_tabular(self, **fmt_dict):
@@ -347,7 +348,7 @@ class Row(list):
 	def data(self):
 		return [cell.data for cell in self]
 	def as_string(self, output_format='txt', **fmt_dict):
-		"""Return string.
+		"""Return string: the formatted row.
 		This is the default formatter for rows.
 		Override this to get different formatting.
 		A row formatter must accept as arguments
@@ -367,6 +368,7 @@ class Row(list):
 		#finally, add formatting for this cell and this call
 		fmt.update(self._fmt)
 		fmt.update(fmt_dict)
+		print 'here2', fmt.get('header_fmt')
 
 		#get column widths
 		try:
@@ -389,7 +391,7 @@ class Row(list):
 		row_post = fmt.get('row_post','')
 		formatted_cells = []
 		for cell, width, align in izip(self, colwidths, cols_aligns):
-			content = cell.as_string(output_format=output_format)
+			content = cell.as_string(output_format=output_format, **fmt)
 			content = pad(content, width, align)
 			formatted_cells.append(content)
 		header_dec_below = fmt.get('header_dec_below')
@@ -445,8 +447,8 @@ class Cell(object):
 		fmt.update(self._fmt)
 		fmt.update(fmt_dict)
 
-		datatype = self.datatype
 		data = self.data
+		datatype = self.datatype
 		data_fmts = fmt.get('data_fmts')
 		if data_fmts is None:
 			#chk allow for deprecated use of data_fmt
@@ -455,13 +457,13 @@ class Cell(object):
 				data_fmt = '%s'
 			data_fmts = [data_fmt]
 		if isinstance(datatype, int):
+			datatype = datatype % len(data_fmts) #constrain to indexes
 			result = data_fmts[datatype] % data
 		elif datatype == 'header':
-			data_fmt = fmt.get('header_fmt','%s')
-			result = data_fmt % data
+			print fmt.get('header_fmt','%s') % data
+			result = fmt.get('header_fmt','%s') % data
 		elif datatype == 'stub':
-			data_fmt = fmt.get('stub_fmt','%s')
-			result = data_fmt % data
+			result = fmt.get('stub_fmt','%s') % data
 		else:
 			raise ValueError('Unknown cell datatype: %s'%datatype)
 		return result
