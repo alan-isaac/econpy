@@ -479,7 +479,6 @@ class Cell(object):
 			datatype = datatype % len(data_fmts) #constrain to indexes
 			result = data_fmts[datatype] % data
 		elif datatype == 'header':
-			print fmt.get('header_fmt','%s') % data
 			result = fmt.get('header_fmt','%s') % data
 		elif datatype == 'stub':
 			result = fmt.get('stub_fmt','%s') % data
