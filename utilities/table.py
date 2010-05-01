@@ -32,7 +32,6 @@ Potential problems for Python 3
 :since: 2008-12-21
 """
 from __future__ import division, with_statement
-import sys, string
 try: #accommodate Python 3
 	from itertools import izip as zip
 except ImportError:
@@ -358,7 +357,7 @@ class Row(list):
 		"""
 		_Cell = self._Cell
 		if not isinstance(stub, _Cell):
-			stub = str(stub)
+			stub = stub 
 			stub = _Cell(stub, datatype='stub', row=self)
 		self.insert(loc, stub)
 	def get_fmt(self, output_format, **fmt_dict):
