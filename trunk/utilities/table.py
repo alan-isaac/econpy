@@ -86,8 +86,8 @@ class SimpleTable(list):
 	Sample uses::
 
 		mydata = [[11,12],[21,22]]
-		myheaders = "Column 1", "Column 2"
-		mystubs = "Row 1", "Row 2"
+		myheaders = [ "Column 1", "Column 2" ]
+		mystubs = [ "Row 1", "Row 2" ]
 		tbl = text.SimpleTable(mydata, myheaders, mystubs, title="Title")
 		print( tbl )
 		print( tbl.as_html() )
@@ -98,7 +98,7 @@ class SimpleTable(list):
 		with open('c:/temp/temp.tex','w') as fh:
 			fh.write( tbl.as_latex_tabular() )
 	"""
-	def __init__(self, data, headers=(), stubs=(), title='', 
+	def __init__(self, data, headers=None, stubs=None, title='', 
 		datatypes=None,
 		csv_fmt=None, txt_fmt=None, ltx_fmt=None, html_fmt=None,
 		celltype= None, rowtype=None,
@@ -108,9 +108,9 @@ class SimpleTable(list):
 		----------
 		data : list of lists or 2d array (not matrix!)
 			R rows by K columns of table elements
-		headers: tuple
+		headers : list (or tuple) of str
 			sequence of K strings, one per header
-		stubs : tuple
+		stubs : list (or tuple) of str
 			sequence of R strings, one per stub
 		title: string
 			title of the table
