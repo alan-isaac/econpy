@@ -44,6 +44,7 @@ Potential problems for Python 3
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
 :todo: add colspan support to Cell
 :since: 2008-12-21
+:change: 2010-05-02 eliminate newlines that came before and after table
 """
 from __future__ import division, with_statement
 try: #accommodate Python 3
@@ -125,7 +126,7 @@ class SimpleTable(list):
 			sequence of K strings, one per header
 		stubs : list (or tuple) of str
 			sequence of R strings, one per stub
-		title: string
+		title : string
 			title of the table
 		datatypes : list of int
 			indexes to `data_fmts`
@@ -149,7 +150,7 @@ class SimpleTable(list):
 		self._csv_fmt = default_csv_fmt.copy()
 		self._html_fmt = default_html_fmt.copy()
 		#substitute any general user specified formatting
-		#:note: will be overridden by output specific arguments
+		#:note: these will be overridden by output specific arguments
 		self._csv_fmt.update(fmt_dict)
 		self._text_fmt.update(fmt_dict)
 		self._latex_fmt.update(fmt_dict)
@@ -235,59 +236,91 @@ class SimpleTable(list):
 			min_widths.append(maxwidth)
 		result = map(max, min_widths, request)
 		return result
+	def _get_fmt(self, output_format, **fmt_dict):
+		"""Return dict, the formatting options.
+		"""
+		#first get the default formatting
+		try:
+			fmt = default_fmts[output_format].copy()
+		except KeyError:
+			raise ValueError('Unknown format: %s' % output_format)
+		#second get table specific formatting (if possible)
+		try:
+			fmt.update(self.table.output_formats[output_format])
+		except AttributeError:
+			pass
+		#finally, add formatting for this call
+		fmt.update(fmt_dict)
+		return fmt
 	def as_csv(self, **fmt_dict):
 		"""Return string, the table in CSV format.
 		Currently only supports comma separator."""
 		#fetch the format, which may just be default_csv_format
-		fmt = self.output_formats['csv'].copy()
-		#update format using `fmt`
-		fmt.update(fmt_dict)
+		fmt = self._get_fmt('csv', **fmt_dict)
 		return self.as_text(**fmt)
 	def as_text(self, **fmt_dict):
 		"""Return string, the table as text."""
-		#fetch the format, which may just be default_csv_format
-		fmt = self.output_formats['text'].copy()
-		#update format using `fmt`
-		fmt.update(fmt_dict)
+		#fetch the text format, override with fmt_dict
+		fmt = self._get_fmt('txt', **fmt_dict)
 		#get rows formatted as strings
 		formatted_rows = [ row.as_string('text', **fmt) for row in self ]
-		formatted_table_body = '\n'.join(formatted_rows)
-
 		rowlen = len(formatted_rows[-1]) #don't use header row
-		begin = ''
-		if self.title:
-			begin += pad(self.title, rowlen, fmt.get('title_align','c'))
-		#decoration above the table, if desired
+
+		#place decoration above the table body, if desired
 		table_dec_above = fmt.get('table_dec_above','=')
 		if table_dec_above:
-			begin += "\n" + (table_dec_above * rowlen)
-		below = fmt.get('table_dec_below','-')
-		end = (below*rowlen + "\n") if below else ''
-		return begin + '\n' + formatted_table_body + '\n' + end
+			formatted_rows.insert(0, table_dec_above * rowlen)
+		#next place a title at the very top, if desired
+		#:note: user can include a newlines at end of title if desired
+		title = self.title
+		if title:
+			title = pad(self.title, rowlen, fmt.get('title_align','c'))
+			formatted_rows.insert(0, title)
+		#add decoration below the table, if desired
+		table_dec_below = fmt.get('table_dec_below','-')
+		if table_dec_below:
+			formatted_rows.append(table_dec_below * rowlen)
+		return '\n'.join(formatted_rows)
 	def as_html(self, **fmt_dict):
 		"""Return string.
 		This is the default formatter for HTML tables.
 		An HTML table formatter must accept as arguments
 		a table and a format dictionary.
 		"""
-		fmt = self.output_formats['html'].copy()
-		fmt.update(fmt_dict)
-
-		formatted_rows = [] #list of strings
-		for row in self:
-			formatted_rows.append( row.as_string('html', **fmt) )
-		formatted_table_body = '\n'.join(formatted_rows)
-
-		begin = '<table class="simpletable">'
+		#fetch the text format, override with fmt_dict
+		fmt = self._get_fmt('html', **fmt_dict)
+		formatted_rows = ['<table class="simpletable">']
 		if self.title:
-			begin += '<caption>%s</caption>\n'%(self.title,)
-		end = r'</table>'
-		return begin + '\n' + formatted_table_body + "\n" + end
+			title = '<caption>%s</caption>' % self.title
+			formatted_rows.append(title)
+		formatted_rows.extend( row.as_string('html', **fmt) for row in self )
+		formatted_rows.append('</table>')
+		return '\n'.join(formatted_rows)
 	def as_latex_tabular(self, **fmt_dict):
 		'''Return string, the table as a LaTeX tabular environment.
 		Note: will equire the booktabs package.'''
-		fmt = self.output_formats['latex'].copy()
-		fmt.update(fmt_dict)
+		#fetch the text format, override with fmt_dict
+		fmt = self._get_fmt('latex', **fmt_dict)
+		aligns = self[-1].get_aligns('latex', **fmt)
+		formatted_rows = [ r'\begin{tabular}{%s}' % aligns ]
+
+		table_dec_above = fmt['table_dec_above']
+		if table_dec_above:
+			formatted_rows.append(table_dec_above)
+
+		formatted_rows.extend(
+			row.as_string(output_format='latex', **fmt) for row in self )
+
+		table_dec_below = fmt['table_dec_below']
+		if table_dec_below:
+			formatted_rows.append(table_dec_below)
+
+		formatted_rows.append(r'\end{tabular}')
+		#tabular does not support caption, but make it available for figure environment
+		if self.title:
+			title = r'%%\caption{%s}' % self.title
+			formatted_rows.append(title)
+		return '\n'.join(formatted_rows)
 		"""
 		if fmt_dict['strip_backslash']:
 			ltx_stubs = [stub.replace('\\',r'$\backslash$') for stub in self.stubs]
@@ -297,23 +330,10 @@ class SimpleTable(list):
 			ltx_headers = self.format_headers(fmt_dict)
 		ltx_stubs = self.format_stubs(fmt_dict, ltx_stubs)
 		"""
-		formatted_rows = [] #list of strings
-		for row in self:
-			formatted_rows.append( row.as_string('latex', **fmt) )
-		formatted_table_body = '\n'.join(formatted_rows)
-
-		begin = r'\begin{tabular}{%s}'%(self[-1].get_aligns('latex', **fmt))
-		above = fmt['table_dec_above']
-		if above:
-			begin += "\n" + above
-		end = r'\end{tabular}'
-		below = fmt['table_dec_below']
-		if below:
-			end = below + "\n" + end
-		return begin + '\n' + formatted_table_body + "\n" + end
 	def extend_right(self, table):
 		"""Return None.
 		Extend each row of `self` with corresponding row of `table`.
+		Does **not** import formatting from ``table``.
 		This generally makes sense only if the two tables have
 		the same number of rows, but that is not enforced.
 		:note: To extend append a table below, just use `extend`,
