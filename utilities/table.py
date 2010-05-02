@@ -51,7 +51,7 @@ try: #accommodate Python 3
 	from itertools import izip as zip
 except ImportError:
 	pass
-from itertools import cycle, ifilter
+from itertools import cycle
 from collections import defaultdict
 import csv
 
@@ -627,8 +627,8 @@ default_latex_fmt = dict(
 		table_dec_below = r'\bottomrule',
 		header_dec_below = r'\midrule',
 		strip_backslash = True,
-		header_fmt = "\\textbf{%s}",
-		stub_fmt = "\\textbf{%s}",
+		header_fmt = r'\textbf{%s}',
+		stub_fmt =r'\textbf{%s}',
 		header_align = 'c',
 		data_aligns = "c",
 		stubs_align = "l",
