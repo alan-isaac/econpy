@@ -10,9 +10,23 @@ or extended by another SimpleTable. ::
 	table1.extend_right(table2)
 	table1.extend(table2)
 
-Although a SimpleTable only allows one column (the first) of stubs,
-concatenation allows you to produce tables with interior stubs.
-(You can also assign the datatype 'stub' to the cells in any column.)
+Note that although a SimpleTable allows only one column (the first) of
+stubs at initilization, concatenation of tables allows you to produce
+tables with interior stubs.  (You can also assign the datatype 'stub'
+to the cells in any column, or use ``insert_stubs``.)
+
+A SimpleTable can be initialized with `datatypes`: a list of ints that
+provide indexes into `data_fmts` and `data_aligns`.  Each data cell is
+assigned a datatype, which will control formatting.  If you do not
+specify the `datatypes` list, it will be set to ``range(ncols)`` where
+`ncols` is the number of columns in the data.  (I.e., cells in a
+column have their own datatype.) This means that you can just specify
+`data_fmts` without bother to provide a `datatypes` list.  If
+``len(datatypes)<ncols`` then datatype assignment will cycle across a
+row.  E.g., if you provide 10 rows of data with ``datatypes=[0,1]``
+then you will have 5 columns of datatype 0 and 5 columns of datatype
+1, alternating.  Correspoding to this specification, you should provide
+a list of two ``data_fmts`` and a list of two ``data_aligns``.
 
 Potential problems for Python 3
 -------------------------------
@@ -163,6 +177,14 @@ class SimpleTable(list):
 	def _add_headers_stubs(self, headers, stubs):
 		"""Return None.  Adds headers and stubs to table,
 		if these were provided at initialization.
+		Parameters
+		----------
+		headers : list of strings
+			K strings, where K is number of columns
+		stubs : list of strings
+			R strings, where R is number of non-header rows
+
+		:note: a header row does not receive a stub!
 		"""
 		_Cell = self._Cell
 		_Row = self._Row
@@ -360,7 +382,9 @@ class Row(list):
 			stub = stub 
 			stub = _Cell(stub, datatype='stub', row=self)
 		self.insert(loc, stub)
-	def get_fmt(self, output_format, **fmt_dict):
+	def _get_fmt(self, output_format, **fmt_dict):
+		"""Return dict, the formatting options.
+		"""
 		#first get the default formatting
 		try:
 			fmt = default_fmts[output_format].copy()
@@ -378,7 +402,7 @@ class Row(list):
 	def get_aligns(self, output_format, **fmt_dict):
 		"""Return string, sequence of column alignments.
 		Ensure comformable data_aligns in `fmt_dict`."""
-		fmt = self.get_fmt(output_format, **fmt_dict)
+		fmt = self._get_fmt(output_format, **fmt_dict)
 		return ''.join( cell.alignment(output_format, **fmt) for cell in self )
 	def as_string(self, output_format='txt', **fmt_dict):
 		"""Return string: the formatted row.
@@ -388,7 +412,7 @@ class Row(list):
 		a row (self) and an output format,
 		one of ('html', 'txt', 'csv', 'latex').
 		"""
-		fmt = self.get_fmt(output_format, **fmt_dict)
+		fmt = self._get_fmt(output_format, **fmt_dict)
 
 		#get column widths
 		try:
@@ -433,8 +457,10 @@ class Cell(object):
 		self.row = row
 		self._fmt = fmt_dict
 	def __str__(self):
-		return self.as_string()
-	def get_fmt(self, output_format, **fmt_dict):
+		return '%s' % self.data
+	def _get_fmt(self, output_format, **fmt_dict):
+		"""Return dict, the formatting options.
+		"""
 		#first get the default formatting
 		try:
 			fmt = default_fmts[output_format].copy()
@@ -455,7 +481,7 @@ class Cell(object):
 		fmt.update(fmt_dict)
 		return fmt
 	def alignment(self, output_format, **fmt_dict):
-		fmt = self.get_fmt(output_format, **fmt_dict)
+		fmt = self._get_fmt(output_format, **fmt_dict)
 		datatype = self.datatype
 		data_aligns = fmt.get('data_aligns','c')
 		if isinstance(datatype, int):
@@ -479,7 +505,7 @@ class Cell(object):
 		It will generally respond to the datatype,
 		one of (int, 'header', 'stub').
 		"""
-		fmt = self.get_fmt(output_format, **fmt_dict)
+		fmt = self._get_fmt(output_format, **fmt_dict)
 
 		data = self.data
 		datatype = self.datatype
@@ -511,15 +537,6 @@ class Cell(object):
 			
 
 #########  begin: default formats for SimpleTable  ##############
-"""
-A SimpleTable can be initialized with `datatypes`:
-a list of ints that are indexes into `data_fmts`.
-These control formatting.  If you do not specify
-the `datatypes` list, it will be set to ``range(ncols)``
-where `ncols` is the number of columns in the data.
-This means that you can just specify `data_fmts`
-without bother to provide a `datatypes` list.
-"""
 default_csv_fmt = dict(
 		data_fmts = ['%s'],
 		data_fmt = '%s',  #deprecated; use data_fmts
