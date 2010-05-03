@@ -4,6 +4,7 @@ Note that this module depends only on the Python standard library.
 You can "install" it just by dropping it into your working directory.
 
 A SimpleTable is inherently (but not rigidly) rectangular.
+You should create it from a *rectangular* (2d!) iterable of data.
 A SimpleTable can be concatenated with another SimpleTable
 or extended by another SimpleTable. ::
 
@@ -33,6 +34,7 @@ Potential problems for Python 3
 
 - Calls ``next`` instead of ``__next__``.
   The 2to3 tool should handle that no problem.
+  (We will switch to the `next` function if 2.5 support is ever dropped.)
 - from __future__ import division, with_statement
 - from itertools import izip as zip
 - Let me know if you find other problems.
@@ -88,18 +90,21 @@ def csv2st(csvfile, headers=False, stubs=False, title=None):
 		raise IOError('All rows of CSV file must have same length.')
 	return SimpleTable(data=rows, headers=headers, stubs=stubs)
 
+
 class SimpleTable(list):
 	"""Produce a simple ASCII, CSV, HTML, or LaTeX table from a
-	*rectangular* array of data, not necessarily numerical. 
-	Supports at most one header row,
-	which must be the length of data[0] (or +1 if stubs).
-	Supports at most one stubs column, which must be the length of data.
+	*rectangular* (2d!) array of data, not necessarily numerical. 
+	Directly supports at most one header row,
+	which should be the length of data[0].
+	Directly supports at most one stubs column,
+	which must be the length of data.
+	(But see `insert_stubs` method.)
 	See globals `default_txt_fmt`, `default_csv_fmt`, `default_html_fmt`,
 	and `default_latex_fmt` for formatting options.
 
 	Sample uses::
 
-		mydata = [[11,12],[21,22]]
+		mydata = [[11,12],[21,22]]  # data MUST be 2-dimensional
 		myheaders = [ "Column 1", "Column 2" ]
 		mystubs = [ "Row 1", "Row 2" ]
 		tbl = text.SimpleTable(mydata, myheaders, mystubs, title="Title")
@@ -107,7 +112,7 @@ class SimpleTable(list):
 		print( tbl.as_html() )
 		# set column specific data formatting
 		tbl = text.SimpleTable(mydata, myheaders, mystubs,
-			fmt={'data_fmt':["%3.2f","%d"]})
+			fmt={'data_fmts':["%3.2f","%d"]})
 		print( tbl.as_csv() )
 		with open('c:/temp/temp.tex','w') as fh:
 			fh.write( tbl.as_latex_tabular() )
@@ -138,6 +143,10 @@ class SimpleTable(list):
 			csv formatting options
 		hmtl_fmt : dict
 			hmtl formatting options
+		celltype : class
+			the cell class for the table (default: Cell)
+		rowtype : class
+			the row class for the table (default: Row)
 		fmt_dict : dict
 			general formatting options
 		"""
@@ -223,6 +232,7 @@ class SimpleTable(list):
 		ncols = max(len(row) for row in self)
 		request = fmt.get('colwidths')
 		if request is 0: #assume no extra space desired (e.g, CSV)
+			print 'here3', ncols, [0] * ncols
 			return [0] * ncols
 		elif request is None: #assume no extra space desired (e.g, CSV)
 			request = [0] * ncols
@@ -235,6 +245,7 @@ class SimpleTable(list):
 			maxwidth = max(len(c.format(0,output_format,**fmt)) for c in col)
 			min_widths.append(maxwidth)
 		result = map(max, min_widths, request)
+		print 'here1', fmt['colwidths'], result
 		return result
 	def _get_fmt(self, output_format, **fmt_dict):
 		"""Return dict, the formatting options.
@@ -432,6 +443,7 @@ class Row(list):
 		#get column widths
 		try:
 			colwidths = self.table.get_colwidths(output_format, **fmt)
+			print 'here2', fmt['colwidths'], colwidths
 		except AttributeError:
 			colwidths = fmt.get('colwidths')
 		if colwidths is None:
@@ -552,6 +564,14 @@ class Cell(object):
 			
 
 #########  begin: default formats for SimpleTable  ##############
+""" Some formatting suggestions:
+
+- if you want rows to have no extra spacing,
+  set colwidths=0 and colsep=''.
+  (Naturally the columns will not align.)
+- if you want rows to have minimal extra spacing,
+  set colwidths=1.  The columns will align.
+"""
 default_csv_fmt = dict(
 		data_fmts = ['%s'],
 		data_fmt = '%s',  #deprecated; use data_fmts
