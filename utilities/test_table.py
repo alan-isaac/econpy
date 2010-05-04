@@ -11,7 +11,11 @@ import unittest
 __docformat__ = "restructuredtext en"
 
 from table import Cell, Row, SimpleTable
-test1fmt = dict(
+from table import default_latex_fmt
+
+ltx_fmt1 = default_latex_fmt.copy()
+
+txt_fmt1 = dict(
 	data_fmts = ['%3.2f', '%d'],
 	data_fmt = "%s",  #deprecated; use data_fmts
 	empty_cell = ' ',
@@ -37,6 +41,7 @@ row1data = [2, 3.333]
 table1data = [ row0data, row1data ]
 test1stubs = ('stub1', 'stub2')
 test1header = ('header1', 'header2')
+tbl = SimpleTable(table1data, test1header, test1stubs, txt_fmt=txt_fmt1, ltx_fmt=ltx_fmt1)
 
 class test_Cell(unittest.TestCase):
 	def test_celldata(self):
@@ -46,8 +51,8 @@ class test_Cell(unittest.TestCase):
 			self.assertEqual(cell.data, datum)
 
 class test_SimpleTable(unittest.TestCase):
-	def test_fmt1(self):
-		"""Basic test of custom txt_fmt"""
+	def test_txt_fmt1(self):
+		"""Limited test of custom txt_fmt"""
 		desired = """
 *****************************
 *       * header1 * header2 *
@@ -56,7 +61,23 @@ class test_SimpleTable(unittest.TestCase):
 * stub2 *    2.00 *       3 *
 *****************************
 """
-		actual = '\n%s\n' % SimpleTable(table1data, test1header, test1stubs, txt_fmt=test1fmt)
+		actual = '\n%s\n' % tbl.as_text()
+		#print(actual)
+		#print(desired)
+		self.assertEqual(actual, desired)
+	def test_ltx_fmt1(self):
+		"""Limited test of custom ltx_fmt"""
+		desired = r"""
+\begin{tabular}{lcc}
+\toprule
+               & \textbf{header1} & \textbf{header2}  \\
+\midrule
+\textbf{stub1} &       0.0        &        1          \\
+\textbf{stub2} &        2         &      3.333        \\
+\bottomrule
+\end{tabular}
+"""
+		actual = '\n%s\n' % tbl.as_latex_tabular()
 		#print(actual)
 		#print(desired)
 		self.assertEqual(actual, desired)

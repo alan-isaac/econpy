@@ -232,7 +232,6 @@ class SimpleTable(list):
 		ncols = max(len(row) for row in self)
 		request = fmt.get('colwidths')
 		if request is 0: #assume no extra space desired (e.g, CSV)
-			print 'here3', ncols, [0] * ncols
 			return [0] * ncols
 		elif request is None: #assume no extra space desired (e.g, CSV)
 			request = [0] * ncols
@@ -245,7 +244,6 @@ class SimpleTable(list):
 			maxwidth = max(len(c.format(0,output_format,**fmt)) for c in col)
 			min_widths.append(maxwidth)
 		result = map(max, min_widths, request)
-		print 'here1', fmt['colwidths'], result
 		return result
 	def _get_fmt(self, output_format, **fmt_dict):
 		"""Return dict, the formatting options.
@@ -443,7 +441,6 @@ class Row(list):
 		#get column widths
 		try:
 			colwidths = self.table.get_colwidths(output_format, **fmt)
-			print 'here2', fmt['colwidths'], colwidths
 		except AttributeError:
 			colwidths = fmt.get('colwidths')
 		if colwidths is None:
@@ -571,6 +568,13 @@ class Cell(object):
   (Naturally the columns will not align.)
 - if you want rows to have minimal extra spacing,
   set colwidths=1.  The columns will align.
+- to get consistent formatting, you should leave
+  all field width handling to SimpleTable:
+  use 0 as the field width in data_fmts.  E.g., ::
+
+        data_fmts = ["%#0.6g","%#0.6g","%#0.4g","%#0.4g"],
+        colwidths = 14,
+        data_aligns = "r", 
 """
 default_csv_fmt = dict(
 		data_fmts = ['%s'],
