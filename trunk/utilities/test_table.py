@@ -12,12 +12,13 @@ __docformat__ = "restructuredtext en"
 
 from table import Cell, Row, SimpleTable
 from table import default_latex_fmt
+from table import default_html_fmt
 
 ltx_fmt1 = default_latex_fmt.copy()
+html_fmt1 = default_html_fmt.copy()
 
 txt_fmt1 = dict(
 	data_fmts = ['%3.2f', '%d'],
-	data_fmt = "%s",  #deprecated; use data_fmts
 	empty_cell = ' ',
 	colwidths = 1,
 	colsep=' * ',
@@ -41,7 +42,8 @@ row1data = [2, 3.333]
 table1data = [ row0data, row1data ]
 test1stubs = ('stub1', 'stub2')
 test1header = ('header1', 'header2')
-tbl = SimpleTable(table1data, test1header, test1stubs, txt_fmt=txt_fmt1, ltx_fmt=ltx_fmt1)
+tbl = SimpleTable(table1data, test1header, test1stubs,
+	txt_fmt=txt_fmt1, ltx_fmt=ltx_fmt1, html_fmt=html_fmt1)
 
 class test_Cell(unittest.TestCase):
 	def test_celldata(self):
@@ -80,6 +82,25 @@ class test_SimpleTable(unittest.TestCase):
 		actual = '\n%s\n' % tbl.as_latex_tabular()
 		#print(actual)
 		#print(desired)
+		self.assertEqual(actual, desired)
+	def test_html_fmt1(self):
+		"""Limited test of custom html_fmt"""
+		desired = """
+<table class="simpletable">
+<tr>
+    <td></td>    <th>header1</th> <th>header2</th>
+</tr>
+<tr>
+  <th>stub1</th>   <td>0.0</td>      <td>1</td>   
+</tr>
+<tr>
+  <th>stub2</th>    <td>2</td>     <td>3.333</td> 
+</tr>
+</table>
+"""
+		actual = '\n%s\n' % tbl.as_html()
+		print(actual)
+		print(desired)
 		self.assertEqual(actual, desired)
 
 if __name__=="__main__":
