@@ -534,6 +534,9 @@ class Cell(object):
 		data_aligns = fmt.get('data_aligns','c')
 		if isinstance(datatype, int):
 			align = data_aligns[datatype % len(data_aligns)]
+		elif datatype == 'stub':
+			#still support deprecated `stubs_align`
+			align = fmt.get('stubs_align') or fmt.get('stub_align','l')
 		elif datatype in fmt:
 			label_align = '%s_align' % datatype
 			align = fmt.get(label_align,'c')
@@ -611,10 +614,10 @@ default_txt_fmt = dict(
 		row_post = '',
 		data_aligns = "c",
 		#data formats
-		data_fmt = "%s",  #deprecated; use data_fmts
+		#data_fmt = "%s",  #deprecated; use data_fmts
 		data_fmts = ["%s"],
 		#labeled alignments
-		stubs_align = 'l',   #deprecated; use data_fmts
+		#stubs_align = 'l',   #deprecated; use data_fmts
 		stub_align = 'l',
 		header_align = 'c',
 		#labeled formats
@@ -642,7 +645,7 @@ default_csv_fmt = dict(
 		data_fmt = '%s',  #deprecated; use data_fmts
 		data_fmts = ['%s'],
 		#labeled alignments
-		stubs_align = 'l',   #deprecated; use data_fmts
+		#stubs_align = 'l',   #deprecated; use data_fmts
 		stub_align = "l",
 		header_align = 'c',
 		#labeled formats
@@ -671,7 +674,7 @@ default_html_fmt = dict(
 		data_fmts = ['<td>%s</td>'],
 		data_fmt = "<td>%s</td>",  #deprecated; use data_fmts
 		#labeled alignments
-		stubs_align = 'l',   #deprecated; use data_fmts
+		#stubs_align = 'l',   #deprecated; use data_fmts
 		stub_align = 'l',
 		header_align = 'c',
 		#labeled formats
@@ -700,7 +703,7 @@ default_latex_fmt = dict(
 		data_fmts = ['%s'],
 		data_fmt = '%s',  #deprecated; use data_fmts
 		#labeled alignments
-		stubs_align = 'l',   #deprecated; use data_fmts
+		#stubs_align = 'l',   #deprecated; use data_fmts
 		stub_align = 'l',
 		header_align = 'c',
 		#labeled formats
