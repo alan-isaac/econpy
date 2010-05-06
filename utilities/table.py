@@ -29,6 +29,18 @@ then you will have 5 columns of datatype 0 and 5 columns of datatype
 1, alternating.  Correspoding to this specification, you should provide
 a list of two ``data_fmts`` and a list of two ``data_aligns``.
 
+Cells can be assigned labels as their `datatype` attributed.
+You can then provide a format for that lable.
+Us the SimpleTable's `label_cells` method to do this.  ::
+
+	def mylabeller(cell):
+		if cell.data is np.nan:
+			return 'missing'
+	
+	mytable.label_cells(mylabeller)
+	print(mytable.as_text(missing='-'))
+
+
 Potential problems for Python 3
 -------------------------------
 
@@ -44,9 +56,11 @@ Potential problems for Python 3
 :note: current version
 :note: HTML data format currently specifies tags
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
+:todo: add labels2formatters method, that associates a cell formatter with a datatype
 :todo: add colspan support to Cell
 :since: 2008-12-21
 :change: 2010-05-02 eliminate newlines that came before and after table
+:change: 2010-05-06 add `label_cells` to `SimpleTable`
 """
 from __future__ import division, with_statement
 try: #accommodate Python 3
@@ -360,6 +374,16 @@ class SimpleTable(list):
 				row.insert(loc, empty_cell)
 			else:
 				row.insert_stub(loc, stubs.next())
+	def label_cells(self, func):
+		"""Return None.  Labels cells based on `func`.
+		If ``func(cell) is None`` then its datatype is
+		not changed; otherwise it is set to ``func(cell)``.
+		"""
+		for row in self:
+			for cell in row:
+				label = func(cell)
+				if label is not None:
+					cell.datatype = label
 	@property
 	def data(self):
 		return [row.data for row in self]
@@ -510,12 +534,9 @@ class Cell(object):
 		data_aligns = fmt.get('data_aligns','c')
 		if isinstance(datatype, int):
 			align = data_aligns[datatype % len(data_aligns)]
-		elif datatype == 'header':
-			align = fmt.get('header_align','c')
-		elif datatype == 'stub':
-			align = fmt.get('stubs_align','c')
-		elif datatype == 'empty':
-			align = 'c'
+		elif datatype in fmt:
+			label_align = '%s_align' % datatype
+			align = fmt.get(label_align,'c')
 		else:
 			raise ValueError('Unknown cell datatype: %s'%datatype)
 		return align
@@ -544,12 +565,12 @@ class Cell(object):
 		if isinstance(datatype, int):
 			datatype = datatype % len(data_fmts) #constrain to indexes
 			content = data_fmts[datatype] % data
-		elif datatype == 'header':
-			content = fmt.get('header_fmt','%s') % data
-		elif datatype == 'stub':
-			content = fmt.get('stub_fmt','%s') % data
-		elif datatype == 'empty':
-			content = fmt.get('empty_cell','')
+		elif datatype in fmt:
+			dfmt = fmt.get(datatype)
+			try:
+				content = dfmt % data
+			except TypeError: #dfmt is not a substitution string
+				content = dfmt
 		else:
 			raise ValueError('Unknown cell datatype: %s'%datatype)
 		align = self.alignment(output_format, **fmt)
@@ -576,10 +597,37 @@ class Cell(object):
         colwidths = 14,
         data_aligns = "r", 
 """
+default_txt_fmt = dict(
+		fmt = 'txt',
+		#basic table formatting
+		table_dec_above='=',
+		table_dec_below='-',
+		title_align='c',
+		#basic row formatting
+		header_dec_below='-',
+		colwidths = None,
+		colsep=' ',
+		row_pre = '',
+		row_post = '',
+		data_aligns = "c",
+		#data formats
+		data_fmt = "%s",  #deprecated; use data_fmts
+		data_fmts = ["%s"],
+		#labeled alignments
+		stubs_align = 'l',   #deprecated; use data_fmts
+		stub_align = 'l',
+		header_align = 'c',
+		#labeled formats
+		header_fmt = '%s', #deprecated; just use 'header'
+		stub_fmt = '%s', #deprecated; just use 'stub'
+		header='%s',
+		stub='%s',
+		empty_cell = '', #deprecated; just use 'empty'
+		empty = '',
+		missing='--',
+		)
+
 default_csv_fmt = dict(
-		data_fmts = ['%s'],
-		data_fmt = '%s',  #deprecated; use data_fmts
-		empty_cell = '',
 		colwidths = None,
 		colsep = ',',
 		row_pre = '',
@@ -587,72 +635,82 @@ default_csv_fmt = dict(
 		table_dec_above = '',
 		table_dec_below = '',
 		header_dec_below = '',
-		header_fmt = '"%s"',
-		stub_fmt = '"%s"',
 		title_align = '',
-		header_align = 'c',
 		data_aligns = "l",
-		stubs_align = "l",
 		fmt = 'csv',
+		#data formats
+		data_fmt = '%s',  #deprecated; use data_fmts
+		data_fmts = ['%s'],
+		#labeled alignments
+		stubs_align = 'l',   #deprecated; use data_fmts
+		stub_align = "l",
+		header_align = 'c',
+		#labeled formats
+		header_fmt = '"%s"', #deprecated; just use 'header'
+		stub_fmt = '"%s"', #deprecated; just use 'stub'
+		empty_cell = '', #deprecated; just use 'empty'
+		header='%s',
+		stub='%s',
+		empty = '',
+		missing='--',
 		)
-	
+
 default_html_fmt = dict(
-		data_fmts = ['<td>%s</td>'],
-		data_fmt = "<td>%s</td>",  #deprecated; use data_fmts
-		empty_cell = '<td></td>',
+		#basic table formatting
+		table_dec_above=None,
+		table_dec_below=None,
+		header_dec_below=None,
+		title_align='c',
+		#basic row formatting
 		colwidths = None,
 		colsep=' ',
 		row_pre = '<tr>\n  ',
 		row_post = '\n</tr>',
-		table_dec_above=None,
-		table_dec_below=None,
-		header_dec_below=None,
-		header_fmt = '<th>%s</th>',
-		stub_fmt = '<th>%s</th>',
-		title_align='c',
-		header_align = 'c',
 		data_aligns = "c",
-		stubs_align = "l",
-		fmt = 'html',
-		)
-
-default_txt_fmt = dict(
-		data_fmts = ["%s"],
-		data_fmt = "%s",  #deprecated; use data_fmts
-		empty_cell = '',
-		colwidths = None,
-		colsep=' ',
-		row_pre = '',
-		row_post = '',
-		table_dec_above='=',
-		table_dec_below='-',
-		header_dec_below='-',
-		header_fmt = '%s',
-		stub_fmt = '%s',
-		title_align='c',
+		#data formats
+		data_fmts = ['<td>%s</td>'],
+		data_fmt = "<td>%s</td>",  #deprecated; use data_fmts
+		#labeled alignments
+		stubs_align = 'l',   #deprecated; use data_fmts
+		stub_align = 'l',
 		header_align = 'c',
-		data_aligns = "c",
-		stubs_align = "l",
-		fmt = 'txt',
+		#labeled formats
+		header_fmt = '<th>%s</th>', #deprecated; just use `header`
+		stub_fmt = '<th>%s</th>', #deprecated; just use `stub`
+		empty_cell = '<td></td>', #deprecated; just use `empty`
+		header='<th>%s</th>',
+		stub='<th>%s</th>',
+		empty = '<td></td>',
+		missing='<td>--</td>',
 		)
 
 default_latex_fmt = dict(
-		data_fmts = ['%s'],
-		data_fmt = '%s',  #deprecated; use data_fmts
-		empty_cell = '',
-		colwidths = None,
-		colsep=' & ',
+		fmt = 'ltx',
+		#basic table formatting
 		table_dec_above = r'\toprule',
 		table_dec_below = r'\bottomrule',
 		header_dec_below = r'\midrule',
-		strip_backslash = True,
-		header_fmt = r'\textbf{%s}',
-		stub_fmt =r'\textbf{%s}',
-		header_align = 'c',
+		strip_backslash = True,  # NotImplemented
+		#row formatting
+		row_post = r'  \\',
 		data_aligns = 'c',
-		stubs_align = 'l',
-		fmt = 'ltx',
-		row_post = r'  \\'
+		colwidths = None,
+		colsep = ' & ',
+		#data formats
+		data_fmts = ['%s'],
+		data_fmt = '%s',  #deprecated; use data_fmts
+		#labeled alignments
+		stubs_align = 'l',   #deprecated; use data_fmts
+		stub_align = 'l',
+		header_align = 'c',
+		#labeled formats
+		header_fmt = r'\textbf{%s}', #deprecated; just use 'header'
+		stub_fmt = r'\textbf{%s}', #deprecated; just use 'stub'
+		empty_cell = '', #deprecated; just use 'empty'
+		header = r'\textbf{%s}',
+		stub = r'\textbf{%s}',
+		empty = '',
+		missing = '--'
 		)
 default_fmts = dict(
 html= default_html_fmt,
