@@ -8,6 +8,8 @@ Unit tests table.py.
 from __future__ import absolute_import
 import unittest
 
+import numpy as np
+
 __docformat__ = "restructuredtext en"
 
 from table import Cell, Row, SimpleTable
@@ -18,7 +20,7 @@ ltx_fmt1 = default_latex_fmt.copy()
 html_fmt1 = default_html_fmt.copy()
 
 txt_fmt1 = dict(
-	data_fmts = ['%3.2f', '%d'],
+	data_fmts = ['%0.2f', '%d'],
 	empty_cell = ' ',
 	colwidths = 1,
 	colsep=' * ',
@@ -44,6 +46,13 @@ test1stubs = ('stub1', 'stub2')
 test1header = ('header1', 'header2')
 tbl = SimpleTable(table1data, test1header, test1stubs,
 	txt_fmt=txt_fmt1, ltx_fmt=ltx_fmt1, html_fmt=html_fmt1)
+
+def custom_labeller(cell):
+	if cell.data is np.nan:
+		print 'here4', np.isnan(cell.data)
+		return 'missing'
+
+
 
 class test_Cell(unittest.TestCase):
 	def test_celldata(self):
@@ -99,6 +108,24 @@ class test_SimpleTable(unittest.TestCase):
 </table>
 """
 		actual = '\n%s\n' % tbl.as_html()
+		#print(actual)
+		#print(desired)
+		self.assertEqual(actual, desired)
+	def test_customlabel(self):
+		"""Limited test of custom custom labeling"""
+		tbl = SimpleTable(table1data, test1header, test1stubs, txt_fmt=txt_fmt1)
+		tbl[1][1].data = np.nan
+		tbl.label_cells(custom_labeller)
+		print [[c.datatype for c in row] for row in tbl]
+		desired = """
+*****************************
+*       * header1 * header2 *
+*****************************
+* stub1 *    --   *       1 *
+* stub2 *    2.00 *       3 *
+*****************************
+"""
+		actual = '\n%s\n' % tbl.as_text(missing='--')
 		print(actual)
 		print(desired)
 		self.assertEqual(actual, desired)
