@@ -25,7 +25,7 @@ __lastmodified__ = '2007-09-10'
 
 from .utilities import have_numpy, have_scipy
 if have_numpy:
-	import numpy as N
+	import numpy as np
 if have_scipy:
 	from scipy import stats as Sstats
 
@@ -96,14 +96,14 @@ class OLS(object):
 		assert isinstance(dep_name,str), "Names must be strings."
 		if not have_numpy:
 			raise NotImplementedError('NumPy required for OLS.')
-		Y = N.mat(dep).reshape(-1,1)  #TODO single equation only
+		Y = np.mat(dep).reshape(-1,1)  #TODO single equation only
 		self.Y = Y
 		self.nobs = len(Y)
 		#make X sets self.nvars, self.nobs, self.indep_names
 		self.indep_names = list(indep_names)
 		X = self.makeX(indep=indep, constant=constant, trend=trend)
 		self.X = X  #used for end_points ... need for anything else?
-		results = N.linalg.lstsq(X,Y)[:2]  #OLS estimates
+		results = np.linalg.lstsq(X,Y)[:2]  #OLS estimates
 		coefs = results[0]    #matrix arguments -> matrix
 		self.ess = results[1][0]  #sum of squared residuals
 		assert (len(dep) == len(X)), "Number of observations do not agree."
@@ -112,11 +112,11 @@ class OLS(object):
 		self.xTx = X.T * X
 		self.xTy = X.T * Y
 		self.fitted = X*coefs
-		resids = N.ravel(Y - self.fitted)
-		assert abs(self.ess - N.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
+		resids = np.ravel(Y - self.fitted)
+		assert abs(self.ess - np.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
 		self._resids = resids                          #resids is a property
 		#end of matrix algebra
-		self.coefs = N.ravel(coefs)                     #self.coefs is a 1d array
+		self.coefs = np.ravel(coefs)                     #self.coefs is a 1d array
 		self.df_e = self.nobs - self.ncoefs				# degrees of freedom, error 
 		self.sigma2 = self.ess / self.df_e              # sigma^2 = e'e/(T-K)
 		self.llf, self.aic, self.bic = self.llf()
@@ -149,7 +149,7 @@ class OLS(object):
 	def get_standard_errors(self):	# coef. standard errors
 		'''compute standard errors for solution'''
 		if self._standard_errors is None:
-			self._standard_errors = N.sqrt(self.cov.diagonal())
+			self._standard_errors = np.sqrt(self.cov.diagonal())
 		return self._standard_errors
 	se = property(get_standard_errors, None, None, "coefficient standard errors")
 	def get_tvals(self):
@@ -160,10 +160,10 @@ class OLS(object):
 	def get_pvals(self):
 		if self._pvals is None:
 			if have_scipy:
-				self._pvals = (1-Sstats.t.cdf(N.abs(self.tvals), self.df_e)) * 2	# coef. p-values
+				self._pvals = (1-Sstats.t.cdf(np.abs(self.tvals), self.df_e)) * 2	# coef. p-values
 			else:
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
-				self._pvals = [N.inf for _ in range(self.ncoefs)]
+				self._pvals = [np.inf for _ in range(self.ncoefs)]
 		return self._pvals
 	pvals = property(get_pvals, None, None, "p-values for coef t-ratios, based on Student-t distribution")
 	def get_pvalF(self):
@@ -172,7 +172,7 @@ class OLS(object):
 				self._pvalF = 1-Sstats.f.cdf(self.F, self.df_r, self.df_e)	# F-statistic p-value
 			else:
 				logging.warn("SciPy unavailable. (Needed to compute p-values.)")
-				self._pvalF = N.inf
+				self._pvalF = np.inf
 		return self._pvalF
 	pvalF = property(get_pvalF, None, None, "p-value for F statistic, based on F distribution")
 	def get_resids(self):
@@ -185,7 +185,7 @@ class OLS(object):
 		x = X[:,xcol]
 		means = X.mean(axis=0)
 		means[xcol] = 0
-		intercept = N.dot(self.coefs, means)
+		intercept = np.dot(self.coefs, means)
 		slope = self.coefs[xcol]
 		return slope, intercept
 	def llf(self):
@@ -203,7 +203,7 @@ class OLS(object):
 		nobs = self.nobs
 		#deal with the case of no independent variables (except constant or trend)
 		if indep is not None:
-			X = N.asmatrix(indep)
+			X = np.asmatrix(indep)
 			if len(X)==1:  #must have been a one dimensional indep
 				X = X.T
 			self.indep_names = self.indep_names or list("x%02i"%(i+1) for i in range(X.shape[1]))
@@ -217,35 +217,35 @@ class OLS(object):
 		if constant==0:  #0 or False
 			constant = None
 		if constant is not None:
-			constant = N.mat( constant*N.ones((nobs,1)) )
+			constant = np.mat( constant*np.ones((nobs,1)) )
 			self.ncoefs += 1
 			self.indep_names.append('constant')
 		#construct trend if requested
 		if trend is True:             #default is center at midpoint
 			trend = nobs//2
 		if trend is not None:
-			trend = (N.arange(nobs)-N.mat([trend])).T
+			trend = (np.arange(nobs)-np.mat([trend])).T
 			self.ncoefs += 1
 			self.indep_names.append('trend')
-		X = N.hstack( [o for o in (X,constant,trend) if o is not None] )
+		X = np.hstack( [o for o in (X,constant,trend) if o is not None] )
 		'''
 		if constant and trend is not None:
 			#add constant term and trend
-			constant = constant*N.ones( (nobs, 1) )
-			trend = (N.arange(nobs)-N.mat([trend])).T
-			X = N.hstack( [X, constant, trend] )
+			constant = constant*np.ones( (nobs, 1) )
+			trend = (np.arange(nobs)-np.mat([trend])).T
+			X = np.hstack( [X, constant, trend] )
 			self.indep_names += ('Constant', 'Trend')
 			self.ncoefs = self.nvars + 2
 		elif constant:
 			#add constant term
-			constant = constant*N.ones( (nobs, 1) )
-			X = N.hstack( [X, constant] )
+			constant = constant*np.ones( (nobs, 1) )
+			X = np.hstack( [X, constant] )
 			self.indep_names += ('Constant',)
 			self.ncoefs = self.nvars + 1
 		elif trend is not None:
 			#add linear trend
-			trend = (N.arange(nobs)-N.mat([trend])).T
-			X = N.hstack( [X, trend] )
+			trend = (np.arange(nobs)-np.mat([trend])).T
+			X = np.hstack( [X, trend] )
 			self.indep_names += ('Trend',)
 			self.ncoefs = self.nvars + 1
 		else:
@@ -312,12 +312,12 @@ Skew     Kurtosis            % -5.6f' % tuple([skew, kurtosis])
 		if self._rols_coefs is not None:
 			return self._rols_coefs
 		from numpy.linalg import solve
-		Y, X = N.asmatrix(self.Y), N.asmatrix(self.X)
+		Y, X = np.asmatrix(self.Y), np.asmatrix(self.X)
 		nobs, ncoefs = X.shape
 		X0 = X[:ncoefs]  #square matrix
 		Y0 = Y[:ncoefs]  #square matrix
 		#create array to hold parameter estimates
-		coef_array = N.empty( (nobs-ncoefs+1, ncoefs) )
+		coef_array = np.empty( (nobs-ncoefs+1, ncoefs) )
 		coef_array[0] = solve(X0,Y0).A1
 		xTx = X0.T * X0
 		xTy = X0.T * Y0
@@ -537,9 +537,9 @@ class OLSvn:
 		"""
 		
 		# Model log-likelihood, AIC, and BIC criterion values 
-		ll = -(self.nobs*1/2)*(1+N.log(2*math.pi)) - (self.nobs/2)*N.log(N.dot(self.e,self.e)/self.nobs)
+		ll = -(self.nobs*1/2)*(1+np.log(2*math.pi)) - (self.nobs/2)*np.log(np.dot(self.e,self.e)/self.nobs)
 		aic = -2*ll/self.nobs + (2*self.ncoef/self.nobs)
-		bic = -2*ll/self.nobs + (self.ncoef*N.log(self.nobs))/self.nobs
+		bic = -2*ll/self.nobs + (self.ncoef*np.log(self.nobs))/self.nobs
 
 		return ll, aic, bic
 	
@@ -601,11 +601,11 @@ def rolsf(x, y, p, th, lam):
 	:since: 12-feb-95 (Originally written in Matlab.)
 	:date: 2-oct-07 (Translated to Python)
 	'''
-	a = N.inner(p,x)
-	g = 1./(N.inner(x,a)+lam)
+	a = np.inner(p,x)
+	g = 1./(np.inner(x,a)+lam)
 	k = g*a
-	e = y-N.inner(x,th)
+	e = y-np.inner(x,th)
 	th += k*e
-	p = (p-g*N.outer(a,a))/lam
+	p = (p-g*np.outer(a,a))/lam
 	return th, p
  

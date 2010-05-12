@@ -21,6 +21,14 @@ try:
 except ImportError:
 	logging.info("NumPy not available.")
 
+have_scipy = False
+try:
+	import scipy as sp
+	have_scipy = True
+	logging.info("have_scipy is True")
+except ImportError:
+	logging.info("SciPy not available.")
+
 def unique(x, key=None, reverse=False, use_numpy=True):
 	"""Return sorted list or array of unique items.
 	Does not support ``key`` for NumPy arrays.
