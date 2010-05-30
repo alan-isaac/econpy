@@ -96,7 +96,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2009-06-29
+Last modified: 2010-05-25
 <br />
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 <br />
@@ -258,12 +258,12 @@ Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit
 
 <p id="STIX">
 Before listing some monospaced fonts,
-I must note the wonderful <a href="http://www.aip.org/stixfonts/">STIX</a> font project.
+I must note the wonderful <a href="http://www.stixfonts.org/">STIX</a> font project.
 These are "a comprehensive set of fonts that serve the scientific and engineering community".
 and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
-There has been a candidate release of the fonts,
-and  a production release is expected in May 2009.
+After a long wait,
+the fonts were released in May 2010.
 </p>
 
 <p>
@@ -7132,6 +7132,15 @@ ax = pyplot.gca()
 ax.get_xaxis().set_ticks_postion('bottom') 
 ax.get_yaxis().set_ticks_postion('left') 
 </pre> 
+</div>
+
+<div>
+Note that you should call <tt>show</tt> only once in a script.
+But sometimes you want to alternate seeing plots and
+doing computations.
+See <a href="http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-matplotlib-plots-so-that-the-computation-can-continue
+">http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-matplotlib-plots-so-that-the-computation-can-continue
+</a> for a discussion.
 </div>
 
 

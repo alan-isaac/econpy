@@ -1,20 +1,39 @@
 """
-Simple table class.
-Note that this module depends only on the Python standard library.
-You can "install" it just by dropping it into your working directory.
+Provides a simple table class.  A SimpleTable is essentially
+a list of lists plus some formatting functionality.
+
+Dependencies: the Python 2.5+ standard library.
+
+Installation: just copy this module into your working directory (or
+   anywhere in your pythonpath).
+
+Basic use::
+
+   mydata = [[11,12],[21,22]]  # data MUST be 2-dimensional
+   myheaders = [ "Column 1", "Column 2" ]
+   mystubs = [ "Row 1", "Row 2" ]
+   tbl = text.SimpleTable(mydata, myheaders, mystubs, title="Title")
+   print( tbl )
 
 A SimpleTable is inherently (but not rigidly) rectangular.
 You should create it from a *rectangular* (2d!) iterable of data.
-A SimpleTable can be concatenated with another SimpleTable
-or extended by another SimpleTable. ::
+Each item in your rectangular iterable will become the data
+of a single Cell.  In principle, items can be any object,
+not just numbers and strings.  However, default conversion
+during table production is by simple string interpolation.
+(So you cannot have a tuple as a data item *and* rely on 
+the default conversion.)
+
+A SimpleTable allows only one column (the first) of stubs at
+initilization, concatenation of tables allows you to produce tables
+with interior stubs.  (You can also assign the datatype 'stub' to the
+cells in any column, or use ``insert_stubs``.) A SimpleTable can be
+concatenated with another SimpleTable or extended by another
+SimpleTable. ::
 
 	table1.extend_right(table2)
 	table1.extend(table2)
 
-Note that although a SimpleTable allows only one column (the first) of
-stubs at initilization, concatenation of tables allows you to produce
-tables with interior stubs.  (You can also assign the datatype 'stub'
-to the cells in any column, or use ``insert_stubs``.)
 
 A SimpleTable can be initialized with `datatypes`: a list of ints that
 provide indexes into `data_fmts` and `data_aligns`.  Each data cell is
