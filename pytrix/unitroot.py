@@ -65,7 +65,7 @@ def adf_ls(y, p, prt=False):
 	:date:   1 June 2010
 	:contact: aisaac AT american.edu
 	"""
-	y = np.squeeze( np.asarray(y) )
+	y = np.squeeze( np.asarray(y) )  #squeeze to 1d if possible
 	if len(y.shape)>1:
 		raise ValueError('Input array should be 1d')
 	#dy and addx are 2d
