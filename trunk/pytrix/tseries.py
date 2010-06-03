@@ -37,7 +37,7 @@ from .stat import Dstat1
 
 have_numpy = False
 try:
-	import numpy as N
+	import numpy as np
 	have_numpy = True
 except ImportError:
 	logging.info("numpy not available")
@@ -312,29 +312,43 @@ def show_tkagg(figure, title=''):
 
 
 		
-def varlags(var, lags):
-	"""Prepare data for VAR. ::
+def varlags(xtk, lags):
+	"""Return tuple, the data prepared for a VAR.
 	
-	         x,xlags  = varlags(var,lags)
+	Usage::
+	
+	         x,xlags  = varlags(xtk, lags)
 
 	OUTPUT::
 	
-	        x -     (T - lags) x K array, the last T-lags rows of var
-	        xlags - (T - lags) x lags*cols(var) array,
+	        x -     (T - lags) x K array, the last T-lags rows of xtk
+	        xlags - (T - lags) x lags*K array,
 	                being the 1st through lags-th
-	                values of var corresponding to the values in x
+	                values of xtk corresponding to the values in x
 	                i.e, the appropriate rows of x(-1)~x(-2)~etc.
 
-	:param `var`:  - T x K array or list
-	:param `lags`: - scalar, number of lags of var (a positive integer)
+	Parameters
+	----------
+	`xtk` :  array or list (2d: T x K)
+	   the K VAR variables in K columns, row 0 being most recent observeration
+	`lags` : int
+	   number of lags of xtk (a positive integer)
+
 	:author: Alan G. Isaac
 	:since: 5 Aug 2004
-	:note: get current version from pyGAUSS
+	:date: 2010-06-01
+	:note: get current version from pyGAUSS.py
 	"""
-	xlags=var[lags-1:-1]
-	for i in range(2,lags+1):
-		xlags=N.concatenate([xlags,var[lags-i:-i]],1)
-	return N.array(var[lags:],copy=1),xlags
+	xtk = np.asarray(xtk)
+	try:
+		T, K = xtk.shape
+	except ValueError:
+		raise ValueError('Input array must be 2d')
+	xlagslst = [ xtk[lags-i:-i] for i in range(1,lags+1)]
+	xlags = np.hstack( xlagslst )
+	assert ((T-lags,K) == xtk[lags:].shape)
+	assert ((T-lags,lags*K) == xlags.shape)
+	return xtk[lags:].copy(), xlags
 
 
 
@@ -362,7 +376,7 @@ def hpfilter(y, penalty=1600):
 	assert (n>3)
 	t = [0]*n  #1d
 	d = [0]*n  #1d
-	v = N.zeros( (n,3) )
+	v = np.zeros( (n,3) )
 	m1 = y[1]   #changed to zero-based indexing
 	m2 = y[0]   #changed to zero-based indexing
 	i1 = 3

@@ -338,7 +338,7 @@ def kroneckerproduct(a,b):
 	
 
 #varlagsold: old version, won't work on lists
-#see pytrix for new version
+#see pytrix.py for new version
 def varlagsold(var,lags):
     xlags = np.transpose(shiftr(np.transpose(kron(ones((1,lags)),var)),kron(seqa(1-lags,1,lags),ones((cols(var),1))),-9999))
     return trimr(var,lags,0),trimr(xlags,0,lags)

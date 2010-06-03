@@ -1,4 +1,4 @@
-'''A collection of unit root tests for SciPy.
+"""A collection of unit root tests for SciPy.
 
 Example use::
 
@@ -20,17 +20,17 @@ Example use::
 
 .. _`current location`: http://econpy.googlecode.com/svn/trunk/pytrix/unitroot.py
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
+"""
 from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2007-09-10'
 
-import numpy as N
+import numpy as np
 from .ls import OLS
 from .tseries import varlags
 
-adf_cv1 = '''
+adf_cv1 = """
 One-sided test of H0: Unit root vs. H1: Stationary
 Approximate asymptotic critical values (t-ratio):
 ------------------------------------------------------------
@@ -39,17 +39,17 @@ Approximate asymptotic critical values (t-ratio):
 -2.56   -1.94   -1.62     Simple ADF (no constant or trend)
 -3.43   -2.86   -2.57     ADF with constant (no trend)
 -3.96   -3.41   -3.13     ADF with constant & trend
-------------------------------------------------------------'''
+------------------------------------------------------------"""
 
 
 def adf_ls(y, p, prt=False):
-	'''Return: `results`, a dictionary of OLS instances,
+	"""Return: `results`, a dictionary of OLS instances,
 	one instance for each regression type
 	('noconstant', 'constant','constant_trend').
 
 	:Parameters:
 		y : sequence
-			N-element sequence (the time series of interest)
+			N-element sequence (the univariate time series of interest)
 		p : scalar
 			lag (autocorrelation order)
 		prt :  boolean
@@ -62,17 +62,18 @@ def adf_ls(y, p, prt=False):
 	      (New York: Oxford, 1993)
 	      See references therein for original sources
 	:since: 2004-08-10
-	:date:   10 Sep 2007
+	:date:   1 June 2010
 	:contact: aisaac AT american.edu
-	'''
-	#local addx,dy,dylags
-	y = N.array(y).ravel()          #y is now 1d
+	"""
+	y = np.squeeze( np.asarray(y) )
+	if len(y.shape)>1:
+		raise ValueError('Input array should be 1d')
 	#dy and addx are 2d
-	dy = N.diff(y).reshape((-1,1))  #first difference
+	dy = np.diff(y).reshape((-1,1))  #first difference
 	addx = y[p:-1].reshape((-1,1))  #lag level
 	if p > 0:
 		dy, dylags = varlags(dy, p)    # generating lags
-		addx = N.concatenate([addx, dylags], 1)
+		addx = np.concatenate([addx, dylags], 1)
 	T = dy.shape[0]                      # number of observations
 	#THREE VERSIONS of regression
 	results = dict()  #holds the three sets of regression results
@@ -83,8 +84,8 @@ def adf_ls(y, p, prt=False):
 	#3. add (midpt centered) trend to regressors
 	results['constant_trend'] =  OLS(dy, addx, trend=T//2)
 	if prt :
-		print adf_cv1
-		print '''
+		print(adf_cv1)
+		print """
 ADF results for %s lags
 ------------------------------------------------------------
                  ADF regression coefficients
@@ -93,7 +94,7 @@ ADF results for %s lags
               ----------------------------------
               No Constant  Constant    Trend
    RHS var    No Trend     No Trend    Constant
---------------------------------------------------''' % (p,)
+--------------------------------------------------""" % (p,)
 		ids = ('noconstant', 'constant', 'constant_trend')
 		fmt_b = "%11.3f"
 		fmt_t = "%11s"
@@ -121,16 +122,16 @@ ADF results for %s lags
 		#print sum of squared residuals
 		print 'ESS'.rjust(10) + " "*3,
 		print (fmt_b*3)%tuple( results[id].ess for id in ids )
-		print '''------------------------------------------------------------
+		print """------------------------------------------------------------
 Note: trend is centered at sample midpoint.
 Note: coefficient on constant depends on trend centering.
-Note: ESS = error sum of squares (i.e., sum of squared resids).'''
+Note: ESS = error sum of squares (i.e., sum of squared resids)."""
 		#TODO: Could use SSR for Dickey Fuller (1981) Phi tests */
 	return results
 
 
 def adf(y, p):
-	'''Return: None.
+	"""Return: None.
 	Prints augmented Dickey-Fuller results for lags up to lag p.
 
 	:Parameters:
@@ -138,7 +139,6 @@ def adf(y, p):
 			N-element sequence (the time series of interest)
 		p : scalar
 			maximum lag (autocorrelation order)
-	:Output: `results`, dictionary of OLS instances.
 	:requires: function `adf_ls` (provided)
 	:requires: 	function 'varlags' (imported fr tseries)
 	:requires: 	class 'OLS' (import from ls)
@@ -151,13 +151,13 @@ def adf(y, p):
 	:since: 2004-08-10
 	:date:   10 Sep 2007
 	:contact: aisaac AT american.edu
-	'''
+	"""
 	#local obs,i,b,ty,temp,oldcv,oldnv;
-	obs = N.shape(y)[0]
+	obs = np.shape(y)[0]
 	print adf_cv1  #table of critical values
-	print '''You began with a series of %s observations, in which case
-Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
-	print '''
+	print """You began with a series of %s observations, in which case
+Harris (1992) recommends using %s lags.""" % (obs,int(12*(obs/100)**(1/4)))
+	print """
 ------------------------------------------------------------
                ADF coef on lagged level
                        (t-ratio)
@@ -165,7 +165,7 @@ Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
                ----------------------------------
       Lags     No Constant  Constant    Constant        Obs
                No Trend     No Trend    & Trend
-------------------------------------------------------------'''
+------------------------------------------------------------"""
 	ids = ('noconstant', 'constant', 'constant_trend')
 	fmt_b = "%11.3f"*3
 	fmt_t = "%11s"*3
@@ -182,7 +182,7 @@ Harris (1992) recommends using %s lags.''' % (obs,int(12*(obs/100)**(1/4)))
 
 
 
-'''Someone should translate this KPSS function asap!
+"""Someone should translate this KPSS function asap!
 Proc            : KPSS
 Author          : David Rapach
 Last revised    : 27 May 1996
@@ -206,7 +206,7 @@ proc(0)=kpss(y,l);
     /* Level-stationary test */
 
     T=rows(y);              @ # of obs @
-    X=N.ones(T,1);            @ RHS var @
+    X=np.ones(T,1);            @ RHS var @
     b=y/X;                  @ OLS estimates @
     e=y-X*b;                @ OLS resids @
     g0=e'e/T;               @ gamma_0=(1/T)sum[e(t)^2] @
@@ -241,7 +241,7 @@ proc(0)=kpss(y,l);
     /* Trend-stationary test */
 
     trend=seqa(1,1,T);      @ linear time trend @
-    X=N.ones(T,1)~trend;      @ regressor matrix @
+    X=np.ones(T,1)~trend;      @ regressor matrix @
     b=y/X;                  @ OLS estimates @
     e=y-X*b;                @ OLS resids @
     g0=e'e/T;               @ gamma_0=(1/T)sum[e(t)^2] @
@@ -298,4 +298,4 @@ proc(0)=kpss(y,l);
     "Obs";;call printfmt(T,1);
     __fmtnv=oldnv;
 endp;
-'''
+"""
