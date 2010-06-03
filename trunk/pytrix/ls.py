@@ -1,4 +1,4 @@
-'''Various least squares routines.
+"""Various least squares routines.
 Some are lightweight, in the sense that they do not depend on an array package.
 
 :needs: Python 2.5.1+
@@ -17,7 +17,7 @@ Some are lightweight, in the sense that they do not depend on an array package.
 
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
-'''
+"""
 from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
@@ -41,8 +41,10 @@ import time
 
 
 class OLS(object):
-	'''Least squares estimates for a **single** equation,
-	where `dep` is Tx1 and `indep` is TxK.
+	"""Provides least squares estimates for a **single** equation,
+	where `dep` is Tx1 and `indep` is TxK.  (Both are 2d!)
+	Each row of `dep` and `indep` is an observation; for time series,
+	row 0 should contain the oldest observation.
 
 	Example use::
 
@@ -85,15 +87,15 @@ class OLS(object):
 	:date: 2006-12-08
 	:since: 2004-08-11
 	:author: Alan G. Isaac
-	'''
+	"""
 	def __init__(self, dep, indep=None, dep_name='', indep_names=(), constant=1, trend=None):
-		'''
+		"""
 		:Parameters:
 			`dep` : array
 				(T x 1) array, the LHS variable
 			`indep` : array
 				(T x K) array, the RHS variables, in columns
-		'''
+		"""
 		assert isinstance(dep_name,str), "Names must be strings."
 		if not have_numpy:
 			raise NotImplementedError('NumPy required for OLS.')
@@ -140,14 +142,14 @@ class OLS(object):
 		self.F = (self.R2/self.df_r) / ((1-self.R2)/self.df_e)	# model F-statistic
 		self._pvalF = None
 	def get_cov(self):
-		'''get covariance matrix for solution; compute if nec'''
+		"""get covariance matrix for solution; compute if nec"""
 		if self._cov is None:
 			self._cov = self.sigma2 * la.inv(self.xTx)     #covariance matrix, as array
 		#TODO var-cov(b),shd use invpd when availabe
 		return self._cov
 	cov = property(get_cov, None, None, "parameter covariance matrix")
 	def get_standard_errors(self):	# coef. standard errors
-		'''compute standard errors for solution'''
+		"""compute standard errors for solution"""
 		if self._standard_errors is None:
 			self._standard_errors = np.sqrt(self.cov.diagonal())
 		return self._standard_errors
@@ -179,8 +181,8 @@ class OLS(object):
 		return self._resids
 	resids = property(get_resids, None, None, "regression residuals")
 	def slope_intercept(self, xcol=0):
-		'''Return: slope and intercept for variations in one independent variable.
-		'''
+		"""Return: slope and intercept for variations in one independent variable.
+		"""
 		X = self.X.A         #as array
 		x = X[:,xcol]
 		means = X.mean(axis=0)
@@ -228,7 +230,7 @@ class OLS(object):
 			self.ncoefs += 1
 			self.indep_names.append('trend')
 		X = np.hstack( [o for o in (X,constant,trend) if o is not None] )
-		'''
+		"""
 		if constant and trend is not None:
 			#add constant term and trend
 			constant = constant*np.ones( (nobs, 1) )
@@ -250,16 +252,16 @@ class OLS(object):
 			self.ncoefs = self.nvars + 1
 		else:
 			self.ncoefs = self.nvars
-		'''
+		"""
 		assert (self.nobs, self.ncoefs) == X.shape
 		return X
 	def print_results(self):
-		'''Return None.  Print results.
-		'''
+		"""Return None.  Print results.
+		"""
 		print self
 	def __str__(self):
 		# use to print output
-		header_template = '''
+		header_template = """
 ==============================================================================
 ==============================================================================
 Dependent Variable: %(dep_name)s
@@ -269,14 +271,14 @@ Time: %(time)s
 # obs:              %(nobs)5d
 # RHS variables:    %(ncoefs)5d
 ==============================================================================
-''' + 5*"%-15s"%('variable','coefficient','std. Error','t-statistic','pval.') + "\n"
+""" + 5*"%-15s"%('variable','coefficient','std. Error','t-statistic','pval.') + "\n"
 		header_dict = dict(dep_name=self.dep_name, indep_names=self.indep_names,
 		date=self.date, time=self.time, nobs=self.nobs, ncoefs=len(self.coefs))
 		result_template = "%-15s" + 4*"% -15.5f"
 		result = []
 		for i in range(len(self.coefs)):
 			result.append(result_template % tuple([self.indep_names[i],self.coefs[i],self.se[i],self.tvals[i],self.pvals[i]]) )
-		modelstat_template = '''
+		modelstat_template = """
 ==============================================================================
 Model stats
 ------------------------------------------------------------------------------
@@ -285,9 +287,9 @@ R-squared            %(rsq)10.3f             Adjusted R-squared    %(R2adj)10.3f
 F-statistic          %(F)10.3f             Prob (F-statistic)    %(pvalF)10.3f            
 AIC criterion        %(aic)10.3f             BIC criterion         %(bic)10.3f
 ==============================================================================
-'''
+"""
 		modelstat_dict = dict(llf=self.llf, rsq=self.R2, R2adj=self.R2adj, F=self.F,pvalF=self.pvalF,aic=self.aic,bic=self.bic)
-		resid_stats_template = '''
+		resid_stats_template = """
 ==============================================================================
 Residual stats
 ==============================================================================
@@ -296,19 +298,19 @@ Omnibus stat        % -5.6f' % tuple([self.R2adj, omni])    Prob(Omnibus stat)  
 JB stat                % -5.6f' % tuple([self.Fpv, JB]) Prob(JB)            % -5.6f' % tuple([ll, JBpv])
 Skew     Kurtosis            % -5.6f' % tuple([skew, kurtosis])
 ==============================================================================
-'''
+"""
 		result = '\n'.join(result).replace('1.#INF','.')
 		result = header_template%header_dict + result
 		result += modelstat_template%modelstat_dict
 		return result
 
 	def rols(self, keep=True):
-		'''Return: array(T-ncoefs by ncoefs)
+		"""Return: array(T-ncoefs by ncoefs)
 
 		Compute "recursive OLS" parameter estimates.
 
 		:todo: add standard errors
-		'''
+		"""
 		if self._rols_coefs is not None:
 			return self._rols_coefs
 		from numpy.linalg import solve
@@ -568,7 +570,7 @@ class OLSvn:
 		print 'variable		coefficient		std. Error		t-statistic		prob.'
 		print '=============================================================================='
 		for i in range(len(self.x_varnm)):
-			print '''% -5s			% -5.6f		% -5.6f		% -5.6f		% -5.6f''' % tuple([self.x_varnm[i],self.b[i],self.se[i],self.t[i],self.p[i]]) 
+			print """% -5s			% -5.6f		% -5.6f		% -5.6f		% -5.6f""" % tuple([self.x_varnm[i],self.b[i],self.se[i],self.t[i],self.p[i]]) 
 		print '=============================================================================='
 		print 'Models stats							Residual stats'
 		print '=============================================================================='
@@ -583,7 +585,7 @@ class OLSvn:
 
 
 def rolsf(x, y, p, th, lam):
-	'''Return: new parameter estimate and covariance matrix:
+	"""Return: new parameter estimate and covariance matrix:
 
 	Recursive ordinary least squares for single output case,
 	including a forgetting factor.
@@ -600,7 +602,7 @@ def rolsf(x, y, p, th, lam):
 	:author: J. C. Hassler
 	:since: 12-feb-95 (Originally written in Matlab.)
 	:date: 2-oct-07 (Translated to Python)
-	'''
+	"""
 	a = np.inner(p,x)
 	g = 1./(np.inner(x,a)+lam)
 	k = g*a
