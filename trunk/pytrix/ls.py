@@ -26,6 +26,7 @@ __lastmodified__ = '2007-09-10'
 from .utilities import have_numpy, have_scipy
 if have_numpy:
 	import numpy as np
+	import numpy.linalg as la
 if have_scipy:
 	from scipy import stats as Sstats
 
@@ -96,22 +97,21 @@ class OLS(object):
 		assert isinstance(dep_name,str), "Names must be strings."
 		if not have_numpy:
 			raise NotImplementedError('NumPy required for OLS.')
-		Y = np.mat(dep).reshape(-1,1)  #TODO single equation only
+		Y = np.asarray(dep).reshape(-1,1)  #TODO single equation only
 		self.Y = Y
 		self.nobs = len(Y)
 		#make X sets self.nvars, self.nobs, self.indep_names
 		self.indep_names = list(indep_names)
-		X = self.makeX(indep=indep, constant=constant, trend=trend)
+		X = np.asarray( self.makeX(indep=indep, constant=constant, trend=trend) )
 		self.X = X  #used for end_points ... need for anything else?
-		results = np.linalg.lstsq(X,Y)[:2]  #OLS estimates
-		coefs = results[0]    #matrix arguments -> matrix
-		self.ess = results[1][0]  #sum of squared residuals
+		coefs, ess = np.linalg.lstsq(X,Y)[:2]  #OLS estimates and ess
+		self.ess = ess  #sum of squared residuals
 		assert (len(dep) == len(X)), "Number of observations do not agree."
 		self.dep_name = dep_name or 'y'
 		#data based attributes
-		self.xTx = X.T * X
-		self.xTy = X.T * Y
-		self.fitted = X*coefs
+		self.xTx = np.dot(X.T , X)
+		self.xTy = np.dot(X.T , Y)
+		self.fitted = np.dot(X,coefs)
 		resids = np.ravel(Y - self.fitted)
 		assert abs(self.ess - np.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
 		self._resids = resids                          #resids is a property
@@ -142,7 +142,7 @@ class OLS(object):
 	def get_cov(self):
 		'''get covariance matrix for solution; compute if nec'''
 		if self._cov is None:
-			self._cov = self.sigma2*self.xTx.I.A     #covariance matrix, as array
+			self._cov = self.sigma2 * la.inv(self.xTx)     #covariance matrix, as array
 		#TODO var-cov(b),shd use invpd when availabe
 		return self._cov
 	cov = property(get_cov, None, None, "parameter covariance matrix")
