@@ -82,7 +82,7 @@ Potential problems for Python 3
 :change: 2010-05-06 add `label_cells` to `SimpleTable`
 """
 from __future__ import division, with_statement
-try: #accommodate Python 3
+try: #plan for Python 3
 	from itertools import izip as zip
 except ImportError:
 	pass
