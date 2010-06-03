@@ -202,57 +202,38 @@ class OLS(object):
 		bic = -2*llf/nobs + (ncoefs*math.log(nobs))/nobs
 		return llf, aic, bic
 	def makeX(self, indep, constant, trend):
+		"""Return array, the independent variables,
+		which may add a constant and/or a trend.
+		"""
 		nobs = self.nobs
 		#deal with the case of no independent variables (except constant or trend)
+		X = list()  #list to hold all independent variables
 		if indep is not None:
-			X = np.asmatrix(indep)
-			if len(X)==1:  #must have been a one dimensional indep
-				X = X.T
-			self.indep_names = self.indep_names or list("x%02i"%(i+1) for i in range(X.shape[1]))
-			assert ( nobs == len(X) )
-			self.nvars = X.shape[1]
+			indep = np.asarray(indep)
+			if len(indep.shape)==1:  #must have been a one dimensional indep
+				indep = np.atleast_2d(X).T
+			self.indep_names = self.indep_names or list("x%02i"%(i+1) for i in range(indep.shape[1]))
+			assert ( nobs == len(indep) )
+			self.nvars = indep.shape[1]
+			X.append(indep)
 		else:
-			X = None
 			self.nvars = 0
 		self.ncoefs = self.nvars
 		#construct constant if requested
-		if constant==0:  #0 or False
-			constant = None
-		if constant is not None:
-			constant = np.mat( constant*np.ones((nobs,1)) )
+		if constant:  #not 0 or False
+			constant = constant * np.ones((nobs,1))
 			self.ncoefs += 1
 			self.indep_names.append('constant')
+			X.append(constant)
 		#construct trend if requested
 		if trend is True:             #default is center at midpoint
 			trend = nobs//2
-		if trend is not None:
-			trend = (np.arange(nobs)-np.mat([trend])).T
+		if trend not in [None, False]:  #allow trend centered at 0
+			trend = np.atleast_2d(np.arange(nobs) - trend).T
 			self.ncoefs += 1
 			self.indep_names.append('trend')
-		X = np.hstack( [o for o in (X,constant,trend) if o is not None] )
-		"""
-		if constant and trend is not None:
-			#add constant term and trend
-			constant = constant*np.ones( (nobs, 1) )
-			trend = (np.arange(nobs)-np.mat([trend])).T
-			X = np.hstack( [X, constant, trend] )
-			self.indep_names += ('Constant', 'Trend')
-			self.ncoefs = self.nvars + 2
-		elif constant:
-			#add constant term
-			constant = constant*np.ones( (nobs, 1) )
-			X = np.hstack( [X, constant] )
-			self.indep_names += ('Constant',)
-			self.ncoefs = self.nvars + 1
-		elif trend is not None:
-			#add linear trend
-			trend = (np.arange(nobs)-np.mat([trend])).T
-			X = np.hstack( [X, trend] )
-			self.indep_names += ('Trend',)
-			self.ncoefs = self.nvars + 1
-		else:
-			self.ncoefs = self.nvars
-		"""
+			X.append(trend)
+		X = np.hstack( X )
 		assert (self.nobs, self.ncoefs) == X.shape
 		return X
 	def print_results(self):
