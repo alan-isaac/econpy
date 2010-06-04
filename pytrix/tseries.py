@@ -124,7 +124,7 @@ class Series(Vplus):
 		#self.label = label             #TODO: add label object?
 		self.dstat = None
 		self.core_attr = dict(length=self.nobs,smpl=self.smpl_full)  #TODO: is this the best core?
-		print "####################################"
+		logging.info('leave Series.__init__')
 	def __repr__(self):
 		return "series:\n"+str(self.data)
 	def __getitem__(self, item):  #http://www.python.org/doc/2.3.4/whatsnew/section-slices.html
@@ -228,7 +228,7 @@ class Series(Vplus):
 		:note: currently tolist already returns a list; see get_item in vector class
 		:todo: frequency conversion  NEEDS MUCH WORK!!!
 		"""
-		logging.debug("Enter Series.subsample.")
+		logging.info("Enter Series.subsample.")
 		data = self.tolist(copy=True)
 		full = self.smpl_full
 		if smpl is not None:
@@ -237,14 +237,18 @@ class Series(Vplus):
 			logging.debug("\n\tSubsample based on smpl.")
 			#we do NOT (!) change frequency at this point
 			if isinstance(smpl, tuple):
+				logging.warn('using tuple')
 				idx_start = smpl[0]
 				idx_end = smpl[1]
 			elif isinstance(smpl, Sample):
+				logging.warn('using Sample')
 				idx_start = full.get_date_index(smpl.start)
 				idx_end = full.get_date_index(smpl.end)
 			else:
 				raise ValueError('smpl must be tuple or sample instance')
 			data = data[idx_start:idx_end+1]
+		else:
+			logging.info('smpl is None')
 		newfreq = freq2num(freq or smpl.freq)
 		if smpl and (smpl.freq != newfreq):
 			msg = """Frequency of %s
@@ -254,14 +258,23 @@ class Series(Vplus):
 			smpl = Sample(smpl.start, smpl.end, freq=newfreq)
 		oldfreq = full.freq 
 		if newfreq != oldfreq:
+			old2new = {
+				(4,1) : slice(0, len(data), 4),
+				(12,1) : slice(0, len(data), 12),
+				}
 			logging.debug("Frequency conversion required.")
-			if newfreq ==1 and oldfreq == 4:
-				dataslice = slice(0, len(data), 4)
-			elif newfreq == 1 and oldfreq == 12:
-				dataslice = slice(0, len(data), 12)
-			else:
-				raise NotImplementedError('frequency conversion not yet implemented')
-			data = data[dataslice]
+			try:
+				myslice = old2new[(oldfreq, newfreq)]
+			except KeyError:
+				raise NotImplementedError('Unsupported frequency conversion.')
+			data = data[myslice]
+		else:
+			myslice = slice(0, len(data), 1)
+		if smpl is None:  #construct a sample for dated series
+			if isinstance(self.smpl_full,Sample):
+				dates = self.smpl_full.dates[myslice]
+				start, end = dates[0], dates[-1]
+				smpl = Sample(start=start, end=end, freq=freq, dates=dates)
 		return Series(data=data, smpl=smpl, comments=self.comments)
 	def plot(self, plottype='line', smpl=None):
 		if not smpl:
