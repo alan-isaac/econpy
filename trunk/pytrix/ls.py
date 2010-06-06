@@ -99,26 +99,37 @@ class OLS(object):
 		assert isinstance(dep_name,str), "Names must be strings."
 		if not have_numpy:
 			raise NotImplementedError('NumPy required for OLS.')
-		Y = np.asarray(dep).reshape(-1,1)  #TODO single equation only
+		Y = np.asarray(dep)  #allow lists
+		if len(Y.shape) != 2:
+			Y = Y.reshape(-1,1)  #TODO single equation only
 		self.Y = Y
 		self.nobs = len(Y)
 		#make X sets self.nvars, self.nobs, self.indep_names
 		self.indep_names = list(indep_names)
-		X = np.asarray( self.makeX(indep=indep, constant=constant, trend=trend) )
+		X = self.makeX(indep=indep, constant=constant, trend=trend)
+		assert isinstance(X, np.ndarray)
 		self.X = X  #used for end_points ... need for anything else?
 		coefs, ess = np.linalg.lstsq(X,Y)[:2]  #OLS estimates and ess
+		coefs = coefs.ravel()
+		try:
+			ess, = ess
+		except ValueError:
+			ess = np.nan
+			logging.warn('Rank problem with RHS variables. See help(numpy.linal.lstsq).')
 		self.ess = ess  #sum of squared residuals
 		assert (len(dep) == len(X)), "Number of observations do not agree."
 		self.dep_name = dep_name or 'y'
 		#data based attributes
 		self.xTx = np.dot(X.T , X)
 		self.xTy = np.dot(X.T , Y)
-		self.fitted = np.dot(X,coefs)
+		self.fitted = np.dot(X,coefs[:,None])
 		resids = np.ravel(Y - self.fitted)
-		assert abs(self.ess - np.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
+		if not np.isnan(ess):
+			assert abs(self.ess - np.dot(resids,resids))<0.001 #check error sum of squares TODO: delete
 		self._resids = resids                          #resids is a property
 		#end of matrix algebra
-		self.coefs = np.ravel(coefs)                     #self.coefs is a 1d array
+		#make self.coefs a 1d array (note: coefs is 2d bc Y is 2d)
+		self.coefs = np.ravel(coefs)
 		self.df_e = self.nobs - self.ncoefs				# degrees of freedom, error 
 		self.sigma2 = self.ess / self.df_e              # sigma^2 = e'e/(T-K)
 		self.llf, self.aic, self.bic = self.llf()
@@ -144,7 +155,10 @@ class OLS(object):
 	def get_cov(self):
 		"""get covariance matrix for solution; compute if nec"""
 		if self._cov is None:
-			self._cov = self.sigma2 * la.inv(self.xTx)     #covariance matrix, as array
+			try:
+				self._cov = self.sigma2 * la.inv(self.xTx)     #covariance matrix, as array
+			except np.linalg.linalg.LinAlgError:
+				self._cov = np.nan * np.empty_like(self.xTx)
 		#TODO var-cov(b),shd use invpd when availabe
 		return self._cov
 	cov = property(get_cov, None, None, "parameter covariance matrix")
