@@ -26,6 +26,9 @@ __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2007-09-10'
 
+import logging
+logging.basicConfig(level=logging.WARN)
+
 import numpy as np
 from .ls import OLS
 from .tseries import varlags
@@ -70,19 +73,22 @@ def adf_ls(y, p, prt=False):
 		raise ValueError('Input array should be 1d')
 	#dy and addx are 2d
 	dy = np.diff(y).reshape((-1,1))  #first difference
-	addx = y[p:-1].reshape((-1,1))  #lag level
+	rhs = y[p:-1].reshape((-1,1))  #lag level
 	if p > 0:
 		dy, dylags = varlags(dy, p)    # generating lags
-		addx = np.concatenate([addx, dylags], 1)
-	T = dy.shape[0]                      # number of observations
+		rhs = np.concatenate([rhs, dylags], 1)
+	T = dy.shape[0]                      # effective number of observations
 	#THREE VERSIONS of regression
 	results = dict()  #holds the three sets of regression results
 	#1. no constant
-	results['noconstant'] =  OLS(dy, addx, constant=None)
+	logging.info('noconstant')
+	results['noconstant'] =  OLS(dy, rhs, constant=None)
 	#2. add constant to regressors
-	results['constant'] =  OLS(dy, addx)
+	logging.info('constant')
+	results['constant'] =  OLS(dy, rhs)
 	#3. add (midpt centered) trend to regressors
-	results['constant_trend'] =  OLS(dy, addx, trend=T//2)
+	logging.info('constant_trend')
+	results['constant_trend'] =  OLS(dy, rhs, trend=T//2)
 	if prt :
 		print(adf_cv1)
 		print """
