@@ -57,7 +57,6 @@ def gcd_euclid(r,n):
 	`n` : int
 		integer to test
 
-	:author:    Alan G. Isaac
 	:since:     2004-10-28
 	:date: 2010-06-08
 	:contact:   mailto:aisaac AT american.edu
@@ -66,8 +65,6 @@ def gcd_euclid(r,n):
 		raise ValueError('Use integer arguments.')
 	#sort absolute values
 	r, n = sorted([abs(r),abs(n)])
-	#use integer part only
-	r, n = int(r), int(n)
 	while r: (n,r)=(r,n%r)
 	return n
 
