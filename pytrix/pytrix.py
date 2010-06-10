@@ -46,23 +46,29 @@ except ImportError:
 
 
 def gcd_euclid(r,n):
-	"""Return greatest common divisor of r and n.
+	"""Return int,
+	the greatest common divisor of r and n.
+	(Also called greatest/highest common factor.)
 
-	:Parameters:
-		- `r` : int
-		- `n` : int
+	Parameters
+	----------
+	`r` : int
+		integer to test
+	`n` : int
+		integer to test
 
-	:rtype:     integer
-	:return:    the greatest common denominator
-	            of the largest and smallest elements of `lst`
 	:author:    Alan G. Isaac
 	:since:     2004-10-28
+	:date: 2010-06-08
 	:contact:   mailto:aisaac AT american.edu
-	:note:      uses only integer part of mn
 	""" 
-	n=int(max(abs( [r,n] )))
-	r=int(min(abs( [r,n] )))
-	while r!=0: (n,r)=(r,n%r)
+	if not(r==int(r) and n==int(n)):
+		raise ValueError('Use integer arguments.')
+	#sort absolute values
+	r, n = sorted([abs(r),abs(n)])
+	#use integer part only
+	r, n = int(r), int(n)
+	while r: (n,r)=(r,n%r)
 	return n
 
 
