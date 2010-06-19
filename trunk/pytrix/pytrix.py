@@ -133,7 +133,7 @@ def cbrt(r, n=3):
 	:note: 0<r<1 => math.pow(r, n) = r^n for only r >= 0.
 	:note: name is from libc (GNU C library)
 	:see: http://www.gnu.org/software/libc/manual/html_node/Exponents-and-Logarithms.html
-	:author: Alan G. Isaac
+	:contact: alan dot isaac at gmail dot com
 	:since: 2005-08-16
 	"""
 	assert n%2 and n==int(n) or r>=0, "n must be an odd integer if r<0"

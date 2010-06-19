@@ -14,6 +14,7 @@ Basic use::
    mystubs = [ "Row 1", "Row 2" ]
    tbl = text.SimpleTable(mydata, myheaders, mystubs, title="Title")
    print( tbl )
+   print( tbl.as_csv() )
 
 A SimpleTable is inherently (but not rigidly) rectangular.
 You should create it from a *rectangular* (2d!) iterable of data.
@@ -145,7 +146,7 @@ class SimpleTable(list):
 		print( tbl.as_html() )
 		# set column specific data formatting
 		tbl = text.SimpleTable(mydata, myheaders, mystubs,
-			fmt={'data_fmts':["%3.2f","%d"]})
+			data_fmts=["%3.2f","%d"])
 		print( tbl.as_csv() )
 		with open('c:/temp/temp.tex','w') as fh:
 			fh.write( tbl.as_latex_tabular() )
