@@ -2860,8 +2860,7 @@ The default in Windows is to turn off your ability to do this,
 which means you can be tricked into thinking a dangerous
 Visual Basic script <tt>filename.jpg.vbs</tt>
 is really a safe <tt>.jpg</tt> file.
-You can fix this by unchecking <i>Hide file extensions</i>
-in the <i>View</i> tab of Explorer's <i>Folder Options</i> window.
+You can fix by following <a href="#windows-hints-extensions">this windows hint</a>.
 Especially dangerous extensions are <tt>.exe</tt>, <tt>.com</tt>, <tt>.pif</tt>, <tt>.vbs</tt>.
 Also dangerous are <tt>.doc</tt> and <tt>.xls</tt>.
 (Comment: dangerous file types can be included as ``attachments'' to <tt>.pdf</tt> files as well,
@@ -2938,6 +2937,10 @@ It includes parsing, demutiplexing, multiplexing, coding and decoding.
 <li>
 <a href="http://www.videolan.org/">VideoLAN</a> provides "a highly portable multimedia player for various audio and video formats".
 (License: GPL)
+This is an amazing multiplatform, FOSS resource.
+(Includes an installer for Windows users.)
+If you need additional capabilities, you can try
+<a href="http://www.divx.com/">DivX</a>.
 </li>
 </ul>
 
@@ -4095,14 +4098,21 @@ commercial program that allows very fast drawing of nice looking economics-relat
 <a href="http://www.ribbonsoft.com/qcad.html">QCad</a> is a FOSS computer aided drafting package that emphasizes ease of use.
 </li>
 <li>
+<a href="http://www.cgal.org/">The Computational Geometry Algorithms Library (CGAL)</a>
+provides geometric algorithms in a C++ library.
+(License: LGPL for the core library, but see the <a href="http://www.cgal.org/license.html">licensing details</a>.)
+</li>
+<li>
 <a href="http://tams-www.informatik.uni-hamburg.de/applets/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
 There is also the classic <a href="http://www.xfig.org/">Xfig</a> for X Windows.
 <a href="http://www.schmidt-web-berlin.de/winfig/">WinFIG</a> for MS Windows can read Xfig files. (License: Shareware)
 </li>
 <li> 
-For Windows users,
-<a href="http://www.exeter.edu/~rparris/">WinPlot</a>,
+For Windows users, WinPlot and Wingeom are free drawing programs.
+(License: unknown; not open source.)
+<a href="http://math.exeter.edu/rparris/winplot.html">WinPlot</a>,
 is a free mathematical package for plotting in two or three dimensions.
+(There is a <a href="http://faculty.matcmadison.edu/alehnen/winptut/winpltut.htm">tutorial</a>.)
 For precise geometric drawings there is also <a href="http://math.exeter.edu/rparris/wingeom.html">Wingeom</a>.
 </li>
 <li>
@@ -4305,6 +4315,9 @@ editor for TikZ graphics.  (Linux only?)
 
 <ul class="menu">
 <li>
+<a href="#security">Security</a> 
+</li>
+<li>
 <a href="#keyboard">Keyboards</a> 
 </li>
 <li>
@@ -4348,6 +4361,25 @@ Software for <a href="#openaccess">open access</a> journals and publications.
 </li>
 </ul>
 
+<h3 id="security">Security</h3>
+
+<p>
+Laptop (and cell phone) theft is a constant problem.
+The <a href="http://preyproject.com/">Prey Project</a> offers a multiplatform, FOSS theft recovery tool.
+It uses Google geo location and a web camera if available,
+and is available for the Android operating system.
+(A related commercial product is <a href="http://www.orbicule.com/undercover/">Undercover</a> by Orbicule,
+which has additional functionality and is very user friendly.)
+Here are some other possible steps to take.
+You can run <a href="http://en.wikipedia.org/wiki/Autossh">autossh</a> as a service that creates a link between your home router and laptop. Then whenever your laptop has internet, you can ssh into it from home.
+You can also install a <a href="http://www.keylogger.org/">keylogger</a>
+and schedule (e.g., with <a href="http://developer.apple.com/macosx/launchd.html">launchd</a> or cron)
+to say sftp the log every day and then restart the log file.
+(Personally I would only use open source keyloggers,
+such as <a href="http://sourceforge.net/apps/mediawiki/pykeylogger">PyKeylogger</a>,
+but these tend to be less focused on hiding themselves.)
+Probably better than any of this is vigilant use of a laptop cable lock.
+</p>
 
 <h3 id="openaccess">Open Access</h3>
 
@@ -7889,17 +7921,13 @@ and <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a>.
 (Taboo allows you to replace the practice of keeping many tabs open with a single page of site links.)
 </p>
 
-<p>
-FireFox supports the <a href="#calendars">SunBird</a> calendar application.
-</p>
-
-
 <h3 id="windows-hints">Windows hints</h3>
 
-<p>
-The default in Windows XP is to prevent you from seeing the extension to a filename.
-You can fix this by unchecking <em>Hide file extensions</em>
-in the <em>View</em> tab of Explorer's <i>Folder Options</i> window.  
+<p id="windows-hints-extensions">
+The default in Windows is to prevent you from seeing the extension to a filename.
+You can fix this as follows:
+open the Control Panel and open Folder Options,
+then pick the View tab and uncheck Hide File Extensions.
 </p>
 
 <div>
