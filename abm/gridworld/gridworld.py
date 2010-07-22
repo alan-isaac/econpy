@@ -29,6 +29,11 @@ subclass a world observer, consider overriding these attributes.
   by None but are generally transformed
   into a world location (e.g., torus like objects will
   "wrap" the coordinates to produce a location).
+:todo: Currently the main GUI (e.g., GridWorldGUI) controls
+  plot and histogram updating.  It seems more natural to just
+  let plots and histograms be other observers of the world and
+  thus receive notifications from the world instead.
+  Think about this. chk
 
 :requires: Python 2.6+ (for itertools.product and for
   the new turtle.py module)
@@ -40,13 +45,14 @@ subclass a world observer, consider overriding these attributes.
 :thanks: John Hunter showed in detail how to create a
   dynamic histogram using a PathPatch
   (Aug 8, 2009, Matplotlib users mailing list)
+:change: Agent.patch_here() replaced by patch property
 
 .. _NumPy: http://numpy.scipy.org/
 .. _Matplotlib: http://matplotlib.sourceforge.net/
 """
 from operator import add, methodcaller
 import logging, math, operator, random, turtle
-from itertools import imap as map, izip, starmap
+from itertools import imap as map, izip, starmap, takewhile
 from itertools import product as cartesian_product
 from collections import defaultdict, deque
 import Tkinter as tk
@@ -205,6 +211,43 @@ def colorspec2colorstr(color, colormode=1.0):
 		color = rgb2str(*color, colormode=colormode)
 	return color
 
+def categorize(func, seq):
+	"""Return mapping from categories to lists
+	of categorized items.
+	:note: `func` must return hashable objects
+	:note: `seq` can be any *finite* iterable
+	"""
+	d = defaultdict(list)
+	for item in seq:
+		d[func(item)].append(item)
+	return d
+
+def maximizers(func, seq):
+	"""Return list,  the items in `seq` that maximize `func`.
+	:note: `func` must return comparable (e.g., numeric) results
+	:note: `func` is evaluated once for each item
+	:note: `seq` can be any *finite* iterable
+	"""
+	best = []
+	seq = iter(seq)
+	try:
+		item = next(seq)
+		maxval = func(item)
+		best.append(item)
+	except StopIteration:
+		pass
+	for item in seq:
+		val = func(item)
+		if val > maxval:
+			maxval = val
+			best = [item]
+		elif val == maxval:
+			best.append(item)
+	return best
+
+		
+	
+
 
 ################## BEGIN TOPOLOGIES
 #Topologies are the spaces in which agents reside
@@ -337,8 +380,9 @@ class FiniteGrid(BoundedLocationMap):
 		coordinates = round2int(coordinates)
 		location = tuple( xi%si for (xi,si) in izip(coordinates,shape) )
 		if location != coordinates:
-			msg = 'Coordinates {0} are off the grid; location is None.'
-			logging.warn(msg.format(coordinates))
+			msg = """Coordinates {0} are off the grid; location is None.
+			(This can be a normal part of hood_locs computation.)"""
+			logging.debug(msg.format(coordinates))
 			location = None
 		return location
 	def random_locations(self, number, exclude=False):
@@ -407,11 +451,27 @@ class WorldBase(Observable):
 	_topology = None
 	_patches = None
 	maxiter = None
-	def __init__(self, topology):
+	def __init__(self, topology=None):
+		"""Return None.
+		Ordinarily, a ``WorldBase`` will be initialized
+		*with* a topology.
+		"""
 		logging.debug('Enter WorldBase.__init__.')
 		self._topology = topology
 		self.initialize()
 		logging.debug('Leave WorldBase.__init__.')
+	def setup(self):
+		"""Return None.
+		User should override this method to do model set up.
+		(Oftened called by a SetUp button in a GUI.)"""
+	def set_topology(self, topology):
+		"""Return None.
+		Called by `__init__`.
+		"""
+		if self._topology:
+			logging.warn('Resetting topology. (Not usually desirable.)')
+		self._topology = topology
+		self.notify_observers('set_topology')
 	def initialize(self):
 		"""Return None.
 		Commands to be executed at instance creation.
@@ -561,9 +621,9 @@ class WorldBase(Observable):
 			all_agents = set(agent for agent in all_agents if isinstance(agent,AgentType))
 		return all_agents
 	def get_agents(self, AgentType=None):
-		"""Return set or list,
-		the set of all agents (if `AgentType` is None)
-		or a list of all instances of `AgentType`.
+		"""Return list of agents:
+		all instances of `AgentType`
+		or all agents (if `AgentType` is None).
 		:note: `AgentType` can be a tuple of agent types.
 		"""
 		if AgentType is None:
@@ -668,7 +728,14 @@ class GridWorld(WorldBase):
 		"""
 		return self._topology.location(coordinates)
 	def locations(self, coordinates):
-		"""Return set, the constrained valid locations."""
+		"""Return set, the constrained valid locations.
+		Valid locations are determined by the topology,
+		which will return None for invalid locations,
+		which is discarded here.
+		On some topologies two different sets of coordinates can
+		map to the same location; only the one location is returned
+		in this case.
+		"""
 		locations = set( self._topology.locations(coordinates) )
 		locations.discard(None)
 		return locations
@@ -685,6 +752,7 @@ class GridWorld(WorldBase):
 		keepcenter : bool
 		  True to return center else False
 		"""
+		logging.debug('Enter GridWorld.hood_locs.')
 		if shape.lower() == 'moore':
 			coordinates = moore_neighborhood(radius=radius, center=center,
 											keepcenter=keepcenter,
@@ -692,9 +760,10 @@ class GridWorld(WorldBase):
 			locations = self.locations(coordinates)
 		else:
 			raise ValueError('Unsupported neighborhood type.')
+		logging.debug('Exit GridWorld.hood_locs.')
 		return locations
 	def kill(self, agent):
-		assert agent.is_alive
+		assert (not agent.defunct)
 		del self._topology[agent]
 		self.unregister_agent(agent) #unregisters from patch too
 		self.notify_observers('kill_agent', agent=agent)
@@ -812,6 +881,9 @@ class PatchObserver(Observer):
 		"""Return None.
 		Update the _patches_rectangles attribute.
 		"""
+		color = getattr(self.subject, 'fillcolor', None)
+		if color:
+			kwargs['fill'] = color
 		cv = self._canvas
 		#Create an invisible polygon item on canvas
 		#   remember, rect is just an int (item number)
@@ -848,8 +920,8 @@ class PatchObserver(Observer):
 	def update(self, event=None, **kwargs):
 		if event == 'display':
 			fillcolor = kwargs.get('fillcolor')
-			if color is not None:
-				assert isinstance(color, str)
+			if fillcolor is not None:
+				assert isinstance(fillcolor, str)
 				rect = self._rectangle
 				canvas = self._canvas
 				canvas.itemconfigure(rect, fill=fillcolor)
@@ -1002,10 +1074,6 @@ class GridWorldGUI(Observer, tk.Frame):
 			callback()
 			self._setup()
 		return f
-	def setup(self):
-		"""Return None.
-		User should override this method to do model set up.
-		Usually called by the SetUp button."""
 	#### set up the frames (buttons, sliders, monitors, and graphs)
 	def _setup_button_frame(self):
 		#BUTTON FRAME
@@ -1159,9 +1227,9 @@ class GridWorldGUI(Observer, tk.Frame):
 		for ct, graph in enumerate(graphs):
 			kind, title, datafunc, kwargs = graph
 			if kind == 'histogram':
-				graph = Histogram(datafunc=datafunc, master=graph_frame, title=title, world=self, **kwargs)
+				graph = Histogram(datafunc=datafunc, master=graph_frame, title=title, **kwargs)
 			elif kind == 'plot':
-				graph = TSPlot(datafunc, master=graph_frame, title=title, world=self, **kwargs)
+				graph = TSPlot(datafunc, master=graph_frame, title=title, world=self.subject, **kwargs)
 			else:
 				logging.warn('Unknown graph type: {0}'.format(kind))
 			graph.get_tk_widget().grid(row=ct//2, column=ct%2, sticky='nw') 
@@ -1223,6 +1291,8 @@ class GridWorldGUI(Observer, tk.Frame):
 			old_iter_state = self.off()
 		elif event in ('_end_iteration', '_on'):
 			self.on()
+		elif event == 'set_topology':
+			self.set_topology()
 		elif event == 'create_agents':
 			agents = kwargs.get('agents')
 			self.add_agent_observers(agents)
@@ -1234,8 +1304,8 @@ class GridWorldGUI(Observer, tk.Frame):
 			agent = kwargs.get('agent')
 			self.kill(agent)
 		elif event == 'update':
-			if self._active:
-				self._update()
+			#if self._active: #problem: will stop graph updates
+			self._update()
 		elif event == 'reset':
 			self.screen.clear()
 			self._setup_button['state'] = 'normal'
@@ -1299,8 +1369,8 @@ class GridWorldGUI(Observer, tk.Frame):
 			raise AttributeError('Create patches before adding patch observers.')
 		screen = self._turtle_screen
 		PatchObserverType = self._PatchObserverType
+		observers = self._patch_observers
 		for patch in patches:
-			observers = self._patch_observers
 			#passing a canvas would require passing the scaling too
 			observer = PatchObserverType(patch, screen=screen)
 			observers.add(observer)
@@ -1372,14 +1442,14 @@ class Agent(Observable):
 	The only navigational capability is `set_position`!
 	"""
 	def __init__(self, world=None, position=(0,0)):
-		self._is_alive = True
+		self._defunct = False      #set to True as agent exits simulation
 		self._observers = set()
 		self._world = world
 		self._initial_position = position
 		self._position = position
 		#convenience declarations for possible display
 		self._fillcolor = 'black'
-		self._shape = 'circle'
+		self._shape = 'classic'
 		self._shapesize = (0.3,0.3)
 		#additional (user provided) initializations
 		self.initialize()
@@ -1412,6 +1482,9 @@ class Agent(Observable):
 	#####   patch related methods
 	def neighborhood(self, shape, radius, keepcenter=False):
 		"""Return generator, the neighborhood patches.
+		The definition of a neighborhood depends on the world's topology.
+		For example, points off the grid wrap for a TorusGrid topology
+		but are discarded for a FiniteGrid topology.
 		"""
 		locations = self._world.hood_locs(
 			shape=shape,
@@ -1420,11 +1493,10 @@ class Agent(Observable):
 			keepcenter=keepcenter)
 		patches = self._world.patches_at(locations, preconstrained=True)
 		return list(patches)
-	def patch_here(self):
-		return self._world.patch_at( self._position )
 	def patch_at(self, location, relative=False):
 		"""Return Patch or None, the patch at self.position+rloc.
 		CAUTION: note the use of relative location is not the default!!
+		:note: also see the `patch` property
 		"""
 		pos = self._position
 		assert len(location)==len(pos)
@@ -1445,9 +1517,9 @@ class Agent(Observable):
 	def die(self):
 		"""Return None. Remove agent from simulation.
 		"""
-		if self._is_alive:
+		if not self._defunct:
 			self._world.kill(self)
-			self._is_alive = False
+			self._defunct = True
 		else:
 			logging.warn('Trying to kill dead agent.')
 	def display(self, **kwargs):
@@ -1477,8 +1549,11 @@ class Agent(Observable):
 	#Agent properties
 	# read-only
 	@property
-	def is_alive(self):
-		return self._is_alive
+	def patch(self):
+		return self._world.patch_at( self._position )
+	@property
+	def defunct(self):
+		return self._defunct
 	# read-write
 	@property
 	def world(self):
@@ -1548,6 +1623,9 @@ class PatchBase(Observable):
 		self._position = position
 		self._agentset = set()
 		self._agentcounts = 0      #for error checking
+		#convenience declarations for possible display
+		self._fillcolor = None
+		#user initializations
 		self.initialize()
 	def initialize(self):
 		"""Override this method to add intializations."""
@@ -1633,7 +1711,8 @@ class TSPlot(FigureCanvasTkAgg):
 		http://www.scipy.org/Cookbook/Matplotlib/Animations
 	"""
 	def __init__(self, datafunc, master=None, title='', world=None, **kwargs):
-		xlength = 101
+		xlength = 101  #length of x-axis (max number of points plotted)
+		self._did_setup = False
 		self._title = title
 		self._world = world
 		self._datafunc = datafunc
@@ -1657,6 +1736,7 @@ class TSPlot(FigureCanvasTkAgg):
 		new_ydata = self.update_data()
 		self.adjust_ylim(new_ydata)
 		self.set_background()
+		self._did_setup = True
 	def adjust_ylim(self, datum):
 		"""Return bool. Resets `_ylim`
 		(if needed to accommodate `_ydata`).
@@ -1691,6 +1771,8 @@ class TSPlot(FigureCanvasTkAgg):
 	def update(self, *args):
 		"""Return None. Update the line plot."""
 		# update the data
+		if not self._did_setup:
+			self.setup()
 		newdata = self.update_data()
 		ydata = self._ydata
 		xdata = self._xdata
@@ -1738,15 +1820,16 @@ class TSPlot(FigureCanvasTkAgg):
 class Histogram(FigureCanvasTkAgg):
 	"""Provides a simple unnormed histogram.
 	"""
-	def __init__(self, datafunc, bins, master=None, title='', world=None, **kwargs):
+	def __init__(self, datafunc, bins, master=None, title='', **kwargs):
 		"""
 		Here `datafunc` must return a sequence (e.g., a list or array)
 		containing a single iteration's data,
 		and `bins` must be a sequence of bin edges.
-		(Data outside the edges with be clipped into the lowest and highest bin.)
+		(Data outside the edges will be clipped into the lowest and highest bin.)
 		:todo: allow specifying number of bins rather than edges
 			(requires updating the rectverts)
 		"""
+		self._did_setup = False
 		self._datafunc = datafunc
 		self._tops = None
 		self._edges = None
@@ -1759,7 +1842,6 @@ class Histogram(FigureCanvasTkAgg):
 			self._xlim = xlim = None
 		self._ylim = 0,1
 		self._title = title
-		self._world = world
 		self._background = None
 		self._kwargs = kwargs
 		self._fig = mpl.figure.Figure(figsize=(5,2.5), dpi=100)
@@ -1774,13 +1856,19 @@ class Histogram(FigureCanvasTkAgg):
 	def setup(self):
 		logging.debug('Enter Histogram.setup.')
 		# create the initial histogram
-		newtops = self.update_data()
-		self.create_rectangles_as_pathpatch()
+		if not self._did_setup:
+			newtops = self.update_data()
+			self.create_rectangles_as_pathpatch()
+			self._did_setup = True
+		else:
+			logging.warn('Ignoring multiple calls to Histogram.setup.')
 		logging.debug('Exit Histogram.setup.')
 	def update(self):
 		"""Return None. Update the histogram."""
 		logging.debug('Enter Histogram.update.')
 		# ('update the data (-> _tops)' )
+		if not self._did_setup:
+			self.setup()
 		self.update_data()
 		#update the vertices
 		newtops = self._tops
@@ -1802,7 +1890,6 @@ class Histogram(FigureCanvasTkAgg):
 		logging.debug('Exit Histogram.update_data.')
 		return tops
 	def create_rectangles_as_pathpatch(self):
-		global rectverts
 		"""
 		The tricky part: we construct the histogram rectangles as a `mpl.path`
 		http://matplotlib.sourceforge.net/api/path_api.html
