@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="uft-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="en-US">
 <head>
   <title>Software for Economists (TM)</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" type="text/css" href="../dpt/isaac/isaac.css" />
   <link rel="stylesheet" type="text/css" href="http://www1.american.edu/cas/econ/faculty/isaac/isaac.css" />
    <meta name="Author"
@@ -386,7 +386,7 @@ if (nRet==1){
 
 <p>
 These days, your favorite dictionaries and thesauri are probably available free online.
-My favorite is <a href="http://www.bartleby.com/61/">The American Heritage® Dictionary of the English Language</a>.
+My favorite is <a href="http://www.bartleby.com/61/">The American HeritageÂ® Dictionary of the English Language</a>.
 Unfortunately the online interface is rather clunky.
 The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that is very fast.
 <a href="http://www.wiktionary.org/">Wiktionary</a> shows great promise and is pretty fast.
@@ -1204,6 +1204,46 @@ Interesting, the <a href="#abiword">AbiWord</a> word processor supports itex for
 
 <h3 id="present">Presentations</h3>
 
+<div>
+Existing presentation applications have serious limitations.
+<ul>
+<li>
+Editing is slow
+</li>
+<li>
+Reformatting is cumbersome.
+</li>
+<li>
+Content revision cannot easily be automated.
+</li>
+<li>
+Math handling is poor.
+</li>
+</ul>
+On the other hand, for short one-off bullet-point presentations,
+with a few images,
+these applications are very easy to use.
+(E.g., you can just paste your images into a variety of templates.)
+</div>
+
+<div>
+If you want to escape the above limitations,
+you want to be able to create your presentations with a text editor,
+including images by referencing their files.
+Three obvious candidates are
+<ul>
+<li>
+reStructuredText with an appropriate slide writer
+</li>
+<li>
+LaTeX with an appropriate document style.
+</li>
+<li>
+<a href="http://member.wide.ad.jp/wg/mgp/">MagicPoint</a> (X11-based, BSD license)
+</li>
+</ul>
+</div>
+
 <p>
 A fuller discussion of options can be found in
 <a href="http://www.miwie.org/presentations/presentations.html">Wiedman on Screen Presentation Tools</a>.
@@ -1224,16 +1264,29 @@ Here are some options using reStructuredText.
 - rst2slidy (cannot find it, but here's Slidy:
   http://www.w3.org/Talks/Tools/Slidy )
 </pre>
+<p>
+Roberto Alsina mentions that if you choose rst2pdf then
+fancy transitions are hard,
+handouts have to be another document,
+there is no way to easily center something vertically,
+and you need to create different versions for different screen aspect ratios.
+(On the other hand,
+everything is in a single file,
+your PDF can play almost anywhere,
+and you know exactly how it will look.) 
+</p>
 
 
 <p>
 If you know LaTeX,
 the  <a href="http://latex-beamer.sourceforge.net/">beamer</a> is great,
-You can use it with the
-<a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/powerdot.html">powerdot</a>,
-or
-<a href="http://prosper.sourceforge.net/prosper.html">Prosper</a> document class.
+and you can compile beamer presentation directly with pdftex.
 (I found getting started with the <tt>beamer</tt> document class using MiKTeX's pdflatex to be completely painless.)
+Some people prefer
+<a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/powerdot.html">powerdot</a>
+(which supercedes <a href="http://prosper.sourceforge.net/prosper.html">Prosper</a>).
+With powerdot you will need to go .tex to .dvi to .ps to .pdf.
+(Many integrated TeX environments can automatically implement that sequence for you.)
 Some people like the commercial <a href="http://www.utopiatype.com.au/products/ubundle.html">Utopia presentations bundle</a>.
 </p>
 
@@ -1281,7 +1334,7 @@ If for some reason you feel you must use PowerPoint<sup>&reg;</sup>,
 you can insert LaTeX style math by using the <a href="http://raw.cs.berkeley.edu/texpoint/TeXPoint.htm">TeXPoint</a> plugin.
 Note too that you can script your PowerPoint presentations using Python:
 use the win32com module to access the com interface.
-(Easier than it sounds!)
+(Easier than it sounds, as illustrated by some <a href="http://code.google.com/p/econpy/source/browse/trunk/utilities/mso.py">simple examples</a>.)
 </p>
 
 <p>
@@ -1391,7 +1444,7 @@ you can read a spreadsheet into GAUSS and then use the GAUSS archive's wrilatex 
 
 <ul>
 <li> 
-Berthold Höllmann's <a href="http://starship.python.net/crew/bhoel/">LaTeX.py</a>
+Berthold HÃ¶llmann's <a href="http://starship.python.net/crew/bhoel/">LaTeX.py</a>
 lets you "write your LATEX code in python strings, generate the LATEX output file, and process it by latex and dvips."
 Lots of power with a minimum of fuss.
 </li>
@@ -1486,7 +1539,9 @@ Neither language is truly object oriented.
 (Gauss has structs; MATLAB has some object-oriented functionality.)
 If you are going to write a lot of your own code,
 object orientation becomes critical.
-You can get this very nicely with <a href="#numpy">NumPy</a>.
+You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
+If you are forced to work in Matlab you can still have access to Python via <a href="http://github.com/kw/pymex">pymex</a>,
+which "embeds a Python interpreter into Matlab".
 </p>
 
 <p>
@@ -1833,7 +1888,7 @@ Windows users may also want to look at <a href="http://www.delorie.com/djgpp/doc
 The <a href="http://www.openwatcom.org/">Watcom compiler</a> is being released as open source.
 </li>
 <li>
-<a href="http://www.intel.com">Intel ®</a>
+<a href="http://www.intel.com">Intel Â®</a>
 offers its excellent Math Kernel Library free for noncommercial use.
 </li>
 <li>
@@ -1984,6 +2039,13 @@ Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a
 OK, OK, <a href="http://econweb.tamu.edu/gambit/">Gambit</a> is not statistical software,
 but I've got to put this fine, scriptable collection of game-theory tools <em>somewhere</em>!
 </li>
+<li>
+<a href="http://www.jmulti.de/">JMulTi</a>
+"is an interactive software designed for univariate and multivariate time series analysis. It has a Java graphical user interface that uses an external engine for statistical computations."
+(License: GPL)
+(The only external engine support I know of is GAUSS,
+but presumably this could be adapted to e.g. NumPy.)
+</li>
 <li id="Rproject">
 R is a free and open source clone of S-PLUS.
 (It is also called <a href="http://www.r-project.org/">'GNU S'</a>.)
@@ -2003,7 +2065,7 @@ a nice replacement for the basic code editor provided by Rgui. (License: GPL)
 <li id="gretl">
 <a href="http://gretl.sourceforge.net/">gretl</a> is the Gnu Regression, Econometrics and Time-series Library,
 a free, open source regression package.
-This is a very user friendly yet powerfulpackage suitable for a large range of time-series econometrics.
+This is a very user friendly yet powerful package suitable for a large range of time-series econometrics.
 Note that gretl uses <a href="#gnuplot">gnuplot</a> for its graphics and provides substantial script access to it,
 so that graphics are fast and powerful.
 See the 
@@ -2305,13 +2367,23 @@ or look into the <a href="http://smc.vnet.net/MathGroup.html">MathGroup email
 list</a>.
 Finally, <a href="http://www.dataweb.nl/~cool/TheEconomicsPack/index.html">Thomas Cool's page</a> offers a collection of economics programs written in Mathematica.
         <div class="boxed">
-        Mathematica for Students is available for full-time students at a big discount: $139.95 at this time.
+        Mathematica for Students is available for full-time students at a big discount.
         On the AU campus,
         Mathematica is available in Anderson Lab and Clark Lab.
         </div>
+Interesting Mathematica books for economists:
+<a href="http://www.amazon.com/gp/product/0387945180?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>,
+<a href="http://www.amazon.com/gp/product/0817641971?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a>
+<br />
+Introductory Mathematica books:
+<a href="http://www.amazon.com/gp/product/0521846781?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a> 
 </li>
-<li> <a href="http://www.maplesoft.com/">Maple</a> is also very popular. Maple V got wonderful reviews.
-(Note that you get a stripped down version of the Maple V kernel when you buy Scientific Notebook, which is available on campus as an EagleNet Application.)
+<li> <a href="http://www.maplesoft.com/">Maple</a> is also very popular.
+(Note that you can select Maple as the math kernel when you buy Scientific Notebook.)
+<br />
+Introductions to Maple:
+<a href="http://www.amazon.com/gp/product/0470455543?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0470455543">Getting Started with Maple by Chi Keung Cheung</a>,
+<a href="http://www.amazon.com/gp/product/0387002308?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0387002308">Introduction to Maple by Andre Heck</a>.  
 </li>
 <li>
 <a href="http://education.ti.com/product/software/derive/features/features.html">Derive</a> is inexpensive and powerful.
@@ -2779,7 +2851,7 @@ or
 Free for Windows:
 <a href="http://xnews.newsguy.com/">Xnews</a>
 and
-<a href="http://www.forteinc.com/main/homepage.php">Forté Free Agent</a>.
+<a href="http://www.forteinc.com/main/homepage.php">FortÃ© Free Agent</a>.
 </p>
 
 
@@ -3544,7 +3616,7 @@ if someone has the energy to implement this!
 You can include MPEG or AVI movies in PDF using pdf(La)Tex and for example
 the <a href="http://www.tug.org/tex-archive/macros/latex/contrib/movie15/">movie15 package</a>.
 (This is on platforms where Adobe Reader supports this, including Windows and Mac.)
-Jens Nöckel offers a simple <a href="http://darkwing.uoregon.edu/~noeckel/PDFmovie.html">tutorial</a>.
+Jens NÃ¶ckel offers a simple <a href="http://darkwing.uoregon.edu/~noeckel/PDFmovie.html">tutorial</a>.
 </li>
 <li>
 The <a href="#MNG">MNG</a>, <a href="#SVG">SVG</a>, and GIF formats also support animation.
@@ -3716,7 +3788,7 @@ so be sure you update yours.
 <li id="jpeg2eps">
 There are a number of good options for converting JPEG files to EPS.
 Note that PostScript (level 2+) supports JPEG, so this is largely a matter of adding an appropriate wrapper.
-My favorite approach is to use the ability of <a href="#pyx">PyX</a> to <a href="http://pyx.sourceforge.net/examples/bitmap/jpeg.html">insert JPEG images</a> into EPS and PDF files.
+My favorite approach is to use the ability of <a href="#pyx_hints">PyX</a> to <a href="http://pyx.sourceforge.net/examples/bitmap/jpeg.html">insert JPEG images</a> into EPS and PDF files.
 A more popular approach is to use <a href="http://www.pdflib.com/">PDFlib</a>'s very fast <a href="http://www.pdflib.com/download/free-software/jpeg2ps/">jpeg2ps</a> converter. (Language: C)
 Lee Sau Dan provides a <a href="http://www.informatik.uni-freiburg.de/~danlee/fun/jpeg2eps">perl script that does much the same thing</a>. (Licence: GPL2)
 An interesting approach is <a href="http://rses.anu.edu.au/~andy/jpeg2eps/">jpeg2eps</a>,
@@ -3854,7 +3926,7 @@ I will focus on a few cross-platform alternatives.
 
 <h4 id="psmeta">Metalanguages for PostScript</h4>
 
-<p>
+<p id="pyx">
 Python users have a number of fine alternatives.
 For serious 2-D drawing,
 I like <a href="http://pyx.sourceforge.net/">PyX</a> very much.
@@ -4067,7 +4139,7 @@ for a more extensive discussion.
 </p>
 
 <ul>
-<li>
+<li id="TpX">
 Python based <a href="http://tpx.sourceforge.net/">TpX</a> is small, fast, and powerful.
 Output formats include EPS, PDF, and PGF.
 (LaTeX users will particularly be interested in the PGF output.)
@@ -4258,16 +4330,33 @@ There are a variety of solutions.
 <div>
 The simplest answer is probably to use gnuplot.
 See <a href="http://www.fnal.gov/docs/products/gnuplot/tutorial/">http://www.fnal.gov/docs/products/gnuplot/tutorial/</a> for a good discussion.
+</div>
+
+<div>
+If your figures are simply (or if you are patient),
+just use the very powerful TikZ drawing language directly in your LaTeX document.
+TikZ does <em>not</em> depend on PostScript,
+you can use it directly with pdflatex.
+It is <em>also</em> compatible with the dvips/ps2pdf route (which is very nice).
 <br />
-Unless your figures are complex, just use the tikz drawing language.
-TikZ does not depend on PostScript,
-so you can use it directly with pdflatex (which is very nice).
-It is also compatible with the dvips/ps2pdf route.
+There are many TikZ libraries available,
+such as <a href="http://altermundus.com/pages/graph.html">tkz-graph</a> for drawing graphs.
+These can greatly simplify your drawing tasks.
 <br />
-If your figures are complex, you can create them in TpX,
+<a href="#gnuplot">gnuplot</a> since version 4.4 has a <a href="http://peter.affenbande.org/gnuplot/">TikZ â€œterminalâ€</a>. Very nice!
+<br />
+<a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a> can nicely help
+you create tikz figures.
+(Mykel Kochenderfer has compiled a <a href="http://mykel.kochenderfer.com/tikz/">KtikZ Windows binary</a>.)
+Related functionality is provided by <a href="http://kogs-www.informatik.uni-hamburg.de/~meine/tikz/process/#tikz2pdf">tikz2pdf</a>.  (License: BSD)
+<br />
+If your figures are complex but drawable by hand,
+you can create them with the <a href="#TpX">TpX</a> drawing application,
 which can output tikz code.
+(Be sure to set the default output format <em>before</em>  you start your drawing;
+TpX does not do conversion.)
 <br />
-For the best results, however, you will use the PyX graphics
+For the great results even in complex drawings, try the <a href="#pyx">PyX</a> graphics
 package for Python.
 This will require a bit of learning initially,
 but the results (as EPS or PDF) are fabulous.
@@ -4301,10 +4390,6 @@ Other interesting solutions:
 <ul>
 <li>
 <a href="http://www.freewebs.com/gervacio/">GraphTeX</a>
-</li>
-<li>
-<a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a>
-editor for TikZ graphics.  (Linux only?)
 </li>
 </ul>
 </div>
@@ -4539,6 +4624,15 @@ There are <a href="http://wiki.gnucash.org/wiki/Python_Bindings">Python bindings
 (Includes exportAbiWord.py, which can export tables to <a href="#abiword">AbiWord</a>.
 </li>
 </ul>
+
+<h4>Open Financial Exchange</h4>
+
+<p>
+<a href="http://www.ofx.net/">Open Financial Exchange (OFX)</a>
+"is a unified specification for the electronic exchange of financial data".
+The format is an <a href="http://www.ofx.net/DeveloperSolutions.aspx">open standard</a>.
+It is possible to convert <a href="http://wiki.github.com/mulicheng/csv2ofx/">CSV to OFX</a>.
+</p>
 
 
 <h2 id="office">Office Suites and Related Software</h2>
@@ -5248,6 +5342,19 @@ Free and low cost Mercurial repositories:
 
 <h3>Miscellaneous Office Needs</h3>
 
+<h4>Security</h4>
+
+<p>
+Track stolen laptops and cell phones with <a href="http://preyproject.com/">Prey</a>.
+</p>
+
+<h4>E-Book Readers and Converters</h4>
+
+<p>
+<a href="http://calibre-ebook.com">Calibre</a> has quite amazing conversion capabilities
+and supports many e-book formats.
+</p>
+
 <h4 id="outliners">Outliners</h4>
 
 <p>
@@ -5720,7 +5827,7 @@ I have written up a few <a href="http://www.american.edu/econ/notes/htmlmail.htm
 <p class="boxed">
 Make Vim your editor and call it as
 <br />
-c:\programs\vim\vim60\gvim.exe -c "so $VIM\vimfiles\mail.vim" %s
+c:\programs\vim\vim73\gvim.exe -c "so $VIM\vimfiles\mail.vim" %s
 <br />
 where <tt>mail.vim</tt> is where you put any mail processing commands
 (e.g., set ft=mail tw=75).
@@ -5746,6 +5853,10 @@ Get the <a href="http://globs.org/?lng=en">"External Editor" extension</a>.
 For example, use <a href="#vim">Vim</a> with Thunderbird as follows.
 Define the External Editor command to load Vim as: <code>\pathto\gvim --nofork -c "setf mail"</code>,
 so you will get 'mail' syntax highlighting and ftplugins loaded.
+Or if you have defined say <code>mail.vim</code>,
+a file of useful macro,
+you can instead use e.g.,
+<code>\pathto\gvim.exe -c "so $VIM\vimfiles\mail.vim"</code>.
 After installing the extension,
 edit the composition toolbar (the one for replying to email, <em>not</em> the main application toolbar)
 and add a button for the external editor.
@@ -5756,7 +5867,7 @@ you may find my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai
 to contain some useful abbreviations and commands for email.
 Just drop it in your <code>%VIM%\vimfiles</code> folder,
 and change your External Editor command to, e.g.,
-<code>C:\programs\vim\vim72\gvim.exe -c  "so $VIM\vimfiles\ai_mail.vim"</code>.
+<code>C:\programs\vim\vim73\gvim.exe -c "so $VIM\vimfiles\ai_mail.vim"</code>.
 </div>
 
 <div>
@@ -6993,6 +7104,22 @@ ax.set_ylabel('y')
 fig.savefig('/temp/myfig.png', dpi=96)
 </pre>
 
+<div>
+If you want less magic, you can altogether avoid using pyplot.
+Here is an example by John Hunter.
+<pre>
+from matplotlib.backends.backend_svg import FigureCanvasSVG
+from matplotlib.figure import Figure
+fig = Figure()
+ax = fig.add_subplot(211)
+ax.plot([1,2,3])
+ax.set_xlabel('time')
+canvas = FigureCanvasSVG(fig)
+canvas.print_figure('myfile.svg')
+</pre>
+</div>
+
+
 <p id="mpl_no_plt">
 Matplotlib's pyplot facilities are convenience facilities for the user with modest needs.
 For some examples (e.g., embedding Matplotlib in other applications)
@@ -7019,7 +7146,7 @@ canvas.print_figure('temp.eps')
 <p>
 All Matplotlib plotting functions trigger autoscaling.
 This affect, e.g., setting the axes limits.
-To prevent your limits from being overriddent,
+To prevent your limits from being overridden,
 call xlim/ylim <em>after</em> any plotting functions.
 Alternatively, you can turn autoscaling off:
 <br />
@@ -7680,11 +7807,10 @@ but lately I've been working more with pdflatex.
 </p>
 <ol>
 <li>
-Problem: a few Windows applications,
-do not produce EPS graphics.
+Problem: a few applications (mostly on Windows) do not produce EPS graphics.
 In this case, you can produce JPEG files and either
         i. learn how to include .jpg files, or
-        ii. <a href="#jpeg2eps">convert JPEG to EPS</a> (which is fast and easy),
+        ii. <a href="#jpeg2eps">convert JPEG to EPS</a> or <a href="http://code.google.com/p/sam2p/">sam2p</a> (which is fast and easy),
         iii. switch to pdflatex
 </li>
 <li id="impgraph">
@@ -7786,7 +7912,7 @@ syntax is almost like that for the figure environment.<pre>
 </li>
 <li>
         <a href="http://www.tug.org/pracjourn/2006-4/fenn/">Managing Citations and Your Bibliography with BibTeX</a>
-        by Jürgen Fenn 
+        by JÃ¼rgen Fenn 
         is a good introduction to using BibTeX.
 </li>
 <li>
@@ -8073,7 +8199,7 @@ You do not need it any more.
 </ul>
 </div>
 
-There are some more optional things that you can do. Because I do not use them and they can “mix up” some original windows applications with the same name in the gnu package I will not explain them here. If you want to do it, check the readme file.
+There are some more optional things that you can do. Because I do not use them and they can Â“mix upÂ” some original windows applications with the same name in the gnu package I will not explain them here. If you want to do it, check the readme file.
 
 
 <hr />

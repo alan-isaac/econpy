@@ -265,6 +265,8 @@ class Observable(object):
 			msg = '{0} does not allow adding observers.'
 			raise NotImplementedError(msg)
 	def notify_observers(self, event=None, **kwargs):
+		if event != 'display':
+			logging.debug('notify observers of event {0}'.format(event))
 		for observer in self._observers:
 			observer.update(event=event, **kwargs)
 	#PROPERTIES
@@ -368,6 +370,8 @@ class FiniteGrid(BoundedLocationMap):
 	where locations are constrained to a finite grid.
 	Coordinates off the grid become ``None``.
 	"""
+	def __repr__(self):
+		return 'FiniteGrid({0})'.format(self.shape)
 	def location(self, coordinates):
 		"""Return tuple or None,
 		the corresponding location on the grid,
@@ -468,10 +472,14 @@ class WorldBase(Observable):
 		"""Return None.
 		Called by `__init__`.
 		"""
-		if self._topology:
+		logging.debug('Enter: WorldBase.set_topology.')
+		if self._topology is not None:   #don't test bool({}) !
 			logging.warn('Resetting topology. (Not usually desirable.)')
+		logging.debug('Setting topology to {0}'.format(topology))
 		self._topology = topology
+		logging.debug('Notifying observers to set topology.')
 		self.notify_observers('set_topology')
+		logging.debug('Exit: WorldBase.set_topology.')
 	def initialize(self):
 		"""Return None.
 		Commands to be executed at instance creation.
@@ -520,11 +528,14 @@ class WorldBase(Observable):
 		self.clean_up()
 	def keep_running(self):
 		return not self._stop
-	def stop(self):
+	def stop(self, exit=False):
 		"""Return None. Sets `_stop` to True,
 		terminating the loop in `run`.
+		If ``exit``, tell observers to exit.
 		"""
 		self._stop = True
+		if exit:
+			self.notify_observers('exit')
 	def schedule(self):
 		"""Return None. Schedule actions to be executed each iteration.
 		User should override this method."""
@@ -1032,14 +1043,19 @@ class GridWorldGUI(Observer, tk.Frame):
 		logging.debug('Exit GridWorldGUI.setup_turtlescreen')
 	def set_topology(self):
 		"""Return None.
-		Called by `__init__`.
+		Called by `__init__` or upon `set_topology` notification.
 		"""
-		x, y = self.subject.topology.shape #2d only!! chk
-		#set screen coordinates
-		screen = self._turtle_screen
-		#leave a little (0.5) space at each edge
-		screen_coordinates = -1, -1, x, y
-		screen.setworldcoordinates(*screen_coordinates)
+		logging.debug('Enter GridWorldGUI.set_topology')
+		topology = self.subject.topology
+		if topology is not None:  #only set if not None
+			logging.debug('Set topology to {0}'.format(topology))
+			x, y = topology.shape #2d only!! chk
+			#set screen coordinates
+			screen = self._turtle_screen
+			#leave a little (0.5) space at each edge
+			screen_coordinates = -1, -1, x, y
+			screen.setworldcoordinates(*screen_coordinates)
+		logging.debug('Exit GridWorldGUI.set_topology')
 	def clicked_at(self, *pos):
 		"""
 		The following may seem a bit roundabout.

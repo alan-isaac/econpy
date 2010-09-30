@@ -124,6 +124,9 @@ class SFTP_wrapper:
 
 	### END of bye  ------------------------------------------------------
 
+	### method:  print working directory
+	def pwd(self):
+		print(self._sftp.getcwd())
 	### method:  change directory
 	def cd(self,path):
 		self._sftp.chdir(path)
