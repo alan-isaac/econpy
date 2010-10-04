@@ -8,7 +8,11 @@ Unit tests table.py.
 from __future__ import absolute_import
 import unittest
 
-import numpy as np
+try:
+	import numpy as np
+	has_numpy = True
+except ImportError:
+	has_numpy = False
 
 __docformat__ = "restructuredtext en"
 
@@ -49,7 +53,6 @@ tbl = SimpleTable(table1data, test1header, test1stubs,
 
 def custom_labeller(cell):
 	if cell.data is np.nan:
-		print 'here4', np.isnan(cell.data)
 		return 'missing'
 
 
@@ -113,11 +116,12 @@ class test_SimpleTable(unittest.TestCase):
 		self.assertEqual(actual, desired)
 	def test_customlabel(self):
 		"""Limited test of custom custom labeling"""
-		tbl = SimpleTable(table1data, test1header, test1stubs, txt_fmt=txt_fmt1)
-		tbl[1][1].data = np.nan
-		tbl.label_cells(custom_labeller)
-		print [[c.datatype for c in row] for row in tbl]
-		desired = """
+		if has_numpy:
+			tbl = SimpleTable(table1data, test1header, test1stubs, txt_fmt=txt_fmt1)
+			tbl[1][1].data = np.nan
+			tbl.label_cells(custom_labeller)
+			print([[c.datatype for c in row] for row in tbl])
+			desired = """
 *****************************
 *       * header1 * header2 *
 *****************************
@@ -125,10 +129,10 @@ class test_SimpleTable(unittest.TestCase):
 * stub2 *    2.00 *       3 *
 *****************************
 """
-		actual = '\n%s\n' % tbl.as_text(missing='--')
-		print(actual)
-		print(desired)
-		self.assertEqual(actual, desired)
+			actual = '\n%s\n' % tbl.as_text(missing='--')
+			print(actual)
+			print(desired)
+			self.assertEqual(actual, desired)
 
 if __name__=="__main__":
 	unittest.main()
