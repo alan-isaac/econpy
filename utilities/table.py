@@ -103,7 +103,10 @@ def csv2st(csvfile, headers=False, stubs=False, title=None):
 	with open(csvfile,'r') as fh:
 		reader = csv.reader(fh)
 		if headers is True:
-			headers = reader.next()
+			try:
+				headers = next(reader)
+			except AttributeError: #must be Python 2.5 or earlier
+				headers = reader.next()
 		elif headers is False:
 			headers=()
 		if stubs is True:
@@ -253,7 +256,10 @@ class SimpleTable(list):
 			newrow = _Row([_Cell(datum) for datum in datarow])
 			newrow.table = self  #row knows its SimpleTable
 			for cell in newrow:
-				cell.datatype = dtypes.next()
+				try:
+					cell.datatype = next(dtypes)
+				except AttributeError: #Python 2.5 or earlier
+					cell.datatype = dtypes.next()
 				cell.row = newrow  #a cell knows its row
 			rows.append(newrow)
 		return rows
@@ -393,7 +399,10 @@ class SimpleTable(list):
 				empty_cell = _Cell('', datatype='empty')
 				row.insert(loc, empty_cell)
 			else:
-				row.insert_stub(loc, stubs.next())
+				try:
+					row.insert_stub(loc, next(stubs))
+				except AttributeError: #Python 2.5 or earlier
+					row.insert_stub(loc, stubs.next())
 	def label_cells(self, func):
 		"""Return None.  Labels cells based on `func`.
 		If ``func(cell) is None`` then its datatype is
