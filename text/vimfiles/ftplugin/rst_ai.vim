@@ -16,7 +16,7 @@ colorscheme koehler
 " add suffixes to gf searches
 set suffixesadd=.rst
 
-digraphs `` 8220 '' 8221
+digraphs `` 8220 '' 8221 <- 8592 \|^ 8593 -> 8594 \|v 8595
 
 inoremap <buffer> &ldquo; “
 inoremap <buffer> &lsquo; ‘

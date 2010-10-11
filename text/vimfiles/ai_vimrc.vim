@@ -73,8 +73,8 @@ au Filetype html,xhtml inoremap <vb <esc>:up<cr>:!start c:\programs\firefox\fire
 inoremap ;ev <esc>:up<cr>:!start c:\progra~1\EViews4\EViews4.exe %:p<cr>
 " !start commands for LaTeX
 au Filetype tex inoremap ;vpdf <esc>:!start "c:\programs\SumatraPDF\SumatraPDF.exe" %:p:r:gs?\\?/?.pdf<cr>
-au Filetype tex inoremap ;vgsv <esc>:!start "C:\programs\Ghostgum\gsview\gsview32.exe" %:p:r:gs?\\?/?.pdf<cr>
-au Filetype postscr inoremap ;vgsv <esc>:up<cr>:!start "C:\programs\Ghostgum\gsview\gsview32.exe" %:p:gs?\\?/?<cr>
+au Filetype tex inoremap ;vgsv <esc>:!start "C:\programs\Ghostgum\gsview\gsview64.exe" %:p:r:gs?\\?/?.pdf<cr>
+au Filetype postscr inoremap ;vgsv <esc>:up<cr>:!start "C:\programs\Ghostgum\gsview\gsview64.exe" %:p:gs?\\?/?<cr>
 au Filetype html inoremap ;gzip <esc>:!start "c:\programs\unxutils\gzip.exe" %:p:r:gs?\\?/?.htm<cr>
 au Filetype tex inoremap ;vswp <esc>:up<cr>:!start C:\swp35\swp-pro.exe %:p:gs?\\?/?<cr>
 au Filetype tex inoremap ;mt <esc>:up<cr>:!start C:\programs\MiKTeX2.6\miktex\bin\latex.exe &latex %:p:r:gs?\\?/?<cr>
