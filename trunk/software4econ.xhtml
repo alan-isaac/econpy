@@ -3909,7 +3909,7 @@ GhostScript can convert many file formats.
 <a href="http://stud1.tuwien.ac.at/~e9227474/english.htm">IRFAN View</a> is a freeware (for noncommercial use) graphics viewer that supports many graphics conversions, including PNG graphics.
 <a href="http://www.softwarecenter.net/irfanview/">IrfanView</a> is usable both as a GUI and from the command line. 
 (It supports batch operations.)
-It supports many different filetype conversions, but does not yet convert to <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+It supports many different file type conversions, but does not yet convert to <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 </li>
 </ul>
 
@@ -5279,11 +5279,12 @@ There are many version control systems (VCSs):
 see the <a href="http://en.wikipedia.org/wiki/List_of_revision_control_software">Wikipedia list</a>.
 If you just need revision control for an individual project,
 you can use <a href="http://www.gnu.org/software/rcs/rcs.html">RCS</a>.
-For more complex and multiuser projects,
-consider <a href="http://subversion.tigris.org/">Subversion (SVN)</a>.
-(The <a href="http://pysvn.tigris.org/">pysvn</a> project provides a Python based graphical interface to SVN.)
+For simple version control on multiuser projects,
+consider <a href="#svn">Subversion (SVN)</a>.
 Currently distributed VCSs are the rage,
-with <a href="http://bazaar-vcs.org/">Bazaar</a> and <a href="http://git.or.cz/">Git</a> having particularly high profiles. (License: GPL)
+with <a href="http://bazaar-vcs.org/">Bazaar</a> (License: GPL),
+<a href="http://mercurial.selenic.com/">Mercurial</a> (License: GPL),
+and <a href="http://git.or.cz/">Git</a> (License: GPL) having particularly high profiles.
 This is probably not important for small projects.
 See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">OpenSolaris evaluations</a>.
 </p>
@@ -5301,6 +5302,10 @@ There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>.
 Simplest bottom line: change to your working directory and enter
 <code>svn update</code>, <em>then</em> make changes to your files,
 and finally commit the changes with <code>svn commit -m "My message about the changes."</code>.)
+</p>
+
+<p>
+The <a href="http://pysvn.tigris.org/">pysvn</a> project provides a Python based graphical interface to SVN.  
 </p>
 
 <p>
@@ -6917,6 +6922,12 @@ Since it is a 5-user license, you may occasionally find you have to wait  until 
 <h3 id="svn_hints">SVN User hints</h3>
 
 <p>
+Subversion is easy and excellent.
+Here is a <a href="http://www.clear.rice.edu/comp314/svn.html">ten minute tutorial</a>.
+Windows users who prefer to avoid the command line can just use <a href="http://tortoisesvn.net/">TortoiseSVN</a>.
+</p>
+
+<p>
 <a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a>
 </p>
 
@@ -6926,6 +6937,37 @@ Remember your work cycle must be very rigid:
 2. then do your work
 3. as soon as you are done, *commit*.
 </div>
+
+<div>
+Suppose you want to add a directory <tt>mydir</tt> under version control,
+but it contains a bunch of files you do <em>not</em> wish to track.
+You can add the directory but not the files as follows:
+<code>svn add --non-recursive mydir</code>.
+</div>
+
+<p>
+One disappointing thing: it would be nice to add a directory
+and all its files <em>except</em> those matching the <code>svn:ignore</code> property.
+Subversion does not currently support this.
+Here is one <a href="http://svn.haxx.se/users/archive-2006-02/0678.shtml">work around</a>.
+</p>
+
+<p>
+You can set an editor (e.g., for commit messages and property editing)
+in the Subversion <code>config</code> file.
+On Windows you should be able (after installing Subversion) to find it here:
+<code>\Users\YourUserName\AppData\Roaming\Subversion</code>.
+Search for <tt>editor-cmd</tt> and follow the instructions.
+(I am currently using <code>editor-cmd = C:/programs/Vim/vim73/gvim.exe -f</code>.
+If you use a path with spaces in it, you will have to quote it.)
+</p>
+
+<p>
+Once you ensure that Subversion has access to a text editor,
+you can edit the list of patterns it will ignore in any directory.
+E.g., <code>svn propedit svn:ignore .</code> (note the final period)
+will edit the patterns for the current directory.
+</p>
 
 <h3 id="reST_hints">Docutils User hints</h3>
 
