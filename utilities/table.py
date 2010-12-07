@@ -85,7 +85,7 @@ Potential problems for Python 3
 from __future__ import division, with_statement
 import logging
 try: #plan for Python 3
-	from itertools import izip as zip
+	from itertools import izip_longest, izip as zip
 except ImportError:
 	pass
 from itertools import cycle
@@ -235,7 +235,7 @@ class SimpleTable(list):
 		:note: a header row does not receive a stub!
 		"""
 		if headers:
-			self.insert(0, headers, datatype='header')
+			self.insert_header_row(0, headers, dec_below='header_dec_below')
 		if stubs:
 			self.insert_stubs(0, stubs)
 	def insert(self, idx, row, datatype=None):
@@ -248,11 +248,44 @@ class SimpleTable(list):
 				pass
 		row = self._Row(row, datatype=datatype, table=self)
 		list.insert(self, idx, row)
+	def insert_header_row(self, rownum, headers, dec_below='header_dec_below'):
+		"""Return None.  Insert a row of headers,
+		where ``headers`` is a sequence of strings.
+		(The strings may contain newlines, to indicated multiline headers.)
+		"""
+		header_rows = [header.split('\n') for header in headers]
+		#rows in reverse order
+		rows = list(izip_longest(*header_rows, fillvalue=''))
+		rows.reverse()
+		for i, row in enumerate(rows):
+			self.insert(rownum, row, datatype='header')
+			if i == 0:
+				self[rownum].dec_below = dec_below
+			else:
+				self[rownum].dec_below = None
+	def insert_stubs(self, loc, stubs):
+		"""Return None.  Insert column of stubs at column `loc`.
+		If there is a header row, it gets an empty cell.
+		So ``len(stubs)`` should equal the number of non-header rows.
+		"""
+		_Cell = self._Cell
+		stubs = iter(stubs)
+		for row in self:
+			if row.datatype == 'header':
+				empty_cell = _Cell('', datatype='empty')
+				row.insert(loc, empty_cell)
+			else:
+				try:
+					row.insert_stub(loc, next(stubs))
+				except AttributeError: #Python 2.5 or earlier
+					row.insert_stub(loc, stubs.next())
+				except StopIteration:
+					raise ValueError('length of stubs must match table length')
 	def _data2rows(self, raw_data):
 		"""Return list of Row,
 		the raw data as rows of cells.
 		"""
-		logging.warn('Enter SimpleTable.data2rows.')
+		logging.debug('Enter SimpleTable.data2rows.')
 		_Cell = self._Cell
 		_Row = self._Row
 		rows = []
@@ -266,7 +299,7 @@ class SimpleTable(list):
 					cell.datatype = dtypes.next()
 				cell.row = newrow  #a cell knows its row
 			rows.append(newrow)
-		logging.warn('Exit SimpleTable.data2rows.')
+		logging.debug('Exit SimpleTable.data2rows.')
 		return rows
 	def pad(self, s, width, align):
 		"""DEPRECATED: just use the pad function"""
@@ -392,24 +425,6 @@ class SimpleTable(list):
 		"""
 		for row1, row2 in zip(self, table):
 			row1.extend(row2)
-	def insert_stubs(self, loc, stubs):
-		"""Return None.  Insert column of stubs at column `loc`.
-		If there is a header row, it gets an empty cell.
-		So ``len(stubs)`` should equal the number of non-header rows.
-		"""
-		_Cell = self._Cell
-		stubs = iter(stubs)
-		for row in self:
-			if row.datatype == 'header':
-				empty_cell = _Cell('', datatype='empty')
-				row.insert(loc, empty_cell)
-			else:
-				try:
-					row.insert_stub(loc, next(stubs))
-				except AttributeError: #Python 2.5 or earlier
-					row.insert_stub(loc, stubs.next())
-				except StopIteration:
-					raise ValueError('length of stubs must match table length')
 	def label_cells(self, func):
 		"""Return None.  Labels cells based on `func`.
 		If ``func(cell) is None`` then its datatype is
@@ -441,7 +456,7 @@ class Row(list):
 	"""Provides a table row as a list of cells.
 	A row can belong to a SimpleTable, but does not have to.
 	"""
-	def __init__(self, seq, datatype='data', table=None, celltype=None, **fmt_dict):
+	def __init__(self, seq, datatype='data', table=None, celltype=None, dec_below=None, **fmt_dict):
 		"""
 		Parameters
 		----------
@@ -458,7 +473,7 @@ class Row(list):
 				celltype = table._Cell
 		self._Cell = celltype
 		self._fmt = fmt_dict
-		self.dec_below = 'header_dec_below' if (datatype == 'header') else None
+		self.dec_below = dec_below
 		list.__init__(self, (celltype(cell,row=self) for cell in seq))
 	def insert_stub(self, loc, stub):
 		"""Return None.  Inserts a stub cell
