@@ -48,8 +48,10 @@ row1data = [2, 3.333]
 table1data = [ row0data, row1data ]
 test1stubs = ('stub1', 'stub2')
 test1header = ('header1', 'header2')
+test2header = ('header1a', 'header2a')
 tbl = SimpleTable(table1data, test1header, test1stubs,
 	txt_fmt=txt_fmt1, ltx_fmt=ltx_fmt1, html_fmt=html_fmt1)
+
 
 def custom_labeller(cell):
 	if cell.data is np.nan:

@@ -83,6 +83,7 @@ Potential problems for Python 3
 :change: 2010-05-06 add `label_cells` to `SimpleTable`
 """
 from __future__ import division, with_statement
+import logging
 try: #plan for Python 3
 	from itertools import izip as zip
 except ImportError:
@@ -233,28 +234,31 @@ class SimpleTable(list):
 
 		:note: a header row does not receive a stub!
 		"""
-		_Cell = self._Cell
-		_Row = self._Row
 		if headers:
-			headers = [ _Cell(h,datatype='header') for h in headers ]
-			headers = _Row(headers, datatype='header')
-			headers.table = self
-			for cell in headers:
-				cell.row = headers
-			self.insert(0, headers)
+			self.insert(0, headers, datatype='header')
 		if stubs:
 			self.insert_stubs(0, stubs)
+	def insert(self, idx, row, datatype=None):
+		"""Return None.  Insert a row into a table.
+		"""
+		if datatype is None:
+			try:
+				datatype = row.datatype
+			except AttributeError:
+				pass
+		row = self._Row(row, datatype=datatype, table=self)
+		list.insert(self, idx, row)
 	def _data2rows(self, raw_data):
 		"""Return list of Row,
 		the raw data as rows of cells.
 		"""
+		logging.warn('Enter SimpleTable.data2rows.')
 		_Cell = self._Cell
 		_Row = self._Row
 		rows = []
 		for datarow in raw_data:
 			dtypes = cycle(self._datatypes)
-			newrow = _Row([_Cell(datum) for datum in datarow])
-			newrow.table = self  #row knows its SimpleTable
+			newrow = _Row(datarow, datatype='data', table=self, celltype=_Cell)
 			for cell in newrow:
 				try:
 					cell.datatype = next(dtypes)
@@ -262,6 +266,7 @@ class SimpleTable(list):
 					cell.datatype = dtypes.next()
 				cell.row = newrow  #a cell knows its row
 			rows.append(newrow)
+		logging.warn('Exit SimpleTable.data2rows.')
 		return rows
 	def pad(self, s, width, align):
 		"""DEPRECATED: just use the pad function"""
@@ -403,6 +408,8 @@ class SimpleTable(list):
 					row.insert_stub(loc, next(stubs))
 				except AttributeError: #Python 2.5 or earlier
 					row.insert_stub(loc, stubs.next())
+				except StopIteration:
+					raise ValueError('length of stubs must match table length')
 	def label_cells(self, func):
 		"""Return None.  Labels cells based on `func`.
 		If ``func(cell) is None`` then its datatype is
@@ -431,25 +438,28 @@ def pad(s, width, align):
 
 
 class Row(list):
-	"""A Row is a list of cells;
-	a row can belong to a SimpleTable.
+	"""Provides a table row as a list of cells.
+	A row can belong to a SimpleTable, but does not have to.
 	"""
-	def __init__(self, cells, datatype='', table=None, celltype=None, **fmt_dict):
+	def __init__(self, seq, datatype='data', table=None, celltype=None, **fmt_dict):
 		"""
 		Parameters
 		----------
+		seq : sequence of data or cells
 		table : SimpleTable
+		datatype : str ('data' or 'header')
 		"""
-		list.__init__(self, cells)
-		self.datatype = datatype # data or header
+		self.datatype = datatype
 		self.table = table
 		if celltype is None:
-			try:
-				celltype = table._Cell
-			except AttributeError:
+			if table is None:
 				celltype = Cell
+			else:
+				celltype = table._Cell
 		self._Cell = celltype
 		self._fmt = fmt_dict
+		self.dec_below = 'header_dec_below' if (datatype == 'header') else None
+		list.__init__(self, (celltype(cell,row=self) for cell in seq))
 	def insert_stub(self, loc, stub):
 		"""Return None.  Inserts a stub cell
 		in the row at `loc`.
@@ -506,18 +516,18 @@ class Row(list):
 		for cell, width in zip(self, colwidths):
 			content = cell.format(width, output_format=output_format, **fmt)
 			formatted_cells.append(content)
-		header_dec_below = fmt.get('header_dec_below')
 		formatted_row = row_pre + colsep.join(formatted_cells) + row_post
-		if self.datatype == 'header' and header_dec_below:
-			formatted_row = self.decorate_header(formatted_row, output_format, header_dec_below)
+		dec_below = fmt.get(self.dec_below, None)
+		if dec_below:
+			formatted_row = self._decorate_below(formatted_row, output_format, dec_below)
 		return formatted_row
-	def decorate_header(self, header_as_string, output_format, header_dec_below):
+	def _decorate_below(self, row_as_string, output_format, decoration):
 		"""This really only makes sense for the text and latex output formats."""
 		if output_format in ('text','txt'):
-			row0len = len(header_as_string)
-			result = header_as_string + "\n" + (header_dec_below * row0len)
+			row0len = len(row_as_string)
+			result = row_as_string + "\n" + (decoration * row0len)
 		elif output_format == 'latex':
-			result = header_as_string + "\n" + header_dec_below
+			result = row_as_string + "\n" + decoration
 		else:
 			raise ValueError("I can't decorate a %s header."%output_format)
 		return result
@@ -528,11 +538,20 @@ class Row(list):
 
 
 class Cell(object):
-	def __init__(self, data='', datatype=0, row=None, **fmt_dict):
-		self.data = data
-		self.datatype = datatype
+	"""Provides a table cell.
+	A cell can belong to a Row, but does not have to.
+	"""
+	def __init__(self, data='', datatype=None, row=None, **fmt_dict):
+		try: #might have passed a Cell instance
+			self.data = data.data
+			self._datatype = data.datatype
+			self._fmt = data._fmt
+		except AttributeError: #passed ordinary data
+			self.data = data
+			self._datatype = datatype
+			self._fmt = dict()
+		self._fmt.update(fmt_dict)
 		self.row = row
-		self._fmt = fmt_dict
 	def __str__(self):
 		return '%s' % self.data
 	def _get_fmt(self, output_format, **fmt_dict):
@@ -607,6 +626,16 @@ class Cell(object):
 			raise ValueError('Unknown cell datatype: %s'%datatype)
 		align = self.alignment(output_format, **fmt)
 		return pad(content, width, align)
+	def get_datatype(self):
+		if self._datatype == None:
+			dtype = self.row.datatype
+		else:
+			dtype = self._datatype
+		return dtype
+	def set_datatype(self, val):
+		#TODO: add checking
+		self._datatype = val
+	datatype = property(get_datatype, set_datatype)
 #END class Cell
 
 
