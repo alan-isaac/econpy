@@ -149,6 +149,9 @@ Thank you.
 <p id="vim">
 First things first, and having a decent text editor is probably first.
 All other things equal, multi-platform solutions are always preferable.
+Nowadays having an editor that nicely handles utf-8 is pretty important.
+(See <a href="#unicode-hints">Unicode hints</a>.)
+
 I suggest <a href="http://www.vim.org">Vim</a>.
 It is highly configurable, available on essentially every platform
 (even <a href="http://www.rainer-keuchel.de/wince/vim.html">WinCE</a>),
@@ -210,12 +213,11 @@ Windows users:
 The NotePad editor is always available as an accessory program,
 but it is too limited for serious use.
 If you like the basic interface,
-try <a href="http://notepad-plus.sourceforge.net/uk/site.htm">NotePad++</a>,
-a fast and powerful replacement based on the <a href="http://www.scintilla.org/">Scintilla</a> edit component. (GPL)
+try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL)
 If you are willing lean against the wind and use a mode based editor,
 I strongly recommend the free text editor <a href="http://www.vim.org/">Vim</a>.
-If you prefer a modeless editor (shame on you!),
-you can try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
+If you are unwilling to learn mode-based editing,
+you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
 Or try <a href="http://fte.sourceforge.net/">FTE</a>,
 which (like Vim) is free, Open Source, and supports folding.
 I also like the popular shareware <a href="http://www.textpad.com/">TextPad</a>,
@@ -1507,8 +1509,8 @@ Academics may be interested in Mike Piff's answers package (answers.sty).
 <ul>
 
 <li>
-<a href="http://www.scons.org/">SCons</a> is Python-based replacement for "make". (License: MIT; Language: Python.)
-Using it for everything might be a good idea, or it might be overkill for TeX compilation.
+Using
+<a href="#scons">SCons</a> for TeX compilation might be a good idea, or it might be overkill.
 In the latter case, consider <a href="http://www.pps.jussieu.fr/~beffara/soft/rubber/">Rubber</a>,
 a more modest replacement for makefiles in a TeX environment. (Language: Python.)
 </li>
@@ -1862,6 +1864,18 @@ Easy and powerful.
 </p>
 
 
+<h3>Build Systems</h3>
+
+<ul>
+<li id="scons">
+A fairly popular alternative to <a href="http://www.gnu.org/software/make/">make</a> is
+<a href="http://www.scons.org/">scons</a>. (License: MIT; Language: Python.)
+</li>
+<li>
+A newer and very promising alternative is <a href="http://waf.googlecode.com/svn/docs/wafbook/single.html#_introduction">Waf</a>.
+</li>
+</ul>
+
 <h3>C</h3>
 
 <div id="clang">
@@ -1873,8 +1887,6 @@ Btw, if you program in C/C++, you should probably be using the
 <a href="http://cscope.sourceforge.net/">Cscope</a> code browser;
 there is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>,
 which works with Vim's Cscope interface.
-<br />
-Also, <a href="http://www.scons.org/">scons</a> has become a fairly popular alternative to <a href="">make</a>.
 <ul>
 <li>
 There is a <a href="http://www.cygnus.com/misc/gnu-win32/">Windows port</a> of the GNU gcc compiler.
@@ -1924,6 +1936,7 @@ and <a href="http://www.ruby-lang.org/en/">Ruby</a>.
 There have also been some interesting applications of the embeddable <a href="http://www.s-lang.org/">S-Lang</a> interpreter and programmers library.
 <a href="http://www.lua.org/">Lua</a> is especially small and portable,
 and is used in the up and coming <a href="http://www.luatex.org/">LuaTeX</a> extension of pdfTeX.
+(See my <a href="#luatex_hints">LuaTeX hints</a>.)
 <br />
 It is also worth mention that <a href="http://www.jython.org/">Jython</a> implements Python as Java,
 allowing the ease of Python scripting to be combined with the power of Java.
@@ -2326,6 +2339,11 @@ is an interesting, Python-based CAS with excellent documentation
 This is a free cross-platform solution.
 (A windows binary is available.)
 <a href="http://home.arcor.de/mulk/projects/mascyma/index.xhtml.en">Mascyma</a> is a Python based front end for Maxima.
+<a href="http://wxmaxima.sourceforge.net/wiki/index.php/Main_Page">wxMaxima</a>
+"is a cross platform GUI for the computer algebra system Maxima based on wxWidgets" (License: GPL2).
+This provides functionality similar to Mathematica notebooks.
+For example, wxMaxima can be used to produce beautiful PDF documents via LaTeX;
+see <a href="http://facultyweb.berry.edu/wmixon/maxima/Typesetting/Intro.html">Typesetting in wxMaxima</a> for details.
 </li>
 <li>
 Great things grow from small beginnings:
@@ -3362,6 +3380,8 @@ A rising format for web graphics and may already be useful if you need vector gr
 You can convert <acronym class="help" title="Encapsulated PostScript">EPS</acronym> to PNG or <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>.
 (See <a href="#convert">below</a>.)
 It is possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>.
+For extensive SVG manipulation and generation tools,
+see <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
 </p>
 
 <p>
@@ -4412,9 +4432,6 @@ Other interesting solutions:
 <a href="#ftpclients">File Transfer (FTP)</a> 
 </li>
 <li>
-<a href="#filesearch">File Search</a>
-</li>
-<li>
 <a href="#pims">
 Personal Information Managers (PIMs)</a>
 </li>
@@ -4442,7 +4459,7 @@ Address Books</a>
 Software for <a href="#openaccess">open access</a> journals and publications.
 </li>
 <li>
-<a href="#kids">Stuff for Kids</a>
+<a href="#kids">Stuff for Kids (and Educators)</a>
 </li>
 </ul>
 
@@ -4466,6 +4483,12 @@ but these tend to be less focused on hiding themselves.)
 Probably better than any of this is vigilant use of a laptop cable lock.
 </p>
 
+<h3>GIS</h3>
+
+<p>
+<a href="http://www.qgis.org/">Quantum GIS</a> is an extensible geographic information system. (License: GPL)
+</p>
+
 <h3 id="openaccess">Open Access</h3>
 
 <p>
@@ -4481,18 +4504,6 @@ Also:
 Copernicus</a> is a company specializing in the publication of open access journals.  
 </p>
 
-<h3 id="filesearch">File Search</h3>
-<div>
-Windows:
-If you downloaded Window Desktop Search for XP, you found that
-the default search in Windows Explorer is no longer the Windows search companion.
-To change this back, start regedit, and find the following node:
-<pre>
-HKEY_CURRENT_USER\Software\Microsoft\Windows Desktop Search\DS
-</pre>
-Double-click on 'ShowStartSearchBand' and change the value from '1' to '0'.
-Thanks to <a href="http://www.johnsadventures.com/archives/2006/11/how_to_default_to_search_companion_with_windows_de/">John Conners</a> for this tip.)
-</div>
 
 <h3 id="keyboard">Keyboards</h3>
 <p>
@@ -4595,6 +4606,21 @@ Most email clients do as well.
 You can also get such (database) functionality in stand-alone applications.
 On Linux you can use <a href="http://membres.lycos.fr/fpeters/gaby/">Gaby</a> or <a href="http://pbrufal.kleenux.org/gtk-agenda.shtml">GTK-Agenda</a>.
 There is also the <a href="http://www.aq.org/~js/agenda/pim-apps/contacts.html">Contacts</a> application.
+</p>
+
+<h4>Project Management</h4>
+
+<p>
+See <a href="http://en.wikipedia.org/wiki/Comparison_of_project_management_software">Wikipedia</a>
+for a comparison of project management software.
+Here is <a href="http://mastersinprojectmanagement.org/top-25-open-source-project-management-apps.html">another comparison</a>.
+</p>
+
+<p>
+Here is one that is not yet listed there:
+<a href="http://www.projelead.com/">ProjeLead</a>
+(License: GPL)
+Probably <a href="http://trac.edgewall.org/">Trac</a> is best known in the open source community.
 </p>
 
 <h3 id="pfm">Personal Financial Managers (PFMs)</h3>
@@ -4868,14 +4894,14 @@ Mac users can consider <a href="http://bibdesk.sourceforge.net/">BibDesk</a>.
 <p>Traditional spreadsheets:
 <br />
 It has become very popular to use <a href="http://sunsite.univie.ac.at/Spreadsite/">spreadsheets in education</a>.
-In my view, it is a terrible mistake to use traditional spreadsheets this way.
+In my view, this is a mistake.
 Traditional preadsheets are OK for very simple, one-off applications using small amounts of data.
 For serious work,
-they are too opaque.
+they are too opaque, because they are too hard to document.
 (If you have ever tried to figure out another person's complex spreadsheet, you know what I mean.)
 Studies indicate that almost all large spreadsheet have serious errors.<sup><a href="http://www.ifs.org.uk/~popx/eusprig2001_as_html/eusprig2001.html">*</a></sup>
 Basic <a href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=15214961">data handling glitches</a> have been documented even in the most popular spreadsheet applications.
-The complete lack of object orientation and the lack of transparent scripting facilities means that it is very difficult to understand someone else's spreadsheet or even one's own spreadsheet developed months or years ago.
+The lack of transparent scripting facilities means that it is very difficult to understand someone else's spreadsheet or even one’s own spreadsheet developed months or years ago.
 If all you want to educate someone to do is one-time, never-to-be-revisited, quick-and-dirty computations,
 then teach them a traditional spreadsheet.
 Otherwise teach them a format that allows serious documentation and transparency of manipulations.
@@ -4888,10 +4914,16 @@ such as scientific spreadsheets and engineering spreadsheets.
 Comment: some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet's computational and graphics facilities---on a Windows platform, perhaps VBA or better yet Python with win32com;
 on a Unix platform, perhaps ABV or Python or a plug-in that supports scripting.
 Of course this is not how most people use spreadsheets.
-A related but more promising route for adding the structure and documentation needed for serious maintenance in a research or business environment is <a href="http://www.ifs.org.uk/~popx/mm_presentation/user_guide.html">Model Master</a>;
-unfortunately this is work in progress and its current availability is unclear.
 There are also engineering spreadsheets that allow explicit scripting and treat data in a more object oriented fashion.
 These are tools that can be properly used for serious work.
+</p>
+
+<p>
+Comment: Python can read and write tranditional spreadsheets.
+For simple spreadsheets see the <a href="http://docs.python.org/library/csv.html">CSV</a> module.
+For more advanced need,
+consider <a href="http://pypi.python.org/pypi/xlrd">xlrd</a>
+and <a href="http://pypi.python.org/pypi/xlwt">xlwt</a>.
 </p>
 
 <ul>
@@ -5300,7 +5332,8 @@ See my <a href="#svn_hints">SVN hints</a>.
 There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>.
 (Be sure to read about the <a href="http://svnbook.red-bean.com/en/1.5/svn.tour.cycle.html">basic work cycle</a>.
 Simplest bottom line: change to your working directory and enter
-<code>svn update</code>, <em>then</em> make changes to your files,
+<code>svn update</code>, <em>then</em> make changes to your files.
+Before you commit do another update,
 and finally commit the changes with <code>svn commit -m "My message about the changes."</code>.)
 </p>
 
@@ -5515,10 +5548,12 @@ Alternatives:
 <a href="http://www.dcc.uchile.cl/~gnavarro/software/">nrgrep</a> (gets good reviews),
 <a href="http://wilbur.redtree.com/">Wilbur</a>,
 <a href="http://www.mythicsoft.com/agentransack/default.aspx">Agent Ransack</a>.
+Finally, you can try to <a href="http://support.microsoft.com/?id=309173">fix this piece-meal in Windows</a>.
+(Also see MS on <a href="http://msdn.microsoft.com/en-us/library/bb318649%28VS.85%29.aspx">extending the index</a>.)
 </li>
 <li>
 Amazingly, in 2004 Microsoft made free what is essentially a Unix system for Windows,
-called <a href="http://www.microsoft.com/windows/sfu/">Windows Services for Unix (SFU)</a>.
+called <a href="http://technet.microsoft.com/en-us/library/bb463212.aspx">Windows Services for Unix (SFU)</a>.
 Add Interop Systems' <a href="http://www.interopsystems.com/downloads.htm">open source tools for SFU</a> and you have a powerful combination (sort of like Cygwin but without an X server, and you can add the commercial Desktop-X).
 </li>
 <li id="diff">
@@ -5726,6 +5761,14 @@ you can also try <a href="http://tnt.math.metro-u.ac.jp/nzmath/">NZMATH</a>.
 <h3>Agent-Based Simulation</h3>
 
 <p>
+Probably the best platform for introductory exploration of agent-based models is <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
+which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/">Models Library</a>.
+While NetLogo's statistical and mathematical support is limited,
+you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
+or <a href="http://ccl.northwestern.edu/netlogo/docs/mathematica.html">link it to Mathematica</a>.
+</p>
+
+<p>
 <a href="http://www.labor-torino.it/english/research/labsim/wild/wp-html/wp-sonnessa.html">Java Agent-based Simulation (JAS) library</a>
 </p>
 
@@ -5741,7 +5784,12 @@ you can also try <a href="http://tnt.math.metro-u.ac.jp/nzmath/">NZMATH</a>.
 <h3 id="kids">Stuff for Kids (and Educators)</h3>
 
 <p>
-<a href="http://banshee-project.org/">Banshee</a> music player.
+<a href="http://banshee-project.org/">Banshee</a> music player. (License: MIT)
+</p>
+
+<p>
+<a href="http://cdexos.sourceforge.net">CDex</a> CD ripper. (License: GPL)
+On Windows, CDex may provide an alternative to the poor iTunes error correction (i.e., the presence of pops and clicks).
 </p>
 
 <p>
@@ -5963,12 +6011,25 @@ but <code>mylist</code> is now sorted.
 </p>
 
 <h3 id="rproject_hints">R Hints</h3>
+
+<p>
+Rossiter wrote an accesible <a href="http://www.itc.nl/~rossiter/teach/R/RIntro_ITC.pdf">Introduction to the R Project</a>.
+</p>
+
 <p>Documentation:
 <br />
 Windows users may want to read <a href="http://wwwmaths.anu.edu.au/~wangk/personal/rinfo.php">R Guide for Windows Users by Kevin Wang</a>.
 Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplementary documentation</a>;
 also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell's R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful.
 Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.
+</p>
+
+<p>
+Be careful with the definition of R’s PRNG for the geometric distribution:
+<code>rgeom</code> has support on nonnegative integers,
+since R has <em>p(x) = p (1-p)^x</em>.
+A perhaps more common parameterization is <em>p(x) = p (1-p)^(x-1)</em>:
+which you can match by adding 1 to the values returned by <code>rgeom</code>.
 </p>
 
 <p>
@@ -6589,10 +6650,10 @@ I often need to redirect all script output to a text file,
 both stdout and stderr.
 Example:
 <pre>
-c:\Python26\python.exe -c "import scipy;scipy.test()" &gt;c:\file.txt 2&gt;&amp;1
+c:\Python27\python.exe -c "import scipy;scipy.test()" &gt;c:\file.txt 2&gt;&amp;1
 </pre>
 </div>
-<!-- c:\Python26\python.exe -c "import scipy;scipy.test()" >c:\temp\temp.txt 2>&1 -->
+<!-- c:\Python27\python.exe -c "import scipy;scipy.test()" >c:\temp\temp.txt 2>&1 -->
 
 <h3 id="pyx_hints">PyX user hints.</h3>
 
@@ -7067,7 +7128,8 @@ the title.
 <h3 id="mpl_hints">Matplotlib User hints</h3>
 
 <p>
-Make sure you have installed <a href="#numpy">NumPy</a>.
+Before installing Matplotlib,
+make sure you have installed <a href="#numpy">NumPy</a>.
 </p>
 
 <p>
@@ -7102,6 +7164,11 @@ Here is a simple example for creating a figure
 and displaying it onscreen.
 It assumes that you have version 0.92.1 or newer.
 (Otherwise use <code>pylab</code> instead of <code>pyplot</code>.)
+Note the hierarchical approach:
+the <tt>pyplot</tt> interface creates the figure object,
+the figure object creates the axes objects,
+and the axes objects create the other objects
+(including, implicitly, the axis objects).
 </p>
 
 <pre>
@@ -7344,7 +7411,13 @@ See <a href="http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-
 </a> for a discussion.
 </div>
 
-
+<div>
+In an Axes3D object,
+the .xaxis and .yaxis refer to the axis for the draw space,
+<em>not</em> to the the 3d projected axis.
+The latter are .w_xaxis, .w_yaxis, and .w_zaxis.
+(Thanks to Ben Root for pointing this out.)
+</div>
 
 <h3 id="evhints">EViews User hints</h3>
 
@@ -8083,10 +8156,11 @@ using gnuplot.
 <h3 id="firefoxhints">FireFox hints</h3>
 
 <p>
-I consider two plugins to be indispensible:
-<a href="http://www.extensionsmirror.nl/">Session Saver</a>,
-and <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a>.
+I consider one extension to be indispensible:
+<a href="https://addons.mozilla.org/en-us/firefox/addon/session-manager/">Session Manager</a>.
+For FireFox version 3, I feel the same way about <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a>.
 (Taboo allows you to replace the practice of keeping many tabs open with a single page of site links.)
+In version 4, Pandora is an interesting alternative.
 </p>
 
 <h3 id="windows-hints">Windows hints</h3>
@@ -8106,6 +8180,13 @@ Believe it or not, you must edit your registry to fix this.
 <pre>
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ContentIndex\FilterFilesWithUnknownExtensions = 1
 </pre>
+</div>
+
+<div>
+Windows File Search:
+Basic file search in Windows is indexed.
+To search all files, use advanced search and check "Include non-indexed".
+It can also be useful to <a href="http://www.microsoft.com/windows/products/winfamily/desktopsearch/technicalresources/indexing.mspx">change what is indexed</a>.
 </div>
 
 
@@ -8165,6 +8246,76 @@ install the **intel** disk image.
 </li>
 The last two are at <a href="http://gretl.sourceforge.net/osx.html">http://gretl.sourceforge.net/osx.html</a>.
 </div>
+
+<h3 id="luatex-hints">LaTeX hints</h3>
+
+<p>
+New LaTeX users on Windows may wish to read <a href="http://www.pinteric.com/miktex.html">these hints</a>
+</p>
+
+<div>
+Suppose you want to use a non-standard document class,
+say a thesis class to format your LaTeX thesis.
+You need LaTeX to be able to find the class (.cls) and class option (.clo) files.
+Here are some options for providing this information.
+(For more information, see the <a href="http://docs.miktex.org/manual/localadditions.html">MiKTeX documentation</a>.)
+<ul>
+<li>
+Put them in the same folder as your thesis.
+</li>
+<li>
+Put them in an arbitrary folder that you point to by setting the <tt>TEXINPUTS</tt> environment variable.
+(E.g., on Windows you might use the
+<a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/set.mspx?mfr=true">set command</a>
+or go to Advanced System Settings via the Control Panel.
+Users of the Bash shell might use the <tt>export</tt> command.)
+</li>
+<li>
+Put them in an arbitrary folder that you point to by using the <tt>--include-directory</tt> option when you call pdflatex.
+</li>
+</li>
+<li>
+Put them in a properly (TDS) structured <tt>localtexmf</tt> folder,
+and then refresh your LaTeX database.
+</ul>
+</div>
+
+<p>
+To include graphics in your document,
+use the <tt>graphicx</tt> package.
+Keep your images grouped together,
+and point to them with the <tt>\graphicspath</tt> command.
+(Some knowledgeable users suggest setting <tt>TEXINPUTS</tt> instead,
+e.g., <a href="http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618">http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618</a>.)
+Note the odd syntax for <tt>\graphicspath</tt>:
+each path must be in braces and must end with a forward slash.
+If you want an images directory searched recursively
+(say because you put each chapters images a separate folder),
+end the path with a double slash.
+E.g., <tt>\graphicspath{{images-eps//}{images-pdf//}}</tt>.
+</p>
+
+<h4 id="luatex-hints">LuaTeX hints</h4>
+
+<p>
+See <a href="http://www.luatex.org/svn/trunk/manual/luatexref-t.pdf">the LuaTeX manual</a>.
+</p>
+
+<p>
+Recent TeX distributions include LuaTeX.
+The first thing most new users will wish to attemp with LuaTeX
+is compilation of legacy LaTeX documents.  You can compile a LaTeX document named
+<code>mydoc.tex</code> with the command <code>lualatex mydoc</code>.
+</p>
+
+<h3 id="unicode-hints">Unicode hints</h3>
+
+<p>
+To enter arbitrary Unicode characters on a Windows platform, see
+<a href="http://www.fileformat.info/tip/microsoft/enter_unicode.htm">http://www.fileformat.info/tip/microsoft/enter_unicode.htm</a>.
+On Linux, consider the <a href="http://code.google.com/p/ibus/]">IBus</a> input bus.
+If you use Vim on either platform, see <code>help utf-8-typing</code> (and <code>help digraphs-default</code>).
+</p>
 
 <h3 id="gnuwin32-hints">GnuWin32 hints</h3>
 <p>

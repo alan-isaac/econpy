@@ -147,9 +147,10 @@ def impose_gini(wtotal, units, gini, shuffle=False):
 	:note: need to compute number of units *before* distributing.
 	:todo: eliminate redundant error checks
 	:comment: uses Indiv methods ...
+	:comment: was named `distribute` long ago
 	"""
 	units = list(units)
-	logging.debug("""Enter utilities.distribute.
+	logging.debug("""Enter utilities.impose_gini.
 	wtotal: %f
 	units: %s
 	gini: %f

@@ -11,11 +11,12 @@
    <meta name="Keywords"
                content="Python, econometrics, software, archive, pytrix, American University" />
    <meta name="Description" content="Pyton econometrics source code archive at American Univeristy." />
+
 </head>
 <body>
 
 <p style="font-size: x-small">
-Last modified: 2010 Jul 13
+Last modified: 2010 Nov 13
 </p>
 
 <h1>pyTrix</h1>
@@ -32,6 +33,7 @@ which will include contributions in agent-based simulation.
 In addition, a better place to get most of the stats funtionality (and more)
 is the <tt>statsmodel</tt> scikit for SciPy.
 Please contribute to this archive by send packages, modules, or links to:
+
 <br />
 aisaac AT american.edu
 </p>
@@ -46,6 +48,7 @@ This rest of this page is an idiosyncratic sampling of some Python resources for
 If you are unaware of the computational potential of Python,
 you can find a  brief introduction on my
 <a href="http://www.american.edu/econ/notes/soft.htm#scipy">Software for Economists</a> page.
+
 </p>
 
 <div>
@@ -80,6 +83,7 @@ If you want to do computations in parallel,
 there are at least three alternatives.
 <br />
 <a href="http://ipython.scipy.org/moin/IPython1">IPython1</a>
+
 is an enhanced Python interactive shell that supports distributed interactive computing.
 <br />
 The other two require you to link to <a href="http://www-unix.mcs.anl.gov/mpi/">MPI</a>.
@@ -97,6 +101,7 @@ in combination with <a href="http://www.open-mpi.org/">Open MPI</a>),
 If you are using <a href="#numpy">NumPy</a>,
 note that note all implementations can communicate efficiently with NumPy arrays
 (using the low-level C API to pass pointers to arrays).
+
 </p>
 
 <p>
@@ -114,6 +119,7 @@ which is included in standard Python installations.
 </p>
 
 <p>
+
 <a href="http://packages.python.org/spyder/">Spyder</a>
 is a very interesting alternative.
 "Spyder (Scientific PYthon Development EnviRonment)
@@ -130,8 +136,19 @@ by better supporting TKinter GUIs.
 <p>
 <a href="http://sourceforge.net/projects/drpython/">Dr. Python</a>
 gets some good reviews. (License: GPL)
+
 </p>
 
+<h2>GUI</h2>
+
+<p>
+<a href="http://www.riverbankcomputing.co.uk/software/pyqt">PyQt</a>
+“is a set of Python bindings for Nokia's Qt application framework”.
+(License: GPL)
+It is an extensive library with a good reputation.
+Similar functionality is provided by the newer <a href="http://www.pyside.org/">PySide</a>,
+under a more liberal license. (License: LGPL)
+</p>
 
 <h2>Econometric and Other Utilities for Python</h2>
 
@@ -146,6 +163,7 @@ input-output utilities.
 These are intended to supplement those in SciPy,
 or sometimes to provide "light weight" alternatives,
 not to provide a full set of services.
+
 </p>
 
 <p>
@@ -183,6 +201,7 @@ This is mostly stuff "harvested" from other websites.
 <a href="http://www.biopython.org/documentation/">BioPython</a> includes a
 <a href="http://www.biopython.org/docs/cookbook/LogisticRegression.html">Logistic Regression</a> implementation.
 The <a href="http://www.acooke.org/jara/muac/">Muac</a> distribution includes Python code for computing the 2-dimensional KS (Kolmogorov-Smirnov) test for two samples. (Archived: <a href="./authors/cooke_andrew/ks2.py">ks2.py</a>.)
+
 </p>
 
 <p>
@@ -208,6 +227,7 @@ For solving very large linear systems.
 </p>
 
 <p>
+
 <a href="http://wlav.web.cern.ch/wlav/pyroot/">PyRoot</a> provides Python bindings for the impressive
 <a href="http://root.cern.ch/">Root</a> C++ library for data analysis.
 </p>
@@ -222,6 +242,7 @@ jonathan.taylor stanford.edu
 <p>
 The oddly named <a href="http://textmodeller.sourceforge.net/">TextModeller</a> implements maximum entropy estimation for large sample spaces.
 (The name is explained by the applications in the website tutorial.)
+
 </p>
 
 <p>
@@ -237,6 +258,7 @@ does rational and arbitrary precision floating point arithmetic.
 </p>
 
 <p>
+
 <a href="http://math.colgate.edu:16080/~wweckesser/software/vfgen/">VFGEN</a>
 can for generate Python code to be used with the SciPy ODEINT function.
 </p>
@@ -249,6 +271,7 @@ Gary Strangman's <a href="http://www.nmr.mgh.harvard.edu/Neural_Systems_Group/ga
 (which needs his <a href="pstat.py">pstat.py</a> list manipulation module).
 The stats.py module in <a href="http://www.american.edu/econ/notes/soft.htm#scipy">SciPy</a> is a modification of the Strangman module,
 which is more useful if you are using <a href="http://www.american.edu/econ/notes/soft.htm#numpy">numpy</a>.
+
 </p>
 
 <p>
@@ -299,6 +322,7 @@ Growing Neural Gas (GNG),
 Factor Analysis,
 Fisher Discriminant Analysis (FDA),
 and Gaussian Classifiers".
+
 </p>
 
 <p>
@@ -328,6 +352,7 @@ the Computational Geometry Algorithms Library (a C++ library of geometric algori
 <p>
 OT:
 I'm hoping someone will translate Andy Warne's <a href="http://www.texlips.net/svar/source.html">SVAR</a>
+
 Matlab code to numpy very soon.
 </p>
 
@@ -336,6 +361,13 @@ Matlab code to numpy very soon.
 arbitrary precision arithmetic (using gmpy), and interval arithmetic."  (GPL)
 (Be sure to consider the <a href="http://gr.anu.edu.au/svn/people/sdburton/pydx/doc/user-guide.html#prerequisites">dependencies</a>.)
 It also does automatic differentiation.
+</p>
+
+<p>
+<a href="http://github.com/b45ch1/pyadolc/wiki">PYADOLC</a>
+provides Python bindings to
+<a href="https://projects.coin-or.org/ADOL-C">ADOLC</a>.
+Great for automatic differentiation.
 </p>
 
 <p>
@@ -355,6 +387,7 @@ provides a unified interface to a variety of solvers.  (License: BSD; Language: 
 </li>
 <li>
 <a href="http://nlpy.sourceforge.net/">nlpy</a>
+
 can read optimization problems coded in the <a href="#AMPL">AMPL</a> modeling language
 (and by implication problems coded in <a href="#MathProg">MathProg</a>).
 </li>
@@ -366,6 +399,7 @@ can read optimization problems coded in the <a href="#AMPL">AMPL</a> modeling la
 (License: BSD; PETSc License: mostly public domain but a little GPL)
 PETSc is
 "a suite of data structures and routines for the scalable (parallel) solution of scientific applications modeled by partial differential equations".
+
 </li>
 <li>
 <a href="http://www.ctcms.nist.gov/fipy/">FiPy</a> is a finite-volume partial differential equation (PDE) solver, written in Python.
@@ -379,6 +413,7 @@ allows Python access to the
 David Cournapeau's
 <a href="http://www.ar.media.kyoto-u.ac.jp/members/david/pyem-0.4.1.tar.gz">module for Expectation 
 Maximization for Gaussian Mixture Models</a>.
+
 </li>
 <li>
 <a href="http://sourceforge.net/projects/pythonequations">Python Equations</a>
@@ -393,6 +428,7 @@ fit themselves to 2D and 3D data sets.
 <h2>Parallelization</h2>
 
 <p>
+
 <a href="http://luispedro.org/software/jug">Jug</a> is a pure Python "Task-Based Parallelization Framework".
 </p>
 
@@ -421,6 +457,7 @@ License: GNU Lesser GPL (LGPL)
 </p>
 
 <p>
+
 <a href="http://github.com/cool-RR/GarlicSim-for-Python-2.6">GarlicSim</a>
 "is a platform for writing, running and analyzing simulations".
 </p>
@@ -475,8 +512,9 @@ PyXL generates 3D graphical representations for use with the <a href="www.vtk.or
 
 <p>
 <a href="http://mathema.tician.de/software/pycuda">PyCuda</a>
-"lets you access Nvidia�s CUDA parallel computation API from Python".
+"lets you access Nvidia‘s CUDA parallel computation API from Python".
 (License: MIT/X Consortium license)
+
 </p>
 
 <p>
@@ -510,6 +548,7 @@ Includes a proposal for GraphABC (an abstract base class for graphs).
 "the creation, manipulation, and study of the structure, dynamics, and functions of complex networks."
 You can alternatively use <a href="http://cneurocvs.rmki.kfki.hu/igraph/">igraph</a>,
 which has a Python wrapper. (License: GPL)
+
 </p>
 <p>
 <a href="http://gato.sourceforge.net/">Graphics Animation Toolkit (Gato)</a>
@@ -524,6 +563,7 @@ which has a Python wrapper. (License: GPL)
 </p>
 
 <p>
+
 <a href="http://neuroimaging.scipy.org/">NIPY</a> is a collection of neuro-imaging tools for Python.
 (License under discussion, but currently GPL)
 </p>
@@ -565,9 +605,13 @@ Documentation is very good.
 (License: public domain.)
 Also see <a href="http://www.ctcms.nist.gov/oof/">OOF</a>.
 (License: public domain.)
+
 </p>
 
 <p>
+<a href="http://code.google.com/p/pyffmpeg/">PyFFmpeg</a> wraps the FFmpeg library,
+allowing audio-visual manipulations via a simple Python interface.
+<br />
 <a href="http://scipy.org/scipy/scikits">samplerate</a> is a python wrapper around the Sampling Rate Conversion (SRC) library of Erik Castrop de Lopo.  It provides
 "a python package to convert sampling rate of audio signals ... using sinc interpolation and polyphase implementation".
 <a href="http://www.ar.media.kyoto-u.ac.jp/members/david/pyaudiolab.tar.gz">PyAudioLab</a>
@@ -579,6 +623,7 @@ Currently no IO capabilities.
 <br />
 <a href="http://www.pyaudiere.org/">PyAudiere</a> provides a "high-level audio interface for Python".
 Depends on the Audiere sound library. (License: LGPL)
+
 <br />
 <a href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio</a> if Python bindings for <a href="http://www.portaudio.com/">PortAudio</a>.
 Offers (blocking-mode only) support for IO.
@@ -589,6 +634,7 @@ is a "Python interface to the <a href="http://www.portaudio.com/">PortAudio</a> 
 Requires <a href="http://www.mega-nerd.com/libsndfile/">libsndfile</a>.
 <br />
 <a href="http://www.freenet.org.nz/python/pyPortAudio/fastaudio.tar.gz">fastaudio.tar.gz</a>
+
 is recommended as an alternative to pyPortAudio (features non-blocking calls, plus far greater stability).
 Requires <a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">Pyrex</a> to build from source,
 but there's a pre-built windows binary.
@@ -603,6 +649,7 @@ Try <a href="http://pythonmac.org/packages/py24-fat/">universal python</a>.
 </p>
 
 <p>
+
 The <a href="http://golly.sourceforge.net/">Golly</a> game-of-life simulator is written in C++ but is scriptable in Python.
 </p>
 
@@ -626,6 +673,7 @@ Windows users can add <a href="http://aspn.activestate.com/ASPN/Cookbook/Python/
 <h2>Extensibility</h2>
 
 <p>
+
 <a href="https://launchpad.net/pybindgen/">PyBindGen</a> generates Python bindings for C/C++ libraries.
 </p>
 
@@ -637,6 +685,7 @@ Start by reading <a href="http://zephyrfalcon.org/labs/python_pitfalls.html">Pyt
 
 <p>
 A simple way to reverse a sequence: <code>seq[::-1]</code>.
+
 </p>
 
 <p>
@@ -653,4 +702,4 @@ When given two 2-D arrays, dot() essentially computes matrix multiplication.
 
 
 </body>
-</html>
+</html> 
