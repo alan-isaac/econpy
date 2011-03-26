@@ -119,7 +119,10 @@ def gini2shares(gini, nbrackets):
 	:contact: aisaac AT american DOT edu
 	:todo: replace with an indexable class
 	"""
-	assert (0 <= gini < 1)
+	if not (0 <= gini < 1):
+		raise ValueError('gini must be in (0,1)')
+	if nbrackets < 0:
+		raise ValueError('nbrackets should be a positive integer')
 	g = (1+gini)/(1-gini) # (2A+B)/B
 	sb = 1.0/nbrackets  #width of brackets
 	#cum prop =  ((i+1)*sb)**g = (i+1)**g * sb**g
