@@ -142,6 +142,32 @@ def cbrt(r, n=3):
 
 
 
+def integer_partitions(n, maxparts):
+	"""
+	Generate lists of positive integers,
+	where each sublist sums to `n` and has length <= maxparts.
+	:contact: alan dot isaac at gmail dot com
+	:see: http://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+	"""
+	# base case of recursion: zero is the sum of the empty list
+	if n == 0:
+		yield []
+		return  #we're done now
+	elif maxparts == 1 or n == 1:
+		yield [n]
+		return #we're done now
+	assert n > 0 and maxparts > 1
+	if maxparts > n:
+		maxparts = n
+	# modify partitions of n-1 to form partitions of n
+	for p in integer_partitions(n-1, maxparts): #recursive call
+		if p: #else p=[]
+			if len(p) < maxparts:
+				yield [1] + p
+			if len(p) == 1 or p[1] > p[0]:
+				p[0] += 1
+				yield p
+
 
 
 

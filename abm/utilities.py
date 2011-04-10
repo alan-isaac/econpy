@@ -132,6 +132,7 @@ def gini2shares(gini, nbrackets):
 	return shares
 
 
+
 def impose_gini(wtotal, units, gini, shuffle=False):
 	"""Return None.
 	Distribute resources `wtotal` among members of `units` based on `gini`,
