@@ -86,6 +86,7 @@ from __future__ import division, with_statement
 import logging
 try: #plan for Python 3
 	from itertools import izip_longest, izip as zip
+	pass   # accommodate 2to3 tool
 except ImportError:
 	pass
 from itertools import cycle
