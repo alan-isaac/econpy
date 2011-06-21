@@ -3303,15 +3303,7 @@ written in Python atop the wxPython GUI toolkit.
 (Dabo capabilities resemble Visual Basic or Visual FoxPro, but it's cross platform.)
 </p>
 
-<!-- 
-Photoshop - You're unlikely to replace that one. Although, someone else mentioned Pixel [kanzelsberger.com] which could possibly cut the mustard depending on your needs. Otherwise, there really is nothing to compare to Photoshop.
 
-Illustrator - Definitely have a strong look at Inkscape [inkscape.org]. I've toyed with it for 2 or 3 years to keep tabs on its' development, after being fairly impressed during my first run through. These days it has continued to advance and I'd suggest it's ready for the professional world. You can create substantially complex pieces with Inkscape which will probably far out-pace the ability of your Marketing department to bother learning in the first place. While it might be missing a pet feature or two, the bottomline is that Inkscape is ready to be taken seriously as a replacement for Illustrator (and, previously, FreeHand).
-
-InDesign - Professionals already use Scribus [scribus.net] to handle multipage full color layouts sent directly to commercial print houses, so it's gotta be worth your time to look at. CMYK separation, PDF generation,and much of the toolsets you'd expect to see in Quark or InDesign; certainly more than enough power for your Marketing department.
-
-Acrobat Pro - If you're heavily using features like annotation, collaboration, form creation, et cetera, then you probably won't be replacing Acrobat Professional. Nothing can touch it. However, if all you need is to be able to allow your Marketing droids to generate PDFs from documents they create in other software, then you can slap PDFCreator [pdfforge.org] on their little Windows boxen. Remember that OpenOffice already has the ability to turn any of their normal documents and spreadsheets into a PDF at a click of a button. Surely, you've dumped MS Office by now.
--->
 
 <h2 id="graphics">Graphics</h2>
 
@@ -3435,9 +3427,11 @@ while mentioning a few other interesting possibilities.
 PostScript is a very useful device independent page description language.
 If you want to precisely render a vector graphic,
 you may well find it convenient to draw it yourself in PostScript.
+<!-- 
 I offer a <a href="http://www.american.edu/econ/notes/psdraw.pdf">brief introduction to PostScript drawing</a>,
 which is still under revision.
-Also, see some <a href="#ps_hints">PostScript hints</a> below.
+-->
+See some <a href="#ps_hints">PostScript hints</a> below.
 </p>
 
 <!--
@@ -3479,6 +3473,7 @@ So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScri
 You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
 For some cool PostScript code,
 look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
+Look <a href="http://www.onlinecomputersciencedegree.com/resources/postscript-resources/">here</a> for some more links.
 </div>
 
 <div>
@@ -4029,10 +4024,10 @@ Alternatively, some applications allow you to produce EPS files with supporting 
 I find <a href="#gnuplot">gnuplot</a> to do this very well.
 </li>
 <li>
-The MATLAB m-function <a href="http://www.uni-kassel.de/~linne/matlab/">laprint.m</a>is a graphical user interface which saves a MATLAB plot in an .eps file with an accompanying tex file. The .eps file contains PSfrag replacements which are matched by the .tex file (so the .tex file inserts corresponding LaTeX code).
+The MATLAB m-function <a href="http://www.mathworks.de/matlabcentral/fileexchange/4638">laprint.m</a>
+is a graphical user interface which saves a MATLAB plot in an .eps file with an accompanying tex file.
+The .eps file contains PSfrag replacements which are matched by the .tex file (so the .tex file inserts corresponding LaTeX code).
 It requires MATLAB 5.
-    <a href="http://yoyo.cc.monash.edu.au/~wigs/postscript/">1</a>
-    <a href="http://www.ncf.carleton.ca/~cj434/">2</a>.
 </li>
 </ul>
 
@@ -5093,6 +5088,9 @@ for substantial databases. (<a href="http://hdfgroup.com/HDF5/RD100-2002/All_Abo
 Supports PDF 1.4 and Python scripting.
 "The Scribus file format is XML based; open and completely documented."
 (License: GPL)
+Used by professionals to send multipage full color layouts sent directly to commercial print houses.
+Supports CMYK separation, PDF generation, and much of the toolsets you get from commercial packages
+like Quark or InDesign.
 </p>
 
 <h3>Fax</h3>

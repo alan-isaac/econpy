@@ -108,19 +108,19 @@ class SimpleGame:
 		self.payoffmat = payoffmat
 		self.history = list()
 	def run(self, game_iter=4):
-		# unpack the two players
-		player1, player2 = self.players
-		# each iteration, get new moves and append these to history
+		player1, player2 = self.players # unpack the players
+		# each iteration, get moves and append to history
 		for iteration in range(game_iter):
 			newmoves = player1.move(self), player2.move(self)
 			self.history.append(newmoves)
-		# prompt players to record the game played (i.e., 'self')
+		# ask players to record the game played (i.e., 'self')
 		player1.record(self); player2.record(self)
+	#BEGIN SimpleGame::payoff
 	def payoff(self):
-		# unpack the two players
-		player1, player2 = self.players
+		player1, player2 = self.players # unpack the players
 		# generate a payoff pair for each game iteration
-		payoffs = (self.payoffmat[m1][m2] for (m1,m2) in self.history)
+		payoffmat, history = self.payoffmat, self.history
+		payoffs = (payoffmat[m1][m2] for (m1,m2) in history)
 		# transpose to get a payoff sequence for each player
 		pay1, pay2 = transpose(payoffs)
 		# return a mapping of each player to its mean payoff
