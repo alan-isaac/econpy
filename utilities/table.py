@@ -467,8 +467,8 @@ class Row(list):
 		datatype : str ('data' or 'header')
 		dec_below : str
 		  (e.g., 'header_dec_below' or 'row_dec_below')
-		  decoration tag, identifies the decoration to go below the row,
-		  currently one character only for text formats
+		  decoration tag, identifies the decoration to go below the row.
+		  (Decoration is repeated as needed for text formats.)
 		"""
 		self.datatype = datatype
 		self.table = table
@@ -560,10 +560,8 @@ class Row(list):
 			if output_format == 'txt':
 				row0len = len(row_as_string)
 				dec_len = len (dec_below)
-				repeat, addone = divmod(row0len, dec_len)
-				if addone:
-					repeat += 1
-				result = row_as_string + "\n" + (dec_below * repeat)
+				repeat, addon = divmod(row0len, dec_len)
+				result = row_as_string + "\n" + (dec_below * repeat + dec_below[:addon])
 			elif output_format == 'latex':
 				result = row_as_string + "\n" + dec_below
 			else:
