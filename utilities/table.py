@@ -483,6 +483,11 @@ class Row(list):
 		self.dec_below = dec_below
 		list.__init__(self, (celltype(cell,row=self) for cell in seq))
 	def add_format(self, output_format, **fmt_dict):
+		"""
+		Return None. Adds row-instance specific formatting
+		for the specified output format.
+		Example: myrow.add_format('txt', row_dec_below='+-') 
+		"""
 		output_format = get_output_format(output_format)
 		if output_format not in self.special_fmts:
 			self.special_fmts[output_format] = dict()

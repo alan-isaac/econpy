@@ -7896,6 +7896,17 @@ Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.
 
 <h3 id="texhints">LaTeX User hints</h3>
 
+<p>
+To get double spacing, use <tt>\usepackage{setspace} \doublespacing</tt>.
+This should leave your figures and tables alone.
+</p>
+
+<p>
+If you use linerange markers with the <tt>listings</tt> package,
+make sure your markers do not include hyphens.
+(These will be treated as indicating the linerange break.)
+</p>
+
 <div>
 See Voss's <a href="http://tug.org/TeXnik/mainFAQ.cgi">FAQ supplement</a>.
 </div>
@@ -7938,11 +7949,6 @@ The new <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/pict2e/?ac
 As of June 2004, however, there is a small bug:
 be sure to end <tt>qbezier</tt> and <tt>cbezier</tt> commands with an immediate comment character,
 to avoid breaks in line continuity.
-</p>
-
-<p>
-To get double spacing, use <tt>\usepackage{setspace} \doublespacing</tt>.
-This should leave your figures and tables alone.
 </p>
 
 <div>
