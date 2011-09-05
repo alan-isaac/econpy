@@ -1565,6 +1565,10 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 <h3 id="numpy">NumPy</h3>
 
 <p>
+NumPy is one reason <a href="http://www.stat.washington.edu/~hoytak/_static/papers/why-python.pdf">why Python rocks for research</a>.
+</p>
+
+<p>
 My favorite approach to matrix (and multi-dimesional array) programming is <a href="http://numpy.scipy.org/">NumPy</a> (License: BSD; depednecy: Python).
 This is a <a href="#python">Python</a> package (but it is very fast because it is written as a C extension).
 This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
@@ -1580,6 +1584,7 @@ add the extraordinarily high quality graphics package <a href="#matplotlib">Matp
 You can find everything packaged together for a single install.
 For example: NumPy, SciPy, and Matplotlib are included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution,
 along with <em>many</em> other useful packages.
+(Warning for Idle users: idle-script.py was missing from EPD release 7.1-1; this was fixed in subsequent releases.)
 </p>
 
 <p>
@@ -1962,8 +1967,32 @@ includes front ends and libraries for these
 (as well as Objective-C, Java, and Ada).
 </p>
 
+<p>
+Getting started with Java:
+<br />
+Download the <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java Development Kit (JDK)</a>,
+which includes the Java Runtime Environment (JRE).
+On Windows, you install this by running the downloaded executable.
+Then download <a href="http://www.eclipse.org/">Eclipse</a>,
+which is an IDE that is popular for Java development.
+You “install” Eclipse simply by decompressing it.
+(E.g., on Windows, just unzip it.
+It does not make any registry changes.)
+Eclipse comes with tutorials.
+For a simple overview of installation,
+consider this <a href="http://www.youtube.com/watch?v=vbKiFIzQukc">online video</a>.
+</p>
+
+<p>
+For very simple introductions to Java (suitable for those without programming skills),
+try
+<a href="http://math.hws.edu/javanotes/">David Eck’s free book</a>
+and/or
+<a href="http://myflex.org/books/java4kids/java4kids.htm">Java Programming for Kids, Parents, and Grandparents</a>.
+</p>
+
 <p>The <a href="http://www.fortran.com/F/">F
-programming language</a> is a carefull selected
+programming language</a> is a carefully selected
 subset of the most useful Fortran 95.
 You can compile F with the g95 compiler:
 <code>g95 -std=F my_program.f95</code>,
@@ -3781,6 +3810,11 @@ The most common file conversion problem is therefore taking a file produced in a
 
 <ul>
 <li>
+<a href="http://dktools.sourceforge.net/bmeps.html">bmeps</a>
+converts bitmap formats (e.g., PNG or TIFF)
+to EPS.
+</li>
+<li>
 <a href="http://tex.aanhet.net/epspdf/">epspdf</a> can "round trip" between EPS and PDF.
 </li>
 <li>
@@ -4347,19 +4381,21 @@ The simplest answer is probably to use gnuplot.
 See <a href="http://www.fnal.gov/docs/products/gnuplot/tutorial/">http://www.fnal.gov/docs/products/gnuplot/tutorial/</a> for a good discussion.
 </div>
 
-<div>
-If your figures are simply (or if you are patient),
+<div id="tikz">
+If your figures are simple (or if you are patient),
 just use the very powerful TikZ drawing language directly in your LaTeX document.
 TikZ does <em>not</em> depend on PostScript,
 you can use it directly with pdflatex.
 It is <em>also</em> compatible with the dvips/ps2pdf route (which is very nice).
 <br />
 There are many TikZ libraries available,
-such as <a href="http://altermundus.com/pages/graph.html">tkz-graph</a> for drawing graphs.
+including <a href="http://sourceforge.net/projects/pgfplots/">pfgplots</a> for drawing plots
+and <a href="http://altermundus.com/pages/downloads/index.html">tkz-graph</a> for drawing graphs.
 These can greatly simplify your drawing tasks.
 <br />
 <a href="#gnuplot">gnuplot</a> since version 4.4 has a <a href="http://peter.affenbande.org/gnuplot/">TikZ “terminal”</a>. Very nice!
 <br />
+<a href="http://www.codeproject.com/KB/WPF/TikzEdt.aspx">TikzEdt</a> and
 <a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a> can nicely help
 you create tikz figures.
 (Mykel Kochenderfer has compiled a <a href="http://mykel.kochenderfer.com/tikz/">KtikZ Windows binary</a>.)
@@ -4368,14 +4404,16 @@ Related functionality is provided by <a href="http://kogs-www.informatik.uni-ham
 If your figures are complex but drawable by hand,
 you can create them with the <a href="#TpX">TpX</a> drawing application,
 which can output tikz code.
-(Be sure to set the default output format <em>before</em>  you start your drawing;
-TpX does not do conversion.)
-<br />
-For the great results even in complex drawings, try the <a href="#pyx">PyX</a> graphics
-package for Python.
+(You can set the default output format to tikz <em>before</em> you start your drawing,
+or you can change the format in the picture properties.)
+</div>
+
+<p>
+For great results even in complex drawings,
+try the <a href="#pyx">PyX</a> graphics package for Python.
 This will require a bit of learning initially,
 but the results (as EPS or PDF) are fabulous.
-</div>
+</p>
 
 <p>
 Some solutions require the use of PostScript.
