@@ -3,7 +3,7 @@ Adds setting up the socket to the functionality in paramiko\sftp_client.py
 
 :note: Based in part on Cyberdeck's Borne a vin
 :note: mostly just a wrapper for the paramiko SFTP client:
-:requires: paramiko, which requires pycrypt
+:requires: paramiko, which requires pycrypto (both are included in the Enthought Python Distribution)
 :see: http://www.cs.colostate.edu/helpdocs/ftp.html for standard ftp commands (not all implemented!)
 :see: http://www.lag.net/paramiko/
 :see: http://www.amk.ca/python/code/crypto.html
