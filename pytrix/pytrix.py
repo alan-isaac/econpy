@@ -1689,11 +1689,13 @@ def pascal_row(n):
 	return row
 
 def n_take_k(n,k):
-	"""Returns (n take k).
+	"""Returns (n take k),
+	the binomial coefficient.
 
 	:since: 2005-11-17
 	"""
-	assert(k<=n and k==int(k) and n==int(n)),"n=%f, k=%f"%(n,k)
+	n, k = int(n), int(k)
+	assert (0<=k<=n), "n=%f, k=%f"%(n,k)
 	k = min(k,n-k)
 	c = 1
 	if k>0:
