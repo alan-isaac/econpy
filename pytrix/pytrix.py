@@ -1695,14 +1695,11 @@ def n_take_k(n,k):
 	"""
 	assert(k<=n and k==int(k) and n==int(n)),"n=%f, k=%f"%(n,k)
 	k = min(k,n-k)
-	if k==0:
-		c = 1
-	else:
-		c = n
-		for i in xrange(1,k):
-			c*=n-i
-		for i in xrange(1,k):
-			c//=i+1
+	c = 1
+	if k>0:
+		for i in xrange(k):
+			c *= n-i
+			c //= i+1
 	return c	
 
 def stirling(x):

@@ -19,6 +19,7 @@ import unittest
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.pytrix import Vector, Vplus, dot, norm, gcd_euclid
+from econpy.pytrix.pytrix import n_take_k
 from econpy.pytrix import fmath
 
 
@@ -52,6 +53,9 @@ class testPytrix(unittest.TestCase):
 		self.assertEqual(v1 * v2, mul1)
 		div1 = Vplus(x1/x2 for x1,x2 in izip(v1,v2))
 		self.assertEqual(v1 / v2, div1)
+	def test_combinations(self):
+		self.assertEqual(n_take_k(5,3), 10)
+		self.assertEqual(n_take_k(10,3), 120)
 	def test_gcd(self):
 		self.assertEqual(8, gcd_euclid(8,16))
 		self.assertEqual(8, gcd_euclid(-8,16))
