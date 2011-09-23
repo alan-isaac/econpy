@@ -137,6 +137,19 @@ class test_SimpleTable(unittest.TestCase):
 			print(actual)
 			print(desired)
 			self.assertEqual(actual, desired)
+	def test_csv01(self):
+		mydata = [[11,12],[21,22]]
+		myheaders = [ "Column 1", "Column 2" ]
+		mystubs = [ "Row 1", "Row 2" ]
+		tbl = SimpleTable(mydata, myheaders, mystubs, title="Title")
+		actual = '%s' % tbl.as_csv().strip()
+		desired = """
+         Title         
+     ,Column 1,Column 2
+Row 1,11      ,12      
+Row 2,21      ,22      
+""".strip()
+		self.assertEqual(actual, desired)
 
 if __name__=="__main__":
 	unittest.main()
