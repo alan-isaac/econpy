@@ -558,7 +558,7 @@ class Row(list):
 	def _decorate_below(self, row_as_string, output_format, **fmt_dict):
 		"""This really only makes sense for the text and latex output formats."""
 		dec_below = fmt_dict.get(self.dec_below, None)
-		if dec_below is None:
+		if not dec_below:
 			result = row_as_string
 		else:
 			output_format = get_output_format(output_format)
@@ -733,8 +733,8 @@ default_txt_fmt = dict(
 
 default_csv_fmt = dict(
 		fmt = 'csv',
-		table_dec_above = '',
-		table_dec_below = '',
+		table_dec_above = None,
+		table_dec_below = None,
 		#basic row formatting
 		row_pre = '',
 		row_post = '',
