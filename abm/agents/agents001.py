@@ -435,7 +435,7 @@ class Population(deque):
 		"""Return None. Increment population age."""
 		for cohort in self:
 			cohort.age += 1
-	def get_new_cohort(self, kidsexgen=None):
+	def get_new_cohort(self):
 		"""Return: COHORT instance.
 		Called by evolve.
 		"""
@@ -443,10 +443,9 @@ class Population(deque):
 			"enter Population.get_new_cohort.")
 		#currently handle parthenogenic economies as all female and impose marriage  TODO
 		#get list of new kids
-		# Number and sexes determined by params.KIDSEXGEN
 		parents = self.get_parents()
-		kids = self.get_new_kids(parents, kidsexgen)
-		#turn list into cohort
+		kids = self.get_new_kids(parents)
+		#turn kids into cohort
 		kids = self.params.COHORT(kids)
 		kids.population = self
 		return kids
@@ -460,7 +459,13 @@ class Population(deque):
 	def get_new_kids(self):
 		"""Return sequence of Indiv instances,
 		the new kids.
-		Just a helper method for get_new_cohort."""
+		Just a helper method for get_new_cohort.
+		Usually calls kidsexgen."""
+		return NotImplemented
+	def kidsexgen(self, parents):
+		"""Return string, assign the sexes of the new kids
+		for each pair in `parents`. (sex=M|F)
+		"""
 		return NotImplemented
 
 class State(Transactor):
@@ -537,7 +542,6 @@ class EconomyParams(object): #default params, needs work
 		self.BEQUEST_TYPE = None        #e.g., child-directed, or random
 		self.MATING = None
 		#sex generator for new births
-		self.KIDSEXGEN = None
 		#number of Cohorts
 		self.N_COHORTS = 0
 		self.COHORT_SIZE = 0
