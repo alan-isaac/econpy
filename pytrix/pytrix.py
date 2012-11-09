@@ -59,7 +59,6 @@ def gcd_euclid(r,n):
 
 	:since:     2004-10-28
 	:date: 2010-06-08
-	:contact:   mailto:aisaac AT american.edu
 	""" 
 	if not(r==int(r) and n==int(n)):
 		raise ValueError('Use integer arguments.')
@@ -67,6 +66,38 @@ def gcd_euclid(r,n):
 	r, n = sorted([abs(r),abs(n)])
 	while r: (n,r)=(r,n%r)
 	return n
+
+def least_divisor(n):
+  """Return int, the least divisor of n.
+
+  Parameters
+  ----------
+  `n` : int
+    integer greater than 1 to test
+
+  :since:     2012-11-08
+  """
+  assert (n>1), "argument should be an integer > 1"
+  assert (n==int(n)), "argument should be an integer > 1"
+  n = int(n)
+  if (n%2 == 0): return 2
+  d = 3; dd = 9
+  while (n%d>0 and dd<=n):
+    dd += 4 * (d + 1)
+    d += 2
+  return n if dd>n else d
+
+def is_prime(n):
+  """Return bool, True if n is prime.
+
+  Parameters
+  ----------
+  `n` : int
+    integer greater than 1 to test
+
+  :since:     2012-11-08
+  """
+  return n==least_divisor(n)
 
 
 def choice(x, axis=None):
