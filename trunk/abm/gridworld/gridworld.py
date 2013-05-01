@@ -49,6 +49,13 @@ subclass a world observer, consider overriding these attributes.
 
 .. _NumPy: http://numpy.scipy.org/
 .. _Matplotlib: http://matplotlib.sourceforge.net/
+
+Changes 20120728:
+- WorldBase._agents is now a list instead of a set
+- WorldBase.agents_at now returns a list instead of a set
+- GridWorld.locations now returns list instead of set
+- GridWorld.hood_locs now returns list instead of set
+- the PatchBase._agentset set is now PatchBase._agents, a list
 """
 from operator import add, methodcaller
 import logging, math, operator, random, turtle
@@ -87,14 +94,17 @@ def ask(agents, methodname, *args, **kwargs):
 	for agent in agents:
 			f(agent)
 
-def askrandomly(agents, methodname, *args, **kwargs):
+def askrandomly(agents, methodname, prng=None, *args, **kwargs):
 	"""Return list. Calls method `methodname`
 	on each agent, where `agents` is any iterable
 	of objects supporting this method call.
 	A copy of `agents` is shuffled before the method calls.
 	"""
 	agents = list(agents)
-	random.shuffle(agents)
+	if prng is None:
+		random.shuffle(agents)
+	else:
+		prng.shuffle(agents)
 	ask(agents, methodname, *args, **kwargs)
 	return agents
 
@@ -276,7 +286,8 @@ class Observable(object):
 		return self._observers
 
 class LocationMap(dict):
-	"""Maps agents to locations.
+	"""Provides the most basic world topology:
+	maps agents to locations.
 	Here coordinates are NOT constrained
 	and multiple occupancy is allowed.
 	Subclasses should override `location`
@@ -368,6 +379,7 @@ class BoundedLocationMap(LocationMap):
 class FiniteGrid(BoundedLocationMap):
 	"""Provides a mapping of agents to locations,
 	where locations are constrained to a finite grid.
+	Available coordinates are integer valued.
 	Coordinates off the grid become ``None``.
 	"""
 	def __repr__(self):
@@ -376,6 +388,7 @@ class FiniteGrid(BoundedLocationMap):
 		"""Return tuple or None,
 		the corresponding location on the grid,
 		or None if there is none.
+		Provided `coordinates` are rounded to integers!
 		"""
 		shape = self.shape
 		if len(self.shape) != len(coordinates):
@@ -389,22 +402,25 @@ class FiniteGrid(BoundedLocationMap):
 			logging.debug(msg.format(coordinates))
 			location = None
 		return location
-	def random_locations(self, number, exclude=False):
-		"""Return set of `number` random locations from the grid.
+	def random_locations(self, number, exclude=False, prng=None):
+		"""Return list of `number` random locations from the grid.
 		If `exclude` is a tuple of agent types,
 		only cells not containing these types are returned.
 		If `exclude` is True, only empty cells are returned.
 		If `exclude` is False, any cells may be returned.
 		"""
 		logging.debug('Enter FiniteGrid.random_locations.')
+		if prng is None:
+			logging.info("No prng passed; using random.")
+			prng = random
 		if number != abs(int(number)):
 			errmsg = '{0} is not a positive integer.'.format(number)
 			raise ValueError(errmsg)
 		shape = self._shape
 		n_possible = reduce(operator.mul, shape)
-		if exclude is True:
-			occupied = set(self.values())
-		elif exclude:
+		if exclude is True: #exclude location sharing with agent types
+			occupied = set(self.values())  #occupied locations
+		elif exclude: #exclude location sharing with certain agent types
 			occupied = set(val for key,val in self.items() if isinstance(key,exclude))
 		else:
 			occupied = set()
@@ -412,15 +428,16 @@ class FiniteGrid(BoundedLocationMap):
 		if (number > n_possible):
 			errmsg = '{0} is too many objects to add to this grid.'
 			raise ValueError(errmsg.format(number))
-		locations = set()
+		locations = list()
 		while len(locations) < number:
-			loc = tuple( map(random.randrange, shape) )
+			loc = tuple( map(prng.randrange, shape) )
 			if loc not in occupied:
-				locations.add(loc)
+				locations.append(loc)
 				occupied.add(loc)
 		assert len(locations) == number
 		logging.debug('Exit FiniteGrid.random_locations.')
 		return locations
+
 
 RectangularGrid = FiniteGrid #alias
 
@@ -447,23 +464,27 @@ class TorusGrid(FiniteGrid):
 class WorldBase(Observable):
 	"""Provides a base class for worlds.
 	"""
-	_observers = set()
-	_agents = set()
+	maxiter = None
+	_observers = None
+	_agents = None
 	_agentcounts = 0
 	_iteration = 0
 	_update_frequency = 1
 	_topology = None
 	_patches = None
-	maxiter = None
+	_prng = None
+	_logger = None
 	def __init__(self, topology=None):
 		"""Return None.
 		Ordinarily, a ``WorldBase`` will be initialized
 		*with* a topology.
 		"""
-		logging.debug('Enter WorldBase.__init__.')
+		self.logger.debug('Enter WorldBase.__init__.')
+		self._observers = set()
+		self._agents = list()
 		self._topology = topology
 		self.initialize()
-		logging.debug('Leave WorldBase.__init__.')
+		self.logger.debug('Leave WorldBase.__init__.')
 	def setup(self):
 		"""Return None.
 		User should override this method to do model set up.
@@ -472,14 +493,14 @@ class WorldBase(Observable):
 		"""Return None.
 		Called by `__init__`.
 		"""
-		logging.debug('Enter: WorldBase.set_topology.')
+		self.logger.debug('Enter: WorldBase.set_topology.')
 		if self._topology is not None:   #don't test bool({}) !
-			logging.warn('Resetting topology. (Not usually desirable.)')
-		logging.debug('Setting topology to {0}'.format(topology))
+			self.logger.warn('Resetting topology. (Not usually desirable.)')
+		self.logger.debug('Setting topology to {0}'.format(topology))
 		self._topology = topology
-		logging.debug('Notifying observers to set topology.')
+		self.logger.debug('Notifying observers to set topology.')
 		self.notify_observers('set_topology')
-		logging.debug('Exit: WorldBase.set_topology.')
+		self.logger.debug('Exit: WorldBase.set_topology.')
 	def initialize(self):
 		"""Return None.
 		Commands to be executed at instance creation.
@@ -500,7 +521,7 @@ class WorldBase(Observable):
 		return map(self.location, coordinates)
 	def reset(self):
 		self.stop()
-		self._agents = set()
+		self._agents = list()
 		self._agentcounts = 0
 		self._iteration = 0
 		self._topology.clear()  #remove agents from space
@@ -515,16 +536,16 @@ class WorldBase(Observable):
 		while self.keep_running() \
 				and (self._iteration < (maxiter or self._iteration+1)):
 			self._iteration += 1
-			#logging.debug('Begin iteration {0}'.format(self._iteration))
+			#self.logger.debug('Begin iteration {0}'.format(self._iteration))
 			self.notify_observers('_begin_iteration')
 			#schedule is run once each iteration
 			self.schedule()
 			#updating can be less frequent
 			if not (self._iteration % self._update_frequency):
-				#logging.debug('_update')
+				#self.logger.debug('_update')
 				self.notify_observers('update')
 			self.notify_observers('_end_iteration')
-			#logging.debug('End iteration {0}'.format(self._iteration))
+			#self.logger.debug('End iteration {0}'.format(self._iteration))
 		self.clean_up()
 	def keep_running(self):
 		return not self._stop
@@ -545,11 +566,11 @@ class WorldBase(Observable):
 		Final WorldBase actions after stop running."""
 		return NotImplemented
 	#agent related methods
-	def create_agents(self, AgentType, number=0, locations=None):
+	def create_agents(self, AgentType, number=0, locations=None, prng=None):
 		"""Return list, the newly created agents.
-		Locations are assigned by `place_randomly` if not specified.
+		Locations are assigned randomly if not specified.
 		"""
-		logging.debug('Enter WorldBase.create_agents.')
+		self.logger.debug('Enter WorldBase.create_agents.')
 		if number==0:
 			try:
 				number = len(locations)
@@ -563,7 +584,7 @@ class WorldBase(Observable):
 		else:
 			number = int(number)
 		if locations is None:
-			locations = self.random_locations(number)
+			locations = self.random_locations(number, prng=prng)
 		#need to know world to complete initialization!
 		new_agents = tuple( AgentType(world=self, position=loc)
 			for loc in locations )
@@ -571,14 +592,24 @@ class WorldBase(Observable):
 			self.register_agent(agent) #handles patch registration
 			self.set_position(agent, agent.position)
 		assert all(agent.world for agent in new_agents)
-		assert self._agentcounts == len(self._agents)
+		assert self._agentcounts == len(self._agents), "{0} != {1}".format(self._agentcounts,len(self._agents))
 		#observers create agent observers when notified
 		self.notify_observers('create_agents', agents=new_agents)
-		logging.debug('Exit WorldBase.create_agents.')
+		self.logger.debug('Exit WorldBase.create_agents.')
 		return new_agents
+	def random_locations(self, number, exclude=False, prng=None):
+		"""Return list of `number` random locations from the grid.
+		Delegated to the topology.
+		Note: uses this world's prng if no prng passed.
+		This world's prng defaults to `random` if not set.
+		Note: a topology doesn't own a prng!
+		"""
+		if prng is None:
+			prng = self.prng  #defaults to random
+		return self._topology.random_locations(number, exclude=exclude, prng=prng)
 	def register_agent(self, agent):
 		"""Return None.  Register agent with world. """
-		self._agents.add(agent)
+		self._agents.append(agent)
 		self._agentcounts += 1      #for error checking
 		if self._patches:
 			patch = self.patch_at(agent.position)
@@ -595,11 +626,11 @@ class WorldBase(Observable):
 	def place_randomly(self, agents):
 		raise NotImplementedError()
 	def place(self, agents, locations):
-		logging.debug('Enter WorldBase.place.')
+		self.logger.debug('Enter WorldBase.place.')
 		#recall that agent.set_position calls world.set_position
 		for agent, loc  in zip(agents, locations):
 			agent.set_position(loc)
-		logging.debug('Exit WorldBase.place.')
+		self.logger.debug('Exit WorldBase.place.')
 	'''
 	def set_position(self, agent, coordinates):
 		"""Return tuple, the location corresponding to `coordinates`.
@@ -611,10 +642,12 @@ class WorldBase(Observable):
 		#does *not* enforce single occupancy; does *not* change agent.position
 		location = self.topology.set_position(agent, coordinates)
 		occupants = self.agents_at(location, agent.__class__)
-		occupants.discard(agent) #other occupants only
+		if agent in occupants: #other occupants only
+			occupants.remove(agent)
+		assert not (agent in occupants)
 		if occupants: #warn if another occupant
 			msg = '{0} is occupied; moving there anyway.'
-			logging.warn(msg.format(coordinates))
+			self.logger.warn(msg.format(coordinates))
 		if self._patches and oldpos != location: #change patch registration
 			oldpatch = self.patch_at(oldpos)
 			newpatch = self.patch_at(location)
@@ -622,14 +655,14 @@ class WorldBase(Observable):
 			newpatch.register_agent(agent)
 		return location
 	def agents_at(self, location, AgentType=None):
-		"""Return set, the agents at `location`.
+		"""Return list, the agents at `location`.
 		"""
 		if self._patches:
 			all_agents = self.patch_at(location).agents
 		else:
-			all_agents = set(agent for (agent,loc) in self._topology.items() if loc==location)
+			all_agents = list(agent for (agent,loc) in self._topology.items() if loc==location)
 		if AgentType:
-			all_agents = set(agent for agent in all_agents if isinstance(agent,AgentType))
+			all_agents = list(agent for agent in all_agents if isinstance(agent,AgentType))
 		return all_agents
 	def get_agents(self, AgentType=None):
 		"""Return list of agents:
@@ -638,7 +671,7 @@ class WorldBase(Observable):
 		:note: `AgentType` can be a tuple of agent types.
 		"""
 		if AgentType is None:
-			return list(self._agents)
+			return list(self._agents) #return copy!
 		else:
 			return list(a for a in self.agents if isinstance(a,AgentType))
 	#patch related methods
@@ -647,17 +680,17 @@ class WorldBase(Observable):
 		Patch creation should take place **before** agent creation.
 		:todo: chk generalize to Nd
 		"""
-		logging.debug('Enter create_patches.')
+		self.logger.debug('Enter create_patches.')
 		width, height = self.topology.shape
 		if self._patches is not None:
-			logging.warn('This world already seems to have patches.')
+			self.logger.warn('This world already seems to have patches.')
 		#chk should a patch know its world?
 		#:note: rows correspond to first (x) coordinate!
 		patches = tuple(tuple(PatchType(world=self, position=(r,k))
 						for k in range(height)) for r in range(width))
 		self._patches = patches
 		self.notify_observers('create_patches')  #allow GUI observers display patches
-		logging.debug('Leave create_patches.')
+		self.logger.debug('Leave create_patches.')
 		return patches
 	def patches_at(self, coordinates, preconstrained=True):
 		"""Return iterable, the patches at the locations.
@@ -695,7 +728,7 @@ class WorldBase(Observable):
 		"""Return list, the world's agents.  (Agents subsequently added
 		to the world will *not* be included.)
 		"""
-		return list(self._agents)
+		return self._agents
 	@property
 	def patches(self):
 		"""Return generator, all the patches in `_patches`."""
@@ -717,6 +750,30 @@ class WorldBase(Observable):
 	@update_frequency.setter
 	def update_frequency(self, value):
 		self._update_frequency = int(value)
+	@property
+	def logger(self):
+		if self._logger is None:
+			return logging
+		else:
+			return self._logger
+	@logger.setter
+	def logger(self, logger):
+		if self._logger is None:
+			self._logger = logger
+		else:
+			raise ValueError('logger can only be set once')
+	@property
+	def prng(self):
+		if self._prng is None:
+			return random
+		else:
+			return self._prng
+	@prng.setter
+	def prng(self, prng):
+		if self._prng is None:
+			self._prng = prng
+		else:
+			raise ValueError('prng can only be set once')
 
 class GridWorld(WorldBase):
 	"""Provides a class for grid-world simulations."""
@@ -725,21 +782,19 @@ class GridWorld(WorldBase):
 		True if location not occupied else False."""
 		return self._topology.is_empty(coordinates)
 	'''
-	def place_randomly(self, agents, exclude=True):
-		logging.debug('Enter GridWorld.place_randomly.')
-		locations = self.random_locations(len(agents), exclude=exclude)
+	def place_randomly(self, agents, exclude=True, prng=None):
+		self.logger.debug('Enter GridWorld.place_randomly.')
+		locations = self.random_locations(len(agents), exclude=exclude, prng=prng)
 		self.place(agents, locations)
-		logging.debug('Exit GridWorld.place_randomly.')
+		self.logger.debug('Exit GridWorld.place_randomly.')
 	'''
-	def random_locations(self, number, exclude=False):
-		return self._topology.random_locations(number, exclude=exclude)
 	def location(self, coordinates):
 		"""Return tuple or None, the constrained location (as a tuple)
 		or None (if there is no corresponding constrained location).
 		"""
 		return self._topology.location(coordinates)
 	def locations(self, coordinates):
-		"""Return set, the constrained valid locations.
+		"""Return list, the constrained valid locations.
 		Valid locations are determined by the topology,
 		which will return None for invalid locations,
 		which is discarded here.
@@ -747,11 +802,13 @@ class GridWorld(WorldBase):
 		map to the same location; only the one location is returned
 		in this case.
 		"""
-		locations = set( self._topology.locations(coordinates) )
-		locations.discard(None)
-		return locations
+		valid = list()
+		for loc in self._topology.locations(coordinates):
+			if loc is not None and loc not in valid:
+				valid.append(loc)
+		return valid
 	def hood_locs(self, shape, radius, center=(0,0), keepcenter=False):
-		"""Return set, the coordinates of the neighborhood patches.
+		"""Return list, the coordinates of the neighborhood patches.
 		Parameters
 		----------
 		shape : str
@@ -763,7 +820,7 @@ class GridWorld(WorldBase):
 		keepcenter : bool
 		  True to return center else False
 		"""
-		logging.debug('Enter GridWorld.hood_locs.')
+		self.logger.debug('Enter GridWorld.hood_locs.')
 		if shape.lower() == 'moore':
 			coordinates = moore_neighborhood(radius=radius, center=center,
 											keepcenter=keepcenter,
@@ -771,7 +828,7 @@ class GridWorld(WorldBase):
 			locations = self.locations(coordinates)
 		else:
 			raise ValueError('Unsupported neighborhood type.')
-		logging.debug('Exit GridWorld.hood_locs.')
+		self.logger.debug('Exit GridWorld.hood_locs.')
 		return locations
 	def kill(self, agent):
 		assert (not agent.defunct)
@@ -1457,7 +1514,7 @@ class Agent(Observable):
 	"""Provides a minimal agent.
 	The only navigational capability is `set_position`!
 	"""
-	def __init__(self, world=None, position=(0,0)):
+	def __init__(self, world=None, position=(0,0), **kwargs):
 		self._defunct = False      #set to True as agent exits simulation
 		self._observers = set()
 		self._world = world
@@ -1468,9 +1525,9 @@ class Agent(Observable):
 		self._shape = 'classic'
 		self._shapesize = (0.3,0.3)
 		#additional (user provided) initializations
-		self.initialize()
+		self.initialize(**kwargs)
 		logging.debug('Agent initialized at position {0}'.format(self.position))
-	def initialize(self):
+	def initialize(self, **kwargs):
 		"""Dummy method for additional initializations in subclasses."""
 	def _goto(self, coordinates):
 		"""Return tuple.
@@ -1520,9 +1577,10 @@ class Agent(Observable):
 			location = tuple(x+dx for (x,dx) in zip(pos, location))
 		return self._world.patch_at(location, preconstrained=False)	
 	def agents_here(self, AgentType=None):
+		"""Return list, the agents at the same location."""
 		return self._world.agents_at(self._position, AgentType=AgentType)	
 	def agents_at(self, location, AgentType=None, relative=False):
-		"""Return set, the agents on the patch at `location`.
+		"""Return list, the agents at `location`.
 		CAUTION: note the use of relative location is not the default!!
 		"""
 		pos = self._position
@@ -1637,7 +1695,7 @@ class PatchBase(Observable):
 		self._observers = set()
 		self._world = world
 		self._position = position
-		self._agentset = set()
+		self._agents = list()
 		self._agentcounts = 0      #for error checking
 		#convenience declarations for possible display
 		self._fillcolor = None
@@ -1646,13 +1704,13 @@ class PatchBase(Observable):
 	def initialize(self):
 		"""Override this method to add intializations."""
 	def register_agent(self, agent):
-		if agent in self._agentset:
+		if agent in self._agents:
 			raise ValueError('Registering agent that is already present.')
-		self._agentset.add(agent)
+		self._agents.append(agent)
 		self._agentcounts += 1      #for error checking
 	def unregister_agent(self, agent):
 		try:
-			self._agentset.remove(agent)
+			self._agents.remove(agent)
 			self._agentcounts -= 1      #for error checking
 		except KeyError:
 			msg = 'Patch attempted to unregister agent that was not registered.'
@@ -1661,14 +1719,14 @@ class PatchBase(Observable):
 	def report_state(self):  #chk
 		pass
 	def get_agents(self, AgentType=None):
-		"""Return set, the agents of type `AgentType`
+		"""Return list, the agents of type `AgentType`
 		or all agents if `AgentType` is None.
 		:note: `AgentType` can be a tuple of agent types.
 		"""
 		if AgentType is None:
-			result = list(self._agentset)
+			result = list(self._agents) #return copy!
 		else:
-			result = list(a for a in self._agentset if isinstance(a, AgentType))
+			result = list(a for a in self._agents if isinstance(a, AgentType))
 		return result
 	def display(self, **kwargs):
 		"""Return None.  Set display attributes (by keyword).
@@ -1694,7 +1752,7 @@ class PatchBase(Observable):
 		return self._position
 	@property
 	def agents(self):
-		return self._agentset
+		return self._agents
 	# read-write
 	@property
 	def fillcolor(self):
@@ -1749,10 +1807,13 @@ class TSPlot(FigureCanvasTkAgg):
 		self._pos_yvals = False
 	def setup(self):
 		# create the initial "line" (a single observation)
-		new_ydata = self.update_data()
-		self.adjust_ylim(new_ydata)
-		self.set_background()
-		self._did_setup = True
+		try:
+			new_ydata = self.update_data()
+			self.adjust_ylim(new_ydata)
+			self.set_background()
+			self._did_setup = True
+		except AttributeError:
+			pass
 	def adjust_ylim(self, datum):
 		"""Return bool. Resets `_ylim`
 		(if needed to accommodate `_ydata`).
@@ -1789,7 +1850,8 @@ class TSPlot(FigureCanvasTkAgg):
 		# update the data
 		if not self._did_setup:
 			self.setup()
-		newdata = self.update_data()
+		else:
+			newdata = self.update_data()
 		ydata = self._ydata
 		xdata = self._xdata
 		if len(ydata) < len(xdata):
