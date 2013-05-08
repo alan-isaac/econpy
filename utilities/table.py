@@ -25,7 +25,7 @@ during table production is by simple string interpolation.
 (So you cannot have a tuple as a data item *and* rely on 
 the default conversion.)
 
-A SimpleTable allows only one column (the first) of stubs at
+Although a SimpleTable allows only one column (the first) of stubs at
 initilization, concatenation of tables allows you to produce tables
 with interior stubs.  (You can also assign the datatype 'stub' to the
 cells in any column, or use ``insert_stubs``.) A SimpleTable can be
@@ -45,8 +45,8 @@ column have their own datatype.) This means that you can just specify
 `data_fmts` without bothering to provide a `datatypes` list.  If
 ``len(datatypes)<ncols`` then datatype assignment will cycle across a
 row.  E.g., if you provide 10 columns of data with ``datatypes=[0,1]``
-then you will have 5 columns of datatype 0 and 5 columns of datatype
-1, alternating.  Correspoding to this specification, you should provide
+then you will have 5 columns of datatype 0 and 5 columns of datatype 1,
+alternating.  Correspoding to this specification, you should provide
 a list of two ``data_fmts`` and a list of two ``data_aligns``.
 
 Cells can be assigned labels as their `datatype` attribute.
@@ -580,7 +580,7 @@ class Row(list):
 
 class Cell(object):
 	"""Provides a table cell.
-	A cell can belong to a Row, but does not have to.
+	A cell usually belongs to a Row, but does not have to.
 	"""
 	def __init__(self, data='', datatype=None, row=None, **fmt_dict):
 		try: #might have passed a Cell instance
@@ -657,13 +657,13 @@ class Cell(object):
 		data_aligns = fmt.get('data_aligns','c')
 		if isinstance(datatype, int):
 			datatype = datatype % len(data_fmts) #constrain to indexes
-			content = data_fmts[datatype] % data
+			content = data_fmts[datatype] % (data,)
 		elif datatype in fmt:
 			dfmt = fmt.get(datatype)
 			try:
-				content = dfmt % data
+				content = dfmt % (data,)
 			except TypeError: #dfmt is not a substitution string
-				content = dfmt
+				content = dfmt   #chk
 		else:
 			raise ValueError('Unknown cell datatype: %s'%datatype)
 		align = self.alignment(output_format, **fmt)
