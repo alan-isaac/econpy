@@ -401,12 +401,6 @@ def hpfilter01(y, penalty=1600):
 	which is a 2-pass Kalman filter.
 	assumes y is 1d
 	penalty is often called 'lambda'
-
-	Conceptualize the calculation in R notation as follows:
-	https://stat.ethz.ch/pipermail/r-help/2002-March/019283.html
-	eye <- diag( length(y) )
-	d2 <- diff( eye, d=2 )
-	z <- solve( eye + penalty * crossprod(d2),  y )
 	"""
 	s = penalty
 	assert (s>0)
@@ -605,6 +599,12 @@ def hpfilter03(x, penalty):
 	The trend is the smoothed (filtered) series.
 	The cycle is (x - trend).
 
+	Conceptualize the calculation in R notation as follows:
+	https://stat.ethz.ch/pipermail/r-help/2002-March/019283.html
+	eye <- diag( length(y) )
+	d2 <- diff( eye, d=2 )
+	z <- solve( eye + penalty * crossprod(d2),  y )
+
 	Parameters
 	----------
 	x : array-like
@@ -645,8 +645,8 @@ if __name__ == "__main__":
 		assert np.allclose(cycle0, cycle3)
 		cycle2, trend2 = hpfilter02(X, 1600)
 		assert np.allclose(cycle0, cycle2)
-		cycle1, trend1 = hpfilter01(X, 1600)
-		assert np.allclose(cycle0, cycle1)
+		#cycle1, trend1 = hpfilter01(X, 1600)
+		#assert np.allclose(cycle0, cycle1)
 	"""
 	#example use
 	cpi = series(*fetch(r'h:\data\FRED\cpi\CPIAUCNS.db'))
