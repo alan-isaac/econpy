@@ -35,18 +35,24 @@ from .pytrix import Vector, Vplus   #`Series` subclasses `Vector`
 from .io import freq2num, Sample, fetch, write_db
 from .stat import Dstat1
 
-have_numpy = False
 try:
 	import numpy as np
-	have_numpy = True
+	from numpy import linalg
 except ImportError:
-	logging.info("numpy not available")
+	logging.error("numpy required for this module")
+	raise
 have_scipy = False
 try:
 	import scipy
 	have_scipy = True
 except ImportError:
 	logging.info("SciPy not available")
+try:
+	import statsmodels.api as sm
+	have_sm = True
+except ImportError:
+	logging.info("statsmodels not available")
+
 
 
 """
@@ -364,11 +370,29 @@ def varlags(xtk, lags):
 	return xtk[lags:].copy(), xlags
 
 
+def hpfilter(x, penalty=1600):
+	"""Return tuple, (cycle, trend).
 
-#https://stat.ethz.ch/pipermail/r-help/2002-March/019283.html
+	Parameters
+	----------
+	x : array-like
+		The 1d timeseries to filter.
+	penalty : float
+		The Hodrick-Prescott smoothing parameter. A value of 1600 is
+		suggested for quarterly data. Ravn and Uhlig suggest using a value
+		of 6.25 (1600/4**4) for annual data and 129600 (1600*3**4) for monthly
+		data.
+
+	Assumes x is 1d; penalty is often called 'lambda'.
+	"""
+	if have_sm:
+		return sm.tsa.filters.hpfilter(x, penalty)
+	else:
+		return hpfilter03(x, penalty)
+
+
 """
-"""
-def hpfilter(y, penalty=1600):
+def hpfilter01(y, penalty=1600):
 	"""Return: (t,d) trend and deviation
 	Based on Lubuele's GAUSS code:
 	http://www.american.edu/academic.depts/cas/econ/gaussres/timeseri/hodrick.src
@@ -378,7 +402,8 @@ def hpfilter(y, penalty=1600):
 	assumes y is 1d
 	penalty is often called 'lambda'
 
-	Conceptualize the calculation as follows:
+	Conceptualize the calculation in R notation as follows:
+	https://stat.ethz.ch/pipermail/r-help/2002-March/019283.html
 	eye <- diag( length(y) )
 	d2 <- diff( eye, d=2 )
 	z <- solve( eye + penalty * crossprod(d2),  y )
@@ -495,12 +520,135 @@ def hpfilter(y, penalty=1600):
 		d[i] = y[i]-t[i]
 		i = i+1
 	return (t,d)
+"""
+
+
+def hpfilter02(x, penalty=1600):
+	"""Return: (cycle, trend), based on Heer and Maussner.
+	Requires ``scipy`` (for sparse matrices).
+
+	Parameters
+	----------
+	x : array-like
+		The 1d timeseries to filter.
+	penalty : float
+		The Hodrick-Prescott smoothing parameter. A value of 1600 is
+		suggested for quarterly data. Ravn and Uhlig suggest using a value
+		of 6.25 (1600/4**4) for annual data and 129600 (1600*3**4) for monthly
+		data.
+
+	Assumes x is 1d; penalty is often called 'lambda'.
+
+	Conceptualize the calculation as follows:
+	eye <- diag( length(y) )
+	d2 <- diff( eye, d=2 )
+	z <- solve( eye + penalty * crossprod(d2),  y )
+	"""
+	#local m, i, nobs;
+	import numpy as np
+	from scipy.linalg import solveh_banded
+
+	nobs = len(x)
+	m = np.zeros((3, nobs))
+	#construct the banded matrix
+	for i in range(nobs):
+		m[0,i] = penalty;
+		m[1,i] = -4*penalty;
+		m[2,i] = 1 + 6*penalty;
+	m[0,0] = 0
+	m[1,0] = 0
+	m[2,0] = 1+penalty
+
+	m[0,1] = 0
+	m[1,1] = -2*penalty
+	m[2,1] = 1+5*penalty
+
+	m[1,nobs-1] = m[1,1]
+	m[2,nobs-1] = m[2,0]
+	m[2,nobs-2] = m[2,1]
+
+	trend = solveh_banded(m, x)
+	cycle = x - trend
+	return cycle, trend
+
+def diagrv(x, v, k=0, copy=True):
+	"""Return 2d array, the array `x` with the vector `v`
+	substituted for its k-th diagonal. For 2d arrays only.
+	For k=0 and copy=False, equivalent to::
+
+		idx = list( range( min(nrows,ncols) ) )
+		x[idx, idx] = v
+	"""
+	x = np.array(x, copy=copy )
+	try:
+		nrows, ncols = x.shape
+	except ValueError:
+		raise ValueError("diagrv is defined for 2-d arrays only.")
+	stride = 1 + ncols
+	m = min(nrows, ncols)
+	if (k >= 0):
+		assert (k < ncols)
+		nvals = min(ncols-k, nrows)
+	else:
+		assert (k < nrows)
+		nvals = min(nrows+k, ncols)
+		k *= -ncols
+	#flat works even if `x` not continguous!
+	x.flat[ slice(k,k+nvals*stride,stride) ] = v
+	return x
+
+def hpfilter03(x, penalty):
+	"""Return: (cycle, trend), as determined by
+	a standard Hodrick-Prescott filter.
+	Requires numpy.  Does not use scipy,
+	so does not use sparse or compacted matrices.
+	The trend is the smoothed (filtered) series.
+	The cycle is (x - trend).
+
+	Parameters
+	----------
+	x : array-like
+		The 1d timeseries to filter.
+	penalty : float
+		The Hodrick-Prescott smoothing parameter. A value of 1600 is
+		suggested for quarterly data. Ravn and Uhlig suggest using a value
+		of 6.25 (1600/4**4) for annual data and 129600 (1600*3**4) for monthly
+		data.
+	"""
+	T = len(x)
+	a = 6*penalty+1
+	b = -4*penalty
+	c = penalty
+	mtest = np.zeros((T,T), dtype=x.dtype)
+	diagrv(mtest,a,k=0,copy=False)
+	diagrv(mtest,b,k=1,copy=False)
+	diagrv(mtest,b,k=-1,copy=False)
+	diagrv(mtest,c,k=2,copy=False)
+	diagrv(mtest,c,k=-2,copy=False)
+	#change first block
+	mtest[:2,:2] = [[1+penalty,-2*penalty],[-2*penalty,1+5*penalty]]
+	#change last block
+	mtest[-2:,-2:] = [[1+5*penalty,-2*penalty],[-2*penalty,1+penalty]]
+	trend = linalg.solve(mtest,x)
+	return x-trend, trend
+
 
 
 
 if __name__ == "__main__":
-	"""Example use for module.
+	#test the results against statsmodels
+	if have_sm:
+		dta = sm.datasets.macrodata.load()
+		X = dta.data['realgdp']
+		cycle0, trend0 = sm.tsa.filters.hpfilter(X,1600)
+		cycle3, trend3 = hpfilter03(X, 1600)
+		assert np.allclose(cycle0, cycle3)
+		cycle2, trend2 = hpfilter02(X, 1600)
+		assert np.allclose(cycle0, cycle2)
+		cycle1, trend1 = hpfilter01(X, 1600)
+		assert np.allclose(cycle0, cycle1)
 	"""
+	#example use
 	cpi = series(*fetch(r'h:\data\FRED\cpi\CPIAUCNS.db'))
 	sub = Sample([1950,1],[1990,1],12)
 	print sub
@@ -509,4 +657,5 @@ if __name__ == "__main__":
 	#print Dstat1([1,1,2,2,3,3,3]Last modified: 2006 Jun 30
 	#print Dstat1(cpi.tolist(),'cpi',cpi.smpl_full)
 	#pylab.show()
+	"""
 

@@ -68,36 +68,36 @@ def gcd_euclid(r,n):
 	return n
 
 def least_divisor(n):
-  """Return int, the least divisor of n.
+	"""Return int, the least divisor of n.
 
-  Parameters
-  ----------
-  `n` : int
-    integer greater than 1 to test
+	Parameters
+	----------
+	`n` : int
+		integer greater than 1 to test
 
-  :since:     2012-11-08
-  """
-  assert (n>1), "argument should be an integer > 1"
-  assert (n==int(n)), "argument should be an integer > 1"
-  n = int(n)
-  if (n%2 == 0): return 2
-  d = 3; dd = 9
-  while (n%d>0 and dd<=n):
-    dd += 4 * (d + 1)
-    d += 2
-  return n if dd>n else d
+	:since:     2012-11-08
+	"""
+	assert (n>1), "argument should be an integer > 1"
+	assert (n==int(n)), "argument should be an integer > 1"
+	n = int(n)
+	if (n%2 == 0): return 2
+	d = 3; dd = 9
+	while (n%d>0 and dd<=n):
+		dd += 4 * (d + 1)
+		d += 2
+	return n if dd>n else d
 
 def is_prime(n):
-  """Return bool, True if n is prime.
+	"""Return bool, True if n is prime.
 
-  Parameters
-  ----------
-  `n` : int
-    integer greater than 1 to test
+	Parameters
+	----------
+	`n` : int
+		integer greater than 1 to test
 
-  :since:     2012-11-08
-  """
-  return n==least_divisor(n)
+	:since:     2012-11-08
+	"""
+	return n==least_divisor(n)
 
 
 def choice(x, axis=None):

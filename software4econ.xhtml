@@ -258,7 +258,7 @@ Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit
 
 <h4 id="monospace">Monospaced Fonts</h4>
 
-<p id="STIX">
+<div id="STIX">
 Before listing some monospaced fonts,
 I must note the wonderful <a href="http://www.stixfonts.org/">STIX</a> font project.
 These are "a comprehensive set of fonts that serve the scientific and engineering community".
@@ -266,7 +266,33 @@ and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
 After a long wait,
 the fonts were released in May 2010.
-</p>
+Here are MiKTeX installation instructions from Ulrike Fischer:
+<ol>
+<li> 
+Unpack the zip-file somewhere outside miktex. You will get a
+folder stix-tds
+</li>
+<li> 
+Add the folder stix-tds as a new root in miktex - settings, tab "roots"
+</li>
+<li> 
+Activate the stix.map file either in a document with
+<code>\pdfmapfile{=stix.map}</code> or globally by following the 
+<a href="http://docs.miktex.org/2.9/manual/advanced.html#psfonts">instructions in the documentation</a>
+</li>
+<li> 
+Test the font with this document:
+<pre>
+\documentclass{article}
+%\pdfmapfile{=stix.map} %if the map file is not activated globally
+\usepackage{stix}
+\begin{document}
+Some text, and a math formula \(a+b=\sqrt{c}\).
+\end{document}
+</pre>
+</li> 
+</ol>
+</div>
 
 <p>
 Once you have chosen your editor, you may want to find yourself a
@@ -421,6 +447,14 @@ and Python-based sed debugger.
 
 <h3 id="docbasics">Basic Considerations</h3>
 
+<p>
+Scientific documents will generally include typeset mathematics.
+Proper typesetting aids communication,
+and ISO31/XI therefore provides typesetting standards.
+(See <a href="http://www.tug.org/TUGboat/Articles/tb18-1/tb54becc.pdf">Claudio Beccari's discussion</a>,
+but also the <a href="http://tex.stackexchange.com/questions/14821/whats-the-proper-way-to-typeset-a-differential-operator">thread on StackExchange</a>.)
+</p>
+
 <div>
 There are three basic approaches to producing mathematical documents.
 <ol>
@@ -428,6 +462,7 @@ There are three basic approaches to producing mathematical documents.
 WYSIWYG: What you see is what you get.
 Generally this means you will use a <a href="#wordprocessor">word processor</a> that provides support for mathematics.
 Your printed document will look very similar to the document view in your working environment.
+(Which often means it is not typeset very well.)
 </li>
 <li>
 WYSIWYM: What you see is what you mean.  
@@ -506,10 +541,12 @@ Windows users appear to have a number of commercial choices,
 the most popular of which seems to be <a href="http://www.mackichan.com/">Scientific Notebook</a> and <a href="http://www.mackichan.com/">Scientific Word</a>.
 (Scientific Notebook is not marketed as a LaTeX front end,
 but as of 2004 it still saves in LaTeX format and with a tiny amount of editing can be used that way.)
-See <a href="#swhints">Scientific Word user hints</a>.</p>
+See <a href="#sw-hints">Scientific Word user hints</a>.
+</p>
 
 <p>
-<a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents.
+<a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents,
+with some support for both LaTeX and MathML export.
 </p>
 </div>
 
@@ -523,7 +560,7 @@ who should be able to work in the GUI environment and not worry much about the u
 The <a href="http://www.w3.org/Amaya/">Amaya browser/authoring tool</a> enables the WYSIWYM production of mathematical documents,
 uses MathML as the underlying format.
 As of 2005,
-I find Amaya a bit slow and clumsy for the production of mathematics.
+I find Amaya slow and clumsy for the production of mathematics.
 </p>
 
 
@@ -2405,6 +2442,11 @@ There is a "freeware" version for academic and individual non-commercial use.
 </li>
 <li>
 Mathematica remains the most popular symbolic math program.
+I find it excellent for both teaching and research.
+(See my <a href="#mma-hints">Mathematica hints</a>.)
+Apparently some researchers use it directly for document production;
+I have not been able to use it this way.
+<br />
 Check out the <a href="http://www.wolfram.com/mathsource/">MathSource</a> code for Mathematica.
 Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a>
 and <a href="http://library.wolfram.com/infocenter/MathSource/585/">PYML</a>.
@@ -4537,8 +4579,16 @@ Also:
 Copernicus</a> is a company specializing in the publication of open access journals.  
 </p>
 
+<h3>Fun, Useful, and Open Hardware</h3>
 
-<h3 id="keyboard">Keyboards</h3>
+<p>
+<a href="http://www.raspberrypi.org/">RaspberryPi</a>
+now has an official
+<a href="http://store.raspberrypi.com/projects/casmanual">manual</a>,
+which includes introductions to programming languages (including Python and Java).
+</p>
+
+<h4 id="keyboard">Keyboards</h4>
 <p>
 Windows keyboards are a painful design for touch typists.
 Consider <a href="http://shop.store.yahoo.com/pfuca-store/haphackeylit1.html">Happy Hacker Lite II</a>,
@@ -4932,7 +4982,9 @@ Traditional preadsheets are OK for very simple, one-off applications using small
 For serious work,
 they are too opaque, because they are too hard to document.
 (If you have ever tried to figure out another person's complex spreadsheet, you know what I mean.)
-Studies indicate that almost all large spreadsheet have serious errors.<sup><a href="http://www.ifs.org.uk/~popx/eusprig2001_as_html/eusprig2001.html">*</a></sup>
+Particulary well publicized was the Excel error whose correction
+<a href="http://www.peri.umass.edu/236/hash/31e2ff374b6377b2ddec04deaa6388b1/publication/566/">overturned a much cited Reinhart and Rogoff study</a>.
+But studies indicate that almost all large spreadsheet have serious errors.<sup><a href="http://www.j-paine.org/eusprig2001_as_html/eusprig2001.html">1</a>,<a href="http://arxiv.org/abs/0802.3457">2</a></sup>
 Basic <a href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=15214961">data handling glitches</a> have been documented even in the most popular spreadsheet applications.
 The lack of transparent scripting facilities means that it is very difficult to understand someone else's spreadsheet or even one’s own spreadsheet developed months or years ago.
 If all you want to educate someone to do is one-time, never-to-be-revisited, quick-and-dirty computations,
@@ -5006,8 +5058,12 @@ is a data analysis tool with a spreadsheet interface to database operations.
 </li>
 <li>
 <a href="http://resolversystems.com/">Resolver</a> is a quite amazing scientific spreadsheet.
-Free for educational use.
+Free for educational use.  Sadly, no longer under development.
 (Scripting language: Python)
+</li>
+<li>
+<a href=">
+">Siag</a> (Scheme in a Grid).
 </li>
 <li>
 <a href="http://www.dadisp.com/">DaDisp</a> is an "engineering spreadsheet"
@@ -5060,7 +5116,8 @@ For enterprise needs,
 <a href="http://www.postgresql.org/">PostgreSQL</a> has a good reputation:
 PostgreSQL is a free-and-open-source, SQL-compliant, object-relational database management system,
 reputed to be highly-scalable.
-Using <a href="http://ruby-lang.org/en/">Ruby</a> with <a href="http://www.rubyonrails.org/">Rails</a> and say <a href="http://dev.mysql.com/downloads/">MySQL</a> is getting a lot of <a href="http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html">buzz</a> for developing data-base backed web applications.
+Using <a href="http://ruby-lang.org/en/">Ruby</a> with <a href="http://www.rubyonrails.org/">Rails</a> and say <a href="http://mariadb.org/">MariaDB</a> or <a href="http://www.postgresql.org/">PostgreSQL</a>
+is getting a lot of <a href="http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html">buzz</a> for developing data-base backed web applications.
 </p>
 
 <p>
@@ -5355,7 +5412,8 @@ consider <a href="#svn">Subversion (SVN)</a>.
 Currently distributed VCSs are the rage,
 with <a href="http://bazaar-vcs.org/">Bazaar</a> (License: GPL),
 <a href="http://mercurial.selenic.com/">Mercurial</a> (License: GPL),
-and <a href="http://git.or.cz/">Git</a> (License: GPL) having particularly high profiles.
+and especially <a href="http://git.or.cz/">Git</a> (License: GPL) having particularly high profiles.
+(Windows users should consider <a href="http://windows.github.com/">GitHub for Windows</a>.)
 This is probably not important for small projects.
 See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">OpenSolaris evaluations</a>.
 </p>
@@ -5960,6 +6018,16 @@ to contain some useful abbreviations and commands for email.
 Just drop it in your <code>%VIM%\vimfiles</code> folder,
 and change your External Editor command to, e.g.,
 <code>C:\programs\vim\vim73\gvim.exe -c "so $VIM\vimfiles\ai_mail.vim"</code>.
+</div>
+
+<div>
+Thunderbird and Acrobat:
+Acrobat will not attach PDFs to Thunderbird emails,
+unless you you set Thunderbird as your default client in a very specific way.
+Open the Control Panel and double click Default Programs.
+Pick "Set program access and computer  defaults/Custom (expand this)/Choose a default e-mail program,
+and then, click on Thunderbird.
+(As of Windows 7 and Acrobat 9.)
 </div>
 
 <div>
@@ -6945,7 +7013,29 @@ You will then want to assign Ctrl+Shift+E to WordRightEndExtend.
 </p>
 
 
-<h3 id="swhints">Scientific Notebook and Scientific Word user hints</h3>
+<h3 id="mma-hints">User Hints: Mathematica</h3>
+
+<p>
+Get all secion header cells with <tt>Cells[CellStyle → {"Section"}]</tt>.
+The result is a list of cell objects,
+on which you can set any options by assigning to its <tt>CurrentValue</tt>:
+</p>
+<pre>
+Do[
+ CurrentValue[cell, ShowGroupOpener] = True,
+ {cell, Cells[CellStyle → {"Section"}]}
+]
+</pre>
+
+<p>
+Using version control with Mma notebooks is a bit messy but can be made workable.
+Set <tt>FileOutlineCache</tt> to False and <tt>TrackCellChangeTimes</tt> to False
+in any notebook you want to put under version control.
+Preliminary to committing your changes, delete all your output cells and then save your notebook.
+(You can use the menus or <tt>FrontEndTokenExecute["DeleteGeneratedCells"]</tt> for this.)
+</p>
+
+<h3 id="sw-hints">Scientific Notebook and Scientific Word user hints</h3>
 
 <p>
 On campus:
@@ -7022,13 +7112,9 @@ Since it is a 5-user license, you may occasionally find you have to wait  until 
 <h3 id="svn_hints">SVN User hints</h3>
 
 <p>
-Subversion is easy and excellent.
+Subversion is easy to use and excellent for individuals and small groups.
 Here is a <a href="http://www.clear.rice.edu/comp314/svn.html">ten minute tutorial</a>.
 Windows users who prefer to avoid the command line can just use <a href="http://tortoisesvn.net/">TortoiseSVN</a>.
-</p>
-
-<p>
-<a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a>
 </p>
 
 <div>
@@ -7037,6 +7123,10 @@ Remember your work cycle must be very rigid:
 2. then do your work
 3. as soon as you are done, *commit*.
 </div>
+
+<p>
+<a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a>
+</p>
 
 <div>
 Suppose you want to add a directory <tt>mydir</tt> under version control,
@@ -7067,6 +7157,11 @@ Once you ensure that Subversion has access to a text editor,
 you can edit the list of patterns it will ignore in any directory.
 E.g., <code>svn propedit svn:ignore .</code> (note the final period)
 will edit the patterns for the current directory.
+</p>
+
+<p>
+<tt>svn diff -r HEAD myfile</tt> shows differences between <tt>myfile</tt> and the repository.
+<tt>svn status --show-updates</tt> shows you which files in the repository have changed.
 </p>
 
 <h3 id="reST_hints">Docutils User hints</h3>
