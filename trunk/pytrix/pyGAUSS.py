@@ -46,8 +46,11 @@ def cumprodc(x):
 		x = numpy.atleast_2d(x)
 	return x.cumprod(axis=-2)
 
-def design(x,colidx='gauss'):
-	'''Create design matrix.
+def design(x, gausscols=True):
+	'''Return matrix, the design matrix for `x`.
+
+	:param `x`: list of column numbers
+
 	Output::
 
 		y an RxK array, where R=rows(x), K = max(x)
@@ -55,14 +58,14 @@ def design(x,colidx='gauss'):
 
 	:note: default is to input GAUSS column numbers
           (!!NOT!! Python indices)
-	:param `x`: list of column numbers
 	'''
-	xmax = np.round_(x).max()
-	print xmax
-	if (colidx=='gauss'):
-		return (np.round_(x).reshape((-1,1))==np.arange(1,xmax+1)).astype(int)
+	x = np.around(x).flatten().reshape((-1,1))
+	xmax = x.max()
+	if gausscols: #default! input is *unit*-based column indexes
+		idxcols = np.arange(1,xmax+1)
 	else:
-		return (np.round_(x).reshape((-1,1))==np.arange(xmax+1)).astype(int)
+		idxcols = np.arange(xmax+1)
+	return (x==idxcols).astype(int)
 
 #diag: diagonal of matrix as column vector (2D only!)
 def diag(x):

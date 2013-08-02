@@ -4424,11 +4424,13 @@ See <a href="http://www.fnal.gov/docs/products/gnuplot/tutorial/">http://www.fna
 </div>
 
 <div id="tikz">
+See the <a href="#tikz-hints">TikZ hints</a>.
+<br />
 If your figures are simple (or if you are patient),
 just use the very powerful TikZ drawing language directly in your LaTeX document.
 TikZ does <em>not</em> depend on PostScript,
 you can use it directly with pdflatex.
-It is <em>also</em> compatible with the dvips/ps2pdf route (which is very nice).
+Conveniently, it is <em>also</em> compatible with the dvips/ps2pdf route.
 <br />
 There are many TikZ libraries available,
 including <a href="http://sourceforge.net/projects/pgfplots/">pfgplots</a> for drawing plots
@@ -4453,7 +4455,7 @@ or you can change the format in the picture properties.)
 <p>
 For great results even in complex drawings,
 try the <a href="#pyx">PyX</a> graphics package for Python.
-This will require a bit of learning initially,
+This will require an initial investment of experimentation and learning,
 but the results (as EPS or PDF) are fabulous.
 </p>
 
@@ -5514,6 +5516,13 @@ It is Java and includes and Windows installer.
 For a more document oriented approach,
 try <a href="http://freehackers.org/~tnagy/kdissert/index.html">Kdissert</a>.
 (License: GPL)
+<a href="http://www.mindmup.com/">MindMup</a> provides free <em>online</em> mind mapping,
+including online collaboration.
+(License: MIT. Supported by Google Drive.)
+</p>
+<p>
+<a href="http://treesheets.com/">Tree Sheets</a> is an odd cross
+between a spreadsheet and a mind mapper.
 </p>
 
 <h4>Video Players</h4>
@@ -8434,6 +8443,58 @@ If you want an images directory searched recursively
 end the path with a double slash.
 E.g., <tt>\graphicspath{{images-eps//}{images-pdf//}}</tt>.
 </p>
+
+<h4 id="tikz-hints">TikZ hints</h4>
+
+<p>
+Most important:
+the <a href="http://paws.wcu.edu/tsfoguel/tikzpgfmanual.pdf">TikZ manual</a> is very helpful.
+Also, Crémer provides a <a href="http://cremeronline.com/LaTeX/minimaltikz.pdf">useful introduction</a>.
+</p>
+
+<p>
+The intersection coordinate systems are very useful.
+E.g., <code>(A |- B)</code> takes the first coordinate from A and the second coordinate from B.
+See the PyX manual.
+</p>
+
+<p>
+The <code>arc</code> command feels odd, especially to those with PostScript experience.
+Instead of inputting a circle center, you must give the start point for the arc.
+Suppose we want to draw an arc from from a circle centered at (1,1) with a radius of 2,
+say from 30 degrees to 60 degrees.
+You can do that like this:
+<code>\draw (1,1) +(30:2) arc (30:60:2)</code>
+</p>
+
+<p>
+Parametric plots are easy. E.g.,
+<code>\draw[domain=-20:0, smooth, variable=\t, samples=200] plot({cos(\t r)*exp(0.1*\t)}, {-sin(\t r)*exp(0.1*\t)});</code>
+</p>
+
+<p>
+To place text along a line, use the <code>sloped</code> keyword:
+<code>\draw (0,0) -- (5,1) node[above,very near end,sloped] {text}</code>
+</p>
+
+<p>
+You can use <code>tikzset</code> to set the default arrowhead style for your document:
+<code>\tikzset{>=latex}</code>.
+</p>
+<!-- chk -->
+
+<p>
+Predefined line thicknesses are:
+ultra thin, very thin, thin (the default),
+semithick, thick, very thick, ultra thick.
+You can also set the line width explicitly:
+<code>\draw[line width=0.5pt]</code>.
+</p>
+<p>
+A very light gray is <code>black!10</code>.
+A very dark gray is <code>black!90</code>.
+</p>
+
 
 <h4 id="luatex-hints">LuaTeX hints</h4>
 
