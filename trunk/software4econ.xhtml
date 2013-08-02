@@ -227,6 +227,7 @@ and an accurate (and somewhat LaTeX sensitive) spell-checker.
 <p class="boxed">
 See <a href="#tphints">TextPad user hints.</a>
 </p>
+<p>
 Python users may want to consider the interesting <a href="http://wiki.woodpecker.org.cn/moin/UliPad">UliPad</a>.
 There is also the popular, lightweight <a href="http://www.liquidninja.com/metapad/">MetaPad</a>,
 and the fairly powerful <a href="http://www.editpadpro.com/editpadlite.html">EditPad Lite</a>,
@@ -235,6 +236,7 @@ and it is available in a console version.
 If you can afford it, there is also
 Lugaru's <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>, a powerful, fast, yet lightweight implementation of Emacs for Windows.
 For pure speed on a Windows platform there is the powerful <a href="http://www.vedit.com/">VEdit</a>, which offers a free trial version.
+</p>
 </div>
 
 <h3>HTML Editors</h3>
@@ -1571,14 +1573,18 @@ is a perl based replacement for makefiles.
 Here are two big factors to consider in making a language choice:
 what software in your area is already written in the language,
 and how much original coding you will be doing.
-For econometrics, the big collections of extant code are in Gauss and MATLAB.
+For econometrics, the biggest collections of extant code are in Gauss and MATLAB.
 Of these two, Gauss has the advantage of real array broadcasting,
 while MATLAB relies on the clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
-Neither language is truly object oriented.
+Neither language is truly object oriented,
+and both copy array data even when it is unnecessary (instead of referencing it).
 (Gauss has structs; MATLAB has some object-oriented functionality.)
 If you are going to write a lot of your own code,
 object orientation becomes critical.
 You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
+</p>
+
+<p>
 If you are forced to work in Matlab you can still have access to Python via <a href="http://github.com/kw/pymex">pymex</a>,
 which "embeds a Python interpreter into Matlab".
 </p>
@@ -1619,12 +1625,13 @@ add the extraordinarily high quality graphics package <a href="#matplotlib">Matp
 
 <p>
 You can find everything packaged together for a single install.
-For example: NumPy, SciPy, and Matplotlib are included in the <a href="http://www.enthought.com/python/">Enthought</a> Python distribution,
+For example: NumPy, SciPy, and Matplotlib are included in the <a href="https://www.enthought.com/products/canopy/">Enthought</a> Canopy distribution,
 along with <em>many</em> other useful packages.
-(Warning for Idle users: idle-script.py was missing from EPD release 7.1-1; this was fixed in subsequent releases.)
+Here are some additional <a href="pythonresources.html">Python resources for scientific computing</a>.
 </p>
 
 <p>
+Here are some <a href="pythonresources.html">Python resources for scientific computing</a>.
 Many scientific programming applications can be found on the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware">SciPy Topical Software Wiki</a>.
 <a href="http://dirac.cnrs-orleans.fr/ScientificPython/">ScientificPython</a> offers some useful scientific and visualization modules.
 The are also some additional <a href="http://probstat.sourceforge.net/">probability and statistics utilities</a> available.
