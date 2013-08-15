@@ -210,7 +210,7 @@ def bisect(f, x1, x2, eps=1e-8):
 	#require: sign change over initial interval
 	f1, f2 = f(x1), f(x2)
 	if f1*f2 > 0:
-		raise ValueError
+		raise ValueError('supply a sign changing interval')
 	#initialize xneg, xpos
 	xneg, xpos = (x1,x2) if(f2>0) else (x2,x1)
 	while xpos-xneg > eps:

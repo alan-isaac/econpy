@@ -14,13 +14,5 @@ set fileencoding=utf-8
 colorscheme koehler
 
 " add suffixes to gf searches
-set suffixesadd=.rst
-
-digraphs `` 8220 '' 8221 <- 8592 \|^ 8593 -> 8594 \|v 8595
-
-inoremap <buffer> &ldquo; “
-inoremap <buffer> &lsquo; ‘
-inoremap <buffer> &rdquo; ”
-inoremap <buffer> &rsquo; ’
-inoremap <buffer> &mdash; —
+set suffixesadd=.rst 
 
