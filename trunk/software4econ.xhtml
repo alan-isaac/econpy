@@ -2198,7 +2198,7 @@ You can download
 <a href="http://www.eviews.com/eviews3/eviews31/ev31hlp-04.zip
 ">the help file</a> even if you do not own the software.
 There is a <a href="http://forums.eviews.com/">user forum</a>.
-<div class="boxed">See <a href="#evhints">EViews user hints</a>.
+<div class="boxed">See <a href="#eviews-hints">EViews user hints</a>.
 </div>
 </li>
 <li>
@@ -2557,13 +2557,11 @@ This is probably the simplest powerful way to put math on the web.
 Another interesting approache is <a href="http://www1.chapman.edu/~jipsen/mathml/asciimath.html">ASCIIMathML</a>,
 which simply includes LaTeX-like math in a normal HTML file.
 (A clever javascript produces the MathML.)
-Mozilla based <a href="#browsers">browsers</a> have excellent native MathML support,
+Mozilla based <a href="#browsers">browsers</a> such as FireFox have excellent native MathML support,
 so they work well with ASCIIMathML.
 (But you need to <a href="http://web.mit.edu/ist/topics/webpublishing/mathml/fonts-win.html">install the math fonts</a>.
-Opera through version 7.5 provides no MathML support beyond entities, so it does not display ASCIIMathML.
-IE version 6 requires <a href="http://www.dessci.com/en/products/mathplayer/">MathPlayer</a> to work with any MathML.
-A "two-step" alternative is the Mozilla project's <a href="http://pear.math.pitt.edu/mathzilla/itex2mml.html">Itex2mml</a>.
-This embeds a simplified TeX notation in HTML files and then processes them to produce XHTML files containing appropriate MathML in place of the TeX.
+See the <a href="http://en.wikipedia.org/wiki/MathML">Wikipedia MathML article</a>
+for a summary of support by other browsers.
 </p>
 
 
@@ -2578,22 +2576,6 @@ or with the closely related <a href="http://pear.math.pitt.edu/mathzilla/tex4moz
 
 <h3 id="browsers">Browsers</h3>
 
-
-<p>
-I like two browsers:
-<a href="http://www.mozilla.com/en-US/firefox">FireFox</a>
-and <a href="http://www.opera.com/">Opera</a>.
-I have been hearing some good things about Chrome (mostly speed related).
-At version 8,
-Internet Explorer is finally usable with limited CSS,
-but still radically fails the Acid tests,
-and still lacks support of SVG graphics, MathML, and even simple XHTML.
-So, do not use IE unless required by your workplace,
-and then prepare to suffer.
-An interesting "new kid on the block" is <a href="http://www.uzbl.org/">uzbl</a>,
-which emphasizes speedy browsing but is highly extensible.
-</p>
-
 <p>
 If you want to test your browser for standards compliance,
 start with the <a href="http://acid3.acidtests.org/">Acid 3 tests</a>.
@@ -2605,25 +2587,25 @@ or even a very simple <a href="http://tantek.com/XHTML/Test/minimal.html">XHTML<
 </p>
 
 <p>
-<a href="http://www.opera.com">Opera</a> is relatively small, very fast, extremely reliable, <a href="http://www.w3.org/">W3C</a>-standards oriented, available on many platforms, and has a fully functional free version.
-(See the <a href="#opera-hints">Opera hints</a> below.)
-Last I looked, it did best on the Acid 3 tests.
-<a href="http://www.mozilla.org/products/firefox/">FireFox</a> (based on <a href="http://www.mozilla.org/">Mozilla</a>) is a free-and-open-source, cross-platform browser that emphasizes the support of open standards.
-FireFox is currently (2004) the only browser with native MathML support.
-(See the <a href="#firefoxhints">FireFox hints</a> below.)
-A Windows-specific implementation of the mozilla rendering engine is <a href="http://kmeleon.sourceforge.net/">K-Meleon</a>,
-which gets rave reviews.
-Google's <a href="http://www.google.com/chrome">Chrome</a> browser is getting good reviews for speed and design.
-A "freeware" browser for Windows that relies on the IE rendering engine is <a href="http://www.crazybrowser.com/">CrazyBrowser</a>,
-which provides functionality beyond IE (e.g., tabbed browsing even for those with IE6).
-A "donation ware" browser for Windows that relies on the IE rendering engine is <a href="http://www.myie2.com/html_en/home.htm">MyIE2</a>.
-If speed and information are your primary concerns you might consider a text browser such as <a href="http://elinks.or.cz/">ELinks</a> or the venerable <a href="http://lynx.browser.org/">Lynx</a>.
-(There is a <a href="http://www.jim.spath.com/lynx_win32/">Win32 port</a>.)
-For Windows, <a href="http://www.offbyone.com/">Off By One</a> looks like an interesting, light-weight option.
-You can find a useful browser list at <a href="http://www.libpng.org/pub/png/pngapbr.html">LibPNG</a>.
+I like three browsers:
+<a href="http://www.mozilla.com/en-US/firefox">FireFox</a>,
+<a href="http://www.opera.com/">Opera</a>,
+and <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a>.
+Of these, I give FireFox the nod for being both open source and mature,
+but Chrome is also open source.
+Internet Explorer is slowly becoming usable (except for MathML),
+and version 9 has finally achieved a somewhat qualified pass
+on the <a href="http://en.wikipedia.org/wiki/Acid3#Desktop_browsers">Acid 3 tests</a>.
+But I still recommend avoiding IE unless required by your workplace,
+due to its lagging standards compliance and closed source code.
+An interesting "new kid on the block" is <a href="http://uzbl.org/">uzbl</a>,
+which emphasizes speedy browsing but is highly extensible.
 </p>
 
-
+<p>
+See the <a href="#opera-hints">Opera hints</a> below.
+See the <a href="#firefoxhints">FireFox hints</a> below.
+</p>
 
 
 
@@ -3651,7 +3633,9 @@ This library has an excellent reputation.
 <p>
 <a href="http://www.slac.stanford.edu/grp/ek/hippodraw/">HippoDraw</a>
 produces interactive graphics for data analysis.
+Hippodraw includes Python bindings and a Python extension module.
 </p>
+
 
 <h4>Rendering Engines</h4>
 
@@ -4439,6 +4423,7 @@ just use the very powerful TikZ drawing language directly in your LaTeX document
 TikZ does <em>not</em> depend on PostScript,
 you can use it directly with pdflatex.
 Conveniently, it is <em>also</em> compatible with the dvips/ps2pdf route.
+Sean Farley offers an <a href="http://siam.lsu.edu/wp-content/uploads/2009/12/tikz.pdf">useful tutorial</a>.
 <br />
 There are many TikZ libraries available,
 including <a href="http://sourceforge.net/projects/pgfplots/">pfgplots</a> for drawing plots
@@ -4514,8 +4499,8 @@ Other interesting solutions:
 <a href="#calculators">Calculators</a> 
 </li>
 <li>
-<a href="#ftpclients">File Transfer (FTP)</a> 
-</li>
+<li>
+<a href="#remote">Remote Access</a>
 <li>
 <a href="#pims">
 Personal Information Managers (PIMs)</a>
@@ -5017,7 +5002,7 @@ These are tools that can be properly used for serious work.
 <p>
 Comment: Python can read and write tranditional spreadsheets.
 For simple spreadsheets see the <a href="http://docs.python.org/library/csv.html">CSV</a> module.
-For more advanced need,
+For more advanced needs,
 consider <a href="http://pypi.python.org/pypi/xlrd">xlrd</a>
 and <a href="http://pypi.python.org/pypi/xlwt">xlwt</a>.
 </p>
@@ -5296,7 +5281,23 @@ And of course Python users will often be well served by the <a href="http://www.
 </li>
 </ul>
 
-<h4 id="ftpclients">File Transfer (FTP)</h4>
+<h4 id="remote">Remote Access</h4>
+
+<h5 id="ftpclients">Terminal Emulation</h5>
+
+<ul>
+<li>
+<a href="http://vimeo.com/24857127">Gate One</a>
+(HTML 5 ssh client and terminal emulator. Nice functionality!)
+</li>
+<li>
+<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>,
+the classic telnet/ssh client.
+</li>
+</ul>
+
+
+<h5 id="ftpclients">File Transfer (FTP)</h5>
 
 <p>
 Check <a href="http://www.thefreecountry.com/webmaster/freeftpclients.shtml">TheFreeCountry</a> for a longer list.
@@ -5983,6 +5984,16 @@ a pure Python solution. (License: MIT)
 
 <h2>User Hints</h2>
 
+<h3>CSV Hints</h3>
+
+<p>
+CSV stands for comma-separated values.
+Distinguish CSV and <a href="http://en.wikipedia.org/wiki/Delimiter-separated_values">DSV</a>.
+CSV is described by <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+Do not give a <tt>.csv</tt> extension to files that fail to match this description.
+</p>
+
+
 <h3 id="emhints">Email Client Hints</h3>
 
 <p>
@@ -6177,6 +6188,8 @@ from Python as follows:
 Other approaches to R/Python interaction include the following.
 <a href="http://rpy.sf.net">Walter Moreira's RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to "embed" R in Python and transparently send data to it.
 (You can easily pass objects in <em>both directions</em> using OmegaHat's <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.) 
+<a href="http://pypi.python.org/pypi/pyRserve">pyRserve</a> is a simpler solution,
+which nevertheless allows running R on a remote server.
 </div>
 
 
@@ -7571,7 +7584,7 @@ The latter are .w_xaxis, .w_yaxis, and .w_zaxis.
 (Thanks to Ben Root for pointing this out.)
 </div>
 
-<h3 id="evhints">EViews User hints</h3>
+<h3 id="eviews-hints">EViews User hints</h3>
 
 <div id="eviews_bugs">
 Eviews 6 appears to have some bugs and some annoyances:
@@ -8316,9 +8329,8 @@ using gnuplot.
 <p>
 I consider one extension to be indispensible:
 <a href="https://addons.mozilla.org/en-us/firefox/addon/session-manager/">Session Manager</a>.
-For FireFox version 3, I feel the same way about <a href="https://addons.mozilla.org/en-US/firefox/addon/5756">Taboo</a>.
-(Taboo allows you to replace the practice of keeping many tabs open with a single page of site links.)
-In version 4, Pandora is an interesting alternative.
+Another interesting extension is <a href="https://addons.mozilla.org/en-us/firefox/addon/taboo/">Taboo</a>
+which allows you to replace the practice of keeping many tabs open with a single page of site links.
 </p>
 
 <h3 id="windows-hints">Windows hints</h3>

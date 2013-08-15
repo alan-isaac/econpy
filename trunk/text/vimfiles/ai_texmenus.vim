@@ -18,9 +18,10 @@ silent amenu 90.40 &MiKTeX.View\ with\ &GSview :execute '!start "'.GSVPATH.'" "'
 amenu 90.100 &MiKTeX.-SEP1-			:
 silent amenu 90.110 &MiKTeX.&luatex :up<bar>:execute '!start "'.MIKTEXBIN.'lualatex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr><cr>
 silent amenu 90.120 &MiKTeX.&pdflatex :up<bar>:execute '!start "'.MIKTEXBIN.'pdflatex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr><cr>
-silent amenu 90.130 &MiKTeX.La&TeX :up<bar>:silent execute '!start "'.MIKTEXBIN.'latex.exe" &latex "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
+silent amenu 90.130 &MiKTeX.La&TeX :up<bar>:silent execute '!start "'.MIKTEXBIN.'latex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
 silent amenu 90.140 &MiKTeX.&BibTeX :execute '!start "'.MIKTEXBIN.'bibtex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
-silent amenu 90.150 &MiKTeX.Make&Index :execute '!start "'.MIKTEXBIN.'makeindex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
+" silent amenu 90.150 &MiKTeX.Make&Index :execute '!start "'.MIKTEXBIN.'makeindex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
+silent amenu 90.150 &MiKTeX.Make&Index :execute '!start "'.MIKTEXBIN.'makeindex.exe" "'.fnamemodify(@%,':r:gs?\\?/?').'"'<cr>
 amenu 90.200 &MiKTeX.-SEP2-			:
 silent amenu 90.210 &MiKTeX.dvip&s :execute '!start "'.MIKTEXBIN.'dvips.exe" -Ppdf "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
 silent amenu 90.220 &MiKTeX.dvipdf&m :execute '!start "'.MIKTEXBIN.'dvipdfm.exe" -vv "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
