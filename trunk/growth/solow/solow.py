@@ -344,7 +344,7 @@ class CompositeSolowConsumer:
 	
 print
 
-# health_threshold currently global! not good!
+# health_threshold currently global: TODO
 health_threshold = 1.0
 health_threshold = 0.1
 consumer = CompositeSolowConsumer(K0, N0)
@@ -356,7 +356,7 @@ for _ in range(1000):
 	if not _%50:
 		print "unemployment: ", consumer.get_unemployment(), "inequality: ", calc_gini(c.k for c in consumer.consumers)
 		#print [(c.health < health_threshold) for c in consumer.consumers]
-	#TODO: d and g and alpha are currently global: not good!
+	#TODO: d and g and alpha are currently global
 	consumer.adjust_kn(d, gN+gA)  #timing crucial! (fix that?)
 	consumer.receive(alpha*Y, 'rents')
 	print
