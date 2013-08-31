@@ -7413,14 +7413,13 @@ fig.savefig('/temp/myfig.png', dpi=96)
 Matplotlib's pyplot facilities are convenience facilities for the user with modest needs.
 For some examples (e.g., embedding Matplotlib in other applications)
 it is important not to use these facilities.
-In this case, you will need to handle figure and canvas creation yourself.
+In this case,
+you can altogether avoid using pyplot,
+but you will need to handle figure and canvas creation yourself.
 </p>
 
-<div>
-If you want even less magic,
-you can altogether avoid using pyplot.
-Here is an example by John Hunter.
 <pre>
+# example by John Hunter.
 from matplotlib.backends.backend_svg import FigureCanvasSVG
 from matplotlib.figure import Figure
 fig = Figure()
@@ -7430,7 +7429,6 @@ ax.set_xlabel('time')
 canvas = FigureCanvasSVG(fig)
 canvas.print_figure('myfile.svg')
 </pre>
-</div>
 
 <p>
 As another example,
