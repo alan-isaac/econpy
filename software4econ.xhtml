@@ -247,6 +247,13 @@ but <a href="http://www.nvu.com">Nvu</a> is of additional interest:
 is is based on the Mozilla Composer code base,
 so it offers WYSIWYG editing of HTML that for moderately sophisticated use rivals DreamWeaver and FrontPage.
 (License: MPL/LGPL/GPL tri-license.)
+The innovative <a href="https://www.raptor-editor.com">Raptor Editor</a>
+allows editing HTML content in a WYSIWYG setting.
+(License: GPL 3.)
+The W3C's <a href="http://www.w3.org/Amaya/">Amaya editor</a>
+integrates browsing, editing, and remote access,
+and it supports XML applications (including SVG).
+(Cross platform; language: C; license: W3C Software Notice and License)
 </p>
 
 <h3>Collaborative Editors</h3>
@@ -2467,11 +2474,18 @@ Finally, <a href="http://www.dataweb.nl/~cool/TheEconomicsPack/index.html">Thoma
         On the AU campus,
         Mathematica is available in Anderson Lab and Clark Lab.
         </div>
+<br />
 Interesting Mathematica books for economists:
+<br />
 <a href="http://www.amazon.com/gp/product/0387945180?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>,
 <a href="http://www.amazon.com/gp/product/0817641971?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a>
 <br />
 Introductory Mathematica books:
+<br /> 
+<a href="http://amzn.to/1ej2oq0">Torrence, Bruce F. (2009),
+The Student's Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a>
+(A useful and example oriented introduction.)
+<br /> 
 <a href="http://www.amazon.com/gp/product/0521846781?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a> 
 </li>
 <li> <a href="http://www.maplesoft.com/">Maple</a> is also very popular.
@@ -3740,7 +3754,7 @@ Its <code>pyplot</code> module provides quick-and-easy MATLAB-like graphing func
 For finer grained control, you may prefer Matplotlib's <a href="#oompl">object-oriented API</a>.
 Matplotlib can save to a variety of formats,
 including SVG (which you can then manipulate with <a href="#Inkscape">Inkscape</a>).
-See the <a href="#mpl_hints">Matplotlib hints</a> below.
+See the <a href="#mpl-hints">Matplotlib hints</a> below.
 </li>
 <li>
 <a href="http://soft.proindependent.com/qtiplot.html">QtiPlot</a> is fully Python scriptable.
@@ -4673,9 +4687,11 @@ and if you back these up it cannot import them!
 Fortunately, there is a
 <a href="http://tarvid.kallimagarden.com/mork/index-parser.html">Mork parser library</a>
 (Language: Python)
-Note that Thunderbird 3 should replace the horrible Mork format
+Thunderbird 3 was supposed to replace the horrible Mork format
 with <a href="http://en.wikipedia.org/wiki/MozStorage">MozStorage</a>,
 thereby adopting the storage format now used in FireFox.
+But the <a href="http://kb.mozillazine.org/Moving_address_books_between_profiles">current situation</a> is still bad.
+However, there is an <a href="https://freeshell.de//~kaosmos/morecols-en.html">address book extension</a> that improves things.
 </p>
 
 <p>
@@ -5311,7 +5327,7 @@ As of August 2005, ftplib does not provide any secure services, however.
 For SSH2 services you can use <a href="http://www.lag.net/paramiko/">paramiko</a>,
 which relies on <a href="http://www.dlitz.net/software/pycrypto/">pycrypto</a>.
 These are very easy installs!
-(See the paramiko README file for instructions.
+(Get paramiko from the releases tab on GitHub, and see the README file for instructions.
 Windows users can also look at <a href="http://www.voidspace.org.uk/python/modules.shtml#pycrypto">Voidspace</a> for prebuilt PyCrypto binaries.)
 I provide an <a href="http://www.american.edu/econ/pytrix/sftp_client.py">example (usable) SFTP client</a> using these modules,
 but you can even have a graphical interface with SFTP support via <a href="http://home.gna.org/wxsftp/">wxSFTP</a>.
@@ -7290,11 +7306,15 @@ the title.
 
 
 
-<h3 id="mpl_hints">Matplotlib User hints</h3>
+<h3 id="mpl-hints">Matplotlib User Hints</h3>
 
 <p>
+Matplotlib is included in many Python distributions,
+including Enthought Canopy.
+If you install it your self,
+be sure to read the <a href="http://matplotlib.org/users/installing.html">installation instructions</a>.
 Before installing Matplotlib,
-make sure you have installed <a href="#numpy">NumPy</a>.
+you will certainly need to install <a href="#numpy">NumPy</a>.
 </p>
 
 <p>
@@ -7302,15 +7322,16 @@ To get the most from Matplotlib,
 you need to clearly understand the difference
 between a figure instance and an axes instance.
 <br />
-A figure instance holds a drawing.
-Just like a figure in a journal article.
+A figure instance the basic container for an entire chart,
+like a figure in a journal article.
+A figure instance can contain multiple axes instances,
+each of which can be used for plotting or drawing.
 <br />
-When you call `subplot` it creates an axes instance
-on the **current** figure.  If you call `subplot` again
+We can call the <code>add_subplot</code> method to add
+non-overlapping axes instances to our figure.
+(But if you call <code>add_subplot</code> again
 in a way that overlaps your previous subplot,
-this **replaces** your previous axes in the current figure.
-Instead, make sure you create a new figure instance
-in which to create your new drawing.
+this **replaces** your previous axes in the current figure.)
 </p>
 
 <pre> 
@@ -7319,16 +7340,26 @@ fig1 = plt.figure()
 ax1 = fig1.add_subplot(1,1,1)
 #now draw on ax1
 fig2 = plt.figure()
-ax2 = fig2.add_subplot(1,1,1)
-#now draw on ax2
+ax2a = fig2.add_subplot(2,1,1)
+#now draw on ax2a
+ax2b = fig2.add_subplot(2,1,2)
+#now draw on ax2b
 </pre>
 
+<p>
+You can use the <code>subplots</code> convenience function
+to do figure and axes creation at one go.
+</p>
+
+<pre>
+fig, ((ax1,ax2),(ax3,ax4)) = plt.subplots(2,2)
+</pre>
 
 <p>
 Here is a simple example for creating a figure
 and displaying it onscreen.
-It assumes that you have version 0.92.1 or newer.
-(Otherwise use <code>pylab</code> instead of <code>pyplot</code>.)
+(For completeness, we illustrate the explicit choce of
+a GUI “back end”, although this is usually not necessary.)
 Note the hierarchical approach:
 the <tt>pyplot</tt> interface creates the figure object,
 the figure object creates the axes objects,
@@ -7343,7 +7374,7 @@ matplotlib.use('TkAgg')  #note choice of GUI backend!
 import matplotlib.pyplot as plt
 # create a new figure
 fig = plt.figure(1)
-ax = fig.gca()  #get current axes, making one if nec
+ax = fig.add_subplot(1,1,1)
 ax.plot([1,2,3],'r-')
 ax.set_title('Easy Line Plot')
 # display your figure onscreen
@@ -7354,8 +7385,6 @@ plt.show()
 Here is a simple example for creating a figure
 and saving it, without displaying it onscreen.
 (I.e., no GUI.)
-It assumes that you have version 0.92.1 or newer.
-(Otherwise use <code>pylab</code> instead of <code>pyplot</code>.)
 </p>
 
 <pre>
@@ -7363,13 +7392,15 @@ It assumes that you have version 0.92.1 or newer.
 import numpy
 import matplotlib
 matplotlib.use('Agg')  #note choice of backend: no GUI!
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 #create some artificial data for this example
 x, y = numpy.random.rand(2,50)  #the data (50 points)
 # create a new figure 
 fig = pyplot.figure()
+#add an axes instance to draw on
 ax = fig.add_subplot(111)
+#do your drawing
 ax.plot(x, y, marker='.', linestyle='', markerfacecolor='blue')
 ax.set_title('Scatter dots')
 ax.set_xlabel('x')
@@ -7378,8 +7409,16 @@ ax.set_ylabel('y')
 fig.savefig('/temp/myfig.png', dpi=96)
 </pre>
 
+<p id="mpl_no_plt">
+Matplotlib's pyplot facilities are convenience facilities for the user with modest needs.
+For some examples (e.g., embedding Matplotlib in other applications)
+it is important not to use these facilities.
+In this case, you will need to handle figure and canvas creation yourself.
+</p>
+
 <div>
-If you want less magic, you can altogether avoid using pyplot.
+If you want even less magic,
+you can altogether avoid using pyplot.
 Here is an example by John Hunter.
 <pre>
 from matplotlib.backends.backend_svg import FigureCanvasSVG
@@ -7393,15 +7432,11 @@ canvas.print_figure('myfile.svg')
 </pre>
 </div>
 
-
-<p id="mpl_no_plt">
-Matplotlib's pyplot facilities are convenience facilities for the user with modest needs.
-For some examples (e.g., embedding Matplotlib in other applications)
-it is important not to use these facilities.
-In this case, you will need to handle figure and canvas creation yourself.
-For example, here is our first example redone to be more fully object oriented.
-
+<p>
+As another example,
+here is our earlier example redone to be more fully object oriented.
 </p>
+
 <pre>
 # preliminaries
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
