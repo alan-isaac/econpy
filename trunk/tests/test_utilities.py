@@ -13,13 +13,15 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 
 import unittest
 import random
-import numpy
+import numpy as np
+
+import matplotlib.pyplot as plt
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
 from econpy.pytrix.utilities import cumsum, cumprod
 from econpy.pytrix.utilities import calc_gini, calc_gini2, calc_gini3, calc_gini4
-from econpy.abs.utilities import gini2shares
+from econpy.abm.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
 
 
@@ -37,13 +39,38 @@ class testUtilities(unittest.TestCase):
 		self.assertEqual(n, nT)
 		self.assertEqual(n, nF)
 		#print "n_each", n, nT, nF
-	def test_gini2shares(self):
+	"""
+	def test_gini2sharesvals(self):
 		gini0 = random.random()
 		nbrackets = random.randrange(5,500)
 		shares = gini2shares(gini=gini0, nbrackets=nbrackets)
-		gini1 = calc_gini(shares)
+		shares02 = gini2shares02(gini=gini0, nbrackets=nbrackets)
+		self.assertEqual(list(shares),list(shares02))
+	"""
+	def test_gini2shares(self):
+		gini0 = random.random()
+		nbrackets = 10**random.randrange(3,5)
+		shares01 = list(gini2shares(gini=gini0, nbrackets=nbrackets))
+		print "sum", sum(shares01)
+		gini1 = calc_gini(shares01)
 		#print "ginis:", gini0, gini1   TODO: better accuracy expected...
 		self.assert_(fmath.feq(gini0, gini1, 1e-3)) #imposed and computed Gini shd be equal
+		print "here"
+		shares02 = list( gini2sharesPareto(gini=gini0, nbrackets=nbrackets) )
+		print "sum", sum(shares02)
+		gini2 = calc_gini(shares02)
+		#print "ginis:", gini0, gini1   TODO: better accuracy expected...
+		self.assert_(fmath.feq(gini0, gini2, 1./nbrackets)) #imposed and computed Gini shd be equal
+		print shares01[::100]
+		print calc_gini(shares01)
+		print shares02[::100]
+		print calc_gini(shares02)
+		fig, (ax1,ax2) = plt.subplots(1,2)
+		ax1.plot(shares01)
+		ax2.plot(np.cumsum(shares01))
+		ax2.plot(np.cumsum(shares02))
+		plt.show()
+		exit()
 	def test_cumreduce(self):
 		self.assertEqual([0,1,3,6,10],cumsum(range(5)))
 		self.assertEqual([0,0,0,0,0],cumprod(range(5)))
@@ -54,7 +81,7 @@ class testUtilities(unittest.TestCase):
 		self.assertEqual(x,[[1,2],[2,1]])
 		self.assertEqual(y,z)
 	def test_calc_gini(self):
-		#test that two Gini formulae give same rsult
+		#test that two Gini formulae give same result
 		gini1 = calc_gini(self.wealths)
 		gini2 = calc_gini2(self.wealths)
 		gini3 = calc_gini3(self.wealths)

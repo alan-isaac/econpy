@@ -1777,7 +1777,7 @@ Sun Microsystems has released an open source Fortran "replacement" called <a hre
 <h3 id="GAUSS">GAUSS and Related Resources</h3>
 
 <p>
-See <a href="#gausshints">GAUSS user hints.</a>
+See <a href="#gauss-hints">GAUSS user hints.</a>
 </p>
 
 Among matrix-oriented programming languages,
@@ -5449,7 +5449,7 @@ See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">Ope
 <h5 id="svn">Subversion</h5>
 
 <p>
-See my <a href="#svn_hints">SVN hints</a>.
+See my <a href="#svn-hints">Subversion hints</a>.
 </p>
 
 <p>
@@ -6290,7 +6290,7 @@ but a few do not currently work.
 
 
 
-<h3 id="gausshints">GAUSS user hints</h3>
+<h3 id="gauss-hints">GAUSS user hints</h3>
 
 
 <ol title="User Hints">
@@ -7074,13 +7074,31 @@ Do[
 ]
 </pre>
 
-<p>
+<div>
 Using version control with Mma notebooks is a bit messy but can be made workable.
 Set <tt>FileOutlineCache</tt> to False and <tt>TrackCellChangeTimes</tt> to False
 in any notebook you want to put under version control.
+<br />
+Command approach:
+<pre>
+SetOptions[InputNotebook[],
+ PrivateNotebookOptions → {"FileOutlineCache" → False},
+  TrackCellChangeTimes → False
+   ]
+</pre>
+<br />
+Menu driven approach:
+Open your notebook.
+From Mathematica’s menus,
+pick Format → Option Inspector.
+Show the options for the Selected Notebook.
+Under Notebook Options → Private Notebook Options,
+search for FileOutlineCache and set the option to False.
+Under Editing Options, search for TrackCellChangeTimes and set it to False.
+Save your notebook.)
 Preliminary to committing your changes, delete all your output cells and then save your notebook.
 (You can use the menus or <tt>FrontEndTokenExecute["DeleteGeneratedCells"]</tt> for this.)
-</p>
+</div>
 
 <h3 id="sw-hints">Scientific Notebook and Scientific Word user hints</h3>
 
@@ -7156,7 +7174,7 @@ Since it is a 5-user license, you may occasionally find you have to wait  until 
 </p>
 
 
-<h3 id="svn_hints">SVN User hints</h3>
+<h3 id="svn-hints">Subversion User hints</h3>
 
 <p>
 Subversion is easy to use and excellent for individuals and small groups.
@@ -7165,10 +7183,11 @@ Windows users who prefer to avoid the command line can just use <a href="http://
 </p>
 
 <div>
-Remember your work cycle must be very rigid:
+Remember your work cycle must be a very rigid UMUC sequence:
 1. before you start work, *update*
-2. then do your work
-3. as soon as you are done, *commit*.
+2. *modify* your working copy (do your work, and test it)
+3. *update* again (and resolve any conflicts)
+4. as soon as possible, *commit* your changes
 </div>
 
 <p>
@@ -7195,7 +7214,7 @@ in the Subversion <code>config</code> file.
 On Windows you should be able (after installing Subversion) to find it here:
 <code>\Users\YourUserName\AppData\Roaming\Subversion</code>.
 Search for <tt>editor-cmd</tt> and follow the instructions.
-(I am currently using <code>editor-cmd = C:/programs/Vim/vim73/gvim.exe -f</code>.
+(On Windows, I am currently using <code>editor-cmd = C:/programs/Vim/vim74/gvim.exe -f</code>.
 If you use a path with spaces in it, you will have to quote it.)
 </p>
 
@@ -7209,6 +7228,20 @@ will edit the patterns for the current directory.
 <p>
 <tt>svn diff -r HEAD myfile</tt> shows differences between <tt>myfile</tt> and the repository.
 <tt>svn status --show-updates</tt> shows you which files in the repository have changed.
+</p>
+
+<p>
+It is useful (and probably best practice) for any plain text files to
+<code>svn propset svn:eol-style=native *filename*</code>.
+This is not the default, but each user can make it a personal default by editing
+the <code>[autoprops]</code> of their Subversion <code>config</code> file.
+From Subversion 1.8 onwards, it can be set as a default at the repository level
+with <a href="http://blogs.collab.net/subversion/the-road-to-repository-dictated-configuration-day-2-autoprops">Repository Dictated Configuration</a>.
+</p>
+
+<p>
+It is a good idea to lock binary files, to help ensure only one person changes them at a time:
+<code>svn propset:needs-lock yes *filename*</code>.
 </p>
 
 <h3 id="reST_hints">Docutils User hints</h3>
