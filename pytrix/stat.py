@@ -18,22 +18,6 @@ try:
 except ImportError:
 	have_scipy = False
 
-class EmpiricalCDF(object):
-	'''Empirical cdf.
-	Incomplete: just calls D. Huard's code.
-	First point will be (xmin,0).
-	Last point will be (xmax,1).
-
-	:contact: aisaac AT american.edu
-	'''
-	def __init__(self, data, sortdata=True):
-		if sortdata:
-			data = np.sort(data)
-		self.data = data
-		self.nobs = len(data)
-	def cdf(self, method='Hazen'):
-		return empiricalcdf(method=method)
-
 
 class Dstat1(object):
 	'''Simple descriptive statistics: no missing value handling!
@@ -185,6 +169,12 @@ class Dstat1(object):
 		if self.sorted_data is None:
 			self.sorted_data = sorted(self.data)  #copy!!
 		return self.sorted_data
+	def ecdf(self):
+		return ecdf(self.get_sorted(), is_sorted=True)
+	def ecdf_points(self, method='Hazen'):
+		"""Return array, the ecdf values of the data."""
+		return ecdf_points(data, method=method)
+	"""
 	def gen_ecdf(self):
 		'''Return: empirical cdf as tuple of generators.
 
@@ -210,6 +200,7 @@ class Dstat1(object):
 		else:
 			ecdf = list(xsteps), list(psteps)
 		return ecdf
+	"""
 	def get_median(self,data1d):
 		if self._median is None:
 			nobs = self.nobs
@@ -323,10 +314,40 @@ def welchs_approximate_ttest(n1, mean1, sem1, n2, mean2, sem2, alpha):
 		return abs(t_s_prime) > t_alpha_prime, t_s_prime, t_alpha_prime
 
 
-		
 
-def empiricalcdf(data, method='Hazen'):
-	"""Return the empirical cdf.
+from bisect import bisect_right as insertion_index
+#BEGIN ecdf
+def ecdf(data, is_sorted=False):
+	"""Return function, the empirical cdf of `data`.
+	"""
+	if not is_sorted:
+		data = sorted(data)
+	nobs = float(len(data))
+	def f(x):
+		return insertion_index(data, x) / nobs
+	return f
+#END ecdf
+
+
+class EmpiricalCDF(object):
+	'''Empirical cdf.
+	Incomplete: just calls D. Huard's code.
+	First point will be (xmin,0).
+	Last point will be (xmax,1).
+
+	:contact: aisaac AT american.edu
+	'''
+	def __init__(self, data, sortdata=True):
+		if sortdata:
+			data = np.sort(data)
+		self.data = data
+		self.nobs = len(data)
+	def cdf(self, method='Hazen'):
+		return ecdf_points(method=method)
+
+
+def ecdf_points(data, method='Hazen'):
+	"""Return the empirical cdf value of each sample point.
 	
 	Methods available (here i goes from 1 to N)
 		Hazen:	   (i-0.5)/N

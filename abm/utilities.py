@@ -6,6 +6,8 @@ import random
 rng = random.Random()
 rng.seed(314)
 
+import numpy as np
+
 def match_exclude(group1, group2, exclude):
 	"""Return list of matched pairs meeting an exclusion criterion.
 
@@ -104,33 +106,75 @@ def n_each_rand(n, kindtuple=('M','F'), rng=rng):
 	assert (ct0 == 0)
 
 
-def gini2shares(gini, nbrackets):
-	"""Return generator: income share for each bracket implied by `gini`.
 
-	:note: based on Yunker 1999, p.238
-	:todo: improve computation accuracy
-	:note: consider Lorenz curve function representation
-	       y=x**g for 0<g<1.
-	       B = \int_0^1 x**g dx = x**(g+1)/(g+1) | = 1/(g+1)
-	       So G = 1-2B = (g-1)/(g+1)
-	       Note (1+G)/(1-G) = 2g/2 = g. (Used below.)
-	:since:  2006-06-20
-	:date:   2007-07-11
-	:contact: aisaac AT american DOT edu
-	:todo: replace with an indexable class
+def gini2sharesPareto(gini, nbrackets):
+	"""Return generator of floats: the incremental
+	income share implied by `gini` for each bracket.
+	(Brackets are evenly spaced.)
+
+	Write he Lorenz curve for the Pareto distribution as
+	$F(p) = 1 - (1 - p)^\delta$,
+	where $p$ is the cumulative proportion of the population,
+	$\delta=(1-G)/(1+G)$, and $G$ is the Gini.
+	With $N$ brackets, let $p_i= i/N$ ($i=1,\dots,N$)
+	and set the share of the $i/N$ proportion of agents to
+	$F(p_i) = 1 - (1 - p_i)^\delta$.
+	The incremental share is the $i$-th bracket is therefore
+	F(p_i) - F(p_{i-1})$ and $p_{i}-p_{i-1} = 1/N$, so
+	$(1 - (i- 1)/N)^\delta - (1 - i/N)^\delta$.
+	or
+	$[(N - (i- 1))^\delta - (N - i)^\delta](1/N)^\delta$.
+
+	:note: roughly based on Eswaran & Kotwal (1986)
+	:note: uses a right sum, so resulting Gini slightly low
+	:since:   2013-10-19
 	"""
 	if not (0 <= gini < 1):
 		raise ValueError('gini must be in (0,1)')
-	if nbrackets < 0:
+	if nbrackets != int(abs(nbrackets)):
+		raise ValueError('nbrackets should be a positive integer')
+	d = (1-gini)/(1+gini) #delta = B/(2A+B)  
+	sb = 1.0/nbrackets  #width of brackets
+	fpc1 = 1   # 1-F(0)
+	i = 0.0
+	for _ in range(nbrackets):
+		i += 1
+		#complement of i-th cumulative share
+		fpc2 = (1 - i/nbrackets)**d  #1-F(p_i)
+		yield fpc1 - fpc2
+		fpc1 = fpc2
+
+def gini2shares01(gini, nbrackets):
+	"""Return generator of floats:
+	income share implied by `gini` for each bracket.
+
+	:note: based on Yunker 1999, p.238
+	:note: uses a right sum, so resulting Gini slightly low
+	:note: consider Lorenz curve function representation
+	       y=x**g for g>1
+	       B = \int_0^1 x**g dx = x**(g+1)/(g+1) | = 1/(g+1)
+	       So G = 1-2B = (g-1)/(g+1) is the implied Gini
+	       Note (1+G)/(1-G) = 2g/2 = g. (Used below.)
+	:since:  2006-06-20
+	:date:   2013-10-19
+	"""
+	if not (0 <= gini < 1):
+		raise ValueError('gini must be in (0,1)')
+	if nbrackets != int(abs(nbrackets)):
 		raise ValueError('nbrackets should be a positive integer')
 	g = (1+gini)/(1-gini) # (2A+B)/B
 	sb = 1.0/nbrackets  #width of brackets
-	#cum prop =  ((i+1)*sb)**g = (i+1)**g * sb**g
-	#change prop = [(1+i)**g-(i)**g]*sb**g
-	#cumulative_proportions = list( ((i+1)*sb)**g for i in range(nbrackets) )
-	shares = ( ((1+i)**g-(i)**g)*sb**g for i in range(nbrackets) )  #chk TODO
-	return shares
+	sbg = sb**g
+	ig = 0
+	for i in range(nbrackets):
+		#i-th cumulative share is (1+i)**g * sb**g
+		ig2 = (1+i)**g
+		yield (ig2-ig) * sbg
+		ig = ig2
 
+
+#Use of gini2shares is deprecated
+gini2shares = gini2shares01
 
 
 def impose_gini(wtotal, units, gini, shuffle=False):
