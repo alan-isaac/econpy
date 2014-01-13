@@ -198,38 +198,40 @@ def integer_partitions(n, maxparts):
                 p[0] += 1
                 yield p
 
-def ordered_partitions(n, nbins, memo=dict()):
+def ordered_partitions(n, nparts, memo=dict()):
     """Return list of list of int, where the
-    inner lists have length `nbins` and sum to `n`.
+    inner lists have length `nparts` and sum to `n`.
     Computation is recursive; memoized for efficiency.
     :note: order matters, and a bin may hold a 0 value
+    :since: 2014-01-13
     """
     assert (n==int(n)) and (n>=0)
-    assert (nbins==int(nbins)) and (nbins>0)
-    result = memo.get((n,nbins), None)
+    assert (nparts==int(nparts)) and (nparts>0)
+    result = memo.get((n,nparts), None)
     if result is None:
         result = []
-        if nbins == 1:
+        if nparts == 1:
             result.append([n])
         else:
             for n1 in range(n+1):
-                for part in ordered_partitions(n-n1,nbins-1):
+                for part in ordered_partitions(n-n1,nparts-1):
                     result.append([n1]+part)
-        memo[(n,nbins)] = result
+        memo[(n,nparts)] = result
     return result
 
 
-def ordered_subpartitions(n, nbins):
+def ordered_subpartitions(n, nparts):
     """Return list of list of int, where the
-    inner lists have length `nbins` and a sum
+    inner lists have length `nparts` and a sum
     in [0,`n`].
     :see: `ordered_subpartitions`
+    :since: 2014-01-13
     """
     assert (n==int(n)) and (n>=0)
-    assert (nbins==int(nbins)) and (nbins>0)
+    assert (nparts==int(nparts)) and (nparts>0)
     result = []
     for n1 in range(n+1):
-        result += ordered_partitions(n1, nbins)
+        result += ordered_partitions(n1, nparts)
     return result
 
 
@@ -1800,7 +1802,7 @@ def factorial(n, exact=False):
 
     :date: 2008-07-15
     :since: 2005-11-17
-    :note: uses Gosper's approximation for n>=10
+    :note: uses Gosper's approximation for n>=15
     :note: for Python 2.6+, use math.factorial
     :see: http://www.luschny.de/math/factorial/approx/SimpleCases.html
     """
