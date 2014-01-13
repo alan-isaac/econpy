@@ -2414,16 +2414,18 @@ is an interesting, Python-based CAS with excellent documentation
 (including a simple <a href="http://www.sagemath.org/help.html#tutorial">tutorial</a>.
 (License: GPL)
 </li>
-<li>
-<a href="http://maxima.sourceforge.net/">Maxima</a> has been released under the GNU public license!
-This is a free cross-platform solution.
+<li id="Maxima">
+<a href="http://maxima.sourceforge.net/">Maxima</a> (Lisp, GPL) is is a free cross-platform solution.
 (A windows binary is available.)
-<a href="http://home.arcor.de/mulk/projects/mascyma/index.xhtml.en">Mascyma</a> is a Python based front end for Maxima.
-<a href="http://wxmaxima.sourceforge.net/wiki/index.php/Main_Page">wxMaxima</a>
-"is a cross platform GUI for the computer algebra system Maxima based on wxWidgets" (License: GPL2).
-This provides functionality similar to Mathematica notebooks.
-For example, wxMaxima can be used to produce beautiful PDF documents via LaTeX;
+There is a notebook interface:
+<a href="http://wxmaxima.sourceforge.net/wiki/index.php/Main_Page">wxMaxima</a> (License: GPL2)
+"is a cross platform GUI for the computer algebra system Maxima based on wxWidgets",
+which is distributed with Maxima.
+(Applications for economists, with a supporting text,
+can be found at <a href="http://www.wxmaximaecon.com/">http://www.wxmaximaecon.com/</a>.)
+This can be used to produce beautiful PDF documents via LaTeX;
 see <a href="http://facultyweb.berry.edu/wmixon/maxima/Typesetting/Intro.html">Typesetting in wxMaxima</a> for details.
+Another possibile front end is <a href="http://home.arcor.de/mulk/projects/mascyma/index.xhtml.en">Mascyma</a> (language: Python).
 </li>
 <li>
 Great things grow from small beginnings:
@@ -7188,6 +7190,23 @@ Remember your work cycle must be a very rigid UMUC sequence:
 2. *modify* your working copy (do your work, and test it)
 3. *update* again (and resolve any conflicts)
 4. as soon as possible, *commit* your changes
+</div>
+
+<div>
+To work across platforms,
+you must not use file or folder names that are illegal on any of the platforms.
+Windows users cannot use the following (which are reserved device names):
+CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9.
+They also cannot use these names followed by an extension, for example, NUL.txt or com1.png.
+<br />
+Suppose a contributor creates com1.png on a Mac and commits it to the Subversion repository.
+When Windows users try to update, the update fails horribly.
+(How horribly? Unfixably. They will have to get a new checkout after the problem is fixed.)
+The contributor of the file should ``svn rename`` it to a name legal for Windows,
+and commit that change.
+Then the problem for Windows users will go away.
+<br />
+Bottom line: never ever use such file or folder names!
 </div>
 
 <p>
