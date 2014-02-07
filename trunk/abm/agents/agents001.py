@@ -173,20 +173,23 @@ class Indiv(Transactor):
 		Indiv's children, in order of "birth".
 		(Read only property.)
 	"""
-	def __init__(self, sex=None):
+	def __init__(self, sex=None, economy=None):
+		self._sex = sex
+		self.economy = economy
 		self._cohort = None
 		self._params = None
 		self._alive = True
 		self._spouse = None
 		self._children = list()  #list tracks birth order
-		if sex:
-			self.sex = sex
 		self.parents = list() #*living* parents
 		self.siblings = list()
 		self.employers = set()
 		self.contracts = dict(labor=[], capital=[])
 	def __str__(self):
 		return "%s with wealth %5.2f"%(self.sex,self.networth)
+	@property
+	def sex(self):
+		return self._sex
 	@property
 	def age(self):
 		return self._cohort.age

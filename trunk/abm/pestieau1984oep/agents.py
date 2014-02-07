@@ -52,8 +52,8 @@ __lastmodified__ = '20070622'
 import random, itertools
 from collections import defaultdict
 from econpy.pytrix import utilities, fmath
-from econpy.abs.utilities import distribute
-from econpy.abs.agents import agents001
+from econpy.abm.utilities import impose_gini
+from econpy.abm.agents import agents001
 
 #logging
 import logging
@@ -439,7 +439,7 @@ class Economy(object):
 		indivs = self.ppl.gen_indivs()
 		if males_only:
 			indivs = (i for i in indivs if i.sex=='M')
-		distribute(params.WEALTH_INIT, indivs, params.GW0, params.SHUFFLE_NEW_W) #TODO
+		impose_gini(params.WEALTH_INIT, indivs, params.GW0, params.SHUFFLE_NEW_W) #TODO
 		#assert (abs(self.ppl.calc_dist_wealth() - params.GW0) < 0.001)  #TODO!!!!!
 	def create_initial_firms(self):
 		'''Return: a (possibly empty) list of firms.

@@ -1,12 +1,11 @@
 """Various utilities useful for economists.
-Most are lightweight, in the sense that they do not depend on an array package.
+Many are lightweight, in the sense that they do not depend on an array package.
 
-:see: `pytrix.py <http://www.american.edu/econ/pytrix/pytrix.py>`
-:see: `pyGAUSS.py <http://www.american.edu/econ/pytrix/pyGAUSS.py>`
+:see: pyGAUSS.py
+:see: utilities.py
 :see: poly.py
 :see: tseries.py
 :see: unitroot.py
-:see: pytrix.py
 :see: IO.py
 :warning: Some of William Park's functions did not correctly retab,
           and I have not had time to check all of them.
@@ -233,8 +232,6 @@ def ordered_subpartitions(n, nparts):
     for n1 in range(n+1):
         result += ordered_partitions(n1, nparts)
     return result
-
-
 
 
 def sinc(x):
