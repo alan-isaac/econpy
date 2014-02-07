@@ -112,7 +112,7 @@ def gini2sharesPareto(gini, nbrackets):
 	income share implied by `gini` for each bracket.
 	(Brackets are evenly spaced.)
 
-	Write he Lorenz curve for the Pareto distribution as
+	Write the Lorenz curve for the Pareto distribution as
 	$F(p) = 1 - (1 - p)^\delta$,
 	where $p$ is the cumulative proportion of the population,
 	$\delta=(1-G)/(1+G)$, and $G$ is the Gini.
@@ -144,9 +144,10 @@ def gini2sharesPareto(gini, nbrackets):
 		yield fpc1 - fpc2
 		fpc1 = fpc2
 
-def gini2shares01(gini, nbrackets):
+def gini2sharesPower(gini, nbrackets):
 	"""Return generator of floats:
 	income share implied by `gini` for each bracket.
+	(Income follows a power distribution.)
 
 	:note: based on Yunker 1999, p.238
 	:note: uses a right sum, so resulting Gini slightly low
@@ -163,7 +164,7 @@ def gini2shares01(gini, nbrackets):
 	if nbrackets != int(abs(nbrackets)):
 		raise ValueError('nbrackets should be a positive integer')
 	g = (1+gini)/(1-gini) # (2A+B)/B
-	sb = 1.0/nbrackets  #width of brackets
+	sb = 1.0/nbrackets  #size (i.e., width) of brackets
 	sbg = sb**g
 	ig = 0
 	for i in range(nbrackets):
@@ -174,7 +175,7 @@ def gini2shares01(gini, nbrackets):
 
 
 #Use of gini2shares is deprecated
-gini2shares = gini2shares01
+gini2shares = gini2sharesPower
 
 
 def impose_gini(wtotal, units, gini, shuffle=False):
