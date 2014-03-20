@@ -1574,20 +1574,21 @@ is a perl based replacement for makefiles.
 
 
 
-<h2 id="matrixlanguages">Matrix Programming Languages</h2>
+<h2 id="matrixlanguages">Matrix/Array Programming Languages</h2>
 
 <p>
 Here are two big factors to consider in making a language choice:
 what software in your area is already written in the language,
 and how much original coding you will be doing.
-For econometrics, the biggest collections of extant code are in Gauss and MATLAB.
+For econometrics, the biggest collections of extant code are in Gauss and MATLAB,
+with Python code perhaps poised to catch up.
 Of these two, Gauss has the advantage of real array broadcasting,
-while MATLAB relies on the clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
-Neither language is truly object oriented,
-and both copy array data even when it is unnecessary (instead of referencing it).
-(Gauss has structs; MATLAB has some object-oriented functionality.)
+while MATLAB relies on the relatively clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
+Matlab finally supports classes and GAUSS has structs,
+but neither language is truly object oriented,
+and both often copy array data when it is unnecessary (instead of referencing it).
 If you are going to write a lot of your own code,
-object orientation becomes critical.
+true object orientation can be critical.
 You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
 </p>
 
@@ -1597,7 +1598,7 @@ which "embeds a Python interpreter into Matlab".
 </p>
 
 <p>
-Being able to write code in one matrix programming language and run it in another environment is desirable.
+Being able to write code in one matrix programming language and run it in another environment can be useful.
 Examples include 
 Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting MATLAB to Python,
 <a href="http://www.cameronrookley.com">Rookley's</a>
@@ -1612,6 +1613,8 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 (a Python implementation of lex and yacc).
 </p>
 
+
+
 <h3 id="numpy">NumPy</h3>
 
 <p>
@@ -1623,10 +1626,10 @@ My favorite approach to matrix (and multi-dimesional array) programming is <a hr
 This is a <a href="#python">Python</a> package (but it is very fast because it is written as a C extension).
 This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
 while doing serious scientific programming.
-Very high quality.
-Additionally, a reasonably complete scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.)
-To complete this scientific computing environment,
-add the extraordinarily high quality graphics package <a href="#matplotlib">Matplotlib</a>.
+This is a very high quality library.
+Additionally, an extensive scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.)
+For publication quality graphics,
+add the excellent graphics package <a href="#matplotlib">Matplotlib</a>.
 (License: BSD; Dependency: NumPy.)
 </p>
 
@@ -1634,6 +1637,7 @@ add the extraordinarily high quality graphics package <a href="#matplotlib">Matp
 You can find everything packaged together for a single install.
 For example: NumPy, SciPy, and Matplotlib are included in the <a href="https://www.enthought.com/products/canopy/">Enthought</a> Canopy distribution,
 along with <em>many</em> other useful packages.
+Another possibility is the <a href="http://continuum.io/">Anaconda distribution</a>
 Here are some additional <a href="pythonresources.html">Python resources for scientific computing</a>.
 </p>
 
@@ -1656,6 +1660,7 @@ and possibly various <a href="http://yaroslav.hopto.org/pubwiki/index.php/ai-pyt
 <a href="http://mdp-toolkit.sourceforge.net/">Modular toolkit for Data Processing (MDP)</a> is a Python data processing library implementing Principal Component Analysis (PCA), Independent Component Analysis (ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
 Finally, it is worth poking around <a href="http://cheeseshop.python.org/">CheeseShop</a>.
 </p>
+
 
 <h3 id="other-mpl-free">Other Free Matrix Programming Languages</h3>
 
@@ -1717,8 +1722,10 @@ Algae uses <a href="#gnuplot">gnuplot</a> for plotting.
 </li>
 <li>
 <a href="http://www.aplusdev.org/">A+</a> is a modern APL derivative popular in the financial world.
-GPL license.
+(License: GPL.)
+Last stable release: 2008.
 Not currently implemented for Windows.
+A related language is <a href="http://www.hakank.org/k/">K/Kona</a>.
 </li>
 <li>
 <a href="http://www.calerga.com/products/LyME/">LyME</a> handles a good chunk of MatLab syntax on a Palm! (Free.)
@@ -3126,11 +3133,14 @@ mozillaZine explains <a href="http://kb.mozillazine.org/Windows_Media_Player">ho
 
 <p>
 The modeling languages most widely used by economists are commercial:
-<a href="http://www.gams.com/">GAMS</a> and <a href="http://www.monash.edu.au/policy/gempack.htm">GEMPACK</a>.
+<a href="http://www.gams.com/">GAMS</a>
+(with <a href="http://www.gams.com/docs/document.htm">online documenation</a>)
+and <a href="http://www.copsmodels.com/gempack.htm">GEMPACK</a>
+(with <a href="http://www.copsmodels.com/gpmanual.htm">online documentation</a>).
 Economists use these primarily for CGE modeling.
-(For GAMS there is <a href="http://www.gams.com/docs/document.htm">online documenation</a>;
-also helpful <a href="http://www.ifpri.org/pubs/microcom/4/GAMSExer.pdf">CGE exercises</a> with 
-<a href="http://www.ifpri.org/pubs/microcom/4/GAMSkey.pdf">solutions</a>.)</p>
+(See these helpful <a href="http://www.ifpri.org/sites/default/files/publications/gamsexer.pdf">CGE exercises</a> with 
+<a href="http://www.ifpri.org/publication/key-exercises-cge-modeling-using-gams">solutions</a>.)
+</p>
 
 <p>
 Other alternatives are listed at <a href="http://plato.la.asu.edu/topics/tools.html">http://plato.la.asu.edu/topics/tools.html</a>.
