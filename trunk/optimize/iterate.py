@@ -142,6 +142,29 @@ class Picard:
 				return p,pseq,iternum+1
 		return None,pseq,itermax
 
+ 
+def abisect(a, i1=0, i2=-1):
+	"""Return int, the insertion index for a 0
+	when there is a single sign change in sequence `a`.
+	If a 0 exists, it may return that index (even if the
+	sign is not different on each side of it.)
+	Assumes `i1` and `i2` are valid indexes for `a`.
+	"""
+	n = len(a)
+	if (i1 < 0): i1 += n
+	if (i2 < 0): i2 += n
+	if (i1 < 0 or i2 < 0): raise IndexError()
+	if a[i1]*a[i2] >= 0:
+		raise ValueError("Sign changing interval required.")
+	while abs(i1-i2) > 1:
+		midpt = (i1+i2) // 2
+		if a[midpt] == 0:
+			return midpt
+		if a[midpt]*a[i1] > 0:
+			i1 = midpt
+		else:
+			i2 = midpt
+	return max(i1,i2)
 
 class Bisect(IterativeProcess):
 	def __init__(self, func, x1, x2, criterion=None):

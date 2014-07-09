@@ -842,162 +842,16 @@ with <a href="http://vim-latex.sourceforge.net/">Vim-LaTeX</a>.
 </li>
 </ul>
 
+
 <h3 id="addchart">Adding drawings to LaTeX documents</h3>
 
 <p>
-Although the LaTeX picture environment is very powerful for basic drawings,
-you will often need <a href="http://tug.ctan.org/tex-archive/graphics/">more</a>.
-Often you will want to produce your graphics as <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files,
-which can be included in a LaTeX document.
-However there are several alternatives.
+LaTeX provides a basic picture environment that is pretty powerful.
+Still, you will often need more.
+You can easily include PDF drawings in your documents.
+See <a href="#latexgraphics">Graphics for LaTeX</a> for more details.
 </p>
-<ul>
-<li>Produce EPS graphics for LaTeX inclusion.
-      <ul>
-      <li>
-      Draw it in PostScript.  
-      This is easier than you might believe.
-      (See <a href="#postscript">above</a>.)
-      </li>
-      <li>
-      Use a <a href="#psmeta">metalanguage for PostScript</a>.
-      </li>
-      <li>
-      Use a <a href="#drawapps">drawing application</a> that supports <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
-      </li>
-      </ul>
-</li>
-<li id="pgf">
-        <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgf.html">PGF (Portable Graphics Format)</a>
-(PGF will feel like a subset of PSTricks that can be used for <em>both</em> PostScript and PDF generation!)
-The PGF based <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgfplots.html">pgfplots</a> package
-simplified chart creation.
-</li>
-<li>
-  <a href="http://tug.ctan.org/tex-archive/graphics/pstricks/">pstricks</a>
-  is truly wonderful and powerful.
-  It gives you easy access to the power of PostScript from within your LaTeX documents.
-  There is a <a href="http://sarovar.org/projects/pstricks/">beautiful tutorial</a>
-  and a helpful <a href="http://tug.org/mailman/listinfo/pstricks">discussion list</a>.
-</li>
-<li>
-      <a href="http://jpicedt.sourceforge.net/">jPicEdt</a> is a Java application that can export to the LaTeX picture environment.
-      It supports the eepic and PsTricks packages. 
-</li>
-<li>
-      <a href="http://mathcs.holycross.edu/~ahwang/current/ePiX.html">ePiX</a> is a C++ drawing package that outputs eepic pictures.
-</li>
-<li>
-        <a href="http://tug.ctan.org/tex-archive/graphics/metapost/">MetaPost</a> is incredibly powerful way to produce PostScript graphics but it requires an investment to learn.
-      Start with <a href="http://www.tug.org/pracjourn/2006-4/henderson/">A Beginner's Guide to METAPOST for Creating High-Quality Graphics</a>.
-      See <a href="http://cm.bell-labs.com/who/hobby/mppubs.html">some helpful documentation</a>.
-      <a href="http://w3.mecanica.upm.es/metapost/metagraf.php">Metagraph</a> provides an intuitive GUI interface to MetaPost.
-</li>
-      <li>Also,  <a href="http://tug.ctan.org/tex-archive/graphics/xtexcad/">TeXCad</a> is a nice mouse based TeX drawing package for DOS systems.
-      </li>
-</ul>
 
-<div>
-Often you will want to include Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) files in LaTeX documents.
-This will probably take you two steps:
-i. tell LaTeX that you will be including a graphic,
-and ii. convert your <tt>.dvi</tt> file, in which you may not be able to view the graphic, into a PostScript or <acronym class="help" title="Portable Document Format">PDF</acronym> file, in which you can view the graphic.
-(The second step assumes your <tt>.dvi</tt> viewer does not include a PostScript filter, but some do.)
-The best way to accomplish the first step is to use the <tt>\includegraphics</tt> command of the <tt>graphicx</tt> package, probably with the <tt>dvips</tt> option.
-So in the preamble of your LaTeX document you will have
-<br />
-<code>\usepackage[dvips]{graphicx}</code>
-<br />
-and then in the body of the document you will have something like
-<br />
-<code>
-\begin{figure}[htb]
-<br />
-\begin{center}
-<br />
-\includegraphics[width=\textwidth]{mygraphic.eps}
-<br />
-\end{center}
-<br />
-\end{figure}
-</code>
-<br />
-The best way to accomplish the second step is with <tt>dvips</tt> for PostScript output or <tt>dvipdfm</tt> for <acronym class="help" title="Portable Document Format">PDF</acronym> output.
-<br />
-Comment: if you use a .dvi viewer that can display your included PostScript files (e.g., TrueTeX or yap with GhostScript), you will probably find it saves time not to view them every time you view the document. Just use the <tt>dvips</tt> option for the <tt>graphicx</tt> package so that the PostScript just gets passed through. Then remove that option when you want to see everything.
-<br />]
-Comment: According to Robin Fairbairns:
-The packages graphics, graphicx and epsfig were all released in their
-present form at the same time (summer 1994).  epsfig is capable of
-generating some confusion because a package of the same name existed before
-that time (it was written as a joint replacement for the
-long-established, and somewhat buggy, epsf and psfig packages); the
-old epsfig doesn't have the characteristics we have come to rely on.
-
-The graphics package forms the basic kernel of the whole bundle: it
-converts graphics primitive commands into \special commands[*] for the
-device drivers that the bundle supports.
-
-The graphicx package adds a user interface, and makes possible the
-merging of commands (like scale and rotate: which in graphics need to
-be composed, and hence produce a longer sequence of commands both at
-the TeX level and potentially also at the driver level).
-
-To first order, the epsfig package simply provides a different user
-interface, which it translates into graphicx-like commands.
-
-There _are_ trade-offs.  graphics' user interface is very
-"traditional tex", with little sophistication.  graphicx and epsfig
-use a key-value syntax which is noticeably more difficult (and hence
-cpu-intensive) for the packages to decode.
-
-graphicx is middle of the road as far as decoding
-complexity goes, but has useful extra power in its graphical
-expressiveness by comparison with graphics.
-(Also, if you never learned psfig, epsfig's psfig-like syntax won't excite you much.)
-<br />
-[*] or, in the case of pdftex, into pdftex commands for the job.
-</div>
-
-<div>
-If you want your EPS files to be truly portable, you need to embed the fonts.
-If you use a drawing application, make sure it is configured to embed the fonts.
-If you convert your .dvi files to PS,
-you can tell dvips to embed all fonts with the -Pdownload35 option
-<br />dvips -t letter -Pdownload35 file.dvi -o file.ps
-<br />
-If you are producing PDF files, you can use
-<a href="http://www.linuxcommand.org/man_pages/pdffonts1.html">pdffonts</a>
-to check for font embedding.
-If using ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
-See <a href="http://multimedia.polito.it/masala/pub_font_embedding_pdf_linux.html">this document</a>
-for more discussion.
-</div>
-
-<div>
-<!-- http://lists.gnu.org/archive/html/adonthell-devel/2002-09/msg00006.html -->
-Users of PostScript and pdflatex face an annoyance:
-pdflatex does not directly support the inclusion of EPS files.
-However, according to Kai Stirker, one can include EPS files in pdflatex files as follows.
-<ul>
-<li>
-In your header put: <code>\usepackage[pdftex]{graphicx}\usepackage{epstopdf}</code>.
-</li>
-<li>
-Run pdflatex with the <code>--shell-escape</code> command line switch.
-</li>
-</ul>
-Note that you will need to have installed <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/supported/oberdiek/epstopdf.sty">epstopdf</a>,
-which you get when you install GhostScript.
-Then just <code>\includegraphics{filename.eps}</code> as usual to include your EPS graphic,
-and pdflatex will conver them to pdf format on the fly.
-(Be sure to return the extension! Otherwise you will get conversion the first time,
-and use of the old PDF after that.)
-</div>
-
-<p>
-You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed</a> to add editable annotations to a PostScript document. (License: GPL; Platform: X11.)
-</p>
 
 <h3 id="texconvert">LaTeX Format Conversion</h3>
 
@@ -1661,10 +1515,35 @@ and possibly various <a href="http://yaroslav.hopto.org/pubwiki/index.php/ai-pyt
 Finally, it is worth poking around <a href="http://cheeseshop.python.org/">CheeseShop</a>.
 </p>
 
+<h3>Java for Scientific Programming</h3>
+
+<p>
+Java does not seem to have any eqivalent of Python’s <a href="#scipy">SciPy</a> package for scientific programming.
+Pieces of the functionality can be obtained as follows.
+(But stick with SciPy if you can.)
+</p>
+
+<ul>
+<li>
+<a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a>
+for some basic linear-algebra and optimization functionality.
+</li>
+<li>
+<a href="http://acs.lbl.gov/ACSSoftware/colt/">Colt</a> for multi-dimensional arrays and basic statistics.
+</li>
+<li>
+NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolkit</a>.
+</li>
+</ul>
 
 <h3 id="other-mpl-free">Other Free Matrix Programming Languages</h3>
 
 <ul>
+<li>
+<a href="http://julialang.org/">Julia</a> is a promising “high-level, high-performance dynamic programming language for technical computing”.
+(License: MIT)
+This is a very interesting project: already very usable, and under active development.
+</li>
 <li>
 <a href="http://www.osl.iu.edu/research/mtl/mtl4/">Matrix Template Language 4 (MTL4)</a>
 provided matrix manipulations for C++ users.
@@ -1706,18 +1585,16 @@ resembling MatLab,
 primarily intended for numerical computations.
 Octave is free and open source software.
 It provides a convenient command line interface for solving linear and nonlinear problems numerically.
-There is an
-<a href="http://bevo.che.wisc.edu/octave/mailing-lists/">archived mailing list</a>.
-It is possible to <a href="http://octave.sourceforge.net/Octave_Windows.htm">install Octave under Windows</a>,
+It is possible to <a href="http://octave.sourceforge.net/">install Octave under Windows</a>,
 but the Windows installation of Octave is a bit large (10Mb) since it includes an installation of Cygwin.
 Octave uses <a href="#gnuplot">gnuplot</a> for plotting.
 </li>
 <li>
-<a href="http://mathsrv.ku-eichstaett.de/MGF/homes/grothman/euler/eulerdoc.html">Euler</a> supports matrix computations with a focus on the production of high quality graphics.
+<a href="http://euler.rene-grothmann.de/">Euler</a> supports matrix computations with a focus on the production of high quality graphics.
 </li>
 <li>
-<a href="http://algae.sourceforge.net/">Algae</a> looks like a particularly exciting (fast and powerful) free matrix programming language.
-Unfortunately it has not yet been ported to Windows.
+<a href="http://algae.sourceforge.net/">Algae</a> looks to be a fast and powerful free matrix programming language.
+Unfortunately development stalled in 2004, and it has not yet been ported to Windows.
 Algae uses <a href="#gnuplot">gnuplot</a> for plotting.
 </li>
 <li>
@@ -1763,21 +1640,14 @@ being real C++ it can be linked with other C, C++, or Fortran (using f2c) librar
 Also, the <a href="http://www.gnu.org/software/gsl/">GNU Scientific Library (GSL)</a> includes linear algebra components.
 (<a href="http://pygsl.sourceforge.net/">PyGSL</a> provides a Python interface to GSL.)
 </li>
-<li><a href="http://www1.fpl.fs.fed.us/linear_algebra.html">
-JAVA linear algebra code</a>
-</li>
 <li><a href="http://math.nist.gov/javanumerics/">Java Numerics</a>
 includes a <a href="http://math.nist.gov/javanumerics/jama/">Java Matrix package</a>.
 <a href="http://opsresearch.com/">OpsResearch</a> has much useful free code.
 </li>
 <li>
 Verson 3 of the LAPACK numerical linear algebra subroutine library is now available from the Netlib Repository at Oak Ridge National Laboratory.
-Also, the <a href="http://www.cs.utk.edu/f2j/">Fortran to Java</a> project offers
-a <a href="http://www.cs.utk.edu/f2j/download.html">
-Java version of the LAPACK routines</a>.
-</li>
-<li>
-Sun Microsystems has released an open source Fortran "replacement" called <a href="http://research.sun.com/projects/plrg/">Fortress</a>, which is specifically designed for scientific computing.
+Also, the <a href="http://sourceforge.net/projects/f2j/">Fortran to Java</a> project offers a 
+Java version of the LAPACK routines.
 </li>
 </ul>
 
@@ -3003,7 +2873,7 @@ i. use plain text to send and receive
 information whenever possible.
 All word processors and spread sheets
 can save as .txt.
-There is almost never an excuse for using
+There is seldom a real need for using
 anything except plain text for email.
 <br />
 ii. When plain text is not possible
@@ -3023,26 +2893,26 @@ You may need a PDF "printer driver" to do this
 <br />
 RECEIVING:
 <br />
-i. Most viruses are received as part of email attachments.
-Many viruses (more accurately known as worms) will email
-themselves from an infected computer to hundreds of others.
-So the most important thing you can do is not open <em>any</em>
-email attachments.  Of course, sometimes we need to open
-attachments.
+i. Many viruses are received as part of email attachments.
+Other malware (known as worms) will email
+themselves from an infected computer to many others.
+So the best practice would be to not open <em>any</em> email attachments.
+Unforunately, sometimes we need to open attachments.
 ii.  If you must open an attachment, view the file extension.
 The default in Windows is to turn off your ability to do this,
 which means you can be tricked into thinking a dangerous
 Visual Basic script <tt>filename.jpg.vbs</tt>
 is really a safe <tt>.jpg</tt> file.
 You can fix by following <a href="#windows-hints-extensions">this windows hint</a>.
-Especially dangerous extensions are <tt>.exe</tt>, <tt>.com</tt>, <tt>.pif</tt>, <tt>.vbs</tt>.
+For Windows users,
+especially dangerous extensions are <tt>.exe</tt>, <tt>.com</tt>, <tt>.pif</tt>, <tt>.vbs</tt>.
 Also dangerous are <tt>.doc</tt> and <tt>.xls</tt>.
 (Comment: dangerous file types can be included as ``attachments'' to <tt>.pdf</tt> files as well,
 which means you should not open such attachments with Adobe Acrobat either.)
 <br />
-iii. <strong>Never</strong> send or receive <strong>anything</strong>
-in proprietary formats (such as Word or Excel). Related to this,
-<strong>never</strong> use Outlook unless you know
+iii. When possible, avoid the use of susceptible
+proprietary file formats (such as Word or Excel).
+Related to this, avoid the use of Outlook unless you know
 how to turn off all its dangerous features.
 And if you simply <strong>must</strong> open a document
 in a MS format (e.g., because that's what
@@ -3055,39 +2925,19 @@ in word processor formats (see i. and ii.  above).
 <br />
 iii. <strong>Never</strong> run a program file unless you
 <strong>know</strong> it came from an <strong>impeccable</strong> source.
-(This includes file extenstions .exe, .com, .pif, .bat, and .vbs.)
+(For Windows users,
+this includes file extenstions .exe, .com, .pif, .bat, and .vbs.)
 <br />
-iv. <strong>Never</strong> leave some elses floppy disk in
-your computer.  (I once got a virus when a
-power fluctuation caused my computer to reboot
-while I had a virus infected disk in my A: drive.)
+iv. Windows users should <strong>disable</strong> autoplay,
+since it allows arbitary executable to run automatically on your computer.
 </p>
 <p>
 <b>Additional Comment:</b>
-Refraining from sending word processing files is a basic
-courtesy that you should extend whenever possible.
-Even if you know how to use an anti-virus program,
-this means only that you know how to look for *known* viruses.
-New viruses remain a problem.
-</p>
-<p>
-In addition, during document exchange,
-you *cannot* remove the questions in the recipients mind about your thoroughness even in this regard.
-(E.g., did you remember to check this time,
-which program did you use and how good is it,
-when did you last update the virus definitions, etc.)
-If you send text (or straight HTML, if formatting is a concern)
-this anxiety is completely eliminated.
-This is a simple courtesy,
-since all modern word processors make exporting as
-<a href="http://www.jimprice.com/jim-asc.htm">ASCII</a> text or
-as HTML very simple.
+Many new viruses are not detected by anti-virus software.
+Safe practices are necessary.
 Furthermore, if the recipient wishes to read what you send in their
-word processor, all modern word processors also import ASCII text and
-HTML very simply.
-In sum, there is almost never an excuse to send someone anything
-except ASCII text or HTML, unless it is required by the rules of
-your workplace.
+word processor, all modern word processors also import plain text (very safe),
+HTML (pretty safe), and PDF (usually safe) very simply.
 </p>
 
 
@@ -3292,26 +3142,18 @@ For Python:
 <ul>
 <li>
 Javascript remains popular for economic applications.<sup><a href="http://econltsn.ilrt.bris.ac.uk/cheer/ch16/paine.htm">*</a></sup>
-In my opinon <a href="http://janet-js.sourceforge.net/">JANET</a> will make it even more popular.
 The non-proprietary standard is
 <a href="http://www.ecma.ch/stand/ecma-262.htm">ECMAScript</a>;
-take a look at the free ECMAScript interpreters <a href="http://home.worldcom.ch/~jmlugrin/fesi/index.html">FESI</a> or <a href="http://www.digitalmars.com/dscript/index.html">DMDScript</a>.
+take a look at the free interpreters <a href="http://www.digitalmars.com/dscript/index.html">DMDScript</a>
+and especially <a href="http://en.wikipedia.org/wiki/Nodejs">Node.js</a>.
 An alternative is <a href="http://www.mozilla.org/rhino/">Rhino</a>:
 an open source implementation of JavaScript for Java.
 (The standard is only complete if used in conjunction with
-a <a href="http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/"> Document Object Model (DOM)</a>.)
-Netscape provides some <a href="http://developer.netscape.com/docs/manuals/javascript.html">JavaScript Documentation</a>,
-including an
-<a href="http://developer.netscape.com/docs/manuals/communicator/jsguide4/index.htm">
-online JavaScript Guide</a>
-and the <a href="http://developer.netscape.com/docs/manuals/javascript.html">JavaScript Reference</a> guide and manual.
-Netscape's <a href="http://developer.netscape.com/tech/javascript/index.html?content=/docs/examples/javascript.html">DevEdge</a> site is a source of high quality example javascripts.
-You can look for Javascript stuff at
-<a href="http://webdeveloper.earthweb.com/pagedev/webjs">
-JavaScript resources</a>.
-    </li>
+a <a href="http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/">Document Object Model (DOM)</a>.)
+</li>
 <li>
-<a href="http://www.webreference.com">Web Developers Reference Library</a> contains Web developers information.
+Manuel Kiessling provides an excellent <a href="http://www.nodebeginner.org/">tutorial</a>
+for Node.js.
 </li>
 </ul>
 
@@ -3773,7 +3615,7 @@ See the <a href="#mpl-hints">Matplotlib hints</a> below.
 (License: GPL)
 </li>
 <li>
-It is possible to <a href="#gphints">control gnuplot</a> from Python
+It is possible to <a href="#gnuplot-hints">control gnuplot</a> from Python
 with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 </li>
 <li>
@@ -3786,7 +3628,7 @@ Includes a fairly simple  plug-in architecture for
 extending some of Spectronon's behavior.  
 </li>
 <li>
-It is possible to <a href="#gphints">control gnuplot</a> from Python.
+It is possible to <a href="#gnuplot-hints">control gnuplot</a> from Python.
 </li>
 <li>
 <a href="http://www.cyberus.ca/~g_will/wxPython/wxpyplot.html">WxPyPlot</a> is fast and lightweight.
@@ -3816,7 +3658,7 @@ There are also other <a href="#VTK">VTK based Python solutions</a>.
 is supposed to be easier to install and very nicely scriptable.
 </li>
 <li>
-It is possible to <a href="#gphints">control gnuplot</a> from Python
+It is possible to <a href="#gnuplot-hints">control gnuplot</a> from Python
 with <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 </li>
 <li>
@@ -4196,7 +4038,7 @@ to <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.)
 All told this is quite a powerful plotting tool with extremely flexible output.
 New users should read <a href="http://www.cs.uni.edu/Help/gnuplot/">Introduction to GnuPlot</a>,
 but skip the institution specific material on starting gnuplot and head straight for the "Simple Example".
-See the <a href="#gphints">gnuplot hints</a> below.
+See the <a href="#gnuplot-hints">gnuplot hints</a> below.
 </p>
 
 
@@ -4500,6 +4342,160 @@ with \psfrag.  E.g.,
 <a href="http://home.comcast.net/~jbiddier/sklatex/">skLaTeX</a> plugin.
 </li>
 </ul>
+
+<p>
+Often you will want to produce your graphics as <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files,
+which can be included in a LaTeX document.
+However there are several alternatives.
+</p>
+<ul>
+<li>Produce EPS graphics for LaTeX inclusion.
+      <ul>
+      <li>
+      Draw it in PostScript.  
+      This is easier than you might believe.
+      (See <a href="#postscript">above</a>.)
+      </li>
+      <li>
+      Use a <a href="#psmeta">metalanguage for PostScript</a>.
+      </li>
+      <li>
+      Use a <a href="#drawapps">drawing application</a> that supports <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+      </li>
+      </ul>
+</li>
+
+<li id="pgf">
+        <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgf.html">PGF (Portable Graphics Format)</a>
+(PGF will feel like a subset of PSTricks that can be used for <em>both</em> PostScript and PDF generation!)
+The PGF based <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgfplots.html">pgfplots</a> package
+simplifies chart creation.
+</li>
+<li>
+  <a href="http://tug.ctan.org/tex-archive/graphics/pstricks/">pstricks</a>
+  is truly wonderful and powerful.
+  It gives you easy access to the power of PostScript from within your LaTeX documents.
+  There is a <a href="http://www.tn-home.de/Tobias/Soft/TeX/TUG040611/presentation.pdf">simple tutorial</a>
+  and a helpful <a href="http://tug.org/mailman/listinfo/pstricks">discussion list</a>.
+</li>
+<li>
+  <a href="http://jpicedt.sourceforge.net/">jPicEdt</a> is a Java application that can export to the LaTeX picture environment.
+  It supports the eepic and PsTricks packages and is developing support for TikZ.
+</li>
+<li>
+  <a href="http://mathcs.holycross.edu/~ahwang/current/ePiX.html">ePiX</a> is a C++ drawing package that outputs eepic pictures.
+</li>
+<li>
+  <a href="http://tug.ctan.org/tex-archive/graphics/metapost/">MetaPost</a>
+  is incredibly powerful way to produce PostScript graphics but it requires an investment to learn.
+  (You should first find out whether <a href="#tikz">TikZ</a> meets your needs.)
+  Start with <a href="http://www.tug.org/pracjourn/2006-4/henderson/">A Beginner's Guide to METAPOST for Creating High-Quality Graphics</a>.
+  See <a href="http://cm.bell-labs.com/who/hobby/mppubs.html">some helpful documentation</a>.
+  <a href="http://w3.mecanica.upm.es/metapost/metagraf.php">Metagraph</a> provides an intuitive GUI interface to MetaPost.
+</li>
+</ul>
+
+<div>
+Sometimes you may want to include Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) files in LaTeX documents.
+This will probably take you two steps:
+i. tell LaTeX that you will be including a graphic,
+and ii. convert your <tt>.dvi</tt> file, in which you may not be able to view the graphic, into a PostScript or <acronym class="help" title="Portable Document Format">PDF</acronym> file, in which you can view the graphic.
+(The second step assumes your <tt>.dvi</tt> viewer does not include a PostScript filter, but some do.)
+The best way to accomplish the first step is to use the <tt>\includegraphics</tt> command of the <tt>graphicx</tt> package, probably with the <tt>dvips</tt> option.
+So in the preamble of your LaTeX document you will have
+<br />
+<code>\usepackage[dvips]{graphicx}</code>
+<br />
+and then in the body of the document you will have something like
+<br />
+<code>
+\begin{figure}[htb]
+<br />
+\begin{center}
+<br />
+\includegraphics[width=\textwidth]{mygraphic.eps}
+<br />
+\end{center}
+<br />
+\end{figure}
+</code>
+<br />
+The best way to accomplish the second step is with <tt>dvips</tt> for PostScript output or <tt>dvipdfm</tt> for <acronym class="help" title="Portable Document Format">PDF</acronym> output.
+<br />
+Comment: if you use a .dvi viewer that can display your included PostScript files (e.g., TrueTeX or yap with GhostScript), you will probably find it saves time not to view them every time you view the document. Just use the <tt>dvips</tt> option for the <tt>graphicx</tt> package so that the PostScript just gets passed through. Then remove that option when you want to see everything.
+<br />]
+Comment: According to Robin Fairbairns:
+The packages graphics, graphicx and epsfig were all released in their
+present form at the same time (summer 1994).  epsfig is capable of
+generating some confusion because a package of the same name existed before
+that time (it was written as a joint replacement for the
+long-established, and somewhat buggy, epsf and psfig packages); the
+old epsfig doesn't have the characteristics we have come to rely on.
+
+The graphics package forms the basic kernel of the whole bundle: it
+converts graphics primitive commands into \special commands[*] for the
+device drivers that the bundle supports.
+
+The graphicx package adds a user interface, and makes possible the
+merging of commands (like scale and rotate: which in graphics need to
+be composed, and hence produce a longer sequence of commands both at
+the TeX level and potentially also at the driver level).
+
+To first order, the epsfig package simply provides a different user
+interface, which it translates into graphicx-like commands.
+
+There _are_ trade-offs.  graphics' user interface is very
+"traditional tex", with little sophistication.  graphicx and epsfig
+use a key-value syntax which is noticeably more difficult (and hence
+cpu-intensive) for the packages to decode.
+
+graphicx is middle of the road as far as decoding
+complexity goes, but has useful extra power in its graphical
+expressiveness by comparison with graphics.
+(Also, if you never learned psfig, epsfig's psfig-like syntax won't excite you much.)
+<br />
+[*] or, in the case of pdftex, into pdftex commands for the job.
+</div>
+
+<div>
+If you want your EPS files to be truly portable, you need to embed the fonts.
+If you use a drawing application, make sure it is configured to embed the fonts.
+If you convert your .dvi files to PS,
+you can tell dvips to embed all fonts with the -Pdownload35 option
+<br />dvips -t letter -Pdownload35 file.dvi -o file.ps
+<br />
+If you are producing PDF files, you can use
+<a href="http://www.linuxcommand.org/man_pages/pdffonts1.html">pdffonts</a>
+to check for font embedding.
+If using ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
+See <a href="http://multimedia.polito.it/masala/pub_font_embedding_pdf_linux.html">this document</a>
+for more discussion.
+</div>
+
+<div>
+<!-- http://lists.gnu.org/archive/html/adonthell-devel/2002-09/msg00006.html -->
+Users of PostScript and pdflatex face an annoyance:
+pdflatex does not directly support the inclusion of EPS files.
+However, according to Kai Stirker, one can include EPS files in pdflatex files as follows.
+<ul>
+<li>
+In your header put: <code>\usepackage[pdftex]{graphicx}\usepackage{epstopdf}</code>.
+</li>
+<li>
+Run pdflatex with the <code>--shell-escape</code> command line switch.
+</li>
+</ul>
+Note that you will need to have installed <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/supported/oberdiek/epstopdf.sty">epstopdf</a>,
+which you get when you install GhostScript.
+Then just <code>\includegraphics{filename.eps}</code> as usual to include your EPS graphic,
+and pdflatex will conver them to pdf format on the fly.
+(Be sure to return the extension! Otherwise you will get conversion the first time,
+and use of the old PDF after that.)
+</div>
+
+<p>
+You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed</a> to add editable annotations to a PostScript document. (License: GPL; Platform: X11.)
+</p>
 
 <div>
 Other interesting solutions:
@@ -8322,17 +8318,15 @@ syntax is almost like that for the figure environment.<pre>
 </li>
 </ul>
 
-<h3 id="gphints">Gnuplot User hints</h3>
+<h3 id="gnuplot-hints">Gnuplot User hints</h3>
 
 <p>
 Since gnuplot is a plotting package,
 it offers limited data manipulation facilities.
 These can be increased by the use of gawk,
 which gnuplot can talk to nicely.
-Alternatively you can manage your data in Python and use a Python interface to gnuplot:
-<a href="http://www.scipy.org">SciPy</a> includes the <code>gplt</code> module for this
-(moved to the sandbox!)
-but I prefer <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
+Alternatively you can manage your data in Python and use a Python interface to gnuplot,
+such as <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 If you use IPython,
 which is a good idea,
 you can try the included enhanced version: Gnuplot2.py.
@@ -8348,9 +8342,16 @@ since this explains the syntax used in the help documents.
 </p>
 
 <p>
+The command to load a script is <tt>load</tt>.
+Provide your file name in quotes, using forward slashes.
+</p>
+
+<p>
 Remember that gnuplot distinguishes integers and floats by the presence of a
-decimal point.  Integer division produces an integer result,
-so $3/2=1$ but $3./2=1.5$.
+decimal point.
+Make sure your real numbers are recognized as real by including a decimal point.
+Integer division produces an integer result.
+For example, $3/2=1$ but $3./2=1.5$.
 </p>
 
 
@@ -8369,14 +8370,6 @@ splot 'data.asc' with points palette
 <p>
 You can draw a line segment by setting an arrow with the "nohead" parameter.
 </p>
-
-<p>
-Be aware that division of integers takes place as integer division.
-E.g., 1/3=0.
-Make sure your real numbers are recognized as real by including a decimal point.
-E.g., 1./3 = 0.33333.
-</p>
-
 
 <div>
 Suppose you want a log scale on the y axis but you want to display the numbers as base raised to an exponent.
@@ -8611,6 +8604,15 @@ A very light gray is <code>black!10</code>.
 A very dark gray is <code>black!90</code>.
 </p>
 
+<p>
+Use <tt>pgfplots</tt> for plots.
+The manual is good,
+a most tasks have very easy and obvious solutions.
+A few odd things are obscure.
+E.g., <a href="http://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot">adding a zero-line</a>
+to a plot.
+</p>
+
 
 <h4 id="luatex-hints">LuaTeX hints</h4>
 
@@ -8709,7 +8711,12 @@ You do not need it any more.
 </ul>
 </div>
 
-There are some more optional things that you can do. Because I do not use them and they can mix up some original windows applications with the same name in the gnu package I will not explain them here. If you want to do it, check the readme file.
+<p>
+There are more options.
+I do not use them and they can confuse some windows applications using the same name as those in the gnu package,
+so I will not explain.
+If you are interested, check the readme file.
+</p>
 
 
 <hr />
@@ -8724,7 +8731,7 @@ Windows and MS-DOS are trademarks of Microsoft Corporation.
 </div>
 
 <p id="contact" class="center">
-Copyright &copy; 1998&amp;2008
+Copyright &copy; 1998 &amp; 2014
 by Alan G. Isaac
 <br />
 (<em>mailto: a i s a a c @ a m e r i c a n . e d u</em>)
