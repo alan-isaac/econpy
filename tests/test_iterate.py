@@ -20,21 +20,37 @@ from econpy.optimize import iterate
 
 #simplest implementation of bisection
 #BEGIN lst:optimize.bisect
-def simplest_bisect(f, x1, x2):
-	#comment: set small number for convergence test
-	eps = 1e-8
-	#require: sign change over initial interval
-	if f(x1)*f(x2) > 0:
-		raise ValueError("Sign changing interval required.")
-	#compute: small interval containing zero
-	while abs(x1-x2) > eps:
-		midpt = (x1+x2)/2
-		if f(midpt)*f(x1) > 0:
-			x1 = midpt
-		else:
-			x2 = midpt
-	return (x1+x2)/2
+#goal
+#    bisect a sign changing interval of f
+#input
+#    f : continuous function
+#    endpts : end points of sign changing interval
+#output
+#    endpts : new sign changing interval
+def simplest_bisect(f, endpts):
+	xleft, xright = endpts
+	midpt = (xleft + xright) / 2.0
+	if f(midpt) * f(xleft) > 0:
+		xleft = midpt
+	else:
+		xright = midpt
+	return (xleft, xright)
 #END lst:optimize.bisect
+
+#BEGIN lst:optimize.bisection
+#goal
+#    approximate a zero of f using bisection
+#input
+#    f : continuous function
+#    endpts : pts for sign changing interval
+#    eps : the desired accuracy
+#output:
+#    x in (xleft .. xright) approximating f(x) == 0
+def simplest_bisection(f, xleft, xright, eps=1e-8):
+	while abs(xleft-xright) > eps:
+		(xleft, xright) = simplest_bisect(f, (xleft,xright))
+	return (x1+x2)/2
+#END lst:optimize.bisection
 
 
 #simplest implementation of regula falsi

@@ -391,7 +391,7 @@ def hpfilter(x, penalty=1600):
 		return hpfilter03(x, penalty)
 
 
-"""
+'''
 def hpfilter01(y, penalty=1600):
 	"""Return: (t,d) trend and deviation
 	Based on Lubuele's GAUSS code:
@@ -514,7 +514,7 @@ def hpfilter01(y, penalty=1600):
 		d[i] = y[i]-t[i]
 		i = i+1
 	return (t,d)
-"""
+'''
 
 
 def hpfilter02(x, penalty=1600):
