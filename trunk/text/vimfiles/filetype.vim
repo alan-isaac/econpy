@@ -1,7 +1,12 @@
-" myfiletypefile
+" my filetype file
+if exists("did_load_filetypes")
+  finish
+endif
 augroup filetype
-  au! BufRead,BufNewFile *.prg	set filetype=eviews
-  au! BufRead,BufNewFile *.gau	set filetype=gauss
-  au! BufRead,BufNewFile *.mma	set filetype=mma sw=2
+  au! BufRead,BufNewFile *.prg setfiletype eviews
+  au! BufRead,BufNewFile *.gau setfiletype gauss
+  au! BufRead,BufNewFile *.mma setfiletype mma
+  au! BufRead,BufNewFile *.nlogo setfiletype netlogo
+  au! BufRead,BufNewFile *.nlogo3d setfiletype netlogo
 augroup END
 
