@@ -5,7 +5,7 @@ au BufEnter *.tex  cd %:p:h
 "==========================================================
 " MiKTeX menus setup:
 " 1. set MIKTEXBIN to location of binaries
-let MIKTEXBIN='C:\Program Files (X86)\MiKTeX 2.9\miktex\bin\'
+let MIKTEXBIN='C:\Program Files\MiKTeX 2.9\miktex\bin\x64\'
 " 2. set GSPATH to full path to ghostscript\lib
 let GSPATH='C:\programs\gs\gs8.64\lib\'
 " 3. set GSVPATH to full path to ghostview32.exe
@@ -17,7 +17,7 @@ silent amenu 90.30 &MiKTeX.View\ with\ &Yap :execute '!start "'.MIKTEXBIN.'yap.e
 silent amenu 90.40 &MiKTeX.View\ with\ &GSview :execute '!start "'.GSVPATH.'" "'.fnamemodify(@%,':p:r:gs?\\?/?').'.ps"'<cr>
 amenu 90.100 &MiKTeX.-SEP1-			:
 silent amenu 90.110 &MiKTeX.&luatex :up<bar>:execute '!start "'.MIKTEXBIN.'lualatex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr><cr>
-silent amenu 90.120 &MiKTeX.&pdflatex :up<bar>:execute '!start "'.MIKTEXBIN.'pdflatex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr><cr>
+silent amenu 90.120 &MiKTeX.&pdflatex :up<bar>:execute '!start "'.MIKTEXBIN.'pdflatex.exe" --shell-escape "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr><cr>
 silent amenu 90.130 &MiKTeX.La&TeX :up<bar>:silent execute '!start "'.MIKTEXBIN.'latex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
 silent amenu 90.140 &MiKTeX.&BibTeX :execute '!start "'.MIKTEXBIN.'bibtex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
 " silent amenu 90.150 &MiKTeX.Make&Index :execute '!start "'.MIKTEXBIN.'makeindex.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'"'<cr>
