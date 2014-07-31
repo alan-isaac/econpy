@@ -31,12 +31,12 @@ syn region nlString start=+"+ skip=+\\\\\|\\"+ end=+"+
 " NetLogo "integer" (legal to start with 0!)
 
 " all NetLogo numbers are floating point but have a variety of representations
-" number: integer part, no fractional part, optional separator, optional exponent
-syn match nlNumber /\<\d\+\.\=\([Ee][-+]\=\d\+\)\=/
-" number: integer part, separator, fractional part, optional exponent
-syn match nlNumber /\<\d\+\.\d\+\([Ee][-+]\=\d\+\)\=/
-" number: no integer part, separator, fractional part, optional exponent
-syn match nlNumber /\.\d\+\([Ee][-+]\=\d\+\)\=/
+" number: optional minus, integer part, no fractional part, optional separator, optional exponent
+syn match nlNumber /\<-\=\d\+\.\=\([Ee][-+]\=\d\+\)\=/
+" number: optional minus, integer part, separator, fractional part, optional exponent
+syn match nlNumber /\<-\=\d\+\.\d\+\([Ee][-+]\=\d\+\)\=/
+" number: optional minus, no integer part, separator, fractional part, optional exponent
+syn match nlNumber /\<-\=\.\d\+\([Ee][-+]\=\d\+\)\=/
 
 "TODO: necessary?
 setlocal iskeyword+=-
