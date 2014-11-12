@@ -6,7 +6,7 @@ Unit tests for the `iterate` module.
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
 from __future__ import division
-from __future__ import absolute_import
+#from __future__ import absolute_import
 from math import sqrt, exp
 
 __docformat__ = "restructuredtext en"
@@ -20,15 +20,15 @@ from econpy.optimize import iterate
 
 #simplest implementation of bisection
 #BEGIN lst:optimize.bisect
-#goal
+#goal:
 #    bisect a sign changing interval of f
-#input
-#    f : continuous function
-#    endpts : end points of sign changing interval
-#output
-#    endpts : new sign changing interval
-def simplest_bisect(f, endpts):
-	xleft, xright = endpts
+#input:
+#    f : function (must be continuous)
+#    xleft : number, left end of sign changing interval
+#    xright : number, right end of sign changing interval
+#output:
+#    endpts : tuple of numbers, new sign changing interval
+def simplest_bisect(f, xleft, xright):
 	midpt = (xleft + xright) / 2.0
 	if f(midpt) * f(xleft) > 0:
 		xleft = midpt
@@ -48,8 +48,8 @@ def simplest_bisect(f, endpts):
 #    x in (xleft .. xright) approximating f(x) == 0
 def simplest_bisection(f, xleft, xright, eps=1e-8):
 	while abs(xleft-xright) > eps:
-		(xleft, xright) = simplest_bisect(f, (xleft,xright))
-	return (x1+x2)/2
+		(xleft, xright) = simplest_bisect(f, xleft, xright)
+	return (xleft + xright) / 2
 #END lst:optimize.bisection
 
 
@@ -154,7 +154,7 @@ class test_iter(unittest.TestCase):
 		#print b1.report()
 		result1 = b1.value
 		result2 = iterate.bisect(f,  x4zero - 1.0, x4zero+1.0, eps=1e-9)
-		result3 = simplest_bisect(f, x4zero - 1.0, x4zero+1.0)
+		result3 = simplest_bisection(f, x4zero - 1.0, x4zero+1.0)
 		print "testvals", result1
 		print "simple bisect", result2
 		print "simplest bisect", result3
@@ -170,7 +170,7 @@ class test_iter(unittest.TestCase):
 	def test_ridders(self):
 		shift = random.randrange(20)
 		f = lambda x: x*exp(x) - shift
-		testval = simplest_bisect(f,   -10., 10.)
+		testval = simplest_bisection(f,   -10., 10.)
 		result1 = simplest_ridders(f,   -10., 10.)
 		print "Ridders method with shift=%f"%shift
 		print "testvals", result1
