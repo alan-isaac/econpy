@@ -41,6 +41,7 @@ syn match nlNumber /\<-\=\.\d\+\([Ee][-+]\=\d\+\)\=/
 "TODO: necessary?
 setlocal iskeyword+=-
 setlocal iskeyword+=?
+setlocal iskeyword+=#
 
 " Constants
 syn keyword nlArithmeticConstant e pi
