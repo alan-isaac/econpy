@@ -146,16 +146,30 @@ Thank you.
 
 <h2 id="EDITORS">Text Editors</h2>
 
-<p id="vim">
-First things first, and having a decent text editor is probably first.
+<p>
+First things first,
+and having a decent text editor is probably first.
 All other things equal, multi-platform solutions are always preferable.
-Nowadays having an editor that nicely handles utf-8 is pretty important.
+Nowadays having an editor that nicely handles unicode (UTF-8) is pretty important.
 (See <a href="#unicode-hints">Unicode hints</a>.)
+</p>
 
+<p id="vim">
 I suggest <a href="http://www.vim.org">Vim</a>.
-It is highly configurable, available on essentially every platform
-(even <a href="http://www.rainer-keuchel.de/wince/vim.html">WinCE</a>),
+It is highly configurable,
+available on essentially every platform
 and quite wonderfully designed.
+</p>
+
+<h3>Some cross-platform editors:</h3>
+
+<p>
+If you are willing lean against the wind and use a mode based editor,
+I strongly recommend the free text editor <a href="http://www.vim.org/">Vim</a>.
+If you are unwilling to learn mode-based editing,
+you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
+Or try <a href="http://fte.sourceforge.net/">FTE</a>,
+which (like Vim) is free, Open Source, and supports folding.
 On top of all this, it is charityware:
 you pay nothing for this excellent software,
 but users are encouraged to make a donation for needy children in Uganda.
@@ -165,22 +179,27 @@ but users are encouraged to make a donation for needy children in Uganda.
 See <a href="#vimhints">Vim user hints.</a>
 </p>
 
-<h3>More editors:</h3>
 
 <p>
-Other multi-platform solutions:
-<br />
+The elephant in the room is 
+<a id="emacs" href="http://www.gnu.org/software/emacs/">GNU emacs</a>:
+big, powerful, and free.
+(Vincent Goulet offers a <a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">modified emacs</a>
+that is easy to install across platforms and is particularly useful for LaTeX users.)
+Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a>
+(but development on that has slowed).
+Many users will find the somewhat less powerful but much smaller
+<a href="http://www.bengtl.net/files/mg3a/">mg3a</a>
+provides sufficient emacs style functionality.
+</p>
+
+<p>
 There are many <a href="http://www.micro.org/novell/faq/nvfaq-r.htm">alternatives</a>.
+A lightweight but powerful and popular alternative is <a href="http://sourceforge.net/projects/gedit/">gedit</a>,
+the default text editor for the GNOME desktop.
 A newer and interesting possibility is <a href="http://www.geany.org/">Geany</a>. (License: GPL)
 If you are looking for small, fast, and free,
 start with <a href="http://www.nano-editor.org/">nano</a>.
-For big, powerful, and free you can try <a id="emacs" href="http://www.emacs.org">emacs</a>.
-(Windows users may wish to consider Goulet's <a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">modified emacs</a> for Windows.)
-Many users will find the somewhat less powerful but much smaller <a href="http://www.kingston.ac.uk/advisory/documentation/mg.htm">mg</a> provides sufficient emacs style functionality.
-(There are Windows ports of <a href="http://www.gnu.org/software/emacs/windows/ntemacs.html">emacs</a> and of <a href="http://tillanosoft.com/ce/mg.html">mg</a>.
-There is a <a href="http://www.cs.washington.edu/homes/voelker/ntemacs.html#mailing-list">mailing list</a>,
-which is <a href="http://www.cs.washington.edu/homes/voelker/ntemacs.html#mailing-archives"> archived</a>.)
-Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a>.
 <a href="http://space.mit.edu/~davis/jed/">JED</a> is reputed to be fast and powerful,
 and it has a particularly powerful macro language.
 <a href="http://hessling-editor.sourceforge.net/index.html">The Hessling Editor (THE)</a> gets raves and uses REXX as its scripting language.
@@ -195,10 +214,10 @@ Finally I have to mention the unusual <a href="http://www-2.cs.cmu.edu/~rcm/lapi
 which allows simultaneous selection of discontinuous segments of text.
 </p>
 
+
 <p>
 Aside:
-for the curious or those who need to fit a modal editor on a floppy,
-you can get the <a href="http://ex-vi.sourceforge.net/">traditional vi editor</a>,
+you can still get the <a href="http://ex-vi.sourceforge.net/">traditional vi editor</a>,
 which has been <a href="http://slashdot.org/article.pl?sid=02/01/24/0146248">free and open source since 2002</a>.
 </p>
 
@@ -214,12 +233,6 @@ The NotePad editor is always available as an accessory program,
 but it is too limited for serious use.
 If you like the basic interface,
 try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL)
-If you are willing lean against the wind and use a mode based editor,
-I strongly recommend the free text editor <a href="http://www.vim.org/">Vim</a>.
-If you are unwilling to learn mode-based editing,
-you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
-Or try <a href="http://fte.sourceforge.net/">FTE</a>,
-which (like Vim) is free, Open Source, and supports folding.
 I also like the popular shareware <a href="http://www.textpad.com/">TextPad</a>,
 which includes nice syntax highlighting, a nice grep utility,
 beautiful handling of column oriented editing,
@@ -1441,28 +1454,13 @@ is a perl based replacement for makefiles.
 
 
 
-<h2 id="matrixlanguages">Matrix/Array Programming Languages</h2>
+<h2 id="matrixlanguages">Scientific Programming Languages</h2>
 
 <p>
-Here are two big factors to consider in making a language choice:
+Much scientific programming is done in very high level languages.
+Two factors to consider in making a language choice are
 what software in your area is already written in the language,
-and how much original coding you will be doing.
-For econometrics, the biggest collections of extant code are in Gauss and MATLAB,
-with Python code perhaps poised to catch up.
-Of these two, Gauss has the advantage of real array broadcasting,
-while MATLAB relies on the relatively clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
-Matlab finally supports classes and GAUSS has structs,
-but neither language is truly object oriented,
-and both often copy array data when it is unnecessary (instead of referencing it).
-If you are going to write a lot of your own code,
-true object orientation can be critical.
-You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
-</p>
-
-<p>
-If you are forced to work in Matlab you can still have access to Python via <a href="http://github.com/kw/pymex">pymex</a>,
-which "embeds a Python interpreter into Matlab".
-</p>
+and how much original coding you will be doing.</p>
 
 <p>
 Being able to write code in one matrix programming language and run it in another environment can be useful.
@@ -1558,15 +1556,15 @@ NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolki
 This is a very interesting project: already very usable, and under active development.
 </li>
 <li>
-<a href="http://www.osl.iu.edu/research/mtl/mtl4/">Matrix Template Language 4 (MTL4)</a>
-provided matrix manipulations for C++ users.
-</li>
-<li>
 <a href="http://pdl.perl.org/">Perl Data Language</a> introduces a new data structure:
 the "PDL numerical array," often referred to as a "piddle."
 A piddle can contain a large block of efficiently-stored numbers for manipulation with normal mathematical expressions.
 Each operation is implemented via compiled C code,
 so it's nearly as fast as a C program.
+</li>
+<li>
+<a href="http://www.simunova.com/de/node/24">Matrix Template Language 4 (MTL4)</a>
+provide matrix manipulations for C++ users.
 </li>
 <li>
 <a href="http://root.cern.ch/">ROOT</a> is an extremely capable "object-oriented data analysis package"
@@ -1585,7 +1583,7 @@ Lush is free and open source software.
 As a bonus it allows easy development of interactive 2-D graphics.
 </li>
 <li>
-<a href="http://yorick.sourceforge.net/index.php">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is in wide use in physics.
+<a href="http://dhmunro.github.io/yorick-doc/">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is in wide use in physics. (License: BSD)
 Yorick includes the Gist graphics package,
 which can be used separately.
 For example,
@@ -1599,16 +1597,11 @@ primarily intended for numerical computations.
 Octave is free and open source software.
 It provides a convenient command line interface for solving linear and nonlinear problems numerically.
 It is possible to <a href="http://octave.sourceforge.net/">install Octave under Windows</a>,
-but the Windows installation of Octave is a bit large (10Mb) since it includes an installation of Cygwin.
+but the Windows installation of Octave is a bit large since it includes an installation of Cygwin.
 Octave uses <a href="#gnuplot">gnuplot</a> for plotting.
 </li>
 <li>
-<a href="http://euler.rene-grothmann.de/">Euler</a> supports matrix computations with a focus on the production of high quality graphics.
-</li>
-<li>
-<a href="http://algae.sourceforge.net/">Algae</a> looks to be a fast and powerful free matrix programming language.
-Unfortunately development stalled in 2004, and it has not yet been ported to Windows.
-Algae uses <a href="#gnuplot">gnuplot</a> for plotting.
+<a href="http://euler.rene-grothmann.de/">Euler Math Toolbox (EMT)</a> supports matrix computations with a focus on the production of high quality graphics.  Euler also provides symbolic math via Maxima and offers a notebook interface. (License: GPL)
 </li>
 <li>
 <a href="http://www.aplusdev.org/">A+</a> is a modern APL derivative popular in the financial world.
@@ -1617,18 +1610,14 @@ Last stable release: 2008.
 Not currently implemented for Windows.
 A related language is <a href="http://www.hakank.org/k/">K/Kona</a>.
 </li>
-<li>
-<a href="http://www.calerga.com/products/LyME/">LyME</a> handles a good chunk of MatLab syntax on a Palm! (Free.)
-</li>
-<li> Harmonic Software offers <a href="http://www.omatrix.com/">O-Matrix Light</a> for free (at this time, at least) and there is an
+<li> Harmonic Software offers <a href="http://www.omatrix.com/">O-Matrix Light</a> for free (one a time-limited basis) and there is an
 <a href="http://www.omatrix.com/manual/">online manual</a>.
 It is a reasonable choice for a matrix programming language.
 Even the full version is very reasonably priced for academic users.
 </li>
 <li>
-<a href="http://www.jsoftware.com/">J</a> is a powerful array oriented language.
-There is no fee for academics or for users of older releases.
-The syntax is rather unusual.
+<a href="http://www.jsoftware.com/">J</a> is a powerful array-oriented functional language. (License: GPL)
+The APL-influenced syntax is rather unusual.
 </li>
 <li>
 The DOS, UNIX, and now Windows console versions of the matrix programming language
@@ -1664,7 +1653,55 @@ Java version of the LAPACK routines.
 </li>
 </ul>
 
-<h3 id="GAUSS">GAUSS and Related Resources</h3>
+<h3 id="other-mpl-free">Support for Matrix Programming in Other Languages</h3>
+
+<p>
+I mention only a couple important items from the endless possibilities.
+</p>
+
+<div>
+Java:
+<br />
+<a href="https://github.com/mikera/vectorz">VectorZ</a> provides fast double-precision vector and matrix math
+and supports n-dimensional arrays.
+<br />
+<a href="https://sites.google.com/site/piotrwendykier/software/parallelcolt">Parallel Colt</a>
+provides support for dense and sparse linear algebra.
+This is a dependency of <a href="http://incanter.org/">Incanter</a>,
+which provides statistical data processing and visualization functionality.
+<br />
+<a href="http://nd4j.org/">ND4J</a> is a library for scientific computing on the JVM. (License: Apache 2.0)
+A very promising project, but (as of 2015) it is far from mature.
+</div>
+
+<div>
+C:
+<br />
+<a href="http://www.cs.utexas.edu/~flame/web/">FLAME</a> is a high-performance dense linear algebra library.
+</div>
+
+<h3>MATLAB and GAUSS</h3>
+
+<p>
+For econometrics, the biggest collections of extant code are in Gauss and MATLAB,
+with Python code perhaps poised to catch up.
+Of these two, Gauss has the advantage of real array broadcasting,
+while MATLAB relies on the relatively clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
+Recent versions of Matlab supports classes and GAUSS has structs,
+but neither language is truly object oriented,
+and both often copy array data when it is unnecessary (instead of referencing it).
+If you are going to write a lot of your own code,
+true object orientation can be critical.
+You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
+</p>
+
+<p>
+If you are forced to work in Matlab you can still have access to Python via
+<a href="http://github.com/kw/pymex">pymex</a>,
+which "embeds a Python interpreter into Matlab".
+</p>
+
+<h4 id="GAUSS">GAUSS and Related Resources</h4>
 
 <p>
 See <a href="#gauss-hints">GAUSS user hints.</a>
@@ -1690,7 +1727,7 @@ archive for the gaussians mailing list</a>.
 </p>
 
 
-<h4 id="gaussstart">Getting Started with GAUSS</h4>
+<h5 id="gaussstart">Getting Started with GAUSS</h5>
 
 <ul>
   <li>
@@ -1742,7 +1779,9 @@ is a remarkable scientific programming environment with good extensibility.
 There is <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab.shtml">online documentation</a>.
 Check out the <a href="http://www.mathworks.com/contsoft.shtml">MathWorks</a> software library for MatLab.
 You may also want to visit the <a href="news:comp.soft-sys.matlab">Matlab Users Group</a>.
-<a href="http://www.mathtools.com">MathTools Ltd</a> offers free Matlab toolboxes, Matlab resources and links, MIDEVA (fast Matlab replacement), and the MATCOM compiler for Matlab.
+<a href="http://www.mathtools.com">MathTools Ltd</a> offers free Matlab toolboxes, Matlab resources and links,
+MIDEVA (fast Matlab replacement),
+and the MATCOM compiler for Matlab.
 If you want Matlab's numerics but need to work in a real programming language,
 you can control a Matlab session from Python with <a href="http://mlabwrap.sourceforge.net/">mlabwrap</a>.
 </li>
@@ -1981,12 +2020,6 @@ Documentation is in
 <a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">Eiffel: Object Oriented Programming</a>
 </p>
 
-<p>
-<a href="http://www.salasaga.org/">Salasaga</a>
-is "an Integrated Development Environment for producing eLearning".
-Roughly, it's an open source IDE for producing interactive web pages.
-(License: LGPL)
-</p>
 
 <h4>Other Useful Languages</h4>
 
@@ -2006,6 +2039,10 @@ The PLisp compiler generates PostScript code which is guaranteed not to contain 
 In an interesting twist, you can now use PostScript as a drawing language in web pages
 using <a href="http://logand.com/sw/wps/index.html">WPS</a>,
 "a PostScript and PDF interpreter for HTML 5 canvas".
+</p>
+
+<p>
+PostScript programmers may find <a href="http://www.anastigmatix.net/postscript/Order.html">sorting and order statistics</a> to be a useful resource.
 </p>
 
 
@@ -2255,7 +2292,7 @@ Since the code is free and open source,
 you can adapt these to the language of your choice.  
 </li>
 <li>
-Dahl and Vandenberghe's <a href="http://www.ee.ucla.edu/~vandenbe/cvxopt/">CVXOPT /convex optimization</a> code,
+Dahl and Vandenberghe's <a href="http://cvxopt.org/">CVXOPT (convex optimization)</a> code,
 which includes Python classes for storing and manipulating dense and sparse matrices.
 </li>
 </ul>
@@ -2553,46 +2590,33 @@ That of course is the point of modularity.
 </p>
 
 <div>
-See <a href="http://www.eng.cse.dmu.ac.uk/~hgs/e-mail/#clients">Sasse's list of email clients</a> for a sense of what's out there.
-I really like the free, cross-platform <a href="http://mahogany.sourceforge.net/">Mahogany</a>.
-(Under Windows, as of 2006, it is great for both POP and IMAP.)
-I also like the free, cross-platform <a href="http://www.washington.edu/pine/">PINE</a>,
+See <a href="https://en.wikipedia.org/wiki/List_of_email_clients">Wikipedia's list of email clients</a>
+for a sense of what's out there.
+I like the free, cross-platform <a href="http://www.washington.edu/pine/">PINE</a>,
 which is keyboard oriented, highly configurable, and has a good Windows version.
-<a href="http://www.mozilla.org/projects/thunderbird/">Thunderbird</a> is very popular:
-I like its stability but prefer Mahogany's key bindings.
-(But see the <a href="#thunderbird_hints">Thunderbird hints</a>.)
-Another email client that is now cross-platform is <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed</a>,
-and perhaps <a href="http://balsa.gnome.org/">balsa</a> will be.
+But (despite occasional instability on Windows) I generally use
+<a href="http://www.mozilla.org/projects/thunderbird/">Thunderbird</a>.
+Another email client that is now cross-platform is <a href="http://www.claws-mail.org/">Claws Mail</a>.
 <strong>Big plus:</strong> unlike most Windows email clients,
-Mahogany,
+Thunderbird,
 <a href="http://www.washington.edu/alpine/">Alpine</a> (formerly pc-pine),
 and Sylpheed let you use your favorite editor to edit your email.
-Thunderbird also supports external editors by means of a plug-in.
-Pine and Mahogany support POP3,
-but both are primarily intended for IMAP (which is greatly superior).
+Thunderbird supports external editors by means of a plug-in.
 <p class="boxed">
-See the <a href="#emhints">Mahogany hints</a>, <a href="#emhints">Thunderbird hints</a>, and <a href="#emhints">Alpine hints</a> below.
+See the <a href="#emhints">Thunderbird hints</a> and <a href="#emhints">Alpine hints</a> below.
 </p>
 Another cross platform solution is now <a href="http://www.mutt.org/">The Mutt Email Client</a>&mdash;long popular among Unix users, and <a href="http://www.geocities.com/win32mutt/win32.html">available to Windows users</a>.
 (You can also get mutt along with fetchmail, and sSMTP in a <a href="http://unixmail-w32.sourceforge.net/">unix-mail package for Windows</a>,
 but you'll have to install <a href="http://activestate.com/Products/ActivePerl/">Perl</a> and <a href="http://sources.redhat.com/cygwin/">Cygwin</a>.)
-<a href="http://www.geocities.com/kaufmansoft/">Kaufman's Mail Warrior</a> is free, full-featured, and relatively small (for Windows users).
-<a href="http://www.pocomail.com/">Poco</a> also has many enthusiasts,
-and it is standards oriented and security aware.
 An email client that is not free but gets great reviews is
 <a href="http://www.ritlabs.com/the_bat/">The Bat</a>,
-and rumor has it that the next release will finally support external editors.
-Another popular commercial email client is <a href="http://www.cyrusoft.com/index.html">Mulberry</a>, and it is available on many platforms.
-One last note on email: if you are enlightened enough to use Vim as your editor,
+and but it seems to not yet support external editors.
+Another popular cross-platform email client is <a href="http://www.cyrusoft.com/index.html">Mulberry</a>,
+and it is available on many platforms. (License: Apache 2.0)
+One last note on email: if you use Vim as your editor,
 you might consider using <a href="http://sourceforge.net/projects/vimail">vimail</a>,
 a simple mail reader for Vim.
 </div>
-
-<p>
-If you want to play with developing an email client,
-Python-based <a href="http://www.lundqvist-zone.com/mamamua/">Mamma Mua</a> is off to a good start
-but could use some development.
-</p>
 
 <p>
 If you are in an environment that forces you to use Outlook,
@@ -2600,45 +2624,19 @@ you can at least write your email with a <a href="http://cubiclevim.sourceforge.
 </p>
 
 <p>
-<a href="http://popfile.sourceforge.net/">POPFile</a> sorts your email and filters spam.
+<a href="http://getpopfile.org/">POPFile</a> sorts your email and filters spam.
 It is free and cross platform.
-</p>
-
-<p>
-<a href="http://freshmeat.net/projects/gotmail/">Gotmail</a> can (roughly speaking) pop your mail off a hotmail account.
-<a href="http://mrpostman.sourceforge.net/">MrPostman</a> can do the same for hotmail and Yahoo accounts,
-and it can be extended to work with other services.
-(GMail includes good POP+SMTP as free services,
-and offers good directions for configuring Thunderbird to use them.)
 </p>
 
 <p class="boxed">
 Basic email etiquette:
 <br />
-Courtesy almost always requires turning off HTML mail.
-You need to turn off HTML mail for almost all professional interactions,
-and especially if you post to mailing lists or newsgroups.
+Courtesy often requires turning off HTML mail.
+You especially need to turn off HTML mail
+when you post to mailing lists or newsgroups.
 </p>
 
-<p class="boxed">
-Comment to AU students: Why use webmail?
-<br />
-AU supports IMAP, which also allows you to keep all your mail on the campus servers.
-You can use any IMAP email client.
-I recommend Mahogany, but you can use Outlook or Netscape mail.
-(You have to have your mail set to IMAP;
-<a href="mailto:helpdesk@american.edu">e-academics</a> will tell you how;
-you can reach them at 202.885.2550.)
-Note that webmail will remain available to you,
-should you ever need it.
-<br />
-If you must use webmail you should turn off HTML formatting.
-For a single new message you can click on Format and then select the "plain text" option.
-Better yet, alter your preferences to pick plain text as the default format.
-Click on the "Preferences" tab (next to "Help" at the top right),
-and in the dialogue box that opens,
-choose the "Plain text" default editor <em>and</em> set "Send message in this format" to "Plain text."
-</p>
+
 
 <h3>Document Formats</h3>
 
@@ -3144,9 +3142,15 @@ is a light GTK-based IDE that embeds the Vim editor.
 <p>
 For Python:
 <br />
-- the general purpose <a href="http://webpages.charter.net/edreamleo/front.html#anchor964914">Leo</a> IDE includes a unique and powerful outlining facility
+- the general purpose <a href="http://leoeditor.com/">Leo</a> IDE includes a unique and powerful outlining facility (Language: Python; License: MIT)
 <br />
-- the relatively lightweight <a href="http://www.die-offenbachs.de/detlev/eric3.html">Eric3</a> IDE gets very good reviews.  
+- the relatively lightweight <a href="http://eric-ide.python-projects.org/">Eric</a> IDE gets very good reviews.  (Language: Python; License: GPLv3)
+<br />
+- <a href="https://github.com/davidhalter/jedi-vim">Jedi</a> helps turn VIM into a Python IDE by adding autocomplete.
+</p>
+
+<p>
+For Android, Google has released <a href="http://developer.android.com/sdk/index.html">Android Studio in 2014</a>.
 </p>
 
 
@@ -3407,7 +3411,6 @@ So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScri
 You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
 For some cool PostScript code,
 look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
-Look <a href="http://www.onlinecomputersciencedegree.com/resources/postscript-resources/">here</a> for some more links.
 </div>
 
 <div>
@@ -4208,17 +4211,39 @@ draws flowcharts based on a simple text description. (License: GPL; Language: C)
 
 <h4>Image Manipulation</h4>
 <ul>
-<li>
-    The <a href="http://www.gimp.org">GNU Image Manipulation Program (GIMP)</a> is freely distributed software suitable for  photo retouching, image composition and image authoring.
-    It supports PNG graphics. (Use them!)
-    There is a <a href="http://www.gimp.org/~tml/gimp/win32/">Windows version</a>!
+<li id="gimp">
+  The <a href="http://www.gimp.org">GNU Image Manipulation Program (GIMP)</a> is very popular and cross-platform.
+  (License GPL)
+  If you want a GUI-based FOSS image editor,
+  this is almost surely what you want.
+  For most users, it is competitive with Photoshop (TM).
+  GIMP is suitable for photo retouching, image composition and image authoring.
+  It includes animation capabilities (including MNG).
+  It can even be scripted with Python.
 </li>
 <li id="xv">
 <a href="http://www.trilon.com/xv/downloads.html">XV</a> "is an interactive image manipulation program for the X Window System".
+It was once very popular;
+it still has a dedicated core of users.
 </li>
 <li>
-    There are a variety of limited but useful online photo editors, many free.
-    (Do a web search; I'm not making recommendations among them.)
+  There are a variety of limited but useful online photo editors, many gratis.
+</li>
+</ul>
+
+<p>
+Scripted Image Manipulation with Python
+</p>
+
+<ul>
+<li>
+<a href="http://scikit-image.org/">scikit-image</a> provides scientific image processing.
+(License: BSD)
+For details, see the article <a href="https://peerj.com/articles/453/#peerj-453-fn9">scikit-image: image processing in Python</a>.
+</li>
+<li>
+<a href="https://python-pillow.github.io/">Pillow</a> provides basic image processes.
+(License: resembles the MIT license.)
 </li>
 </ul>
 
@@ -4305,11 +4330,11 @@ These can greatly simplify your drawing tasks.
 <br />
 <a href="#gnuplot">gnuplot</a> since version 4.4 has a <a href="http://peter.affenbande.org/gnuplot/">TikZ “terminal”</a>. Very nice!
 <br />
-<a href="http://www.codeproject.com/KB/WPF/TikzEdt.aspx">TikzEdt</a> and
+<a href="http://code.google.com/p/tikzedt/">TikzEdt</a> (License: GPL3) and
 <a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a> can nicely help
 you create tikz figures.
 (Mykel Kochenderfer has compiled a <a href="http://mykel.kochenderfer.com/tikz/">KtikZ Windows binary</a>.)
-Related functionality is provided by <a href="http://kogs-www.informatik.uni-hamburg.de/~meine/tikz/process/#tikz2pdf">tikz2pdf</a>.  (License: BSD)
+Related functionality is provided by <a href="https://github.com/jeroenjanssens/tikz2pdf">tikz2pdf</a>.  (License: BSD)
 <br />
 If your figures are complex but drawable by hand,
 you can create them with the <a href="#TpX">TpX</a> drawing application,
@@ -5236,7 +5261,24 @@ which supports most popular instant messaging services. (GPL)
 
 <h3 id="utilities">Utilities</h3> 
 
+
+<h4>Character Composers</h4>
+
+<p>
+A compose key allows inputting special characters as key combinations.
+Some text editors provide support for this
+(e.g., digraphs in Vim).
+Linux includes compose-key activation as a native ability.
+For Windows users,
+a few are provided via the Alt key and the numeric keypad.
+However, <a href="https://github.com/samhocevar/wincompose">WinCompose</a>
+provides better functionality. (License: <a href="http://www.wtfpl.net/">WTFPL</a> (essentially public domain).)
+(There is a <a href="https://www.youtube.com/watch?v=FCyNTKLyP4Q">Youtube tutorial for WinCompose</a>.)
+</p>
+
+
 <h4 id="calculators">Calculators</h4>
+
 <p>
 Calculators are still useful.
 Here are a few of many.
@@ -5596,36 +5638,26 @@ http://www.wilsonmar.com/1opsys.htm
 -->
 
 <p>
-Until recently you were likely to get a crash-prone operating system when you bought a computer,
-but finally even the most widely distributed operating systems are getting better.
-However upgrades are still expensive.
-You may want to consider some excellent alternatives.
-I will first mention an offbeat one:
-<a href="http://www.youos.com/">YouOS</a> is a "web operating system",
-meaning you access it anytime you have web access.
-</p>
-
-<p>
 After the Windows and Mac operating systems,
 most people will think first of <a href="http://www.linux.org">GNU Linux</a>,
 an excellent, free, Open Source version of the Unix operating system.
 Another popular free and open source Unix relative is <a href="http://www.freebsd.org/">FreeBSD</a>.
 Another popular version of the Unix operating system is <a href="http://www.sun.com">Solaris</a>,
-which is available as <a href="http://www.opensolaris.com/">OpenSolaris</a>.</p>
+a FOSS version of which is available as
+<a href="http://wiki.illumos.org/display/illumos/illumos+Home">illumos</a> (formerly OpenSolaris).
+</p>
 
 <p>
-<a href="http://cm.bell-labs.com/plan9/">Plan 9</a> is roughly a faster, more secure multi-processor Unix.
-There is now an open source implementation of <a href="http://haiku-os.org/">BeOS</a>.
-(Can install and run within Windows.)
-There are also <a href="http://www.bebits.com/">free applications</a>, of course.)
+<a href="http://cm.bell-labs.com/plan9/">Plan 9</a> is very roughly a faster, more secure multi-processor Unix.
+There is an open source implementation of BeOS called <a href="http://haiku-os.org/">Haiku</a>,
+but in 2015 it seems that organization issues may lead to a forked project calles Senryu.
+(Haiku can install and run within Windows.)
 <a href="http://get.qnx.com/">QNX's Neutrino Real Time Operating System</a> is also a compact and stable operating systems.
 (Can install and run within Windows,
 and thus does not require a separate partition or boot loader!)
-An interesting effort to produce an open source substitute for Windows NT is <a href="http://www.reactos.com/">ReactOS</a>, which already has basic console functionality.
+An interesting effort to produce an open source (and binary compatible) substitute for Windows NT
+is <a href="http://www.reactos.com/">ReactOS</a>, which already has basic console functionality.
 A few people may also be interested in <a href="http://www.freedos.org/freedos/about/">FreeDOS</a>.
-And for those seeking the bleeding edge,
-there is <a href="http://unununium.org/">Unununium</a>
-(but I have had trouble with the link lately).
 </p>
 
 <div>
@@ -5911,6 +5943,12 @@ which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/
 While NetLogo's statistical and mathematical support is limited,
 you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
 or <a href="http://ccl.northwestern.edu/netlogo/docs/mathematica.html">link it to Mathematica</a>.
+Additionally, NetLogo supports Java extensions and can be run by Java programs.
+</p>
+
+<p>
+After NetLogo, perhaps the most popular multi-agent simulation toolkit is <a href="http://repast.sourceforge.net/">Repast</a>.
+(License: New BSD; Language: Java or C++)
 </p>
 
 <p>
@@ -6106,7 +6144,6 @@ Key Configurations:
 The <a href="http://mozilla.dorando.at/">keyconfig.xpi</a> extension allows you
 to easily change your key bindings.
 Carefully follow the <a href="http://kb.mozillazine.org/Keyconfig_extension:_Thunderbird#Simple_built-in_commands">instructions</a>.
-Because I like the key bindings of <a href="#mahogany">Mahogany mail</a>,
 I like to associate the <code>d</code> key with <code>goDoCommand('cmd_delete');</code>
 and the <code>x</code> key with <code>goDoCommand('cmd_MsgCompactFolder');</code>.
 </div>
@@ -6301,6 +6338,23 @@ but a few do not currently work.
 </div>
 
 
+<h3 id="acrobat-hints">Acrobat hints</h3>
+
+<p>
+When you add comments to a document,
+the comments are stamped with a name, a date, and a time.
+This may well be more information than you want to provide.
+You can remove the name stamp from all your comments as follows.
+Show the comment list: pick Comments » Show Comment List from the menus.
+Select all comments: click on one, and then press ``ctrl-a``.
+Change the comment properties:
+right click on your selection, click ``Properties``,
+pick the ``General`` tab, and change the Author field (e.g., nothing).
+Unfortunately, you cannot remove the date and time stamps this way.
+However, only the "modified" stamp shows to the reader,
+when you change the author this way,
+it should update the modified time on all the comments.
+</p>
 
 
 <h3 id="gauss-hints">GAUSS user hints</h3>
@@ -8344,6 +8398,13 @@ you should consider <a href="http://sourceforge.net/mailarchive/message.php?msg_
 Be sure to use the valuable documentation that gnuplot includes.
 Begin by typing "help introduction" at the gnuplot prompt,
 since this explains the syntax used in the help documents.
+<br />
+Note: if you download gnuplot for Windows as a ``.zip`` file,
+the gnuplot help file (wgnuplot.chm) does not work properly.
+Windows blocks it.
+To unblock it, right click on the file,
+pick ``Properties``, and then press ``Unblock``.  
+Please be sure you have an official release before doing this.
 </p>
 
 <p>
@@ -8359,6 +8420,10 @@ Integer division produces an integer result.
 For example, $3/2=1$ but $3./2=1.5$.
 </p>
 
+<p>
+To easily plot a cobweb plot (i.e., Verhulst diagram with gnuplot,
+see <a href="http://www.jaist.ac.jp/~s1060005/article/?gnuplot_cobweb">this article</a>.
+</p>
 
 <p>
 Setting the color of plots is not well documented.

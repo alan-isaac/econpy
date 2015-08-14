@@ -142,7 +142,7 @@ def cached_moore_neighborhood(radius, center=(0,0), keepcenter=False, aslist=Tru
 	"""Return list or tuple, the Moore neighborhood of `center`.
 	Maintains a cache of produced neighborhoods.
 	Use insted of `moore_neighborhood` when the cached can be valuable.
-	:comment: be very careful if you use the default cache; there is only one!
+	:comment: Be very careful if you use the default cache; there is only one!
 	:comment: No maximum size is imposed on the cache!
 	"""
 	args = (radius,center,keepcenter)
@@ -448,10 +448,10 @@ class TorusGrid(FiniteGrid):
 		"""Return tuple, the constrained location.
 		"""
 		shape = self.shape
+		coordinates = round2int(coordinates)
 		if len(shape) != len(coordinates):
 			msg = 'Shape {0} does not match coordinates {1}'.format(self.shape,coordinates)
 			raise ValueError(msg)
-		coordinates = round2int(coordinates)
 		return tuple( xi%si for (xi,si) in izip(coordinates,shape) )
 
 
@@ -704,7 +704,8 @@ class WorldBase(Observable):
 		return map(patch_at, locations )
 	def patch_at(self, coordinates, preconstrained=False):
 		"""Return Patch if patch at location else None.
-		If `preconstrained` is True, then `location` is not tested for constraint.
+		If `preconstrained` is True,
+		then `location` is not tested for constraint.
 		"""
 		patches = self._patches
 		if not preconstrained:
@@ -1554,10 +1555,11 @@ class Agent(Observable):
 		self._goto(*args)
 	#####   patch related methods
 	def neighborhood(self, shape, radius, keepcenter=False):
-		"""Return generator, the neighborhood patches.
+		"""Return generator, yielding the neighborhood patches.
 		The definition of a neighborhood depends on the world's topology.
 		For example, points off the grid wrap for a TorusGrid topology
-		but are discarded for a FiniteGrid topology.
+		but are discarded (!) for a FiniteGrid topology.
+		:TODO: return locations for worlds with no patches??
 		"""
 		locations = self._world.hood_locs(
 			shape=shape,
