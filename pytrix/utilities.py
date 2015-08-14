@@ -30,6 +30,21 @@ try:
 except ImportError:
     logging.info("SciPy not available.")
 
+
+def colon(start, increment, end):
+	"""Return array of float64.  Uses numpy to
+	approximate the behavior of Matlab's `colon`.
+	:note: see numpy.arange, which is usually preferable
+	"""
+	if not have_numpy:
+	    raise ValueError("colon requires numpy")
+	if np.iscomplex((start,increment,end)).any():
+	    raise ValueError("colon does not accept complex arguments")
+	if increment==0 or increment*(start - end)>0:
+	    return np.array([])
+	m = int( np.fix((end-start) / float(increment)) )
+	return start + increment * np.arange(m+1)
+
 def unique(x, key=None, reverse=False, use_numpy=True):
     """Return sorted list or array of unique items.
     Does not support ``key`` for NumPy arrays.
@@ -378,7 +393,7 @@ def grep(pattern, *files):
     for file in files:
         for index, line in enumerate(open(file)):
             if search(line):
-                print ":".join((file, str(index+1), line[:-1]))
+                print(":".join((file, str(index+1), line[:-1])))
 
 
 # vim: set expandtab:ts=4:sw=4

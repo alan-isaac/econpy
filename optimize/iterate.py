@@ -49,7 +49,7 @@ class IterativeProcess(object):
 			self.value = badvalue
 			self.record_history(value=badvalue)
 			if (reportfreq and not self.iteration%reportfreq):
-				print self.report()
+				print(self.report())
 	def report(self):
 		'''Return: string.
 		Comment: can condition on whether optimized.'''
@@ -79,8 +79,10 @@ class IterativeProcess(object):
 		self.value = value
 		#if printing reports, print a final report
 		if self.reportfreq:
-			print self.report()
+			print(self.report())
 	def next(self):
+		return self.__next__()
+	def __next__(self):
 		value = self.iterate()
 		self.iteration += 1
 		if self.criterion(self, value=value, iteration=self.iteration):
@@ -135,7 +137,7 @@ class Picard:
 	@staticmethod
 	def picard(fn,p,itermax=100,toltest=default_scalar_toltest):
 		pseq = [p]
-		for iternum in xrange(itermax):
+		for iternum in range(itermax):
 			p_1, p = p, fn(p)
 			pseq.append(p)
 			if toltest(p_1,p):
