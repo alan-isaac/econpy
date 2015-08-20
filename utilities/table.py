@@ -1,4 +1,8 @@
 """
+WARNING: This file is no longer maintained.  For the current
+version of SimpleTable, see the GitHub repository
+  https://github.com/alan-isaac/SimpleTable.git
+
 Provides a simple table class.  A SimpleTable is essentially
 a list of lists plus some formatting functionality.
 
@@ -73,7 +77,6 @@ Potential problems for Python 3
 
 :contact: alan dot isaac at gmail dot com
 :requires: Python 2.5.1+
-:note: current version
 :note: HTML data format currently specifies tags
 :todo: support a bit more of http://www.oasis-open.org/specs/tr9503.html
 :todo: add labels2formatters method, that associates a cell formatter with a datatype
