@@ -21,6 +21,7 @@ import math, random
 from econpy.pytrix import utilities, fmath
 from econpy.optimize import iterate
 
+
 #BEGIN lst:optimize.bracket
 def simplest_bracket(
 f : Callable, #float->float (continuous function)

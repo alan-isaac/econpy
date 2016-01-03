@@ -13,6 +13,18 @@ import unittest
 import random
 import numpy
 from econpy.functions import polyuv
+from typing import Callable
+from numbers import Real, Integral
+
+#BEGIN lst:function.differenceQuotient
+def simplest_differenceQuotient(
+f : Callable, #Real -> Real
+x : Real, #reference point
+h : Real #step
+) -> Real: #value of computed difference quotient
+	df = f(x + h) - f(x) #change of value of f
+	return df/h #value of difference quotient
+#END lst:function.differenceQuotient
 
 #BEGIN lst:function.simplest_horner
 #goal: evaluate polynomial at point x

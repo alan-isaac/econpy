@@ -16,7 +16,10 @@
 
 <body>
 
-<!-- current location as of 2015-08-24: http://goo.gl/PUokY7 -->
+<!-- current location as of 2015-08-24:
+     source: https://github.com/alan-isaac/econpy/blob/master/software4econ.xhtml
+     displayed: http://goo.gl/PUokY7
+-->
 
 <ul class="mainmenu">
 <li>
@@ -101,7 +104,7 @@ Last modified: 2010-05-25
 Most recent version: <a href="http://econpy.googlecode.com/svn/trunk/software4econ.xhtml">http://econpy.googlecode.com/svn/trunk/software4econ.xhtml</a>.
 <br />
 <span style="color:red">Caveat lector:</span> do not assume the information below is accurate.
-In particular: the advice below comes without any warrantted whatsoever,
+In particular: the advice below comes without any warrantee whatsoever,
 and please confirm licensing information with the software copyright holders.
 </div>
 
@@ -1133,7 +1136,7 @@ Interesting, the <a href="#abiword">AbiWord</a> word processor supports itex for
 <h3 id="present">Presentations</h3>
 
 <div>
-Existing presentation applications have serious limitations.
+Most existing presentation applications have serious limitations.
 <ul>
 <li>
 Editing is slow
@@ -1155,10 +1158,20 @@ these applications are very easy to use.
 </div>
 
 <div>
-If you want to escape the above limitations,
-you want to be able to create your presentations with a text editor,
-including images by referencing their files.
-Three obvious candidates are
+There are two very interesting notebook-based approaches to
+presentation building: Mathematica, and <a href="http://jupyter.org/">Jupyter</a>.
+Mathematica is a powerful commercial symbolic algebra package which
+supports interactive presentations using the Wolfram Language.
+Jupyter is a FOSS notebook web application that can serve as a front-end to
+dozens of languages, including Python (via the IPython notebook).
+</div>
+
+<div>
+For speed and ease of editing,
+it is nice to create presentations with a text editor.
+This means implies audio and video content will be
+included by explicitly linking to the underlying files.
+Some obvious candidates are
 <ul>
 <li>
 reStructuredText with an appropriate slide writer
@@ -1167,7 +1180,11 @@ reStructuredText with an appropriate slide writer
 LaTeX with an appropriate document style.
 </li>
 <li>
+combine the previous two suggestions with <a href="http://www.agapow.net/programming/python/rst2beamer">rst2beamer</a>
+</li>
+<li>
 <a href="http://member.wide.ad.jp/wg/mgp/">MagicPoint</a> (X11-based, BSD license)
+Nice, but development seems to have stopped.
 </li>
 </ul>
 </div>
@@ -1193,13 +1210,13 @@ Here are some options using reStructuredText.
   http://www.w3.org/Talks/Tools/Slidy )
 </pre>
 <p>
-Roberto Alsina mentions that if you choose rst2pdf then
+Roberto Alesina mentions that if you choose rst2pdf then
 fancy transitions are hard,
-handouts have to be another document,
+handouts have to be a separate document,
 there is no way to easily center something vertically,
 and you need to create different versions for different screen aspect ratios.
 (On the other hand,
-everything is in a single file,
+everything end up in a single file,
 your PDF can play almost anywhere,
 and you know exactly how it will look.) 
 </p>
@@ -1460,22 +1477,7 @@ is a perl based replacement for makefiles.
 Much scientific programming is done in very high level languages.
 Two factors to consider in making a language choice are
 what software in your area is already written in the language,
-and how much original coding you will be doing.</p>
-
-<p>
-Being able to write code in one matrix programming language and run it in another environment can be useful.
-Examples include 
-Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting MATLAB to Python,
-<a href="http://www.cameronrookley.com">Rookley's</a>
-<a href="http://www.cameronrookley.com/gtoml/maingtm.html">gtoml</a>
-Perl program for converting Gauss code to Matlab,
-and Christopher Stawarz's
-<a href="http://software.pseudogreen.org/i2py/">i2py</a> 
-script for coverting
-<a href="http://www.rsinc.com/">IDL</a> to <a href="http://www.python.org">Python</a>.
-If you want to create a translator,
-consider <a href="http://www.dabeaz.com/ply/">PLY</a>
-(a Python implementation of lex and yacc).
+and how much original coding you will be doing.
 </p>
 
 
@@ -1483,15 +1485,17 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 <h3 id="numpy">NumPy</h3>
 
 <p>
-NumPy is one reason <a href="http://www.stat.washington.edu/~hoytak/_static/papers/why-python.pdf">why Python rocks for research</a>.
+A key reason <a href="http://www.stat.washington.edu/~hoytak/_static/papers/why-python.pdf">why Python rocks for research</a>
+is the NumPy array multi-dimensional library (License: BSD).
+NumPy is a very high quality library,
+and it has become my favorite approach to matrix (and multi-dimesional array) programming.
+This <a href="#python">Python</a> package is written as a C extension,
+so it is very fast.
+This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
+while doing serious scientific programming.
 </p>
 
 <p>
-My favorite approach to matrix (and multi-dimesional array) programming is <a href="http://numpy.scipy.org/">NumPy</a> (License: BSD; depednecy: Python).
-This is a <a href="#python">Python</a> package (but it is very fast because it is written as a C extension).
-This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language
-while doing serious scientific programming.
-This is a very high quality library.
 Additionally, an extensive scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.)
 For publication quality graphics,
 add the excellent graphics package <a href="#matplotlib">Matplotlib</a>.
@@ -1499,15 +1503,30 @@ add the excellent graphics package <a href="#matplotlib">Matplotlib</a>.
 </p>
 
 <p>
-You can find everything packaged together for a single install.
-For example: NumPy, SciPy, and Matplotlib are included in the <a href="https://www.enthought.com/products/canopy/">Enthought</a> Canopy distribution,
-along with <em>many</em> other useful packages.
-Another possibility is the <a href="http://continuum.io/">Anaconda distribution</a>
-Here are some additional <a href="pythonresources.html">Python resources for scientific computing</a>.
+Most Python users will be best served by a Python distribution
+that packages together everything they need as a single install.
+For example: NumPy, SciPy, and Matplotlib (as well as much more) are included in the following distributions.
 </p>
 
+<ul>
+<li>
+<a href="https://www.enthought.com/products/canopy/">Canopy</a> from Enthought
+</li>
+<li>
+<a href="http://continuum.io/">Anaconda</a> from Continuum
+</li>
+<li>
+<a href="http://winpython.sourceforge.net/">WinPython</a>
+</li>
+<li>
+<a href="http://python-xy.github.io/">Python(x,y)</a>
+</li>
+<li>
+<a href="http://www.pyzo.org/">Pyzo</a>
+</li>
+</ul>
+
 <p>
-Here are some <a href="pythonresources.html">Python resources for scientific computing</a>.
 Many scientific programming applications can be found on the <a href="http://www.scipy.org/wikis/topical_software/TopicalSoftware">SciPy Topical Software Wiki</a>.
 <a href="http://dirac.cnrs-orleans.fr/ScientificPython/">ScientificPython</a> offers some useful scientific and visualization modules.
 The are also some additional <a href="http://probstat.sourceforge.net/">probability and statistics utilities</a> available.
@@ -1524,6 +1543,22 @@ and the resources listed at <a href="http://www.astro.cornell.edu/staff/loredo/s
 and possibly various <a href="http://yaroslav.hopto.org/pubwiki/index.php/ai-python">AI resources</a>.
 <a href="http://mdp-toolkit.sourceforge.net/">Modular toolkit for Data Processing (MDP)</a> is a Python data processing library implementing Principal Component Analysis (PCA), Independent Component Analysis (ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
 Finally, it is worth poking around <a href="http://cheeseshop.python.org/">CheeseShop</a>.
+</p>
+
+<p>
+Being able to write code in one matrix programming language and run it in another environment can be useful.
+Examples include 
+Treiber's <a href="http://code.google.com/p/pym/">pym</a> Python program for converting MATLAB to Python,
+Cameron Rookley's
+<a href="http://www.mathworks.com/matlabcentral/newsreader/view_thread/31512">gtoml</a>
+Perl program for converting Gauss code to Matlab,
+and Christopher Stawarz's
+<a href="http://software.pseudogreen.org/i2py/">i2py</a> 
+script for coverting
+<a href="http://www.rsinc.com/">IDL</a> to <a href="http://www.python.org">Python</a>.
+If you want to create a translator,
+consider <a href="http://www.dabeaz.com/ply/">PLY</a>
+(a Python implementation of lex and yacc).
 </p>
 
 <h3>Java for Scientific Programming</h3>
@@ -2392,16 +2427,13 @@ I have not been able to use it this way.
 <br />
 Check out the <a href="http://www.wolfram.com/mathsource/">MathSource</a> code for Mathematica.
 Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a>
-and <a href="http://library.wolfram.com/infocenter/MathSource/585/">PYML</a>.
+and possibly <a href="http://library.wolfram.com/infocenter/MathSource/585/">PYML</a>.
 For support,
-see the <a href="news:comp.soft-sys.math.mathematica">Mathematica Users Group</a>
-or look into the <a href="http://smc.vnet.net/MathGroup.html">MathGroup email
-list</a>.
-Finally, <a href="http://www.dataweb.nl/~cool/TheEconomicsPack/index.html">Thomas Cool's page</a> offers a collection of economics programs written in Mathematica.
+see the <a href="http://mathematica.stackexchange.com/">Mathematica StackExchange Group</a>
+or look into the <a href="http://community.wolfram.com/">Wolfram Community</a>.
+Finally, <a href="http://www.thomascool.eu/TheEconomicsPack/">Thomas Cool's page</a> offers a collection of economics programs written in Mathematica.
         <div class="boxed">
         Mathematica for Students is available for full-time students at a big discount.
-        On the AU campus,
-        Mathematica is available in Anderson Lab and Clark Lab.
         </div>
 <br />
 Interesting Mathematica books for economists:
@@ -2410,6 +2442,8 @@ Interesting Mathematica books for economists:
 <a href="http://www.amazon.com/gp/product/0817641971?ie=UTF8&tag=sofforecotm-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a>
 <br />
 Introductory Mathematica books:
+<br /> 
+<a href="http://www.wolfram.com/language/elementary-introduction">Stephen Wolfram's Elementary Introduction</a>.
 <br /> 
 <a href="http://amzn.to/1ej2oq0">Torrence, Bruce F. (2009),
 The Student's Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a>
@@ -2972,10 +3006,13 @@ It includes parsing, demutiplexing, multiplexing, coding and decoding.
 <li>
 <a href="http://www.videolan.org/">VideoLAN</a> provides "a highly portable multimedia player for various audio and video formats".
 (License: GPL)
-This is an amazing multiplatform, FOSS resource.
+VLC is an amazing multiplatform, FOSS resource.
 (Includes an installer for Windows users.)
 If you need additional capabilities, you can try
 <a href="http://www.divx.com/">DivX</a>.
+</li>
+<li>
+<a href="http://www.getmiro.com/">Miro</a> (License: GPL. Formerly known as Democracy Player).
 </li>
 </ul>
 
@@ -3163,6 +3200,15 @@ Most browsers now support JavaScript,
 and client-side scripting has been used to create economic applications. [#paine.stark-2004-cheer]
 See <a href="javascript-intro.html">JavaScript Basics</a> for more detail.
 </p>
+
+<p>
+JavaScript resources:
+<a href="http://eloquentjavascript.net/">Eloquent JavaScript</a>;
+<a href="https://github.com/getify/You-Dont-Know-JS">You Don't Know JS</a>.
+</p>
+
+
+
 
 <h3 id="java">Java</h3>
 
@@ -3515,7 +3561,15 @@ Hippodraw includes Python bindings and a Python extension module.
 
 <h4>Rendering Engines</h4>
 
+<ul>
+<li>
 <a href="http://www.antigrain.com/">Anti-Grain Geometry</a> (Language: C++; License: GPL 2+)
+</li>
+<li>
+<a href="http://www.ogre3d.org/">OGRE</a> is a popular 3D rendering engine. (Language: C++; License: MIT)
+</li>
+</ul>
+
 
 <h4 id="animate">Animation</h4>
 
@@ -5045,6 +5099,24 @@ eschew traditional spreadsheets in favor of <a href="#scispreadsheets">newer alt
 such as scientific spreadsheets and engineering spreadsheets.
 </p>
 
+<ul>
+<li>
+Almiron, M. G., E. S. Almeida and  M. N. Miranda (2009). The reliability of statistical functions in four software packages freely used in numerical computation. Brazilian Journal of Probability and Statistics, 23, 107-119.
+</li>
+<li> 
+Almiron, M. G., B. Lopes, A. L. Oliviera, A. C. Medeiros and A. C. Frery (2010). On the numerical accuracy of spreadsheets. Journal of Statistical Software, 34 (4), 1-29.
+</li>
+<li>
+Barreto, H. and F. M. Howland (2006). Introductory Econometrics: Using Monte Carlo Simulation with Microsoft Excel®. Cambridge University Press, Cambridge.
+</li>
+<li>
+McCullough, B. D.  (1998). Assessing the reliability of statistical software: Part I. The American Statistician, 52, 358-366.
+</li>
+<li> 
+McCullough, B. D.  (1999). Assessing the reliability of statistical software: Part II. The American Statistician, 53, 149-159.
+</li>
+</ul>
+
 <p>
 Comment: some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet's computational and graphics facilities---on a Windows platform, perhaps VBA or better yet Python with win32com;
 on a Unix platform, perhaps ABV or Python or a plug-in that supports scripting.
@@ -5606,10 +5678,6 @@ including online collaboration.
 between a spreadsheet and a mind mapper.
 </p>
 
-<h4>Video Players</h4>
-<p>
-<a href="http://www.getmiro.com/">Miro</a> (License: GPL. Formerly known as Democracy Player).
-</p>
 
 <h4>Making Posters</h4>
 
@@ -5689,23 +5757,32 @@ A recent review of <a href="http://franticindustries.com/blog/2006/12/21/big-web
 </div>
 
 
+<h4>Shells</h4>
 
+<p>
+Things have gotten better with the advent of PowerShell,
+but Windows users still suffer from a dearth of good shells.
+Here are a few options.
+</p>
+
+<ul>
+<li>
+<a href="http://xonsh.org/">xonsh</a> is a cross platform shell with Python-based syntrax
+</li>
+<li>
+Try <a href="http://www.steve.org.uk/Software/bash/">GNU Bash for Windows</a>.
+(Here is an <a href="http://www.arachnoid.com/linux/shell_programming.html">introduction to bash programming</a>.) 
+</li>
+<li>
+you might try <a href="http://win-bash.sourceforge.net/">win-bash</a>.
+</li>
+</ul>
 
 
 
 <h4>Unix Tools</h4>
 
 <h5>Unix Tools for Windows and System Tools</h5>
-
-<p>
-Where to get a decent shell for Windows?
-Try <a href="http://www.steve.org.uk/Software/bash/">GNU Bash for Windows</a>.
-(Here is an <a href="http://www.arachnoid.com/linux/shell_programming.html">introduction to bash programming</a>.)
-For free and open source,
-you might try <a href="http://win-bash.sourceforge.net/">win-bash</a>.
-If you run WinXP SP2,
-you can also try <a href="http://www.microsoft.com/windowsserver2003/technologies/management/powershell/download.mspx">Windows Power Shell</a> (requires the .NET framework v.2).
-</p>
 
 <ul>
 <li>
@@ -8499,16 +8576,6 @@ You can fix this as follows:
 open the Control Panel and open Folder Options,
 then pick the View tab and uncheck Hide File Extensions.
 </p>
-
-<div>
-If you search "all" files and folders with Windows Explorer in Win XP,
-by default only "recognized" (by extension) file types are searched.
-Believe it or not, you must edit your registry to fix this.
-(The usual caveats apply.) Set
-<pre>
-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ContentIndex\FilterFilesWithUnknownExtensions = 1
-</pre>
-</div>
 
 <div>
 Windows File Search:

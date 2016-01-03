@@ -254,7 +254,6 @@ def permutations(lst):
     :since:     2005-06-20
     :date:      2007-06-22
     :note:      recursive
-    :contact: aisaac AT american.edu
     """
     lst = list(lst)
     return [ [lst[i]] + x
