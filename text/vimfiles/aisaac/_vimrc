@@ -1,0 +1,13 @@
+"dump lingering autocommands (protects against resourcing this file)
+autocmd!
+
+if has("unix")
+        let $VIMFILES = $HOME . "/.vim"
+else
+        let $VIMFILES = $HOME . "/vimfiles"
+endif
+
+" keep these under SVN (in econpy/text/vimfiles)
+source $VIMFILES/share_vimrc.vim
+source $VIMFILES/ai_vimrc.vim
+

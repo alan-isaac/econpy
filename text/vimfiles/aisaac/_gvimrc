@@ -1,0 +1,15 @@
+"set font (see options.txt)
+set guifont=andale_mono:h12
+          \,Lucida_Console:h12
+          \,courier_new:h12
+"set window size and positon
+set columns =120
+set lines =40
+winpos 100 100
+" turn on autoselect
+set guioptions+=a
+" ensure default for paste
+set nopaste
+
+"$VIMFILES should be set in _vimrc
+source $VIMFILES/ai_texmenus.vim
