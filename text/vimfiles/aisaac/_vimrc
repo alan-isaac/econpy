@@ -4,10 +4,17 @@ autocmd!
 if has("unix")
         let $VIMFILES = $HOME . "/.vim"
 else
-        let $VIMFILES = $HOME . "/vimfiles"
+        let $VIMFILES = $VIM . "/vimfiles"
+        "http://stackoverflow.com/questions/94382/vim-with-powershell
+        "set shell=powershell
+        "set shellcmdflag=-ExecutionPolicy\ RemoteSigned\ -Command 
+        " shellxquote must be a literal space character.
+        "set shellquote=\"
+        "set shellxquote= 
 endif
 
+set encoding=utf-8
 " keep these under SVN (in econpy/text/vimfiles)
-source $VIMFILES/share_vimrc.vim
-source $VIMFILES/ai_vimrc.vim
+source $VIMFILES\share_vimrc.vim
+source $VIMFILES\ai_vimrc.vim
 
