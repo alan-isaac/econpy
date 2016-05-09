@@ -169,10 +169,9 @@ and quite wonderfully designed.
 <p>
 If you are willing lean against the wind and use a mode based editor,
 I strongly recommend the free text editor <a href="http://www.vim.org/">Vim</a>.
+(Or possibly <a href="https://neovim.io/">NeoVim</a>.)
 If you are unwilling to learn mode-based editing,
 you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
-Or try <a href="http://fte.sourceforge.net/">FTE</a>,
-which (like Vim) is free, Open Source, and supports folding.
 On top of all this, it is charityware:
 you pay nothing for this excellent software,
 but users are encouraged to make a donation for needy children in Uganda.
@@ -213,8 +212,10 @@ it can be scripted with the Lua programming language,
 and it is based on <a href="http://www.scintilla.org/">Scintilla</a>.
 <a href="http://www.activestate.com/komodo_edit/">Komodo Edit</a> is a promising open-source editor,
 the same one used in ActiveState's commercial Komodo IDE.
-Finally I have to mention the unusual <a href="http://www-2.cs.cmu.edu/~rcm/lapis/">Lapis editor</a>,
+Finally I have to mention the unusual <a href="https://groups.csail.mit.edu/uid/lapis/">Lapis editor</a>,
 which allows simultaneous selection of discontinuous segments of text.
+Or try <a href="http://fte.sourceforge.net/">FTE</a>,
+which (like Vim) is free, Open Source, and supports folding.
 </p>
 
 
@@ -319,8 +320,8 @@ Some text, and a math formula \(a+b=\sqrt{c}\).
 </div>
 
 <p>
-Once you have chosen your editor, you may want to find yourself a
-<a href="http://home.bsu.edu/prn/monofont/">decent monospaced font</a>.
+Once you have chosen your editor,
+find a <a href="http://hivelogic.com/articles/top-10-programming-fonts">decent monospaced font</a>.
 (Crucial for programming; always test this character sequence: Il1aoe0O.)
 My favorite is Andale Mono,
 a TrueType font that I find exceptionally readable even at small font sizes.
@@ -332,6 +333,7 @@ My second choice is the Unicode <a href="http://dejavu-fonts.org/wiki/Main_Page"
 (Derivative from <a href="http://www.gnome.org/fonts/">Bitstream's Vera Fonts</a>;
 available as a Latin-Cyrillic-Greek subset;
 <a href="http://dejavu-fonts.org/wiki/License">License</a>)
+Many people like the free and open source <a href="https://github.com/google/fonts/tree/master/ofl/inconsolata">Inconsolata</a>.
 </p>
 
 <p>
@@ -3600,7 +3602,7 @@ try <code>convert -delay 20 c:/myimages/img*.png c:/myvideo/imgs.mpg</code>.
 </li>
 
 <li id="ffmpeg">
-<a href="http://ffmpeg.org/">FFMPEG</a> can "record, convert and stream audio and video".
+<a href="http://ffmpeg.org/">FFMPEG</a> can “record, convert and stream audio and video”.
 (License: LGPL; Language: C)
 For example, you can pipe a series of Matplotlib graphs to FFMPEG to produce an animated graph.
 Or you can save them as PNG files named (frame000.png, frame001.png, etc) and do
@@ -5560,17 +5562,16 @@ which offers cascading stylesheets and supports TTF and Type1 font embedding.
 <p id="vcs">
 There are many version control systems (VCSs):
 see the <a href="http://en.wikipedia.org/wiki/List_of_revision_control_software">Wikipedia list</a>.
-If you just need revision control for an individual project,
+If you just need revision control for a single-user, single-machine project,
 you can use <a href="http://www.gnu.org/software/rcs/rcs.html">RCS</a>.
-For simple version control on multiuser projects,
+For simple version control on multi-user or multi-machine projects,
 consider <a href="#svn">Subversion (SVN)</a>.
 Currently distributed VCSs are the rage,
 with <a href="http://bazaar-vcs.org/">Bazaar</a> (License: GPL),
 <a href="http://mercurial.selenic.com/">Mercurial</a> (License: GPL),
 and especially <a href="http://git.or.cz/">Git</a> (License: GPL) having particularly high profiles.
-(Windows users should consider <a href="http://windows.github.com/">GitHub for Windows</a>.)
-This is probably not important for small projects.
-See the <a href="http://www.opensolaris.org/os/community/tools/scm/history/">OpenSolaris evaluations</a>.
+(Windows users of Git should consider <a href="http://windows.github.com/">GitHub for Windows</a>.)
+Having a distributed VCS is not important for most small projects.
 </p>
 
 <h5 id="svn">Subversion</h5>
@@ -5580,7 +5581,8 @@ See my <a href="#svn-hints">Subversion hints</a>.
 </p>
 
 <p>
-<a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system for new projects.
+Despite the recent popularity of Git,
+<a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system.
 There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>.
 (Be sure to read about the <a href="http://svnbook.red-bean.com/en/1.5/svn.tour.cycle.html">basic work cycle</a>.
 Simplest bottom line: change to your working directory and enter
@@ -5609,25 +5611,19 @@ provide keybindings for SVN control from the Vim editor.
 <p>
 Free and low cost SVN repositories:
 <br />
-<a href="https://opensvn.csie.org/">OpenSVN</a>
-<br />
-<a href="http://code.google.com/hosting/">Google Projects</a>
-(open source projects only)
+<a href="http://www.assembla.com/">assembla</a>
+(includes some free options)
 <br />
 <a href="http://unfuddle.com/home">Unfuddle</a>
-(this one looks promising for general use)
-<br />
-<a href="http://www.assembla.com/">assembla</a>
-<br />
-<a href="http://www.nexumoja.org">nexUmoja</a>
 </p>
 
-<h5>Mercurial</h5>
-
 <p>
-Free and low cost Mercurial repositories:
-<br />
-<a href="http://freehg.org/">freeHg.org</a>
+Subversion users may find it helpful to generate
+graphical reports of the repository changes.
+A Python-based solution is
+<a href="https://bitbucket.org/nitinbhide/svnplot/wiki/Home">svnplot</a>.
+A Java-based solution is
+<a href="http://www.statsvn.org/">StatsSVN</a>.
 </p>
 
 <h3>Miscellaneous Office Needs</h3>
@@ -6211,8 +6207,9 @@ otherwise when Thunderbird receives your text it may wrap it to a smaller size.
 </div>
 
 <div>
-Gmail allows IMAP access (wonderful!),
-and Google provided detailed instructions for configuring Thunderbird.
+Gmail allows IMAP access,
+Google provides detailed instructions for configuring Thunderbird,
+and Thunderbird automates the process of adding your Gmail account.
 </div>
 
 <div>
@@ -7961,14 +7958,15 @@ To install Vim on Windows, get the <a href="http://vim.sourceforge.net/download.
 Double click it and install where desired.
 Installation creats a 'vim' directory.
 Below that is a 'vimfiles' directory.
-I recommend that Windows users who are new to Vim
-i. copy my <a href="http://www.american.edu/econ/notes/ai_vimrc.vim">ai_vimrc.vim</a> attached file to their vimfiles directory,
+For Windows users who are new to Vim,
+i. copy my <a href="https://github.com/alan-isaac/econpy/blob/master/text/vimfiles/share_vimrc.vim">share_vimrc.vim</a>
+file to your vimfiles directory,
 and then 
 ii.
-look for the '_vimrc' file in the 'vim' directory
+look for the '_vimrc' file in your 'vim' directory
 and add at the bottom of that _vimrc file
 the following command:
-<code>source $VIM/vimfiles/ai_vimrc</code>
+<code>source $VIM/vimfiles/share_vimrc</code>
 </p>
 
 <p>
@@ -7988,6 +7986,25 @@ If you want to cursor down and then return to where you started,
 set a mark before moving.  (See <code>:h marks</code>.)
 But, if you want to be able to page down and then page back up to where you started,
 use <code>ctrl-d</code> and <code>ctrl-u</code> rather than <code>Pg-Dn</code> and <code>Pg-Up</code>.
+</p>
+
+<p>Colorscheme:
+<br />
+Vim provides excellent syntax highlighting in various color schemes.
+There is an <a href="http://cocopon.me/app/vim-color-gallery/">online gallery</a>.
+You can get a list of all the installed colorschemes by entering
+<code>colorscheme &lt;ctrl+d&gt;</code>
+at the Vim command line.
+(Do not forget the space.)
+I particularly like <code>koehler</code>, a rather dark color scheme.
+(<a href="https://github.com/rodnaph/vim-color-schemes/blob/master/colors/koehler.vim">Download from GitHub.</a>)
+You can set this by entering <code>colorscheme koehler</code> at the Vim commmand line.
+Another popular dark color scheme is <code>solarized</code>.
+(<a href="https://github.com/altercation/vim-colors-solarized">Download from GitHub.</a>)
+To determine your current color scheme, enter <code>echo g:colors_name</code>
+at the command line.
+(If you did the tutorial, you know you can reach the command line
+by pressing <code>Esc</code> 
 </p>
 
 <div>
@@ -8778,6 +8795,8 @@ If you use Vim on either platform, see <code>help utf-8-typing</code> (and <code
 GnuWin32 includes many useful GNU applications,
 including grep, sed, and awk.
 If you download everything (recommended), it will take a while.
+If you are just looking for a <code>grep</code> implementation,
+you can try <a href="https://sourceforge.net/p/grepwin/">grepwin</a>. (License: GPL)
 </p>
 
 <div>
