@@ -14,7 +14,7 @@ else
 endif
 
 set encoding=utf-8
-" keep these under SVN (in econpy/text/vimfiles)
+" keep these under git control (in econpy/text/vimfiles)
 source $VIMFILES\share_vimrc.vim
 source $VIMFILES\ai_vimrc.vim
 

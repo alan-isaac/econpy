@@ -1,15 +1,14 @@
 \documentclass[12pt,letterpaper]{article}
 \usepackage[margin=1in]{geometry}
-\usepackage{booktabs}
-\usepackage{setspace} \doublespacing
 \usepackage{amsmath,amsfonts,amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+%\usepackage{setspace} \doublespacing
 %\usepackage{color}
 %\usepackage{moreverb}
 %\usepackage{mathptm} %or \usepackage{mathptmx}
 %(still uses some CM fonts, must be in  Type1 form.)
 %\usepackage{natbib}  %formats references
-\usepackage{pgf}
-\usepackage{tikz}
 \usepackage{ifpdf}
 \ifpdf %if using pdfLaTeX in PDF mode
   \usepackage[pdftex]{graphicx}
@@ -22,6 +21,6 @@
 \fi
 \begin{document}
 
-  \bibliographystyle{/mydocs/alan}
-  \bibliography{/mydocs/alan1,/mydocs/alan}
+  \bibliographystyle{alan}
+  \bibliography{ejabbr,alan}
 \end{document} 

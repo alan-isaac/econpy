@@ -10,7 +10,7 @@ let MIKTEXBIN='C:\Program Files\MiKTeX 2.9\miktex\bin\x64\'
 let GSPATH='C:\programs\gs\gs8.64\lib\'
 " 3. set GSVPATH to full path to ghostview32.exe
 let GSVPATH='C:\programs\Ghostgum\gsview\gsview64.exe'
-let PDFVIEWERPATH='C:\programs\SumatraPDF\SumatraPDF.exe'
+let PDFVIEWERPATH='D:\programs\SumatraPDF\SumatraPDF.exe'
 silent amenu 90.10 &MiKTeX.Te&Xify :up<bar>:execute '!start "'.MIKTEXBIN.'texify.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'.tex"'<cr>
 silent amenu 90.20 &MiKTeX.View\ with\ PDF\ &Viewer :execute '!start "'.PDFVIEWERPATH.'" "'.fnamemodify(@%,':p:r:gs?\\?/?').'.pdf"'<cr>
 silent amenu 90.30 &MiKTeX.View\ with\ &Yap :execute '!start "'.MIKTEXBIN.'yap.exe" "'.fnamemodify(@%,':p:r:gs?\\?/?').'.dvi"'<cr>

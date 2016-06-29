@@ -1,5 +1,6 @@
 '''
 Unit tests for the `iterate` module.
+:requires: Python 3.5+
 
 :see: http://docs.python.org/lib/minimal-example.html for an intro to unittest
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
