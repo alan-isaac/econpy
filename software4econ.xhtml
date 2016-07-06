@@ -16,7 +16,10 @@
 
 <body>
 
-<!-- current location as of 2015-08-24:
+<div>
+<a href="http://goo.gl/PUokY7">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
+</div>
+<!-- current location as of 2016-06-24:
      source: https://github.com/alan-isaac/econpy/blob/master/software4econ.xhtml
      displayed: http://goo.gl/PUokY7
 -->
@@ -54,6 +57,9 @@
         <li><a href="#textables">Tables</a></li>
         <li><a href="#othertex">Other TeX Resources</a></li>
         </ul>
+</li>
+<li>
+<a href="#absim">Agent-Based Simulation</a> 
 </li>
 <li>
 <a href="#matrixlanguages">Matrix and Array Programming</a> 
@@ -101,7 +107,7 @@ Author: Alan G. Isaac
 <br />
 Last modified: 2010-05-25
 <br />
-Most recent version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.
+Most recent (GitHub) version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.
 <br />
 <span style="color:red">Caveat lector:</span> do not assume the information below is accurate.
 In particular: the advice below comes without any warrantee whatsoever,
@@ -139,7 +145,7 @@ and perhaps most famously the ebook version of Alice's Adventures in Wonderland 
 <!--  http://www.planetebook.com/mainpage.asp?webpageid=201 -->
 You may also wish to visit the <a href="http://www.fsf.org">Free Software Foundation</a>,
 visit <a href="http://www.opensource.org">OpenSource.Org</a>,
-and sign a <a href="http://petition.eurolinux.org">petition agains software patents</a>.
+and sign any petitions against software patents.
 </li>
 </ul>
 Thank you.
@@ -174,7 +180,10 @@ If you are unwilling to learn mode-based editing,
 you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
 On top of all this, it is charityware:
 you pay nothing for this excellent software,
-but users are encouraged to make a donation for needy children in Uganda.
+but users are encouraged to make a donation for needy children in Uganda.  
+<br />
+As an aside, the experimental <a href="https://github.com/neovim/neovim/wiki/Introduction">NeoVim</a>
+may end up being interesting.
 </p>
 
 <p class="boxed">
@@ -245,9 +254,9 @@ and an accurate (and somewhat LaTeX sensitive) spell-checker.
 See <a href="#tphints">TextPad user hints.</a>
 </p>
 <p>
-Python users may want to consider the interesting <a href="http://wiki.woodpecker.org.cn/moin/UliPad">UliPad</a>.
-There is also the popular, lightweight <a href="http://www.liquidninja.com/metapad/">MetaPad</a>,
-and the fairly powerful <a href="http://www.editpadpro.com/editpadlite.html">EditPad Lite</a>,
+Python users may want to consider the interesting <a href="https://pypi.python.org/pypi/UliPad">UliPad</a>.
+There is also the popular, lightweight <a href="http://liquidninja.com/metapad/">MetaPad</a>,
+and the fairly powerful <a href="https://www.editpadlite.com/">EditPad Lite</a>,
 and <a href="http://www.semware.com/">TSE Pro</a> has an avid fan base,
 and it is available in a console version.
 If you can afford it, there is also
@@ -1470,6 +1479,88 @@ is a perl based replacement for makefiles.
 </ul>
 
 
+<h2 id="absim">Agent-Based Simulation</h2>
+
+<p>
+Probably the best platform for introductory exploration of agent-based models is <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
+which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/">Models Library</a>.
+While NetLogo's statistical and mathematical support is limited,
+you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
+or <a href="http://ccl.northwestern.edu/netlogo/docs/mathematica.html">link it to Mathematica</a>.
+Additionally, NetLogo supports Java extensions and can be run by Java programs.
+</p>
+
+<p>
+If you are new to NetLogo,
+I have written a <a href="https://subversion.american.edu/aisaac/notes/netlogo-basics.xhtml">basic overview</a>.
+</p>
+
+<div>
+<p>
+Here are some useful NetLogo books:
+</p>
+<li>
+Best overview and general introduction:
+<br />
+<a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0262731894&amp;linkId=3bb20437807c13603779a74e5d37ff3e">
+Wilensky, Uri and William Rand (2015).
+An introduction to agent-based modeling: Modeling natural, social and engineered complex systems with NetLogo. Cambridge: MIT Press.
+</a>
+</li>
+<li>
+Best applied introduction:
+<br />
+<a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0691136742&amp;linkId=1053f7d579f926a8920168bc84b0292e">
+Steven F. Railsback; Volker Grimm (2011). Agent-Based and Individual-Based Modeling: A Practical Introduction. Cambridge: Princeton University Press. ISBN 978-0-691-13674-5.
+</a>
+</li>
+<li>
+Best short introduction:
+<br />
+<a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0335216005&amp;linkId=3c7aa1be8353d36ab4d504d9bb65779d">
+Gilbert, Nigel and Klaus G. Troitzsch (2005).
+Simulation for the Social Scientist, Second Edition.
+London: McGraw Hill.
+</a>
+</li>
+<li>
+Most focused on Economics:
+<br />
+<a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1118456076&amp;linkId=deaab7fa0414cac52342b6383a0f4c55">
+Hamill, Lynne and Nigel Gilbert (2016), 
+Agent-Based Modelling in Economics, Wiley.
+</a>
+</li>
+<li>
+David O'Sullivan; George L.W. Perry (2013). Spatial Simulation: Exploring Pattern and Process. Wiley-Blackwell. ISBN 978-1-119-97079-8.
+</li>
+<li>
+Britt Anderson (2014). Computational Neuroscience and Cognitive Modeling. London: Sage. ISBN 978-1-4462-4930-7.
+</li>
+<li>
+<a href="http://multiagent.com/p/fundamentals-of-multiagent-systems.html">
+José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo.
+</a>
+</li>
+</div>
+
+
+<p>
+After NetLogo, perhaps the most popular multi-agent simulation toolkit is <a href="http://repast.sourceforge.net/">Repast</a>.
+(License: New BSD; Language: Java or C++)
+</p>
+
+<p>
+<a href="http://www.labor-torino.it/english/research/labsim/wild/wp-html/wp-sonnessa.html">Java Agent-based Simulation (JAS) library</a>
+</p>
+
+<p>
+<a href="http://www.swarm.org">Swarm</a> is useful for multi-agent simulation projects.
+</p>
+
+<p>
+<a href="http://eodev.sourceforge.net/">Evolving Objects</a> is "is a templates-based, ANSI-C++ compliant evolutionary computation library". (License: LGPL)
+</p>
 
 
 
@@ -2060,27 +2151,10 @@ Documentation is in
 
 <h4>Other Useful Languages</h4>
 
-<h5>PostScript</h5>
-
 <p>
-<a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
-<br />
-Related: <a href="http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/lang/lisp/code/io/plisp/0.html">PLisp</a> takes the basic structure of Common Lisp and uses it as an alternative representation of a PostScript program.
-While the basic graphic operators of PostScript are retained, Lisp-like function definition, control flow,
-and variable binding become available.
-Macros, defined constants, and function libraries have also been provided.
-The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
+<a href="#postscript">PostScript</a> is discussed under <a href="#drawlang">Drawing Languages</a>.
 </p>
 
-<p>
-In an interesting twist, you can now use PostScript as a drawing language in web pages
-using <a href="http://logand.com/sw/wps/index.html">WPS</a>,
-"a PostScript and PDF interpreter for HTML 5 canvas".
-</p>
-
-<p>
-PostScript programmers may find <a href="http://www.anastigmatix.net/postscript/Order.html">sorting and order statistics</a> to be a useful resource.
-</p>
 
 
 <h2 id="STAT">Other Useful Statistical Software</h2>
@@ -3314,17 +3388,34 @@ written in Python atop the wxPython GUI toolkit.
 <h3 id="formats">Graphics Formats</h3>
 
 <p>
-There is some <a href="http://www.pymolwiki.org/index.php/Category%3ASoftware_Movies">useful background on the PyMol wiki</a>.
-The <a href="http://www.lanl.gov/projects/ia/">Los Alamos National Laboratory Information Architecture</a> offers a useful <a href="http://www.lanl.gov/projects/ia/stds/ia680120.html">white paper on graphics formats</a>.
+There is some <a href="http://pymolwiki.org/index.php/Making_Movies">useful background on the PyMol wiki</a>.
 </p>
 
 <h4>Encapsulated PostScript (EPS)</h4>
 
 <p>
-Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) remains the universal standard for graphics inclusion in journals and books.
-(In some applications,
-it is being challenged by Adobe's Portable Document Format (<acronym class="help" title="Portable Document Format">PDF</acronym>).
-It therefore pays to learn a drawing application or language that allows you to generate encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).  
+Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) remains a very important
+standard for graphics inclusion in journals and books.
+It therefore pays to learn a drawing application or language that allows you to generate encapsulated PostScript
+(<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).  
+You can convert
+<acronym class="help" title="Encapsulated PostScript">EPS</acronym>
+to
+<acronym class="help" title="Portable Network Graphics">PNG</acronym>
+or
+<acronym class="help" title="Scalable Vector Graphics">SVG</acronym>.
+(See <a href="#convert">below</a>.)
+</p>
+
+<h4>Portable Document Format</h4>
+
+<p>
+In many applications,
+<acronym class="help" title="Encapsulated PostScript">EPS</acronym>)
+is being replaced by Adobe's Portable Document Format
+(<acronym class="help" title="Portable Document Format">PDF</acronym>).
+<acronym class="help" title="Portable Document Format">PDF</acronym>) and page indepdence and support for new features,
+but loses the powerful <a href="#postscript">PostScript</a> <a href="#drawlang">drawing language</a>.
 </p>
 
 <h4>Portable Network Graphics (PNG)</h4>
@@ -3355,8 +3446,6 @@ which is less complete but quite capable.
 <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>
 <br />
 A rising format for web graphics and may already be useful if you need vector graphics and/or animation.
-You can convert <acronym class="help" title="Encapsulated PostScript">EPS</acronym> to PNG or <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>.
-(See <a href="#convert">below</a>.)
 It is possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>.
 For extensive SVG manipulation and generation tools,
 see <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
@@ -3381,22 +3470,15 @@ Another nice thing is that you can <a href="http://surguy.net/articles/client-si
 </p>
 
 <p>
-Browser support for SVG:
-<br />
-<a href="http://www.opera.com">Opera</a> and <a href="http://www.mozilla.com/">FireFox</a>
-have native support.
-(FireFox reports the <a href="http://www.mozilla.org/projects/svg/">current status of SVG support</a>.)
-IE 7 is badly lagging:
-you must use a plug-in (such as <a href="http://wiki.svg.org/Adobe_SVG_Viewer">Adobe SVG viewer</a>.
-(<a href="http://www.svgi.org/">Other SVG viewers</a> are available.)
-If you care about IE users,
-you can <a href="http://labs.silverorange.com/archives/2006/january/howtoinclude">provide a back-up PNG.</a>.
-(IE's PNG support is buggy too; oh well.)
+Browser support for SVG is improving but advanced features may be missing.
+Check your target browser.
+(You may find some useful information on
+<a href="https://en.wikipedia.org/wiki/Comparison_of_layout_engines_(Scalable_Vector_Graphics)">Wikipedia</a>.)
 </p>
 
 
 
-<h3 id="drawlang">Drawing Languages</h3>
+<h3 id="drawlang">Drawing Languages and Metalanguages</h3>
 
 <p>
 With all the point and click drawing applications currently available,
@@ -3413,10 +3495,9 @@ while mentioning a few other interesting possibilities.
 PostScript is a very useful device independent page description language.
 If you want to precisely render a vector graphic,
 you may well find it convenient to draw it yourself in PostScript.
-<!-- 
-I offer a <a href="http://www.american.edu/econ/notes/psdraw.pdf">brief introduction to PostScript drawing</a>,
-which is still under revision.
--->
+I offer a brief introduction to
+<a href="https://subversion.american.edu/aisaac/wp/isaac_ab.htm#psdraw">PostScript Drawing for the Sciences</a>,
+which is still under revision. (Comments welcome!)
 See some <a href="#ps_hints">PostScript hints</a> below.
 </p>
 
@@ -3424,33 +3505,73 @@ See some <a href="#ps_hints">PostScript hints</a> below.
 Starting points:
  The introductory chapter Casselman's A Manual of Mathematical Illustration
  http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html
- First Guide to PostScript
- http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html
  David Maxwell's online PostScript manual maxwell@math.ubc.ca
  http://adela.karlin.mff.cuni.cz/netkarl/prirucky/Flat/PS-toc.html
 Then get the then get the  PostScript Language Tutorial &amp; Cookbook
 http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF
-and possibly Glenn Reid's Thinking in PostScript
-http://www.rightbrain.com/pages/books.html
-Finally, you will probably want the PostScript Language Reference Manual
+and possibly Glenn Reid's Thinking in PostScript.
+Finally, you will want the PostScript Language Reference Manual
 (also known as the Red Book)
 http://partners.adobe.com/asn/developer/technotes.html#postscript
-One last suggestion:
-You will have to buy McGilton and Campione's PostScript by Example,
-but it is worth it!
 -->
+<ul>
+<lh>
+Useful books on PostScript:
+</lh>
+<li>
+<a href="http://amzn.to/29nuWX2">McGilton and Campione (1992), PostScript by Example</a>
+<br />
+Still a wonderful introduction to PostScript drawing.
+</li>
+<li>
+Glenn Reid's <a href="http://amzn.to/29ieow0">Thinking in PostScript</a>.  
+(Seems to be legally
+<a href="https://web.archive.org/web/20000914161447/http://www.rightbrain.com/download/books/ThinkingInPostScript.pdf">available online</a>,
+but I'm not sure about the copyright status.)
+<br />
+A good guide quickly learning PostScript for those who already program.
+</li>
+</ul>
 
+
+<ul>
+<lh>
+Online PostScript resources:
+</lh>
+<li>
+<a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a>
+<br />
+by Adobe Systems.
+Also known as the Red Book.
+Absolutely necessary after learning the basics.
+</li>
+Peter Weingartner’s
+<a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">A First Guide to PostScript</a> 
+<li>
+Bill Casselman’s (2004)
+<a href="http://www.math.ubc.ca/~cass/graphics/manual/">Mathematical Illustrations: A Manual of Mathematical Illustration</a>.
+<br />
+A tour de force.
+The first chapter provides a good introduction to PostScript.
+</li>
+<li>
+<a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">First Guide to PostScript</a>.  
+</li>
+<li>
+<a href="http://amzn.to/29mwR0I">PostScript Language Tutorial &amp; Cookbook</a> 
+Also known as the Blue Book.
+<a href="http://partners.adobe.com/public/developer/ps/sdk/sample/index_psbooks.html">Legallyavailable online.</a>
+</li>
+<li>
+Glenn Reid's <em>PostScript language program design</em>,
+also known as the Green Book.
+<a href="http://partners.adobe.com/public/developer/ps/sdk/sample/index_psbooks.html">Legallyavailable online.</a>
+<br />
+Advanced users only.
+</li>
+</ul>
 
 <div>
-There are many other online resources.
-Start with:
-the introductory chapter <a href="http://www.math.ubc.ca/~cass/graphics/manual/">Casselman's Mathematical Illustrations: A Manual of Mathematical Illustration</a>.
-and <a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">First Guide to PostScript</a>.
-Then get the then get the <a href="http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF">PostScript Language Tutorial &amp; Cookbook</a> 
-and possibly 
-Glenn Reid's <a href="http://www.rightbrain.com/pages/books.html">Thinking in PostScript</a>.
-Finally, you will probably want the <a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a> 
-(also known as the Red Book) by Adobe Systems.
 Jim Land offers a metalist of  <a href="http://www.inkguides.com/postscript.asp">Internet Resources for PostScript and GhostScript</a>,
 and there is a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
 <a href="http://www.acumentraining.com/acumen_journal.html">Acumen Journal</a> 
@@ -3458,7 +3579,7 @@ publishes PostScript code examples.
 So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScript Library</a>.
 You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
 For some cool PostScript code,
-look at <a href="http://www.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
+look at <a href="https://stuff.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
 </div>
 
 <div>
@@ -3467,7 +3588,33 @@ Most of these can also produce PDF.
 Some produce other formats as well.
 </div>
 
+<p>
+<a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView</a> let you view and print PostScript files.
+<br />
+Related: <a href="http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/lang/lisp/code/io/plisp/0.html">PLisp</a> takes the basic structure of Common Lisp and uses it as an alternative representation of a PostScript program.
+While the basic graphic operators of PostScript are retained, Lisp-like function definition, control flow,
+and variable binding become available.
+Macros, defined constants, and function libraries have also been provided.
+The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
+</p>
+
+<p>
+In an interesting twist, you can now use PostScript as a drawing language in web pages
+using <a href="http://logand.com/sw/wps/index.html">WPS</a>,
+"a PostScript and PDF interpreter for HTML 5 canvas".
+</p>
+
+<p>
+PostScript programmers may find <a href="http://www.anastigmatix.net/postscript/Order.html">sorting and order statistics</a> to be a useful resource.
+</p>
+
+
 <h4>Flash</h4>
+
+<div>
+Flash is slowly being replaced by HTML 5,
+but that is still slowly.
+</div>
 
 <div>
 Acrobat fully supports Flash since version 9,
@@ -5896,10 +6043,15 @@ Here is one of many ways.
 <li>
 The most popular viewer is the free (but closed source)
 <a href="http://www.adobe.com/acrobat/">Adobe Acrobat Reader</a>.
+Reader includes annotation features.
+It's main downsides are that it is slow
+and that it locks the file you are reading (so it cannot be overwritten).
 </li>
 <li>
 For a list of free and open source readers,
 see <a href="http://pdfreaders.org/">PDFreaders.org</a>.
+</li>
+<li>
 My favorite reader on Windows platforms is
 <a href="http://blog.kowalczyk.info/software/sumatrapdf/">Sumatra PDF</a>,
 which is amazing, fast, and free.
@@ -6008,83 +6160,6 @@ you can also try <a href="http://tnt.math.metro-u.ac.jp/nzmath/">NZMATH</a>.
 
 
 
-<h3>Agent-Based Simulation</h3>
-
-<p>
-Probably the best platform for introductory exploration of agent-based models is <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
-which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/">Models Library</a>.
-While NetLogo's statistical and mathematical support is limited,
-you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
-or <a href="http://ccl.northwestern.edu/netlogo/docs/mathematica.html">link it to Mathematica</a>.
-Additionally, NetLogo supports Java extensions and can be run by Java programs.
-</p>
-
-<div>
-<p>
-Useful NetLogo resources:
-</p>
-<li>
-Best overview and general introduction:
-<br />
-<a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0262731894&amp;linkId=3bb20437807c13603779a74e5d37ff3e">
-Wilensky, Uri and William Rand (2015).
-An introduction to agent-based modeling: Modeling natural, social and engineered complex systems with NetLogo. Cambridge: MIT Press.
-</a>
-</li>
-<li>
-Best applied introduction:
-<br />
-<a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0691136742&amp;linkId=1053f7d579f926a8920168bc84b0292e">
-Steven F. Railsback; Volker Grimm (2011). Agent-Based and Individual-Based Modeling: A Practical Introduction. Cambridge: Princeton University Press. ISBN 978-0-691-13674-5.
-</a>
-</li>
-<li>
-Best short introduction:
-<br />
-<a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0335216005&amp;linkId=3c7aa1be8353d36ab4d504d9bb65779d">
-Gilbert, Nigel and Klaus G. Troitzsch (2005).
-Simulation for the Social Scientist, Second Edition.
-London: McGraw Hill.
-</a>
-</li>
-<li>
-Most focused on Economics:
-<br />
-<a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1118456076&amp;linkId=deaab7fa0414cac52342b6383a0f4c55">
-Hamill, Lynne and Nigel Gilbert (2016), 
-Agent-Based Modelling in Economics, Wiley.
-</a>
-</li>
-<li>
-David O'Sullivan; George L.W. Perry (2013). Spatial Simulation: Exploring Pattern and Process. Wiley-Blackwell. ISBN 978-1-119-97079-8.
-</li>
-<li>
-Britt Anderson (2014). Computational Neuroscience and Cognitive Modeling. London: Sage. ISBN 978-1-4462-4930-7.
-</li>
-<li>
-<a href="http://multiagent.com/p/fundamentals-of-multiagent-systems.html">
-José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo.
-</a>
-</li>
-</div>
-
-
-<p>
-After NetLogo, perhaps the most popular multi-agent simulation toolkit is <a href="http://repast.sourceforge.net/">Repast</a>.
-(License: New BSD; Language: Java or C++)
-</p>
-
-<p>
-<a href="http://www.labor-torino.it/english/research/labsim/wild/wp-html/wp-sonnessa.html">Java Agent-based Simulation (JAS) library</a>
-</p>
-
-<p>
-<a href="http://www.swarm.org">Swarm</a> is useful for multi-agent simulation projects.
-</p>
-
-<p>
-<a href="http://eodev.sourceforge.net/">Evolving Objects</a> is "is a templates-based, ANSI-C++ compliant evolutionary computation library". (License: LGPL)
-</p>
 
 
 <h3 id="kids">Stuff for Kids (and Educators)</h3>
@@ -6131,26 +6206,40 @@ is an innovative approach to 3d programming for kids.
 <h3>Data Exchange</h3>
 
 <p>
+Please let us stop playing nationalist games with number formats before someone gets badly hurt as a result.
+For scientific data exchange, the decimal separator is a point (ASCII 46).
+It is <em>not</em> a comma (ASCII 44).
+Neither is it any other UTF code point.
+It is just that simple.
+Pretending otherwise is like pretending that science does not use the metric system.
+</p>
+
+<p>
 Possibly the simplest open standard for fixed periodicity time-series data
-is the <a href="http://www.american.edu/econ/pytrix/opendatabank.htm">open-databank standard</a>.
+is the <a href="http://htmlpreview.github.io/?https://github.com/alan-isaac/econpy/blob/master/pytrix/opendatabank.htm">open-databank standard</a>.
 Most time series econometrics packages support some version of this.
 </p>
 
 <p>
-<a href="http://www.stecf.org/software/astroasciidata/">AstroAsciiData</a>
+The most widely used data exchange format is comma-separated values (CSV).
+There actually is a standard, in the form of <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+Sadly, many files with the <tt>.csv</tt> extension do not conform to this standard,
+so caveat emptor.
+</p>
+
+<p>
+<a href="http://www.stecf.org/software/PYTHONtools/astroasciidata/">AstroAsciiData</a>
 provides simple database functionality for ASCII tables.
 </p>
 
 <p>
-<a href="http://hdf.ncsa.uiuc.edu/whatishdf5.html">HDF5</a>
+<a href="https://www.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a>
 "is a general purpose library and file format for storing scientific data".
 Some support can be found in the econometrics community,
 both in commercial and free packages.
-Python users have excellent support via <a href="http://pytables.sourceforge.net/html/WelcomePage.html">PyTables</a>.
+Python users have excellent support via <a href="http://www.pytables.org/">PyTables</a>.
 (To use PyTables with Python 2.4 in Windows platforms,
-you will need to get the <a href="ftp://ftp.ncsa.uiuc.edu/HDF/HDF5/current/bin/windows/5-165-win-net.ZIP">HDF5 library compiled for MSVC 7.1 (aka .NET 2003)</a>. 
-Users of Python 2.3 on Windows will have to download the version of
-<a href="ftp://ftp.ncsa.uiuc.edu/HDF/HDF5/current/bin/windows/5-165-win.ZIP">HDF5 compiled with MSVC 6.0</a>.)
+you will need to get the <a href="https://www.hdfgroup.org/HDF5/release/obtain5.html">Windows binaries</a>.)
 <a href="#octave">Octave</a> and <a href="#Rproject">R</a> provide HDF5 support.
 Commercial applications supporting HDF5 include Mathematica and MATLAB version 6.5+,
 among many others.
