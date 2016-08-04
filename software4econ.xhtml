@@ -204,28 +204,66 @@ Many users will find the somewhat less powerful but much smaller
 provides sufficient emacs style functionality.
 </p>
 
-<p>
-There are many <a href="http://www.micro.org/novell/faq/nvfaq-r.htm">alternatives</a>.
-A lightweight but powerful and popular alternative is <a href="http://sourceforge.net/projects/gedit/">gedit</a>,
-the default text editor for the GNOME desktop.
-A newer and interesting possibility is <a href="http://www.geany.org/">Geany</a>. (License: GPL)
-If you are looking for small, fast, and free,
-start with <a href="http://www.nano-editor.org/">nano</a>.
-<a href="http://space.mit.edu/~davis/jed/">JED</a> is reputed to be fast and powerful,
-and it has a particularly powerful macro language.
-<a href="http://hessling-editor.sourceforge.net/index.html">The Hessling Editor (THE)</a> gets raves and uses REXX as its scripting language.
-This makes it very powerful, and it has some unusual and excellent features
-(see, e.g., the 'all' command, which Vim approximates with 'folddoopen').
-<a href="http://scintilla.sourceforge.net/SciTE.html">SciTE</a> is a multi-platform source-code editor with some interesting and powerful features:
-it can be scripted with the Lua programming language,
-and it is based on <a href="http://www.scintilla.org/">Scintilla</a>.
-<a href="http://www.activestate.com/komodo_edit/">Komodo Edit</a> is a promising open-source editor,
-the same one used in ActiveState's commercial Komodo IDE.
-Finally I have to mention the unusual <a href="https://groups.csail.mit.edu/uid/lapis/">Lapis editor</a>,
-which allows simultaneous selection of discontinuous segments of text.
-Or try <a href="http://fte.sourceforge.net/">FTE</a>,
-which (like Vim) is free, Open Source, and supports folding.
-</p>
+<div>
+There are many cross-platform <a href="https://en.wikipedia.org/wiki/Comparison_of_text_editors">alternatives</a>.
+Here are just a few of the interesting ones.
+</div>
+<dl>
+<dt>
+<a href="https://wiki.gnome.org/Apps/Gedit">gedit</a>
+</dt>
+  <dd>
+  Lightweight but powerful;
+  the default text editor for the GNOME desktop. (License: GPL)
+  </dd>
+<dt>
+<a href="http://www.geany.org/">Geany</a>
+</dt>
+  <dd>
+  Lightweight; based on Scintilla. (License: GPL2+)
+  </dd>
+<dt>
+<a href="http://www.nano-editor.org/">nano</a>
+</dt>
+  <dd>
+  Small and fast.  (License: GPL)
+  </dd>
+<dt>
+<a href="http://www.jedsoft.org/jed/">JED</a>
+</dt>
+  <dd>
+  Fast and powerful,
+  with a particularly powerful macro language (S-Lang).
+  </dd>
+<dt>
+<a href="http://hessling-editor.sourceforge.net/index.html">The Hessling Editor (THE)</a>
+</dt>
+  <dd>
+  Gets rave reviews; uses the very powerful REXX scripting language;
+  has some unusual and excellent features
+  (e.g., the <code>all</code> command, which Vim approximates with <code>folddoopen</code>).
+  </dd>
+<dt>
+<a href="http://scintilla.sourceforge.net/SciTE.html">SciTE</a>
+</dt>
+  <dd>
+  Based on <a href="http://www.scintilla.org/">Scintilla</a>
+  (a cross-platform editing component);
+  provides scripting with the Lua programming language.
+  </dd>
+<dt>
+<a href="http://komodoide.com/komodo-edit/">Komodo Edit</a>
+</dt>
+  <dd>
+  The same editor used in ActiveState's commercial Komodo IDE!
+  </dd>
+<dt>
+<a href="https://groups.csail.mit.edu/uid/lapis/">Lapis editor</a>,
+</dt>
+  <dd>
+  Allows simultaneous selection of discontinuous segments of text.
+  </dd>
+</dl>
 
 
 <p>
@@ -468,7 +506,8 @@ Unfortunately the online interface is rather clunky.
 The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that is very fast.
 <a href="http://www.wiktionary.org/">Wiktionary</a> shows great promise and is pretty fast.
 In addition,
-you can submit a query for "yourword" directly as <tt>http://www.dict.org/bin/Dict?Form=Dict1&amp;Query=yourword&amp;Strategy=*&amp;Database=*</tt>.
+you can submit a query for "yourword" directly as
+<code>http://www.dict.org/bin/Dict?Form=Dict1&amp;Query=yourword&amp;Strategy=*&amp;Database=*</code>.
 Windows users can download for free the <a href="http://www.freelang.net/dictionary/">Freelang</a> translation dictionaries.
 </p>
 
@@ -736,7 +775,7 @@ You will create your LaTeX input file with your text editor.
 In addition to your text,
 you will add certain LaTeX formatting commands to this input file.
 You will then use your LaTeX distribution to process this input file,
-which will produce a device independent (<tt>.dvi</tt>) file that you can view and print.
+which will produce a device independent (<code>.dvi</code>) file that you can view and print.
 Details follow.
 </p>
 
@@ -1046,7 +1085,7 @@ GhostScript includes ps2pdf, for generating .pdf files.
 Be sure to see the <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=dvips-pdf">relevant FAQ</a>
 and a <a href="http://phaseportrait.blogspot.com/2007/06/bounding-boxes-and-eps-to-pdf.html">useful discussion</a>.
 (To convert an entire direction at the Windows command line,
-you can use: <tt>for %i in (*.eps) do epstopdf --gsopt=-dPDFSETTINGS=/prepress %i</tt>.
+you can use: <code>for %i in (*.eps) do epstopdf --gsopt=-dPDFSETTINGS=/prepress %i</code>.
 Windows users may be interested in the small, fast <a href="http://www.rops.org/">RoPS</a> interpreter,
 which has a free Language Level 1 version.
 (<a href="http://tetley.rops.org/sourcecode/">RoPS source code</a> appears to be available.)
@@ -1237,7 +1276,7 @@ and you know exactly how it will look.)
 If you know LaTeX,
 the  <a href="http://latex-beamer.sourceforge.net/">beamer</a> is great,
 and you can compile beamer presentation directly with pdftex.
-(I found getting started with the <tt>beamer</tt> document class using MiKTeX's pdflatex to be completely painless.)
+(I found getting started with the <em>beamer</em> document class using MiKTeX's pdflatex to be completely painless.)
 Some people prefer
 <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/powerdot.html">powerdot</a>
 (which supercedes <a href="http://prosper.sourceforge.net/prosper.html">Prosper</a>).
@@ -1346,6 +1385,14 @@ for incredible animated presentations,
 the technically inclined may consider <a href="http://www.cs.umd.edu/~nspring/slithy.html">Slithy</a>.
 </p>
 
+<h4>Dynamic Annotation</h4>
+
+<p>
+Often it is helpful to be able to annotate a page during presentation.
+Windows users can use <a href="https://technet.microsoft.com/en-us/sysinternals/zoomit">Zoomit</a>.
+(Proprietary but free.)
+</p>
+
 
 <h3 id="textables">Tables</h3>
 
@@ -1426,7 +1473,7 @@ There are extensive <a href="#bibtex">citation management</a> resources.
 </li>
 <li>The hyperref package produces DVI files that work with
 both DVIWindo previewer (hyper-text jumps etc.) and with DVIPSONE PS printer driver for passing pdfmarks to the Acrobat Distiller.<br />
-<tt>    \usepackage[dviwindo,backref]{hyperref}</tt>
+<code>    \usepackage[dviwindo,backref]{hyperref}</code>
 <br />
 Be sure to use the `dviwindo' option,
 and make sure you have the latest hyperref.dtx/hyperref.ins
@@ -2668,7 +2715,8 @@ See the <a href="#firefoxhints">FireFox hints</a> below.
 Request:
 <br />
 Please follow basic email etiquette [<a href="http://learn.to//edit_messages">1</a>|<a href="http://www.dtcc.edu/cs/rfc1855.html">2</a>],
-especially by <a href="http://www.american.edu/econ/notes/htmlmail.htm">using only ASCII text</a> for your email and by quoting selectively and only as necessary to provide context for your reply.
+by quoting selectively and only as necessary to provide context for your reply.
+When appropriate <a href="http://www.american.edu/econ/notes/htmlmail.htm">use only ASCII text</a> for your email.
 Finally, if you must use Outlook,
 do your interlocutors the courtesy of <a href="#tnef">turning off TNEF attachments</a>!
 </p>
@@ -2719,9 +2767,9 @@ Another cross platform solution is now <a href="http://www.mutt.org/">The Mutt E
 (You can also get mutt along with fetchmail, and sSMTP in a <a href="http://unixmail-w32.sourceforge.net/">unix-mail package for Windows</a>,
 but you'll have to install <a href="http://activestate.com/Products/ActivePerl/">Perl</a> and <a href="http://sources.redhat.com/cygwin/">Cygwin</a>.)
 An email client that is not free but gets great reviews is
-<a href="http://www.ritlabs.com/the_bat/">The Bat</a>,
+<a href="https://www.ritlabs.com/en/products/thebat/">The Bat</a>,
 and but it seems to not yet support external editors.
-Another popular cross-platform email client is <a href="http://www.cyrusoft.com/index.html">Mulberry</a>,
+Another popular cross-platform email client is <a href="http://www.mulberrymail.com/">Mulberry</a>,
 and it is available on many platforms. (License: Apache 2.0)
 One last note on email: if you use Vim as your editor,
 you might consider using <a href="http://sourceforge.net/projects/vimail">vimail</a>,
@@ -2738,13 +2786,6 @@ you can at least write your email with a <a href="http://cubiclevim.sourceforge.
 It is free and cross platform.
 </p>
 
-<p class="boxed">
-Basic email etiquette:
-<br />
-Courtesy often requires turning off HTML mail.
-You especially need to turn off HTML mail
-when you post to mailing lists or newsgroups.
-</p>
 
 
 
@@ -3022,13 +3063,13 @@ Unforunately, sometimes we need to open attachments.
 ii.  If you must open an attachment, view the file extension.
 The default in Windows is to turn off your ability to do this,
 which means you can be tricked into thinking a dangerous
-Visual Basic script <tt>filename.jpg.vbs</tt>
-is really a safe <tt>.jpg</tt> file.
+Visual Basic script <code>filename.jpg.vbs</code>
+is really a safe <code>.jpg</code> file.
 You can fix by following <a href="#windows-hints-extensions">this windows hint</a>.
 For Windows users,
-especially dangerous extensions are <tt>.exe</tt>, <tt>.com</tt>, <tt>.pif</tt>, <tt>.vbs</tt>.
-Also dangerous are <tt>.doc</tt> and <tt>.xls</tt>.
-(Comment: dangerous file types can be included as ``attachments'' to <tt>.pdf</tt> files as well,
+especially dangerous extensions are <code>.exe</code>, <code>.com</code>, <code>.pif</code>, <code>.vbs</code>.
+Also dangerous are <code>.doc</code> and <code>.xls</code>.
+(Comment: dangerous file types can be included as ``attachments'' to <code>.pdf</code> files as well,
 which means you should not open such attachments with Adobe Acrobat either.)
 <br />
 iii. When possible, avoid the use of susceptible
@@ -3915,24 +3956,30 @@ You can use <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
 <h4>Convert to <acronym class="help" title="Encapsulated PostScript">EPS</acronym></h4>
 
 <p>
-The cross-platform standard for graphics is Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).
-<acronym class="help" title="Encapsulated PostScript">EPS</acronym> is generally the expected graphics format by publishers
-(e.g., when you submit drawings for a book or journal article).
-The most common file conversion problem is therefore taking a file produced in a different format and converting it to <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+A cross-platform standard for graphics is Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>).
+<acronym class="help" title="Encapsulated PostScript">EPS</acronym>
+is sometimes the expected graphics format by publishers
+when you submit drawings for a book or journal article,
+although PDF is becoming more universal.
+A common file conversion problem remains
+taking a file produced in a different format and converting it to <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 </p>
 
 <ul>
 <li>
-<a href="http://dktools.sourceforge.net/bmeps.html">bmeps</a>
-converts bitmap formats (e.g., PNG or TIFF)
-to EPS.
+<a href="http://cairosvg.org/">CairoSVG</a> converts SVG to PostScript and PNG.
+</li>
+<li>
+<a href="http://dktools.sourceforge.net/">bmpp</a>
+converts bitmap formats (e.g., PNG, JPEG, or TIFF) to EPS or PDF.
+(It supercedes <a href="http://dktools.sourceforge.net/">bmeps</a>.)
 </li>
 <li>
 <a href="http://tex.aanhet.net/epspdf/">epspdf</a> can "round trip" between EPS and PDF.
 </li>
 <li>
-Python users can use the <a href="http://www.pythonware.com/products/pil/index.htm">Python Imaging Library</a> to perform format conversions.
-(You can supplement this with the <a href="http://imgtops.sourceforge.net/">imgtops</a> utility.)
+The <a href="#pillow">Pillow</a> imaging library offers many format conversion.
+(Language: Python; License: roughly MIT)
 </li>
 <li><a href="http://www.imagemagick.org/">ImageMagick</a> supports conversion from virtually any format to <acronym class="help" title="Encapsulated PostScript">EPS</acronym> (or any other format).
 (Binaries for many platforms, including Windows, can be found by following the appropriate links from the home page.)
@@ -3942,29 +3989,24 @@ Python users can use the <a href="http://www.pythonware.com/products/pil/index.h
 <a href="http://autotrace.sourceforge.net/">AutoTrace</a> converts bitmaps to vector graphics.
 (GPL)
 </li>
-<li><a href="http://www.wmf2eps.de.vu/">WMF2EPS</a> is intended to simplify the production of <acronym class="help" title="Encapsulated PostScript">EPS</acronym> graphics from WMF files under Windows95/NT, with bounding boxes correctly included. (License: shareware.)
-It relies heavily on <a href="ftp://ftp.adobe.com/pub/adobe/printerdrivers/">Adobe's printer drivers</a>,
-so be sure you update yours.
-<a href="http://www.kellogg.nwu.edu/researchcomputing/miktex-install.htm">Useful installation tips</a> can be found.
-</li>
 <li id="jpeg2eps">
 There are a number of good options for converting JPEG files to EPS.
 Note that PostScript (level 2+) supports JPEG, so this is largely a matter of adding an appropriate wrapper.
 My favorite approach is to use the ability of <a href="#pyx_hints">PyX</a> to <a href="http://pyx.sourceforge.net/examples/bitmap/jpeg.html">insert JPEG images</a> into EPS and PDF files.
-A more popular approach is to use <a href="http://www.pdflib.com/">PDFlib</a>'s very fast <a href="http://www.pdflib.com/download/free-software/jpeg2ps/">jpeg2ps</a> converter. (Language: C)
+A more popular approach is to use <a href="http://www.pdflib.com/">PDFlib</a>'s very fast
+<a href="http://web.archive.org/web/20131003144811/http://www.pdflib.com/download/free-software/jpeg2ps/">jpeg2ps</a> converter. (Language: C)
+This wraps the JPEG file formats in a PostScript wrapper,
+without uncompressing the images.
+(PostScript Level 2 and Level 3 interpreters support decompression of JPEG file formats (JFIF but not JPEG2000).)
+There is a <a href="http://gnuwin32.sourceforge.net/packages/jpeg2ps.htm">Windows version</a>.
 Lee Sau Dan provides a <a href="http://www.informatik.uni-freiburg.de/~danlee/fun/jpeg2eps">perl script that does much the same thing</a>. (Licence: GPL2)
 An interesting approach is <a href="http://rses.anu.edu.au/~andy/jpeg2eps/">jpeg2eps</a>,
 which is written in PostScript (and therefore requires an interpreter, such as GhostSript, to run);
 it wraps JPEG files so that an EPS interpreter can handle them.
-The truly adventurous can try <a href="http://www.tinaja.com/text/jpeg2pdf.html">Don Lancaster's recipe</a>,
+The adventurous can try <a href="http://www.tinaja.com/text/jpeg2pdf.html">Don Lancaster's recipe</a>,
 which is code to be inserted directly into a PostScript file.
 (After a few minutes trying, I did not get this to work, but Lancaster is brilliant so it should.
 Note that your Distiller may have disabled file reading and writing by default; you will need to fix this.)
-</li>
-<li>
-<a href="http://www.pdflib.com/jpeg2ps/">jpeg2ps</a> wraps the JPEG file formats in a PostScript wrapper,
-without uncompressing the images.
-(PostScript Level 2 and Level 3 interpreters support decompression of JPEG file formats (JFIF but not JPEG2000).)
 </li>
 <li>
 <a href="http://www.mayura.com/">Mayura Draw</a> is a shareware vector drawing program for Windows that can read in WMF files and export <acronym class="help" title="Encapsulated PostScript">EPS</acronym>,
@@ -3976,11 +4018,16 @@ you can use the <a href="#xv">xv</a> image manipulation program.
 </li>
 </ul>
 
+
 <h4>Convert to PNG</h4>
+
 <p>
 PNG is the current standard for web images.
 If you have produced an image for the web in a different format,
 see the <a href="http://www.libpng.org/pub/png/pngapcv.html">LibPNG list of converters</a>.
+There are many options listed there,
+but if your image is PostScript or PDF,
+consider GhostScript.
 </p>
 
 <h4>Convert to <acronym class="help" title="Portable Document Format">PDF</acronym></h4>
@@ -3996,7 +4043,11 @@ You can combine GhostScript with the <a href="#redmon">Redirection Port Monitor 
 
 <p>
 If you need to convert entire HTML documents to PDF,
-try <a href="http://www.htmldoc.org/">HTMLDOC</a>.
+the easiest way to is to open it in a browser that supports conversion
+and simply save as PDF.
+(Chrome supports this as a <kbd>Print</kbd> destination.)
+There are also stand-alone converters.
+Try <a href="https://www.msweet.org/documentation/project1/HTMLDOC.html">HTMLDOC</a>.
 Perl users can try <a href="http://user.it.uu.se/~jan/html2ps.html">html2ps</a>
 and then use GhostScript.
 If your document is well formed XML,
@@ -4056,7 +4107,7 @@ problems were reported with the --listener option as late as 2009.
 <ul>
 <li>
 <a href="http://www.pstoedit.com/">pstoedit</a> translated PostScript and <acronym class="help" title="Portable Document Format">PDF</acronym> graphics into other vector formats, including (on Windows platforms) WMF.
-It is included on the GhostView menu <tt>Edit/Convert to Vector Format</tt>.
+It is included on the GhostView menu <kbd>Edit/Convert to Vector Format</kbd>.
 </li>
 <li>
 <a href="http://www.imagemagick.org/">ImageMagick</a> is a set of free graphics utilities that can convert from virtually any format to any other format.
@@ -4384,8 +4435,8 @@ You can
 <a href="http://download.microsoft.com/download/win95upg/tool_s/1.0/W95/EN-US/olddos.exe">
 download</a> it directly from Microsoft as a self-extracting executable 
 (836k) with a bunch of other stuff.
-Copy the files <tt>qbasic.exe</tt> and <tt>qbasic.hlp</tt> to whatever directory 
-you have copied the snail graphics files to (e.g. <tt>C:\snail</tt>).
+Copy the files <kbd>qbasic.exe</kbd> and <kbd>qbasic.hlp</kbd> to whatever directory 
+you have copied the snail graphics files to (e.g. <kbd>C:\snail</kbd>).
 </li>
 </ul>
 
@@ -4443,9 +4494,9 @@ Scripted Image Manipulation with Python
 (License: BSD)
 For details, see the article <a href="https://peerj.com/articles/453/#peerj-453-fn9">scikit-image: image processing in Python</a>.
 </li>
-<li>
-<a href="https://python-pillow.github.io/">Pillow</a> provides basic image processes.
-(License: resembles the MIT license.)
+<li id="pillow">
+<a href="https://python-pillow.github.io/">Pillow</a> provides basic image processing and conversion.
+(Language: Python; License: resembles the MIT license.)
 </li>
 </ul>
 
@@ -4631,9 +4682,10 @@ simplifies chart creation.
 Sometimes you may want to include Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) files in LaTeX documents.
 This will probably take you two steps:
 i. tell LaTeX that you will be including a graphic,
-and ii. convert your <tt>.dvi</tt> file, in which you may not be able to view the graphic, into a PostScript or <acronym class="help" title="Portable Document Format">PDF</acronym> file, in which you can view the graphic.
-(The second step assumes your <tt>.dvi</tt> viewer does not include a PostScript filter, but some do.)
-The best way to accomplish the first step is to use the <tt>\includegraphics</tt> command of the <tt>graphicx</tt> package, probably with the <tt>dvips</tt> option.
+and ii. convert your <kbd>.dvi</kbd> file, in which you may not be able to view the graphic, into a PostScript or <acronym class="help" title="Portable Document Format">PDF</acronym> file, in which you can view the graphic.
+(The second step assumes your <kbd>.dvi</kbd> viewer does not include a PostScript filter, but some do.)
+The best way to accomplish the first step is to use the <kbd>\includegraphics</kbd> command of the <kbd>graphicx</kbd> package,
+probably with the <kbd>dvips</kbd> option.
 So in the preamble of your LaTeX document you will have
 <br />
 <code>\usepackage[dvips]{graphicx}</code>
@@ -4652,9 +4704,12 @@ and then in the body of the document you will have something like
 \end{figure}
 </code>
 <br />
-The best way to accomplish the second step is with <tt>dvips</tt> for PostScript output or <tt>dvipdfm</tt> for <acronym class="help" title="Portable Document Format">PDF</acronym> output.
+The best way to accomplish the second step is with <kbd>dvips</kbd> for PostScript output
+or <kbd>dvipdfm</kbd> for <acronym class="help" title="Portable Document Format">PDF</acronym> output.
 <br />
-Comment: if you use a .dvi viewer that can display your included PostScript files (e.g., TrueTeX or yap with GhostScript), you will probably find it saves time not to view them every time you view the document. Just use the <tt>dvips</tt> option for the <tt>graphicx</tt> package so that the PostScript just gets passed through. Then remove that option when you want to see everything.
+Comment: if you use a .dvi viewer that can display your included PostScript files (e.g., TrueTeX or yap with GhostScript), you will probably find it saves time not to view them every time you view the document.
+Just use the <kbd>dvips</kbd> option for the <kbd>graphicx</kbd> package so that the PostScript just gets passed through.
+Then remove that option when you want to see everything.
 <br />]
 Comment: According to Robin Fairbairns:
 The packages graphics, graphicx and epsfig were all released in their
@@ -5068,7 +5123,7 @@ A relatively new, lighter-weight (and therefore web-suitable) substitute for PDF
 <div id="abiword">
 <a href="http://www.abisource.com">AbiWord</a> is a cross-platform,
 full-featured word processor with a Word&reg;-like interface.
-If you want a quick viewer for MS <tt>.doc</tt> files (e.g., for your email),
+If you want a quick viewer for MS <kbd>.doc</kbd> files (e.g., for your email),
 this loads much faster than most alternatives.
 It also has a wonderful equation editor,
 which accepts <a href="#TEX">LaTeX</a> input in a dialogue box.
@@ -5088,15 +5143,18 @@ although I have found it a bit slow and clunky.
 Another possibility is the web development suite offered free by <a href="http://www.evrsoft.com/download/">Evrsoft</a>.
 </p>
 
-
-
 <p>
-If you are comfortable with markup,
-you can easily replace your word processor and get great added functionality.
-Try  <a href="ftp://ftp.adfa.edu.au/pub/postscript/qsdir/Qs_README.html">QuickScript</a>.
-Another alternative:
-<a href="http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html">Tinydict</a>.
+There have been some interesting efforts to provide
+fairly direct use of PostScript for document markup.
+A popular one was  Graham Freeman's
+<a href="ftp://ftp.adfa.edu.au/pub/postscript/qsdir/Qs_README.html">QuickScript</a>,
+but I can no longer find it on the web.
+Another alternative,
+<a href="http://www.cappella.demon.co.uk/resources/tinydict.html">Tinydict</a>,
+is still around.
 </p>
+
+
 
 <h4>Cloud</h4>
 
@@ -6223,7 +6281,7 @@ Most time series econometrics packages support some version of this.
 <p>
 The most widely used data exchange format is comma-separated values (CSV).
 There actually is a standard, in the form of <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
-Sadly, many files with the <tt>.csv</tt> extension do not conform to this standard,
+Sadly, many files with the <kbd>.csv</kbd> extension do not conform to this standard,
 so caveat emptor.
 </p>
 
@@ -6269,7 +6327,7 @@ a pure Python solution. (License: MIT)
 CSV stands for comma-separated values.
 Distinguish CSV and <a href="http://en.wikipedia.org/wiki/Delimiter-separated_values">DSV</a>.
 CSV is described by <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
-Do not give a <tt>.csv</tt> extension to files that fail to match this description.
+Do not give a <kbd>.csv</kbd> extension to files that fail to match this description.
 </p>
 
 
@@ -6287,7 +6345,7 @@ Make Vim your editor and call it as
 <br />
 c:\programs\vim\vim73\gvim.exe -c "so $VIM\vimfiles\mail.vim" %s
 <br />
-where <tt>mail.vim</tt> is where you put any mail processing commands
+where <kbd>mail.vim</kbd> is where you put any mail processing commands
 (e.g., set ft=mail tw=75).
 You are welcome to use <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai_mail.vim">my mail commands</a>.
 </p>
@@ -6493,7 +6551,7 @@ which can reset the bounding box of an EPS file.
 </li>
 <li>
 If you have Ghostscript 6.0 (or later), the command:
-<tt> gs -sDEVICE=bbox -dNOPAUSE -dBATCH file.ps </tt>
+<code> gs -sDEVICE=bbox -dNOPAUSE -dBATCH file.ps </code>
 will print the bounding box information for file.ps (and then exit gs).
 You can then use this information to reset the bounding box.
 <a href="http://www.physics.ohio-state.edu/~ntg/scripts/bbox_add.pl">bbox_add.pl</a> is a perl script that uses this approach.
@@ -6850,7 +6908,7 @@ see the help for <code>_pmcolor</code>.
 </li>
 <li>
 You can save GAUSS plots in Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) format.
-Graph conversion is determined the the global variable <tt>_pcmdlin</tt>.
+Graph conversion is determined the the global variable <code>_pcmdlin</code>.
 To convert a graph into a ps file (flag -c ) stored in
 "c:\filename.eps" (flag -cf ), include the line
 <br />
@@ -6861,9 +6919,9 @@ _pcmdlin = "-c=1 -cf=c:\\filename.eps";
 in your program right before creating the graph.
 (Note the double backslash.)
 Alternatively, in the window displaying a GAUSS graph, pick <kbd>File</kbd>, <kbd>Convert</kbd>, <kbd>PostScript</kbd>.
-Then search your disk for <tt>cvt*.eps</tt> to find your new .eps file.
+Then search your disk for <kbd>cvt*.eps</kbd> to find your new .eps file.
 (The filename and other parameters are configurable in pqgrun.cfg, which you should definitely take a look at.
-For example, you need to set <tt>cvt_color = RGB</tt> if you want color graphs.)
+For example, you need to set <code>cvt_color = RGB</code> if you want color graphs.)
 <br />
 As of GAUSS 7,
 I noticed that _pcmdlin is not documented.
@@ -6896,7 +6954,7 @@ See <a href="http://www.aptech.com/AS_supportMF.html">Aptech's bug page</a> for 
 </li>
 <li>
 As of version 3.6,
-the use of <tt>for</tt> loops is not safe in <em>recursive</em> procedures.
+the use of <code>for</code> loops is not safe in <em>recursive</em> procedures.
 This is supposed to be fixed in version 3.7 or later.
 </li>
 <li>
@@ -6918,7 +6976,7 @@ rounding error in the calculations will nearly always produce complex
 eigenvalues with imaginary parts that are very small.
 </li>
 <li>
-There is something of a problem with the inverse ChiSquare function <tt>cdfchii</tt> through GAUSS 4.0 and possibly later.
+There is something of a problem with the inverse ChiSquare function <code>cdfchii</code> through GAUSS 4.0 and possibly later.
 Test with the following code snippet:
 <code>cdfchii(0.9998,13);</code>
 As one might expect, the same problem arises for the inverse gamma function.
@@ -6979,10 +7037,10 @@ Up through GAUSS 3.5, there is a bug in the polyeval() procedure that prevents i
 The bug is easily fixed.
 Just open the file poly.src and change the line
 <br />
-            <tt>y = y * x + diagrv(zeros(rc,rc),c[i]);</tt>
+            <code>y = y * x + diagrv(zeros(rc,rc),c[i]);</code>
             <br />to
             <br />
-            <tt>y = y * x + diagrv(zeros(rx,rx),c[i]); @changed rc to rx@</tt>
+            <code>y = y * x + diagrv(zeros(rx,rx),c[i]); @changed rc to rx@</code>
 </li>
 <li>
 Up through GAUSS 3.6.20,
@@ -7009,7 +7067,7 @@ as its output.
 </li>
 <li>
 In order to assign values to a sequence of names,
-use <tt>varput()</tt> and <tt>ftocv()</tt>.
+use <code>varput()</code> and <code>ftocv()</code>.
 For example,
 <pre><code>
 for i(1,5,1);
@@ -7095,8 +7153,8 @@ c:\Python27\python.exe -c "import scipy;scipy.test()" &gt;c:\file.txt 2&gt;&amp;
 Installing PyX from <a href="#vcs">SVN</a> gets you the most recent changes and is trivially easy.
 (Preliminary: install <a href="#vcs">SVN</a>.)
 At the command line, create a build directory with
-<tt>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</tt>
-and then change to your new <tt>pyx</tt> directory and enter <tt>setup.py install</tt>.
+<code>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</code>
+and then change to your new <kbd>pyx</kbd> directory and enter <code>setup.py install</code>.
 </div>
 
 <div>
@@ -7177,13 +7235,13 @@ you can also feed PDF images directly to dvipdfm using specials:
 <h4>Adding a program as a Tool:</h4>
 <ol>
 <li>
-From TextPad's <tt>Configure</tt> menu,
-select <tt>Preferences</tt>.
+From TextPad's <kbd>Configure</kbd> menu,
+select <kbd>Preferences</kbd>.
 </li>
 <li>
-Click on <tt>Tools</tt>, then
-click on the <tt>Add</tt> button, then
-select <tt>Program...</tt>
+Click on <kbd>Tools</kbd>, then
+click on the <kbd>Add</kbd> button, then
+select <kbd>Program...</kbd>
 </li>
 <li>
 The "Select a File" window pops up.
@@ -7191,7 +7249,7 @@ Select the executable file (.exe) that
 you want to add as a tool.
 </li>
 <li>
-Click on <tt>Apply</tt>.
+Click on <kbd>Apply</kbd>.
 Double click on "Tools" and you should see your executable file listed as a tool.
 Click on it, and you will see some dialog boxes.
 Make sure they are correctly filled,
@@ -7207,25 +7265,25 @@ on Tool Parameter Macros.)
 <ul>
 <li>Add TeX to your Tools by following the directions for adding a program as a Tool.
   <ul>
-  <li>emTeX users will add tex386.exe, which they will find in the <tt>emtex/bin</tt> folder.
+  <li>emTeX users will add tex386.exe, which they will find in the <kbd>emtex/bin</kbd> folder.
   </li>
-  <li>MikTeX users will add <tt>texify.exe</tt> (recommended) or <tt>latex.exe</tt> which should be in the <tt>texmf\miktex\bin</tt> folder
+  <li>MikTeX users will add <kbd>texify.exe</kbd> (recommended) or <kbd>latex.exe</kbd> which should be in the <kbd>texmf\miktex\bin</kbd> folder
   </li>
-  <li>TrueTeX users will add <tt>Initex32.exe</tt> which should be in the <tt>SWP3\TCITeX\TrueTeX</tt> folder.
+  <li>TrueTeX users will add <kbd>Initex32.exe</kbd> which should be in the <kbd>SWP3\TCITeX\TrueTeX</kbd> folder.
   </li>
   </ul>
 </li>
 <li>In the dialog boxes of the final step,
-replace <tt>$File</tt> in the <tt>Parameters</tt> box with
-<tt>&amp;latex $FileName</tt>.
-(MikTeX users can simply use <tt>$FileName</tt>.)
+replace <code>$File</code> in the <kbd>Parameters</kbd> box with
+<code>&amp;latex $FileName</code>.
+(MikTeX users can simply use <code>$FileName</code>.)
 Click on "Apply"
 </li>
 </ul>
 
 <p>To LaTeX (the disk copy of!) your current document, select your TeX from the "Tools" pull-down menu.
 <br />
-IMPORTANT: When you LaTeX a document in TextPad, a <tt>Command Results</tt> document is opened.
+IMPORTANT: When you LaTeX a document in TextPad, a <kbd>Command Results</kbd> document is opened.
 When LaTeX finishes executing, it displays the message:
 Process completed with exit code 1.
 <strong>
@@ -7235,17 +7293,17 @@ Failure to do this will cause subsequent LaTeX or BibTeX runs to hang.
 
 <p>
 To avoid the afore mentioned problem, I recommend running MikTeX as a DOS command, which can also be done as a TextPad tool.
-If you decide on this option, go to the TextPad menus <tt>Configure, Preferences, Tools</tt>.
+If you decide on this option, go to the TextPad menus <kbd>Configure, Preferences, Tools</kbd>.
 Click on <kbd>add</kbd> and select <kbd>DOS Command</kbd>.
 A window will appear in which you type the full path to the
 command you wish to execute. For example, for MiKTeX  type:
 <br />
-<tt>
+<code>
 c:\texmf\miktex\bin\texify.exe $BaseName
-</tt>
+</code>
 (If you use the default MiKTeX installation, you do not need a fully qualified path name.)
 <br />
-Click <tt>OK</tt>, then <tt>Apply</tt>,
+Click <kbd>OK</kbd>, then <kbd>Apply</kbd>,
 then go to the tool you just added
 (it should be listed under Tools when you expand it)
 and make sure to <em>UNcheck</em> the "capture output" box.
@@ -7262,20 +7320,20 @@ the DOS window closes upon the end of execution of your tool, whether the close 
 
 <h4>Adding  <a href="ftp://tug.ctan.org/tex-archive/biblio/bibtex/8-bit/">BibTeX</a> as a Tool:
 </h4>
-<p>Note that the <tt>texify</tt> command offered in MikTeX automatically runs BibTex for you.
+<p>Note that the <kbd>texify</kbd> command offered in MikTeX automatically runs BibTex for you.
 </p>
 <ul>
 <li>Add bibtex.exe or Bibtex32.exe to your Tools by following the directions for adding a program as a Tool.
 </li>
 <li>In the dialog boxes of the final step,
-replace <tt>$File</tt> in the <tt>Parameters</tt> box with
-<tt>$BaseName</tt>.
+replace <code>$File</code> in the <kbd>Parameters</kbd> box with
+<code>$BaseName</code>.
 Click on "Apply"
 </li>
 </ul>
 <p>To LaTeX your current document, select Bibtex32 from the "Tools" pull-down menu.
 <br />
-IMPORTANT: When you LaTeX a document in TextPad, a <tt>Command Results</tt> document is opened.
+IMPORTANT: When you LaTeX a document in TextPad, a <kbd>Command Results</kbd> document is opened.
 When LaTeX finishes executing, it displays the message:
 Process completed with exit code 1.
 <strong>
@@ -7292,9 +7350,9 @@ Failure to do this will cause subsequent LaTeX or BibTeX runs to hang.
   <ul>
   <li>emTeX users will probably choose to add dviwin2.exe.
   </li>
-  <li>MikTeX users will probably choose to add <tt>yap.exe</tt>.
+  <li>MikTeX users will probably choose to add <kbd>yap.exe</kbd>.
   </li>
-  <li>TrueTeX users will probably choose to add <tt>Dvigdi32.exe</tt> which should be in the <tt>SWP3\TCITeX\TrueTeX</tt> folder.
+  <li>TrueTeX users will probably choose to add <kbd>Dvigdi32.exe</kbd> which should be in the <kbd>SWP3\TCITeX\TrueTeX</kbd> folder.
   </li>
   <li>
   Mac users may use <a href="http://docenti.ing.unipi.it/~d9615/homepage/mac.html">TeXniscope</a>, MacDviX, or Mxdvi.
@@ -7302,13 +7360,13 @@ Failure to do this will cause subsequent LaTeX or BibTeX runs to hang.
   </ul>
 </li>
 <li>In the dialog boxes of the final step,
-replace <tt>$File</tt> in the <tt>Parameters</tt> box with
-<tt>$BaseName</tt>.
-(TrueTeX users will need to use <tt>$UNIXDir/$BaseName</tt>.)
+replace <code>$File</code> in the <kbd>Parameters</kbd> box with
+<code>$BaseName</code>.
+(TrueTeX users will need to use <code>$UNIXDir/$BaseName</code>.)
 Click on "Apply"
 </li>
 </ul>
-<p>To view your LaTeXed document, select your viewer from the <tt>Tools</tt> pull-down menu.
+<p>To view your LaTeXed document, select your viewer from the <kbd>Tools</kbd> pull-down menu.
 </p>
 
 
@@ -7318,12 +7376,12 @@ Click on "Apply"
 <li>Download and install the free Acrobat Reader, and add it to your Tools by following the directions for adding a program as a Tool.
 </li>
 <li>In the dialog boxes of the final step,
-replace <tt>$File</tt> in the <tt>Parameters</tt> box with
-<tt>$BaseName.pdf</tt>.
+replace <code>$File</code> in the <kbd>Parameters</kbd> box with
+<code>$BaseName.pdf</code>.
 Click on "Apply"
 </li>
 </ul>
-<p>To view your LaTeXed document, select your viewer from the <tt>Tools</tt> pull-down menu.
+<p>To view your LaTeXed document, select your viewer from the <kbd>Tools</kbd> pull-down menu.
 </p>
 
 
@@ -7343,9 +7401,9 @@ You will then want to assign Ctrl+Shift+E to WordRightEndExtend.
 <h3 id="mma-hints">User Hints: Mathematica</h3>
 
 <p>
-Get all secion header cells with <tt>Cells[CellStyle → {"Section"}]</tt>.
+Get all secion header cells with <code>Cells[CellStyle → {"Section"}]</code>.
 The result is a list of cell objects,
-on which you can set any options by assigning to its <tt>CurrentValue</tt>:
+on which you can set any options by assigning to its <code>CurrentValue</code>:
 </p>
 <pre>
 Do[
@@ -7356,7 +7414,7 @@ Do[
 
 <div>
 Using version control with Mma notebooks is a bit messy but can be made workable.
-Set <tt>FileOutlineCache</tt> to False and <tt>TrackCellChangeTimes</tt> to False
+Set <code>FileOutlineCache</code> to False and <code>TrackCellChangeTimes</code> to False
 in any notebook you want to put under version control.
 <br />
 Command approach:
@@ -7377,7 +7435,7 @@ search for FileOutlineCache and set the option to False.
 Under Editing Options, search for TrackCellChangeTimes and set it to False.
 Save your notebook.)
 Preliminary to committing your changes, delete all your output cells and then save your notebook.
-(You can use the menus or <tt>FrontEndTokenExecute["DeleteGeneratedCells"]</tt> for this.)
+(You can use the menus or <code>FrontEndTokenExecute["DeleteGeneratedCells"]</code> for this.)
 </div>
 
 <h3 id="sw-hints">Scientific Notebook and Scientific Word user hints</h3>
@@ -7492,7 +7550,7 @@ Bottom line: never ever use such file or folder names!
 </p>
 
 <div>
-Suppose you want to add a directory <tt>mydir</tt> under version control,
+Suppose you want to add a directory <kbd>mydir</kbd> under version control,
 but it contains a bunch of files you do <em>not</em> wish to track.
 You can add the directory but not the files as follows:
 <code>svn add --non-recursive mydir</code>.
@@ -7510,7 +7568,7 @@ You can set an editor (e.g., for commit messages and property editing)
 in the Subversion <code>config</code> file.
 On Windows you should be able (after installing Subversion) to find it here:
 <code>\Users\YourUserName\AppData\Roaming\Subversion</code>.
-Search for <tt>editor-cmd</tt> and follow the instructions.
+Search for <kbd>editor-cmd</kbd> and follow the instructions.
 (On Windows, I am currently using <code>editor-cmd = C:/programs/Vim/vim74/gvim.exe -f</code>.
 If you use a path with spaces in it, you will have to quote it.)
 </p>
@@ -7523,8 +7581,8 @@ will edit the patterns for the current directory.
 </p>
 
 <p>
-<tt>svn diff -r HEAD myfile</tt> shows differences between <tt>myfile</tt> and the repository.
-<tt>svn status --show-updates</tt> shows you which files in the repository have changed.
+<code>svn diff -r HEAD myfile</code> shows differences between <kbd>myfile</kbd> and the repository.
+<code>svn status --show-updates</code> shows you which files in the repository have changed.
 </p>
 
 <p>
@@ -7604,7 +7662,7 @@ To enter a new article, click the green + and click Article.
 To enter a new working paper, click the green + and click TechReport.
 </li>
 <li>
-Multiple authors are separated by <tt>and</tt>
+Multiple authors are separated by <code>and</code>
 (*not* by commas).
 </li>
 <li>
@@ -7616,14 +7674,14 @@ For page numbers, put only the page ranges (e.g., no "pp.").
 </li> 
 <li>
 For articles you will often have volume and issue number data,
-like <tt>vol. 2 no. 1</tt> or <tt>2(1)</tt>.
+like <kbd>vol. 2 no. 1</kbd> or <kbd>2(1)</kbd>.
 The volume is entered on the <code>Required</code> tab
 and the issue number is entered on the <code>Optional</code> tab.
 </li>
 Months are entered like this: #jan#, #feb#, #mar#, etc.
 (Three letter abbreviations bracketed by hash marks.)
 <li>
-The <tt>url</tt> field is under the <code>General</code> tab.
+The <kbd>url</kbd> field is under the <code>General</code> tab.
 </li>
 <li>
 If you are missing information for any Required fields,
@@ -7691,7 +7749,7 @@ and displaying it onscreen.
 (For completeness, we illustrate the explicit choce of
 a GUI “back end”, although this is usually not necessary.)
 Note the hierarchical approach:
-the <tt>pyplot</tt> interface creates the figure object,
+the <kbd>pyplot</kbd> interface creates the figure object,
 the figure object creates the axes objects,
 and the axes objects create the other objects
 (including, implicitly, the axis objects).
@@ -7809,9 +7867,9 @@ Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/20
 </p> 
 
 <p id="mpl_set_aspect">
-Note that if you <tt>set_aspect</tt> on a axes instance you
-will still need to <tt>apply_aspect</tt> as well
-(or call <tt>draw</tt>).
+Note that if you <code>set_aspect</code> on a axes instance you
+will still need to <code>apply_aspect</code> as well
+(or call <code>draw</code>).
 </p>
 
 <p id="mpl_oo">
@@ -7931,7 +7989,7 @@ ax.get_yaxis().set_ticks_postion('left')
 </div>
 
 <div>
-Note that you should call <tt>show</tt> only once in a script.
+Note that you should call <code>show</code> only once in a script.
 But sometimes you want to alternate seeing plots and
 doing computations.
 See <a href="http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-matplotlib-plots-so-that-the-computation-can-continue
@@ -8053,10 +8111,10 @@ version 3; hence in version 4 endogenous variables are not overwritten but
 new variables are created instead.
 </li>
 <li>
-<tt>legend(s)</tt> becomes <tt>legend columns(1)</tt>
+<code>legend(s)</code> becomes <code>legend columns(1)</code>
 </li>
 <li>
-the r option for <tt>scat</tt> is not supported.
+the r option for <code>scat</code> is not supported.
 </li>
 </ol>
 
@@ -8111,8 +8169,8 @@ the following command:
 <p>
 Getting started:
 <br />
-Look for a file called <tt>vimtutor</tt>
-or <tt>vimtutor.bat</tt>.
+Look for a file called <kbd>vimtutor</kbd>
+or <kbd>vimtutor.bat</kbd>.
 Set aside 20 minutes for the tutorial,
 and then run the tutorial
 (e.g., by clicking the file icon).
@@ -8167,7 +8225,7 @@ MiKTeX:
 With minimal effort,
 Vim cooperates wonderfully with LaTeX.
 Windows users should install MiKTEX and (before Vim 7, in any case) install aspell,
-and then perhaps add my <a href="http://www.american.edu/econ/notes/miktexmenus.vim">MiKTeX menus</a> to the <tt>_gvimrc</tt> file.
+and then perhaps add my <a href="http://www.american.edu/econ/notes/miktexmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.
 </div>
 
 
@@ -8361,18 +8419,18 @@ archive.  You should download at least two archives!
 You can find many useful hints at <a href="http://www.softpanorama.org/Editors/vim.shtml">Softpanorama Western Orthodox Editors Page</a>.
 </p>
 <p>
-To get a word count in your file: <tt>g ctrl-g</tt>.
-To change line spacing see the help for <tt>linespace</tt>.
+To get a word count in your file: <code>g ctrl-g</code>.
+To change line spacing see the help for <kbd>linespace</kbd>.
 To change the font in gvim,
 you can use the menu dialog <kbd>Edit/SelectFont</kbd>,
-or you can include your selection in your <tt>_gvimrc</tt> file.
-(I use <tt>set guifont=andale_mono:h9,courier_new:h10</tt>.)
+or you can include your selection in your <kbd>_gvimrc</kbd> file.
+(I use <code>set guifont=andale_mono:h9,courier_new:h10</code>.)
 Do not forget that editors should only use <a href="#monospace">monospace fonts</a>.
 </p>
 <p>
 If you type very slowly, you need to slow down Vim's macro recognition.
-See the help for <tt>map-typing</tt>.
-I recommend resetting timeoutlen according to the example in the help for <tt>timeoutlen</tt>.
+See the help for <kbd>map-typing</kbd>.
+I recommend resetting timeoutlen according to the example in the help for <var>timeoutlen</var>.
 </p>
 <p>
 <code>'.</code> takes you to your last edit
@@ -8406,12 +8464,12 @@ Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.
 <h3 id="texhints">LaTeX User hints</h3>
 
 <p>
-To get double spacing, use <tt>\usepackage{setspace} \doublespacing</tt>.
+To get double spacing, use <code>\usepackage{setspace} \doublespacing</code>.
 This should leave your figures and tables alone.
 </p>
 
 <p>
-If you use linerange markers with the <tt>listings</tt> package,
+If you use linerange markers with the <kbd>listings</kbd> package,
 make sure your markers do not include hyphens.
 (These will be treated as indicating the linerange break.)
 </p>
@@ -8456,7 +8514,7 @@ make a pdf with pdflatex.
 <p>
 The new <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/pict2e/?action=/tex-archive/macros/latex/contrib/">pict2e</a> package provides long awaited and much needed additional functionality to the LaTeX picture environment.
 As of June 2004, however, there is a small bug:
-be sure to end <tt>qbezier</tt> and <tt>cbezier</tt> commands with an immediate comment character,
+be sure to end <code>qbezier</code> and <code>cbezier</code> commands with an immediate comment character,
 to avoid breaks in line continuity.
 </p>
 
@@ -8534,10 +8592,10 @@ or ii. configure your LaTeX to look in the folder containing your graphics files
 <p>
 On the one hand it is easy enough to zip up all your <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files with the embedding LaTeX document.
 On the other hand,
-one of the attractions of the LaTeX picture environment was that your drawings were present in your <tt>.tex</tt> file.
+one of the attractions of the LaTeX picture environment was that your drawings were present in your <kbd>.tex</kbd> file.
 Here is a way to get almost the same thing with <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files.
-Add the <tt>moreverb</tt> package.
-Put your <acronym class="help" title="Encapsulated PostScript">EPS</acronym> file in a <tt>verbatimwrite</tt> environment in you <tt>.tex</tt> file.
+Add the <kbd>moreverb</kbd> package.
+Put your <acronym class="help" title="Encapsulated PostScript">EPS</acronym> file in a <kbd>verbatimwrite</kbd> environment in your <kbd>.tex</kbd> file.
 You will have to provide a file name that it will be written to,
 but once it is written you can read it into a figure as usual.
 (An alternatie is to generate your figures with embedded gnuplot commands,
@@ -8546,7 +8604,7 @@ using the <a href="http://www.tug.org/tex-archive/macros/latex/contrib/egplot/">
 
 <div>
 If you need to wrap text around a figure,
-use the <tt>wrapfig</tt> package. Include
+use the <kbd>wrapfig</kbd> package. Include
 the package (in your preamble) and then the
 syntax is almost like that for the figure environment.<pre>
 \begin{wrapfigure}{R}{2in}
@@ -8603,7 +8661,7 @@ syntax is almost like that for the figure environment.<pre>
 <li>
         When entering months, always use the default abbreviations
         (e.g., <code>month = jan,</code>) so that months will end up correctly formatted.
-        (If you say, <tt>month="Jan.",</tt> it will always be formatted that way.)
+        (If you say, <code>month="Jan.",</code> it will always be formatted that way.)
 </li>
 <li>
         Page ranges should be entered in LaTeX format, e.g. 29--32 not 29-32.
@@ -8641,7 +8699,7 @@ Please be sure you have an official release before doing this.
 </p>
 
 <p>
-The command to load a script is <tt>load</tt>.
+The command to load a script is <code>load</code>.
 Provide your file name in quotes, using forward slashes.
 </p>
 
@@ -8704,7 +8762,7 @@ then <code>plot 0/0</code> after all your drawing commands.
 </p>
 
 <p>
-Up to version 3.8j, <tt>gnuplot</tt> arrowheads are not offset to account for their miter.
+Up to version 3.8j, <kbd>gnuplot</kbd> arrowheads are not offset to account for their miter.
 This means they generally extend past the point where you expect them to stop.
 There is no satisfactory workaround, but you can try drawing a filled arrow with a very narrow pen and then redrawing just the tail (as a headless "arrow") with a thicker pen.
 </p>
@@ -8815,17 +8873,17 @@ Here are some options for providing this information.
 Put them in the same folder as your thesis.
 </li>
 <li>
-Put them in an arbitrary folder that you point to by setting the <tt>TEXINPUTS</tt> environment variable.
+Put them in an arbitrary folder that you point to by setting the <var>TEXINPUTS</var> environment variable.
 (E.g., on Windows you might use the
 <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/set.mspx?mfr=true">set command</a>
 or go to Advanced System Settings via the Control Panel.
-Users of the Bash shell might use the <tt>export</tt> command.)
+Users of the Bash shell might use the <code>export</code> command.)
 </li>
 <li>
-Put them in an arbitrary folder that you point to by using the <tt>--include-directory</tt> option when you call pdflatex.
+Put them in an arbitrary folder that you point to by using the <code>--include-directory</code> option when you call pdflatex.
 </li>
 <li>
-Put them in a properly (TDS) structured <tt>localtexmf</tt> folder,
+Put them in a properly (TDS) structured <kbd>localtexmf</kbd> folder,
 and then refresh your LaTeX database.
 </li>
 </ul>
@@ -8833,17 +8891,17 @@ and then refresh your LaTeX database.
 
 <p>
 To include graphics in your document,
-use the <tt>graphicx</tt> package.
+use the <kbd>graphicx</kbd> package.
 Keep your images grouped together,
-and point to them with the <tt>\graphicspath</tt> command.
-(Some knowledgeable users suggest setting <tt>TEXINPUTS</tt> instead,
+and point to them with the <code>\graphicspath</code> command.
+(Some knowledgeable users suggest setting <var>TEXINPUTS</var> instead,
 e.g., <a href="http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618">http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618</a>.)
-Note the odd syntax for <tt>\graphicspath</tt>:
+Note the odd syntax for <code>\graphicspath</code>:
 each path must be in braces and must end with a forward slash.
 If you want an images directory searched recursively
 (say because you put each chapters images a separate folder),
 end the path with a double slash.
-E.g., <tt>\graphicspath{{images-eps//}{images-pdf//}}</tt>.
+E.g., <code>\graphicspath{{images-eps//}{images-pdf//}}</code>.
 </p>
 
 <h4 id="tikz-hints">TikZ hints</h4>
@@ -8898,7 +8956,7 @@ A very dark gray is <code>black!90</code>.
 </p>
 
 <p>
-Use <tt>pgfplots</tt> for plots.
+Use <var>pgfplots</var> for plots.
 The manual is good,
 a most tasks have very easy and obvious solutions.
 A few odd things are obscure.
