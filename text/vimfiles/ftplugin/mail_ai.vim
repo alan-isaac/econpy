@@ -1,3 +1,23 @@
+" Only do this when not done yet for this buffer
+if exists("b:did_ftplugin")
+  finish
+endif
+let b:did_ftplugin = 1
+
+
+" Stuff from Molenaar:
+" Don't use modelines in e-mail messages, avoid trojan horses and nasty
+" "jokes" (e.g., setting 'textwidth' to 5).
+setlocal nomodeline
+" many people recommend keeping e-mail messages 72 chars wide
+if &tw == 0
+  setlocal tw=72
+endif
+" Set 'formatoptions' to break text lines and keep the comment leader ">".
+setlocal fo+=tcql
+" Add n:> to 'comments, in case it was removed elsewhere
+setlocal comments+=n:>
+
 setl encoding=utf-8
 setl fileencoding=utf-8
 setl fileformat=unix
@@ -8,7 +28,7 @@ setl nobackup
 setl nocindent
 setl spell
 
-inoremap ;wq <esc>:up<bar>w! c:/temp/temp.mail<bar>q<cr>
+inoremap ;wq <esc>:up<bar>w! d:/temp/temp.mail<bar>q<cr>
 
 "abbreviations
 iab Acct Account
@@ -163,7 +183,7 @@ highlight RightMargin term=reverse ctermbg=12 guifg=White guibg=Black
 match RightMargin /\%>72v.\+/
 
 " options: case matters??
-" File: aimail.vim
+" File: mail_ai.vim
 "
 " Purpose: facilitate editing mails and newgroup postings
 "
@@ -443,4 +463,4 @@ function! FormatUsenetParagraph()
 endfunction
 
 
-" vim: set noet ts=8 sw=8 sts=8
+" vim: set et ts=4 sw=4 sts=4

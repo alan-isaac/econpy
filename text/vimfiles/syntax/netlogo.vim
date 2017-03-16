@@ -122,7 +122,7 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ extract-hsb extract-rgb hsb rgb scale-color shade-of? wrap-color
         \ clear-all ca clear-drawing clear-patches cp display no-display beep clear-output
         \ export-view export-interface export-output export-plot export-all-plots export-world
-        \ get-date-and-time import-world mouse-down? mouse-xcor mouse-ycor
+        \ get-date-and-time import-world mouse-down? mouse-xcor mouse-ycor move-to
         \ output-print output-show output-type output-write print read-from-string
         \ reset-perspective rp reset-ticks reset-timer set-current-directory
         \ show show-turtle st timer type

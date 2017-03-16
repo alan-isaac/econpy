@@ -1469,7 +1469,7 @@ There are extensive <a href="#bibtex">citation management</a> resources.
 </p>
 
 <ul>
-<li><a href="misc/epslatex.pdf">epslatex.pdf</a> has many hints for working with graphics.
+<li><a href="ftp://ctan.tug.org/tex-archive/info/epslatex.pdf">epslatex.pdf</a> has many hints for working with graphics.
 </li>
 <li>The hyperref package produces DVI files that work with
 both DVIWindo previewer (hyper-text jumps etc.) and with DVIPSONE PS printer driver for passing pdfmarks to the Acrobat Distiller.<br />
@@ -3530,31 +3530,19 @@ This section concentrates on 2-D drawing, with emphasis on the PostScript drawin
 while mentioning a few other interesting possibilities.
 </p>
 
+
 <h4 id="postscript">PostScript</h4>
 
 <p>
-PostScript is a very useful device independent page description language.
+PostScript is a device independent page description language.
 If you want to precisely render a vector graphic,
 you may well find it convenient to draw it yourself in PostScript.
-I offer a brief introduction to
-<a href="https://subversion.american.edu/aisaac/wp/isaac_ab.htm#psdraw">PostScript Drawing for the Sciences</a>,
-which is still under revision. (Comments welcome!)
+I offer an introduction to
+<a href="https://subversion.american.edu/aisaac/wp/psdraw.xhtml">PostScript Drawing for the Sciences</a>.
+(Still under revision; comments welcome!)
 See some <a href="#ps_hints">PostScript hints</a> below.
 </p>
 
-<!--
-Starting points:
- The introductory chapter Casselman's A Manual of Mathematical Illustration
- http://www.math.ubc.ca/people/faculty/cass/graphics/text/www/index.html
- David Maxwell's online PostScript manual maxwell@math.ubc.ca
- http://adela.karlin.mff.cuni.cz/netkarl/prirucky/Flat/PS-toc.html
-Then get the then get the  PostScript Language Tutorial &amp; Cookbook
-http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF
-and possibly Glenn Reid's Thinking in PostScript.
-Finally, you will want the PostScript Language Reference Manual
-(also known as the Red Book)
-http://partners.adobe.com/asn/developer/technotes.html#postscript
--->
 <ul>
 <lh>
 Useful books on PostScript:
@@ -3572,13 +3560,6 @@ but I'm not sure about the copyright status.)
 <br />
 A good guide quickly learning PostScript for those who already program.
 </li>
-</ul>
-
-
-<ul>
-<lh>
-Online PostScript resources:
-</lh>
 <li>
 <a href="http://partners.adobe.com/asn/developer/technotes.html#postscript">PostScript Language Reference Manual</a>
 <br />
@@ -3586,17 +3567,12 @@ by Adobe Systems.
 Also known as the Red Book.
 Absolutely necessary after learning the basics.
 </li>
-Peter Weingartner’s
-<a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">A First Guide to PostScript</a> 
 <li>
 Bill Casselman’s (2004)
 <a href="http://www.math.ubc.ca/~cass/graphics/manual/">Mathematical Illustrations: A Manual of Mathematical Illustration</a>.
 <br />
 A tour de force.
 The first chapter provides a good introduction to PostScript.
-</li>
-<li>
-<a href="http://www.cs.indiana.edu/docproject/programming/postscript/postscript.html">First Guide to PostScript</a>.  
 </li>
 <li>
 <a href="http://amzn.to/29mwR0I">PostScript Language Tutorial &amp; Cookbook</a> 
@@ -3612,16 +3588,6 @@ Advanced users only.
 </li>
 </ul>
 
-<div>
-Jim Land offers a metalist of  <a href="http://www.inkguides.com/postscript.asp">Internet Resources for PostScript and GhostScript</a>,
-and there is a <a href="http://ftp.lth.se/archive/usenet/comp.sources.postscript/">usenet archive</a> of sample code.
-<a href="http://www.acumentraining.com/acumen_journal.html">Acumen Journal</a> 
-publishes PostScript code examples.
-So does Don Lancaster in his <a href="http://www.tinaja.com/post01.asp">PostScript Library</a>.
-You will want to see what you're producing: I recommend getting <a href="http://www.cs.wisc.edu/~ghost/">GhostScript and GhostView or GSView</a>.
-For some cool PostScript code,
-look at <a href="https://stuff.mit.edu/afs/sipb/contrib/postscript/">MIT PostScript archive</a>.
-</div>
 
 <div>
 Many people prefer to use a <a href="#psmeta">meta-language</a> to produce their PostScript graphics.
@@ -3639,15 +3605,6 @@ Macros, defined constants, and function libraries have also been provided.
 The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
 </p>
 
-<p>
-In an interesting twist, you can now use PostScript as a drawing language in web pages
-using <a href="http://logand.com/sw/wps/index.html">WPS</a>,
-"a PostScript and PDF interpreter for HTML 5 canvas".
-</p>
-
-<p>
-PostScript programmers may find <a href="http://www.anastigmatix.net/postscript/Order.html">sorting and order statistics</a> to be a useful resource.
-</p>
 
 
 <h4>Flash</h4>
@@ -4272,12 +4229,13 @@ If you are considering PostScript graphics on the way to PDF documents,
 is worth noting that <a href="#reportlab">ReportLab</a> allows direct creation of PDF graphics and reports.
 </p>
 
+
 <h4>Data and Function Driven Graphics</h4>
 
 <p id="gnuplot">
 Before exploring other possibilities,
-try <a href="http://gnuplot.sourceforge.net/">gnuplot</a>:
-it meets many data driven or function driven plotting needs.
+try <a href="http://gnuplot.sourceforge.net/">gnuplot</a>.
+It meets most non-interactive data driven or function driven plotting needs.
 It is free and open source, multiplatform, very fast, and very powerful.
 (There is a <a href="http://www.lee-phillips.org/info/Macintosh/gnuplot.html">Mac version</a>,
 and here are some <a href="http://gamma.magnet.fsu.edu/install/mac/gnuplot/">instructions for installing under OSX</a>.)
@@ -4302,6 +4260,7 @@ but skip the institution specific material on starting gnuplot and head straight
 See the <a href="#gnuplot-hints">gnuplot hints</a> below.
 </p>
 
+<h5>Other Options</h5>
 
 <ul>
 <li>
@@ -4309,23 +4268,35 @@ For basic data driven or function driven graphics,
 it is possible to use a <a href="#spreadsheets">spread sheet</a>.
 </li>
 <li>
+Even modern statistical package has substantial charting abilities.
+</li>
+<a href="http://www.itl.nist.gov/div898/software/dataplot/ftp/homepage.htm">DATAPLOT</a>
+is a script-oriented public domain data visualization tool offered by the NIST.
+Many different chart types are built in:
+see their <a href="http://www.itl.nist.gov/div898/software/dataplot/gra_gall/homepage.htm">graphics gallery</a>.
+Additionally, NIST’s <a href="http://www.itl.nist.gov/div898/handbook/">Engineering Statistics Handbook</a> is very useful.
+<li>
 For complex data driven graphics,
 you may want to try <a href="#pyplot">plotting in Python</a>.
+(Suitable for real-time and interactive plots.)
 </li>
 <li>
-<a href="http://plasma-gate.weizmann.ac.il/Grace/">Grace</a> is a free, cross-platfrom plotting program that has a GUI orientation and produces output in many formats,
+<a href="http://plasma-gate.weizmann.ac.il/Grace/">Grace</a>
+is a free, cross-platfrom plotting program that has a GUI orientation and produces output in many formats,
 including <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 </li>
 <li>
 <a href="http://ploticus.sourceforge.net/">ploticus</a> produces a variety of graph types in common formats,
-including <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+including <acronym class="help" title="Encapsulated PostScript">EPS</acronym>. (License: GPL)
 Be sure to see the <a href="http://ploticus.sourceforge.net/doc/prefab_draw.html">draw</a> prefab for handling of ploticus scripts.
 </li>
 <li>
 <a href="http://scigraphica.sourceforge.net/">SciGraphica</a> is good for data analysis and technical graphics.
+(License: GPL)
 The interface resembles that of OriginLab's "Origin".
-It supports 2D, 3D and polar charts.
-It is free and open-source, released under the GPL license.
+It supports high-quality 2D, 3D and polar charts.
+Although development looks to be stalled,
+it remains a powerful option.
 </li>
 <li>
 <a href="http://ptolemy.eecs.berkeley.edu/java/ptplot/">Ptplot</a> is a 2D data plotter and histogram tool implemented in Java. 
@@ -4337,11 +4308,14 @@ implemented in Java.
 </ul>
 
 <div>
-One other recent possibility deserves mention: <a href="http://code.google.com/apis/chart/">Google Chart</a>.
+One other possibility deserves mention:
+<a href="http://code.google.com/apis/chart/">Google Chart</a>.
 Chart construction becomes a simple matter of URL construction.
 IBM offers nice <a href="http://www.ibm.com/developerworks/web/library/wa-pz-googlecharts/">examples of use</a>.
-Chart construction can be simplified by scripting (e.g., in <a href="http://pygooglechart.slowchop.com/">Python</a> or <a href="http://googlecharts.rubyforge.org/">in Ruby</a>).
+Chart construction can be simplified by scripting
+(e.g., in <a href="http://pygooglechart.slowchop.com/">Python</a> or <a href="http://googlecharts.rubyforge.org/">in Ruby</a>).
 </div>
+
 
 <h4>Vector Graphics</h4>
 
@@ -5054,49 +5028,58 @@ It is possible to convert <a href="http://wiki.github.com/mulicheng/csv2ofx/">CS
 <h2 id="office">Office Suites and Related Software</h2>
 
 <p>
-Advice on office suites: do not use them.
-Word processors slow down your writing: use a good <a href="#EDITORS">text editor</a>.
+Advice on office suites:
+do not use them for research.
+Word processors slow down your writing:
+use a good <a href="#EDITORS">text editor</a>.
 Spreadsheets are a risky way to handle data
-[<a href="http://www.burns-stat.com/pages/Tutor/spreadsheet_addiction.html">1</a>
-|<a href="http://www.it-director.com/dl/free/spreadsheet.pdf">2</a>]:
+[
+<a href="http://www.burns-stat.com/pages/Tutor/spreadsheet_addiction.html">1</a>
+|
+<a href="http://www.it-director.com/dl/free/spreadsheet.pdf">2</a>
+|
+<a href="http://people.umass.edu/evagold/excel.html">3</a>
+|
+<a href="https://www.washingtonpost.com/news/wonk/wp/2016/08/26/an-alarming-number-of-scientific-papers-contain-excel-errors/">4</a>
+]:
 use a simple matrix programming language instead.
 The virtues of existing presentation packages do not outweigh their weaknesses,
 especially if you need to present mathematical formulae.
 </p>
+
 <p id="officesuites">
-Now, since you are going to use them anyway, what should you use?
-Here are some basic considerations.
-Whom do you need to exchange files with?
-Do you use more than the basic functionality of word processors and spreadsheets?
-Do you want a multi-platform solution?
-Since everyone should choose a multi-platform solution
-and few people use more than the basic functionality of their office suites,
-I recommend <a href="http://www.openoffice.org/">OpenOffice</a>,
-perhaps as part of the collection of applications on <a href="http://theopencd.sunsite.dk/programs/">TheOpenCD</a>,
-or the closely related <a href="https://www.libreoffice.org/">LibreOffice</a>.
+When you do use an office suite,
+here are some basic considerations.
+FOSS office suites are currently a high-quality multi-platform solution.
+I recommend either <a href="https://www.libreoffice.org/">LibreOffice</a> (License: LGPL)
+or <a href="http://www.openoffice.org/">OpenOffice</a> (License: Apache).
 Of course most of the people you know will be using a commercial office suite,
 but you will be able to save your files in formats they can read,
 and as long as they are not using advanced features 
 (e.g., templates, complex macros, or complex spreadsheet formulae)
 you will be able to open their files as well.
 Most users do not use such features.
+FOSS suites meet most personal and business needs.
 </p>
 
 <p>
-Since office suites are often expensive, I will mention a few relatively cheap commercial alterntives.
+Since office suites are often expensive,
+here are some cheap commercial alterntives.
 <br />
-<a href="http://www.sun.com/software/staroffice/">Star Office</a>
+<a href="https://drive.google.com/">Google Drive</a>
+(good basic functionality; easy collaboration;
+limited advanced functionality)
+<br />
+<a href="http://www.staroffice.org/">Star Office</a>
 is essentially the commercial sibling to OpenOffice,
 and it also supports the Open Document Format (as any good office suite should).
 <br />
-<a href="http://www.corel.com/">Corel WordPerfect Office</a>
+<a href="http://www.corel.com/">Corel Office</a>
+(home of the famous Word Perfect word processor)
 <br />
-<a href="http://www.softmaker.com/english/">Soft.Maker</a> is a cross-platform commercial suite.
+<a href="http://www.softmaker.com/">Soft.Maker</a> is a cross-platform commercial suite.
 <br />
-<a href="http://www.software602.com/">602PC Suite</a> is a MS compatible office suite.
-<br />
-Nowadays you can also consider online office suites.
-The free <a href="www.thinkfree.com">ThinkFree</a> is a popular option.
+<a href="www.thinkfree.com">ThinkFree</a>
 </p>
 
 <h3>Document Exchange</h3>
@@ -5209,21 +5192,81 @@ for managing references.
 </p>
 
 
-<h5 id="bibtex">BibTeX related</h5>
+<h5 id="bibtex">Citation Management</h5>
 
 <p>
-<a href="#bibtex">BibTeX</a> is the traditional choice for citation management.
+The current choice for citation management appears to be <a href="http://biblatex-biber.sourceforge.net/">Biber+Biblatex</a>.
+(Other possibilities are discussed below.)
+The traditional choice for citation management is <a href="#bibtex">BibTeX</a>.
 (See the <a href="#bibtexhints">BibTeX user hints</a>.)
-An interesting alternative is <a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a> (License: GPL; dependencies: <a href="http://www.python.org">Python</a>,
-<a href="http://www.dabeaz.com/ply/">PLY</a>)
+</p>
+
+<p>
+Here is how to transition from
+the traditional Bibtex with natbib to the more modern Biber with biblatex.
+(If you have not been using <code>natbib</code>,
+you can leave out that option.)
+After changing your LaTeX document as indicated below
+and compiling it with <code>pdflatex</code> as usual,
+run <code>biber</code> on the document’s basename
+(instead of using Bibtex).
+</p>
+<pre>
+\documentclass{article}
+%\usepackage{natbib} %REMOVE natbib package
+%ADD biblatex package (with Biber backend)
+\usepackage[
+  backend=biber,
+  style=authoryear-comp,
+  natbib=true,
+  sortlocale=en_US
+]{biblatex}
+%ADD .bib files (one by one, in preamble)
+\addbibresource{mybib.bib}
+\begin{document}
+Lorem ipsum dolor \dots
+\printbibliography %ADD printbibliography command
+%REMOVE old bibliography commands
+%\bibliographystyle{mystyle}
+%\bibliography{mybib}
+\end{document}
+</pre>
+
+<p>
+In the background,
+the choice of the <code>biber</code> back end for <code>biblatex</code>
+will lead to to the creation of a <code>.bcf</code> file,
+which <code>biber</code> operates on.
+But you should not need to know about this
+unless choose to pass to <code>biber</code>
+the full filename (basename + <code>.bcf</code>) instead of just the basename.
+In your document,
+you will need to keep the <code>natbib</code> option to <code>biblatex</code>
+as long as you use <code>natbib</code> style citation commands.
+Or you can replace all your <code>citet</code> and <code>citep</code> commands
+with <code>textcite</code> and <code>parencite</code> commands.
 </p>
 
 <ul>
 <li>
+<a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX/Biblatex databases
+(Language: Java 1.5+. License: GPL.)
+Recommended.
+You can directly use the web version.
+The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a>
+also includes very simple installation instructions.
+</li>
+<li>
 <a href="http://pybtex.sourceforge.net/">Pybtex</a>
 is a Python implementation of BibTeX.
-Provides translation across formats.
+Provides translation across formats, including a nice YAML format.
 (License: GPL, Language: Python)
+</li>
+<li>
+An interesting alternative is
+<a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a>
+(License: GPL; dependencies: <a href="http://www.python.org">Python</a>,
+<a href="http://www.dabeaz.com/ply/">PLY</a>)
 </li>
 <li>
 If you need to hack a BibTeX style, you will need <a href="http://www.fz-rossendorf.de/FVTK/latex/doc/bibtex/base/btxhak.pdf">btxhak</a> or the <a href="http://www.arch.ohio-state.edu/crp/faculty/pviton/support/custom-bib.html">Custom-Bib</a> package.
@@ -5242,14 +5285,6 @@ VerTeX for Economics Journals.</a>
 <a href="http://www.zotero.org/">Zotero</a> is a <em>remarkably</em> capable FireFox extension
 for research resource management (including citation).
 (It is worthwhile to watch the short video introduction on their <a href="http://www.zotero.org/">homepage</a> to get a feel for Zotero's capabilities.
-</li>
-<li>
-<a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX databases
-(Language: Java 1.5+. License: GPL.)
-Recommended.
-You can directly use the web version.
-The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a>
-also includes very simple installation instructions.
 </li>
 <li>
 <a href="http://www.unix-ag.uni-kl.de/~fischer/kbibtex/">kbibtex</a>
@@ -7413,7 +7448,7 @@ Do[
 </pre>
 
 <div>
-Using version control with Mma notebooks is a bit messy but can be made workable.
+Using version control with Mma notebooks is a bit messy but can be made fairly workable.
 Set <code>FileOutlineCache</code> to False and <code>TrackCellChangeTimes</code> to False
 in any notebook you want to put under version control.
 <br />
@@ -7436,6 +7471,22 @@ Under Editing Options, search for TrackCellChangeTimes and set it to False.
 Save your notebook.)
 Preliminary to committing your changes, delete all your output cells and then save your notebook.
 (You can use the menus or <code>FrontEndTokenExecute["DeleteGeneratedCells"]</code> for this.)
+</div>
+
+<div>
+You may find <a href="http://scidraw.nd.edu/">SciDraw</a>
+helpful for better looking Mathematica drawings.
+In order to make your Mathematica plots more stylistically compatible with a LaTeX document,
+consider using:
+<ul>
+<li> 
+<a href="http://szhorvat.net/pelican/latex-typesetting-in-mathematica.html">MaTeX</a>.
+</li>
+<li> 
+<a href="http://wwwth.mpp.mpg.de/members/jgrosse/mathpsfrag/">MathPSfrag</a>
+(replaces formulae and text with psfrag commands)
+</li>
+</ul>
 </div>
 
 <h3 id="sw-hints">Scientific Notebook and Scientific Word user hints</h3>

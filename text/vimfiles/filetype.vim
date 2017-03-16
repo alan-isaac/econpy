@@ -8,5 +8,6 @@ augroup filetype
   au! BufRead,BufNewFile *.mma setfiletype mma
   au! BufRead,BufNewFile *.nlogo setfiletype netlogo
   au! BufRead,BufNewFile *.nlogo3d setfiletype netlogo
+  au! BufRead,BufNewFile *.nls setfiletype netlogo
 augroup END
 
