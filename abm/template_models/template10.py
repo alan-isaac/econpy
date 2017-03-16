@@ -1,6 +1,6 @@
 """ Template Model 10: Hierarchy """
 
-from template08 import *
+from template09 import *
 
 class World10(World08):
     def sortkey10(self, agent):
