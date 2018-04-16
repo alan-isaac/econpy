@@ -19,7 +19,7 @@
 <div>
 <a href="http://goo.gl/PUokY7">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
 </div>
-<!-- current location as of 2016-06-24:
+<!-- current location as of 2017-07-19:
      source: https://github.com/alan-isaac/econpy/blob/master/software4econ.xhtml
      displayed: http://goo.gl/PUokY7
 -->
@@ -331,13 +331,32 @@ Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit
 
 <h4 id="monospace">Monospaced Fonts</h4>
 
+<p>
+Once you have chosen your editor,
+find a <a href="http://hivelogic.com/articles/top-10-programming-fonts">decent monospaced font</a>.
+(Crucial for programming; always examine this character sequence: Il1aoe0O.)
+My favorite is Andale Mono,
+a TrueType font that I find exceptionally readable even at small font sizes.
+There appears to be more than one
+<a href="http://corefonts.sourceforge.net/">legal yet free distribution</a>,
+due to the original licensing terms,
+but you can also <a href="http://www.fonts.com/font/monotype/andale-mono">purchase the font</a>.
+My second choice is the Unicode <a href="http://dejavu-fonts.org/wiki/Main_Page">DejaVu</a> font family.
+(Derivative from <a href="http://www.gnome.org/fonts/">Bitstream's Vera Fonts</a>;
+available as a Latin-Cyrillic-Greek subset;
+<a href="http://dejavu-fonts.org/wiki/License">License</a>)
+Many people like the free and open source <a href="https://github.com/google/fonts/tree/master/ofl/inconsolata">Inconsolata</a>.
+</p>
+
 <div id="STIX">
-Before listing some monospaced fonts,
-I must note the wonderful <a href="http://www.stixfonts.org/">STIX</a> font project.
+Before listing more monospaced fonts,
+I must note the wonderful  <a href="http://www.stixfonts.org/">Scientific and Technical Information Exchange (STIX)</a> font project.
 These are "a comprehensive set of fonts that serve the scientific and engineering community".
 and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
-The fonts were released in May 2010.
+The fonts were released in May 2010 and updated in 2016.
+</div>
+<div>
 Here are MiKTeX installation instructions from Ulrike Fischer:
 <ol>
 <li> 
@@ -365,23 +384,6 @@ Some text, and a math formula \(a+b=\sqrt{c}\).
 </li> 
 </ol>
 </div>
-
-<p>
-Once you have chosen your editor,
-find a <a href="http://hivelogic.com/articles/top-10-programming-fonts">decent monospaced font</a>.
-(Crucial for programming; always test this character sequence: Il1aoe0O.)
-My favorite is Andale Mono,
-a TrueType font that I find exceptionally readable even at small font sizes.
-There appears to be more than one
-<a href="http://corefonts.sourceforge.net/">legal yet free distribution</a>,
-due to the original licensing terms,
-but you can also <a href="http://www.fonts.com/font/monotype/andale-mono">purchase the font</a>.
-My second choice is the Unicode <a href="http://dejavu-fonts.org/wiki/Main_Page">DejaVu</a> font family.
-(Derivative from <a href="http://www.gnome.org/fonts/">Bitstream's Vera Fonts</a>;
-available as a Latin-Cyrillic-Greek subset;
-<a href="http://dejavu-fonts.org/wiki/License">License</a>)
-Many people like the free and open source <a href="https://github.com/google/fonts/tree/master/ofl/inconsolata">Inconsolata</a>.
-</p>
 
 <p>
 A few more freely available mono-space fonts ...
@@ -421,15 +423,16 @@ which is an OpenType font.
 </ul>
 </div>
 
+
 <h4 id="fonts">Other Useful Fonts</h4>
 
 <p>
-<a href="http://www.sil.org/~gaultney/gentium/">Gentium</a> is a high-quality
-FOSS unicode font set.
+<a href="http://www.sil.org/~gaultney/gentium/">Gentium Plus</a> is a high-quality
+FOSS unicode font set with some math-symbol support.
 </p>
 <p>
 The <a href="http://www.ctan.org/tex-archive/fonts/arev/doc/fonts/arev/">Arev</a>
-fonts are useful for presentations containing math.
+fonts are designed to be useful for presentations containing math.
 </p>
 
 
@@ -1529,7 +1532,17 @@ is a perl based replacement for makefiles.
 <h2 id="absim">Agent-Based Simulation</h2>
 
 <p>
-Probably the best platform for introductory exploration of agent-based models is <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
+<a href="https://github.com/alan-isaac/econpy/tree/master/abm/gridworld">gridworld</a>
+is a Python module providing some of toolkit functionality of NetLogo.
+(E.g., spatial and stationary agents; simple GUI construction with button, sliders, plots; etc.)
+Examples of the use of gridworld can be found in a
+<a href="http://jasss.soc.surrey.ac.uk/14/2/5.html">supporting paper</a>,
+along with a set of template models for exploring agent-based modeling.
+</p>
+
+<p>
+Currently the best platform for introductory exploration of agent-based models is
+<a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
 which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/">Models Library</a>.
 While NetLogo's statistical and mathematical support is limited,
 you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
@@ -1591,22 +1604,30 @@ José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo.
 </li>
 </div>
 
-
 <p>
-After NetLogo, perhaps the most popular multi-agent simulation toolkit is <a href="http://repast.sourceforge.net/">Repast</a>.
+After NetLogo, perhaps the most popular multi-agent simulation toolkit is
+<a href="http://repast.sourceforge.net/">Repast</a>.
 (License: New BSD; Language: Java or C++)
 </p>
 
+
 <p>
-<a href="http://www.labor-torino.it/english/research/labsim/wild/wp-html/wp-sonnessa.html">Java Agent-based Simulation (JAS) library</a>
+<a href="http://www.swarm.org/wiki/Swarm_main_page">Swarm</a>
+is a famous and flexible platform for multi-agent simulation projects,
+originally written at the Santa Fe Institute in the mid-1990s.
+(Language: Objective-C or Java; License: GPL)
+Although the platform is extremely capable,
+use of Swarm seems to be declining,
+and there appears to be little ongoing development.
+The
+<a href="http://jaslibrary.sourceforge.net/projects.html">Java Agent-based Simulation (JAS) library</a>
+attempts to reimplement Swarm in pure Java.
 </p>
 
 <p>
-<a href="http://www.swarm.org">Swarm</a> is useful for multi-agent simulation projects.
-</p>
-
-<p>
-<a href="http://eodev.sourceforge.net/">Evolving Objects</a> is "is a templates-based, ANSI-C++ compliant evolutionary computation library". (License: LGPL)
+<a href="http://eodev.sourceforge.net/">Evolving Objects</a>
+is "is a templates-based, ANSI-C++ compliant evolutionary computation library".
+(License: LGPL)
 </p>
 
 
@@ -2692,12 +2713,10 @@ I like three browsers:
 <a href="http://www.opera.com/">Opera</a>,
 and <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a>.
 Of these, I give FireFox the nod for being both open source and mature,
-but Chrome is also open source.
-Internet Explorer is slowly becoming usable (except for MathML),
-and version 9 has finally achieved a somewhat qualified pass
-on the <a href="http://en.wikipedia.org/wiki/Acid3#Desktop_browsers">Acid 3 tests</a>.
-But I still recommend avoiding IE unless required by your workplace,
-due to its lagging standards compliance and closed source code.
+but Chrome is also open source and is considered faster.
+Microsoft Edge is slowly becoming usable;
+it is certainly much more standards compliant than the old Internet Explorer.
+Try them all on the <a href="http://en.wikipedia.org/wiki/Acid3#Desktop_browsers">Acid 3 tests</a>.
 An interesting "new kid on the block" is <a href="http://uzbl.org/">uzbl</a>,
 which emphasizes speedy browsing but is highly extensible.
 </p>
@@ -3308,22 +3327,23 @@ For Android, Google has released <a href="http://developer.android.com/sdk/index
 </p>
 
 
-<h3 id="javascript">JavaScript</h3>
+<h3 id="javascript">JavaScript/ECMAScript/ES</h3>
 
 <p>
-JavaScript is a dynamic, interpreted programming language whose origins
+ECMAScript is a standaradization of JavaScript,
+a dynamic, interpreted programming language whose origins
 are in client-side scripting in the browser.
-Most browsers now support JavaScript,
+Most browsers support ECMAScript,
 and client-side scripting has been used to create economic applications. [#paine.stark-2004-cheer]
-See <a href="javascript-intro.html">JavaScript Basics</a> for more detail.
+These features made it a widely used language.
+Growth in language features, including support for functional programming,
+have made it a rather interesting language as well.
 </p>
 
 <p>
-JavaScript resources:
-<a href="http://eloquentjavascript.net/">Eloquent JavaScript</a>;
-<a href="https://github.com/getify/You-Dont-Know-JS">You Don't Know JS</a>.
+If you are new to JavaScript,
+I have written a <a href="https://subversion.american.edu/aisaac/notes/javascript-intro.xhtml">basic introduction</a>.
 </p>
-
 
 
 
@@ -3486,10 +3506,14 @@ which is less complete but quite capable.
 <p>
 <acronym class="help" title="Scalable Vector Graphics">SVG</acronym>
 <br />
-A rising format for web graphics and may already be useful if you need vector graphics and/or animation.
-It is possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>.
+This popular format for web graphics can be useful when you need vector graphics and/or animation.
+It was supposed to be possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>,
+and for a while Adboe worked actively on an SVG viewer (which is <a href="http://www.adobe.com/devnet/svg/adobe-svg-viewer-download-area.html">still available</a>).
+This seems to have stalled,
+and indeed further development of the SVG standard unfortunately seems to have stalled.
 For extensive SVG manipulation and generation tools,
-see <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
+see <a href="http://xmlgraphics.apache.org/batik/">Batik</a> (language: Java).
+An increasing number of graphics languages offer an SVG backend.
 </p>
 
 <p>
@@ -3528,6 +3552,17 @@ The answers are generally <a href="http://www.american.edu/econ/notes/psdraw.pdf
 often in that order.
 This section concentrates on 2-D drawing, with emphasis on the PostScript drawing language,
 while mentioning a few other interesting possibilities.
+</p>
+
+<p>
+The so-called <a href="http://amzn.to/2sHsN2Y">Grammar of Graphics</a>
+has garnered attention because of its power and expressiveness.
+<a href="https://plotnine.readthedocs.io">PlotNine</a> is an implementation for Python.
+<a href="http://ggplot2.org/">ggplot2</a> is an implementation for R.
+It is supported by two popular books:
+<a href="http://amzn.to/2tbCtzN">R Graphics Cookbook</a>
+and
+<a href="http://amzn.to/2rEXvoF">ggplot2: Elegant Graphics for Data Analysis</a>.
 </p>
 
 
@@ -4377,7 +4412,7 @@ For precise geometric drawings there is also <a href="http://math.exeter.edu/rpa
 <a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 There is a <a href="http://dia-installer.sourceforge.net">Windows installer</a>.
 (If you are interested in Dia's UML capabilities,
-you might also like to look at <a href="http://www.umlet.com">UMLet</a> or <a href="http://uml.sourceforge.net">Umbrello</a>.)
+you might also like to look at the <a href="#uml">UML resources (below)</a>.
 </li>
 <li>
 <a href="http://sodipodi.sourceforge.net/">Sodipodi</a> is a still young but promising open source vector drawing program.
@@ -4414,12 +4449,57 @@ you have copied the snail graphics files to (e.g. <kbd>C:\snail</kbd>).
 </li>
 </ul>
 
-<h4>Flow Charts</h4>
+<h4 id="uml">UML, Flow Charts, Etc.</h4>
+
+<p>
+<a href="http://www.uml.org/">Unified Modeling Language (UML)</a> may not be truly unified—it is
+clumsy at best for functional programming—but it still offers a remarkably useful collection
+of chart types for modeling and simulation.
+Here is a tiny selection of available resources,
+plus a few (somwhat) related flowchart resources.
+For more options,
+see <a href="https://en.wikipedia.org/wiki/List_of_Unified_Modeling_Language_tools">Wikipedia's list</a>.
+</p>
+
+<p>
+<a href="https://eclipse.org/papyrus/">Papyrus</a> seems the most complete option.
+However, it is a complete modeling environment,
+and it is accordingly heavy weight.
+The remaining options are primarily for drawing key UML diagrams.
+</p>
 
 <ul>
 <li>
-<a href="#dia">Dia</a>
+<a href="http://www.umlet.com">UMLet</a> (Programming language: Java; license: GPL.)
+Unfortunately, UMLet 1.4 uses Swing under Java 1.8,
+which produces tiny fonts on high resolutions screens.
+However, the online version (UMLetino) works fine.
 </li>
+<li>
+<a href="#dia">Dia</a> is a light-weight option,
+which provides some UML support.
+</li>
+<li>
+<a href="http://plantuml.com/">PlantUML</a>
+offers a simple text-based description of key UML diagrams.
+</li>
+<li>
+<a href="http://uml.sourceforge.net">Umbrello</a> (Language: C++; license: GPL.)
+</li>
+<li>
+<a href="https://mirror.hmc.edu/ctan/graphics/pgf/contrib/pgf-umlcd/">pgf-umlcd</a>
+is a nice <a href="#tikz">TikZ</a> package for simple yet attractive class diagrams.
+<a href="http://perso.ensta-paristech.fr/~kielbasi/tikzuml/">tikz-uml</a> allows much
+more control and many diagram types,
+but it is correspondingly more complex.
+</li>
+</ul>
+
+<p>
+Here are a couple older flowchart tools.
+</p>
+
+<ul>
 <li>
 <a href="http://search.cpan.org/search?module=Graph::Flowchart">Graph::Flowchart</a> (langague: perl)
 </li>
@@ -4430,10 +4510,7 @@ you have copied the snail graphics files to (e.g. <kbd>C:\snail</kbd>).
 <li>
 <a href="http://ftp.ktug.or.kr/tex-archive/help/Catalogue/entries/flow.html">flow</a>
 draws flowcharts based on a simple text description. (License: GPL; Language: C)
-</li>
-<li>
-<a href="http://www.edutoolresearch.com/IconicProgrammerApplet.html">iconic programming applet</a>
-</li>
+</li> 
 </ul>
 
 <h4>Image Manipulation</h4>
@@ -5678,6 +5755,10 @@ And of course Python users will often be well served by the <a href="http://www.
 <li>
 <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>,
 the classic telnet/ssh client.
+</li>
+<li>
+Windows 10 since December 2017 has offered OpenSSH (client and server)
+as an <a href="https://www.servethehome.com/say-farewell-putty-microsoft-adds-openssh-client-windows-10/">optional feature</a>.
 </li>
 </ul>
 
@@ -8202,17 +8283,18 @@ consider <em>Vi Improved&mdash;Vim</em> by Steve Oualline or
 <p>
 Windows installation:
 <br />
-To install Vim on Windows, get the <a href="http://vim.sourceforge.net/download.php#pc">self-installing Windows executable</a>.
+To install Vim on Windows,
+get the <a href="https://vim.sourceforge.io/download.php">self-installing Windows executable</a>.
 Double click it and install where desired.
-Installation creats a 'vim' directory.
-Below that is a 'vimfiles' directory.
+Installation creats a <code>vim</code> directory.
+Below that is a <code>vimfiles</code> directory.
 For Windows users who are new to Vim,
 i. copy my <a href="https://github.com/alan-isaac/econpy/blob/master/text/vimfiles/share_vimrc.vim">share_vimrc.vim</a>
 file to your vimfiles directory,
 and then 
 ii.
-look for the '_vimrc' file in your 'vim' directory
-and add at the bottom of that _vimrc file
+look for the <code>_vimrc</code> file in your <code>vim</code> directory
+and add at the bottom of that <code>_vimrc</code> file
 the following command:
 <code>source $VIM/vimfiles/share_vimrc</code>
 </p>
@@ -8220,11 +8302,13 @@ the following command:
 <p>
 Getting started:
 <br />
-Look for a file called <kbd>vimtutor</kbd>
-or <kbd>vimtutor.bat</kbd>.
+Look for a file called <code>vimtutor</code>
+or <code>vimtutor.bat</code>.
 Set aside 20 minutes for the tutorial,
 and then run the tutorial
 (e.g., by clicking the file icon).
+When you want to go deeper,
+look at the <a href="http://vimcasts.org/">Vimcasts videos</a>.
 </p>
 
 <p>
@@ -8234,6 +8318,12 @@ If you want to cursor down and then return to where you started,
 set a mark before moving.  (See <code>:h marks</code>.)
 But, if you want to be able to page down and then page back up to where you started,
 use <code>ctrl-d</code> and <code>ctrl-u</code> rather than <code>Pg-Dn</code> and <code>Pg-Up</code>.
+</p>
+
+<p>
+Digraphs allow simple and intuitive keyboard entry of unicode characters.
+Vim digraphs are based on <a href="http://www.faqs.org/rfcs/rfc1345.html">RFC 1345</a>.
+See ``:h digraph-table``.
 </p>
 
 <p>Colorscheme:
@@ -8271,6 +8361,13 @@ You can assign to the i-th line by assigning to cb[i].
 </div>
 
 <div>
+Exiting a buffer: it is usually recommended to exit a buffer using bnext.
+However I sometimes prefer to delete a buffer as I leave it.
+Examining the help for ``bar``,
+we see that ``:w|bd`` can be used to write and then delete a buffer.
+</div>
+
+<div>
 MiKTeX:
 <br />
 With minimal effort,
@@ -8279,138 +8376,6 @@ Windows users should install MiKTEX and (before Vim 7, in any case) install aspe
 and then perhaps add my <a href="http://www.american.edu/econ/notes/miktexmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.
 </div>
 
-
-<div>
-enspchk:
-<br />
-After 2006, you will probably have Vim 7.0 or higher, which includes spell-checking.
-Before version 7,
-Vim does not come with a spell checker built in,
-but a native Vim spellchecker is available:
-<a href="http://vim.sourceforge.net/scripts/script.php?script_id=195">Charles Campbell's engspchk</a>.
-The installation instructions he provides are a bit succinct,
-so here is a more elaborate version.
-<ol>
-<li>
-Download the script (version 42 or higher) to your vimfiles folder.
-If it downloads with an odd extension, rename it.
-E.g., I had to use the following command:
-<br />
-<code>
-rename engspchk-v42.tar.gz.php engspchk.tar.gz
-</code>
-</li>
-<li>
-Unpack this file using any tools you want.
-I will assume you are using Windows.
-If you want to use excellent free tools get
-'gunzip' and 'tar' from
-<a href="http://gnuwin32.sourceforge.net/packages.html">http://gnuwin32.sourceforge.net/packages.html</a>.
-I will assume you do this, and that you have run the
-"setup" binaries from
-<a href="http://gnuwin32.sourceforge.net/packages/gzip.htm">http://gnuwin32.sourceforge.net/packages/gzip.htm</a>
-and
-<a href="http://gnuwin32.sourceforge.net/packages/tar.htm">http://gnuwin32.sourceforge.net/packages/tar.htm</a>.
-In this case you will unpack the downloaded script in three
-steps.  At the command line, type the following three lines:
-<pre><code>
-gunzip engspchk.tar.gz
-tar -oxvf engspchk.tar
-delete engspchk.tar
-</code></pre>
-</li>
-<li>
-Check to make sure engspchk.vim is in your
-vimfiles/plugin folder.  If not, find it and move it there.
-</li>
-<li>
-Check to make sure you now have a vimfiles/CVIMSYN
-folder.  If not, find the CVIMSYN folder and move it there.
-Edit your _vimrc file to add the following line:
-<br /><code>
-let g:cvimsyn = "c:/programs/vim/vimfiles/CVIMSYN"
-</code><br />
-(or whatever is the correct path).
-</li>
-<li>
-Check to make sure engspchk.txt is in your vimfiles/doc
-folder.  If not, find it and move it there.
-Generate your helptags for your spellchecker by
-typing the following in Vim:
-<br /><code>
-:helptags c:\programs\vim\vimfiles\doc
-</code>
-</li>
-<li>
-Close Vim.  Next time you open it, you will
-have spell checking.  To learn how to use it,
-type in Vim the following:
-<br /><code>
-:h engspchk
-</code><br />
-The maps you need are a couple paragraphs into the help document.
-(Remember \ee!)
-</li>
-<li>
-You need to install <a href="http://www.tgries.de/agrep/">agrep</a>
-if you want alternative spellings to be suggested.
-</li>
-<li>
-Mouse support:
-<br />
-To use mouse maps for your spellchecking (very useful!),
-you need to put in your _vimrc the following line:
-<br /><code>
-let g:spchkmouse=1
-</code><br />
-Unfortunately, I have had some trouble with this option.
-First, this only seems to work at all with agrep installed,
-in contrast with the documentation.  Second, even with
-agrep installed I sometimes get very bad behavior.
-For now, I recommend the default:
-<br /><code>
-let g:spchkmouse=0
-</code><br />
-If you turn on mouse support <em>and</em> use the console version of Vim (not gvim),
-then you will need to make sure that Vim gets to see the mouse clicks as follows.
-Right click on icon used to start your console.
-Select  Properties/Options, and then uncheck both QuickEdit and Insert.
-</li>
-</ol>
-</div>
-
-
-<div>
-<p class="boxed">
-AU students and faculty:
-<br />
-You can access Vim on any on any PC with the Novell client configured for AU's network
-(student machines often have only TCPIP -internet- connections).
-The VIM editor has been installed on the AUAPPS server (your J: drive).
-(GUI versions 5.7, which is smaller, and 6.0, which has more functionality.) 
-The version 6 installer application can be found in the Math-Stats-research folder of
-the Eaglenet Applications/NAL window.  It is labeled Vim 6.0 Install.
-When you first launch the program,
-there will be a very short registration of the program to ensure OLE functionality.
-Launching the program is simply a matter of clicking on the shortcut in the Start - Programs - Vim 6.0 folder.
-If you wish to run the program, use any text editor (e.g., NotePad) to add the following line to the autoexec.bat file on the local hard drive of your PC (you will only do this once):
-<br /><code>
-set HOME=G:\
-</code><br />
-Save the file and restart the PC.
-The program can now be launched from NAL/EagleNet Applications under the
-Math/Statistics/Research folder.
-Clicking the icon will copy the _vimrc file to your G: drive (i.e., your Network drive) and install a short-cut on your computer.
-The icon in the Math/Stat folder of EagleNet Applications
-will copy a shortcut to a new (Start -- Programs -- Vim) directory.
-(You can always move this shortcut to your desktop).
-Once installed to your desktop,
-you can launch the program without opening the EagleNet Applications window.
-(To ensure that the VIM installer runs from EagleNet Applications:
-right-click on the icon (now called "Install VIM") and choose Verify
-from the pop-up menu.  This forces the Novell Application launcher to copy
-the shortcut to your PC.)
-</p>
 
 <p>
 Once you get used to using a mode-based editor, you will <a href="http://www.thomer.com/thomer/vi/vi.html">fall in love</a> with it.
@@ -8426,18 +8391,19 @@ You can adapt the <a href="http://www.dcs.shef.ac.uk/research/ilash/Moby/mthes.h
 </p>
 
 <p>
-There is a recent book devoted to learning Vim:
+There is a nice book devoted to learning Vim:
 <a href="http://www.iccf.nl/click5.html">Vi IMproved by Steve Oualline</a>,
 also called the VIM book.
 You can view the <a href="http://www.truth.sk/vim/vimbook-OPL.pdf">Vim book online</a>.
 </p>
 <p>
-Be sure to use <a href="http://lanzarotta.tripod.com/">Jeff Lanzarotta's bufexplorer.vim</a>.
+Be sure to try <a href="http://lanzarotta.tripod.com/">Jeff Lanzarotta's bufexplorer.vim</a>.
 (One warning: as of early 2001,
 the buffer delete command in bufexplorer uses bd!,
 so changed buffers will be deleted upon request without a warning.
 Change this to bd)
 </p>
+
 <p>
 <a href="http://ctags.sf.net">Ctags</a> is no longer included with Vim
 (it has grown into a project of its own.)
@@ -8446,10 +8412,6 @@ Change this to bd)
 <p>
 A useful plugin is <a href="http://www.vim.org/scripts/script.php?script_id=293">Universal Text Linking</a>,
 which executes URLs in plain text (e.g. call webbrowser, link MS Word documents, text files, embed vim commands).
-</p>
-
-<p>
-Vim digraphs are based on <a href="http://www.faqs.org/rfcs/rfc1345.html">RFC 1345</a>.
 </p>
 
 <p>
@@ -9037,6 +8999,25 @@ To enter arbitrary Unicode characters on a Windows platform, see
 On Linux, consider the <a href="http://code.google.com/p/ibus/]">IBus</a> input bus.
 If you use Vim on either platform, see <code>help utf-8-typing</code> (and <code>help digraphs-default</code>).
 </p>
+
+<h3 id="win10-hints">Windows 10 hints</h3>
+
+<p>
+To see your recent files,
+open the Run Dialog Box (keyboard shortcut Windows Key+R)
+and enter <code>shell:recent</code>.
+You can open (or delete) files here.
+</p>
+
+<p>
+To search for a phrase in a given type of file in FileExplorer,
+use the search bar on the upper right hand corner with the <tt>type:</tt> and <tt>content:</tt> prefixes. 
+E.g., <tt>content:"my phrase" type:.tex</tt>.
+(First, make sure you are
+<a href="https://support.microsoft.com/en-us/help/4098843/windows-10-search-indexing-faq">indexing the contents</a>.)
+</p>
+
+
 
 <h3 id="gnuwin32-hints">GnuWin32 hints</h3>
 <p>

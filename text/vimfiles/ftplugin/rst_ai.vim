@@ -10,7 +10,7 @@ endif
 " Don't reload plugin for this buffer
 let b:loaded_rst_ai=1
 
-set fileencoding=utf-8
+setl fileencoding=utf-8
 colorscheme koehler
 
 " add suffixes to gf searches

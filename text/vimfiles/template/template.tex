@@ -9,16 +9,6 @@
 %\usepackage{mathptm} %or \usepackage{mathptmx}
 %(still uses some CM fonts, must be in  Type1 form.)
 %\usepackage{natbib}  %formats references
-\usepackage{ifpdf}
-\ifpdf %if using pdfLaTeX in PDF mode
-  \usepackage[pdftex]{graphicx}
-  \DeclareGraphicsExtensions{.pdf,.png,.mps}
-\else %if using LaTeX or pdfLaTeX in DVI mode
-  \usepackage{graphicx}
-  \DeclareGraphicsExtensions{.eps,.bmp}
-  \DeclareGraphicsRule{.emf}{bmp}{}{}% declare EMF filename extension
-  \DeclareGraphicsRule{.png}{bmp}{}{}% declare PNG filename extension
-\fi
 \begin{document}
 
   \bibliographystyle{alan}

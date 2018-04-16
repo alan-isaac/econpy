@@ -2,6 +2,8 @@ This README accompanies the code used in the paper entitled
 "The ABM Template Models: A Reformulation with Reference Implementations".
 The code is copyright 2011 by Alan G. Isaac, but is released under
 the MIT license: http://www.opensource.org/licenses/mit-license
+(Roughly that means you can do as you wish with the code,
+as long as you acknowledge this copyright and do not expect any warranty.)
 
 To run this code you need:
 
@@ -13,7 +15,7 @@ To run this code you need:
 
 To run template model 8 and above, you need write privileges
 on your computer: the models will attempt to write to
-c:/temp/temp.csv.  (This location is easily changed at
+/temp/temp.csv.  (This location is easily changed at
 the top of template08.py.)
 
 Each model is designed to be run separately,

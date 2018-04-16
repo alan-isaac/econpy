@@ -1,7 +1,9 @@
 """
 Provides an uncategorized collection of possibly useful utilities.
+(The primary use is pedagogical.  For more sophisticated
+implementations, see the NumPy library for numerical Python.)
 
-:copyright: 2005-2009 Alan G. Isaac, except where another author is specified.
+:copyright: 2005-2017 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_
 :author: Alan G. Isaac (and others where specified)
 
@@ -215,7 +217,6 @@ def n_each_rand(n,itemtuple=(True,False)):
 
     :since:  2006-06-20
     :date:   2007-07-11
-    :contact: aisaac AT american.edu
     """
     item0, item1 = itemtuple
     ct0, ct1 = 0, 0
@@ -234,7 +235,6 @@ def permute(x):
 
     :since:  2005-06-20
     :date:   2007-06-22
-    :contact: aisaac AT american.edu
     """
     #use numpy if available
     try:

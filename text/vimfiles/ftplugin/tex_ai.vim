@@ -46,7 +46,6 @@ endif
 imap <buffer> <unique> ;be <esc>ciw\begin{}<cr>\end{}<esc>"-Pk$"-Po
 imap <buffer> <unique> *be <esc>ciw\begin{}<cr>\end{}<esc>"-Pi*<esc>k$"-Pi*<esc>o
 imap <buffer> <unique> ;bm \begin{bmatrix}<cr>\end{bmatrix}<esc>O\\<esc>I
-imap <buffer> <unique> ;ce \begin{center}<cr>\end{center}<cr><esc>kO
 imap <buffer> <unique> ;en \begin{enumerate}<cr>\end{enumerate}<cr><esc>kO\item<space>
 imap <buffer> <unique> ;al \begin{align}<cr>\\<cr>\end{align}<esc>kO&=<home>
 imap <buffer> <unique> *al \begin{align*}<cr>\\<cr>\end{align*}<esc>kO&=<home>
@@ -57,20 +56,17 @@ imap <buffer> <unique> ;ml \begin{multline}<cr>\end{multline}<esc>O
 imap <buffer> <unique> *ml \begin{multline*}<cr>\end{multline*}<esc>O
 imap <buffer> <unique> ;ga \begin{gather}<cr>\end{gather}<esc>O
 imap <buffer> <unique> *ga \begin{gather*}<cr>\end{gather*}<esc>O
-imap <buffer> <unique> ;lst \begin{lstlisting}<cr>\end{lstlisting}<esc>O
-imap <buffer> <unique> ;qt \begin{quote}<cr>\end{quote}<esc>O
 imap <buffer> <unique> ;fn %<cr>\footnote{%<cr>}<cr>%<esc>-i
 vmap <buffer> <unique> ;fn "xc%<cr>\footnote{%<cr>}<cr>%<esc>-"xP
 imap <buffer> <unique> ;it \begin{itemize}<cr>\end{itemize}<cr><esc>kO\item<space>
 imap <buffer> <unique> ;tr \begin{tabular}{cc}\hline\hline<cr>\hline<cr>\end{tabular}<cr><esc>kkkO
-imap <buffer> <unique> ;th \begin{theorem}<cr>\end{theorem}<cr>\begin{proof}<cr>\end{proof}<cr><esc>3kO
-imap <buffer> <unique> ;vb \begin{verbatim}<cr>\end{verbatim}<cr><esc>kO
+imap <buffer> <unique> ;th \begin{theorem}<cr>\end{theorem}<cr>\begin{mbProof}<cr>\end{mbProof}<cr><esc>3kO
 
 "Greek letters
 map! <buffer> <unique> 'ga \alpha
 map! <buffer> <unique> 'gb \beta
-map! <buffer> <unique> 'gc \psi
-map! <buffer> <unique> 'gC \Psi
+map! <buffer> <unique> 'gc \chi
+map! <buffer> <unique> 'gC \Chi
 map! <buffer> <unique> 'gd \delta
 map! <buffer> <unique> 'gD \Delta
 map! <buffer> <unique> 'ge \varepsilon
@@ -86,20 +82,24 @@ map! <buffer> <unique> 'gl \lambda
 map! <buffer> <unique> 'gL \Lambda
 map! <buffer> <unique> 'gm \mu
 map! <buffer> <unique> 'gn \nu
+" map! <buffer> <unique> 'go \omicron
 map! <buffer> <unique> 'gp \pi
 map! <buffer> <unique> 'gP \Pi
-map! <buffer> <unique> 'gq \chi
+map! <buffer> <unique> 'gq \theta
 map! <buffer> <unique> 'gr \rho
 map! <buffer> <unique> 'gR \Rho
 map! <buffer> <unique> 'gs \sigma
 map! <buffer> <unique> 'gS \Sigma
 map! <buffer> <unique> 'gt \tau
+map! <buffer> <unique> 'gu \upsilon
 map! <buffer> <unique> 'gw \omega
 map! <buffer> <unique> 'gW \Omega
 map! <buffer> <unique> 'gx \xi
 map! <buffer> <unique> 'gX \Xi
-map! <buffer> <unique> 'gy \theta
-map! <buffer> <unique> 'gY \Theta
+map! <buffer> <unique> 'gy \psi
+map! <buffer> <unique> 'gY \Psi
+map! <buffer> <unique> 'gz \zeta
+map! <buffer> <unique> 'gZ \Zeta
 
 " LaTeX math
 imap <buffer> <unique> ;ht <c-r>="\\hat{".input("hat:")."}"<cr>

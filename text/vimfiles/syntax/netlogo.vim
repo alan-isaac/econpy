@@ -1,11 +1,11 @@
 " Vim syntax file
-" Language:     NetLogo 5
+" Language:     NetLogo 6
 " Maintainer:   Alan G. Isaac <aisaac@american.edu>
-"   Tries to improve on Steven Stoddard's syntax file 
+"   Extension of Steven Stoddard's syntax file 
 "   at http://voo-du.net/media/dump/nlogo.vim
-" Copyright: 2014 Alan G. Isaac
+" Copyright: 2014-2017 Alan G. Isaac
 " License: MIT http://opensource.org/licenses/MIT
-" Last Change:  2014-07-29
+" Last Change:  2017-07-29
 " Filenames:    *.nlogo,*.nlogo~,*.nls
 
 " TODO
@@ -40,6 +40,7 @@ syn match nlNumber /\<-\=\.\d\+\([Ee][-+]\=\d\+\)\=/
 
 "TODO: necessary?
 setlocal iskeyword+=-
+setlocal iskeyword+=:
 setlocal iskeyword+=?
 setlocal iskeyword+=#
 
@@ -73,6 +74,7 @@ syn keyword nlSets patches turtles links
         \ turtles-at turtles-here turtles-on other-turtles-here
         \ neighbors neighbors4
         \ my-in-links my-links my-out-links
+        \ turtle-set patch-set link-set
 
 "TODO:  breeds-own, BREED-at BREED-here BREED-on other-BREED-here
 "removed: pen-down? turtles-from
@@ -94,7 +96,7 @@ syn keyword nlDefine end let set to to-report task
 "note: include `breed` despite two uses: declaring breeds, and attr access
 syn keyword nlTurtleAttr breed color heading hidden? label label-color
         \ pen-mode pen-size shape size who xcor ycor
-        \ patch-here patch-ahead patch-at-heading-and-distance
+        \ patch-here patch-ahead patch-at patch-at-heading-and-distance
         \ patch-left-and-ahead patch-right-and-ahead
 
 syn keyword nlPatchAttr pcolor plabel plabel-color pxcor pycor
@@ -116,9 +118,9 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ back bk
         \ clear-ticks clear-turtles ct die
         \ distance distancexy downhill downhill4 dx dy forward fd
-        \ hideturtle ht home inspect pen-down pd set-default-shape
+        \ hide-turtle ht home inspect pen-down pd set-default-shape
         \ setxy setxyz shapes stamp subtract-headings towards towardsxy uphill diffuse diffuse4
-        \ distance inspect nsum nsum4 at-points count histogram-from in-radius
+        \ distance nsum nsum4 at-points count histogram-from in-radius
         \ extract-hsb extract-rgb hsb rgb scale-color shade-of? wrap-color
         \ clear-all ca clear-drawing clear-patches cp display no-display beep clear-output
         \ export-view export-interface export-output export-plot export-all-plots export-world
@@ -132,8 +134,9 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ file-open file-print file-read file-read-characters file-read-line
         \ file-show file-type file-write
         \ user-directory user-file user-new-file filter
-        \ fput item length list lput member? modes n-values position reduce remove
-        \ remove-duplicates remove-item replace-item reverse sentence se shuffle
+        \ fput item length list lput member? modes n-values position
+        \ random-xcor random-ycor reduce remove
+        \ remove-duplicates remove-item replace-item insert-item reverse sentence se shuffle
         \ sort sort-by sort-on sublist item length member? position remove remove-item
         \ read-from-string replace-item reverse substring word
         \ autoplot? auto-plot-off auto-plot-on clear-all-plots clear-plot
@@ -141,9 +144,11 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ plot plot-name plot-pen-down ppd plot-pen-reset plot-pen-up ppu
         \ plot-x-max plot-x-min plot-y-max plot-y-min plotxy ppd ppu
         \ set-current-plot set-current-plot-pen set-histogram-num-bars
-        \ set-plot-pen-color set-plot-pen-interval set-plot-pen-mode
+        \ set-plot-background-color set-plot-pen-color set-plot-pen-interval set-plot-pen-mode
         \ set-plot-x-range set-plot-y-range setup-plots
         \ movie-cancel movie-close movie-grab-view movie-grab-interface movie-set-frame-rate movie-start movie-status
+        \ max-pxcor min-pxcor range stop-inspecting-dead-agents
+        \ world-height world-width
 
 "removed: distance-nowrap distancexy-nowrap no-label towards-nowrap towardsxy-nowrap
 " in-radius-nowrap random-int-or-float
@@ -161,6 +166,11 @@ syn keyword nlLinks
         \ link-with
         \ out-link-to hide-link show-link tie untie 
 
+syn keyword nlTable
+        \ table:clear table:counts
+        \ table:group-agents table:group-items
+        \ table:from-list table:get table:get-or-default table:has-key? table:keys
+        \ table:length table:make table:put table:remove table:to-list table:values 
 
 "TODO: in-BREED-from BREED-with <link-breeds>-own my-BREEDS my-in-BREEDS my-out-BREEDS out-BREED-to
 
@@ -207,6 +217,7 @@ hi link nlMath                   Function
 hi link nlRepeat                 Repeat
 hi link nlKeyword                Keyword
 hi link nlLinks                  Keyword
+hi link nlTable                  Keyword
 hi link nlCreate                 Keyword
 hi link nlLinkNeighbor           Keyword
 hi link nlSets                   Type

@@ -1,11 +1,16 @@
 """Provides function `netlogo4to6` to convert NetLogo version 4 files
 to NetLogo files that can be loaded by version 6.
-(NetLogo 6 will convert version 5 files itself.)
+(NOTE: NetLogo 6 will convert version 5 files itself.)
+Please send comments to alan DOT isaac AT gmail DOT com.
 """
 
 import os, re, sys
 
 sectionsep = "@#$#@#$#@"
+conversionHeader = """;Converted from NetLogo version 4 by netlogo4to6.py.
+;Conversion does not handle lambdas (and therefore instances of
+;`foreach` and `map` must be edited by hand).
+"""
 def netlogo4to6(fpath): 
     """
     Version 4 sections are separated by sectionsep:
@@ -30,12 +35,14 @@ def netlogo4to6(fpath):
     fin = open(fpath, "r")
     data = fin.read()
     sections = list(map(lambda x:x.strip(), data.split(sectionsep)))
+    print(sections[0])
     if not (11 == len(sections)):
-        raise ValueError("not a version 4 file")
+        _msg = "{} sections instead of the 11 expected from a version 4 file."
+        assert (12 == len(sections) and sections[-1]==""), _msg.format(len(sections))
     if not sections[4].startswith("NetLogo 4"):
         raise ValueError("not a version 4 file")
     #fix the sections:
-    sections[0] = fixCode( sections[0] )
+    sections[0] = conversionHeader + fixCode( sections[0] )
     sections[1] = fixWidgets4to6(sections[1])
     sections[4] = "NetLogo 6.0.0"
     sections[7] = fixPrimitives4to6( sections[7] )

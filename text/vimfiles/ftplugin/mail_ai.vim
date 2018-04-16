@@ -6,8 +6,8 @@ let b:did_ftplugin = 1
 
 
 " Stuff from Molenaar:
-" Don't use modelines in e-mail messages, avoid trojan horses and nasty
-" "jokes" (e.g., setting 'textwidth' to 5).
+" Avoid modelines in e-mail messages:
+" (avoid trojan horses and nasty jokes e.g., setting 'textwidth' to 5).
 setlocal nomodeline
 " many people recommend keeping e-mail messages 72 chars wide
 if &tw == 0
@@ -34,8 +34,6 @@ inoremap ;wq <esc>:up<bar>w! d:/temp/temp.mail<bar>q<cr>
 iab Acct Account
 iab acct account
 iab acctg accounting
-iab Altho Although
-iab altho although
 iab amt amount
 iab amts amounts
 iab Appt Appointment
@@ -65,7 +63,7 @@ iab defintion definition
 iab dpt department
 iab Dpt Department
 iab ec economic
-iab ecs economics
+iab econ economics
 iab endog endogenous
 iab endogs endogenous variables
 iab eqn equation
@@ -125,7 +123,7 @@ iab rcd received
 iab rcg receiving
 iab rcv receive
 iab rec receive
-iab recd received
+iab rcd received
 iab ru Are you
 iab Shd Should
 iab shd should
@@ -161,9 +159,7 @@ iab wo without
 iab Wd Would
 iab wd would
 iab wdt wouldn't
-iab wdnt wouldn't
 iab Wdt Wouldn't
-iab Wdnt Wouldn't
 iab wrt with respect to
 iab yr your
 
