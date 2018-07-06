@@ -8269,11 +8269,10 @@ I do not expect this to happen, but if it happens to you let me know and I will 
 <h3 id="vimhints">Vim User hints</h3>
 
 <p>
-Vim is free software.
-First get information about <a href="http://vim.sf.net/download.php">which files to download</a>, then
-<a href="ftp://ftp.vim.org/pub/vim/">download it</a>.
-Finally, if you are new to Vim,
-get some <a href="http://vimdoc.sourceforge.net/">documentation</a>.
+Vim is free and open source software;
+get it here: https://www.vim.org/.
+If you are new to Vim,
+get some <a href="https://www.vim.org/docs.php">documentation</a>.
 Be sure to do the Vim tutorial and to read the help for "navigation".
 If you want additional documentation,
 consider <em>Vi Improved&mdash;Vim</em> by Steve Oualline or
@@ -8281,11 +8280,8 @@ consider <em>Vi Improved&mdash;Vim</em> by Steve Oualline or
 </p>
 
 <p>
-Windows installation:
+Windows installation hints:
 <br />
-To install Vim on Windows,
-get the <a href="https://vim.sourceforge.io/download.php">self-installing Windows executable</a>.
-Double click it and install where desired.
 Installation creats a <code>vim</code> directory.
 Below that is a <code>vimfiles</code> directory.
 For Windows users who are new to Vim,
@@ -8343,6 +8339,27 @@ To determine your current color scheme, enter <code>echo g:colors_name</code>
 at the command line.
 (If you did the tutorial, you know you can reach the command line
 by pressing <code>Esc</code> 
+</p>
+
+<p>
+Buffers:
+<br />
+A buffer is a file open for editing.
+Use the <code>:ls</code> command to list your current buffers.
+This list is <em>not</em> interactive.
+However, while looking at this list,
+you can e.g. enter <code>:b10</code> to switch to buffer 10.
+</p>
+
+<p>
+Tabs:
+<br />
+Vim uses tabs in a unique way.
+They are called tab pages,
+and they are essentially an arrangement of windows open on some of your buffers.
+(A buffer is a file that has been opened for editing;
+a window is an area to view a buffer,
+and a tab page is a collection of windows.
 </p>
 
 <div>
