@@ -29,3 +29,8 @@ giving the name Cell.Data to the unzipped file.
 Note that gridworld uses Tkinter.  Do not try to run the
 template models in IDLE, which is also written in Tkinter.
 It is best to run them from a command shell.
+
+
+ADDENDUM 2018-08-12: Thanks to Steve Railsback for permitting
+the addition of the file Cell.Data to this repository, also
+under the MIT license.

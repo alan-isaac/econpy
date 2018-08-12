@@ -387,6 +387,7 @@ Some text, and a math formula \(a+b=\sqrt{c}\).
 
 <p>
 A few more freely available mono-space fonts ...
+<a href="https://www.google.com/get/noto/#sans-mono">Google’s Noto Sans Mono</a> is getting very favorable reviews.
 Most systems include some version of CourierNew,
 which is mostly adequate,
 or LucidaConsole, which is pretty good.
@@ -8408,6 +8409,13 @@ You can adapt the <a href="http://www.dcs.shef.ac.uk/research/ilash/Moby/mthes.h
 </p>
 
 <p>
+Learn to yank use registers.
+For example, to yank (i.e., copy) the entire buffer you are working on
+into the clipboard, use <code>:%y+</code>.
+(The plus sign picks the clipboard register.)
+</p>
+
+<p>
 There is a nice book devoted to learning Vim:
 <a href="http://www.iccf.nl/click5.html">Vi IMproved by Steve Oualline</a>,
 also called the VIM book.
@@ -8418,7 +8426,7 @@ Be sure to try <a href="http://lanzarotta.tripod.com/">Jeff Lanzarotta's bufexpl
 (One warning: as of early 2001,
 the buffer delete command in bufexplorer uses bd!,
 so changed buffers will be deleted upon request without a warning.
-Change this to bd)
+Change this to bd.)
 </p>
 
 <p>
