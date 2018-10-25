@@ -105,7 +105,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2010-05-25
+Last modified: 2018-05-25
 <br />
 Most recent (GitHub) version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.
 <br />
@@ -5251,9 +5251,9 @@ they have the even more powerful <a href="http://tug.ctan.org/tex-archive/macros
 which allows use of natbib's commands (e.g., \citep, \citet)
 instead of the commands usually provided by biblatex (e.g., \parencite, \textcite).)
 
-Python users can consider the bib4txt component of <a href="http://www.pricklysoft.org/software/bibstuff.html">bibstuff</a>,
+Python users can consider the bib4txt component of <a href="https://github.com/dschwilk/bibstuff">bibstuff</a>,
 which should particularly interest <a href="#rest">reStructuredText</a> users who need bibliographic support.
-(I recommend you get the <a href="http://code.google.com/p/bibstuff/">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python)
+(I recommend you get the <a href="https://github.com/dschwilk/bibstuff">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python)
 Chris Putnam's <a href="http://www.scripps.edu/~cdputnam/software/bibutils/bibutils.html">Bibutils</a>
 "interconverts between various bibliography formats using a common XML intermediate."
 (Bibutils License: GPL; Language: C; binaries are available for many platforms.)
@@ -5356,7 +5356,7 @@ BibTeX Contributions</a>.
 (Note that generally you can use the .bst files with natbib.sty.
 </li>
 <!-- access problem -->
-<li><a href="ftp://ftp.TeX.ac.UK/ctan/tex-archive/macros/plain/contrib/vertex/">
+<li><a href="http://tug.ctan.org/tex-archive/macros/plain/contrib/vertex/">
 VerTeX for Economics Journals.</a> 
 </li>
 <li>
@@ -7261,6 +7261,7 @@ Example:
 <pre>
 c:\Python27\python.exe -c "import scipy;scipy.test()" &gt;c:\file.txt 2&gt;&amp;1
 </pre>
+In PowerShell, use the <code>out-file</code> commandlet.
 </div>
 <!-- c:\Python27\python.exe -c "import scipy;scipy.test()" >c:\temp\temp.txt 2>&1 -->
 
@@ -8836,6 +8837,11 @@ To search all files, use advanced search and check "Include non-indexed".
 It can also be useful to <a href="http://www.microsoft.com/windows/products/winfamily/desktopsearch/technicalresources/indexing.mspx">change what is indexed</a>.
 </div>
 
+<div>
+To drop to a command shell from File Explorer,
+use Shift+RightClick to open a menu with that option.
+</div>
+
 
 <h3 id="opera-hints">Opera hints</h3>
 
@@ -9001,6 +9007,23 @@ A few odd things are obscure.
 E.g., <a href="http://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot">adding a zero-line</a>
 to a plot.
 </p>
+
+<p>
+When supplying images to accompany articles,
+depending on the journal,
+the TikZ format may not be acceptable.
+Fortunately, it is easy to create standalone PDFs from TikZ figures.
+Use the <code>standalone</code> documentclass.
+</p>
+<pre>
+% myfig.tex
+\documentclass[tikz]{standalone} %standalone figure
+\begin{document}
+\begin{tikzpicture}
+  \draw (0,0) -| (5,5) -| (10,10); %tightly cropped!
+\end{tikzpicture}
+\end{document}
+</pre>
 
 
 <h4 id="luatex-hints">LuaTeX hints</h4>
