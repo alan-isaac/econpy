@@ -139,11 +139,16 @@ def smallchange(p1,p2,eps=1e-6,tol=1e-6):
 #careful: no maxiter!
 #BEGIN lst:sequence.picard1
 def simplest_picard(fn : Callable, p : Real) -> Real:
+    p_1, p = p, fn(p)
+    while (not smallchange(p_1,p)):
+        p_1, p = p, fn(p)
+    return p
+#END lst:sequence.picard1
+def old_simplest_picard(fn : Callable, p : Real) -> Real:
     while True:
         p_1, p = p, fn(p)
         if smallchange(p_1,p):
             return p
-#END lst:sequence.picard1
 
 def simple_picard(fn, p, itermax):
     for iternum in range(itermax):
@@ -212,8 +217,11 @@ class test_iter(unittest.TestCase):
         best_result = iterate.Picard(f2, 1, 100, tol=1e-6).fp  #must match tolerance...
         result1 = simplest_picard(f2, 1)
         result2 = simple_picard(f2, 1, 100)
+        result3 = old_simplest_picard(f2, 1)
         self.assertTrue(fmath.feq(result1, best_result, 1e-6))
         self.assertTrue(fmath.feq(result2, best_result, 1e-6))
+        self.assertTrue(fmath.feq(result3, best_result, 1e-6))
+        self.assertEqual(result3, result1)
         #picard(lambda x: -x,1,100)
 
 if __name__=="__main__":

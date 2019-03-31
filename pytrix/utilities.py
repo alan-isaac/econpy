@@ -77,7 +77,7 @@ def ireduce(func, iterable, init=None):
     """
     iterable = iter(iterable)
     if init is None:
-        init = iterable.next()
+        init = next(iterable)
         yield init
     else:
         init = func(init, iterable.next())
@@ -149,6 +149,56 @@ def test_safe_iter():
 #all the Gini calculations include the 1/N correction
 # TODO: speed comparison
 
+def ginis(xss, bessel=False):
+    """Return 1d array, the Gini coefficient for each row of xss.
+    A NaN element means computation was impossible for that series.
+
+    xss: [[float]]
+      2d array (accepts only nonnegative real values); *rows* are series.
+    bessel: bool
+      False (default): normalize by series length (k); True: normalize by `k-1`
+
+    NOTE:
+      Gini is not computed for those series containing NaNs or negatives.
+      Thereby lacks some features of the ginicoeff code by Oleg Komarov:
+      https://www.mathworks.com/matlabcentral/fileexchange/26452-okomarov-ginicoeff
+    
+      The Gini coefficient ranges from 0 (total equality) to 0 (total in equality).
+      A standard Gini formula for K (ascending) sorted incomes xi:
+      with n = Sum[(n+1-i)*x[[i]],{i,K}]   and   d = Sum[xi,{i,K}]
+      without correction (DEFAULT) | with correction (bessel=True)
+      G = (K+1-2*(n/d))/K          | G = (K+1-2*(n/d))/(K-1)
+      
+    EXAMPLE::
+      xss =  [[5, 2, 3, 4, 1],[3, 2, 1, 5, np.nan]];
+      gs  =  ginis(xss)
+    """
+    #test preconditions:
+    assert bessel in (True,False), 'ginis: bessel has invalid format'
+    xss = np.asarray(xss)
+    r,k = xss.shape
+    assert k == len(xss[0]), "bad series length"
+
+    #True -> row has no negatives and all numeric, False ow
+    oks = np.logical_and((xss >= 0).all(axis=1), np.isfinite(xss).all(axis=1))
+    xss = np.sort(xss[oks], axis=1)
+    totals = xss.sum(axis=1)
+    assert (totals > 0).all(), "all-zero series forbidden"
+
+    # Gini coefficient before scaling:
+    wts = k - np.arange(len(xss[0]))
+    gs = k + 1 - 2*(np.dot(xss,wts) / totals);
+
+    #Add sample correction if requested
+    if bessel:
+        gs /= (k-1);
+    else: #default
+        gs /= k;
+    result = np.empty(r)
+    result.fill(np.nan)
+    result[oks] = gs
+    return result
+
 def calc_gini4(x, use_numpy=True): #follow transformed formula
     """Return computed Gini coefficient.
     """
@@ -182,11 +232,18 @@ def calc_gini2(x): #follow transformed formula
     G = 2.0*G/(n*sum(x)) #2*B
     return G - 1 - (1./n)
 
-def calc_gini(x):
-    """Return computed Gini coefficient.
+def gini(xs):
+    """Return Gini coefficient computed with standard formula.
+    Uses numpy.  Compare to `py_gini`.
+    """
+    xs = np.sort(xs)  # increasing order
+    N = len(xs)
+    B = np.dot(xs, N - np.arange(N)) / (N * xs.sum())
+    return 1. + (1./N) - 2*B
 
-    :note: follows basic formula
-    :see: `calc_gini2`
+def py_gini(x):
+    """Return Gini coefficient computed with standard formula.
+    Contrast with `calc_gini2`.
     """
     x = sorted(x)  # increasing order
     N = len(x)

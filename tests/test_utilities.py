@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
 from econpy.pytrix.utilities import cumsum, cumprod
-from econpy.pytrix.utilities import calc_gini, calc_gini2, calc_gini3, calc_gini4
+from econpy.pytrix.utilities import ginis, py_gini, calc_gini2, calc_gini3, calc_gini4
 from econpy.abm.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
 
@@ -51,21 +51,21 @@ class testUtilities(unittest.TestCase):
         gini0 = random.random()
         nbrackets = 10**random.randrange(3,5)
         shares01 = list(gini2shares(gini=gini0, nbrackets=nbrackets))
-        print "sum", sum(shares01)
-        gini1 = calc_gini(shares01)
+        print("sum", sum(shares01))
+        gini1 = py_gini(shares01)
         #print "ginis:", gini0, gini1   TODO: better accuracy expected...
-        self.assert_(fmath.feq(gini0, gini1, 1e-3)) #imposed and computed Gini shd be equal
-        print "here"
+        self.assertTrue(fmath.feq(gini0, gini1, 1e-3)) #imposed and computed Gini shd be equal
+        print("here")
         shares02 = list( gini2sharesPareto(gini=gini0, nbrackets=nbrackets) )
-        print "sum", sum(shares02)
-        gini2 = calc_gini(shares02)
+        print("sum", sum(shares02))
+        gini2 = py_gini(shares02)
         #print "ginis:", gini0, gini1   TODO: better accuracy expected...
-        self.assert_(fmath.feq(gini0, gini2, 1./nbrackets)) #imposed and computed Gini shd be equal
+        self.assertTrue(fmath.feq(gini0, gini2, 1./nbrackets)) #imposed and computed Gini shd be equal
         """
         print shares01[::100]
-        print calc_gini(shares01)
+        print py_gini(shares01)
         print shares02[::100]
-        print calc_gini(shares02)
+        print py_gini(shares02)
         fig, (ax1,ax2) = plt.subplots(1,2)
         ax1.plot(shares01)
         ax2.plot(np.cumsum(shares01))
@@ -78,27 +78,35 @@ class testUtilities(unittest.TestCase):
         self.assertEqual([0,0,0,0,0],cumprod(range(5)))
     def test_permutations(self):
         x = permutations([1,2])
-        y = permutations(range(3))
-        z = list( permutationsg(range(3)) )
+        y = permutations([0,1,2])
+        z = list( permutationsg([0,1,2]) )
         self.assertEqual(x,[[1,2],[2,1]])
         self.assertEqual(y,z)
-    def test_calc_gini(self):
+    def test_math(self):
+        print(fmath.get_float_radix())
+        print(fmath.get_machine_precision())
+        print(fmath.get_default_numerical_precision())
+        print(fmath.feq(1,2), fmath.feq(1e-9, 1e-10), fmath.feq(1e-16, 1e-17))
+
+class testGinis(unittest.TestCase):
+    def setUp(self):
+        self.N = 5
+        self.wealths = [10*random.random() for _ in range(2*self.N)]
+        self.wealths02 = self.wealths[:]
+        self.wealths02[-1] = np.nan
+    def test_ginis(self):
         #test that two Gini formulae give same result
-        gini1 = calc_gini(self.wealths)
+        gini1 = py_gini(self.wealths)
         gini2 = calc_gini2(self.wealths)
         gini3 = calc_gini3(self.wealths)
         gini4 = calc_gini4(self.wealths)
+        gini5, bad = ginis([self.wealths,self.wealths02])
         #print "gini1:%f, gini2:%f"%(gini1, gini2)
-        self.assert_(fmath.feq(gini1,gini2))
-        self.assert_(fmath.feq(gini1,gini3))
-        print gini1, gini4
-        self.assert_(fmath.feq(gini1,gini4))
-    def test_math(self):
-        print
-        print fmath.get_float_radix()
-        print fmath.get_machine_precision()
-        print fmath.get_default_numerical_precision()
-        print fmath.feq(1,2), fmath.feq(1e-9, 1e-10), fmath.feq(1e-16, 1e-17)
+        self.assertTrue(fmath.feq(gini1,gini2))
+        self.assertTrue(fmath.feq(gini1,gini3))
+        self.assertTrue(fmath.feq(gini1,gini4))
+        self.assertTrue(fmath.feq(gini1,gini5))
+        print("g1={},g5={}, bad={}".format(gini1, gini5, bad))
 
 if __name__=="__main__":
     unittest.main()

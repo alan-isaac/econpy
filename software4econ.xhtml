@@ -1776,13 +1776,7 @@ developed at <a href="http://public.web.cern.ch/public/">CERN</a>.
 especially polynomials and polynomial matrices.)
 </li>
 <li>
-<a href="http://lush.sourceforge.net/index.html">Lush</a> is a Lisp based matrix programming language that includes both an interpreter (for ease of development) and a compiler (for speed).
-It allows inlined C code.
-Lush is free and open source software.
-As a bonus it allows easy development of interactive 2-D graphics.
-</li>
-<li>
-<a href="http://dhmunro.github.io/yorick-doc/">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is in wide use in physics. (License: BSD)
+<a href="http://dhmunro.github.io/yorick-doc/">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is primarily used in physics. (License: BSD)
 Yorick includes the Gist graphics package,
 which can be used separately.
 For example,
@@ -1800,14 +1794,15 @@ but the Windows installation of Octave is a bit large since it includes an insta
 Octave uses <a href="#gnuplot">gnuplot</a> for plotting.
 </li>
 <li>
-<a href="http://euler.rene-grothmann.de/">Euler Math Toolbox (EMT)</a> supports matrix computations with a focus on the production of high quality graphics.  Euler also provides symbolic math via Maxima and offers a notebook interface. (License: GPL)
+<a href="http://euler.rene-grothmann.de/">Euler Math Toolbox (EMT)</a> supports matrix computations with a focus on the production of high quality graphics.
+Euler also provides symbolic math via Maxima and offers a notebook interface. (License: GPL)
 </li>
 <li>
-<a href="http://www.aplusdev.org/">A+</a> is a modern APL derivative popular in the financial world.
-(License: GPL.)
-Last stable release: 2008.
-Not currently implemented for Windows.
-A related language is <a href="http://www.hakank.org/k/">K/Kona</a>.
+Related languages:
+<a href="http://lush.sourceforge.net/index.html">Lush</a> (Lisp based);
+<a href="http://www.aplusdev.org/">A+</a> (APL derivative);
+<a href="http://www.hakank.org/k/">K/Kona</a>.
+<a href="https://kx.com/connect-with-us/download/">Q</a>.
 </li>
 <li> Harmonic Software offers <a href="http://www.omatrix.com/">O-Matrix Light</a> for free (one a time-limited basis) and there is an
 <a href="http://www.omatrix.com/manual/">online manual</a>.
@@ -1852,6 +1847,7 @@ Java version of the LAPACK routines.
 </li>
 </ul>
 
+
 <h3 id="other-mpl-free">Support for Matrix Programming in Other Languages</h3>
 
 <p>
@@ -1879,11 +1875,12 @@ C:
 <a href="http://www.cs.utexas.edu/~flame/web/">FLAME</a> is a high-performance dense linear algebra library.
 </div>
 
-<h3>MATLAB and GAUSS</h3>
+<h3 id="other-mpl-com">Commercial Options</h3>
 
 <p>
-For econometrics, the biggest collections of extant code are in Gauss and MATLAB,
-with Python code perhaps poised to catch up.
+Popular commercial options include Mathematica, MATLAB, GAUSS, and IDL.
+For econometrics, the biggest collections of extant code are in MATLAB and GAUSS,
+with Python and Julia code perhaps catching up.
 Of these two, Gauss has the advantage of real array broadcasting,
 while MATLAB relies on the relatively clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
 Recent versions of Matlab supports classes and GAUSS has structs,
@@ -1892,6 +1889,12 @@ and both often copy array data when it is unnecessary (instead of referencing it
 If you are going to write a lot of your own code,
 true object orientation can be critical.
 You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
+</p>
+
+<p>
+<a href="http://www.rsinc.com/">Interactive Data Language (IDL)</a> is popular among astronomers and others doing intensive image processing.
+You can run most IDL programs using the <a href="http://gnudatalanguage.sourceforge.net/">GNU Data Language (GDL)</a>.
+You can convert your IDL programs to Python with <a href="http://software.pseudogreen.org/i2py/">i2py</a>.
 </p>
 
 <p>
@@ -1906,24 +1909,16 @@ which "embeds a Python interpreter into Matlab".
 See <a href="#gauss-hints">GAUSS user hints.</a>
 </p>
 
+<p>
 Among matrix-oriented programming languages,
-<p><a href="http://www.aptech.com/">GAUSS</a> probably remains the first choice among U.S. econometricians.
+<a href="http://www.aptech.com/">GAUSS</a> was once the first choice among U.S. econometricians.
+(Python and Julia now appear to be taking over.)
 It is known for speed and ease of use.
 Its collection of built-in statistical procedures is not as extensive as specialty languages such as S-Plus/Gnu-S,
 but this can be offset by its speed and by available free and commercial packages
 (such as <a href="http://www.econotron.com/gaussx/gaussx1.html">GAUSSX</a>).
 </p>
 
-<p>
-The  <a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM">
-<b>GAUSS Source Code Archive</b></a> at American University is a primary source of GAUSS freeware.
-Included in the archive is a partial
-<a href="http://www.american.edu/academic.depts/cas/econ/gaussres/GAUSSIDX.HTM#OTHER">list of
-other archived code</a>.
-You may also find it useful to visit the
-<a href="http://www.rhkoning.com/gauss/">
-archive for the gaussians mailing list</a>.
-</p>
 
 
 <h5 id="gaussstart">Getting Started with GAUSS</h5>
@@ -1954,56 +1949,17 @@ archive for the gaussians mailing list</a>.
 
 
 
-<h3 id="other-mpl-com">Other Commercial Matrix Programming Languages</h3>
 
 <p>
 Jens Peter Steffen offers a detailed
 <a href="http://www.ku-eichstaett.de/docs/WWF/STA/download.htm">comparison of GAUSS with MatLab and Ox</a>.
 </p>
 
-<ul>
-<li><a href="http://www.aptech.com">GAUSS</a> is a matrix programming language favored by econometricians.
-<p class="boxed">
-Available in Hurst Lab and Kogod/Econ Lab.)
-</p>
-</li>
-<li>
-<a href="http://www.wavemetrics.com/">IGOR Pro</a>
-is a remarkable scientific programming environment with good extensibility.
-</li>
-<li><a href="http://www.mathworks.com/">Matlab</a> is a matrix programming language favored by engineers but in fairly wide use among economists.
-<p class="boxed">
-(Available on the AU campus as a network application.)
-</p>
-There is <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab.shtml">online documentation</a>.
-Check out the <a href="http://www.mathworks.com/contsoft.shtml">MathWorks</a> software library for MatLab.
-You may also want to visit the <a href="news:comp.soft-sys.matlab">Matlab Users Group</a>.
-<a href="http://www.mathtools.com">MathTools Ltd</a> offers free Matlab toolboxes, Matlab resources and links,
-MIDEVA (fast Matlab replacement),
-and the MATCOM compiler for Matlab.
-If you want Matlab's numerics but need to work in a real programming language,
-you can control a Matlab session from Python with <a href="http://mlabwrap.sourceforge.net/">mlabwrap</a>.
-</li>
-<li>
-Harmonic Software's <a href="http://www.omatrix.com/">O-Matrix</a> is very reasonably priced for academic users.
-</li>
-<li>
-<a href="http://www.nuff.ox.ac.uk/Users/Doornik/">Ox Professional</a> is not free 
-(but there is a console version that is free for educational users).
-</li>
-<li><a href="http://www.jsoftware.com/">J</a>. Be sure to start with the <a href="http://www.jsoftware.com/resource/pdfdoc.htm">Primer</a>.
-</li>
-<li>
-<a href="http://www.rsinc.com/">Interactive Data Language (IDL)</a> is popular among astronomers and others doing intensive image processing.
-You can run most IDL programs using the <a href="http://gnudatalanguage.sourceforge.net/">GNU Data Language (GDL)</a>.
-You can convert your IDL programs to Python with <a href="http://software.pseudogreen.org/i2py/">i2py</a>.
-</li>
-</ul>
 
 <h2 id="gplang">General Purpose Programming Languages</h2>
 
 <p>
-This is a very short selection of possibly useful free programming languages.
+This is an extremely short selection of possibly useful free programming languages.
 </p>
 
 <p>
@@ -2047,18 +2003,6 @@ along with a GUI interface that provides a "worksheet" like environment. (Licens
 Easy and powerful.
 </p>
 
-
-<h3>Build Systems</h3>
-
-<ul>
-<li id="scons">
-A fairly popular alternative to <a href="http://www.gnu.org/software/make/">make</a> is
-<a href="http://www.scons.org/">scons</a>. (License: MIT; Language: Python.)
-</li>
-<li>
-A newer and very promising alternative is <a href="http://waf.googlecode.com/svn/docs/wafbook/single.html#_introduction">Waf</a>.
-</li>
-</ul>
 
 <h3>C</h3>
 
@@ -2231,16 +2175,16 @@ Documentation is in
 <h2 id="STAT">Other Useful Statistical Software</h2>
 
 <p>
-See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a> and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman </a>.
+See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a>
+and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman </a>.
 (The latter offers some package comparisons.)
-Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page.
+Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page,
+<a href="http://www.statistical.org/">Spatial Statistical Resources</a>,
+the <a href="https://eml.berkeley.edu/elsa">Econometrics Laboratory Software Archive (ELSA)</a>  at Berkeley,
+and many others.
 </p>
 
 <ul>
-<li>
-OK, OK, <a href="http://econweb.tamu.edu/gambit/">Gambit</a> is not statistical software,
-but I've got to put this fine, scriptable collection of game-theory tools <em>somewhere</em>!
-</li>
 <li>
 <a href="http://www.jmulti.de/">JMulTi</a>
 "is an interactive software designed for univariate and multivariate time series analysis. It has a Java graphical user interface that uses an external engine for statistical computations."
@@ -2249,8 +2193,9 @@ but I've got to put this fine, scriptable collection of game-theory tools <em>so
 but presumably this could be adapted to e.g. NumPy.)
 </li>
 <li id="Rproject">
-R is a free and open source clone of S-PLUS.
-(It is also called <a href="http://www.r-project.org/">'GNU S'</a>.)
+R is a free and open source clone of 
+<a href="https://edelivery.tibco.com/storefront/eval/tibco-spotfire-s-/prod10222.html">S-PLUS</a>.
+(R is sometimes called <a href="http://www.r-project.org/">'GNU S'</a>.)
 The original S developers contribute to R,
 and it is said that much of S+ has been ported at this point.
 The site includes manuals,
@@ -2273,86 +2218,20 @@ so that graphics are fast and powerful.
 See the 
 </li>
 <li>
-<a href="http://forrest.psych.unc.edu/research/">ViSta</a> is freeware visual statistics program.
-</li>
-<li>
-<a href="http://www.stat.sc.edu/~west/webstat/">WebStat</a> is a Java-based statistical computing program
-</li>
-<li>
-There is now a freeware clone of SPSS called <a href="http://www.gnu.org/software/pspp/">PSPP</a> (formerly Fiasco).
+<a href="http://www.gnu.org/software/pspp/">Gnu PSPP</a> (formerly Fiasco)
+is a FOSS clone (roughly) of SPSS.
 It interprets commands in the SPSS language and produces tabular output in ASCII, HTML, or PostScript format.
-PSPP already supports a large subset of SPSS's transformation language.
-Its statistical procedure support is limited but growing.
-</li>
-<li>
-<a href="http://www.statistical.org/">Spatial Statistical Resources</a>, and many others.
-</li>
-<li>
-<a href="http://www.statsci.org/statcomp.html">Statistical Computing Resources</a> on Statitistical Science Web.
-</li>
-<li>Look at Rainer_Wuerlaender's page of
-<a href="http://ourworld.compuserve.com/homepages/Rainer_Wuerlaender/statsoft.htm">
-statistical shareware and freeware</a>.
-</li>
-<li>
-Erasmus University, Rotterdam's <a href="http://econometriclinks.com"> Econometric Links</a>.
-</li>
-<li>
-Check out the Econometrics Laboratory Software Archive  
-<a href="http://elsa.berkeley.edu/">ELSE</a>  at Berkeley.
+PSPP already supports a substantial subset of SPSS's transformation language.
+Its statistical procedure support is growing.
 </li>
 <li>
 Another useful resource is the
 <a href="http://www.uni-frankfurt.de/~stst/scproge.html"> scientific software list</a>
 on the <a href="http://www.scientificweb.com">Scientific Web</a>
 </li>
-<li id="eviews">
-<a href="http://www.eviews.com/">EViews</a>
-is an extremely simple-to-use Windows-based econometric package whose strength lies in time-series analysis.
-It is used in many AU economics courses.
-You can download
-<a href="http://www.eviews.com/eviews3/eviews31/ev31hlp-04.zip
-">the help file</a> even if you do not own the software.
-There is a <a href="http://forums.eviews.com/">user forum</a>.
-<div class="boxed">See <a href="#eviews-hints">EViews user hints</a>.
-</div>
-</li>
-<li>
-<a href="http://www.netaxis.qc.ca/people/j.breslaw/gaussx/gaussx1.html">GAUSSX</a>,
-<a href="http://www.estima.com/index.html">RATS</a>,
-<a href="http://www.sas.com/">SAS</a> (not user friendly but powerful),
-<a href="http://www.stata.com/">STATA</a> (good for cross section analysis),
-<a href="http://shazam.econ.ubc.ca/">Shazam</a>,
-<a href="http://www.spss.com/">SPSS</a> (limited but popular),
-and <a href="http://www.tspintl.com/">TSP</a> are popular
-commercial econometric packages, available for the PC.
-<div class="boxed">
-AU Students:
-<br />
-AU offers SAS, TSP, <!-- ? -->
-SPSS, and EViews as network applications,
-and there may still be a site license for STATA.
-TSP offers useful
-<a href="http://www.crl.com/~tspintl/tspexam.htm">sample TSP programs</a>.
-</div>
-</li>
-<li> There are also users groups for <a href="news:comp.soft-sys.sas">SAS</a> and
-<a href="news:comp.soft-sys.spss">SPSS</a>.
-</li>
 <li>
 Here is a different approach for Mathematica users:
 <a href="http://www.mathstatica.com/software/">mathStatica</a> is a high precision math/stat package that uses Mathematica as its computational engine.
-</li>
-<li>
-<a href="www.insightful.com/splus">S-PLUS</a>
-is popular among statisticians
-because of its extensive library of statistical functions,
-but it is reported to be very slow compared to GAUSS.
-S-PLUS is available in Anderson Lab.
-</li>
-<li>
-The <a href="http://econwpa.wustl.edu/limdep/limdep.html">Manual for
-the<b> LIMDEP</b> Computer Program</a> is available online.
 </li>
 <li> Be sure to visit Carnegie-Mellon's
 <a href="http://lib.stat.cmu.edu/">Stat Lib Server</a>
@@ -2361,29 +2240,33 @@ The <a href="http://lib.stat.cmu.edu/apstat/">Applied Statistics algorithms</a>
 may be of special interest.
 </li>
 <li>
-<a href="http://netec.mcc.ac.uk/CodEc.html">CodEc</a> archives econometric code for economists.
-</li>
-<li> <a href="gopher://wuecon.wustl.edu:671/11/uicstat">UICSTAT</a>
+<a href="ftp://ftp.repec.org/RePEc/cod/html/CodEc.html">CodEc</a> archives econometric code for economists.
 </li>
 <li> <a href="http://www.bank-banque-canada.ca/pgilbert">Time Series Protocol for Application Database Interface</a>
-</li>
-<li> <a href="http://emlab.berkeley.edu/eml/">
-U.C. Berkeley's Econometric Laboratory</a> offers a variety of
-<a href="http://emlab.berkeley.edu/programs2.html">Source Code Links</a>
-</li>
-<li>Mike Fuller's
-<a href="http://www.mailbase.ac.uk/lists/minitab/files/list-of-lists">
-list of stat related related e-lists</a>.
-</li>
-<li><a href="http://www.minitab.com/">Minitab, Inc. (Minitab)</a>
-</li>
-<li><a href=
-"http://www.stat.umn.edu/ARCHIVES/archives.html">XLISP-STAT</a>
 </li>
 <li>
 Python users may want to look at <a href="http://econpy.googlecode.com/svn/trunk/pytrix/pytrix.xhtml">pyTrix</a>,
 an archive of econometrics related Python code.
 It is part of the <a href="http://code.google.com/p/econpy/">EconPy</a> project.
+</li>
+<li>
+OK, OK, <a href="http://econweb.tamu.edu/gambit/">Gambit</a> is not statistical software,
+but I've got to put this fine, scriptable collection of game-theory tools <em>somewhere</em>!
+</li>
+</ul>
+
+
+<h3>Build Systems</h3>
+
+<ul>
+<li id="scons">
+A popular alternative to <a href="https://cmake.org">CMake</a>
+(<a href="http://purplekarrot.net/blog/cmake-introduction-and-best-practices.html">overview</a>)
+is
+<a href="http://www.scons.org/">scons</a>. (License: MIT; Language: Python.)
+</li>
+<li>
+A newer and very promising alternative is <a href="http://waf.googlecode.com/svn/docs/wafbook/single.html#_introduction">Waf</a>.
 </li>
 </ul>
 
@@ -2510,48 +2393,43 @@ Plots are interactive.
 <h2 id="CAS">Symbolic Mathematics/Computer Algebra Systems</h2>
 
 <p>
-You will find a more complete list plus discussions at <a href="http://www.symbolicnet.org/">SymbolicNet</a> 
-and at the <a href="http://math.haifa.ac.il/msoftware.html">University of Haifa Math Department</a>.
-<a href="http://sal.kachinatech.com">SAL (Scientific Applications on Linux)</a> offers a useful review of <a href="http://sal.kachinatech.com/A/1/index.shtml">Computer Algebra Systems</a>.
-Below I list only a few interesting packages, with an emphasis on multi-platform general-purpose packages.
+Find a more list of Computer Algebra Systems (CASs) on <a href="https://en.wikipedia.org/wiki/List_of_computer_algebra_systems">Wikipedia</a>.
+This section discusses only a few particularly interesting applications.
+For most users, commercial CASs will be the right choice,
+but some interesting FOSS solutions exist.
 </p>
 
 <ul>
 <li>
-<a href="http://www.sagemath.org/">Sage</a>
-is an interesting, Python-based CAS with excellent documentation
-(including a simple <a href="http://www.sagemath.org/help.html#tutorial">tutorial</a>.
-(License: GPL)
+<a href="http://www.sagemath.org/">Sage</a> (License: GPL)
+is an extensive, Python-based CAS with excellent documentation.
+There is a simple <a href="http://www.sagemath.org/help.html#tutorial">tutorial</a>.
+Sage provides interfaces to many other specialized programs,
+including Maxima for symbolic calculus.
 </li>
 <li id="Maxima">
-<a href="http://maxima.sourceforge.net/">Maxima</a> (Lisp, GPL) is is a free cross-platform solution.
+<a href="http://maxima.sourceforge.net/">Maxima</a> (License: GPL; Language: Lisp) is is a free cross-platform solution.
 (A windows binary is available.)
-There is a notebook interface:
-<a href="http://wxmaxima.sourceforge.net/wiki/index.php/Main_Page">wxMaxima</a> (License: GPL2)
-"is a cross platform GUI for the computer algebra system Maxima based on wxWidgets",
-which is distributed with Maxima.
+It is distributed with a notebook interface:
+<a href="https://wxmaxima-developers.github.io/wxmaxima/">wxMaxima</a> (License: GPL2).
 (Applications for economists, with a supporting text,
 can be found at <a href="http://www.wxmaximaecon.com/">http://www.wxmaximaecon.com/</a>.)
-This can be used to produce beautiful PDF documents via LaTeX;
+The notebook can be used to produce beautiful PDF documents via LaTeX;
 see <a href="http://facultyweb.berry.edu/wmixon/maxima/Typesetting/Intro.html">Typesetting in wxMaxima</a> for details.
-Another possibile front end is <a href="http://home.arcor.de/mulk/projects/mascyma/index.xhtml.en">Mascyma</a> (language: Python).
 </li>
 <li>
-Great things grow from small beginnings:
-is <a href="http://code.google.com/p/sympy/">sympy</a> destined for greatness?
-This CAS in Python may be small, but it is <em>very</em> easily extensible.
-<a href="http://code.google.com/p/sympycore/">SympyCore</a> released version 0.1 in Feb. 2008.
-(License: new BSD; Language: Python)
+<a href="https://www.sympy.org/en/index.html">SymPy</a> (License: new BSD)
+is a Python-based CAS that <em>very</em> easily extensible.
+(It too is included with Sage.)
 </li>
-<li><a href="http://page.axiom-developer.org">Axiom</a> (formerly ScratchPad) is now free and open source!
+<li>
+<a href="http://page.axiom-developer.org">Axiom</a> (formerly ScratchPad) is now free and open source!
 "Axiom ... defines a strongly typed, mathematically correct type hierarchy.
 It has a programming language and a built-in compiler."
 </li>
 <li>
-<a href="http://www.xs4all.nl/~apinkus/yacas.html">YACAS</a> 
-</li>
-<li>
 <a href="http://www.ginac.de/">GiNaC</a> offers an interesting and extensible option for those willing to deal with C++.
+<a href="http://swiginac.berlios.de/">Swiginac</a> is a Python interface to <a href="http://www.ginac.de/">GiNaC</a>.
 </li>
 <li>
 <a href="http://www.singular.uni-kl.de/">Singular</a> is "a Computer Algebra System for polynomial computations with special emphasis on the needs of commutative algebra, algebraic geometry, and singularity theory."
@@ -2562,26 +2440,35 @@ Also see <a href="http://servus.math.su.se/bergman/">Bergman</a>,
 "a system for computations in commutative and purely non-commutative graded algebra."
 </li>
 <li>
-<a href="http://www.sciface.com/products/index.shtml">MuPad</a> is professional and cross-platform.
-There is a "freeware" version for academic and individual non-commercial use.
+<a href="http://www.gap-system.org/">Groups, Algorithms, Programming (GAP)</a>
+"is a system for computational discrete algebra, with particular emphasis on Computational Group Theory."
+(License: GPL2)
 </li>
 <li>
-Mathematica remains the most popular symbolic math program.
-I find it excellent for both teaching and research.
+<a href="http://www.tildesoft.com/Pythonica.html">Pythonica</a> holds promise.
+</li>
+</ul>
+
+<h3>Commercial CASs</h3>
+
+<ul>
+<li>
+Mathematica justifiably remains the most popular symbolic math program.
+It is excellent for both teaching and research.
 (See my <a href="#mma-hints">Mathematica hints</a>.)
-Apparently some researchers use it directly for document production;
-I have not been able to use it this way.
+It has an unfortunate weakness in document production,
+where it lacks many facilities needed for professional books and journal articles.
+(Noteworthy missing features are footnotes, floating tables and figures, and bibliograph management.) 
+Nevertheless, some researchers apparently use it directly for report and document production.
+Mathematica is also a bit expensive,
+although Mathematica for Students is available for full-time students at a big discount.
 <br />
 Check out the <a href="http://www.wolfram.com/mathsource/">MathSource</a> code for Mathematica.
 Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a>
-and possibly <a href="http://library.wolfram.com/infocenter/MathSource/585/">PYML</a>.
+and the new <a href="https://reference.wolfram.com/language/ref/externalevaluationsystem/Python.html">external evaluation system</a>.
 For support,
-see the <a href="http://mathematica.stackexchange.com/">Mathematica StackExchange Group</a>
-or look into the <a href="http://community.wolfram.com/">Wolfram Community</a>.
+see the active and helpful <a href="http://mathematica.stackexchange.com/">Mathematica StackExchange Group</a>.
 Finally, <a href="http://www.thomascool.eu/TheEconomicsPack/">Thomas Cool's page</a> offers a collection of economics programs written in Mathematica.
-        <div class="boxed">
-        Mathematica for Students is available for full-time students at a big discount.
-        </div>
 <br />
 Interesting Mathematica books for economists:
 <br />
@@ -2591,6 +2478,9 @@ Interesting Mathematica books for economists:
 Introductory Mathematica books:
 <br /> 
 <a href="http://www.wolfram.com/language/elementary-introduction">Stephen Wolfram's Elementary Introduction</a>.
+<br /> 
+Wofram’s <a href="https://reference.wolfram.com/language/tutorial/VirtualBookOverview.html">Virtual Book</a>
+aggregates a collection of tutorials.
 <br /> 
 <a href="http://amzn.to/1ej2oq0">Torrence, Bruce F. (2009),
 The Student's Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a>
@@ -2609,28 +2499,12 @@ Introductions to Maple:
 <a href="http://education.ti.com/product/software/derive/features/features.html">Derive</a> is inexpensive and powerful.
 </li>
 <li>
-<a href="http://www.clic.net/Elan/">Solutions</a> (a freeware computer algebra system)
-</li>
-<li>
-<a href="http://swiginac.berlios.de/">Swiginac</a> is a Python interface to <a href="http://www.ginac.de/">GiNaC</a>.
-</li>
-<li>
-<a href="http://www.tildesoft.com/Pythonica.html">Pythonica</a> holds promise.
+<a href="http://www.sciface.com/products/index.shtml">MuPad</a> is professional and cross-platform.
+This is the CAS used by (and included with) Scientific Workplace, MathCAD,
+and MATLAB’s Symbolic Math Toolkit.
 </li>
 </ul>
 
-<p>
-Commercial packages include the best known,
-<a href="http://www.wolfram.com/">Mathematica</a> and <a href="http://www.maplesoft.com/">Maple</a>,
-and some excellent but less well know packages
-such as <a href="http://www.livemath.com/">LiveMath</a>.
-</p>
-
-<p>
-<a href="http://www.gap-system.org/">Groups, Algorithms, Programming (GAP)</a>
-"is a system for computational discrete algebra, with particular emphasis on Computational Group Theory."
-(License: GPL2)
-</p>
 
 
 <h2 id="WWW">
@@ -6484,14 +6358,14 @@ Thunderbird Hints
 External Editor
 <br />
 Using your own editor when writing email is strongly recommended.
-Get the <a href="http://globs.org/?lng=en">"External Editor" extension</a>.
+Get the <a href="https://github.com/exteditor/exteditor">"External Editor" extension</a>.
 For example, use <a href="#vim">Vim</a> with Thunderbird as follows.
 Define the External Editor command to load Vim as: <code>\pathto\gvim --nofork -c "setf mail"</code>,
 so you will get 'mail' syntax highlighting and ftplugins loaded.
 Or if you have defined say <code>mail.vim</code>,
 a file of useful macro,
 you can instead use e.g.,
-<code>\pathto\gvim.exe -c "so $VIM\vimfiles\mail.vim"</code>.
+<code>\pathto\gvim.exe --nofork -c "so $VIM\vimfiles\mail.vim"</code>.
 After installing the extension,
 edit the composition toolbar (the one for replying to email, <em>not</em> the main application toolbar)
 and add a button for the external editor.
@@ -6502,7 +6376,7 @@ you may find my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai
 to contain some useful abbreviations and commands for email.
 Just drop it in your <code>%VIM%\vimfiles</code> folder,
 and change your External Editor command to, e.g.,
-<code>C:\programs\vim\vim73\gvim.exe -c "so $VIM\vimfiles\ai_mail.vim"</code>.
+<code>"C:\Program Files (x86)\Vim\vim81\gvim.exe" --nofork -c "so $VIM\vimfiles\ai_mail.vim"</code>.
 </div>
 
 <div>
@@ -8718,12 +8592,19 @@ These can be increased by the use of gawk,
 which gnuplot can talk to nicely.
 Alternatively you can manage your data in Python and use a Python interface to gnuplot,
 such as <a href="http://gnuplot-py.sourceforge.net/">Gnuplot.py</a>.
-If you use IPython,
+If you use Jupyter’s IPython,
 which is a good idea,
 you can try the included enhanced version: Gnuplot2.py.
 In either case,
 if you use gnuplot's <code>fit</code> command,
 you should consider <a href="http://sourceforge.net/mailarchive/message.php?msg_id=5687034">how to get the results back into Python</a>.
+</p>
+
+<p>
+There are
+<a href="https://github.com/Gnuplotting/gnuplot-palettes/blob/master/README.md">palettes</a>
+(themes)
+for gnuplot.
 </p>
 
 <p>

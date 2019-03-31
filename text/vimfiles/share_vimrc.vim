@@ -21,7 +21,8 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 "set working directory to current directory
-au BufNewFile,BufEnter *  cd %:p:h
+set autochdir
+"au BufNewFile,BufEnter * silent! lcd %:p:h
 " if you prefer to do this manually, here is a map to
 " change to directory of current buffer (see :help filename-modifiers)
 " map ,cd :cd %:p:h<CR>

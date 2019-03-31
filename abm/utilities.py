@@ -1,6 +1,5 @@
-from ..pytrix.utilities import permutations, calc_gini
+from ..pytrix.utilities import permutations, py_gini
 import logging
-from itertools import izip
 
 import random
 rng = random.Random()
@@ -211,7 +210,7 @@ def impose_gini(wtotal, units, gini, shuffle=False):
 	w = ( wtotal*share for share in shares )
 	ct = 0
 	units2 = set()  #this is just for error check
-	for i, w_i in izip(units, w):
+	for i, w_i in zip(units, w):
 		i.payin(w_i)   #ADD to individual wealth
 		units2.add(i)
 	assert len(units2)==nb, "`units` shd not contain duplicates"

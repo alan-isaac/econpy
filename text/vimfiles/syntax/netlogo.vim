@@ -102,7 +102,8 @@ syn keyword nlTurtleAttr breed color heading hidden? label label-color
 syn keyword nlPatchAttr pcolor plabel plabel-color pxcor pycor
 
 "note: include `breed` despite two uses: declaring breeds, and attr access
-syn keyword nlLinkAttr color label label-color shape thickness
+syn keyword nlLinkAttr
+        \ color label label-color shape thickness
         \ breed end1 end2 hidden? tie-mode
 
 syn keyword nlSelect self myself of
@@ -124,6 +125,7 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ extract-hsb extract-rgb hsb rgb scale-color shade-of? wrap-color
         \ clear-all ca clear-drawing clear-patches cp display no-display beep clear-output
         \ export-view export-interface export-output export-plot export-all-plots export-world
+        \ face facexy filter
         \ get-date-and-time import-world mouse-down? mouse-xcor mouse-ycor move-to
         \ output-print output-show output-type output-write print read-from-string
         \ reset-perspective rp reset-ticks reset-timer set-current-directory
@@ -133,10 +135,10 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ write file-at-end? file-close file-close-all file-delete file-exists?
         \ file-open file-print file-read file-read-characters file-read-line
         \ file-show file-type file-write
-        \ user-directory user-file user-new-file filter
+        \ user-directory user-file user-new-file
         \ fput item length list lput member? modes n-values position
         \ random-xcor random-ycor reduce remove
-        \ remove-duplicates remove-item replace-item insert-item reverse sentence se shuffle
+        \ remove-duplicates remove-item replace-item insert-item reverse se sentence shuffle
         \ sort sort-by sort-on sublist item length member? position remove remove-item
         \ read-from-string replace-item reverse substring word
         \ autoplot? auto-plot-off auto-plot-on clear-all-plots clear-plot
@@ -147,17 +149,18 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ set-plot-background-color set-plot-pen-color set-plot-pen-interval set-plot-pen-mode
         \ set-plot-x-range set-plot-y-range setup-plots
         \ movie-cancel movie-close movie-grab-view movie-grab-interface movie-set-frame-rate movie-start movie-status
-        \ max-pxcor min-pxcor range stop-inspecting-dead-agents
-        \ world-height world-width
+        \ range stop-inspecting-dead-agents 
+        \ max-pxcor max-pycor min-pxcor min-pycor world-height world-width
 
 "removed: distance-nowrap distancexy-nowrap no-label towards-nowrap towardsxy-nowrap
 " in-radius-nowrap random-int-or-float
 
 syn keyword nlMath
-        \ abs acos asin atan ceiling cos exp floor int ln log
-        \ max mean median min mod modes new-seed precision
-        \ random random-exponential random-float random-gamma random-normal random-poisson random-seed
-        \ remainder round sin sqrt standard-deviation subtract-headings sum tan variance
+        \ abs acos asin atan cos exp ln log sin tan
+        \ remainder mod precision floor ceiling int round
+        \ random random-exponential random-float random-gamma random-normal random-poisson random-seed new-seed
+        \ sqrt subtract-headings sum
+        \ min max mean median modes standard-deviation variance
 
 syn keyword nlLinks
         \ both-ends other-end clear-links

@@ -12,18 +12,15 @@ from tests_config import econpy  #tests_config.py modifies sys.path to find econ
 import unittest
 import random
 import numpy
-from econpy.functions import polyuv
+#from econpy.functions import polyuv
 from typing import Callable
 from numbers import Real, Integral
 
 #BEGIN lst:function.differenceQuotient
-def simplest_differenceQuotient(
-h : Real, #step
-f : Callable, #Real -> Real
-x : Real #reference point
-) -> Real: #value of computed difference quotient
+def simplest_differenceQuotient(f, x, h):
+    #type: (Callable, Real, Real) -> Real
     df = f(x + h) - f(x) #change of value of f
-    return df/h #value of difference quotient
+    return df/h          #value of difference quotient
 #END lst:function.differenceQuotient
 
 #BEGIN lst:function.simplest_horner
@@ -59,6 +56,7 @@ def horner01(coefficients, x):
 class test_functions(unittest.TestCase):
     coefficients = random.sample(range(1,20), 5)
     coefs = [1.0, 0.2, 1.0, -0.4]
+    """
     def test_polyderiv(self):
         a = self.coefficients
         b = [ (i+1)*a[i+1] for i in range(len(a)-1) ]
@@ -66,6 +64,7 @@ class test_functions(unittest.TestCase):
         c = [ (i+1)*b[i+1] for i in range(len(b)-1) ]
         self.assertEqual(c, polyuv.polyderiv(b))
         self.assertEqual(c, polyuv.polyderiv(a,d=2))
+    """
     def test_horner(self):
         a = self.coefficients
         b = [ (i+1)*a[i+1] for i in range(len(a)-1) ]
@@ -74,6 +73,7 @@ class test_functions(unittest.TestCase):
         ref0 = simplest_horner(a,x)
         ref1 = simplest_horner(b,x)
         ref2 = simplest_horner(c,x)
+        """
         self.assertEqual( ref0, polyuv.horner(a,x) )
         self.assertEqual( ref0, polyuv.horner01(a,x)[0] )
         self.assertEqual( ref0, polyuv.horner012(a,x)[0] )
@@ -82,6 +82,8 @@ class test_functions(unittest.TestCase):
         self.assertEqual( ref1, polyuv.horner012(a,x)[1] )
         self.assertEqual( ref2, polyuv.horner012(a,x)[2] )
         self.assertEqual( ref2, polyuv.hornerd(a,x,2) )
+        """
+    """
     def test_PolynomailUV(self):
         p1 = polyuv.PolynomialUV(self.coefs)
         x = -1.9
@@ -95,6 +97,13 @@ class test_functions(unittest.TestCase):
         p = numpy.poly1d(list(reversed(coefs)))
         for n in range(len(coefs)):
             self.assertEqual(polyuv.polyderiv(coefs, n),  list(p.deriv(m=n).c)[::-1] ) 
+    """
+    def test_differenceQuotient(self):
+        f = lambda x: x * x
+        x0 = 2
+        h = 1
+        df = f(x0+h) - f(x0)
+        self.assertEqual(5, simplest_differenceQuotient(f,x0,h))
 
 '''
 zeros = p1.zeros()

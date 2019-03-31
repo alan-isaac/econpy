@@ -1,0 +1,63 @@
+The file bergmann1990.bas contains a transcription of the BASIC program
+in Bergmann, Barbara (1990), Micro-to-Macro Simulation: A Primer with
+a Labor Market Example, Journal of Economic Perspectives.
+The article provides detailed documentation of the model.
+I commented out the file handling and referenced this documentation.
+I also added bergmann1990.py, a simple translation into Python.
+Perhaps unfortunately, I made changes for readability in the Python code.
+- Alan G. Isaac
+
+Currently a short tutorial for BASIC may be found at
+http://www.math.hawaii.edu/~hile/basic/basicmain.htm
+
+Bergmann (1990) documents the following variables:
+
+DIFEMP
+  change in employment desired by employers
+ELIG(I)
+  weeks remaining of UI stipend for Ith worker
+EL
+  number that fluctuates between 0 and 6
+ICHOSE
+  ID of worker chosen to change status
+IDAT
+  number that fluctuates between 0 and 4
+IDATE(I)
+  date Ith worker last became unemployed
+IEMPST(I)
+  current employment status of Ith worker
+IHIR
+  number of workers employers wish to hire currently
+IPERS
+  ID of a person
+ISEP
+  number of persons to be separated
+IWEEK
+  week number
+K,L
+  number of times operation done
+LABFOR
+  size of labor force
+LEAVS
+  number of separations if no net change in desired employment
+NEMP(I)
+  quantity of employment desired by employers in Ith week
+NFAIL
+  number of candidates an employer can interview in a week
+RATLV
+  rate of separations of employed workers
+RND
+  newly generated uniform random number between 0 and 1
+TIMSUM
+  summation of values of UTIM
+UN
+  number of persons unemployed
+UR
+  unemployment rate
+UTIM
+  number of weeks since worker's last separation
+UTIMAV
+  average duration of current unfinished spells of unemployment
+VAC
+  number of vacant job slots at end of hiring period
+
