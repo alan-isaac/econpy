@@ -2,8 +2,9 @@
 Provides an uncategorized collection of possibly useful utilities.
 (The primary use is pedagogical.  For more sophisticated
 implementations, see the NumPy library for numerical Python.)
+As of 2019, Python 3.5+ is assumed and numpy is required.
 
-:copyright: 2005-2017 Alan G. Isaac, except where another author is specified.
+:copyright: 2005-2019 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_
 :author: Alan G. Isaac (and others where specified)
 
@@ -16,13 +17,8 @@ __docformat__ = "restructuredtext en"
 import logging, random, itertools, operator
 from collections import defaultdict
 
-have_numpy = False
-try:
-    import numpy as np
-    have_numpy = True
-    logging.info("have_numpy is True")
-except ImportError:
-    logging.info("NumPy not available.")
+import numpy as np
+have_numpy = True
 
 have_scipy = False
 try:
@@ -38,8 +34,6 @@ def colon(start, increment, end):
     approximate the behavior of Matlab's `colon`.
     :note: see numpy.arange, which is usually preferable
     """
-    if not have_numpy:
-        raise ValueError("colon requires numpy")
     if np.iscomplex((start,increment,end)).any():
         raise ValueError("colon does not accept complex arguments")
     if increment==0 or increment*(start - end)>0:
@@ -47,17 +41,13 @@ def colon(start, increment, end):
     m = int( np.fix((end-start) / float(increment)) )
     return start + increment * np.arange(m+1)
 
-def unique(x, key=None, reverse=False, use_numpy=True):
-    """Return sorted list or array of unique items.
-    Does not support ``key`` for NumPy arrays.
+def unique(x, key=None, reverse=False):
+    """Return sorted list of unique items in `x`.
+    If you don't need `key`, use `np.unique` instead,
+    reversing if needed. Also, consider 
+    `collections.Counter` in the Standard Library.
     """
-    if have_numpy and use_numpy:
-        result = np.unique(x)
-        if reverse:
-            result = result[::-1]
-    else:
-        result = sorted(set(x), key=key, reverse=False)
-    return result
+    return sorted(set(x), key=key, reverse=reverse)
 
 
 def ireduce(func, iterable, init=None):
@@ -149,6 +139,24 @@ def test_safe_iter():
 #all the Gini calculations include the 1/N correction
 # TODO: speed comparison
 
+def gini(xs):
+    """Return Gini coefficient computed with standard formula.
+    Uses numpy.  Compare to `py_gini`.
+    """
+    xs = np.sort(xs)  # increasing order
+    N = len(xs)
+    B = np.dot(xs, N - np.arange(N)) / (N * xs.sum())
+    return 1. + (1./N) - 2*B
+
+def py_gini(x):
+    """Return Gini coefficient computed with standard formula.
+    Contrast with `calc_gini2`.
+    """
+    x = sorted(x)  # increasing order
+    N = len(x)
+    B = sum( xi * (N-i) for i,xi in enumerate(x) ) / (N*sum(x))
+    return 1 + (1./N) - 2*B
+
 def ginis(xss, bessel=False):
     """Return 1d array, the Gini coefficient for each row of xss.
     A NaN element means computation was impossible for that series.
@@ -159,6 +167,7 @@ def ginis(xss, bessel=False):
       False (default): normalize by series length (k); True: normalize by `k-1`
 
     NOTE:
+      Requires numpy.
       Gini is not computed for those series containing NaNs or negatives.
       Thereby lacks some features of the ginicoeff code by Oleg Komarov:
       https://www.mathworks.com/matlabcentral/fileexchange/26452-okomarov-ginicoeff
@@ -231,24 +240,6 @@ def calc_gini2(x): #follow transformed formula
     G = sum(xi * (i+1) for i,xi in enumerate(x))
     G = 2.0*G/(n*sum(x)) #2*B
     return G - 1 - (1./n)
-
-def gini(xs):
-    """Return Gini coefficient computed with standard formula.
-    Uses numpy.  Compare to `py_gini`.
-    """
-    xs = np.sort(xs)  # increasing order
-    N = len(xs)
-    B = np.dot(xs, N - np.arange(N)) / (N * xs.sum())
-    return 1. + (1./N) - 2*B
-
-def py_gini(x):
-    """Return Gini coefficient computed with standard formula.
-    Contrast with `calc_gini2`.
-    """
-    x = sorted(x)  # increasing order
-    N = len(x)
-    B = sum( xi * (N-i) for i,xi in enumerate(x) ) / (N*sum(x))
-    return 1 + (1./N) - 2*B
 
 
 def groupsof(seq,n):

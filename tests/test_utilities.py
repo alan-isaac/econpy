@@ -19,8 +19,9 @@ import matplotlib.pyplot as plt
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
-from econpy.pytrix.utilities import cumsum, cumprod
-from econpy.pytrix.utilities import ginis, py_gini, calc_gini2, calc_gini3, calc_gini4
+from econpy.pytrix.utilities import cumsum, cumprod, unique
+from econpy.pytrix.utilities import gini, ginis, py_gini #the main ones
+from econpy.pytrix.utilities import calc_gini2, calc_gini3, calc_gini4
 from econpy.abm.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
 
@@ -96,17 +97,25 @@ class testGinis(unittest.TestCase):
         self.wealths02[-1] = np.nan
     def test_ginis(self):
         #test that two Gini formulae give same result
-        gini1 = py_gini(self.wealths)
-        gini2 = calc_gini2(self.wealths)
-        gini3 = calc_gini3(self.wealths)
-        gini4 = calc_gini4(self.wealths)
-        gini5, bad = ginis([self.wealths,self.wealths02])
-        #print "gini1:%f, gini2:%f"%(gini1, gini2)
-        self.assertTrue(fmath.feq(gini1,gini2))
-        self.assertTrue(fmath.feq(gini1,gini3))
-        self.assertTrue(fmath.feq(gini1,gini4))
-        self.assertTrue(fmath.feq(gini1,gini5))
-        print("g1={},g5={}, bad={}".format(gini1, gini5, bad))
+        g0 = gini(self.wealths)
+        g1 = py_gini(self.wealths)
+        g2 = calc_gini2(self.wealths)
+        g3 = calc_gini3(self.wealths)
+        g4 = calc_gini4(self.wealths)
+        g5, bad = ginis([self.wealths,self.wealths02])
+        #print "g1:%f, g2:%f"%(g1, g2)
+        for gi in (g1,g2,g3,g4,g5):
+            self.assertTrue(fmath.feq(g0,gi))
+        print("g1={},g5={}, bad={}".format(g1, g5, bad))
+    def test_unique(self):
+        xs = list(random.randrange(10) for _ in range(20))
+        us01 = unique(xs)
+        us02 = list(np.unique(xs))
+        self.assertEqual(us01,us02)
+        us01 = unique(xs, reverse=True)
+        us02 = list(reversed(np.unique(xs)))
+        self.assertEqual(us01,us02)
+
 
 if __name__=="__main__":
     unittest.main()
