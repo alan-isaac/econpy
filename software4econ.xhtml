@@ -192,6 +192,13 @@ you can still try a modeless configuration of Vim called <a href="http://cream.s
 See <a href="#vimhints">Vim user hints.</a>
 </p>
 
+<p>
+Python users may want to consider the interesting and powerful
+<a href="https://docs.microsoft.com/en-us/visualstudio/python/installing-python-support-in-visual-studio?view=vs-2019#visual-studio-2017-and-2019">Python Tools for Visual Studio</a> in
+<a href="https://code.visualstudio.com/">Visual Studio Code</a>.
+(There is additionally a Vim editing mode.)
+</p>
+</div>
 
 <p>
 The elephant in the room is 
@@ -265,8 +272,28 @@ Here are just a few of the interesting ones.
   <dd>
   Allows simultaneous selection of discontinuous segments of text.
   </dd>
+<dt>
+<a href="http://subethaedit.net/">SubEthaEdit</a>.
+</dt>
+  <dd>
+  Early entrant into collaborative editing.
+  </dd>
+</p>
 </dl>
 
+
+<div>
+Windows users:
+<br />
+The NotePad editor is always available as an accessory program,
+but it remains too limited for serious use.
+If you like the basic interface,
+try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL)
+For pure speed on a Windows platform there is the powerful <a href="http://www.vedit.com/">VEdit</a>.
+If you can afford it, there is also
+Lugaru's <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>,
+a powerful and fast yet lightweight editior with an extensive emacs-style command set.
+</p>
 
 <p>
 Aside:
@@ -279,54 +306,6 @@ Very specialized:
 the Java based <a href="http://record-editor.sourceforge.net/">Record Editor</a> may be just what you need if you are working with fixed-field-length data files.
 </p>
 
-<div>
-Windows users:
-<br />
-The NotePad editor is always available as an accessory program,
-but it is too limited for serious use.
-If you like the basic interface,
-try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL)
-I also like the popular shareware <a href="http://www.textpad.com/">TextPad</a>,
-which includes nice syntax highlighting, a nice grep utility,
-beautiful handling of column oriented editing,
-and an accurate (and somewhat LaTeX sensitive) spell-checker.
-<p class="boxed">
-See <a href="#tphints">TextPad user hints.</a>
-</p>
-<p>
-Python users may want to consider the interesting <a href="https://pypi.python.org/pypi/UliPad">UliPad</a>.
-There is also the popular, lightweight <a href="http://liquidninja.com/metapad/">MetaPad</a>,
-and the fairly powerful <a href="https://www.editpadlite.com/">EditPad Lite</a>,
-and <a href="http://www.semware.com/">TSE Pro</a> has an avid fan base,
-and it is available in a console version.
-If you can afford it, there is also
-Lugaru's <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>, a powerful, fast, yet lightweight implementation of Emacs for Windows.
-For pure speed on a Windows platform there is the powerful <a href="http://www.vedit.com/">VEdit</a>, which offers a free trial version.
-</p>
-</div>
-
-<h3>HTML Editors</h3>
-
-<p>
-Generally any good <a href="#EDITORS">text editor</a> with syntax highlighting will be fine for HTML editing,
-but <a href="http://www.nvu.com">Nvu</a> is of additional interest:
-is is based on the Mozilla Composer code base,
-so it offers WYSIWYG editing of HTML that for moderately sophisticated use rivals DreamWeaver and FrontPage.
-(License: MPL/LGPL/GPL tri-license.)
-The innovative <a href="https://www.raptor-editor.com">Raptor Editor</a>
-allows editing HTML content in a WYSIWYG setting.
-(License: GPL 3.)
-The W3C's <a href="http://www.w3.org/Amaya/">Amaya editor</a>
-integrates browsing, editing, and remote access,
-and it supports XML applications (including SVG).
-(Cross platform; language: C; license: W3C Software Notice and License)
-</p>
-
-<h3>Collaborative Editors</h3>
-
-<p>
-Mac users can try <a href="http://www.codingmonkeys.de/subethaedit/">SubEthaEdit</a>.
-</p>
 
 
 <h3>Fonts</h3>
@@ -507,10 +486,11 @@ if (nRet==1){
 
 <p>
 These days, your favorite dictionaries and thesauri are probably available free online.
-My favorite is <a href="http://www.bartleby.com/61/">The American Heritage® Dictionary of the English Language</a>.
-Unfortunately the online interface is rather clunky.
-The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that is very fast.
-<a href="http://www.wiktionary.org/">Wiktionary</a> shows great promise and is pretty fast.
+My favorite crowd-sourced dictionary is <a href="">Wiktionary</a>,
+which is remarkably good, even for etymology.
+My favorite commercial dictionary is <a href="https://ahdictionary.com/">The American Heritage® Dictionary of the English Language</a>.
+The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that provides a fast, convenient
+interface to the <a href="https://en.wikipedia.org/wiki/Collaborative_International_Dictionary_of_English">Collaborative International Dictionary of English</a>.
 In addition,
 you can submit a query for "yourword" directly as
 <code>http://www.dict.org/bin/Dict?Form=Dict1&amp;Query=yourword&amp;Strategy=*&amp;Database=*</code>.
@@ -522,6 +502,7 @@ Windows users can download for free the <a href="http://www.freelang.net/diction
 Windows users can download <a href="http://wordweb.info/free/">WordWeb</a> for free.
 </p>
 
+
 <h3>Stream Editors</h3>
 
 <p>
@@ -530,7 +511,7 @@ which is very fast, powerful, and cross platform. (License: GPL)
 For an introductory tutorial,
 try <a href="http://www.urc.bl.ac.yu/manuals/progunix/sed.txt">SED: A Non-interactive Text Editor</a>.
 If you decide to use sed a lot,
-you may wish to try <a href="http://www.student.northpark.edu/pemente/sed/">sedsed</a>,
+you may wish to try <a href="https://github.com/aureliojargas/sedsed">sedsed</a>,
 and Python-based sed debugger.
 </p>
 
@@ -593,14 +574,14 @@ which is quite wonderful.
 
 <p>
 For Windows users,
-the most common approach is Microsoft Word with embedded Equation Editor equations.
-This is a pretty clumsy environment if your writing includes much mathematics,
+the most common approach is Microsoft Word with embedded <a href="https://blogs.msdn.microsoft.com/murrays/2018/09/30/officemath/">OfficeMath</a> equations.
+Unfortunately for old documents,
+<a href="https://support.office.com/en-us/article/equation-editor-6eac7d71-3c74-437b-80d3-c7dea24fdf3f">new versions of Word no longer support Equation Editor 3 or earlier</a>.
+Unfortunately, many journals do not allow embedded equations in submitted articles.
+This is a rather clumsy environment if your writing includes much mathematics,
 but it is widely used.
-Slightly better might be to use <a href="http://elevatorlady.ca/">Aurora</a>,
-which allows you to embed typeset equations into a Word document. (Shareware.)
-The scientific word processor <a href="http://www.expswp.com/">EXP</a> has a WYSIWYG interface and supports LaTeX file conversion.
-<a href="http://www.micropress-inc.com/eqmlite.htm">Equation Magic Lite</a> is a free OLE-based equation editor for Win 95/98 and WinNT/4.
 </p>
+
 
 <h4 id="wysiwym">WYSIWYM</h4>
 
@@ -653,8 +634,8 @@ this should not matter much to a user,
 who should be able to work in the GUI environment and not worry much about the underlying format.)
 The <a href="http://www.w3.org/Amaya/">Amaya browser/authoring tool</a> enables the WYSIWYM production of mathematical documents,
 uses MathML as the underlying format.
-As of 2005,
-I find Amaya slow and clumsy for the production of mathematics.
+Unfortunately, I find Amaya slow and clumsy for the production of mathematics,
+and development has stopped.
 </p>
 
 
@@ -662,6 +643,7 @@ I find Amaya slow and clumsy for the production of mathematics.
 
 <p>
 The most powerful way to produce mathematics is to learn a markup language for type-setting mathematics.
+In this case, what you see is your markup (WYSIYM).
 This also provides a big advantage for the process of writing:
 you get to use your favorite <a href="#EDITORS">text editor</a> and thereby get access to powerful editing facilities.
 The most popular choice is <a href="#TEX">LaTeX</a>,
@@ -673,6 +655,20 @@ A full Lout installation is remarkably small:
 the download is less than 2Mb.
 The math in a Lout source document looks a lot like math in the <a href="http://wolfram.schneider.org/bsd/7thEdManVol2/eqn/eqn.html">EQN</a> language.
 (Speaking of which, some people insist that EQN and <a href="http://www.gnu.org/software/groff/groff.html">GROFF</a> remain the right way to typeset mathematics.)
+</p>
+
+<p>
+If you compile your LaTeX documents with LuaLaTeX,
+you can use the <tt>unicode-math</tt> package.
+This allows you to enter math as UTF-8 characters,
+in addition to using the usual LaTeX codes.
+This produces much more readable documents,
+but only a few fonts
+have substantial support for the Unicode math characters.
+(The <a href="https://ctan.org/pkg/unicode-math">unicode-math documentation</a> includes a list of fonts,
+including
+<a href="https://ctan.org/pkg/tex-gyre-math-pagella">TeX Gyre Pagelle Math</a>
+and <a href="https://ctan.org/pkg/asana-math">Asana Math</a>.)
 </p>
 
 
@@ -933,7 +929,7 @@ with <a href="http://vim-latex.sourceforge.net/">Vim-LaTeX</a>.
 <p>
 LaTeX provides a basic picture environment that is pretty powerful.
 Still, you will often need more.
-You can easily include PDF drawings in your documents.
+You can easily include PDF, JPG, or PNG images in your documents.
 See <a href="#latexgraphics">Graphics for LaTeX</a> for more details.
 </p>
 
@@ -1331,14 +1327,6 @@ The grfguide and epslatex.pdf cover the \DeclareGraphicsExtensions command.
 </ul>
 
 <p>
-If for some reason you feel you must use PowerPoint<sup>&reg;</sup>,
-you can insert LaTeX style math by using the <a href="http://raw.cs.berkeley.edu/texpoint/TeXPoint.htm">TeXPoint</a> plugin.
-Note too that you can script your PowerPoint presentations using Python:
-use the win32com module to access the com interface.
-(Easier than it sounds, as illustrated by some <a href="http://code.google.com/p/econpy/source/browse/trunk/utilities/mso.py">simple examples</a>.)
-</p>
-
-<p>
 There are a few open source presentation programs that are not LaTeX based.
 They are more like using PowerPoint.
 <a href="http://www.openoffice.org/">OpenOffice</a> includes a presentation program.
@@ -1565,7 +1553,7 @@ Here are some useful NetLogo books:
 <li>
 Best overview and general introduction:
 <br />
-<a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0262731894&amp;linkId=3bb20437807c13603779a74e5d37ff3e">
+<a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl">
 Wilensky, Uri and William Rand (2015).
 An introduction to agent-based modeling: Modeling natural, social and engineered complex systems with NetLogo. Cambridge: MIT Press.
 </a>
@@ -1573,14 +1561,14 @@ An introduction to agent-based modeling: Modeling natural, social and engineered
 <li>
 Best applied introduction:
 <br />
-<a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0691136742&amp;linkId=1053f7d579f926a8920168bc84b0292e">
+<a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl">
 Steven F. Railsback; Volker Grimm (2011). Agent-Based and Individual-Based Modeling: A Practical Introduction. Cambridge: Princeton University Press. ISBN 978-0-691-13674-5.
 </a>
 </li>
 <li>
 Best short introduction:
 <br />
-<a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0335216005&amp;linkId=3c7aa1be8353d36ab4d504d9bb65779d">
+<a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl">
 Gilbert, Nigel and Klaus G. Troitzsch (2005).
 Simulation for the Social Scientist, Second Edition.
 London: McGraw Hill.
@@ -1589,7 +1577,7 @@ London: McGraw Hill.
 <li>
 Most focused on Economics:
 <br />
-<a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=sofforecotm-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1118456076&amp;linkId=deaab7fa0414cac52342b6383a0f4c55">
+<a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl">
 Hamill, Lynne and Nigel Gilbert (2016), 
 Agent-Based Modelling in Economics, Wiley.
 </a>
@@ -1986,6 +1974,8 @@ If you lack programming experience,
 try <a href="http://www-uxsup.csx.cam.ac.uk/courses/PythonAB/">Python for the Absolute Beginner</a>
 and <a href="http://swaroopch.info/text/Byte_of_Python:Main_Page">Byte of Python</a>
 before trying the Python tutorial.
+Also, if you prefer video tutorials, Microsoft has assembled
+<a href="https://www.youtube.com/playlist?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6">a multipart video introduction</a>.
 </p>
 
 <p>
@@ -2472,8 +2462,8 @@ Finally, <a href="http://www.thomascool.eu/TheEconomicsPack/">Thomas Cool's page
 <br />
 Interesting Mathematica books for economists:
 <br />
-<a href="http://www.amazon.com/gp/product/0387945180?ie=UTF8&amp;tag=sofforecotm-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>,
-<a href="http://www.amazon.com/gp/product/0817641971?ie=UTF8&amp;tag=sofforecotm-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a>
+<a href="http://www.amazon.com/gp/product/0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>,
+<a href="http://www.amazon.com/gp/product/0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a>
 <br />
 Introductory Mathematica books:
 <br /> 
@@ -2486,14 +2476,14 @@ aggregates a collection of tutorials.
 The Student's Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a>
 (A useful and example oriented introduction.)
 <br /> 
-<a href="http://www.amazon.com/gp/product/0521846781?ie=UTF8&amp;tag=sofforecotm-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a> 
+<a href="http://www.amazon.com/gp/product/0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a> 
 </li>
 <li> <a href="http://www.maplesoft.com/">Maple</a> is also very popular.
 (Note that you can select Maple as the math kernel when you buy Scientific Notebook.)
 <br />
 Introductions to Maple:
-<a href="http://www.amazon.com/gp/product/0470455543?ie=UTF8&amp;tag=sofforecotm-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0470455543">Getting Started with Maple by Chi Keung Cheung</a>,
-<a href="http://www.amazon.com/gp/product/0387002308?ie=UTF8&amp;tag=sofforecotm-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0387002308">Introduction to Maple by Andre Heck</a>.  
+<a href="http://www.amazon.com/gp/product/0470455543">Getting Started with Maple by Chi Keung Cheung</a>,
+<a href="http://www.amazon.com/gp/product/0387002308">Introduction to Maple by Andre Heck</a>.  
 </li>
 <li>
 <a href="http://education.ti.com/product/software/derive/features/features.html">Derive</a> is inexpensive and powerful.
@@ -4011,7 +4001,7 @@ I will focus on a few cross-platform alternatives.
 <p id="pyx">
 Python users have a number of fine alternatives.
 For serious 2-D drawing,
-I like <a href="http://pyx.sourceforge.net/">PyX</a> very much.
+I like <a href="https://pyx-project.org/">PyX</a> very much.
 PyX also has some support for 3D graphics.
 (See my <a href="#pyx_hints">PyX hints</a> below.)
 </p>
@@ -4028,12 +4018,12 @@ PyX and Matplotlib support the generation of EPS and PDF plots with LaTeX text.
 Matplotlib and Pyx currently take different approaches to math text.
 PyX uses LaTeX to typeset the math,
 so you must have a working LaTeX installation.
-Also, Pyx generates only PostScript and PDF graphics with this approach.
+Pyx generates PostScript, PDF, and SVG graphics with this approach.
 Matplotlib uses its own parser and layout engine
 to typeset math text with Type 1 computer modern fonts.
 You do not get the full power of TeX typesetting,
 but you can produce outputs in a variety of formats
-(including EPS and PNG).
+(including EPS, PNG, and PGF).
 Here are <a href="http://matplotlib.sourceforge.net/matplotlib.mathtext.html">some details</a>.
 </p>
 
@@ -4105,9 +4095,11 @@ allows output as EPS, PS, PDF, JPEG, and PNG.
 (License: BSD)
 </li>
 <li>
-<a href="http://ngwww.ucar.edu/">NCAR command language</a> is free on Unix platforms.
-<a href="http://ngwww.ucar.edu/">NCAR graphics</a> is free and open source.
-It can be run under Windows in a CygWin environment.
+<a href="https://www.ncl.ucar.edu/">NCL</a> is the NCAR command language
+from the National Center for Atmospheric Research.
+The NCAR has migrated the NCL functionality into Python as
+<a href="https://geocat.ucar.edu/pages/software.html">the Geosciences Community Analysis Toolkit (GeoCAT)</a>,
+available as a <code>geocat</code> module that relies on the matplotlib plotting library.
 </li>
 <li>
 The <a href="http://www.astro.caltech.edu/~tjp/pgplot/">PGPLOT</a> Graphics Subroutine Library is a "Fortran- or C-callable, device-independent graphics package for making simple scientific graphs. It is intended for making graphical images of publication quality with minimum effort on the part of the user. For most applications, the program can be device-independent, and the output can be directed to the appropriate device at run time."
@@ -4117,17 +4109,20 @@ There appears to be some overlap in functionality with the popular
 </ul>
 
 <p>
-<a href="http://www.eukleides.org/">Eukleides</a> is an amazing Euclidean drawing language that can save your drawings as pstricks or in <acronym class="help" title="Encapsulated PostScript">EPS</acronym> format.
+<a href="http://www.eukleides.org/">Eukleides</a> is an amazing Euclidean drawing language
+that can save your drawings as pstricks or in <acronym class="help" title="Encapsulated PostScript">EPS</acronym> format.
 It is designed to be very natural for geometric thinking. (License: GPL)
 </p>
 
 <p>
-<a href="http://www.research.att.com/~north/graphviz/download.html">Graphviz</a> is an open source package with special abilities in drawing directed (via dot) and undirected (via neato) graphs.
+<a href="http://www.research.att.com/~north/graphviz/download.html">Graphviz</a>
+is an open source package with special abilities in drawing directed (via dot) and undirected (via neato) graphs.
 The focus is on <a href="http://www.research.att.com/sw/tools/graphviz/GI94.pdf">Graph Visualization</a>.
 <a href="http://www.dkbza.org/pydot.html">pydot</a> provides a Python interface to dot.
 <br />
-<a href="http://www.yworks.com/en/products_yed_about.html">yED</a> is a
-"powerful graph editor that is written entirely in the Java programming language. It can be used to quickly and effectively generate drawings and to apply automatic layouts to a range of different diagrams and networks."
+<a href="https://www.yworks.com/products/yed">yED</a> is a
+"powerful graph editor that is written entirely in the Java programming language.
+It can be used to quickly and effectively generate drawings and to apply automatic layouts to a range of different diagrams and networks."
 </p>
 
 
@@ -4231,14 +4226,10 @@ Chart construction can be simplified by scripting
 
 <h4>Vector Graphics</h4>
 
-<p>
-See <a href="http://www.maa.org/editorial/mathgames/mathgames_08_01_05.html">Ed Pegg's page</a>
-for a more extensive discussion.
-</p>
 
 <ul>
 <li id="TpX">
-Python based <a href="http://tpx.sourceforge.net/">TpX</a> is small, fast, and powerful.
+<a href="http://tpx.sourceforge.net/">TpX</a> is small, fast, and powerful.
 Output formats include EPS, PDF, and PGF.
 (LaTeX users will particularly be interested in the PGF output.)
 Try it!
@@ -4247,7 +4238,8 @@ Try it!
 <li>
 <a href="http://ipe.compgeom.org/">IPE</a> is a powerful cross-platform graphics editor with strengths related to computational geometry and in LaTeX support.
 It can save figures as EPS, PDF, or XML, and it supports conversion to many other formats.
-It can produce multi-page PDF figures that can be imported a page at a time into a LaTeX document (e.g., by using the 'page' option of the graphicx package).
+It can produce multi-page PDF figures that can be imported a page at a time into a LaTeX document
+(e.g., by using the 'page' option of the graphicx package).
 </li>
 <li id="Inkscape">
 <a href="http://inkscape.org/">Inkscape</a> is an open source <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> editor.
@@ -4261,8 +4253,9 @@ The related but apparently more active <a href="http://sk1project.org/">sk1proje
 a serious vector graphic package for Linux users. (License: GPL and LGPL)
 </li>
 <li>
-<a href="http://www.omnigroup.com/applications/omnigraphsketcher">OmniGraph Sketcher</a> is a very reasonably priced
-commercial program that allows very fast drawing of nice looking economics-related graphs.
+Mac and iPad users should look at
+<a href="https://github.com/graphsketcher/GraphSketcher">GraphSketcher</a>,
+the new open source incarnation of the old OmniGraphSketcher.
 </li>
 <li>
 <a href="http://www.ribbonsoft.com/qcad.html">QCad</a> is a FOSS computer aided drafting package that emphasizes ease of use.
@@ -4273,7 +4266,7 @@ provides geometric algorithms in a C++ library.
 (License: LGPL for the core library, but see the <a href="http://www.cgal.org/license.html">licensing details</a>.)
 </li>
 <li>
-<a href="http://tams-www.informatik.uni-hamburg.de/applets/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
+<a href="https://tams.informatik.uni-hamburg.de/applets/hades/classdoc/jfig/">JFig</a> (a Java port of Xfig) is a cross platform implementation.
 There is also the classic <a href="http://www.xfig.org/">Xfig</a> for X Windows.
 <a href="http://www.schmidt-web-berlin.de/winfig/">WinFIG</a> for MS Windows can read Xfig files. (License: Shareware)
 </li>
@@ -4286,7 +4279,8 @@ is a free mathematical package for plotting in two or three dimensions.
 For precise geometric drawings there is also <a href="http://math.exeter.edu/rparris/wingeom.html">Wingeom</a>.
 </li>
 <li>
-<a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
+<a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that
+saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
 There is a <a href="http://dia-installer.sourceforge.net">Windows installer</a>.
 (If you are interested in Dia's UML capabilities,
 you might also like to look at the <a href="#uml">UML resources (below)</a>.
@@ -4307,24 +4301,8 @@ you might also like to look at the <a href="#uml">UML resources (below)</a>.
 </li>
 <li>Visit the <a href="http://www.geom.umn.edu/">Geometry Center</a>.
 </li>
-<li>
-Finally, just for fun, I have to mention 
-<a href="http://www.johuco.com/snail/snail.html">Snail Graphics</a>,
-the free children's drawing package.
-It is written for Microsoft Quick Basic but should work with other implementations of Basic,
-e.g., the free <a href="http://www.rahul.net/rhn/cbas.page.html"> Chipmunk Basic</a>.
-If you are running Windows but cannot find qbasic.exe,
-Microsoft's <a href="http://www.microsoft.com/PERMISSION/copyrgt/cop-soft.htm#QB">
-official policy</a> says you are entitled to  
-Quick Basic 1.1 as part of its operating systems. 
-You can 
-<a href="http://download.microsoft.com/download/win95upg/tool_s/1.0/W95/EN-US/olddos.exe">
-download</a> it directly from Microsoft as a self-extracting executable 
-(836k) with a bunch of other stuff.
-Copy the files <kbd>qbasic.exe</kbd> and <kbd>qbasic.hlp</kbd> to whatever directory 
-you have copied the snail graphics files to (e.g. <kbd>C:\snail</kbd>).
-</li>
 </ul>
+
 
 <h4 id="uml">UML, Flow Charts, Etc.</h4>
 
@@ -4347,6 +4325,10 @@ The remaining options are primarily for drawing key UML diagrams.
 
 <ul>
 <li>
+<a href="http://plantuml.com/">PlantUML</a>
+implements a simple text-based description of key UML diagrams.
+</li>
+<li>
 <a href="http://www.umlet.com">UMLet</a> (Programming language: Java; license: GPL.)
 Unfortunately, UMLet 1.4 uses Swing under Java 1.8,
 which produces tiny fonts on high resolutions screens.
@@ -4355,10 +4337,6 @@ However, the online version (UMLetino) works fine.
 <li>
 <a href="#dia">Dia</a> is a light-weight option,
 which provides some UML support.
-</li>
-<li>
-<a href="http://plantuml.com/">PlantUML</a>
-offers a simple text-based description of key UML diagrams.
 </li>
 <li>
 <a href="http://uml.sourceforge.net">Umbrello</a> (Language: C++; license: GPL.)
@@ -4379,10 +4357,6 @@ Here are a couple older flowchart tools.
 <ul>
 <li>
 <a href="http://search.cpan.org/search?module=Graph::Flowchart">Graph::Flowchart</a> (langague: perl)
-</li>
-<li>
-<a href="http://talljosh.googlepages.com/flowchartpython">Flowchart Python</a>
-(visual programming for Python)
 </li>
 <li>
 <a href="http://ftp.ktug.or.kr/tex-archive/help/Catalogue/entries/flow.html">flow</a>
@@ -8334,13 +8308,16 @@ archive.  You should download at least two archives!
 You can find many useful hints at <a href="http://www.softpanorama.org/Editors/vim.shtml">Softpanorama Western Orthodox Editors Page</a>.
 </p>
 <p>
-To get a word count in your file: <code>g ctrl-g</code>.
+Count the occurences of a pattern with <code>:%s/pattern//ng</code>.
+Count the number of words in a file with <code>g ctrl-g</code>.
+</p>
+<p>
 To change line spacing see the help for <kbd>linespace</kbd>.
 To change the font in gvim,
 you can use the menu dialog <kbd>Edit/SelectFont</kbd>,
 or you can include your selection in your <kbd>_gvimrc</kbd> file.
 (I use <code>set guifont=andale_mono:h9,courier_new:h10</code>.)
-Do not forget that editors should only use <a href="#monospace">monospace fonts</a>.
+Text editors should only use <a href="#monospace">monospace fonts</a>.
 </p>
 <p>
 If you type very slowly, you need to slow down Vim's macro recognition.
@@ -8351,6 +8328,8 @@ I recommend resetting timeoutlen according to the example in the help for <var>t
 <code>'.</code> takes you to your last edit
 </p>
 </div>
+
+
 
 <h3 id="ps_hints">PostScript User hints</h3>
 
@@ -8379,8 +8358,28 @@ Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.
 <h3 id="texhints">LaTeX User hints</h3>
 
 <p>
+Use <code>pdflatex</code> to compile your documents.
+Use <code>tikz</code> for your drawings.
+</p>
+
+<p>
 To get double spacing, use <code>\usepackage{setspace} \doublespacing</code>.
 This should leave your figures and tables alone.
+</p>
+
+<div>
+Do not use the eqnarray environment.
+<a href="http://www.tug.org/pracjourn/2006-4/madsen/">Lars Madsen explains why.</a>
+Instead use one of the beautiful amsmath environments.
+</div>
+
+<p>
+For nice theorem and proof formatting,
+consider combining the following three packages:
+<code>amsthm</code>,
+<code>thmtools</code>, and
+<code>thmbox</code>.
+(The last is just to redefine the <code>proof</code> environment.
 </p>
 
 <p>
@@ -8393,41 +8392,9 @@ make sure your markers do not include hyphens.
 See Voss's <a href="http://tug.org/TeXnik/mainFAQ.cgi">FAQ supplement</a>.
 </div>
 
-<div>
-Do not use the eqnarray environment.
-<a href="http://www.tug.org/pracjourn/2006-4/madsen/">Lars Madsen explains why.</a>
-Instead use one of the beautiful amsmath environments.
-</div>
-
-<div>
-A geometry trick.
-Ulrike Fischer pointed out to me a way in which the geometry package is special:
-it will switch to pdftex when you use it.
-To see this, consider
-<pre>
-\documentclass{article}
-\usepackage[dvips]{geometry} 
-\begin{document}
-\makeatletter\show\Gm@driver
-\end{document} 
-</pre>
-This will insert dvips specials if you make a
-dvi and pdftex specials if you make a pdf with pdflatex.
-Similarly:
-<pre>
-\documentclass{article}
-\usepackage[dvipdf]{geometry} 
-\begin{document}
-\makeatletter\show\Gm@driver
-\end{document} 
-</pre>
-will insert dvipdfm specials if you make a dvi and pdftex specials if you
-make a pdf with pdflatex.
-</div>
-
-
 <p>
-The new <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/pict2e/?action=/tex-archive/macros/latex/contrib/">pict2e</a> package provides long awaited and much needed additional functionality to the LaTeX picture environment.
+The <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/pict2e/?action=/tex-archive/macros/latex/contrib/">pict2e</a>
+package provides much needed additional functionality to the LaTeX picture environment.
 As of June 2004, however, there is a small bug:
 be sure to end <code>qbezier</code> and <code>cbezier</code> commands with an immediate comment character,
 to avoid breaks in line continuity.
@@ -8455,6 +8422,7 @@ In this case, you can produce JPEG files and either
         ii. <a href="#jpeg2eps">convert JPEG to EPS</a> or <a href="http://code.google.com/p/sam2p/">sam2p</a> (which is fast and easy),
         iii. switch to pdflatex
 </li>
+
 <li id="impgraph">
 If you are using pdflatex to produce your PDF files,
 you cannot include EPS graphics directly.
