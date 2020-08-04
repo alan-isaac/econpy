@@ -5,7 +5,7 @@
 "   at http://voo-du.net/media/dump/nlogo.vim
 " Copyright: 2014-2017 Alan G. Isaac
 " License: MIT http://opensource.org/licenses/MIT
-" Last Change:  2017-07-29
+" Last Change:  2019-07-29
 " Filenames:    *.nlogo,*.nlogo~,*.nls
 
 " TODO
@@ -65,8 +65,10 @@ syn match nlRepeat /\<?\d*\>/
 " Declarations
 syn keyword nlDeclare
         \ __includes extensions globals
-        \ patches-own turtles-own links-own 
         \ breed undirected-link-breed directed-link-breed
+
+syn match nlDeclare /\<\a\+-own\>/
+"e.g., patches-own turtles-own links-own 
 
 "note: the first three are "special" (i.e., can grow)
 syn keyword nlSets patches turtles links
@@ -76,12 +78,12 @@ syn keyword nlSets patches turtles links
         \ my-in-links my-links my-out-links
         \ turtle-set patch-set link-set
 
-"TODO:  breeds-own, BREED-at BREED-here BREED-on other-BREED-here
+"TODO:  BREED-at BREED-here BREED-on other-BREED-here
 "removed: pen-down? turtles-from
 
 syn keyword nlTypeQuery
+        \ is-anonymous-command? is-anonymous-reporter?
         \ is-boolean? is-number? is-string? is-list?
-        \ is-command-task? is-reporter-task?
         \ is-agent? is-agentset?
         \ is-patch? is-patch-set?
         \ is-turtle? is-turtle-set?
@@ -91,7 +93,7 @@ syn keyword nlTypeQuery
 
 
 " assignment
-syn keyword nlDefine end let set to to-report task
+syn keyword nlDefine end let set to to-report
 
 "note: include `breed` despite two uses: declaring breeds, and attr access
 syn keyword nlTurtleAttr breed color heading hidden? label label-color
@@ -117,7 +119,7 @@ syn keyword nlSelect self myself of
 
 syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st clear-patches cp
         \ back bk
-        \ clear-ticks clear-turtles ct die
+        \ clear-turtles ct die
         \ distance distancexy downhill downhill4 dx dy forward fd
         \ hide-turtle ht home inspect pen-down pd set-default-shape
         \ setxy setxyz shapes stamp subtract-headings towards towardsxy uphill diffuse diffuse4
@@ -128,8 +130,9 @@ syn keyword nlKeyword jump left lt pen-erase pe pen-up pu right rt showturtle st
         \ face facexy filter
         \ get-date-and-time import-world mouse-down? mouse-xcor mouse-ycor move-to
         \ output-print output-show output-type output-write print read-from-string
-        \ reset-perspective rp reset-ticks reset-timer set-current-directory
+        \ reset-perspective rp reset-timer set-current-directory
         \ show show-turtle st timer type
+        \ clear-ticks reset-ticks tick ticks tick-advance
         \ user-choice user-choose-directory user-choose-file user-choose-new-file
         \ user-input user-message user-one-of user-yes-or-no?
         \ write file-at-end? file-close file-close-all file-delete file-exists?
