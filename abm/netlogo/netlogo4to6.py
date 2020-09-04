@@ -3,14 +3,26 @@ to NetLogo files that can be loaded by version 6.
 (NOTE: NetLogo 6 will convert version 5 files itself.)
 Please send comments to alan DOT isaac AT gmail DOT com.
 """
+charsetProblem = """
+Unhandled problematic characters:
+NetLogo 4 files with characters outside of UTF-8
+(e.g., from the old Windows character set)
+will baffle this script. You will have to
+remove these by hand, usually from the Info tab.
+"""
 
-import os, re, sys
+import os, re, sys, textwrap, warnings
 
 sectionsep = "@#$#@#$#@"
-conversionHeader = """;Converted from NetLogo version 4 by netlogo4to6.py.
-;Conversion does not handle lambdas (and therefore instances of
-;`foreach` and `map` must be edited by hand).
+header = """Converted from NetLogo version 4 by netlogo4to6.py.
+Known limitations:
+1. Conversion does not handle lambdas.  (Therefore instances
+   of `foreach` and `map` must be edited by hand.)
+2. You may need to add by hand a `reset-ticks`
+   command to the setup procedure.
 """
+commentHeader = textwrap.indent(header, "; ")
+
 def netlogo4to6(fpath): 
     """
     Version 4 sections are separated by sectionsep:
@@ -30,19 +42,25 @@ def netlogo4to6(fpath):
     Version 6 does not allow a CC-WINDOW widget.
     Version 6 buttons append a disable-until-ticks parameter (0 or 1).
     """
+    global commentHeader
     if not fpath.endswith(".nlogo"):
         raise ValueError("not a .nlogo file")
-    fin = open(fpath, "r")
-    data = fin.read()
+    with open(fpath, "r", encoding="utf-8") as fin:
+        try:
+            data = fin.read()
+        except UnicodeDecodeError:
+            warnings.warn(charsetProblem)
+            commentHeader += textwrap.indent(charsetProblem, "; ")
+            data = open(fpath, "r").read()
     sections = list(map(lambda x:x.strip(), data.split(sectionsep)))
-    print(sections[0])
+    #print(sections[0])
     if not (11 == len(sections)):
         _msg = "{} sections instead of the 11 expected from a version 4 file."
         assert (12 == len(sections) and sections[-1]==""), _msg.format(len(sections))
     if not sections[4].startswith("NetLogo 4"):
         raise ValueError("not a version 4 file")
     #fix the sections:
-    sections[0] = conversionHeader + fixCode( sections[0] )
+    sections[0] = commentHeader + fixCode( sections[0] )
     sections[1] = fixWidgets4to6(sections[1])
     sections[4] = "NetLogo 6.0.0"
     sections[7] = fixPrimitives4to6( sections[7] )
