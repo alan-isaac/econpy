@@ -368,7 +368,8 @@ Some text, and a math formula \(a+b=\sqrt{c}\).
 
 <p>
 A few more freely available mono-space fonts ...
-<a href="https://www.google.com/get/noto/#sans-mono">Google’s Noto Sans Mono</a> is getting very favorable reviews.
+<a href="https://www.google.com/get/noto/#sans-mono">
+Google’s Noto Sans Mono</a> is getting very favorable reviews.
 Most systems include some version of CourierNew,
 which is mostly adequate,
 or LucidaConsole, which is pretty good.
@@ -1210,10 +1211,12 @@ these applications are very easy to use.
 </div>
 
 <div>
-There are two very interesting notebook-based approaches to
-presentation building: Mathematica, and <a href="http://jupyter.org/">Jupyter</a>.
+Two very interesting notebook-based approaches to presentation building are
+Mathematica, and <a href="http://jupyter.org/">Jupyter</a>.
 Mathematica is a powerful commercial symbolic algebra package which
 supports interactive presentations using the Wolfram Language.
+Mathematica truly pioneered notebook interfaces,
+which have since become very popular.
 Jupyter is a FOSS notebook web application that can serve as a front-end to
 dozens of languages, including Python (via the IPython notebook).
 </div>
@@ -1397,7 +1400,7 @@ This need not mean abadoning LaTeX.
 </p>
 
 <p>
-<a href="#latexgui">LyX</a> supports table editing.
+<a href="#latexgui">LyX</a> supports <a href="https://www.youtube.com/watch?v=NF8euiehYjo">table editing</a>.
 (You can also <a href="http://wiki.lyx.org/Tips/CopyTablesFromSpreadsheets">copy table data from spreadsheets</a> to LyX.)
 </p>
 
@@ -1629,7 +1632,7 @@ is "is a templates-based, ANSI-C++ compliant evolutionary computation library".
 Much scientific programming is done in very high level languages.
 Two factors to consider in making a language choice are
 what software in your area is already written in the language,
-and how much original coding you will be doing.
+and how much original coding you plan to do.
 </p>
 
 
@@ -1713,6 +1716,16 @@ consider <a href="http://www.dabeaz.com/ply/">PLY</a>
 (a Python implementation of lex and yacc).
 </p>
 
+<h3>Julia</h3>
+
+<li>
+<a href="http://julialang.org/">Julia</a> is a promising “high-level, high-performance dynamic programming language for technical computing”.
+(License: MIT)
+This is a very interesting and powerful language, which is already popular among economists.
+Follow the <a href="https://julialang.org/downloads/platform/">platform specific installation instructions</a>.
+It is also possible to <a href="https://datatofish.com/add-julia-to-jupyter/">add Julia to a Jupyter notebook</a>.
+</li>
+
 <h3>Java for Scientific Programming</h3>
 
 <p>
@@ -1737,11 +1750,6 @@ NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolki
 <h3 id="other-mpl-free">Other Free Matrix Programming Languages</h3>
 
 <ul>
-<li>
-<a href="http://julialang.org/">Julia</a> is a promising “high-level, high-performance dynamic programming language for technical computing”.
-(License: MIT)
-This is a very interesting project: already very usable, and under active development.
-</li>
 <li>
 <a href="http://pdl.perl.org/">Perl Data Language</a> introduces a new data structure:
 the "PDL numerical array," often referred to as a "piddle."
@@ -2391,6 +2399,10 @@ but some interesting FOSS solutions exist.
 
 <ul>
 <li>
+<a href="https://mathics.org/">Mathics</a> implements a very useful subset of
+the Wolfram Language, which is the language of Mathematica.
+</li>
+<li>
 <a href="http://www.sagemath.org/">Sage</a> (License: GPL)
 is an extensive, Python-based CAS with excellent documentation.
 There is a simple <a href="http://www.sagemath.org/help.html#tutorial">tutorial</a>.
@@ -2413,7 +2425,7 @@ is a Python-based CAS that <em>very</em> easily extensible.
 (It too is included with Sage.)
 </li>
 <li>
-<a href="http://page.axiom-developer.org">Axiom</a> (formerly ScratchPad) is now free and open source!
+<a href="https://github.com/daly/axiom#readme">Axiom</a> (once known as ScratchPad) is free and open source.
 "Axiom ... defines a strongly typed, mathematically correct type hierarchy.
 It has a programming language and a built-in compiler."
 </li>
@@ -2434,10 +2446,8 @@ Also see <a href="http://servus.math.su.se/bergman/">Bergman</a>,
 "is a system for computational discrete algebra, with particular emphasis on Computational Group Theory."
 (License: GPL2)
 </li>
-<li>
-<a href="http://www.tildesoft.com/Pythonica.html">Pythonica</a> holds promise.
-</li>
 </ul>
+
 
 <h3>Commercial CASs</h3>
 
@@ -4230,8 +4240,8 @@ Chart construction can be simplified by scripting
 <ul>
 <li id="TpX">
 <a href="http://tpx.sourceforge.net/">TpX</a> is small, fast, and powerful.
-Output formats include EPS, PDF, and PGF.
-(LaTeX users will particularly be interested in the PGF output.)
+Output formats include EPS, PDF, and TikZ.
+(LaTeX users will particularly be interested in the TikZ output.)
 Try it!
 (License: GPL; Language: Delphi)
 </li>
@@ -4475,7 +4485,7 @@ If your figures are simple (or if you are patient),
 just use the very powerful TikZ drawing language directly in your LaTeX document.
 TikZ does <em>not</em> depend on PostScript,
 you can use it directly with pdflatex.
-Conveniently, it is <em>also</em> compatible with the dvips/ps2pdf route.
+(Conveniently, it is <em>also</em> compatible with the dvips/ps2pdf route.)
 Sean Farley offers an <a href="http://siam.lsu.edu/wp-content/uploads/2009/12/tikz.pdf">useful tutorial</a>.
 <br />
 There are many TikZ libraries available,
@@ -4485,7 +4495,7 @@ These can greatly simplify your drawing tasks.
 <br />
 <a href="#gnuplot">gnuplot</a> since version 4.4 has a <a href="http://peter.affenbande.org/gnuplot/">TikZ “terminal”</a>. Very nice!
 <br />
-<a href="http://code.google.com/p/tikzedt/">TikzEdt</a> (License: GPL3) and
+<a href="http://tikzedt.org/doc.html">TikzEdt</a> (License: GPL3) and
 <a href="http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language">KtikZ</a> can nicely help
 you create tikz figures.
 (Mykel Kochenderfer has compiled a <a href="http://mykel.kochenderfer.com/tikz/">KtikZ Windows binary</a>.)
@@ -4958,7 +4968,7 @@ It is possible to convert <a href="http://wiki.github.com/mulicheng/csv2ofx/">CS
 <p>
 Advice on office suites:
 do not use them for research.
-Word processors slow down your writing:
+Word processors may slow down your writing;
 use a good <a href="#EDITORS">text editor</a>.
 Spreadsheets are a risky way to handle data
 [
@@ -4969,6 +4979,10 @@ Spreadsheets are a risky way to handle data
 <a href="http://people.umass.edu/evagold/excel.html">3</a>
 |
 <a href="https://www.washingtonpost.com/news/wonk/wp/2016/08/26/an-alarming-number-of-scientific-papers-contain-excel-errors/">4</a>
+|
+<a href="https://www.dailymail.co.uk/news/article-8805697/Furious-blame-game-16-000-Covid-cases-missed-Excel-glitch.html">5</a>
+|
+<a href="https://www.jstatsoft.org/article/view/v034i04">6</a>
 ]:
 use a simple matrix programming language instead.
 The virtues of existing presentation packages do not outweigh their weaknesses,
@@ -4976,8 +4990,8 @@ especially if you need to present mathematical formulae.
 </p>
 
 <p id="officesuites">
-When you do use an office suite,
-here are some basic considerations.
+Nevertheless, office suites can be convenient.
+Here are some basic considerations.
 FOSS office suites are currently a high-quality multi-platform solution.
 I recommend either <a href="https://www.libreoffice.org/">LibreOffice</a> (License: LGPL)
 or <a href="http://www.openoffice.org/">OpenOffice</a> (License: Apache).
@@ -6350,7 +6364,7 @@ you may find my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai
 to contain some useful abbreviations and commands for email.
 Just drop it in your <code>%VIM%\vimfiles</code> folder,
 and change your External Editor command to, e.g.,
-<code>"C:\Program Files (x86)\Vim\vim81\gvim.exe" --nofork -c "so $VIM\vimfiles\ai_mail.vim"</code>.
+<code>"C:\Program Files (x86)\Vim\vim82\gvim.exe" --nofork -c "so $VIM\vimfiles\ai_mail.vim"</code>.
 </div>
 
 <div>
@@ -7382,8 +7396,15 @@ Do[
 
 <div>
 Using version control with Mma notebooks is a bit messy but can be made fairly workable.
-Set <code>FileOutlineCache</code> to False and <code>TrackCellChangeTimes</code> to False
-in any notebook you want to put under version control.
+In a Mathematica notebook that you want to put under version control,
+go to <code>Format » Option Inspector...</code> in the menu.
+In the top-left dropdown, set the option scope <code>Selected Notebook</code>.
+Find <code>FileOutlineCache</code> under <code>Notebook Options » Private Notebook Options</code>,
+and set this option to <code>False</code>.
+(This may make opening the notebooks a bit slower.)
+Similarly,
+under <code>Editing Options</code>,
+set <code>TrackCellChangeTimes</code> to <code>False</code>
 <br />
 Command approach:
 <pre>
@@ -7392,17 +7413,11 @@ SetOptions[InputNotebook[],
   TrackCellChangeTimes → False
    ]
 </pre>
-<br />
-Menu driven approach:
-Open your notebook.
-From Mathematica’s menus,
-pick Format → Option Inspector.
-Show the options for the Selected Notebook.
-Under Notebook Options → Private Notebook Options,
-search for FileOutlineCache and set the option to False.
-Under Editing Options, search for TrackCellChangeTimes and set it to False.
-Save your notebook.)
-Preliminary to committing your changes, delete all your output cells and then save your notebook.
+Save your notebook and it will save with much less clutter
+and many fewer changes.
+To do even better,
+as a preliminary to committing your changes,
+delete all your output cells and then save your notebook.
 (You can use the menus or <code>FrontEndTokenExecute["DeleteGeneratedCells"]</code> for this.)
 </div>
 
@@ -8174,6 +8189,13 @@ Vim digraphs are based on <a href="http://www.faqs.org/rfcs/rfc1345.html">RFC 13
 See ``:h digraph-table``.
 </p>
 
+<p>
+To find the non-ASCII characters in a file,
+use a regular expression.
+Search for characters outside of the ASCII range,
+which are <code>[^\x00-\x7F]</code>.
+</p>
+
 <p>Colorscheme:
 <br />
 Vim provides excellent syntax highlighting in various color schemes.
@@ -8241,29 +8263,32 @@ MiKTeX:
 <br />
 With minimal effort,
 Vim cooperates wonderfully with LaTeX.
-Windows users should install MiKTEX and (before Vim 7, in any case) install aspell,
-and then perhaps add my <a href="http://www.american.edu/econ/notes/miktexmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.
+Windows users should install MiKTEX,
+and then perhaps add my <a href="https://raw.githubusercontent.com/alan-isaac/econpy/master/text/vimfiles/ai_texmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.
 </div>
 
-
 <p>
-Once you get used to using a mode-based editor, you will <a href="http://www.thomer.com/thomer/vi/vi.html">fall in love</a> with it.
-(There is a very nice
-<a href="http://iris.ltas.ulg.ac.be/~quy/vim/">manual</a>,
-<a href="http://physlab.sci.ccny.cuny.edu/~orycc/vim-main.html">helpful reference material</a>, and a nice
-<a href="http://physlab.sci.ccny.cuny.edu/~orycc/vim-regex.html">Vim regular expression tutorial</a>.)
-The only downside is that you'll have to get your
-<a href="http://www.interlog.com/~tcharron/grep.html">grep</a> (or <a href="http://www.tgries.de/agrep/">agrep</a> or the even more powerful <a href="http://nina.pagesz.net/~minitrue/">MiniTrue</a>) and spellcheck separately.
-(There is a Vim based spell checker for Vim:
-<a href="http://users.erols.com/astronaut/vim/#Spelling">Dr. C's engspchk.vim</a>.)
-You can adapt the <a href="http://www.dcs.shef.ac.uk/research/ilash/Moby/mthes.html">Moby thesaurus</a> for use with Vim.
+Vim 7+ includes spell checking.
+Spell checking is affected by syntax highlighting,
+which identifies groups (e.g., comments).
+For spell-checking longer LaTeX documents, I find I need to
+<code>setl spell syntax spell toplevel</code>.
+This ensures spellchecking of text that is not in a syntax item.
 </p>
 
 <p>
-Learn to yank use registers.
+Learn to yank to registers.
 For example, to yank (i.e., copy) the entire buffer you are working on
 into the clipboard, use <code>:%y+</code>.
-(The plus sign picks the clipboard register.)
+(The colon move to command mode,
+the percent sign picks all lines,
+the <code>y</code> is to yank,
+and the plus sign picks the clipboard register.)
+</p>
+
+<p>
+To remove the BOM from a file,
+<code>set nobomb</code>.
 </p>
 
 <p>
@@ -8281,6 +8306,11 @@ Change this to bd.)
 </p>
 
 <p>
+Thesaurus:
+You can adapt the <a href="http://www.dcs.shef.ac.uk/research/ilash/Moby/mthes.html">Moby thesaurus</a> for use with Vim.
+</p>
+
+<p>
 <a href="http://ctags.sf.net">Ctags</a> is no longer included with Vim
 (it has grown into a project of its own.)
 </p>
@@ -8291,6 +8321,7 @@ which executes URLs in plain text (e.g. call webbrowser, link MS Word documents,
 </p>
 
 <p>
+Vim supports folding!
 You may find it useful to begin your writing with an 
 <a href="http://bike-nomad.com/vim/vimoutliner.html">outliner</a>.
 </p>
@@ -8693,6 +8724,13 @@ To drop to a command shell from File Explorer,
 use Shift+RightClick to open a menu with that option.
 </div>
 
+<p>
+Windows 10 <a href="https://github.com/microsoft/PowerToys/blob/master/README.md">PowerToys</a>
+includes a Keyboard Manager,
+for key remapping.
+This is useful for mapping <code>CapsLock</code> to <code>Ctrl</code>.
+</p>
+
 
 <h3 id="opera-hints">Opera hints</h3>
 
@@ -8803,7 +8841,7 @@ E.g., <code>\graphicspath{{images-eps//}{images-pdf//}}</code>.
 
 <p>
 Most important:
-the <a href="http://paws.wcu.edu/tsfoguel/tikzpgfmanual.pdf">TikZ manual</a> is very helpful.
+the <a href="http://paws.wcu.edu/tsfoguel/tikzpgfmanual.pdf">TikZ/PGF manual</a> is very helpful.
 Also, Crémer provides a <a href="http://cremeronline.com/LaTeX/minimaltikz.pdf">useful introduction</a>.
 </p>
 
