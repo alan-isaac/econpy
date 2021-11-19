@@ -41,11 +41,11 @@ set clipboard=autoselect
 inoremap <c-del> <c-o>cw
 inoremap <c-bs> <c-w>
 "set backup options
-set bdir=D:\\temp\vimbak,.,c:\\temp
+set bdir=D:\\temp\vimbak,.,C:\\temp
 set backup
 set writebackup
 set backupskip=ae*.txt,*.tmp
-"use spaces for tabs (turned off in python_ai.vim)
+"use spaces for tabs (separately turned on locally in ftplugin/python_ai.vim)
 set expandtab
 
 
@@ -71,20 +71,10 @@ iab teh the
 " view file in browser
 au Filetype html,xhtml inoremap <vb <esc>:up<cr>:!start c:\programs\firefox\firefox.exe file:///%:p:gs?\\?/?<cr>
 " !start command for EViews
-inoremap ;ev <esc>:up<cr>:!start c:\progra~1\EViews4\EViews4.exe %:p<cr>
+" inoremap ;ev <esc>:up<cr>:!start c:\progra~1\EViews4\EViews4.exe %:p<cr>
 " !start commands for LaTeX
 au Filetype tex inoremap ;vpdf <esc>:!start "c:\programs\SumatraPDF\SumatraPDF.exe" %:p:r:gs?\\?/?.pdf<cr>
 au Filetype tex inoremap ;vgsv <esc>:!start "C:\programs\Ghostgum\gsview\gsview64.exe" %:p:r:gs?\\?/?.pdf<cr>
-au Filetype postscr inoremap ;vgsv <esc>:up<cr>:!start "C:\programs\Ghostgum\gsview\gsview64.exe" %:p:gs?\\?/?<cr>
-au Filetype html inoremap ;gzip <esc>:!start "c:\programs\unxutils\gzip.exe" %:p:r:gs?\\?/?.htm<cr>
-au Filetype tex inoremap ;vswp <esc>:up<cr>:!start C:\swp35\swp-pro.exe %:p:gs?\\?/?<cr>
-au Filetype tex inoremap ;mt <esc>:up<cr>:!start C:\programs\MiKTeX2.6\miktex\bin\latex.exe &latex %:p:r:gs?\\?/?<cr>
-au Filetype tex inoremap ;ps <esc>:!start C:\programs\MiKTeX2.6\miktex\bin\dvips.exe %:p:r:gs?\\?/?<cr>
-au Filetype tex inoremap ;vyap <esc>:up<cr>:!start C:\programs\MiKTeX2.6\miktex\bin\yap.exe %:p:r:gs?\\?/?<cr>
-au Filetype tex inoremap ;ymb <esc>:up<cr>:!start C:\programs\MiKTeX2.6\miktex\bin\yap.exe c:\mydocs\math\mathbook<cr>
-au Filetype tex inoremap ;tx <esc>:up<cr>:!start c:\swp35\TCITex\TrueTeX\initex32 &latex %:p:r:gs?\\?/?<cr>
-au Filetype tex inoremap ;dv <esc>:up<cr>:!start c:\swp35\TCITex\TrueTeX\dvigdi32 %:p:r:gs?\\?/?<cr>
-au Filetype tex inoremap ;mb <esc>:up<cr>:!start C:\programs\MiKTeX2.6\miktex\bin\latex.exe &latex c:/mydocs/math/mathbook<cr>
 "change highlighted text to mixed case:
 vmap Uu "xc<c-r>=substitute(@x,'\(\<.\)\(\S\+\)','\u\1\L\2','g')<cr><esc>
 " recall that Windows reserves <f1> and <f10>
@@ -111,7 +101,7 @@ inoremap <c-cr> <esc>o<esc>i
 
 " AUTOCOMMANDS
 " my tex stuff
-" see c:/programs/vim/vimfiles/ftplugin/tex_ai.vim
+" see C:/Users/aisaac/git/econpy/text/vimfiles/ftplugin/tex_ai.vim
 autocmd BufNewFile  *.tex        0r $VIMFILES/template/template.tex
 autocmd BufNewFile  *.tex        set ft=tex
 au Filetype tex inoremap ;df \begin{define}<cr>\end{define}<esc>O
@@ -123,18 +113,12 @@ au Filetype tex inoremap ;cx <esc>:r \mydocs\math\template_cx<cr>jf:a
 au Filetype tex inoremap ;ax \begin{ex}<cr>\begin{ansex}<cr>\end{ansex}<cr>\end{ex}<cr><esc>kkkkO
 "write file from insert mode
 inoremap ;wq <esc>:up<bar>q<cr>
-inoremap ;wd <esc>:w<bar>bd<cr>
 inoremap ;wr <esc>:up<cr>
-inoremap ;wa <esc>:wa<cr>
-autocmd BufWritePre,FileWritePre *.tex   ks|call LastMod()|'s
-autocmd BufWritePre,FileWritePre *.htm   ks|call LastMod()|'s
-autocmd BufWritePre,FileWritePre *.xhtml   ks|call LastMod()|'s
-autocmd BufWritePre,FileWritePre *.prg   ks|call LastMod()|'s
-autocmd BufWritePre,FileWritePre *.inp   ks|call LastMod()|'s
 " read :h template
 
 
 
+"no longer used v
 function! LastMod()
   if line("$") > 40
     let l = 40
@@ -843,7 +827,7 @@ function! H2T()
   s/<body\_[^>]*>//e
   %s/<h1>\s*\n*/TITLE: /e
   %s/<h2>\s*\n*/SECTION: /e
-  %s/<h3>\s*\n*/Subection: /e
+  %s/<h3>\s*\n*/Subsection: /e
   %s/<\/h\d>/\r
   %s/<em>\|<\/em>\|<i>\|<\/i>\|<b>\|<\/b>\|<strong>\|<\/strong>/*/ge
   %s/<script\|<!\|<img/\r&/ge
@@ -916,20 +900,6 @@ function! H2T()
 v/./,//-j
 endfunction
 
-function! Tth()
-  %s/\\title{\(.\{-}\)}/<h1>\r\1\r<\/h1>/e
-  %s/\\section{\(.\{-}\)}/<h2>\r\1\r<\/h2>/e
-  %s/\\subsection{\(.\{-}\)}/<h3>\r\1\r<\/h3>/e
-  %s/\\item\(.\{-}\)/<li>\1\r<\/li>/e
-  g/^[^\]\+$/.,/\/\//- j
-  %s@\\begin{enumerate}@<ol>@e
-  %s@\\end{enumerate}@<\/ol>@e
-  %s@\\begin{itemize}@<ul>@e
-  %s@\\end{itemize}@<\/ol>@e
-  %s@\\$@&usd;@e
-  %s/^\s\+//e
-  v/./,//-j
-endfunction
 
 function! HWprg()
   %s@^\s*save\s\+.\+@save\ c:\\temp.wf1@e

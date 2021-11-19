@@ -15,13 +15,13 @@ import unittest
 import random
 import numpy as np
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
 from econpy.pytrix.utilities import cumsum, cumprod, unique
-from econpy.pytrix.utilities import gini, ginis, py_gini #the main ones
-from econpy.pytrix.utilities import calc_gini2, calc_gini3, calc_gini4
+from econpy.pytrix.utilities import gini, ginis, alt_gini #the main ones
+from econpy.pytrix.utilities import py_gini, py_gini, py_gini2
 from econpy.abm.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
 
@@ -89,6 +89,7 @@ class testUtilities(unittest.TestCase):
         print(fmath.get_default_numerical_precision())
         print(fmath.feq(1,2), fmath.feq(1e-9, 1e-10), fmath.feq(1e-16, 1e-17))
 
+
 class testGinis(unittest.TestCase):
     def setUp(self):
         self.N = 5
@@ -99,12 +100,11 @@ class testGinis(unittest.TestCase):
         #test that two Gini formulae give same result
         g0 = gini(self.wealths)
         g1 = py_gini(self.wealths)
-        g2 = calc_gini2(self.wealths)
-        g3 = calc_gini3(self.wealths)
-        g4 = calc_gini4(self.wealths)
+        g2 = py_gini2(self.wealths)
+        g3 = alt_gini(self.wealths)
         g5, bad = ginis([self.wealths,self.wealths02])
         #print "g1:%f, g2:%f"%(g1, g2)
-        for gi in (g1,g2,g3,g4,g5):
+        for gi in (g1,g2,g3,g5):
             self.assertTrue(fmath.feq(g0,gi))
         print("g1={},g5={}, bad={}".format(g1, g5, bad))
     def test_unique(self):

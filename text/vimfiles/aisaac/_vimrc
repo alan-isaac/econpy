@@ -4,7 +4,7 @@ autocmd!
 if has("unix")
         let $VIMFILES = $HOME . "/.vim"
 else
-        let $VIMFILES = $VIM . "/vimfiles"
+        let $VIMFILES = $HOME . "/vimfiles"
         "http://stackoverflow.com/questions/94382/vim-with-powershell
         "set shell=powershell
         "set shellcmdflag=-ExecutionPolicy\ RemoteSigned\ -Command 

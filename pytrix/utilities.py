@@ -2,23 +2,22 @@
 Provides an uncategorized collection of possibly useful utilities.
 (The primary use is pedagogical.  For more sophisticated
 implementations, see the NumPy library for numerical Python.)
-As of 2019, Python 3.5+ is assumed and numpy is required.
+As of 2021, Python 3.8+ is assumed and numpy is required.
 
-:copyright: 2005-2019 Alan G. Isaac, except where another author is specified.
+:copyright: 2005-2021 Alan G. Isaac, except where another author is specified.
 :license: `MIT license`_
 :author: Alan G. Isaac (and others where specified)
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 """
-from __future__ import division, absolute_import
-
 __docformat__ = "restructuredtext en"
 
 import logging, random, itertools, operator
 from collections import defaultdict
+from typing import Any, Callable, List, Generator, Iterable, Sequence
+from numbers import Real
 
 import numpy as np
-have_numpy = True
 
 have_scipy = False
 try:
@@ -45,13 +44,18 @@ def unique(x, key=None, reverse=False):
     """Return sorted list of unique items in `x`.
     If you don't need `key`, use `np.unique` instead,
     reversing if needed. Also, consider 
-    `collections.Counter` in the Standard Library.
+    `dict.fromkeys(x).keys()` to retain order of encounter.
     """
     return sorted(set(x), key=key, reverse=reverse)
 
-
-def ireduce(func, iterable, init=None):
-    """Return generator of sequential reductions.
+def ireduce(
+    func: Callable[[Any,Any],Any],
+    iterable: Iterable[Any],
+    init=None
+    ) -> Generator:
+    """Return generator of sequential reductions by `func`,
+    which must be a bivariate function.
+    Does *not* yield init for empty iterable.
 
     Example use:
     >>> list(ireduce(operator.mul, range(1,5),init=1))
@@ -59,11 +63,9 @@ def ireduce(func, iterable, init=None):
     >>>    
 
     :thanks: Peter Otten and Michael Spencer
-    :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/413614
     :see: Bryn Keller's scanl (for a different approach)
         http://www.xoltar.org/languages/python/datastruct.py
     :since: 2005-11-23
-    :change: 2009-02-14 do not yield init for empty iterable
     """
     iterable = iter(iterable)
     if init is None:
@@ -79,7 +81,7 @@ def ireduce(func, iterable, init=None):
 def cumreduce(func, seq, init = None):
     """Return list of length len(seq),
     the sequential reductions of seq.
-    Used by cumsum and cumprod.
+    An empty seq always returns empty list
 
     Example use:
     >>> cumreduce(operator.mul, range(1,5), init=1)
@@ -87,12 +89,19 @@ def cumreduce(func, seq, init = None):
     >>>    
 
     :since: 2005-11-19
-    :change: 2009-02-14 empty seq always returns empty list
+    :calls: ireduce
+    :note: Used by cumsum and cumprod.
     """
     return list( ireduce(func, seq, init) )
 
-def cumsum(seq):
-    return cumreduce(operator.add, seq)
+def cumsum(
+    xs: Sequence[Real]
+    ) -> List[Real]:
+    """Return the accumulated sum of the xs,
+    as a list.
+    :note: use np.cumsum when possible, for speed.
+    """
+    return cumreduce(operator.add, xs)
 
 def cumprod(seq):
     return cumreduce(operator.mul, seq)
@@ -139,23 +148,58 @@ def test_safe_iter():
 #all the Gini calculations include the 1/N correction
 # TODO: speed comparison
 
-def gini(xs):
-    """Return Gini coefficient computed with standard formula.
-    Uses numpy.  Compare to `py_gini`.
-    """
-    xs = np.sort(xs)  # increasing order
-    N = len(xs)
-    B = np.dot(xs, N - np.arange(N)) / (N * xs.sum())
-    return 1. + (1./N) - 2*B
 
-def py_gini(x):
+def gini( #follow transformed formula
+    xs: Sequence[Real],
+    isSorted=False
+    ) -> Real:
+    """Return Gini coefficient computed with transformed formula.
+    :note: includes the 1/N "bessel" correction
+    """
+    if not isSorted:
+        xs = np.sort(xs)  # increasing order
+    N = len(xs)
+    ys = np.cumsum(xs)
+    B = ys.sum() / N / ys[-1]
+    return 1.0 - 2*B + 1.0/N
+
+def alt_gini(
+    xs: Sequence[Real],
+    isSorted=False
+    ) -> Real:
     """Return Gini coefficient computed with standard formula.
-    Contrast with `calc_gini2`.
+    :note: includes the 1/N "bessel" correction
+    """
+    if not isSorted:
+        xs = np.sort(xs)  # increasing order
+    N = len(xs)
+    B = np.dot(xs, np.arange(N,0,-1)) / N / xs.sum()
+    return 1.0 - 2.0*B + 1.0/N
+
+def py_gini(
+    xs: Sequence[Real],
+    isSorted=False
+    ) -> Real:
+    """Return Gini coefficient computed with standard formula.
+    :note: does not require numpy.
+    """
+    if not isSorted:
+        xs = sorted(xs)  # increasing order
+    N = len(xs)
+    B = sum(xi * (N-i) for i,xi in enumerate(xs)) / N / sum(xs)
+    return 1.0 - 2.0*B + 1.0/N
+
+def py_gini2(x): #follow transformed formula
+    """Return computed Gini coefficient.
+
+    :note: follows transformed formula, like R code in 'ineq'
+    :see: `calc_gini`
     """
     x = sorted(x)  # increasing order
-    N = len(x)
-    B = sum( xi * (N-i) for i,xi in enumerate(x) ) / (N*sum(x))
-    return 1 + (1./N) - 2*B
+    n = len(x)
+    G = sum(xi * (i+1) for i,xi in enumerate(x))
+    G = 2.0*G/(n*sum(x)) #2*B
+    return G - 1 - (1./n)
 
 def ginis(xss, bessel=False):
     """Return 1d array, the Gini coefficient for each row of xss.
@@ -207,39 +251,6 @@ def ginis(xss, bessel=False):
     result.fill(np.nan)
     result[oks] = gs
     return result
-
-def calc_gini4(x, use_numpy=True): #follow transformed formula
-    """Return computed Gini coefficient.
-    """
-    xsort = sorted(x) # increasing order
-    if have_numpy and use_numpy:
-        y = np.cumsum(xsort)
-    else:
-        y = cumsum(xsort)
-    B = sum(y) / (y[-1] * len(x))
-    return 1 + 1./len(x) - 2*B
-
-def calc_gini3(x): #follow transformed formula
-    """Return computed Gini coefficient.
-    """
-    yn, ysum = 0.0, 0.0
-    for xn in sorted(x):
-        yn += xn
-        ysum += yn
-    B = ysum / (len(x) * yn)
-    return 1 + 1./len(x) - 2*B
-
-def calc_gini2(x): #follow transformed formula
-    """Return computed Gini coefficient.
-
-    :note: follows transformed formula, like R code in 'ineq'
-    :see: `calc_gini`
-    """
-    x = sorted(x)  # increasing order
-    n = len(x)
-    G = sum(xi * (i+1) for i,xi in enumerate(x))
-    G = 2.0*G/(n*sum(x)) #2*B
-    return G - 1 - (1./n)
 
 
 def groupsof(seq,n):

@@ -8192,8 +8192,11 @@ See ``:h digraph-table``.
 <p>
 To find the non-ASCII characters in a file,
 use a regular expression.
-Search for characters outside of the ASCII range,
-which are <code>[^\x00-\x7F]</code>.
+To search for characters outside of the ASCII range,
+search for <code>[^\x00-\x7F]</code>.
+(Alternative, use decimal values: <code>[^\d0-\d127]</code>.)
+However to search for individual non-ASCII characters,
+see the help for <code>%o</code>.
 </p>
 
 <p>Colorscheme:
@@ -8234,6 +8237,16 @@ and they are essentially an arrangement of windows open on some of your buffers.
 (A buffer is a file that has been opened for editing;
 a window is an area to view a buffer,
 and a tab page is a collection of windows.
+</p>
+
+<p>
+Vim has excellent syntax highlighting.
+However, by default it does not use a lot of context.
+In many settings, I find it useful to set
+<code>syn sych minlines=300</code>.
+When necessary, you can <code>syn sych fromstart</code>,
+but this may cause a slowdown in very large files.
+(See the help for <code>syn-sync</code>.
 </p>
 
 <div>

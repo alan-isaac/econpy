@@ -5,8 +5,11 @@ Unit tests for the `functions` package.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import division
 __docformat__ = "restructuredtext en"
+from typing import Any, Callable, Sequence
+from numbers import Real, Integral
+import operator
+from functools import reduce
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
@@ -17,10 +20,13 @@ from typing import Callable
 from numbers import Real, Integral
 
 #BEGIN lst:function.differenceQuotient
-def simplest_differenceQuotient(f, x, h):
-    #type: (Callable, Real, Real) -> Real
+def simplest_differenceQuotient(
+    f: Callable, #underlying function
+    x: Real,     #source point
+    h: Real      #step
+    ) -> Real:
     df = f(x + h) - f(x) #change of value of f
-    return df/h          #value of difference quotient
+    return df / h        #value of difference quotient
 #END lst:function.differenceQuotient
 
 #BEGIN lst:function.simplest_horner
@@ -37,21 +43,27 @@ def simplest_horner(coefficients, x):
     return result
 #END lst:function.simplest_horner
 
-#BEGIN lst:simplest_horner01
+#BEGIN lst:simplest_hornerd
 #goal: evaluate polynomial p and derivative p' at point x
 #input:
 #    coefficients : tuple (ordered as (a_0,...,a_N))
 #    x : number (point of evaluation)
 #output:
 #    result : number,number = p(x), p'(x)
-def horner01(coefficients, x):
+def hornerd(coefficients, x):
     p0 = 0
     p1 = 0
     for coef in reversed(coefficients):
         p1 = p1*x + p0
         p0 = p0*x + coef
     return p0, p1
-#END lst:simplest_horner01
+#END lst:simplest_hornerd
+
+#BEGIN:horner
+def horner(coefficients: Sequence[float], x: float):
+    f = lambda acc, coef: coef + x * acc
+    return reduce(f, reversed(coefficients), 0)
+#END:horner
 
 class test_functions(unittest.TestCase):
     coefficients = random.sample(range(1,20), 5)
@@ -66,31 +78,22 @@ class test_functions(unittest.TestCase):
         self.assertEqual(c, polyuv.polyderiv(a,d=2))
     """
     def test_horner(self):
-        a = self.coefficients
-        b = [ (i+1)*a[i+1] for i in range(len(a)-1) ]
-        c = [ (i+1)*b[i+1] for i in range(len(b)-1) ]
+        cs = self.coefficients
+        cs1 = [ (i+1)*cs[i+1] for i in range(len(cs)-1) ]
+        cs2 = [ (i+1)*cs1[i+1] for i in range(len(cs1)-1) ]
         x = random.random()
-        ref0 = simplest_horner(a,x)
-        ref1 = simplest_horner(b,x)
-        ref2 = simplest_horner(c,x)
-        """
-        self.assertEqual( ref0, polyuv.horner(a,x) )
-        self.assertEqual( ref0, polyuv.horner01(a,x)[0] )
-        self.assertEqual( ref0, polyuv.horner012(a,x)[0] )
-        self.assertEqual( ref1, polyuv.horner01(a,x)[1] )
-        self.assertEqual( ref1, polyuv.hornerd(a,x,1) )
-        self.assertEqual( ref1, polyuv.horner012(a,x)[1] )
-        self.assertEqual( ref2, polyuv.horner012(a,x)[2] )
-        self.assertEqual( ref2, polyuv.hornerd(a,x,2) )
-        """
+        ref0 = simplest_horner(cs, x)
+        ref1 = simplest_horner(cs1,x)
+        ref2 = simplest_horner(cs2,x)
+        self.assertEqual(ref0, horner(cs, x) )
+        self.assertEqual(ref0, hornerd(cs, x)[0] )
+        self.assertAlmostEqual(ref1, hornerd(cs, x)[1] )
+
     """
     def test_PolynomailUV(self):
         p1 = polyuv.PolynomialUV(self.coefs)
         x = -1.9
         self.assertEqual( p1(x), ((-0.4*x + 1.0)*x + 0.2)*x + 1.0 )
-    def test_horner(self):
-        x = random.random()
-        self.assertEqual( simplest_horner(self.coefs, x), polyuv.horner(self.coefs, x) )
     def test_deriv(self):
         coefs = range(6)
         random.shuffle(coefs)

@@ -16,3 +16,13 @@ colorscheme koehler
 " add suffixes to gf searches
 set suffixesadd=.rst 
 
+setl shiftwidth=3
+setl tabstop=3
+
+"section motion for .rst files (redefines section commands)
+" (keeppattern prevent altering the search history)
+nmap <buffer> [[ k$:keeppattern ?^=\+$<cr>k
+nmap <buffer> ]] j$:keeppattern /^=\+$<cr>k
+vmap <buffer> [[ k$?^=\+$<cr>k
+vmap <buffer> ]] j$/^=\+$<cr>k
+

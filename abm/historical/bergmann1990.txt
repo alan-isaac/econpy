@@ -4,7 +4,7 @@ a Labor Market Example, Journal of Economic Perspectives.
 The article provides detailed documentation of the model.
 I commented out the file handling and referenced this documentation.
 I also added bergmann1990.py, a simple translation into Python.
-Perhaps unfortunately, I made changes for readability in the Python code.
+For better or worse, I made changes for readability in the Python code.
 - Alan G. Isaac
 
 Currently a short tutorial for BASIC may be found at

@@ -119,7 +119,9 @@ imap <buffer> <unique> ;sl <c-r>="\\sum_{".input("from:")."}^{".input("to:")."}"
 " sum with lower limit
 imap <buffer> <unique> ;s_ <c-r>="\\sum_{".input("from:")."}"<cr>
 imap <buffer> <unique> ;_ <c-r>="_{".input("sub:")."}"<cr>
+imap <buffer> <unique> <C-_> <c-r>="_{".input("sub:")."}"<cr>
 imap <buffer> <unique> ;^ <c-r>="^{".input("sup:")."}"<cr>
+imap <buffer> <unique> <C-^> <c-r>="^{".input("sup:")."}"<cr>
 imap <buffer> <unique> ;fr <c-r>="\\frac{".input("top:")."}{".input("bot:")."}"<cr>
 vmap <buffer> <unique> ;fr "xc\frac{}<esc>"xPla{}<esc>i
 imap <buffer> <unique> ;em <c-r>="\\emph{".input("emphasized text: ")."}"<cr>
@@ -144,8 +146,8 @@ imap <buffer> <unique> ;fgr \begin{figure}[tbp]<cr>\centering<cr>\includegraphic
 imap <buffer> <unique> ;tbl \begin{table}[btp]<cr>\caption{}<cr>\label{t:}<cr>\centering<cr>\begin{tabular}{cc}\toprule<cr>\bottomrule<cr>\end{tabular}<cr>\end{table}<esc>?:<cr>a
 
 "section motion for .tex files (redefines the usual section commands)
-map <buffer> [[ k$?\\\(sub\)\{0,1}section[[{]<cr>
-map <buffer> ]] /\\\(sub\)\{0,1}section[[{]<cr>
+map <buffer> [[ k$?\\\(sub\)*section[[{]<cr>
+map <buffer> ]] /\\\(sub\)*section[[{]<cr>
 
 if exists("g:loaded_global_tex_ai")
         let &cpo = s:cpo_save

@@ -168,7 +168,7 @@ def cbrt(r, n=3):
     """
     assert n%2 and n==int(n) or r>=0, "n must be an odd integer if r<0"
     try: return r>=0 and math.pow(r,1./n) or -math.pow(-r,1./n)
-    except: print "%s is not a real number"%(r)
+    except: print("%s is not a real number"%(r))
 
 
 
@@ -599,7 +599,7 @@ def newton(func, funcd, x, TOL=1e-6):    # f(x)=func(x), f'(x)=funcd(x)
         x = x - dx
         f, fd = func(x), funcd(x)
         count = count + 1
-    print "newton(%d): x=%s, f(x)=%s" % (count, x, f)
+    print("newton(%d): x=%s, f(x)=%s" % (count, x, f))
 
 
 
@@ -636,7 +636,7 @@ def secant(func, oldx, x, TOL=1e-6):    # f(x)=func(x)
         oldx, x = x, x - dx
         oldf, f = f, func(x)
         count = count + 1
-    print "secant(%d): x=%s, f(x)=%s" % (count, x, f)
+    print("secant(%d): x=%s, f(x)=%s" % (count, x, f))
 
 
 # Integration
@@ -693,7 +693,7 @@ def closedpoints(func, a, b, TOL=1e-6):        # f(x)=func(x)
         old = new    # Trapezoid
         old2 = new2    # Simpson
         count = count + 1
-    print 'closedpoints(%d): Trapezoid=%s, Simpson=%s' % (count, new, new2)
+    print('closedpoints(%d): Trapezoid=%s, Simpson=%s' % (count, new, new2))
 
 def openpoints(func, a, b, TOL=1e-6):        # f(x)=func(x)
     """Open integration of function using extended Simpson's rule. ::
@@ -751,7 +751,7 @@ def openpoints(func, a, b, TOL=1e-6):        # f(x)=func(x)
         old = new    # Trapezoid
         old2 = new2    # Simpson
         count = count + 1
-    print 'openpoints(%d): Trapezoid=%s, Simpson=%s' % (count, new, new2)
+    print('openpoints(%d): Trapezoid=%s, Simpson=%s' % (count, new, new2))
 
 
 # FFT
@@ -1049,31 +1049,31 @@ def testLR():
 
     # first order equation: Y = 1 + 2X
     myCoefficients = linearRegression([[1, 0], [3, 1], [5, 2]], 1)
-    print myCoefficients
+    print(myCoefficients)
 
     # get the r-squared value for the regression
     myRSquared = linearRSquared([[1, 0], [3, 1], [5, 2]], myCoefficients)
 
     # first order equation: Y = 2 + 2X
-    print linearRegression([[1, 0], [3, 1], [3, 0], [5, 1]], 1)
+    print(linearRegression([[1, 0], [3, 1], [3, 0], [5, 1]], 1))
 
     # first order equation: Y = 100 + 50X
     myData = []
     for x in range(100):
        myData.append([100 + x*50, x])
-    print linearRegression(myData, 1)
+    print(linearRegression(myData, 1))
 
     # second order equation: Y = 1 + 2X + 3X^2
     myData = []
     for x in range(100):
        myData.append([1 + 2*x + 3*x*x, x])
-    print linearRegression(myData, 2)
+    print(linearRegression(myData, 2))
 
     # third order equation: Y = 4 + 3X + 2X^2 + 1X^3
     myData = []
     for x in range(100):
        myData.append([4 + 3*x + 2*x*x + 1*x*x*x, x])
-    print linearRegression(myData, 3)
+    print(linearRegression(myData, 3))
 
     # multivariate equation: Y = 6 + 5X + 4X^2 + 3XZ + 2Z + 1Z^2
     myData = []
@@ -1087,7 +1087,7 @@ def testLR():
     myEquations.append(lambda rawItem, coefIndex: rawItem[1] * rawItem[2])
     myEquations.append(lambda rawItem, coefIndex: rawItem[2])
     myEquations.append(lambda rawItem, coefIndex: rawItem[2] * rawItem[2])
-    print regression(myData, myEquations)
+    print(regression(myData, myEquations))
 
 
 #----------------------------------------------------------------------#
@@ -1453,9 +1453,9 @@ class interp2:
         if (rank(x) > 1) or (rank(y) > 1):
             raise ValueError, "One of the input arrays is not 1-d."
         if (len(x) != rz) or (len(y) != cz):
-            print "len of x: ", len(x)
-            print "len of y: ", len(y)
-            print "shape of z: ", shape(z)
+            print("len of x: ", len(x))
+            print("len of y: ", len(y))
+            print("shape of z: ", shape(z))
             raise ValueError, "Length of X and Y must match the size of Z."
 
         # TODO: could check for x,y input as grids, and check dimensions
@@ -1539,8 +1539,8 @@ class interp2:
                 mask=eye(shape(X)[0], shape(X)[1]).astype('b') )
             Y = MA.masked_array( Y, 
                 mask=eye(shape(Y)[0], shape(Y)[1]).astype('b') )
-        print X.mask()
-        print X.compressed()
+        print(X.mask())
+        print(X.compressed())
         """
 
         # calculating the shifted squares
@@ -1577,7 +1577,7 @@ class interp2:
         oob_mask = logical_or( transpose(resize(out_of_xbounds, 
                         (shape(ZI)[1], shape(ZI)[0])) ),
                     resize(out_of_ybounds, shape(ZI)) )
-        #print "oob mask: \n", oob_mask, shape(oob_mask)
+        #print("oob mask: \n", oob_mask, shape(oob_mask))
         # blind the oob vals i
         # - NOT NEEDED ANYMORE?
         #ZI = ZI*logical_not(oob_mask)
@@ -1693,7 +1693,7 @@ def asciihist(it,numbins=10,minmax=None,eps=0):
     #the rest go in the last bin
     freq[bins[-1]]=len(itlist)
     for bin in bins:
-        print "%2.2f |"%(cutoffs[bin]) + "*"*freq[bin]
+        print("%2.2f |"%(cutoffs[bin]) + "*"*freq[bin])
 
 def pascal_triangle(n):
     """The first n+1 rows of Pascal's triangle.
@@ -1728,9 +1728,9 @@ def combinations(s,n):
     #old version
     all = []
     for i in xrange(depth+1):
-         print i
+         print(i)
          for r in combinations(s[i+1:], n-1) :
-            print "concatenate:", [s[i]], r
+            print("concatenate:", [s[i]], r)
             all.append([s[i]]+r)
     return all
     """
@@ -2156,9 +2156,9 @@ def test_fnnls():
     y = np.array([4, 7, 4], np.float32)
     Xt = X.transpose()
     x, w = fnnls(np.dot(Xt, X), np.dot(Xt, y))
-    print 'X = ', X
-    print 'y = ', y
-    print 'x = ', x
+    print('X = ', X)
+    print('y = ', y)
+    print('x = ', x)
 
 
 
@@ -2227,7 +2227,7 @@ class Histogram(object):
         else:
             self.bins = bins
             if range is not None:
-                print 'The bin array assignment superseded the range assignment.'
+                print('The bin array assignment superseded the range assignment.')
         
         self.__compute()
         self.__empirical_cdf()
@@ -2361,7 +2361,7 @@ class Histogram(object):
             
         def fget(self):
             if self.__weights is None:
-                print 'No weights are yet assigned.'
+                print('No weights are yet assigned.')
             else:
                 return self.__weights
     
@@ -2596,8 +2596,8 @@ def gen_convKern( self):
     widths = c_[[sig1_t, sig2_c]]*mSigMul;
     convkern_min = -widths;   # lower borders for both times
     convkern_max = +widths;   # upper borders for both times
-    print "ckmin", convkern_min
-    print "ckmax", convkern_max
+    print("ckmin", convkern_min)
+    print("ckmax", convkern_max)
 
     # steps within mSigMul sigmas on scale of the convolution times
     ck5sigSteps = \
@@ -2606,7 +2606,7 @@ def gen_convKern( self):
 
     ### convolution kernel generation
     ck5S = ck5sigSteps        # shortcut
-    print "calculated conv kern steps:", ck5S
+    print("calculated conv kern steps:", ck5S)
 
     self.convKGrid = zeros([3,2*ck5S[0] + 1, 2*ck5S[1] + 1],'d')
     self.convKGrid[:2] = mgrid[ 
@@ -2650,18 +2650,18 @@ def integrate_grid( self, grid):
 
     # smart choice of first integration axis (the smaller one)
     if ( shape(grid)[2] > shape(grid)[1]):
-        #print "choosing first integration axis: X"
+        #print("choosing first integration axis: X")
         intmarg = zeros([shape(grid)[2]],'d')
         # get y extension
         for y in range(shape(grid)[2]):
-            #print grid[0,:,y]    # the x coords along each y-axis
-            #print grid[2,:,y]    # and pdf values
+            #print(grid[0,:,y])    # the x coords along each y-axis
+            #print(grid[2,:,y])   # and pdf values
             intmarg[y] = integrate.trapz( grid[2,:,y], xrange)
-            #print intmarg[y]
+            #print(intmarg[y])
         return integrate.trapz( intmarg, yrange) 
 
     else:
-        #print "choosing first integration axis: Y"
+        #print("choosing first integration axis: Y")
         intmarg = zeros([shape(grid)[1]],'d')
         for x in range(shape(grid)[1]):
             intmarg[x] = integrate.trapz( grid[2,x,:], yrange)

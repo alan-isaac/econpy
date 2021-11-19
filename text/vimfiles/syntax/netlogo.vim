@@ -47,6 +47,9 @@ setlocal iskeyword+=#
 " Constants
 syn keyword nlArithmeticConstant e pi
 
+syn keyword nlExtensions arduino array bitmap csv gis gogo levelspace matrix
+        \ nw palette profile py r rnd sound table vid
+
 syn keyword nlColorConstant black gray white red orange brown yellow green lime
     \ turquoise cyan sky blue violet magenta pink
 
