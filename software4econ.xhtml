@@ -1795,15 +1795,11 @@ Euler also provides symbolic math via Maxima and offers a notebook interface. (L
 </li>
 <li>
 Related languages:
+<a href="http://www.sbcl.org/">Steel Bank Common Lisp</a> with <a href="http://nikodemus.github.io/sb-cga/">SB-CGA</a>;
 <a href="http://lush.sourceforge.net/index.html">Lush</a> (Lisp based);
 <a href="http://www.aplusdev.org/">A+</a> (APL derivative);
 <a href="http://www.hakank.org/k/">K/Kona</a>.
 <a href="https://kx.com/connect-with-us/download/">Q</a>.
-</li>
-<li> Harmonic Software offers <a href="http://www.omatrix.com/">O-Matrix Light</a> for free (one a time-limited basis) and there is an
-<a href="http://www.omatrix.com/manual/">online manual</a>.
-It is a reasonable choice for a matrix programming language.
-Even the full version is very reasonably priced for academic users.
 </li>
 <li>
 <a href="http://www.jsoftware.com/">J</a> is a powerful array-oriented functional language. (License: GPL)
@@ -1811,7 +1807,7 @@ The APL-influenced syntax is rather unusual.
 </li>
 <li>
 The DOS, UNIX, and now Windows console versions of the matrix programming language
-<a href="http://www.nuff.ox.ac.uk/Users/Doornik/">Ox</a> are freeware.
+<a href="https://www.doornik.com/ox/">Ox</a> are freeware.
 Ox is similar to C++ and the econometric implementations resemble GAUSS.
 Ox comes with a gauss-to-ox interpreter called OxGAUSS,
 which translates GAUSS codes into Ox programs.
@@ -1874,16 +1870,16 @@ C:
 <h3 id="other-mpl-com">Commercial Options</h3>
 
 <p>
-Popular commercial options include Mathematica, MATLAB, GAUSS, and IDL.
+Popular commercial options include Mathematica, MATLAB, <a href="https://www.aptech.com/">GAUSS</a>, and IDL.
 For econometrics, the biggest collections of extant code are in MATLAB and GAUSS,
-with Python and Julia code perhaps catching up.
+although Python and Julia code have perhaps caught up.
 Of these two, Gauss has the advantage of real array broadcasting,
 while MATLAB relies on the relatively clumsy <code>repmat</code> and <code>bsxfun</code> for broadcasting.
 Recent versions of Matlab supports classes and GAUSS has structs,
 but neither language is truly object oriented,
 and both often copy array data when it is unnecessary (instead of referencing it).
 If you are going to write a lot of your own code,
-true object orientation can be critical.
+avoding needless copies can be critical.
 You can get this very nicely with the <a href="#numpy">NumPy Python library</a>.
 </p>
 
@@ -1910,9 +1906,9 @@ Among matrix-oriented programming languages,
 <a href="http://www.aptech.com/">GAUSS</a> was once the first choice among U.S. econometricians.
 (Python and Julia now appear to be taking over.)
 It is known for speed and ease of use.
-Its collection of built-in statistical procedures is not as extensive as specialty languages such as S-Plus/Gnu-S,
-but this can be offset by its speed and by available free and commercial packages
-(such as <a href="http://www.econotron.com/gaussx/gaussx1.html">GAUSSX</a>).
+Its collection of built-in statistical procedures is large but not as extensive as specialty languages such as S-Plus/Gnu-S,
+although this can be offset by its speed and by available free and commercial packages
+(such as <a href="http://www.econotron.com/gaussx/gaussx.html">GAUSSX</a>).
 </p>
 
 
