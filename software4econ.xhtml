@@ -943,11 +943,12 @@ See <a href="#latexgraphics">Graphics for LaTeX</a> for more details.
 <h4>From LaTeX</h4>
 
 <p>
-<a href="http://www.tug.org/utilities/texconv/textopc.html">TeX to PC</a> has a more complete discussion.
-One interesting possibility is <a href="http://plastex.sourceforge.net/plastex/">plasTeX</a>,
-which parses LaTeX for output in various formats.
-More extensive conversion capabilities may be provided by <a href="http://johnmacfarlane.net/pandoc">pandoc</a>.
+Extensive conversion capabilities may be provided by <a href="http://johnmacfarlane.net/pandoc">pandoc</a>.
 (Language: Haskell; License: GPL)
+See <a href="https://waterprogramming.wordpress.com/2018/08/26/converting-latex-to-ms-word-docx-almost-perfectly/">this blog</a>
+for a LaTeX-to-Word example.
+One interesting possibility is <a href="https://github.com/plastex/plastex">plasTeX</a>,
+which parses LaTeX for output in various formats.
 </p>
 
 <p>
@@ -1212,13 +1213,16 @@ these applications are very easy to use.
 
 <div>
 Two very interesting notebook-based approaches to presentation building are
-Mathematica, and <a href="http://jupyter.org/">Jupyter</a>.
+Mathematica and <a href="http://jupyter.org/">Jupyter</a>.
 Mathematica is a powerful commercial symbolic algebra package which
 supports interactive presentations using the Wolfram Language.
 Mathematica truly pioneered notebook interfaces,
 which have since become very popular.
 Jupyter is a FOSS notebook web application that can serve as a front-end to
 dozens of languages, including Python (via the IPython notebook).
+The <a href="https://github.com/choldgraf/jupyter-book">Jupyter Book</a> project
+provides tools to convert a collection of Jupyter notebooks
+into publication quality documents.
 </div>
 
 <div>
@@ -2044,6 +2048,12 @@ There is <a href="http://www.ulib.org/webRoot/Books/Numerical_Recipes/">online a
 but I have had occasional trouble getting through.
 </div>
 
+<p>
+Hackable Games in C: <a href="https://www.nethack.org/">NetHack</a>,
+derived from the venerable Hack game.
+Read about in in <a href="https://spectrum.ieee.org/games-nethack-and-the-joy-of-text">IEEE Spectrum</a>.
+See the <a href="https://github.com/NetHack/NetHack">GitHub repository</a> if you want to hack it.
+</p>
 
 
 <h3>Other Free Languages</h3>
@@ -2075,6 +2085,12 @@ as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a>
 
 
 <h4>Languages for Scientific Computing</h4>
+
+<p>
+Haskell is worth considering.
+Graham Hutton <a href="https://www.youtube.com/channel/UCBDp7ydYTHi1dh4Gnf3VTPA">complete Youtube course</a> on Haskell.
+The <a href="https://hackage.haskell.org/package/massiv">massiv</a> package supports multidimensional array operations.
+</p>
 
 <p>
 We have alread discussed C above.
@@ -2265,6 +2281,7 @@ A newer and very promising alternative is <a href="http://waf.googlecode.com/svn
 </ul>
 
 <h3 id="optimize">Optimization</h3>
+
 <p>
 Resources in this area are extensive.
 I will only mention a few idiosyncratically selected items.
@@ -2280,6 +2297,9 @@ and download <a href="http://www.aptech.com/papers/qnewton.pdf">Optimization wit
 <ul>
 <li>
 Most matrix languages include one or more optimization modules or libraries.
+</li>
+<li>
+<a href="https://openmdao.org/">OpenMDAO is an open-source Python optimization framework including analytic derivatives.</a>
 </li>
 <li>
 <a href="http://econpy.googlecode.com/svn/trunk/pytrix/pytrix.xhtml#optimize">Python optimization resources</a>.
@@ -2376,13 +2396,27 @@ Other resources:
 </p>
 
 <p>
-<a href="http://rosuda.org/Mondrian/">Modrian</a>
+For interactive data visualizations,
+you must consider <a href="https://vega.github.io/vega/about/">Vega</a> and Vega-Lite.
+These visualization tools implement a grammar of graphics and a grammar of interactivity,
+mostly using declarative specifications in JSON. 
+Vega-Lite provides a convenient, very high level access to this grammar.
+Many languages now support this,
+including JavaScript, Python (Altair), Julia (VegaLite.jl), and Haskell (hvega).
+Voyager 2 is an interactive data exploration tool built on top of Vega.
+Some languages support this,
+including JavaScript, Python (Altair), Julia (DataVoyager.jl).
+<!-- https://medium.com/brown-ccv/prototyping-visualizations-for-the-web-with-vega-and-julia-64affa9d80ba -->
+</p>
+
+<p>
+<a href="http://www.theusrus.de/Mondrian/">Modrian</a>
 "is a statistical data-visualization system written in JAVA."
 Good for categorical data and for maps.
 Plots are interactive.
+There is a <a href="https://www.jstatsoft.org/article/view/v007i11">supporting paper</a>
+by Martin Theus.
 </p>
-
-
 
 <h2 id="CAS">Symbolic Mathematics/Computer Algebra Systems</h2>
 
@@ -2501,6 +2535,13 @@ and MATLAB’s Symbolic Math Toolkit.
 </li>
 </ul>
 
+<h3>Applications</h3>
+
+<ul>
+<li>
+<a href="https://www.federalreserve.gov/econres/ama-index.htm">Anderson-Moore Algorithm in Mathematica</a>
+</li>
+</ul>
 
 
 <h2 id="WWW">
@@ -2535,22 +2576,28 @@ Web Resources
 There are a number of way to provide access to nicely formatted math on the Web.
 The most widely used is to provide PDF documents that contain nicely formatted math.
 The best way to produce good looking math in PDF documents is with <a href="#TEX">TeX</a> based software.
-Acceptable results can sometimes be achieved by distilling a word processor document with equation editor objects embedded in it.
+Acceptable results can sometimes be achieved by converting
+a word processor document with equation editor objects embedded in it.
 </p>
 
 <p>
-The other major alternative is to produce MathML,
-which is finally starting to get decent browser support (especially in FireFox).
+The other major alternative is to somehow produce math in a web page.
+The stand for this is MathML,
+but as late as 2021,
+FireFox and Opera remain the only major browsers with good support.
 (Be sure to download the <a href="#STIX">STIX fonts</a>.)
 Producing MathML by hand is impractical,
 so there has been a search for feasible ways to rely on MathML.
 One of the most interesting approaches is to use <a href="#rest">reStructuredText</a>
-with the <a href="http://docutils.sourceforge.net/sandbox/jensj/latex_math/tools/">rst2mathml</a> writer.
+with the <a href="https://pypi.org/project/rst2html5/">rst2html5</a> writer.
+This approach uses <a href="https://docutils.sourceforge.io/docs/ref/rst/mathematics.html">LaTeX syntax to input mathematics</a>.
+<a href="https://docutils.sourceforge.io/docs/user/config.html#math-output">Possible output formats</a>
+include MathML and MathJax.
 This is probably the simplest powerful way to put math on the web.
 <br />
-Another interesting approache is <a href="http://www1.chapman.edu/~jipsen/mathml/asciimath.html">ASCIIMathML</a>,
+Another interesting approache is <a href="http://asciimath.org/">ASCIIMathML</a>,
 which simply includes LaTeX-like math in a normal HTML file.
-(A clever javascript produces the MathML.)
+(A clever javascript renders the math.)
 Mozilla based <a href="#browsers">browsers</a> such as FireFox have excellent native MathML support,
 so they work well with ASCIIMathML.
 (But you need to <a href="http://web.mit.edu/ist/topics/webpublishing/mathml/fonts-win.html">install the math fonts</a>.
@@ -2560,8 +2607,9 @@ for a summary of support by other browsers.
 
 
 <p>
-The remaining alternative is to convert LaTeX documents directly to XHTML+MathML documents.
-This can be done with <a href="http://www.cse.ohio-state.edu/~gurari/TeX4ht/mn.html">TeX4ht</a>
+One other alternative is to convert LaTeX documents directly to XHTML+MathML documents.
+This can be done with <a href="https://math.nist.gov/~BMiller/LaTeXML/">LaTeXML</a>,
+<a href="http://www.cse.ohio-state.edu/~gurari/TeX4ht/mn.html">TeX4ht</a>,
 or with the closely related <a href="http://pear.math.pitt.edu/mathzilla/tex4moz.html">TeX4moz</a>.
 <a href="http://hutchinson.belmont.ma.us/tth/mml/">TtM</a> looks like a similar effort.
 </p>
@@ -2599,6 +2647,12 @@ See the <a href="#opera-hints">Opera hints</a> below.
 See the <a href="#firefoxhints">FireFox hints</a> below.
 </p>
 
+<h3>Ebooks</h3>
+
+<p>
+The ePub3 standard introduced <a href="https://docs.mathjax.org/en/v2.7-latest/misc/epub.html">MathML support.</a>
+Quite a few ePub readers support <a href="https://docs.mathjax.org/en/v2.7-latest/misc/epub.html">MathJax</a>.
+</p>
 
 
 <h3 id="email">Email</h3>
@@ -3374,47 +3428,6 @@ However FireFox supports the <a href="https://wiki.mozilla.org/APNG_Specificatio
 which is less complete but quite capable.
 </p>
 
-<h4 id="SVG">Scalable Vector Graphics</h4>
-
-<p>
-<acronym class="help" title="Scalable Vector Graphics">SVG</acronym>
-<br />
-This popular format for web graphics can be useful when you need vector graphics and/or animation.
-It was supposed to be possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>,
-and for a while Adboe worked actively on an SVG viewer (which is <a href="http://www.adobe.com/devnet/svg/adobe-svg-viewer-download-area.html">still available</a>).
-This seems to have stalled,
-and indeed further development of the SVG standard unfortunately seems to have stalled.
-For extensive SVG manipulation and generation tools,
-see <a href="http://xmlgraphics.apache.org/batik/">Batik</a> (language: Java).
-An increasing number of graphics languages offer an SVG backend.
-</p>
-
-<p>
-<a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is a royalty free vector graphics standard for the Web,
-and it is a powerful animation format.
-(If you have simple, static graphics to produce, you might write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.)
-<br />
-One of many nice things about SVG is that it can be embedded into PDF,
-animations and all!
-(See this <a href="http://www.carto.net/papers/svg/us_population/us_population.pdf">very cool example</a>.
-Here is a <a href="http://www.kevlindev.com/utilities/">perl script</a>.
-Here is a <a href="http://www.tu-harburg.de/parallel/koehnlein/privat/SVGtoPDF.java">Java converter</a>.
-Here is a <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">Python script</a>.
-(If you can find Leonard Rosenthol's Acrobat plug-in, let me know.
-It seems to have disappeared.)
-
-<br />
-Another nice thing is that you can <a href="http://surguy.net/articles/client-side-svg.xml">move image generation to the client side</a>.
-</p>
-
-<p>
-Browser support for SVG is improving but advanced features may be missing.
-Check your target browser.
-(You may find some useful information on
-<a href="https://en.wikipedia.org/wiki/Comparison_of_layout_engines_(Scalable_Vector_Graphics)">Wikipedia</a>.)
-</p>
-
-
 
 <h3 id="drawlang">Drawing Languages and Metalanguages</h3>
 
@@ -3513,25 +3526,50 @@ Macros, defined constants, and function libraries have also been provided.
 The PLisp compiler generates PostScript code which is guaranteed not to contain errors in stack usage.
 </p>
 
+<h4 id="SVG">Scalable Vector Graphics</h4>
 
+<p>
+<acronym class="help" title="Scalable Vector Graphics">SVG</acronym>
+<br />
+This popular format for web graphics can be useful when you need vector graphics and/or animation.
+It was supposed to be possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>,
+and for a while Adboe worked actively on an SVG viewer (which is <a href="http://www.adobe.com/devnet/svg/adobe-svg-viewer-download-area.html">still available</a>).
+This seems to have stalled,
+and indeed further development of the SVG standard unfortunately seems to have stalled.
+For extensive SVG manipulation and generation tools,
+see <a href="http://xmlgraphics.apache.org/batik/">Batik</a> (language: Java).
+An increasing number of graphics languages offer an SVG backend.
+</p>
 
-<h4>Flash</h4>
+<p>
+<a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is a royalty free vector graphics standard for the Web,
+and it is a powerful animation format.
+(If you have simple, static graphics to produce, you might write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.)
+<br />
+One of many nice things about SVG is that it can be embedded into PDF,
+animations and all!
+(See this <a href="http://www.carto.net/papers/svg/us_population/us_population.pdf">very cool example</a>.
+Here is a <a href="http://www.kevlindev.com/utilities/">perl script</a>.
+Here is a <a href="http://www.tu-harburg.de/parallel/koehnlein/privat/SVGtoPDF.java">Java converter</a>.
+Here is a <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">Python script</a>.
+(If you can find Leonard Rosenthol's Acrobat plug-in, let me know.
+It seems to have disappeared.)
 
-<div>
-Flash is slowly being replaced by HTML 5,
-but that is still slowly.
-</div>
+<br />
+Another nice thing is that you can <a href="http://surguy.net/articles/client-side-svg.xml">move image generation to the client side</a>.
+</p>
 
-<div>
-Acrobat fully supports Flash since version 9,
-making PDF an attractive format for interactive documents.
-(Unfortunately, Acrobat's support for SVG appears to have been dropped,
-but you may be able to convert your graphics using <a href="http://freshmeat.net/projects/svg2swf/">svg2pdf</a>.)
-<a href="http://pyswftools.sourceforge.net/">PySWFtools</a> provides a higher
-level interface to the <a href="http://www.libming.org/">Ming</a> libary.
-The easiest way to place SWF files in PDF documents is probably pdftex with the <a href="http://ctan.tug.org/tex-archive/macros/latex/contrib/movie15/">movie15</a> package.
-(Jens Nockel offers a <a href="http://www.uoregon.edu/~noeckel/PDFmovie.html">very simple example</a>.)
-</div>
+<p>
+Browser support for SVG is improving but advanced features may be missing.
+Check your target browser.
+(You may find some useful information on
+<a href="https://en.wikipedia.org/wiki/Comparison_of_layout_engines_(Scalable_Vector_Graphics)">Wikipedia</a>.)
+</p>
+
+<p>
+Curren Kelleher offers <a href="https://www.youtube.com/watch?v=xkBheRZTkaw">an extensive tutorial on data visualization using SVG (via D3)</a>.
+The tutorial uses <a href="https://vizhub.com/">VizHub</a> (MIT license).
+</p>
 
 
 <h4 id="drawlang3d">3D Drawing</h4>
@@ -3657,15 +3695,7 @@ try <code>convert -delay 20 c:/myimages/img*.png c:/myvideo/imgs.mpg</code>.
 <li id="ffmpeg">
 <a href="http://ffmpeg.org/">FFMPEG</a> can “record, convert and stream audio and video”.
 (License: LGPL; Language: C)
-For example, you can pipe a series of Matplotlib graphs to FFMPEG to produce an animated graph.
-Or you can save them as PNG files named (frame000.png, frame001.png, etc) and do
-<code>ffmpeg -b 8000 -f mpeg2video -r 30 -i frame%03d.png movie.mpeg</code>.
-You can also produce an AVI like this:
-<code>ffmpeg -r 10 -i frame%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi</code>.
-<!-- l:\software\ffmpeg\ffmpeg.exe -r 2 -i temp%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi -->
-Works great!
-Note that AVI support very low framerates; MPEG does not.
-(Windows users are fortunate that celtic_druid has been compiling fairly up-to-date <a href="http://ffdshow.faireal.net/mirror/ffmpeg/">Windows binaries</a>.)
+(See the <a href="#ffmpeghints">user hints</a>.)
 </li>
 <li>
 You can create animated .gif files with <a href="http://www.whitsoftdev.com/page.php?id=11">UnFREEz</a> by WhitSoft Development.
@@ -5002,40 +5032,33 @@ FOSS suites meet most personal and business needs.
 
 <p>
 Since office suites are often expensive,
-here are some cheap commercial alterntives.
+here are some cheap or free commercial alternatives.
 <br />
 <a href="https://drive.google.com/">Google Drive</a>
-(good basic functionality; easy collaboration;
+(good intermediate functionality; easy collaboration;
 limited advanced functionality)
 <br />
-<a href="http://www.staroffice.org/">Star Office</a>
-is essentially the commercial sibling to OpenOffice,
-and it also supports the Open Document Format (as any good office suite should).
-<br />
-<a href="http://www.corel.com/">Corel Office</a>
+<a href="http://www.corel.com/">Word Perfect Office</a>
 (home of the famous Word Perfect word processor)
 <br />
 <a href="http://www.softmaker.com/">Soft.Maker</a> is a cross-platform commercial suite.
 <br />
-<a href="www.thinkfree.com">ThinkFree</a>
+<a href="https://office.hancom.com/">Hancom Office</a>
 </p>
 
 <h3>Document Exchange</h3>
 
 <p>
-There are two primary reasons to provide people with documents:
-you want them simply to view them,
-or you want them also to modify them.
-Word processor formats are seldom a good choice in either case,
-although the versioning capabilities of modern word processors can be very useful in a collaborative setting.
-Plain text can often satisfy both needs.
+We exchange documents for three primary reasons:
+for viewing, for interaction, and for modification.
+Word processor formats are a popular choice,
+and the versioning capabilities of modern word processors can be very useful in a collaborative setting.
+Plain text can often satisfy viewing and modification needs,
+and there are great version control tools for text formats.
 When more structure is needed,
 HTML will usually suffice.
 When formatting must be tightly controlled or access needs to be controlled,
 PDF is often a good choice.
-A relatively new, lighter-weight (and therefore web-suitable) substitute for PDF is <a href="http://www.djvuzone.org/">DjVu</a>
-(for which you will want to visit <a href="http://djvu.sourceforge.net/">DjVu on sourceforge</a> or <a href="http://www.lizardtech.com/">Lizard Tech</a>).
-<a href="http://unipage.org/">Unipage</a> allows storing complete web pages in a single file.
 </p>
 
 
@@ -5841,7 +5864,10 @@ The <a href="http://outliner.sourceforge.net/">Java Outline Editor</a> offers se
 <h4>Mind Mappers</h4>
 
 <p>
-<a href="http://freemind.sourceforge.net/">FreeMind</a> is a highly capable cross-platform mind mapper.
+<a href="https://sourceforge.net/projects/freeplane/">FreePlane</a>
+is an active fork of
+<a href="https://sourceforge.net/p/freemind/code/ci/master/tree/">FreeMind</a>,
+which is a highly capable cross-platform mind mapper.
 It is Java and includes and Windows installer.
 (License: GPL)
 For a more document oriented approach,
@@ -5852,7 +5878,7 @@ including online collaboration.
 (License: MIT. Supported by Google Drive.)
 </p>
 <p>
-<a href="http://treesheets.com/">Tree Sheets</a> is an odd cross
+<a href="https://github.com/aardappel/treesheets">Tree Sheets</a> is an odd cross
 between a spreadsheet and a mind mapper.
 </p>
 
@@ -8115,18 +8141,40 @@ the r option for <code>scat</code> is not supported.
 
 
 
+<h3 id="ffmpeghints">ffmpeg User hints</h3>
 
-<p class="boxed">
-AU Econ students and Faculty:
-<br />
-You can access EViews on any networked campus computer.
-Look in the Math/Stat/Research folder in the EagleNet Applications/NAL window.
-Double click the EViews icon.
-This should install a short-cut on your machine.
-Note that this is a limited user license,
-so you may be refused access to EViews during high usage times.
-Since it is a 5-user license, you may occasionally find you have to wait  until someone logs off to use EViews.
-I do not expect this to happen, but if it happens to you let me know and I will apply for more copies.
+<p>
+To reduce the image image resolution, use a video filter.
+E.g.,
+<code>ffmpeg -i myinfinle.mp4 -vf scale=iw/2:ih/2 myoutfile.mp4</code>
+(Here <code>iw</code> and <code>ih</code>
+hold the input resolution width and height.
+See the <a href="https://ffmpeg.org/ffmpeg-filters.html">filters documentation</a>.)
+<!-- ffmpeg -i video1429831824.mp4 -vf scale=iw/2:ih/2 ..\..\econ372s2022\recordings\zoom-20220204.mp4 -->
+<!-- ffmpeg -i video1718443938.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220125.mp4 -->
+<!-- ffmpeg -i video1995210725.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220405.mp4 -->
+<!-- ffmpeg -i zoom-20220405.mp4 -ss 3510 -c:v copy -c:a copy zoom-20220405-trimmed.mp4 -->
+</p>
+
+<p>
+To extract part of an MP4 file, copy the audio (<code>acodec</code>) and video (<code>vcodec</code>)
+for a stime range. E.g.,
+<code>ffmpeg -ss 00:0:00 -to 00:10:00 -i myinfile.mp4 -acodec copy -vcodec copy myoutfile.mp4</code>
+extracts the first 10 minutes.
+(See the <a href="https://ffmpeg.org/ffmpeg-utils.html#time-duration-syntax">documentation of time durations</a>.)
+</p>
+
+<p>
+You can pipe a series of frames (e.g., Matplotlib graphs) to FFMPEG to produce an animated graph.
+</p>
+<p>
+You can create PNG files named (frame000.png, frame001.png, etc) and do
+<code>ffmpeg -b 8000 -f mpeg2video -r 30 -i frame%03d.png movie.mpeg</code>.
+You can also produce an AVI like this:
+<code>ffmpeg -r 10 -i frame%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi</code>.
+<!-- l:\software\ffmpeg\ffmpeg.exe -r 2 -i temp%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi -->
+Works great!
+Note that AVI supports very low framerates; MPEG does not.
 </p>
 
 <h3 id="vimhints">Vim User hints</h3>
@@ -8283,6 +8331,15 @@ which identifies groups (e.g., comments).
 For spell-checking longer LaTeX documents, I find I need to
 <code>setl spell syntax spell toplevel</code>.
 This ensures spellchecking of text that is not in a syntax item.
+To make this permanent, you can include it in
+<code>~/.vim/after/syntax/tex.vim</code>.
+You can also the values of
+<code>syn sync maxlines</code>
+and
+<code>syn sync minlines</code>
+in the same file. (See the help for <code>:syn-sync</code>.)
+If the file is not too big, you can even always start from the top with
+<code>syntax sync fromstart</code>.
 </p>
 
 <p>
@@ -8900,7 +8957,7 @@ A very dark gray is <code>black!90</code>.
 <p>
 Use <var>pgfplots</var> for plots.
 The manual is good,
-a most tasks have very easy and obvious solutions.
+and most tasks have very easy and obvious solutions.
 A few odd things are obscure.
 E.g., <a href="http://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot">adding a zero-line</a>
 to a plot.
@@ -8963,7 +9020,31 @@ E.g., <tt>content:"my phrase" type:.tex</tt>.
 <a href="https://support.microsoft.com/en-us/help/4098843/windows-10-search-indexing-faq">indexing the contents</a>.)
 </p>
 
+<h3 id="gdrive-hints">LyX hints</h3>
 
+<p>
+If you are using Subversion for version control,
+make sure you set <code>svn:eol-style</code> to <code>native</code>
+on your <kbd>.lyx</kbd> files.
+</p>
+
+<p>
+To edit the LaTeX preamble, go to <kbd>Document » Settings » LaTeX Preamble</kbd>.
+</p>
+
+<h3 id="gdrive-hints">Google Drive hints</h3>
+
+<p>
+It is possible to provide a direct download link for items on your Google drive
+by making a small change in the URL.
+Here is an example for a Google spreadsheet.
+In a browser, open the file to edit and you'll see an address like
+<tt>https://docs.google.com/spreadsheets/d/ID/edit</tt>,
+where the <tt>ID</tt> will be specific to your document.
+Just change the end of this to specify <tt>export</tt> and a format argument.
+For example,
+<tt>https://docs.google.com/spreadsheets/d/ID/export?format=xlsx</tt>.
+</p>
 
 <h3 id="gnuwin32-hints">GnuWin32 hints</h3>
 <p>
@@ -9062,7 +9143,7 @@ Windows and MS-DOS are trademarks of Microsoft Corporation.
 </div>
 
 <p id="contact" class="center">
-Copyright &copy; 1998 &amp; 2014
+Copyright &copy; 1998 &amp; 2020
 by Alan G. Isaac
 <br />
 (<em>mailto: a i s a a c @ a m e r i c a n . e d u</em>)
