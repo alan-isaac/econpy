@@ -6,13 +6,12 @@ Unit tests for utilities.
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
 from __future__ import absolute_import
-from __future__ import division
-
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 
-import unittest
-import random
+import collections, random, unittest
+from typing import Callable, Sequence
+
 import numpy as np
 
 #import matplotlib.pyplot as plt
@@ -24,6 +23,7 @@ from econpy.pytrix.utilities import gini, ginis, alt_gini #the main ones
 from econpy.pytrix.utilities import py_gini, py_gini, py_gini2
 from econpy.abm.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
+from econpy.pytrix import stat
 
 
 
@@ -115,6 +115,42 @@ class testGinis(unittest.TestCase):
         us01 = unique(xs, reverse=True)
         us02 = list(reversed(np.unique(xs)))
         self.assertEqual(us01,us02)
+
+#BEGIN ecdf
+def simplest_ecdf(
+    xs: Sequence #real numbers (the data)
+    ) -> Callable: #the empirical cdf of xs
+    nobs = float(len(xs))
+    def f(x): #the ecdf for the xs
+        return sum(1 for xi in xs if xi <= x) / nobs
+    return f
+#END ecdf
+
+def ecdf_np(
+    xs: Sequence #real numbers (the data)
+    ) -> Callable: #the empirical cdf of xs
+    xs = np.sort(xs)
+    nobs = float(len(xs))
+    def f(x): #the ecdf for the xs
+        # side='right' to get all xi in xs if xi <= x
+        return np.searchsorted(xs, x, side='right') / nobs
+    return f
+
+#chkchkchk compare to
+#from statsmodels.distributions.empirical_distribution import ECDF
+class testStatUtilities(unittest.TestCase):
+    def test_ecdf(self):
+        nobs = 100
+        data = np.random.randint(100, size=(nobs,))
+        cts = collections.Counter(data)
+        f1 = simplest_ecdf(data)
+        f2 = stat.ecdf(sorted(data))
+        f3 = ecdf_np(data)
+
+        for x in cts:
+            self.assertAlmostEqual(f1(x), f2(x))
+            self.assertAlmostEqual(f1(x), f3(x))
+
 
 
 if __name__=="__main__":
