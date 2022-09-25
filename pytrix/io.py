@@ -40,7 +40,7 @@ def fetch(file_name,file_type='databank'):
 		data,smpl,label = read_db(fp) #need to change comments to label
 		return data, smpl, label
 	else:
-		raise ValueError, "Unsupported file type"
+		raise ValueError("Unsupported file type")
 
 
 def read_odb(fp):
@@ -301,7 +301,7 @@ class ReadFRED(object):
 
 		fredbase = "http://research.stlouisfed.org/fred2/data/"
 		currency = ReadFRED(fredbase+'CURRENCY.txt')
-		print currency.data
+		print(currency.data)
 
 	:requires: logging module (in standard library)
 	:note: logs errors to root log
@@ -468,13 +468,13 @@ def read_odbmulti(fname):
 	mfp = multifile.MultiFile(fp)
 	mfp.push('series-boundary')
 	comments = mfp.read()
-	#print comments
+	#print(comments)
 	while mfp.next():
 		try: data,smpl,comments = read_db(mfp)
 		except multifile.Error:
 			break
 			fp.close()
-		print data
+		print(data)
 	fp.close()
 
 class Sample:
