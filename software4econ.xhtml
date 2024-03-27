@@ -105,7 +105,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2018-06-25
+Last modified: 2023-06-25
 <br />
 Most recent (GitHub) version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.
 <br />
@@ -198,7 +198,6 @@ Python users may want to consider the interesting and powerful
 <a href="https://code.visualstudio.com/">Visual Studio Code</a>.
 (There is additionally a Vim editing mode.)
 </p>
-</div>
 
 <p>
 The elephant in the room is 
@@ -217,6 +216,7 @@ provides sufficient emacs style functionality.
 There are many cross-platform <a href="https://en.wikipedia.org/wiki/Comparison_of_text_editors">alternatives</a>.
 Here are just a few of the interesting ones.
 </div>
+
 <dl>
 <dt>
 <a href="https://wiki.gnome.org/Apps/Gedit">gedit</a>
@@ -278,7 +278,6 @@ Here are just a few of the interesting ones.
   <dd>
   Early entrant into collaborative editing.
   </dd>
-</p>
 </dl>
 
 
@@ -293,7 +292,7 @@ For pure speed on a Windows platform there is the powerful <a href="http://www.v
 If you can afford it, there is also
 Lugaru's <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>,
 a powerful and fast yet lightweight editior with an extensive emacs-style command set.
-</p>
+</div>
 
 <p>
 Aside:
@@ -321,8 +320,8 @@ a TrueType font that I find exceptionally readable even at small font sizes.
 There appears to be more than one
 <a href="http://corefonts.sourceforge.net/">legal yet free distribution</a>,
 due to the original licensing terms,
-but you can also <a href="http://www.fonts.com/font/monotype/andale-mono">purchase the font</a>.
-My second choice is the Unicode <a href="http://dejavu-fonts.org/wiki/Main_Page">DejaVu</a> font family.
+but you can also <a href="https://www.myfonts.com/collections/andale-mono-paneuropean-font-monotype-imaging">purchase the font</a>.
+My second choice is the Unicode <a href="https://dejavu-fonts.github.io/">DejaVu</a> font family.
 (Derivative from <a href="http://www.gnome.org/fonts/">Bitstream's Vera Fonts</a>;
 available as a Latin-Cyrillic-Greek subset;
 <a href="http://dejavu-fonts.org/wiki/License">License</a>)
@@ -337,6 +336,7 @@ and are available under a royalty free (and fairly liberal) license.
 (TeX users should check these out!)
 The fonts were released in May 2010 and updated in 2016.
 </div>
+
 <div>
 Here are MiKTeX installation instructions from Ulrike Fischer:
 <ol>
@@ -785,7 +785,7 @@ Details follow.
 <p>
 One caveat:
 <br />
-When you are working on an academic article,
+while you are working on an academic article,
 LaTeX is an excellent environment.
 But when submission time comes,
 you may pick a journal that does not accept LaTeX.
@@ -961,31 +961,27 @@ there is a
 <h5>LaTeX to PDF</h5>
 
 <p>
-You will often want to produce PDF files from your .tex files.
-(The PDF files can be read by anyone with access to a <a href="#pdfviewers">PDF viewer</a>.)
-I have had excellent results using dvipdfm,
-which is included in most LaTeX distributions.
-Many people report excellent results using pdflatex,
-which is part of most LaTeX distributions.
-Also see <a href="http://www.cl.cam.ac.uk/~mgk25/publ-tips.html">Markus Kuhn's tips</a> on how to use (La)TeX to
+PDF files can be read by anyone with access to a <a href="#pdfviewers">PDF viewer</a>.
+I have had excellent results using pdflatex.
+But see <a href="http://www.cl.cam.ac.uk/~mgk25/publ-tips.html">Markus Kuhn's tips</a> on how to use (La)TeX to
 effectively produce highest-quality <acronym class="help" title="Portable Document Format">PDF</acronym> files.
 </p>
 
 
 <ul>
 <li>
-divpdfm:
-<br />
-Just use it to process your .dvi file.
-</li>
-<li>
 pdflatex:
 <br />
 Just use it to process your .tex file.
 <a href="http://www-hep.colorado.edu/~fperez/lyxport/">LyxPort</a>
 can help you convert with pdflatex.
-If you are including graphics, be sure to read about <a href="http://www.math.upenn.edu/tex_docs/help/faq/uktug-faq/FAQ273.html">graphics extensions</a>,
-noting that pdflatex does not support EPS files.
+If you are including graphics, be sure to read about <a href="http://www.math.upenn.edu/tex_docs/help/faq/uktug-faq/FAQ273.html">graphics extensions</a>.
+Note that pdflatex does <em>not</em> support EPS files.
+</li>
+<li>
+divpdfm:
+<br />
+Just use it to process your .dvi file.
 </li>
 <li>
 <a href="#print2pdf">Print to PDF.</a>
@@ -1202,7 +1198,7 @@ Reformatting is cumbersome.
 Content revision cannot easily be automated.
 </li>
 <li>
-Math handling is poor.
+Math handling is mediocre.
 </li>
 </ul>
 On the other hand, for short one-off bullet-point presentations,
@@ -1529,24 +1525,37 @@ is a perl based replacement for makefiles.
 
 <h2 id="absim">Agent-Based Simulation</h2>
 
-<p>
-<a href="https://github.com/alan-isaac/econpy/tree/master/abm/gridworld">gridworld</a>
+<div>
+Agent-based modeling tookits:
+<ul>
+<li>
+Python: <a href="https://github.com/projectmesa/mesa">Mesa</a>
+</li>
+<li>
+Python: <a href="https://github.com/alan-isaac/econpy/tree/master/abm/gridworld">gridworld</a>
 is a Python module providing some of toolkit functionality of NetLogo.
 (E.g., spatial and stationary agents; simple GUI construction with button, sliders, plots; etc.)
 Examples of the use of gridworld can be found in a
 <a href="http://jasss.soc.surrey.ac.uk/14/2/5.html">supporting paper</a>,
 along with a set of template models for exploring agent-based modeling.
-</p>
-
-<p>
-Currently the best platform for introductory exploration of agent-based models is
+</li>
+<li>
+NetLogo: Currently the best platform for introductory exploration of agent-based models is
 <a href="http://ccl.northwestern.edu/netlogo/">NetLogo</a>,
 which includes an extensive <a href="http://ccl.northwestern.edu/netlogo/models/">Models Library</a>.
 While NetLogo's statistical and mathematical support is limited,
 you can <a href="http://netlogo-r-ext.berlios.de/">link it to R</a>
 or <a href="http://ccl.northwestern.edu/netlogo/docs/mathematica.html">link it to Mathematica</a>.
 Additionally, NetLogo supports Java extensions and can be run by Java programs.
-</p>
+</li>
+<li>
+Java: After NetLogo, perhaps the most popular multi-agent simulation toolkit is
+<a href="http://repast.sourceforge.net/">Repast</a>.
+(License: New BSD; Language: Java or C++)
+</li>
+</ul>
+</div>
+
 
 <p>
 If you are new to NetLogo,
@@ -1602,12 +1611,6 @@ José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo.
 </li>
 </div>
 
-<p>
-After NetLogo, perhaps the most popular multi-agent simulation toolkit is
-<a href="http://repast.sourceforge.net/">Repast</a>.
-(License: New BSD; Language: Java or C++)
-</p>
-
 
 <p>
 <a href="http://www.swarm.org/wiki/Swarm_main_page">Swarm</a>
@@ -1630,18 +1633,27 @@ is "is a templates-based, ANSI-C++ compliant evolutionary computation library".
 
 
 
+
 <h2 id="matrixlanguages">Scientific Programming Languages</h2>
 
 <p>
-Much scientific programming is done in very high level languages.
+Most scientific programming is done in very high level languages.
 Two factors to consider in making a language choice are
 what software in your area is already written in the language,
 and how much original coding you plan to do.
 </p>
 
 
+<h3>Julia for Scientific Programming</h3>
 
-<h3 id="numpy">NumPy</h3>
+<p>
+<a href="https://julialang.org/downloads/">Julia</a>
+is probably the right choice for those
+looking for an alternative to Python and R.
+</p>
+
+
+<h3 id="numpy">Python + NumPy + Matplotlib + SciPy</h3>
 
 <p>
 A key reason <a href="http://www.stat.washington.edu/~hoytak/_static/papers/why-python.pdf">why Python rocks for research</a>
@@ -1729,6 +1741,7 @@ This is a very interesting and powerful language, which is already popular among
 Follow the <a href="https://julialang.org/downloads/platform/">platform specific installation instructions</a>.
 It is also possible to <a href="https://datatofish.com/add-julia-to-jupyter/">add Julia to a Jupyter notebook</a>.
 </li>
+
 
 <h3>Java for Scientific Programming</h3>
 
@@ -1842,6 +1855,7 @@ Also, the <a href="http://sourceforge.net/projects/f2j/">Fortran to Java</a> pro
 Java version of the LAPACK routines.
 </li>
 </ul>
+
 
 
 <h3 id="other-mpl-free">Support for Matrix Programming in Other Languages</h3>
@@ -6066,6 +6080,8 @@ Stanislav Sitar compiled <a href="http://www.nicemice.net/par/par152ex.zip">par.
 <a href="http://pybrary.net/pyPdf/">PyPdf</a>
 offers extensive PDF manipulation and extraction facilities.
 (License: BSD.  Language: Python.)
+Hint as of 2023:
+ignore all of the numbered forks, including PyPdf2 (which has been merged).
 </li>
 <li>
 The <a href="http://www.accesspdf.com/pdftk/">PDF Toolkit</a>
@@ -6107,6 +6123,9 @@ The most popular viewer is the free (but closed source)
 Reader includes annotation features.
 It's main downsides are that it is slow
 and that it locks the file you are reading (so it cannot be overwritten).
+</li>
+<li>
+Most browsers include very good PDF viewers (with editing capabilities).
 </li>
 <li>
 For a list of free and open source readers,
@@ -8308,21 +8327,21 @@ Note that cb is now an iterable container of strings.
 You can assign to the i-th line by assigning to cb[i].
 </div>
 
-<div>
+<p>
 Exiting a buffer: it is usually recommended to exit a buffer using bnext.
 However I sometimes prefer to delete a buffer as I leave it.
 Examining the help for ``bar``,
 we see that ``:w|bd`` can be used to write and then delete a buffer.
-</div>
+</p>
 
-<div>
+<p>
 MiKTeX:
 <br />
 With minimal effort,
 Vim cooperates wonderfully with LaTeX.
 Windows users should install MiKTEX,
 and then perhaps add my <a href="https://raw.githubusercontent.com/alan-isaac/econpy/master/text/vimfiles/ai_texmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.
-</div>
+</p>
 
 <p>
 Vim 7+ includes spell checking.
@@ -8424,7 +8443,6 @@ I recommend resetting timeoutlen according to the example in the help for <var>t
 <p>
 <code>'.</code> takes you to your last edit
 </p>
-</div>
 
 
 
