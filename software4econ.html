@@ -19,8 +19,8 @@
 <div>
 <a href="http://goo.gl/PUokY7">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
 </div>
-<!-- current location as of 2017-07-19:
-     source: https://github.com/alan-isaac/econpy/blob/master/software4econ.xhtml
+<!-- current location as of 2023-07-19:
+     source: https://github.com/alan-isaac/econpy/blob/master/software4econ.html
      displayed: http://goo.gl/PUokY7
 -->
 
@@ -105,7 +105,7 @@
 <div style="font-size: 60%;background-color:white; color: gray">
 Author: Alan G. Isaac
 <br />
-Last modified: 2023-06-25
+Last modified: 2023-07-25
 <br />
 Most recent (GitHub) version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.
 <br />
@@ -156,10 +156,8 @@ Thank you.
 <h2 id="EDITORS">Text Editors</h2>
 
 <p>
-If you write code, use a decent text editor!
+Serious coding calls for a serious text editor!
 All other things equal, multi-platform solutions are always preferable.
-Nowadays having an editor that nicely handles unicode (UTF-8) is pretty important.
-(See <a href="#unicode-hints">Unicode hints</a>.)
 </p>
 
 <p id="vim">
@@ -170,22 +168,19 @@ and quite wonderfully designed.
 On top of all this, it is charityware:
 you pay nothing for this excellent software,
 but users are encouraged to make a donation for needy children in Uganda.  
-However, many good choice exist.
+However, many good choice exist,
+including the very closely related <a href="https://neovim.io/">NeoVim</a>.
 </p>
 
 <h3>Some cross-platform editors:</h3>
 
 <p>
 Mode-based editing rocks!
-Try the free text editor <a href="http://www.vim.org/">Vim</a>.
-(Or possibly <a href="https://neovim.io/">NeoVim</a>.)
-Just be sure to do
+However, it also takes practice.
+If you choose Vim or NeoVim (recommended!),
+be sure to do
 <a href="http://vimdoc.sourceforge.net/htmldoc/usr_01.html#vimtutor">the tutorial</a>
 (or possibly <a href="https://www.openvim.com/">this online tutorial</a>).
-</p>
-<p>
-If you feel unready to start mode-based editing,
-you can still try a modeless configuration of Vim called <a href="http://cream.sourceforge.net/">Cream</a>.
 </p>
 
 <p class="boxed">
@@ -200,7 +195,7 @@ Python users may want to consider the interesting and powerful
 </p>
 
 <p>
-The elephant in the room is 
+The elephant in the room is still
 <a id="emacs" href="http://www.gnu.org/software/emacs/">GNU emacs</a>:
 big, powerful, and free.
 (Vincent Goulet offers a <a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">modified emacs</a>
@@ -213,79 +208,15 @@ provides sufficient emacs style functionality.
 </p>
 
 <div>
-There are many cross-platform <a href="https://en.wikipedia.org/wiki/Comparison_of_text_editors">alternatives</a>.
-Here are just a few of the interesting ones.
+There are many cross-platform alternatives.
+See the <a href="https://en.wikipedia.org/wiki/Comparison_of_text_editors">Wikipedia article</a>.
 </div>
-
-<dl>
-<dt>
-<a href="https://wiki.gnome.org/Apps/Gedit">gedit</a>
-</dt>
-  <dd>
-  Lightweight but powerful;
-  the default text editor for the GNOME desktop. (License: GPL)
-  </dd>
-<dt>
-<a href="http://www.geany.org/">Geany</a>
-</dt>
-  <dd>
-  Lightweight; based on Scintilla. (License: GPL2+)
-  </dd>
-<dt>
-<a href="http://www.nano-editor.org/">nano</a>
-</dt>
-  <dd>
-  Small and fast.  (License: GPL)
-  </dd>
-<dt>
-<a href="http://www.jedsoft.org/jed/">JED</a>
-</dt>
-  <dd>
-  Fast and powerful,
-  with a particularly powerful macro language (S-Lang).
-  </dd>
-<dt>
-<a href="http://hessling-editor.sourceforge.net/index.html">The Hessling Editor (THE)</a>
-</dt>
-  <dd>
-  Gets rave reviews; uses the very powerful REXX scripting language;
-  has some unusual and excellent features
-  (e.g., the <code>all</code> command, which Vim approximates with <code>folddoopen</code>).
-  </dd>
-<dt>
-<a href="http://scintilla.sourceforge.net/SciTE.html">SciTE</a>
-</dt>
-  <dd>
-  Based on <a href="http://www.scintilla.org/">Scintilla</a>
-  (a cross-platform editing component);
-  provides scripting with the Lua programming language.
-  </dd>
-<dt>
-<a href="http://komodoide.com/komodo-edit/">Komodo Edit</a>
-</dt>
-  <dd>
-  The same editor used in ActiveState's commercial Komodo IDE!
-  </dd>
-<dt>
-<a href="https://groups.csail.mit.edu/uid/lapis/">Lapis editor</a>,
-</dt>
-  <dd>
-  Allows simultaneous selection of discontinuous segments of text.
-  </dd>
-<dt>
-<a href="http://subethaedit.net/">SubEthaEdit</a>.
-</dt>
-  <dd>
-  Early entrant into collaborative editing.
-  </dd>
-</dl>
-
 
 <div>
 Windows users:
 <br />
 The NotePad editor is always available as an accessory program,
-but it remains too limited for serious use.
+but it is rather limited for serious use.
 If you like the basic interface,
 try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL)
 For pure speed on a Windows platform there is the powerful <a href="http://www.vedit.com/">VEdit</a>.
@@ -298,11 +229,6 @@ a powerful and fast yet lightweight editior with an extensive emacs-style comman
 Aside:
 you can still get the <a href="http://ex-vi.sourceforge.net/">traditional vi editor</a>,
 which has been <a href="http://slashdot.org/article.pl?sid=02/01/24/0146248">free and open source since 2002</a>.
-</p>
-
-<p>
-Very specialized:
-the Java based <a href="http://record-editor.sourceforge.net/">Record Editor</a> may be just what you need if you are working with fixed-field-length data files.
 </p>
 
 
@@ -864,7 +790,7 @@ The free <a id="lshort" href="misc/lshort2e.pdf">lshort2e.pdf</a> has most of wh
 (Check for the <a href="http://metalab.unc.edu/pub/packages/TeX/info/lshort/english/">most recent version</a>.)
 More detail can be found in <a href="http://makingtexwork.sourceforge.net/mtw/">Making TeX Work</a>
 and many other excellent books.
-If you need to write your own class (and you probably do not!) try <a href="ftp://tug.ctan.org/pub/tex-archive/macros/latex/doc/clsguide.pdf">clsguide.pdf</a>.
+If you need to write your own class (and you probably do not!) try <a href="https://ctan.org/pkg/clsguide">clsguide.pdf</a>.
 </p>
 
 <p>
@@ -1466,7 +1392,7 @@ There are extensive <a href="#bibtex">citation management</a> resources.
 </p>
 
 <ul>
-<li><a href="ftp://ctan.tug.org/tex-archive/info/epslatex.pdf">epslatex.pdf</a> has many hints for working with graphics.
+<li><a href="https://ctan.org/tex-archive/info/epslatex/">epslatex.pdf</a> has many hints for working with graphics.
 </li>
 <li>The hyperref package produces DVI files that work with
 both DVIWindo previewer (hyper-text jumps etc.) and with DVIPSONE PS printer driver for passing pdfmarks to the Acrobat Distiller.<br />
@@ -2263,18 +2189,10 @@ Here is a different approach for Mathematica users:
 The <a href="http://lib.stat.cmu.edu/apstat/">Applied Statistics algorithms</a>
 may be of special interest.
 </li>
-<li>
-<a href="ftp://ftp.repec.org/RePEc/cod/html/CodEc.html">CodEc</a> archives econometric code for economists.
-</li>
 <li> <a href="http://www.bank-banque-canada.ca/pgilbert">Time Series Protocol for Application Database Interface</a>
 </li>
 <li>
-Python users may want to look at <a href="http://econpy.googlecode.com/svn/trunk/pytrix/pytrix.xhtml">pyTrix</a>,
-an archive of econometrics related Python code.
-It is part of the <a href="http://code.google.com/p/econpy/">EconPy</a> project.
-</li>
-<li>
-OK, OK, <a href="http://econweb.tamu.edu/gambit/">Gambit</a> is not statistical software,
+OK, OK, <a href="https://github.com/gambitproject/gambit">Gambit</a> is not statistical software,
 but I've got to put this fine, scriptable collection of game-theory tools <em>somewhere</em>!
 </li>
 </ul>
@@ -5690,8 +5608,8 @@ which offers a pure Python solution for FTP over TSL.
 </p>
 
 <p>
-For Windows: I find the free and open source <a href="http://filezilla.sourceforge.net/">FileZilla</a> to be excellent for FTP and SFTP.
-(As of August 2005, however, I have had some problems with FTP/S in passive mode.)
+For Windows: I find the free and open source <a href="https://filezilla-project.org/">FileZilla</a> to be excellent for FTP and SFTP.
+(In older versions, I have had some problems with FTP/S in passive mode.)
 Other possibilities:
 <a href="http://winscp.sourceforge.net/eng/">WinSCP</a>.
 <a href="http://sshwindows.sourceforge.net/">OpenSSH for Windows</a>.
@@ -8257,7 +8175,7 @@ To find the non-ASCII characters in a file,
 use a regular expression.
 To search for characters outside of the ASCII range,
 search for <code>[^\x00-\x7F]</code>.
-(Alternative, use decimal values: <code>[^\d0-\d127]</code>.)
+(Alternatively, use decimal values: <code>[^\d0-\d127]</code>.)
 However to search for individual non-ASCII characters,
 see the help for <code>%o</code>.
 </p>
