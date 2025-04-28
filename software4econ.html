@@ -17,7 +17,7 @@
 <body>
 
 <div>
-<a href="http://goo.gl/PUokY7">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
+<a href="https://html-preview.github.io/?url=https://github.com/alan-isaac/econpy/blob/master/software4econ.html">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
 </div>
 <!-- current location as of 2023-07-19:
      source: https://github.com/alan-isaac/econpy/blob/master/software4econ.html
@@ -1135,16 +1135,24 @@ these applications are very easy to use.
 
 <div>
 Two very interesting notebook-based approaches to presentation building are
-Mathematica and <a href="http://jupyter.org/">Jupyter</a>.
+Mathematica and <a href="http://jupyter.org/install">JupyterLab</a>.
 Mathematica is a powerful commercial symbolic algebra package which
 supports interactive presentations using the Wolfram Language.
-Mathematica truly pioneered notebook interfaces,
-which have since become very popular.
+Mathematica pioneered notebook interfaces, which have since become very popular.
 Jupyter is a FOSS notebook web application that can serve as a front-end to
-dozens of languages, including Python (via the IPython notebook).
+dozens of languages, including Python and Julia.
 The <a href="https://github.com/choldgraf/jupyter-book">Jupyter Book</a> project
 provides tools to convert a collection of Jupyter notebooks
 into publication quality documents.
+<br/>
+To install JupyterLab with pip (at the command line):
+<pre>
+pip install jupyterlab
+</pre>
+To run after installing (at the command line):
+<pre>
+jupyter lab
+</pre>
 </div>
 
 <div>
@@ -3628,6 +3636,7 @@ try <code>convert -delay 20 c:/myimages/img*.png c:/myvideo/imgs.mpg</code>.
 <a href="http://ffmpeg.org/">FFMPEG</a> can “record, convert and stream audio and video”.
 (License: LGPL; Language: C)
 (See the <a href="#ffmpeghints">user hints</a>.)
+Windows users can install with winget: <code>winget install "FFmpeg (Essentials Build)"</code>.
 </li>
 <li>
 You can create animated .gif files with <a href="http://www.whitsoftdev.com/page.php?id=11">UnFREEz</a> by WhitSoft Development.
@@ -4429,18 +4438,14 @@ If you produce documents in LaTeX, you would naturally
 like the fonts and equations in your graphics to match
 those in your text.
 There are a variety of solutions.
+Nowadays the simplest answer by far is to learn to use TikZ.
 </p>
-
-<div>
-The simplest answer is probably to use gnuplot.
-See <a href="http://www.fnal.gov/docs/products/gnuplot/tutorial/">http://www.fnal.gov/docs/products/gnuplot/tutorial/</a> for a good discussion.
-</div>
 
 <div id="tikz">
 See the <a href="#tikz-hints">TikZ hints</a>.
 <br />
 If your figures are simple (or if you are patient),
-just use the very powerful TikZ drawing language directly in your LaTeX document.
+use the very powerful TikZ drawing language directly in your LaTeX document.
 TikZ does <em>not</em> depend on PostScript,
 you can use it directly with pdflatex.
 (Conveniently, it is <em>also</em> compatible with the dvips/ps2pdf route.)
@@ -4464,6 +4469,7 @@ you can create them with the <a href="#TpX">TpX</a> drawing application,
 which can output tikz code.
 (You can set the default output format to tikz <em>before</em> you start your drawing,
 or you can change the format in the picture properties.)
+Unfortunately, develop on this has stopped.
 </div>
 
 <p>
@@ -4473,161 +4479,7 @@ This will require an initial investment of experimentation and learning,
 but the results (as EPS or PDF) are fabulous.
 </p>
 
-<p>
-Some solutions require the use of PostScript.
-</p>
-<ul>
-<li>
-<a href="http://plan9.bell-labs.com/who/hobby/MetaPost.html">MetaPost</a>
-</li>
-<li>
-You can put fragments in your EPS graphics and replace them
-with \psfrag.  E.g.,
-<pre>
-\begin{figure}
-\psfrag{sintheta}{$\sin(\theta_k)$}
-\includegraphics[width=5cm]{myfig.eps}
-\end{figure}
-</pre> 
-</li>
-<li>
-<a href="http://www.nongnu.org/skencil/">Skencil</a> with the
-<a href="http://home.comcast.net/~jbiddier/sklatex/">skLaTeX</a> plugin.
-</li>
-</ul>
 
-<p>
-Often you will want to produce your graphics as <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files,
-which can be included in a LaTeX document.
-However there are several alternatives.
-</p>
-<ul>
-<li>Produce EPS graphics for LaTeX inclusion.
-      <ul>
-      <li>
-      Draw it in PostScript.  
-      This is easier than you might believe.
-      (See <a href="#postscript">above</a>.)
-      </li>
-      <li>
-      Use a <a href="#psmeta">metalanguage for PostScript</a>.
-      </li>
-      <li>
-      Use a <a href="#drawapps">drawing application</a> that supports <acronym class="help" title="Encapsulated PostScript">EPS</acronym>.
-      </li>
-      </ul>
-</li>
-
-<li id="pgf">
-        <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgf.html">PGF (Portable Graphics Format)</a>
-(PGF will feel like a subset of PSTricks that can be used for <em>both</em> PostScript and PDF generation!)
-The PGF based <a href="http://www.ctan.org/tex-archive/help/Catalogue/entries/pgfplots.html">pgfplots</a> package
-simplifies chart creation.
-</li>
-<li>
-  <a href="http://tug.ctan.org/tex-archive/graphics/pstricks/">pstricks</a>
-  is truly wonderful and powerful.
-  It gives you easy access to the power of PostScript from within your LaTeX documents.
-  There is a <a href="http://www.tn-home.de/Tobias/Soft/TeX/TUG040611/presentation.pdf">simple tutorial</a>
-  and a helpful <a href="http://tug.org/mailman/listinfo/pstricks">discussion list</a>.
-</li>
-<li>
-  <a href="http://jpicedt.sourceforge.net/">jPicEdt</a> is a Java application that can export to the LaTeX picture environment.
-  It supports the eepic and PsTricks packages and is developing support for TikZ.
-</li>
-<li>
-  <a href="http://mathcs.holycross.edu/~ahwang/current/ePiX.html">ePiX</a> is a C++ drawing package that outputs eepic pictures.
-</li>
-<li>
-  <a href="http://tug.ctan.org/tex-archive/graphics/metapost/">MetaPost</a>
-  is incredibly powerful way to produce PostScript graphics but it requires an investment to learn.
-  (You should first find out whether <a href="#tikz">TikZ</a> meets your needs.)
-  Start with <a href="http://www.tug.org/pracjourn/2006-4/henderson/">A Beginner's Guide to METAPOST for Creating High-Quality Graphics</a>.
-  See <a href="http://cm.bell-labs.com/who/hobby/mppubs.html">some helpful documentation</a>.
-  <a href="http://w3.mecanica.upm.es/metapost/metagraf.php">Metagraph</a> provides an intuitive GUI interface to MetaPost.
-</li>
-</ul>
-
-<div>
-Sometimes you may want to include Encapsulated PostScript (<acronym class="help" title="Encapsulated PostScript">EPS</acronym>) files in LaTeX documents.
-This will probably take you two steps:
-i. tell LaTeX that you will be including a graphic,
-and ii. convert your <kbd>.dvi</kbd> file, in which you may not be able to view the graphic, into a PostScript or <acronym class="help" title="Portable Document Format">PDF</acronym> file, in which you can view the graphic.
-(The second step assumes your <kbd>.dvi</kbd> viewer does not include a PostScript filter, but some do.)
-The best way to accomplish the first step is to use the <kbd>\includegraphics</kbd> command of the <kbd>graphicx</kbd> package,
-probably with the <kbd>dvips</kbd> option.
-So in the preamble of your LaTeX document you will have
-<br />
-<code>\usepackage[dvips]{graphicx}</code>
-<br />
-and then in the body of the document you will have something like
-<br />
-<code>
-\begin{figure}[htb]
-<br />
-\begin{center}
-<br />
-\includegraphics[width=\textwidth]{mygraphic.eps}
-<br />
-\end{center}
-<br />
-\end{figure}
-</code>
-<br />
-The best way to accomplish the second step is with <kbd>dvips</kbd> for PostScript output
-or <kbd>dvipdfm</kbd> for <acronym class="help" title="Portable Document Format">PDF</acronym> output.
-<br />
-Comment: if you use a .dvi viewer that can display your included PostScript files (e.g., TrueTeX or yap with GhostScript), you will probably find it saves time not to view them every time you view the document.
-Just use the <kbd>dvips</kbd> option for the <kbd>graphicx</kbd> package so that the PostScript just gets passed through.
-Then remove that option when you want to see everything.
-<br />]
-Comment: According to Robin Fairbairns:
-The packages graphics, graphicx and epsfig were all released in their
-present form at the same time (summer 1994).  epsfig is capable of
-generating some confusion because a package of the same name existed before
-that time (it was written as a joint replacement for the
-long-established, and somewhat buggy, epsf and psfig packages); the
-old epsfig doesn't have the characteristics we have come to rely on.
-
-The graphics package forms the basic kernel of the whole bundle: it
-converts graphics primitive commands into \special commands[*] for the
-device drivers that the bundle supports.
-
-The graphicx package adds a user interface, and makes possible the
-merging of commands (like scale and rotate: which in graphics need to
-be composed, and hence produce a longer sequence of commands both at
-the TeX level and potentially also at the driver level).
-
-To first order, the epsfig package simply provides a different user
-interface, which it translates into graphicx-like commands.
-
-There _are_ trade-offs.  graphics' user interface is very
-"traditional tex", with little sophistication.  graphicx and epsfig
-use a key-value syntax which is noticeably more difficult (and hence
-cpu-intensive) for the packages to decode.
-
-graphicx is middle of the road as far as decoding
-complexity goes, but has useful extra power in its graphical
-expressiveness by comparison with graphics.
-(Also, if you never learned psfig, epsfig's psfig-like syntax won't excite you much.)
-<br />
-[*] or, in the case of pdftex, into pdftex commands for the job.
-</div>
-
-<div>
-If you want your EPS files to be truly portable, you need to embed the fonts.
-If you use a drawing application, make sure it is configured to embed the fonts.
-If you convert your .dvi files to PS,
-you can tell dvips to embed all fonts with the -Pdownload35 option
-<br />dvips -t letter -Pdownload35 file.dvi -o file.ps
-<br />
-If you are producing PDF files, you can use
-<a href="http://www.linuxcommand.org/man_pages/pdffonts1.html">pdffonts</a>
-to check for font embedding.
-If using ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
-See <a href="http://multimedia.polito.it/masala/pub_font_embedding_pdf_linux.html">this document</a>
-for more discussion.
-</div>
 
 <div>
 <!-- http://lists.gnu.org/archive/html/adonthell-devel/2002-09/msg00006.html -->
@@ -4650,18 +4502,21 @@ and pdflatex will conver them to pdf format on the fly.
 and use of the old PDF after that.)
 </div>
 
-<p>
-You can use <a href="http://www.ecademix.com/JohannesHofmann/flpsed.html">flpsed</a> to add editable annotations to a PostScript document. (License: GPL; Platform: X11.)
-</p>
-
 <div>
-Other interesting solutions:
-<ul>
-<li>
-<a href="http://www.freewebs.com/gervacio/">GraphTeX</a>
-</li>
-</ul>
+If you want your EPS files to be truly portable, you need to embed the fonts.
+If you use a drawing application, make sure it is configured to embed the fonts.
+If you convert your .dvi files to PS,
+you can tell dvips to embed all fonts with the -Pdownload35 option
+<br />dvips -t letter -Pdownload35 file.dvi -o file.ps
+<br />
+If you are producing PDF files, you can use
+<a href="http://www.linuxcommand.org/man_pages/pdffonts1.html">pdffonts</a>
+to check for font embedding.
+If using ps2pdf  you can use the option <code>-dEmbedAllFonts=true</code>.
+See <a href="http://multimedia.polito.it/masala/pub_font_embedding_pdf_linux.html">this document</a>
+for more discussion.
 </div>
+
 
 
 
@@ -5888,31 +5743,19 @@ you may want to consider the <a href="http://dirk.eddelbuettel.com/quantian.html
 </div>
 
 
-<div>
-A recent review of <a href="http://franticindustries.com/blog/2006/12/21/big-webos-roundup-10-online-operating-systems-reviewed/">Web OSs</a> highlights another way to get basic OS functionality.
-</div>
-
 
 <h4>Shells</h4>
 
 <p>
+Windows users should no longer use <code>cmd.exe</code>,
+unless forced to by circumstances.
 Things have gotten better with the advent of PowerShell,
-but Windows users still suffer from a dearth of good shells.
-Here are a few options.
+which can be run in the Windows Terminal.
+Note that PowerShell support simple versions of many common bash commands.
+Windows users who desire a more Linux-like shell experience
+can use <code>bash</code> (or other shells)
+via Windows Subsystem for Linux.
 </p>
-
-<ul>
-<li>
-<a href="http://xonsh.org/">xonsh</a> is a cross platform shell with Python-based syntrax
-</li>
-<li>
-Try <a href="http://www.steve.org.uk/Software/bash/">GNU Bash for Windows</a>.
-(Here is an <a href="http://www.arachnoid.com/linux/shell_programming.html">introduction to bash programming</a>.) 
-</li>
-<li>
-you might try <a href="http://win-bash.sourceforge.net/">win-bash</a>.
-</li>
-</ul>
 
 
 
@@ -6044,9 +5887,10 @@ and that it locks the file you are reading (so it cannot be overwritten).
 </li>
 <li>
 Most browsers include very good PDF viewers (with editing capabilities).
+Edge provides especially capable annotation facilities.
 </li>
 <li>
-For a list of free and open source readers,
+For a list of free and open source readers for various platforms,
 see <a href="http://pdfreaders.org/">PDFreaders.org</a>.
 </li>
 <li>
@@ -8091,15 +7935,17 @@ See the <a href="https://ffmpeg.org/ffmpeg-filters.html">filters documentation</
 <!-- ffmpeg -i video1718443938.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220125.mp4 -->
 <!-- ffmpeg -i video1995210725.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220405.mp4 -->
 <!-- ffmpeg -i zoom-20220405.mp4 -ss 3510 -c:v copy -c:a copy zoom-20220405-trimmed.mp4 -->
+<!-- ffmpeg -i zoom-20250415.mp4 -vf "crop=in_w:in_h-187:0:0, scale=iw/2:ih/2" .\zoom-20250415crop.mp4 -->
 </p>
 
 <p>
 To extract part of an MP4 file, copy the audio (<code>acodec</code>) and video (<code>vcodec</code>)
 for a stime range. E.g.,
-<code>ffmpeg -ss 00:0:00 -to 00:10:00 -i myinfile.mp4 -acodec copy -vcodec copy myoutfile.mp4</code>
+<code>ffmpeg -ss 00:00:00 -to 00:10:00 -i myinfile.mp4 -acodec copy -vcodec copy myoutfile.mp4</code>
 extracts the first 10 minutes.
 (See the <a href="https://ffmpeg.org/ffmpeg-utils.html#time-duration-syntax">documentation of time durations</a>.)
 </p>
+<!-- ffmpeg -ss 00:03:15 -to 00:04:00  -i video1648072430.mp4 -vf "crop=in_w:in_-70:0:0, scale=iw/2:ih/2" $home\dpt\courses\econ705\2024f\test.mp4 -->
 
 <p>
 You can pipe a series of frames (e.g., Matplotlib graphs) to FFMPEG to produce an animated graph.

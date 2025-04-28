@@ -25,11 +25,11 @@ class KurtzModel:
 		self.rho = 0.9 #discount factor
 		#create the shock space
 		self.shock_space_size = self.maxbites + 1
-		self.shock_space = np.arange(self.shock_space_size, dtype=np.int)
+		self.shock_space = np.arange(self.shock_space_size, dtype=np.int64)
 		self.pdf_shocks = self.pdf()
 		#create the state space
 		self.state_space_size = self.shock_space_size + self.maxcapacity
-		self.state_space = np.arange(self.state_space_size, dtype=np.int)
+		self.state_space = np.arange(self.state_space_size, dtype=np.int64)
 		#list to store history
 		self.value_history = list()
 
@@ -47,7 +47,7 @@ class KurtzModel:
 		action is (capacity constrained) amount frozen.
 		"""
 		constraint = min(state, self.maxcapacity)
-		return np.arange(constraint+1, dtype=np.int)
+		return np.arange(constraint+1, dtype=np.int64)
 
 	def payoffs(self, state, v):
 		"""Return array, the payoff for each feasible action.
@@ -71,7 +71,7 @@ class KurtzModel:
 		:param `v`: array, function values on `state_space`
 		"""
 		values = ( self.payoffs(state, v).max() for state in self.state_space )
-		Tv = np.fromiter(values, dtype=np.float)
+		Tv = np.fromiter(values, dtype=np.float64)
 		return Tv
 
 	def u(self, c):

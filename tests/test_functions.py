@@ -17,19 +17,20 @@ import random
 import numpy
 #from econpy.functions import polyuv
 from typing import Callable
+Function = Callable
 from numbers import Real, Integral
 
-#BEGIN lst:function.differenceQuotient
+#BEGIN:function.differenceQuotient
 def simplest_differenceQuotient(
-    f: Callable, #underlying function
+    f: Function, #underlying function
     x: Real,     #source point
     h: Real      #step
     ) -> Real:
     df = f(x + h) - f(x) #change of value of f
     return df / h        #value of difference quotient
-#END lst:function.differenceQuotient
+#END:function.differenceQuotient
 
-#BEGIN lst:function.simplest_horner
+#BEGIN:function.simplest_horner
 #goal: evaluate polynomial at point x
 #input:
 #    coefficients : tuple (ordered as (a_0,...,a_N))
@@ -41,9 +42,9 @@ def simplest_horner(coefficients, x):
     for coef in reversed(coefficients):
         result = coef + result * x
     return result
-#END lst:function.simplest_horner
+#END:function.simplest_horner
 
-#BEGIN lst:simplest_hornerd
+#BEGIN:simplest_hornerd
 #goal: evaluate polynomial p and derivative p' at point x
 #input:
 #    coefficients : tuple (ordered as (a_0,...,a_N))
@@ -57,7 +58,7 @@ def hornerd(coefficients, x):
         p1 = p1*x + p0
         p0 = p0*x + coef
     return p0, p1
-#END lst:simplest_hornerd
+#END:simplest_hornerd
 
 #BEGIN:horner
 def horner(coefficients: Sequence[float], x: float):

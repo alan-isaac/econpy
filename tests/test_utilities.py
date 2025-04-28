@@ -11,6 +11,7 @@ __author__ = 'Alan G. Isaac (and others as specified)'
 
 import collections, random, unittest
 from typing import Callable, Sequence
+Function = Callable
 
 import numpy as np
 
@@ -116,19 +117,19 @@ class testGinis(unittest.TestCase):
         us02 = list(reversed(np.unique(xs)))
         self.assertEqual(us01,us02)
 
-#BEGIN ecdf
+#BEGIN:ecdf;
 def simplest_ecdf(
     xs: Sequence #real numbers (the data)
-    ) -> Callable: #the empirical cdf of xs
+    ) -> Function: #the empirical cdf of xs
     nobs = float(len(xs))
     def f(x): #the ecdf for the xs
         return sum(1 for xi in xs if xi <= x) / nobs
     return f
-#END ecdf
+#END:ecdf;
 
 def ecdf_np(
     xs: Sequence #real numbers (the data)
-    ) -> Callable: #the empirical cdf of xs
+    ) -> Function: #the empirical cdf of xs
     xs = np.sort(xs)
     nobs = float(len(xs))
     def f(x): #the ecdf for the xs

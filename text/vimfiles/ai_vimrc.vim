@@ -41,7 +41,7 @@ set clipboard=autoselect
 inoremap <c-del> <c-o>cw
 inoremap <c-bs> <c-w>
 "set backup options
-set bdir=D:\\temp\vimbak,.,C:\\temp
+set bdir=C:\\temp\vimbak,C:\\temp,.
 set backup
 set writebackup
 set backupskip=ae*.txt,*.tmp

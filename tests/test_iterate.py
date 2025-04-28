@@ -6,8 +6,6 @@ Unit tests for the `iterate` module.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-#from __future__ import division
-#from __future__ import absolute_import
 import random
 from math import sqrt, exp
 from typing import Callable
@@ -23,7 +21,7 @@ from econpy.pytrix import utilities, fmath
 from econpy.optimize import iterate
 
 
-#BEGIN lst:optimize.bracket
+#BEGIN:optimize.bracket;
 def simplest_bracket(
 f : Callable, #float->float (continuous function)
 xa : float, #interval lower bound
@@ -42,28 +40,28 @@ reiter : Callable, #(float,float,float,float,int)->bool
             xb, fb = xnew, fnew
         ct = ct + 1
     return xa if(abs(fa) < abs(fb)) else xb
-#END lst:optimize.bracket
+#END:optimize.bracket;
 
 #simplest implementation of bisection
-#BEGIN lst:optimize.bisect
+#BEGIN:optimize.bisect;
 def xmid(xa, xb, fa, fb):
     return (xa + xb) / 2.0
-#END lst:optimize.bisect
+#END:optimize.bisect;
 
-#BEGIN lst:optimize.ftol
+#BEGIN:optimize.ftol;
 def simplest_ftol(xa, xb, fa, fb, itr):
     ftol = 1e-9
     return (abs(fa) > ftol) and (abs(fb) > ftol)
-#END lst:optimize.ftol
+#END:optimize.ftol;
 
 #goal: find root by bisection
-#BEGIN lst:optimize.bisection
+#BEGIN:optimize.bisection;
 def simplest_bisection(f, xa, xb):
     return simplest_bracket(
         f, xa, xb,
         nextpoint=xmid,
         reiter=simplest_ftol)
-#END lst:optimize.bisection
+#END:optimize.bisection;
 
 def simplest_randomsection(f, xa, xb):
     return simplest_bracket(
@@ -73,7 +71,7 @@ def simplest_randomsection(f, xa, xb):
 
 
 #simplest implementation of regula falsi
-#BEGIN lst:optimize.falsi
+#BEGIN:optimize.falsi;
 def xfalse(xa, xb, fa, fb):
     lam = fb / (fb - fa)
     return lam * xa + (1 - lam) * xb
@@ -83,7 +81,7 @@ def simplest_falseposition(f, xa, xb):
         f, xa, xb,
         nextpoint=xfalse,
         reiter=simplest_ftol)
-#END lst:optimize.falsi
+#END:optimize.falsi;
 
 def simplest_falseposition_old(f, x1, x2):
     #comment: set small number for convergence test
@@ -137,13 +135,16 @@ def smallchange(p1,p2,eps=1e-6,tol=1e-6):
     return min(abs_change,rel_change)<tol
 
 #careful: no maxiter!
-#BEGIN lst:sequence.picard1
-def simplest_picard(fn : Callable, p : Real) -> Real:
+#BEGIN:sequence.picard1;
+def simplest_picard(
+	fn : Callable,     #comment: the function to iterate
+	p : Real           #comment: the initial input
+	) -> Real:         #comment: the approximate fixed point
     p_1, p = p, fn(p)
     while (not smallchange(p_1,p)):
         p_1, p = p, fn(p)
     return p
-#END lst:sequence.picard1
+#END:sequence.picard1;
 def old_simplest_picard(fn : Callable, p : Real) -> Real:
     while True:
         p_1, p = p, fn(p)
