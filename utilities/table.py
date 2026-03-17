@@ -72,7 +72,6 @@ Potential problems for Python 3
   The 2to3 tool should handle that no problem.
   (We will switch to the `next` function if 2.5 support is ever dropped.)
 - from __future__ import division, with_statement
-- from itertools import izip as zip
 - Let me know if you find other problems.
 
 :contact: alan dot isaac at gmail dot com
@@ -87,11 +86,7 @@ Potential problems for Python 3
 """
 from __future__ import division, with_statement
 import logging
-try: #plan for Python 3
-	from itertools import izip_longest, izip as zip
-	pass   # accommodate 2to3 tool
-except ImportError:
-	pass
+from itertools import zip_longest
 from itertools import cycle
 from collections import defaultdict
 import csv
@@ -257,7 +252,7 @@ class SimpleTable(list):
 		"""
 		header_rows = [header.split('\n') for header in headers]
 		#rows in reverse order
-		rows = list(izip_longest(*header_rows, fillvalue=''))
+		rows = list(zip_longest(*header_rows, fillvalue=''))
 		rows.reverse()
 		for i, row in enumerate(rows):
 			self.insert(rownum, row, datatype='header')

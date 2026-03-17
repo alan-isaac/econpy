@@ -24,7 +24,6 @@ Many are lightweight, in the sense that they do not depend on an array package.
 from __future__ import division, absolute_import
 __docformat__ = "restructuredtext en"
 
-from itertools import imap, izip
 import random, math, operator
 import types
 import sys,os
@@ -294,10 +293,10 @@ class Vector(object):
         return iter(self.data)
     def __add__(self,other):
         self.require_samecore(other)
-        return self.result_class([xi+yi for (xi,yi) in izip(self,other)],**self.core_attr)
+        return self.result_class([xi+yi for (xi,yi) in zip(self,other)],**self.core_attr)
     def __sub__(self,other):
         self.require_samecore(other)
-        return self.result_class([xi-yi for (xi,yi) in izip(self,other)],**self.core_attr)
+        return self.result_class([xi-yi for (xi,yi) in zip(self,other)],**self.core_attr)
     def __neg__(self):
         return self.result_class([-xi for xi in self],**self.core_attr)
     def __abs__(self):
@@ -350,7 +349,7 @@ def dot(x, y):
     :see: http://en.wikipedia.org/wiki/Dot_product
     """
     assert(len(x)==len(y))
-    return sum(imap(operator.mul, x, y))
+    return sum(map(operator.mul, x, y))
 
 def norm(seq, p=2):
     """Vector norm. ::
@@ -402,7 +401,7 @@ class Vplus(Vector):
         return "Vplus: "+repr(self.data)
     def __mul__(self, other):
         self.require_samecore(other)
-        result = imap(operator.mul, self.data, other)
+        result = map(operator.mul, self.data, other)
         return self.result_class(result, **self.core_attr)
     def __div__(self, other):  #careful: not insisting on truediv
         self.require_samecore(other)

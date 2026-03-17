@@ -424,7 +424,7 @@ class Economy(object):
 			parents = self.ppl[idx]  #retrieve a cohort to be parents
 			kids = self.ppl[idx+params.AGE4KIDS-1]  ##!! (fixed)
 			assert (len(parents)==len(kids))  #TODO TODO only for fixed 2 kid per couple
-			for parent, kid in itertools.izip(parents,kids):
+			for parent, kid in zip(parents,kids):
 				parent.adopt(kid)
 				parent.spouse.adopt(kid)  #TODO: think about adoption
 			for parent in parents:

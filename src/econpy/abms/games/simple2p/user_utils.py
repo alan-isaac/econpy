@@ -9,8 +9,7 @@ from collections import defaultdict
 import itertools
 def groupsof(lst,n): #used to populate SimpleTorus by row
     """Return len(self)//n groups of n, discarding last len(self)%n players."""
-    #use itertools to avoid creating unneeded lists
-    return itertools.izip(*[iter(lst)]*n)
+    return zip(*[iter(lst)]*n)
 
 def alt_populate(nrows, ncols, players):
     assert len(players)==nrows*ncols

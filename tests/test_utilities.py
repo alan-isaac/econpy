@@ -5,8 +5,6 @@ Unit tests for utilities.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import absolute_import
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 
 import collections, random, unittest
@@ -17,12 +15,12 @@ import numpy as np
 
 #import matplotlib.pyplot as plt
 
-from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
+#from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 from econpy.pytrix.utilities import n_each_rand, permutations, permutationsg
 from econpy.pytrix.utilities import cumsum, cumprod, unique
 from econpy.pytrix.utilities import gini, ginis, alt_gini #the main ones
 from econpy.pytrix.utilities import py_gini, py_gini, py_gini2
-from econpy.abm.utilities import gini2shares, gini2sharesPareto
+from econpy.abms.utilities import gini2shares, gini2sharesPareto
 from econpy.pytrix import fmath
 from econpy.pytrix import stat
 

@@ -66,10 +66,6 @@ try:
     from functools import reduce
 except ImportError:
     pass #assume Python 2, where reduce is a builtin
-try:
-    from itertools import imap as map, izip as zip
-except ImportError:
-    pass #assume Python 3
 from itertools import starmap, takewhile
 from itertools import product as cartesian_product
 from collections import defaultdict, deque

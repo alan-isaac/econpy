@@ -256,7 +256,7 @@ def ginis(xss, bessel=False):
 def groupsof(seq,n):
     """Return len(self)//n groups of n, discarding last len(self)%n players."""
     #use itertools to avoid creating unneeded lists
-    return itertools.izip(*[iter(seq)]*n)
+    return zip(*[iter(seq)]*n)
 
 
 def gatherby(seq, key):

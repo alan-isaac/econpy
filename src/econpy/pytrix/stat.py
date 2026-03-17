@@ -1,17 +1,13 @@
 '''
 Statistical module to supplement SciPy.
 '''
-from __future__ import division, absolute_import
-
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac if not specified (and others as specified)'
 
 import logging, math, random
-from itertools import groupby, izip
+from itertools import groupby
 import numpy as np
 from matplotlib import pyplot as plt
 
-from .utilities import have_numpy
 try:
     import scipy as sp
     have_scipy = True
@@ -78,7 +74,7 @@ class Dstat1(object):
     :note: Don't plan to add: Sum Sq. Dev.
     '''
     def __init__(self, data1d, name=None, smpl=None, is_sorted=False):
-        if len(data1d) is 0:
+        if len(data1d) == 0:
             raise ValueError('empty sample')
         self.data = data1d #no copy!
         self.is_sorted = is_sorted

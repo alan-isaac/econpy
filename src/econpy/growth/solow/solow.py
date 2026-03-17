@@ -254,7 +254,7 @@ What has simulation added to the analytical results?
 from __future__ import division
 import sys
 sys.path.insert(0,'../../')  #assumes econpy install
-from itertools import izip
+from itertools import zip
 from random import random as health_shock
 from econpy.pytrix.utilities import permutations, calc_gini
 gN=0.015; gA=0.01; s=0.025; d=0.05; alpha=0.3; A=1.0
@@ -316,7 +316,7 @@ class CompositeSolowConsumer:
 	def get_kn(self):
 		kn = [c.get_kn() for c in self.consumers]
 		self.kn = kn
-		k, n = [sum(f) for f in izip(*kn)] 
+		k, n = [sum(f) for f in zip(*kn)] 
 		self.k, self.n = k,n
 		return k, n
 	def receive(self, amt, pmt_type=''):
@@ -327,11 +327,11 @@ class CompositeSolowConsumer:
 		if pmt_type == 'rents':
 			r = amt/self.k
 			# note that self.kn holds that actual factor supplies
-			for c, ck in izip(self.consumers, (kn[0] for kn in self.kn)):
+			for c, ck in zip(self.consumers, (kn[0] for kn in self.kn)):
 				c.receive(r*ck)
 		elif pmt_type == 'wages':
 			w = amt/self.n
-			for c, cn in izip(self.consumers, (kn[1] for kn in self.kn)):
+			for c, cn in zip(self.consumers, (kn[1] for kn in self.kn)):
 				c.receive(w*cn)
 		else:
 			raise ValueError("unknown payment type")
