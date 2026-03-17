@@ -6,19 +6,21 @@ Unit tests for the `iterate` module.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
+import math
 import random
-from math import sqrt, exp
+from math import sqrt, exp, isclose
 from typing import Callable
-from numbers import Real, Integral
+from numbers import Real # Integral
+from itertools import pairwise
+#from statistics import mean
 
 __docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
 import unittest
-import math, random
-from econpy.pytrix import utilities, fmath
-from econpy.optimize import iterate
+from econpy.pytrix import fmath
+from econpy.optimize import optimize
 
 
 #BEGIN:optimize.bracket;
@@ -126,35 +128,63 @@ def simplest_ridders(f, x1, x2):
 #END lst:optimize.ridders
 
 
+def iterate(
+	fn: Callable,     #comment: the function to iterate
+	x: Real           #comment: the initial input
+	):
+	yield x
+	while True:
+		x = fn(x)
+		yield x
+
+def firsttrue(
+	pred: Callable,
+	xs
+	):
+	for x in xs:
+		if pred(x):
+			return x
 
 
-#Return: `p` approximate fixed point, `pseq` approximating sequence
-def smallchange(p1,p2,eps=1e-6,tol=1e-6):
+def smalldiff(p1, p2, *, eps=1e-6, tol=1e-6):
     abs_change = abs(p1 - p2)
     rel_change = abs_change/(abs(p2)+eps)
     return min(abs_change,rel_change)<tol
 
+#fixed-point iterator
+#Return: approximate fixed point
+#Caution: no maiter!
+#BEGIN:dynsys.fpiter01;
+def fpiter(
+	fn: Callable,     #comment: the function to iterate
+	x: Real           #comment: the initial input
+	) -> Real:        #approximate fixed point
+	for (p1,p2) in pairwise(iterate(fn, x)):
+		if isclose(p1, p2):
+			return (p1 + p2) / 2.0
+#END:dynsys.fpiter01;
+
 #careful: no maxiter!
-#BEGIN:sequence.picard1;
-def simplest_picard(
+#BEGIN:sequence.picard01;
+def simplest_fpiter(
 	fn : Callable,     #comment: the function to iterate
 	p : Real           #comment: the initial input
 	) -> Real:         #comment: the approximate fixed point
     p_1, p = p, fn(p)
-    while (not smallchange(p_1,p)):
+    while (not isclose(p_1, p)):
         p_1, p = p, fn(p)
-    return p
-#END:sequence.picard1;
+    return (p_1 + p) / 2.0
+#END:sequence.picard01;
 def old_simplest_picard(fn : Callable, p : Real) -> Real:
     while True:
         p_1, p = p, fn(p)
-        if smallchange(p_1,p):
+        if isclose(p_1, p):
             return p
 
-def simple_picard(fn, p, itermax):
-    for iternum in range(itermax):
+def simple_picard(fn, p, *, maxiter=1000):
+    for iternum in range(maxiter):
         p_1, p = p, fn(p)
-        if smallchange(p_1,p):
+        if isclose(p_1, p):
             return p
     print("Warning: convergence failed; maximum iteration reached.")
 
@@ -163,7 +193,7 @@ def simple_picard(fn, p, itermax):
 
 # cx:sequence.picard2  class Picard
 
-class Iterator4Test(iterate.IterativeProcess):
+class Iterator4Test(optimize.IterativeProcess):
     def iterate(self):
         pass
     def get_testval(self):
@@ -173,7 +203,7 @@ class Iterator4Test(iterate.IterativeProcess):
 class test_iter(unittest.TestCase):
     def test_IterativeProcess(self):
         N = random.randrange(100)
-        crit = lambda x, value, iteration: x.iteration >= N
+        def crit(x, value, iteration): x.iteration >= N
         ip = Iterator4Test(crit)
         ip.run()
         self.assertEqual(ip.iteration,N)
@@ -183,13 +213,12 @@ class test_iter(unittest.TestCase):
     def test_bisect(self):
         print("""START TEST""")
         x4zero = random.randrange(20)
-        f = lambda x: (x-x4zero)**3
-        crit = iterate.AbsDiff(1e-9)
-        b1 = iterate.Bisect(f, x4zero - 1.0, x4zero+1.0, crit)
+        def f(x): (x-x4zero)**3
+        crit = optimize.AbsDiff(1e-9)
+        b1 = optimize.Bisect(f, x4zero - 1.0, x4zero+1.0, crit)
         b1.run()
         #print b1.report()
-        result1 = b1.value
-        result2 = iterate.bisect(f,  x4zero - 1.0, x4zero+1.0, eps=1e-9)
+        result2 = optimize.bisect(f,  x4zero - 1.0, x4zero+1.0, eps=1e-9)
         result3 = simplest_bisection(f, x4zero - 1.0, x4zero+1.0)
         print("testvals", b1.value)
         print("simple bisect", result2)
@@ -199,23 +228,23 @@ class test_iter(unittest.TestCase):
         self.assertTrue(fmath.feq(result3, x4zero, 1e-7))
     def test_falsi(self):
         x4zero = random.randrange(20)
-        f = lambda x: (x-x4zero)**3
+        def f(x): (x-x4zero)**3
         result1 = simplest_falseposition(f,   x4zero - 1.0, x4zero+1.0)
         print("testvals", result1)
         self.assertTrue(fmath.feq(result1, x4zero, 1e-8))
     def test_ridders(self):
         shift = random.randrange(20)
-        f = lambda x: x*exp(x) - shift
+        def f(x): x*exp(x) - shift
         testval = simplest_bisection(f,   -10., 10.)
         result1 = simplest_ridders(f,   -10., 10.)
         print("Ridders method with shift=%f"%shift)
         print("testvals", result1)
         self.assertTrue(fmath.feq(result1, testval, 1e-8))
     def test_picard(self):
-        f1 = lambda x: 0.5*(x+2/x)  #approx sqrt of 2
-        self.assertTrue(fmath.feq(iterate.Picard(f1, 1, 100, tol=1e-6).fp,math.sqrt(2),1e-6))
-        f2 =lambda x: math.exp(-x)
-        best_result = iterate.Picard(f2, 1, 100, tol=1e-6).fp  #must match tolerance...
+        def f1(x): 0.5*(x+2/x)  #approx sqrt of 2
+        self.assertTrue(fmath.feq(optimize.Picard(f1, 1, 100, tol=1e-6).fp,math.sqrt(2),1e-6))
+        def f2(x): math.exp(-x)
+        best_result = optimize.Picard(f2, 1, 100, tol=1e-6).fp  #must match tolerance...
         result1 = simplest_picard(f2, 1)
         result2 = simple_picard(f2, 1, 100)
         result3 = old_simplest_picard(f2, 1)
@@ -226,8 +255,9 @@ class test_iter(unittest.TestCase):
         #picard(lambda x: -x,1,100)
 
 if __name__=="__main__":
-    unittest.main()
+    #unittest.main()
     #print(simplest_randomsection(lambda x: x*x*x, -10, 1))
+    pass
 
 
 # vim: set noet:ts=4:sw=4
