@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -4055,11 +4055,10 @@ window.Quarto = {
   <li><a href="#fonts" id="toc-fonts" class="nav-link" data-scroll-target="#fonts">Fonts</a></li>
   <li><a href="#spell-checkers" id="toc-spell-checkers" class="nav-link" data-scroll-target="#spell-checkers">Spell Checkers</a></li>
   <li><a href="#dictionaries-and-thesauri" id="toc-dictionaries-and-thesauri" class="nav-link" data-scroll-target="#dictionaries-and-thesauri">Dictionaries and Thesauri</a></li>
-  <li><a href="#stream-editors" id="toc-stream-editors" class="nav-link" data-scroll-target="#stream-editors">Stream Editors</a></li>
   </ul></li>
-  <li><a href="#producing-scientific-documents" id="toc-producing-scientific-documents" class="nav-link" data-scroll-target="#producing-scientific-documents">Producing Scientific Documents</a>
+  <li><a href="#scientific-documents" id="toc-scientific-documents" class="nav-link" data-scroll-target="#scientific-documents">Scientific Documents</a>
   <ul class="collapse">
-  <li><a href="#basic-considerations" id="toc-basic-considerations" class="nav-link" data-scroll-target="#basic-considerations">Basic Considerations</a></li>
+  <li><a href="#basic-production-considerations" id="toc-basic-production-considerations" class="nav-link" data-scroll-target="#basic-production-considerations">Basic Production Considerations</a></li>
   <li><a href="#meta-formats" id="toc-meta-formats" class="nav-link" data-scroll-target="#meta-formats">Meta Formats</a></li>
   <li><a href="#latex-and-related-software" id="toc-latex-and-related-software" class="nav-link" data-scroll-target="#latex-and-related-software">LaTeX and Related Software</a></li>
   <li><a href="#tex-tools" id="toc-tex-tools" class="nav-link" data-scroll-target="#tex-tools">TeX Tools</a></li>
@@ -4237,17 +4236,14 @@ window.Quarto = {
 -->
 <!-- current location as of 2023-07-19:
      source: https://github.com/alan-isaac/econpy/blob/master/software4econ.html
-     displayed: http://goo.gl/PUokY7
-<a href="https://html-preview.github.io/?url=https://github.com/alan-isaac/econpy/blob/master/software4econ.html">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
+<a href="">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
 -->
-<p>Last modified: 2025-07-25</p>
-<p>Most recent (GitHub) version: <a href="http://goo.gl/PUokY7">http://goo.gl/PUokY7</a>.</p>
-<div class="default">
-<p><span style="color:red">Caveat lector:</span> do not assume the information below is accurate. In particular: the advice below comes without any warrantee whatsoever, and please confirm licensing information with the software copyright holders.</p>
-</div>
-<p>The following software list is idiosyncratic. I have tried to make it generally useful for economists. I favor cross-platform solutions, since I view the current near monopoly of the end-user operating system as a momentary historical aberration. <a href="#contact">Suggested changes and additions</a> are welcome. A resource complementary to this page is <a href="http://rfe.org/showCat.php?cat_id=86">RFE’s Software page</a>.</p>
+<p>Last modified: 2025-07-30</p>
+<p>Most recent (GitHub) version: <a href="https://html-preview.github.io/?url=https://github.com/alan-isaac/econpy/blob/master/software4econ.html">https://igit.me/KQmOR</a></p>
+<p><span style="color:red">Caveat lector:</span> The following advice comes without any warrantee whatsoever, and the internet being what it is, link destinations may be highjacked or broken. So do your due diligence. And please, confirm any licensing information with the software copyright holders.</p>
+<p>The following software list is idiosyncratic, but I have tried to make it generally useful for economists. I favor cross-platform solutions. Suggested changes and additions are welcome.</p>
 <div class="small">
-Two requests:
+<strong>Two requests:</strong>
 <ul>
 <li>
 If you use a free and open source software application, please send money to the developers. (Yes, this is an appeal by an economist to your moral sense. Live with it.)
@@ -4256,30 +4252,34 @@ If you use a free and open source software application, please send money to the
 Please read Richard Stallman’s <a href="http://www.gnu.org/philosophy/right-to-read.html">Right to Read article</a>, as well as his <a href="http://www.gnu.org/gnu/manifesto.html">GNU Manifesto</a>. Many people felt Stallman was over-concerned when he wrote this. Events have been proving him prophetic: including ebooks that “time out” and become inaccessible after fixed hours of viewing, and perhaps most famously an ebook version of Alice’s Adventures in Wonderland that forbade reading it aloud. <!--  http://www.planetebook.com/mainpage.asp?webpageid=201 --> You may also wish to visit the <a href="http://www.fsf.org">Free Software Foundation</a>, visit <a href="http://www.opensource.org">OpenSource.Org</a>, and sign any petitions against software patents.
 </li>
 </ul>
-<p>Thank you.</p>
+<p><strong>Thank you.</strong></p>
 </div>
 <section id="text-editors" class="level2">
 <h2 class="anchored" data-anchor-id="text-editors">Text Editors</h2>
-<p>Every programmer needs a good text editor! All other things equal, multi-platform solutions are always preferable.</p>
-<div id="vim">
-<p>I recommend <a href="http://www.vim.org">Vim</a>. It is highly configurable, available on essentially every platform and quite wonderfully designed. On top of all this, it is charityware: you pay nothing for this excellent software, but users are encouraged to make a donation for needy children in Uganda.<br>
-However, many good choice exist, and many prefer the very closely related <a href="https://neovim.io/">NeoVim</a>.</p>
-</div>
+<p>Every programmer needs a good text editor! All other things equal, cross-platform solutions are always preferable.</p>
 <section id="some-cross-platform-editors" class="level3">
 <h3 class="anchored" data-anchor-id="some-cross-platform-editors">Some cross-platform editors:</h3>
+<div id="vim">
+<p>I recommend <a href="http://www.vim.org">Vim</a>. It is highly configurable, available on essentially every platform and quite wonderfully designed. On top of all this, it is charityware: you pay nothing for this excellent software, but users are encouraged to make a donation for needy children in Uganda.<br>
+However, many good choices exist, and many prefer the very closely related <a href="https://neovim.io/">NeoVim</a>, which has the killer feature of Lua scripting.</p>
+</div>
 <p>Mode-based editing rocks! However, it also takes practice. If you choose Vim or NeoVim (recommended!), be sure to do <a href="http://vimdoc.sourceforge.net/htmldoc/usr_01.html#vimtutor">the tutorial</a> (or possibly <a href="https://www.openvim.com/">this online tutorial</a>).</p>
-<div class="boxed">
+<p>Because mode-based editing is so powerful, many other editors provide a Vim-mode. This includes <a href="https://code.visualstudio.com/">Visual Studio Code</a>. Even <a href="https://www.gnu.org/software/emacs/download.html">Emacs</a> provides this, semi-jokingly calling it Evil mode. (Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a>.</p>
+<div style="border: 1px solid black;">
 <p>See <a href="#vimhints">Vim user hints.</a></p>
 </div>
-<p>Python users may want to consider the interesting and powerful <a href="https://docs.microsoft.com/en-us/visualstudio/python/installing-python-support-in-visual-studio?view=vs-2019#visual-studio-2017-and-2019">Python Tools for Visual Studio</a> in <a href="https://code.visualstudio.com/">Visual Studio Code</a>. (There is additionally a Vim editing mode.)</p>
-<p>The elephant in the room is still <a id="emacs" href="http://www.gnu.org/software/emacs/">GNU emacs</a>: big, powerful, and free. (Vincent Goulet offers a <a href="http://vgoulet.act.ulaval.ca/en/ressources/emacs/">modified emacs</a> that is easy to install across platforms and is particularly useful for LaTeX users.) Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a> (but development on that has slowed). Many users will find the somewhat less powerful but much smaller <a href="http://www.bengtl.net/files/mg3a/">mg3a</a> provides sufficient emacs style functionality.</p>
+<p>Python users may want to consider the interesting and powerful <a href="https://docs.microsoft.com/en-us/visualstudio/python/installing-python-support-in-visual-studio?view=vs-2019#visual-studio-2017-and-2019">Python Tools for Visual Studio</a> in (There is additionally a Vim editing mode.)</p>
 <div class="default">
 <p>There are many cross-platform alternatives. See the <a href="https://en.wikipedia.org/wiki/Comparison_of_text_editors">Wikipedia article</a>.</p>
 </div>
 <div class="default">
-<p>Windows users: <br> The NotePad editor is always available as an accessory program, but it is rather limited for serious use. If you like the basic interface, try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL) For pure speed on a Windows platform there is the powerful <a href="http://www.vedit.com/">VEdit</a>. If you can afford it, there is also Lugaru’s <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>, a powerful and fast yet lightweight editior with an extensive emacs-style command set.</p>
+<p>Windows users: <br> The NotePad editor is always available as an accessory program, but it is rather limited for serious use. If you like the basic interface, try the fast and powerful <a href="http://www.scintilla.org/">Scintilla</a>-based <a href="http://notepad-plus-plus.org/">NotePad++</a>. (License: GPL) For pure speed on a Windows platform there is the powerful <a href="https://www.vedit.com/">VEdit</a>. If you can afford it, there is also Lugaru’s <a href="http://www.lugaru.com/lugaru.html">Epsilon</a>, a powerful and fast yet lightweight editior with an extensive emacs-style command set.</p>
 </div>
-<p>Aside: you can still get the <a href="http://ex-vi.sourceforge.net/">traditional vi editor</a>, which has been <a href="http://slashdot.org/article.pl?sid=02/01/24/0146248">free and open source since 2002</a>.</p>
+<p><strong>Historical Aside:</strong> you can still get the <a href="http://ex-vi.sourceforge.net/">traditional vi editor</a>, which has been free and open source since 2002.</p>
+<section id="stream-editors" class="level4">
+<h4 class="anchored" data-anchor-id="stream-editors">Stream Editors</h4>
+<p>The only stream editor I have experience with is <a href="http://www.gnu.org/software/sed/">sed</a>, which is very fast, powerful, and cross platform. (License: GPL) For an introductory tutorial, try <a href="http://www.urc.bl.ac.yu/manuals/progunix/sed.txt">SED: A Non-interactive Text Editor</a>. If you decide to use sed a lot, you may wish to try <a href="https://github.com/aureliojargas/sedsed">sedsed</a>, a Python-based sed debugger.</p>
+</section>
 </section>
 <section id="fonts" class="level3">
 <h3 class="anchored" data-anchor-id="fonts">Fonts</h3>
@@ -4299,8 +4299,8 @@ However, many good choice exist, and many prefer the very closely related <a hre
 <li>DejaVu Sans Mono.</li>
 </ol>
 </section>
-<section id="stix-fonts" class="level4">
-<h4 class="anchored" data-anchor-id="stix-fonts">STIX Fonts</h4>
+<section id="other-fonts" class="level4">
+<h4 class="anchored" data-anchor-id="other-fonts">Other Fonts</h4>
 <p>I must note the wonderful <a href="http://www.stixfonts.org/">Scientific and Technical Information Exchange (STIX)</a> font project. These are “a comprehensive set of fonts that serve the scientific and engineering community”. and are available under a royalty free (and fairly liberal) license. (TeX users should check these out!) The fonts were released in May 2010 and updated in 2016.</p>
 <div class="default">
 Here are MiKTeX installation instructions from Ulrike Fischer:
@@ -4328,8 +4328,10 @@ Activate the stix.map file either in a document with <code>\pdfmapfile{=stix.map
 </section>
 <section id="other-useful-fonts" class="level4">
 <h4 class="anchored" data-anchor-id="other-useful-fonts">Other Useful Fonts</h4>
-<p><a href="http://www.sil.org/~gaultney/gentium/">Gentium Plus</a> is a high-quality FOSS unicode font set with some math-symbol support.</p>
-<p>The <a href="http://www.ctan.org/tex-archive/fonts/arev/doc/fonts/arev/">Arev</a> fonts are designed to be useful for presentations containing math.</p>
+<ul>
+<li><p><a href="http://www.sil.org/~gaultney/gentium/">Gentium Plus</a> is a high-quality FOSS unicode font set with some math-symbol support.</p></li>
+<li><p>The <a href="http://www.ctan.org/tex-archive/fonts/arev/doc/fonts/arev/">Arev</a> fonts are designed to be useful for presentations containing math.</p></li>
+</ul>
 </section>
 </section>
 <section id="spell-checkers" class="level3">
@@ -4376,31 +4378,19 @@ if (nRet==1){
 <p>These days, your favorite dictionaries and thesauri are probably available free online. My favorite crowd-sourced dictionary is <a href>Wiktionary</a>, which is remarkably good, even for etymology. My favorite commercial dictionary is <a href="https://ahdictionary.com/">The American Heritage® Dictionary of the English Language</a>. The DICT Development Group offers a free <a href="http://www.dict.org/">online dictionary</a> that provides a fast, convenient interface to the <a href="https://en.wikipedia.org/wiki/Collaborative_International_Dictionary_of_English">Collaborative International Dictionary of English</a>. In addition, you can submit a query for “yourword” directly as <code>http://www.dict.org/bin/Dict?Form=Dict1&amp;amp;Query=yourword&amp;amp;Strategy=*&amp;amp;Database=*</code>. Windows users can download for free the <a href="http://www.freelang.net/dictionary/">Freelang</a> translation dictionaries.</p>
 <p><a href="http://www.aiksaurus.com/">Aiksaurus</a> is a powerful, free, cross-platform thesaurus. Windows users can download <a href="http://wordweb.info/free/">WordWeb</a> for free.</p>
 </section>
-<section id="stream-editors" class="level3">
-<h3 class="anchored" data-anchor-id="stream-editors">Stream Editors</h3>
-<p>The only stream editor I have experience with is <a href="http://www.gnu.org/software/sed/">sed</a>, which is very fast, powerful, and cross platform. (License: GPL) For an introductory tutorial, try <a href="http://www.urc.bl.ac.yu/manuals/progunix/sed.txt">SED: A Non-interactive Text Editor</a>. If you decide to use sed a lot, you may wish to try <a href="https://github.com/aureliojargas/sedsed">sedsed</a>, and Python-based sed debugger.</p>
 </section>
-</section>
-<section id="producing-scientific-documents" class="level2">
-<h2 class="anchored" data-anchor-id="producing-scientific-documents">Producing Scientific Documents</h2>
-<section id="basic-considerations" class="level3">
-<h3 class="anchored" data-anchor-id="basic-considerations">Basic Considerations</h3>
+<section id="scientific-documents" class="level2">
+<h2 class="anchored" data-anchor-id="scientific-documents">Scientific Documents</h2>
+<section id="basic-production-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="basic-production-considerations">Basic Production Considerations</h3>
 <p>Scientific documents will generally include typeset mathematics. Proper typesetting aids communication, and ISO31/XI therefore provides typesetting standards. (See <a href="http://www.tug.org/TUGboat/Articles/tb18-1/tb54becc.pdf">Claudio Beccari’s discussion</a>, but also the <a href="http://tex.stackexchange.com/questions/14821/whats-the-proper-way-to-typeset-a-differential-operator">thread on StackExchange</a>.)</p>
-<div class="default">
-There are three basic approaches to producing mathematical documents.
-<ol>
-<li>
-WYSIWYG: What you see is what you get. Generally this means you will use a <a href="#wordprocessor">word processor</a> that provides support for mathematics. Your printed document will look very similar to the document view in your working environment. (Which often means it is not typeset very well.)
-</li>
-<li>
-WYSIWYM: What you see is what you mean.<br>
-Generally this means that your working environment will be a user-friendly graphical interface to an underlying typesetting language. Your printed document will look somewhat similar to the document view in your working environment, but substantial formatting will be added to the document when it is typeset.
-</li>
-<li>
-WYSIYM: What you see is your markup. Generally this means that your working environment will be your favorite text editor, and you will create a plain text document that incorporates markup commands to induce formatting and the typesetting of special symbols. Your printed document will look quite different from the document view in your working environment. Substantial formatting will be added to the document when it is typeset, and your markup commands will not be visible in the typeset document.
-</li>
-</ol>
-</div>
+<p>There are three basic approaches to producing mathematical documents.</p>
+<ul>
+<li>WYSIWYG: What you see is what you get. Generally this means you will use a <a href="#wordprocessor">word processor</a> that provides support for mathematics. Your printed document will look very similar to the document view in your working environment. (Which often means it is not typeset very well.)</li>
+<li>WYSIWYM: What you see is what you mean.<br>
+Generally this means that your working environment will be a user-friendly graphical interface to an underlying typesetting language. Your printed document will look somewhat similar to the document view in your working environment, but substantial formatting will be added to the document when it is typeset.</li>
+<li>WYSIYM: What you see is your markup. Generally this means that your working environment will be your favorite text editor, and you will create a plain text document that incorporates markup commands to induce formatting and the typesetting of special symbols. Your printed document will look quite different from the document view in your working environment. Substantial formatting will be added to the document when it is typeset, and your markup commands will not be visible in the typeset document.</li>
+</ul>
 <section id="wysiwyg" class="level4">
 <h4 class="anchored" data-anchor-id="wysiwyg">WYSIWYG</h4>
 <p>A good cross platform solution is <a href="http://www.openoffice.org/">Open Office</a>, which includes the oomath formula editor. <a href="http://www.openoffice.org/">Open Office</a> is free and open source software.</p>
@@ -6240,7 +6230,7 @@ Software for <a href="#openaccess">open access</a> journals and publications.
 <p>Python users can consider the bib4txt component of <a href="https://github.com/dschwilk/bibstuff">bibstuff</a>, which should particularly interest <a href="#rest">reStructuredText</a> users who need bibliographic support. (I recommend you get the <a href="https://github.com/dschwilk/bibstuff">most recent BibStuff</a>.) (BibStuff License: MIT; Language: Python) Chris Putnam’s <a href="http://www.scripps.edu/~cdputnam/software/bibutils/bibutils.html">Bibutils</a> “interconverts between various bibliography formats using a common XML intermediate.” (Bibutils License: GPL; Language: C; binaries are available for many platforms.)</p>
 <p>If you have the DOI for a document, you can use <code>curl</code> to fetch a BibTeX formatted citation. (The <code>curl</code> command-line utility is for fectching information, including files, over the web.) For example, from Windows PowerShell:</p>
 <pre class="shell"><code>curl.exe -LH &quot;Accept: application/x-bibtex&quot; https://doi.org/10.1177/08944393241246280</code></pre>
-<p>Pretty amazing! This uses the DOI Content Negotiation API ot fetch the information from <code>doi.org</code>, who passes the request to CrossRef or DataCite registration agency.</p>
+<p>(To understand this, see the <a href="https://curl.se/docs/manpage.html">curl man page</a>.) Pretty amazing! This uses the DOI Content Negotiation API ot fetch the information from <code>doi.org</code>, who passes the request to <a href="https://www.crossref.org/">CrossRef</a> or DataCite registration agency.</p>
 </section>
 <section id="citation-management-1" class="level5">
 <h5 class="anchored" data-anchor-id="citation-management-1">Citation Management</h5>
