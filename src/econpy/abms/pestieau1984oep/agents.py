@@ -52,8 +52,8 @@ __lastmodified__ = '20070622'
 import random, itertools
 from collections import defaultdict
 from econpy.pytrix import utilities, fmath
-from econpy.abm.utilities import impose_gini
-from econpy.abm.agents import agents001
+from econpy.abms.utilities import impose_gini
+from econpy.abms.agents import agents001
 
 #logging
 import logging
@@ -75,7 +75,7 @@ def sexer_pestieau_poisson(n):  #TODO TODO chk
 	nkidsvec = poisson(2,n)
 	for nkids in nkidsvec:
 		result = 'F'*nkids
-		print result,
+		#print(result)
 		yield result
 
 def sexer_pestieau_123(n):  #TODO TODO chk
@@ -90,7 +90,7 @@ def sexer_pestieau_123(n):  #TODO TODO chk
 			result = 'FF'
 		else:
 			result = 'FFF'
-		print result,
+		print(result)
 		yield result
 
 def sexer_randompairs(n):
@@ -156,13 +156,13 @@ def bequests_blinder(indiv):
 			fshare = fshare/scale
 			boy_gets =  mshare*kids_get
 			girl_gets = fshare*kids_get
-			#print "bg gets" , boy_gets, girl_gets
+			#print("bg gets" , boy_gets, girl_gets)
 		elif Mkids:
 			boy_gets = kids_get/len(Mkids)
-			#print "b gets" , boy_gets
+			#print("b gets" , boy_gets)
 		elif Fkids:
 			girl_gets = kids_get/len(Fkids)
-			#print "g gets" ,  girl_gets
+			#print("g gets" ,  girl_gets)
 		else: #no kids
 			raise NotImplementedError
 		for kid in Mkids:
@@ -450,7 +450,7 @@ class Economy(object):
 		params = self.params
 		script_logger.debug("firm type: %s"%(params.FIRM))
 		return [params.FIRM(economy=self) for i in range(params.N_FIRMS)]
-		print [params.FIRM(economy=self) for i in range(params.N_FIRMS)]
+		#print([params.FIRM(economy=self) for i in range(params.N_FIRMS)])
 	def initialize_firms(self): #TODO unnecessary???
 		'''
 		Note: much of this will look superflous when there is only one firm.
@@ -527,7 +527,7 @@ class Economy(object):
 		Final Gini for individual wealth: %10.2f
 		'''%(self.history['dist'][-1]) )
 		#uncomment to check for number of zeros
-		#print "zeros: %d\t small:%d"%(sum(i==0 for i in indiv_wealths),sum(i<0.5 for i in indiv_wealths))
+		#print("zeros: %d\t small:%d"%(sum(i==0 for i in indiv_wealths),sum(i<0.5 for i in indiv_wealths)))
 		return '\n'.join(report)
 
 class PestieauEconomy(Economy):

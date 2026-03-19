@@ -57,7 +57,7 @@ logging.basicConfig(level=logging.INFO,
 agents_logger = logging.getLogger('agents_logger')
 agents_logger.debug("Enter agents001.py.")
 
-from ...pytrix.utilities import calc_gini
+from ...pytrix.utilities import gini
 
 #################  module specific exceptions  ########################
 
@@ -420,7 +420,7 @@ class Population(deque):
 		This default looks at the distribution across
 		*individuals*, not households. Override to change.
 		"""
-		return calc_gini( indiv.networth for indiv in self.individuals )
+		return gini( indiv.networth for indiv in self.individuals )
 	def evolve(self):  #this will be called each "tick" of the economy
 		"""Return None.  This is where all the work is done,
 		in a way particular to each application.
