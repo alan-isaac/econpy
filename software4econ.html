@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alan G. Isaac">
+<meta name="keywords" content="software, economists, software for economists, editors, text editors, matrix programming, agent-based simulation, agent-based economics, Python, LaTeX, PostScript, Vim, graphics, symbolic mathematics">
+<meta name="description" content="some commonly needed software resources for economists">
 
 <title>software4econ</title>
 <style>
@@ -4094,7 +4096,7 @@ window.Quarto = {
   <li><a href="#optimization" id="toc-optimization" class="nav-link" data-scroll-target="#optimization">Optimization</a></li>
   <li><a href="#visualizing-data" id="toc-visualizing-data" class="nav-link" data-scroll-target="#visualizing-data">Visualizing Data</a></li>
   </ul></li>
-  <li><a href="#symbolic-mathematicscomputer-algebra-systems" id="toc-symbolic-mathematicscomputer-algebra-systems" class="nav-link" data-scroll-target="#symbolic-mathematicscomputer-algebra-systems">Symbolic Mathematics/Computer Algebra Systems</a>
+  <li><a href="#CASs" id="toc-CASs" class="nav-link" data-scroll-target="#CASs">Symbolic Mathematics/Computer Algebra Systems</a>
   <ul class="collapse">
   <li><a href="#commercial-cass" id="toc-commercial-cass" class="nav-link" data-scroll-target="#commercial-cass">Commercial CASs</a></li>
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a></li>
@@ -4145,11 +4147,10 @@ window.Quarto = {
   <li><a href="#project-managers" id="toc-project-managers" class="nav-link" data-scroll-target="#project-managers">Project Managers</a></li>
   <li><a href="#cad" id="toc-cad" class="nav-link" data-scroll-target="#cad">CAD</a></li>
   <li><a href="#desktop-publishing" id="toc-desktop-publishing" class="nav-link" data-scroll-target="#desktop-publishing">Desktop Publishing</a></li>
-  <li><a href="#fax" id="toc-fax" class="nav-link" data-scroll-target="#fax">Fax</a></li>
-  <li><a href="#instant-messaging" id="toc-instant-messaging" class="nav-link" data-scroll-target="#instant-messaging">Instant Messaging</a></li>
   <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a></li>
   <li><a href="#report-generation" id="toc-report-generation" class="nav-link" data-scroll-target="#report-generation">Report Generation</a></li>
   <li><a href="#miscellaneous-office-needs" id="toc-miscellaneous-office-needs" class="nav-link" data-scroll-target="#miscellaneous-office-needs">Miscellaneous Office Needs</a></li>
+  <li><a href="#view-and-manipulate-pdf" id="toc-view-and-manipulate-pdf" class="nav-link" data-scroll-target="#view-and-manipulate-pdf">View and Manipulate PDF</a></li>
   <li><a href="#stuff-for-kids-and-educators" id="toc-stuff-for-kids-and-educators" class="nav-link" data-scroll-target="#stuff-for-kids-and-educators">Stuff for Kids (and Educators)</a></li>
   </ul></li>
   <li><a href="#open-standards" id="toc-open-standards" class="nav-link" data-scroll-target="#open-standards">Open Standards</a>
@@ -4167,8 +4168,6 @@ window.Quarto = {
   <li><a href="#acrobat-hints" id="toc-acrobat-hints" class="nav-link" data-scroll-target="#acrobat-hints">Acrobat hints</a></li>
   <li><a href="#windows-command-shell-hints." id="toc-windows-command-shell-hints." class="nav-link" data-scroll-target="#windows-command-shell-hints.">Windows command shell hints.</a></li>
   <li><a href="#pyx-user-hints." id="toc-pyx-user-hints." class="nav-link" data-scroll-target="#pyx-user-hints.">PyX user hints.</a></li>
-  <li><a href="#miktex-user-hints." id="toc-miktex-user-hints." class="nav-link" data-scroll-target="#miktex-user-hints.">MiKTeX user hints.</a></li>
-  <li><a href="#textpad-user-hints." id="toc-textpad-user-hints." class="nav-link" data-scroll-target="#textpad-user-hints.">TextPad user hints.</a></li>
   <li><a href="#user-hints-mathematica" id="toc-user-hints-mathematica" class="nav-link" data-scroll-target="#user-hints-mathematica">User Hints: Mathematica</a></li>
   <li><a href="#scientific-notebook-and-scientific-word-user-hints" id="toc-scientific-notebook-and-scientific-word-user-hints" class="nav-link" data-scroll-target="#scientific-notebook-and-scientific-word-user-hints">Scientific Notebook and Scientific Word user hints</a></li>
   <li><a href="#subversion-user-hints" id="toc-subversion-user-hints" class="nav-link" data-scroll-target="#subversion-user-hints">Subversion User hints</a></li>
@@ -4182,10 +4181,7 @@ window.Quarto = {
   <li><a href="#latex-user-hints" id="toc-latex-user-hints" class="nav-link" data-scroll-target="#latex-user-hints">LaTeX User hints</a></li>
   <li><a href="#bibtex-user-hints" id="toc-bibtex-user-hints" class="nav-link" data-scroll-target="#bibtex-user-hints">BibTeX User hints</a></li>
   <li><a href="#gnuplot-user-hints" id="toc-gnuplot-user-hints" class="nav-link" data-scroll-target="#gnuplot-user-hints">Gnuplot User hints</a></li>
-  <li><a href="#firefox-hints" id="toc-firefox-hints" class="nav-link" data-scroll-target="#firefox-hints">FireFox hints</a></li>
   <li><a href="#windows-hints" id="toc-windows-hints" class="nav-link" data-scroll-target="#windows-hints">Windows hints</a></li>
-  <li><a href="#opera-hints" id="toc-opera-hints" class="nav-link" data-scroll-target="#opera-hints">Opera hints</a></li>
-  <li><a href="#gretl-hints" id="toc-gretl-hints" class="nav-link" data-scroll-target="#gretl-hints">gretl hints</a></li>
   <li><a href="#latex-hints" id="toc-latex-hints" class="nav-link" data-scroll-target="#latex-hints">LaTeX hints</a></li>
   <li><a href="#unicode-hints" id="toc-unicode-hints" class="nav-link" data-scroll-target="#unicode-hints">Unicode hints</a></li>
   <li><a href="#windows-10-hints" id="toc-windows-10-hints" class="nav-link" data-scroll-target="#windows-10-hints">Windows 10 hints</a></li>
@@ -4204,6 +4200,11 @@ window.Quarto = {
 <div class="quarto-title">
 </div>
 
+<div>
+  <div class="description">
+    some commonly needed software resources for economists
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -4220,24 +4221,18 @@ window.Quarto = {
   </div>
   
 
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>software, economists, software for economists, editors, text editors, matrix programming, agent-based simulation, agent-based economics, Python, LaTeX, PostScript, Vim, graphics, symbolic mathematics</p>
+  </div>
+</div>
 
 </header>
 
 
 <section id="software-for-economists" class="level1">
 <h1>Software for Economists</h1>
-<!--
-   <meta name="Author"
-         content="Alan G. Isaac" />
-   <meta name="Keywords"
-         content="software, economists, software for economists, editors, text editors, matrix programming, agent-based simulation, agent-based economics, Python, LaTeX, PostScript, Vim, graphics, symbolic mathematics" />
-   <meta name="Description"
-         content="Software resources for economists." />
--->
-<!-- current location as of 2023-07-19:
-     source: https://github.com/alan-isaac/econpy/blob/master/software4econ.html
-<a href="">CLICK HERE FOR THE MOST RECENT VERSION on GitHub.</a>
--->
 <p>Last modified: 2025-07-30</p>
 <p>Most recent (GitHub) version: <a href="https://html-preview.github.io/?url=https://github.com/alan-isaac/econpy/blob/master/software4econ.html">https://igit.me/KQmOR</a></p>
 <p><span style="color:red">Caveat lector:</span> The following advice comes without any warrantee whatsoever, and the internet being what it is, link destinations may be highjacked or broken. So do your due diligence. And please, confirm any licensing information with the software copyright holders.</p>
@@ -4264,7 +4259,7 @@ Please read Richard Stallman’s <a href="http://www.gnu.org/philosophy/right-to
 However, many good choices exist, and many prefer the very closely related <a href="https://neovim.io/">NeoVim</a>, which has the killer feature of Lua scripting.</p>
 </div>
 <p>Mode-based editing rocks! However, it also takes practice. If you choose Vim or NeoVim (recommended!), be sure to do <a href="http://vimdoc.sourceforge.net/htmldoc/usr_01.html#vimtutor">the tutorial</a> (or possibly <a href="https://www.openvim.com/">this online tutorial</a>).</p>
-<p>Because mode-based editing is so powerful, many other editors provide a Vim-mode. This includes <a href="https://code.visualstudio.com/">Visual Studio Code</a>. Even <a href="https://www.gnu.org/software/emacs/download.html">Emacs</a> provides this, semi-jokingly calling it Evil mode. (Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a>.</p>
+<p>Because mode-based editing is so powerful, many other editors provide a Vim-mode. This includes <a href="https://code.visualstudio.com/">Visual Studio Code</a>. Even <a href="https://www.gnu.org/software/emacs/download.html">Emacs</a> provides this, semi-jokingly calling it Evil mode. (Some prefer the closely related <a href="http://www.xemacs.org/index.html">XEmacs</a>.)</p>
 <div style="border: 1px solid black;">
 <p>See <a href="#vimhints">Vim user hints.</a></p>
 </div>
@@ -4404,35 +4399,24 @@ Generally this means that your working environment will be a user-friendly graph
 <section id="latexgui" class="level4">
 <h4 class="anchored" data-anchor-id="latexgui">LaTeX Interfaces</h4>
 <p>The most popular WYSIWYM environments are interfaces to an underlying <a href="#TEX">LaTeX</a> document. In such an environment, you will see for example the glyph β instead of the LaTeX code <code>\beta</code>.</p>
-<p id="LyX">
-The only cross-platform implementation I know of is <a href="http://www.lyx.org">LyX</a>. Additionally, LyX can interface with the <a href="#Maxima">Maxima</a> computer algebra system. (Just add the path to Maxima in Tools -&gt; Preferences -&gt; Paths.)
-</p>
-<p>An interesting alternative is <a href="http://www.texmacs.org/index.php3">TeXmacs</a>.</p>
-<p>Windows users appear to have a number of commercial choices, the most popular of which seems to be <a href="http://www.mackichan.com/">Scientific Notebook</a> and <a href="https://github.com/ScientificWord/sciword">Scientific Word</a>. (Scientific Notebook is not marketed as a LaTeX front end, but as of 2004 it still saves in LaTeX format and with a tiny amount of editing can be used that way.) See <a href="#sw-hints">Scientific Word user hints</a>.</p>
-<p><a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents, with some support for both LaTeX and MathML export.</p>
-<p>TeXmacs connects to <a href="https://www.texmacs.org/tmweb/plugins/cas.en.html">several computer algebra systems</a>.</p>
-<p id="mathmlgui">
-In the WYSIWYM world, MathML is an obvious alternative to the LaTeX as an underlying document format. (In principle, this should not matter much to a user, who should be able to work in the GUI environment and not worry much about the underlying format.)
-</p>
+<p>The only cross-platform implementation I know of is <a href="http://www.lyx.org">LyX</a>. Additionally, LyX can interface with the Maxima <a href="#CASs">computer algebra system</a>. (Just add the path to Maxima in <strong>Tools » Preferences » Paths</strong>.)</p>
+<p>An interesting alternative is <a href="http://www.texmacs.org/index.php3">TeXmacs</a>. TeXmacs connects to <a href="https://www.texmacs.org/tmweb/plugins/cas.en.html">several computer algebra systems</a>.</p>
+<p>Windows users appear to have a number of commercial choices, the most popular of which seems to be <a href="https://github.com/ScientificWord/sciword">Scientific Word</a>. (Scientific Notebook is not marketed as a LaTeX front end, but as of 2004 it still saves in LaTeX format and with a tiny amount of editing can be used that way.)</p>
+<p>As a commercial option, <a href="http://www.wolfram.com/">Mathematica</a> notebooks can also be used as an WYSIWYM interface for mathematical documents, with some support for LaTeX, Markdow, and MathML export.</p>
 </section>
 <section id="wysiym" class="level4">
 <h4 class="anchored" data-anchor-id="wysiym">WYSIYM</h4>
 <p>The most powerful way to produce mathematics is to learn a markup language for type-setting mathematics. In this case, what you see is your markup (WYSIYM). This also provides a big advantage for the process of writing: you get to use your favorite <a href="#EDITORS">text editor</a> and thereby get access to powerful editing facilities. The most popular choice is <a href="#TEX">LaTeX</a>, which is almost the universal WYSIYM choice among mathematicians, physicists, and economists. It is also my personal choice. An alternative is <a href="http://lout.sourceforge.net/">Lout</a>, which is much less widely used but has some strong advocates. A full Lout installation is remarkably small: the download is less than 2Mb. The math in a Lout source document looks a lot like math in the <a href="http://wolfram.schneider.org/bsd/7thEdManVol2/eqn/eqn.html">EQN</a> language. (Speaking of which, some people insist that EQN and <a href="http://www.gnu.org/software/groff/groff.html">GROFF</a> remain the right way to typeset mathematics.)</p>
-<p>If you compile your LaTeX documents with LuaLaTeX, you can use the <tt>unicode-math</tt> package. This allows you to enter math as UTF-8 characters, in addition to using the usual LaTeX codes. This produces much more readable documents, but only a few fonts have substantial support for the Unicode math characters. (The <a href="https://ctan.org/pkg/unicode-math">unicode-math documentation</a> includes a list of fonts, including <a href="https://ctan.org/pkg/tex-gyre-math-pagella">TeX Gyre Pagelle Math</a> and <a href="https://ctan.org/pkg/asana-math">Asana Math</a>.)</p>
+<p>If you compile your LaTeX documents with LuaLaTeX, you can use the <code>unicode-math</code> package. This allows you to enter math as UTF-8 characters, in addition to using the usual LaTeX codes. This produces much more readable documents, but only a few fonts have substantial support for the Unicode math characters. (The <a href="https://ctan.org/pkg/unicode-math">unicode-math documentation</a> includes a list of fonts, including <a href="https://ctan.org/pkg/tex-gyre-math-pagella">TeX Gyre Pagelle Math</a> and <a href="https://ctan.org/pkg/asana-math">Asana Math</a>.)</p>
 </section>
 </section>
 <section id="meta-formats" class="level3">
 <h3 class="anchored" data-anchor-id="meta-formats">Meta Formats</h3>
-<p>There are a number of efforts to provide a meta-format from which both LaTeX and XHTML/MathML documents can be generated. The most notable and currently developed is probably <a href="http://www.albany.edu/~hammond/gellmu/">GELLMU</a>, although <a href="http://tbookdtd.sourceforge.net/">tbook</a> is also interesting. I like the much simpler <a href="http://docutils.sourceforge.net/rst.html">restructured text (reST)</a>, which allows inline and display math in LaTeX format. (See my <a href="#reST_hints">reST hints</a>.) Citation handling is currently (2005) weak, but <a href="http://code.google.com/p/bibstuff/">bibstuff</a> provides some basic capabilities. Math support is improving. It may also be worth trying reST plus Mozilla’s itex for web math. <!-- add link to my document --> Other metaformat options include: <a href="http://www.maplefish.com/todd/aft.html">Almost Free Text (AFT)</a>, <a href="http://daringfireball.net/projects/markdown/">MarkDown</a>, <a href="http://hobix.com/textile/">TextTile</a>, and <a href="http://www.valdemar.net/~erik/setext/">setext</a>.</p>
+<p>There are a number of efforts to provide a meta-format from which both LaTeX and XHTML/MathML documents can be generated. The most widely recognized options are probably Markdown and ASCIIdoc. A particularly interesting and powerful option is Quarto, which leverages pandoc for an extended Markdown synatx that nicely supports math, figures, tables, and citations. Strongly recommended.</p>
 <section id="restructuredtext" class="level4">
 <h4 class="anchored" data-anchor-id="restructuredtext">reStructuredText</h4>
-<p>reST to HTML: just use the rst2html writer. If you have included math in the document, use the rst2mathml writer.</p>
-<section id="rest-to-pdf" class="level5">
-<h5 class="anchored" data-anchor-id="rest-to-pdf">reST to PDF</h5>
-<p>The usual way of creating PDF from an reST document is the following: use the rst2latex writer (or the <a href="http://docutils.sourceforge.net/sandbox/jensj/latex_math/tools/rst2latexmath.py">rst2latexmath</a> writer) to convert the document to LaTeX format, and then use pdftex to produce the PDF.</p>
-<p><a href="http://code.google.com/p/rst2pdf/">rst2pdf</a> produces PDF directly using the <a href="#reportlab">ReportLab</a> library. Good math handling via Matplotlib’s mathtext!</p>
-<p>You can also produce HTML with rst2html and then convert it. Using Adobe Acrobat can work moderately well, either by printing from a browser or by directly importing the HTML document. Alternatively, you can use the <a href="http://www.htmltopdf.org/">xhtml2pdf</a> converter (License: GPL or commercial) or the <a href="http://en.wikipedia.org/wiki/Prince_XML">Prince</a> XML converter.</p>
-</section>
+<p><a href="http://docutils.sourceforge.net/rst.html">restructured text (reST)</a> nicely supports math, figures, and tables. However, its lack of real citation support is often a deal breaker. (To add some simple citation support, see <a href="http://code.google.com/p/bibstuff/">bibstuff</a>.)</p>
+<p>For HTML output, use the rst2html5 writer. For PDF output, use the rst2latex writer to produce LaTeX, and then use pdflatex (or luatex) to produce the PDF. (Alternatively, <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a> produces PDF directly using the <a href="#reportlab">ReportLab</a> library.)</p>
 </section>
 </section>
 <section id="latex-and-related-software" class="level3">
@@ -4546,7 +4530,7 @@ Ian Hutchinson’s <a href="http://hutchinson.belmont.ma.us/tth/"> TtH translato
 Eitan Gurari’s <a href="http://www.cis.ohio-state.edu/~gurari/TeX4ht/mn.html">tex4ht</a> is supposed to be able to translate LaTeX into MathML. Installation is rumored to be difficult unless you carefully follow good directions, like <a href="http://facweb.knowlton.ohio-state.edu/pviton/support/tex4ht.html">Philip Viton’s directions</a>.
 </li>
 <li>
-Philip A. Viton’s WinNT version of Peter Wilson’s <a href="http://archadserver.arch.ohio-state.edu/crp/files/index.htm#ltx2x"> ltx2x</a>, for detex’ing and html’ing your documents, with some extensions.
+Philip A. Viton’s WinNT version of Peter Wilson’s <a href="http://archadserver.arch.ohio-state.edu/crp/files/index.htm#ltx2x">ltx2x</a>, for detex’ing and html’ing your documents, with some extensions.
 </li>
 <li>
 Steve Mayer’s <a href="http://www.mayer.dial.pipex.com/tex.htm">TeX Converter</a> is a Windows front-end for using Hevea, Tth, Tex4ht, and Texify to convert <b>T<sub>E</sub>X</b> files. (A recent upgrade allows Hevea to use multiple Scientific Word style files, excluded files (eg tcilatex.tex), saveable configurations and text/info output.)
@@ -5083,15 +5067,11 @@ SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/
 <p><a href="http://www.info.uni-karlsruhe.de/~sather/index_engl.html">Sather-K</a> is Eiffel based but adds innovations (and is free).</p>
 <p><a href="http://www.object-tools.com/">Visual Eiffel Lite</a> is free. Documentation is in <a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">Eiffel: Object Oriented Programming</a></p>
 </section>
-<section id="other-useful-languages" class="level4">
-<h4 class="anchored" data-anchor-id="other-useful-languages">Other Useful Languages</h4>
-<p><a href="#postscript">PostScript</a> is discussed under <a href="#drawlang">Drawing Languages</a>.</p>
-</section>
 </section>
 </section>
 <section id="other-useful-statistical-software" class="level2">
 <h2 class="anchored" data-anchor-id="other-useful-statistical-software">Other Useful Statistical Software</h2>
-<p>See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a> and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman </a>. (The latter offers some package comparisons.) Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page, <a href="http://www.statistical.org/">Spatial Statistical Resources</a>, the <a href="https://eml.berkeley.edu/elsa">Econometrics Laboratory Software Archive (ELSA)</a> at Berkeley, and many others.</p>
+<p>See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a> and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman</a>. (The latter offers some package comparisons.) Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page, <a href="http://www.statistical.org/">Spatial Statistical Resources</a>, the <a href="https://eml.berkeley.edu/elsa">Econometrics Laboratory Software Archive (ELSA)</a> at Berkeley, and many others.</p>
 <ul>
 <li>
 <a href="http://www.jmulti.de/">JMulTi</a> “is an interactive software designed for univariate and multivariate time series analysis. It has a Java graphical user interface that uses an external engine for statistical computations.” (License: GPL) (The only external engine support I know of is GAUSS, but presumably this could be adapted to e.g. NumPy.)
@@ -5106,7 +5086,7 @@ R is a free and open source clone of <a href="https://edelivery.tibco.com/storef
 <a href="http://www.gnu.org/software/pspp/">Gnu PSPP</a> (formerly Fiasco) is a FOSS clone (roughly) of SPSS. It interprets commands in the SPSS language and produces tabular output in ASCII, HTML, or PostScript format. PSPP already supports a substantial subset of SPSS’s transformation language. Its statistical procedure support is growing.
 </li>
 <li>
-Another useful resource is the <a href="http://www.uni-frankfurt.de/~stst/scproge.html"> scientific software list</a> on the <a href="http://www.scientificweb.com">Scientific Web</a>
+Another useful resource is the <a href="http://www.uni-frankfurt.de/~stst/scproge.html">scientific software list</a> on the <a href="http://www.scientificweb.com">Scientific Web</a>
 </li>
 <li>
 Here is a different approach for Mathematica users: <a href="http://www.mathstatica.com/software/">mathStatica</a> is a high precision math/stat package that uses Mathematica as its computational engine.
@@ -5164,7 +5144,7 @@ The <a href="http://cars9.uchicago.edu/software/python/index.html">GSECARS libra
 Malcolm Sambridge’s <a href="http://wwwrses.anu.edu.au/~malcolm/na/na.html">neighbourhood algorithm code</a> implements a two-stage numerical procedure for non-linear geophysical inverse problems that has applications as a direct search technique for global optimization.
 </li>
 <li>
-Visit the <a href="http://www.netlib.org/">Netlib Repository</a> for the <a href="http://www.netlib.org/opt/"> Optimization</a> code and the <a href="http://www.netlib.org/toms/index.html">ACM Collected Algorithms</a>.
+Visit the <a href="http://www.netlib.org/">Netlib Repository</a> for the <a href="http://www.netlib.org/opt/">Optimization</a> code and the <a href="http://www.netlib.org/toms/index.html">ACM Collected Algorithms</a>.
 </li>
 <li>
 <a href="http://www.coin-or.org/">COIN-OR</a> offers a variety of open source optimization applications.
@@ -5207,8 +5187,8 @@ Dahl and Vandenberghe’s <a href="http://cvxopt.org/">CVXOPT (convex optimizati
 <p><a href="http://www.theusrus.de/Mondrian/">Modrian</a> “is a statistical data-visualization system written in JAVA.” Good for categorical data and for maps. Plots are interactive. There is a <a href="https://www.jstatsoft.org/article/view/v007i11">supporting paper</a> by Martin Theus.</p>
 </section>
 </section>
-<section id="symbolic-mathematicscomputer-algebra-systems" class="level2">
-<h2 class="anchored" data-anchor-id="symbolic-mathematicscomputer-algebra-systems">Symbolic Mathematics/Computer Algebra Systems</h2>
+<section id="CASs" class="level2">
+<h2 class="anchored" data-anchor-id="CASs">Symbolic Mathematics/Computer Algebra Systems</h2>
 <p>Find a more list of Computer Algebra Systems (CASs) on <a href="https://en.wikipedia.org/wiki/List_of_computer_algebra_systems">Wikipedia</a>. This section discusses only a few particularly interesting applications. For most users, commercial CASs will be the right choice, but some interesting FOSS solutions exist.</p>
 <ul>
 <li>
@@ -5319,7 +5299,7 @@ See the <a href="#emhints">Thunderbird hints</a> and <a href="#emhints">Alpine h
 <p>For writing math, nothing beats <a href="#tex">LaTeX</a>. However, you can use <a href="#reST">reStructuredText</a> with writers that support math to produce both LaTeX and XHTML MathML.</p>
 <section id="html" class="level4">
 <h4 class="anchored" data-anchor-id="html">HTML</h4>
-<p>Writing HTML is easy. <!-- <a href="http://www.american.edu/econ/notes/html.htm">learn the basics</a>.
+<p>Writing HTML is easy. <!-- [learn the basics](http://www.american.edu/econ/notes/html.htm).
 --> Conversion to other formats is possible. For example, ost word processors will read HTML and automatically convert to their own format. You can also <a href="http://www.tdb.uu.se/~jan/html2ps.html">convert HTML to PostScript</a> (if you have access to Perl).</p>
 <p>After learning a few HTML basics, you can learn much more from the materials at the <a href="http://www.w3c.org">World Wide Web Consortium <acronym>W3C</acronym>)</a>. Most of the time you should be able to use <a href="http://www.w3.org/TR/xhtml-basic/">XHTML Basic</a> and <a href="http://www.w3.org/TR/REC-CSS1">Cascading Style Sheets (<acronym>CSS</acronym>)</a>. Here is some <a href="http://www.w3.org/Style/CSS/">CSS Background</a>, and the wonderful <a href="http://www.meyerweb.com/eric/books/css-progref/">chapter 1</a> of Cascading Style Sheets 2.0 Programmer’s Reference by Eric A. Meyer. For more information and links, go to the <a href="http://www.w3.org/MarkUp/#recommendations">HyperText Markup Language (HTML) Homepage</a>. Some authors may like to see the <a href="http://woodworm.cs.uml.edu/~rprice/15445/15445.html">ISO standard</a> as well.</p>
 <p>All modern Word Processors can export their documents as HTML: unfortunately, they often produce pretty bad HTML. You can get much better results with some of the HTML editors, such as the web development suite offered free by <a href="http://www.evrsoft.com/download/">Evrsoft</a></p>
@@ -5334,10 +5314,10 @@ There are very good tutorials at <a href="http://www.w3schools.com/">HTML School
 <b>Validate your code!</b> Try the <a href="http://validator.w3.org/">W3C HTML Validation Service</a>. Also, the <a href="http://www.htmlhelp.org/tools/validator/">WDG Validator</a> has fans because i. it validates your HTML pages without requiring a DTD, and it can ``spider’’ an entire site (validating up to 100 pages). You can overpaste the DTD if it isn’t the one you want. You can also check your Cascading Style Sheets using W3C’s <a href="http://jigsaw.w3.org/css-validator/">CSS Validation Service</a> or HTML Help’s <a href="http://htmlhelp.org/tools/csscheck/">CSS validator</a>, which will also warns of possible usability problems with your style sheets. Just paste the CSS code or the URL of the style sheet into a field. Finallay, there is also a highly rated commercial validator: <a href="http://www.htmlvalidator.com/">CSE HTML Validator</a>.
 </li>
 <li>
-<a href="http://www.htmlhelp.com/">The Web Design Group </a>tutorials, references, FAQs
+<a href="http://www.htmlhelp.com/">The Web Design Group</a>tutorials, references, FAQs
 </li>
 <li>
-<a href="news:comp.infosystems.www.authoring.html">Usenet HTML discussion newsgroup </a>
+<a href="news:comp.infosystems.www.authoring.html">Usenet HTML discussion newsgroup</a>
 </li>
 <li>
 Look at <a href="http://www.w3.org/TR/REC-html40/index/elements.html">the index of html elements</a>, and <a href="http://www.w3.org/TR/REC-html40/index/attributes.html">the index for attributes</a>, and <a href="http://www.w3.org/TR/REC-CSS1">the CSS1 spec</a>. (All those pointers would have been easy to locate from <a href="http://css.nu/faq/ciwas-mFAQ.html">the FAQ</a>.)
@@ -5619,7 +5599,7 @@ Glenn Reid’s <em>PostScript language program design</em>, also known as the Gr
 <section id="scalable-vector-graphics" class="level4">
 <h4 class="anchored" data-anchor-id="scalable-vector-graphics">Scalable Vector Graphics</h4>
 <p><acronym class="help" title="Scalable Vector Graphics">SVG</acronym> <br> This popular format for web graphics can be useful when you need vector graphics and/or animation. It was supposed to be possible to <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">embed SVG in PDF</a>, and for a while Adboe worked actively on an SVG viewer (which is <a href="http://www.adobe.com/devnet/svg/adobe-svg-viewer-download-area.html">still available</a>). This seems to have stalled, and indeed further development of the SVG standard unfortunately seems to have stalled. For extensive SVG manipulation and generation tools, see <a href="http://xmlgraphics.apache.org/batik/">Batik</a> (language: Java). An increasing number of graphics languages offer an SVG backend.</p>
-<p><a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is a royalty free vector graphics standard for the Web, and it is a powerful animation format. (If you have simple, static graphics to produce, you might write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.) <br> One of many nice things about SVG is that it can be embedded into PDF, animations and all! (See this <a href="http://www.carto.net/papers/svg/us_population/us_population.pdf">very cool example</a>. Here is a <a href="http://www.kevlindev.com/utilities/">perl script</a>. Here is a <a href="http://www.tu-harburg.de/parallel/koehnlein/privat/SVGtoPDF.java">Java converter</a>. Here is a <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">Python script</a>. (If you can find Leonard Rosenthol’s Acrobat plug-in, let me know. It seems to have disappeared.)</p>
+<p><a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> is a royalty free vector graphics standard for the Web, and it is a powerful animation format. (If you have simple, static graphics to produce, you might write them in PostScript and then translate using <a href="http://www.geocities.com/wglunz/pstoedit/">pstoedit</a>.) <br> One of many nice things about SVG is that it can be embedded into PDF, animations and all! (See this <a href="http://www.carto.net/papers/svg/us_population/us_population.pdf">very cool example</a>.) Here is a <a href="http://www.kevlindev.com/utilities/">perl script</a>. Here is a <a href="http://www.tu-harburg.de/parallel/koehnlein/privat/SVGtoPDF.java">Java converter</a>. Here is a <a href="http://jan.kollhof.net/projects/svg/svgpdf/index.xhtml">Python script</a>. (If you can find Leonard Rosenthol’s Acrobat plug-in, let me know. It seems to have disappeared.)</p>
 <p><br> Another nice thing is that you can <a href="http://surguy.net/articles/client-side-svg.xml">move image generation to the client side</a>.</p>
 <p>Browser support for SVG is improving but advanced features may be missing. Check your target browser. (You may find some useful information on <a href="https://en.wikipedia.org/wiki/Comparison_of_layout_engines_(Scalable_Vector_Graphics)">Wikipedia</a>.)</p>
 <p>Curren Kelleher offers <a href="https://www.youtube.com/watch?v=xkBheRZTkaw">an extensive tutorial on data visualization using SVG (via D3)</a>. The tutorial uses <a href="https://vizhub.com/">VizHub</a> (MIT license).</p>
@@ -5633,8 +5613,7 @@ Glenn Reid’s <em>PostScript language program design</em>, also known as the Gr
 <h4 class="anchored" data-anchor-id="d-plotting">3D Plotting</h4>
 <p>3D plotting: For nice, accurate surface plots, there is probably no simpler solution than <a href="#gnuplot">gnuplot</a>. The <a href="http://code.google.com/p/sympy/wiki/PlottingModule">SymPy plotting module</a> is very interesting. <a href="http://qwtplot3d.sourceforge.net/">QwtPlot3D</a> appears very powerful, and <a href="http://pyqwt.sourceforge.net/">PyQwt3D</a> provides bindings for Python users who wish to produce scientific 3D plots. (Now supports NumPy arrays.). Other possibilities include <a href="http://www.vpython.org/">Visual Python</a> and <a href="http://cgkit.sourceforge.net/">Python Computer Graphics Kit</a>. Also, <a href="http://www.opendx.org/">OpenDX</a> looks like a very powerful open source implementation of the IBM Data Explorer (DX), and there is also a <a href="http://people.freebsd.org/~rhh/py-opendx/">Python binding</a>. <a href="http://www.llnl.gov/visit/home.html">VisIt</a> looks to be an extremely powerful way to produce 3D animations.</p>
 <p id="VTK">
-</p><p>The <a href="http://www.vtk.org/">Visualization Toolkit (VTK)</a> “software system for 3D computer graphics, image processing, and visualization” consisting of “a C++ class library, and several interpreted interface layers including Tcl/Tk, Java, and Python.” (License: BSD-like, but containing some patented technology.) <br> Hint: Find yourself a good interface to VTK. VTK provides wrappers for Python, Tcl, and Java, but the wrappers resemble VTK more than the supported language. Python users may like <a href="#MayaVi">MayaVi</a>, but this still requires VTK knowledge. For true ease of use, consider Enthought’s <a href="http://gael-varoquaux.info/physics/slides_Scipy2007.pdf">mlab</a> Python framework for access and manipulation of MayaVi2 objects. (Also note that <a href="http://cens.ioc.ee/projects/pyvtk/">PyVTK</a> can write VTK files from <a href="#numpy">NumPy</a> data.<br>
-<a href="http://www.enthought.com/enthought/wiki/TVTK">TVTK</a> provides a powerful and “Pythonic” interface to the <a href="http://www.vtk.org/">Visualization Toolkit</a>. With some feature resemblance to <a href="#MayaVi">MayaVi</a>, the possibly more powerful <a href="http://cens.ioc.ee/projects/pyvtk/">Paraview</a> is written in Tcl/Tk rather than Python.</p>
+</p><p>The <a href="http://www.vtk.org/">Visualization Toolkit (VTK)</a> “software system for 3D computer graphics, image processing, and visualization” consisting of “a C++ class library, and several interpreted interface layers including Tcl/Tk, Java, and Python.” (License: BSD-like, but containing some patented technology.) <br> Hint: Find yourself a good interface to VTK. VTK provides wrappers for Python, Tcl, and Java, but the wrappers resemble VTK more than the supported language. Python users may like <a href="#MayaVi">MayaVi</a>, but this still requires VTK knowledge. For true ease of use, consider Enthought’s <a href="http://gael-varoquaux.info/physics/slides_Scipy2007.pdf">mlab</a> Python framework for access and manipulation of MayaVi2 objects. (Also note that <a href="http://cens.ioc.ee/projects/pyvtk/">PyVTK</a> can write VTK files from <a href="#numpy">NumPy</a> data.) <a href="http://www.enthought.com/enthought/wiki/TVTK">TVTK</a> provides a powerful and “Pythonic” interface to the <a href="http://www.vtk.org/">Visualization Toolkit</a>. With some feature resemblance to <a href="#MayaVi">MayaVi</a>, the possibly more powerful <a href="http://cens.ioc.ee/projects/pyvtk/">Paraview</a> is written in Tcl/Tk rather than Python.</p>
 <p>More 3D plotting solutions:</p>
 <ul>
 <li>
@@ -5954,7 +5933,7 @@ Mac and iPad users should look at <a href="https://github.com/graphsketcher/Grap
 For Windows users, WinPlot and Wingeom are free drawing programs. (License: unknown; not open source.) <a href="http://math.exeter.edu/rparris/winplot.html">WinPlot</a>, is a free mathematical package for plotting in two or three dimensions. (There is a <a href="http://faculty.matcmadison.edu/alehnen/winptut/winpltut.htm">tutorial</a>.) For precise geometric drawings there is also <a href="http://math.exeter.edu/rparris/wingeom.html">Wingeom</a>.
 </li>
 <li>
-<a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>. There is a <a href="http://dia-installer.sourceforge.net">Windows installer</a>. (If you are interested in Dia’s UML capabilities, you might also like to look at the <a href="#uml">UML resources (below)</a>.
+<a href="http://live.gnome.org/Dia">Dia</a> is a powerful diagramming software that saves as XML and exports <acronym class="help" title="Scalable Vector Graphics">SVG</acronym> and <acronym class="help" title="Encapsulated PostScript">EPS</acronym>. There is a <a href="http://dia-installer.sourceforge.net">Windows installer</a>. (If you are interested in Dia’s UML capabilities, you might also like to look at the <a href="#uml">UML resources (below)</a>.)
 </li>
 <li>
 <a href="http://sodipodi.sourceforge.net/">Sodipodi</a> is a still young but promising open source vector drawing program.
@@ -6154,7 +6133,7 @@ Software for <a href="#openaccess">open access</a> journals and publications.
 </section>
 <section id="open-access" class="level3">
 <h3 class="anchored" data-anchor-id="open-access">Open Access</h3>
-<p><a href="http://www.soros.org/openaccess/oajguides/html/business_planning.htm"> Planning an open access journal</a> (business models, tips, etc.). Software to create and manage online open access repositories for articles: <a href="http://software.eprints.org">Eprints </a> (from Southampton University, perl); <a href="http://www.dspace.org">DSpace </a> (from MIT, java); <a href="http://cdsware.cern.ch">CDSWare </a> (from CERN, python); <a href="http://www.fedora.info">FEDORA </a> (from Cornell and U. of Virginia, java). Also: <a href="http://www.copernicus.org/COPERNICUS/publications/copernicus_strategies.html"> Copernicus</a> is a company specializing in the publication of open access journals.</p>
+<p><a href="http://www.soros.org/openaccess/oajguides/html/business_planning.htm"> Planning an open access journal</a> (business models, tips, etc.). Software to create and manage online open access repositories for articles: <a href="http://software.eprints.org">Eprints</a> (from Southampton University, perl); <a href="http://www.dspace.org">DSpace</a> (from MIT, java); <a href="http://cdsware.cern.ch">CDSWare</a> (from CERN, python); <a href="http://www.fedora.info">FEDORA</a> (from Cornell and U. of Virginia, java). Also: <a href="http://www.copernicus.org/COPERNICUS/publications/copernicus_strategies.html"> Copernicus</a> is a company specializing in the publication of open access journals.</p>
 </section>
 <section id="fun-useful-and-open-hardware" class="level3">
 <h3 class="anchored" data-anchor-id="fun-useful-and-open-hardware">Fun, Useful, and Open Hardware</h3>
@@ -6236,48 +6215,36 @@ Software for <a href="#openaccess">open access</a> journals and publications.
 <h5 class="anchored" data-anchor-id="citation-management-1">Citation Management</h5>
 <p>The current choice for citation management appears to be <a href="http://biblatex-biber.sourceforge.net/">Biber+Biblatex</a>. (Other possibilities are discussed below.) The traditional choice for citation management is <a href="#bibtex">BibTeX</a>. (See the <a href="#bibtexhints">BibTeX user hints</a>.)</p>
 <p>Here is how to transition from the traditional Bibtex with natbib to the more modern Biber with biblatex. (If you have not been using <code>natbib</code>, you can leave out that option.) After changing your LaTeX document as indicated below and compiling it with <code>pdflatex</code> as usual, run <code>biber</code> on the document’s basename (instead of using Bibtex).</p>
-<pre>\documentclass{article}
-%\usepackage{natbib} %REMOVE natbib package
-%ADD biblatex package (with Biber backend)
-\usepackage[
-  backend=biber,
-  style=authoryear-comp,
-  natbib=true,
-  sortlocale=en_US
-]{biblatex}
-%ADD .bib files (one by one, in preamble)
-\addbibresource{mybib.bib}
-\begin{document}
-Lorem ipsum dolor \dots
-\printbibliography %ADD printbibliography command
-%REMOVE old bibliography commands
-%\bibliographystyle{mystyle}
-%\bibliography{mybib}
-\end{document}
-</pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>{<span class="ex">article</span>}</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">%\usepackage{natbib} %REMOVE natbib package</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">%ADD biblatex package (with Biber backend)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  backend=biber,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  style=authoryear-comp,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  natbib=true,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  sortlocale=en_US</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>]{<span class="ex">biblatex</span>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">%ADD .bib files (one by one, in preamble)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\addbibresource</span>{mybib.bib}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>Lorem ipsum dolor <span class="fu">\dots</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">\printbibliography</span> <span class="co">%ADD printbibliography command</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">%REMOVE old bibliography commands</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">%\bibliographystyle{mystyle}</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">%\bibliography{mybib}</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">document</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In the background, the choice of the <code>biber</code> back end for <code>biblatex</code> will lead to to the creation of a <code>.bcf</code> file, which <code>biber</code> operates on. But you should not need to know about this unless choose to pass to <code>biber</code> the full filename (basename + <code>.bcf</code>) instead of just the basename. In your document, you will need to keep the <code>natbib</code> option to <code>biblatex</code> as long as you use <code>natbib</code> style citation commands. Or you can replace all your <code>citet</code> and <code>citep</code> commands with <code>textcite</code> and <code>parencite</code> commands.</p>
 <ul>
-<li>
-<a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX/Biblatex databases (Language: Java 1.5+. License: GPL.) Recommended. You can directly use the web version. The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a> also includes very simple installation instructions.
-</li>
-<li>
-<a href="http://pybtex.sourceforge.net/">Pybtex</a> is a Python implementation of BibTeX. Provides translation across formats, including a nice YAML format. (License: GPL, Language: Python)
-</li>
-<li>
-An interesting alternative is <a href="http://www.cs.cornell.edu/people/egs/crosstex/faq.php">CrossTeX</a> (License: GPL; dependencies: <a href="http://www.python.org">Python</a>, <a href="http://www.dabeaz.com/ply/">PLY</a>)
-</li>
-<li>
-If you need to hack a BibTeX style, you will need <a href="http://www.fz-rossendorf.de/FVTK/latex/doc/bibtex/base/btxhak.pdf">btxhak</a> or the <a href="http://www.arch.ohio-state.edu/crp/faculty/pviton/support/custom-bib.html">Custom-Bib</a> package.
-</li>
-<li>
-Economics relevant <a href="http://tug.ctan.org/tex-archive/biblio/bibtex/contrib/"> BibTeX Contributions</a>. (Note that generally you can use the .bst files with natbib.sty.
-</li>
-<!-- access problem -->
+<li><a href="https://help.ubuntu.com/community/JabRef">JabRef</a> is a cross-platform GUI for managing BibTeX/Biblatex databases (Language: Java 1.5+. License: GPL.) Recommended. You can directly use the web version. The <a href="http://jabref.sourceforge.net/documentation.php">documentation</a> also includes very simple installation instructions.</li>
+<li><a href="http://pybtex.sourceforge.net/">Pybtex</a> is a Python implementation of BibTeX. Provides translation across formats, including a nice YAML format. (License: GPL, Language: Python)</li>
+<li>If you need to hack a BibTeX style, you will need <a href="http://www.fz-rossendorf.de/FVTK/latex/doc/bibtex/base/btxhak.pdf">btxhak</a> or the <a href="http://www.arch.ohio-state.edu/crp/faculty/pviton/support/custom-bib.html">Custom-Bib</a> package.</li>
+</ul>
+<ul>
 <li>
 <a href="http://tug.ctan.org/tex-archive/macros/plain/contrib/vertex/"> VerTeX for Economics Journals.</a>
 </li>
 <li>
-<a href="http://www.zotero.org/">Zotero</a> is a <em>remarkably</em> capable FireFox extension for research resource management (including citation). (It is worthwhile to watch the short video introduction on their <a href="http://www.zotero.org/">homepage</a> to get a feel for Zotero’s capabilities.
+<a href="http://www.zotero.org/">Zotero</a> is a <em>remarkably</em> capable FireFox extension for research resource management (including citation). (It is worthwhile to watch the short video introduction on their <a href="http://www.zotero.org/">homepage</a> to get a feel for Zotero’s capabilities.)
 </li>
 <li>
 <a href="http://www.unix-ag.uni-kl.de/~fischer/kbibtex/">kbibtex</a> is a nice looking and functional BibTeX editor.
@@ -6290,9 +6257,6 @@ You can use <a href="http://www.mackichan.com/BibDB/default.htm">BibTeX Database
 </li>
 <li>
 Some alternatives to BibDB: <a href="http://www.imamod.ru/~vab/bibtexmng/">BibTeX Manager</a> <br> Rich Ertel’s <a href="http://home.att.net/~rbertel/Bibmaker/">Bibmaker</a> <br> Jonas Bjornerstedt’s <a href="http://www.hhs.se/personal/nejb/">BibEdit</a>
-</li>
-<li>
-<a href="http://www.bibliographix.com/">BibliographIX</a> is a program which serves as a literature database and reference manager. It cooperates with MSWord and can convert to and from BibTeX. It is a commercial product with a free “basic” version, which has some limitations.
 </li>
 <li>
 Mac users can consider <a href="http://bibdesk.sourceforge.net/">BibDesk</a>.
@@ -6321,7 +6285,10 @@ McCullough, B. D. (1998). Assessing the reliability of statistical software: Par
 McCullough, B. D. (1999). Assessing the reliability of statistical software: Part II. The American Statistician, 53, 149-159.
 </li>
 </ul>
-<p>Comment: some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet’s computational and graphics facilities—on a Windows platform, perhaps VBA or better yet Python with win32com; on a Unix platform, perhaps ABV or Python or a plug-in that supports scripting. Of course this is not how most people use spreadsheets. There are also engineering spreadsheets that allow explicit scripting and treat data in a more object oriented fashion. These are tools that can be properly used for serious work.</p>
+<ul>
+<li>Some problems with spreadsheets can in principle be overcome by using them directly just for data storage and then preforming manipulations via a scripting language that exploits the spreadsheet’s computational and graphics facilities.</li>
+<li>There are also engineering spreadsheets that allow explicit scripting and treat data in a more object oriented fashion.</li>
+</ul>
 <p>Comment: Python can read and write tranditional spreadsheets. For simple spreadsheets see the <a href="http://docs.python.org/library/csv.html">CSV</a> module. For more advanced needs, consider <a href="http://pypi.python.org/pypi/xlrd">xlrd</a> and <a href="http://pypi.python.org/pypi/xlwt">xlwt</a>.</p>
 <ul>
 <li>
@@ -6339,12 +6306,9 @@ McCullough, B. D. (1999). Assessing the reliability of statistical software: Par
 <li>
 <a href="ftp://space.mit.edu/pub/davis/slsc/">slsc</a>
 </li>
-<li>
-Many more spreadsheets are listed in the <a href="http://www.faqs.org/faqs/spreadsheets/faq/">Spreadsheets FAQ</a>.
-</li>
 </ul>
 <div id="scispreadsheets">
-Scientific spreadsheets, often called engineering spreadsheets, are much better working environments than traditional spreadsheets. A scientific spreadsheet treats data as objects and allows programmatic manipulation in a spreadsheet-like environment. If you use this properly, it can overcome many of the problems with spreadsheets while still allowing easy graphics creation. Serious spreadsheet use will involve a lot of scripting. You should therefore choose a scientific spreadsheet that supports an easy to use yet powerful scripting language. (I recommend Python.) Here are a few possibilities.
+Scientific spreadsheets, often called engineering spreadsheets, are much better working environments than traditional spreadsheets. A scientific spreadsheet treats data as objects and allows programmatic manipulation in a spreadsheet-like environment. Here are a few possibilities.
 <ul>
 <li>
 <a href="http://www.picalo.org/">Picalo</a> is a data analysis tool with a spreadsheet interface to database operations. (License: GPL; Language: Python; Scripting language: Python)
@@ -6353,20 +6317,10 @@ Scientific spreadsheets, often called engineering spreadsheets, are much better 
 <a href="http://resolversystems.com/">Resolver</a> is a quite amazing scientific spreadsheet. Free for educational use. Sadly, no longer under development. (Scripting language: Python)
 </li>
 <li>
-<a href="&gt;
-">Siag</a> (Scheme in a Grid).
-</li>
-<li>
-<a href="http://www.dadisp.com/">DaDisp</a> is an “engineering spreadsheet” that is currently free for academics.
-</li>
-<li>
 <a href="http://pyspread.sourceforge.net/">Pyspread</a> is “provides an arbitrary size, three-dimensional grid for spreadsheet calculations. Each grid cell accepts a Python expression.” Cross platform. (Language: Python. License: GPL 3.)
 </li>
 <li>
 A very simple but powerful spreadsheet application is <a href="http://code.google.com/p/simplecells/wiki/Introduction">simplecells</a>.
-</li>
-<li>
-If you really want to attempt scientific computing using Excel, you can treat it as a compuing engine and script it. One interesting approach is to embed a Python interpreter in Excel using <a href="http://code.google.com/p/pyinex/">pyinex</a>.
 </li>
 </ul>
 </div>
@@ -6374,11 +6328,7 @@ If you really want to attempt scientific computing using Excel, you can treat it
 </section>
 <section id="databases" class="level3">
 <h3 class="anchored" data-anchor-id="databases">Databases</h3>
-<p>Perhaps the simple yet powerful <a href="http://www.scriptaworks.com/cgi-bin/wiki.sh/NoSQL/HomePage">NoSQL</a> will meet your needs. More traditional approaches follow.</p>
-<p><a href="http://www.sqlite.org/">SQLite</a> “is a small C library that implements a self-contained, embeddable, zero-configuration SQL database engine”. (License: Public Domain.)</p>
-<p><a href="http://www.firebirdsql.org/">FireBird</a> “is a relational database offering many ANSI SQL standard features that runs on Linux, Windows, and a variety of Unix platforms.”</p>
-<p><a href="http://www.openoffice.org/">OpenOffice</a> includes a database. GNOME Office includes <a href="http://www.gnome-db.org/">GNOME-DB</a>, which is reputed to be very good. For enterprise needs, <a href="http://www.postgresql.org/">PostgreSQL</a> has a good reputation: PostgreSQL is a free-and-open-source, SQL-compliant, object-relational database management system, reputed to be highly-scalable. Using <a href="http://ruby-lang.org/en/">Ruby</a> with <a href="http://www.rubyonrails.org/">Rails</a> and say <a href="http://mariadb.org/">MariaDB</a> or <a href="http://www.postgresql.org/">PostgreSQL</a> is getting a lot of <a href="http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html">buzz</a> for developing data-base backed web applications.</p>
-<p>Simple but structured needs may even be met by <a href="http://openrj.sourceforge.net/">Open-RJ</a>.</p>
+<p>Most social scientists can probably meet their database needs with <a href="http://www.sqlite.org/">SQLite</a>. This “is a small C library that implements a self-contained, embeddable, zero-configuration SQL database engine”. (License: Public Domain.) <a href="https://github.com/tursodatabase/turso">Turso</a> is a rewrite in Rust that has some additional features. Turso has a large community of contributors.</p>
 <section id="middleware-including-object-request-brokers-orbs" class="level4">
 <h4 class="anchored" data-anchor-id="middleware-including-object-request-brokers-orbs">Middleware, including Object Request Brokers (ORBs)</h4>
 <ul>
@@ -6410,16 +6360,7 @@ If you really want to attempt scientific computing using Excel, you can treat it
 </section>
 <section id="desktop-publishing" class="level3">
 <h3 class="anchored" data-anchor-id="desktop-publishing">Desktop Publishing</h3>
-<p><a href="http://www.scribus.net/">Scribus</a> is a featureful, cross-platform desktop publishing application. Supports PDF 1.4 and Python scripting. “The Scribus file format is XML based; open and completely documented.” (License: GPL) Used by professionals to send multipage full color layouts sent directly to commercial print houses. Supports CMYK separation, PDF generation, and much of the toolsets you get from commercial packages like Quark or InDesign.</p>
-</section>
-<section id="fax" class="level3">
-<h3 class="anchored" data-anchor-id="fax">Fax</h3>
-<p><a href="http://www.ifax.com/">HylaFAX</a> offers an open source version for a variety of *nix platforms. (This <a href="http://www.hylafax.org/archive/2005-05/msg00325.html">OpenOffice setup discussion</a> may be helpful.) I do not know of any FOSS fax software for Windows or Mac: let me know if you do!</p>
-</section>
-<section id="instant-messaging" class="level3">
-<h3 class="anchored" data-anchor-id="instant-messaging">Instant Messaging</h3>
-<p><a href="http://developer.pidgin.im/">Pidgin IM</a> (formerly Gaim) is a free and open source instant messaging client for a variety of platforms. <a href="http://www.scatterchat.com/">ScatterChat</a> is a secure enhancement of gaim.</p>
-<p>Mac users can consider <a href="http://fire.sourceforge.net/">Fire</a>, which supports most popular instant messaging services. (GPL)</p>
+<p><a href="http://www.scribus.net/">Scribus</a> is a featureful, cross-platform desktop publishing application. “The Scribus file format is XML based; open and completely documented.” (License: GPL) Used by professionals to send multipage full color layouts sent directly to commercial print houses. Supports CMYK separation, PDF generation, and much of the toolsets you get from commercial packages like Quark or InDesign.</p>
 </section>
 <section id="utilities" class="level3">
 <h3 class="anchored" data-anchor-id="utilities">Utilities</h3>
@@ -6489,31 +6430,18 @@ Windows 10 since December 2017 has offered OpenSSH (client and server) as an <a 
 <section id="report-generation" class="level3">
 <h3 class="anchored" data-anchor-id="report-generation">Report Generation</h3>
 <p>Generating reports is a common need. These can be informal or presentational, and may or may not need to be printed.</p>
-<p><a href="http://www.gnu.org/software/gawk/gawk.html">gawk</a>, a powerful report generation language which takes only a moment to learn well enough to produce simple reports. (E.g., you can manage student grades with Gawk much more easily than with a spreadsheet.)</p>
-<p><a href="#reportlab">ReportLab</a> allows direct creation of PDF graphics and reports.</p>
-<p><a href="http://www.lowagie.com/iText/">iText</a> can be a very powerful report generator if you know a bit of Java.</p>
-<p><a href="http://xmlgraphics.apache.org/fop/">Apache Formatting Objects Process (FOP)</a> offers amazing flexibility. Java based. (License: Apache 2.0)</p>
-<section id="printing-reports" class="level4">
-<h4 class="anchored" data-anchor-id="printing-reports">Printing Reports</h4>
-<p>Program controlled printing can be a challenge, especially under Windows. If you have the option of producing your reports as PDF or as appropriately formatted text, then you can usually just ask your operating system to use a default application to print them. Otherwise, you will have to work harder.</p>
-<p>Tim Golden offers a very useful discussion of <a href="http://tgolden.sc.sabren.com/python/win32_how_do_i/print.html">Windows printing under Python</a>.</p>
-<p><a href="http://www.infres.enst.fr/~demaille/a2ps/">GNU a2ps</a> allows conversion of text (and other) files to PostScript, as does <a href="http://linuxcommand.org/man_pages/enscript1.html">enscript</a> and <a href="http://www.wam.umd.edu/~zben/PostScript/asciiprint.html">ASCIIprint</a>.</p>
-<p><a href="http://deco-cow.sourceforge.net/">wordaxe</a> can be used for hyphenation. For example, you may want to generate your own PostScript or PDF. As a more specific example, the wordaxe hyphenation library offers <a href="#reportlab">ReportLab</a> support. For an easy interface, try <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a>, which offers cascading stylesheets and supports TTF and Type1 font embedding.</p>
-</section>
+<ul>
+<li>Quarto is designed for technical report generation, supports math, and has great support for reproducibility. Based on an extended version markdown and leverages pandoc. Recommended.</li>
+<li>Typst is great for extremely fast PDF creation.</li>
+<li>ReportLab allows direct creation of PDF graphics and reports in Python.</li>
+</ul>
+<p>If you need to convert a large collection of text-based logs into textual reports, consider <a href="http://www.gnu.org/software/gawk/gawk.html">gawk</a>. Geeky but speedy. (Btw, <a href="http://www.well.ox.ac.uk/~johnb/comp/awk/awk.html">Awk Introduction</a> is a useful very brief introduction to Awk.)</p>
+<p>Although I have not tried it, I have to mention the <a href="https://github.com/apache/xmlgraphics-fop">Apache Formatting Objects Process (FOP)</a>. It appears to offers amazing flexibility. Java and XML based. (License: Apache 2.0)</p>
 <section id="version-control" class="level4">
 <h4 class="anchored" data-anchor-id="version-control">Version Control</h4>
-<p id="vcs">
-</p><p>There are many version control systems (VCSs): see the <a href="http://en.wikipedia.org/wiki/List_of_revision_control_software">Wikipedia list</a>. If you just need revision control for a single-user, single-machine project, you can use <a href="http://www.gnu.org/software/rcs/rcs.html">RCS</a>. For simple version control on multi-user or multi-machine projects, consider <a href="#svn">Subversion (SVN)</a>. Currently distributed VCSs are the rage, with <a href="http://bazaar-vcs.org/">Bazaar</a> (License: GPL), <a href="http://mercurial.selenic.com/">Mercurial</a> (License: GPL), and especially <a href="http://git.or.cz/">Git</a> (License: GPL) having particularly high profiles. (Windows users of Git should consider <a href="http://windows.github.com/">GitHub for Windows</a>.) Having a distributed VCS is not important for most small projects.</p>
-<section id="subversion" class="level5">
-<h5 class="anchored" data-anchor-id="subversion">Subversion</h5>
-<p>See my <a href="#svn-hints">Subversion hints</a>.</p>
-<p>Despite the recent popularity of Git, <a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system. There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>. (Be sure to read about the <a href="http://svnbook.red-bean.com/en/1.5/svn.tour.cycle.html">basic work cycle</a>. Simplest bottom line: change to your working directory and enter <code>svn update</code>, <em>then</em> make changes to your files. Before you commit do another update, and finally commit the changes with <code>svn commit -m &quot;My message about the changes.&quot;</code>.)</p>
-<p>The <a href="http://pysvn.tigris.org/">pysvn</a> project provides a Python based graphical interface to SVN.</p>
-<p>SVN on windows: download and execute the <a href="http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91">Windows installer</a>. Users who dislike the command line should consider <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> as a user-friendly <a href="http://subversion.tigris.org/">Subversion</a> client.</p>
-<p>SVN with Vim: <a href="http://vim.sourceforge.net/scripts/script.php?script_id=90">vcscommand</a> provide keybindings for SVN control from the Vim editor.</p>
+<p>There are many version control systems (VCSs): see the <a href="http://en.wikipedia.org/wiki/List_of_revision_control_software">Wikipedia list</a>. The right answer for most economists is simple: use Git.</p>
+<p>Despite the recent popularity of Git, <a href="http://subversion.tigris.org/">Subversion</a> is probably the most widely used version control system. It is easier to use and has fewer foot guns. There is an extensive <a href="http://svnbook.red-bean.com/">user manual</a>. (Be sure to read about the <a href="http://svnbook.red-bean.com/en/1.5/svn.tour.cycle.html">basic work cycle</a>. Simplest bottom line: change to your working directory and enter <code>svn update</code>, <em>then</em> make changes to your files. Before you commit do another update, and finally commit the changes with <code>svn commit -m &quot;My message about the changes.&quot;</code>.) Users who dislike the command line should consider <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> as a user-friendly <a href="http://subversion.tigris.org/">Subversion</a> client.</p>
 <p>Free and low cost SVN repositories: <br> <a href="http://www.assembla.com/">assembla</a> (includes some free options) <br> <a href="http://unfuddle.com/home">Unfuddle</a></p>
-<p>Subversion users may find it helpful to generate graphical reports of the repository changes. A Python-based solution is <a href="https://bitbucket.org/nitinbhide/svnplot/wiki/Home">svnplot</a>. A Java-based solution is <a href="http://www.statsvn.org/">StatsSVN</a>.</p>
-</section>
 </section>
 </section>
 <section id="miscellaneous-office-needs" class="level3">
@@ -6528,61 +6456,21 @@ Windows 10 since December 2017 has offered OpenSSH (client and server) as an <a 
 </section>
 <section id="outliners" class="level4">
 <h4 class="anchored" data-anchor-id="outliners">Outliners</h4>
-<p>Outlines can help writers and programmers.[ <a href="http://www.troubleshooters.com/tpromag/199911/199911.htm">1</a>, <a href="http://linux.open.ac.uk/108/oregan.html">2</a> ] Many good editors offer substantial outlining capability. Examples include the <a href="http://www.vimoutliner.org/index.php">VimOutliner</a> and the <a href="#emacs">emacs outline mode</a>.</p>
-<p>There are many commercial and free outliners. The <a href="http://outliner.sourceforge.net/">Java Outline Editor</a> offers serious outline functionality.</p>
+<p>Outlines can help writers and programmers. Many good editors offer substantial outlining capability. Examples include the <a href="http://www.vimoutliner.org/index.php">VimOutliner</a> and the <a href="#emacs">emacs outline mode</a>. VS Code also generates helpful outlines.</p>
 </section>
 <section id="mind-mappers" class="level4">
 <h4 class="anchored" data-anchor-id="mind-mappers">Mind Mappers</h4>
 <p><a href="https://sourceforge.net/projects/freeplane/">FreePlane</a> is an active fork of <a href="https://sourceforge.net/p/freemind/code/ci/master/tree/">FreeMind</a>, which is a highly capable cross-platform mind mapper. It is Java and includes and Windows installer. (License: GPL) For a more document oriented approach, try <a href="http://freehackers.org/~tnagy/kdissert/index.html">Kdissert</a>. (License: GPL) <a href="http://www.mindmup.com/">MindMup</a> provides free <em>online</em> mind mapping, including online collaboration. (License: MIT. Supported by Google Drive.)</p>
 <p><a href="https://github.com/aardappel/treesheets">Tree Sheets</a> is an odd cross between a spreadsheet and a mind mapper.</p>
 </section>
-<section id="making-posters" class="level4">
-<h4 class="anchored" data-anchor-id="making-posters">Making Posters</h4>
-<p>The <a href="http://duramecho.com/ComputerInformation/HowToDoPowerpointPosters.html">basic situation</a>. The <a href="http://www.cis.upenn.edu/~mwh/tips.html">graphics problem</a>.</p>
-</section>
 <section id="text-preprocessors" class="level4">
 <h4 class="anchored" data-anchor-id="text-preprocessors">Text Preprocessors</h4>
 <p>The hoary standard is <a href="http://www.gnu.org/software/m4/">m4</a>. An interesting alternative is <a href="http://www.alcyone.com/pyos/empy/">empy</a>. Good luck.</p>
 </section>
-<section id="operating-systems" class="level4">
-<h4 class="anchored" data-anchor-id="operating-systems">Operating Systems</h4>
-<!-- 
-http://www.mhuffman.com/notes/dos/bash_cmd.htm
-http://www.wilsonmar.com/1opsys.htm
--->
-<p>After the Windows and Mac operating systems, most people will think first of <a href="http://www.linux.org">GNU Linux</a>, an excellent, free, Open Source version of the Unix operating system. Another popular free and open source Unix relative is <a href="http://www.freebsd.org/">FreeBSD</a>. Another popular version of the Unix operating system is <a href="http://www.sun.com">Solaris</a>, a FOSS version of which is available as <a href="http://wiki.illumos.org/display/illumos/illumos+Home">illumos</a> (formerly OpenSolaris).</p>
-<p><a href="http://cm.bell-labs.com/plan9/">Plan 9</a> is very roughly a faster, more secure multi-processor Unix. There is an open source implementation of BeOS called <a href="http://haiku-os.org/">Haiku</a>, but in 2015 it seems that organization issues may lead to a forked project calles Senryu. (Haiku can install and run within Windows.) <a href="http://get.qnx.com/">QNX’s Neutrino Real Time Operating System</a> is also a compact and stable operating systems. (Can install and run within Windows, and thus does not require a separate partition or boot loader!) An interesting effort to produce an open source (and binary compatible) substitute for Windows NT is <a href="http://www.reactos.com/">ReactOS</a>, which already has basic console functionality. A few people may also be interested in <a href="http://www.freedos.org/freedos/about/">FreeDOS</a>.</p>
-<div class="default">
-If you pick the <a href="http://www.linux.org/">GNU/Linux Operating System</a> you may want to visit
-<ul>
-<li>
-<a href="http://SAL.KachinaTech.COM/">SAL (Scientific Applications on Linux</a>
-</li>
-<li>
-<a href="ftp://ftp.halcyon.com/pub/linux/linuxdoc/">Linux Documentation Project</a>
-</li>
-<li>
-<a href="http://moriarty.es.yale.edu/LDP/">HTML versions of LDP docs</a>
-</li>
-<li>
-<a href="news:comp.os.linux.misc">Linux newsgroup</a>
-</li>
-<li>
-<a href="ftp://ftp.halcyon.com/pub/linux/slackware/">GNU’s Slackware Linux distribution</a>
-</li>
-<li>
-<a href="news:comp.os.linux.help">Linux help newsgroup</a>
-</li>
-<li>
-<a href="http://www.redhat.com/">Red Hat software</a> offers a <a href="http://www.redhat.com/linux-info/linux-app-list/">good list of linux software</a>.
-</li>
-</ul>
-<p>Furthermore, if your interests are computational, you may want to consider the <a href="http://dirk.eddelbuettel.com/quantian.html">Quantian</a> distribution.</p>
-</div>
-</section>
 <section id="shells" class="level4">
 <h4 class="anchored" data-anchor-id="shells">Shells</h4>
-<p>Windows users should no longer use <code>cmd.exe</code>, unless forced to by circumstances. Things have gotten better with the advent of PowerShell, which can be run in the Windows Terminal. Note that PowerShell support simple versions of many common bash commands. Windows users who desire a more Linux-like shell experience can use <code>bash</code> (or other shells) via Windows Subsystem for Linux.</p>
+<p>In most settings, economists will have their needs met by the default shell. However, Windows users should no longer use <code>cmd.exe</code>, unless forced to by circumstances. Things have gotten better with the advent of PowerShell, which can be run in the Windows Terminal. Note that PowerShell supports simple versions of many common bash commands.</p>
+<p>Windows users who desire a more Linux-like shell experience can use <code>bash</code> (or other shells) via Windows Subsystem for Linux.</p>
 </section>
 <section id="unix-tools" class="level4">
 <h4 class="anchored" data-anchor-id="unix-tools">Unix Tools</h4>
@@ -6590,13 +6478,10 @@ If you pick the <a href="http://www.linux.org/">GNU/Linux Operating System</a> y
 <h5 class="anchored" data-anchor-id="unix-tools-for-windows-and-system-tools">Unix Tools for Windows and System Tools</h5>
 <ul>
 <li>
-I suggest starting by getting <a href="http://gnuwin32.sourceforge.net/packages/coreutils.htm">CoreUtils for Windows</a>. There are other <a href="http://www.cs.washington.edu/homes/voelker/ntemacs.html#other-tools">Ports of Unix tools to Win95</a>.
-</li>
-<li id="search">
-Are you still using Microsoft search tools that don’t really support regular expressions? (And under Windows XP, <a href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q309173">Explorer search often fails</a> in any case. E.g., when searching for text, Explorer <a href="http://support.microsoft.com/?id=309173">fails to search all files</a>.) Fix that! <a href="http://www.tgries.de/agrep/">agrep</a> is available for Windows! (There is also a <a href="http://www.bio.cam.ac.uk/~mw263/pyagrep.html">Python implementation</a>, although it probably makes more sense to use Robert Kern’s <a href="https://svn.enthought.com/svn/sandbox/grin/">grin</a>.) Alternatives: <a href="http://gnuwin32.sourceforge.net/packages/grep.htm">grep</a> (with <a href="http://www.gnu.org/software/grep/doc/">helpful manual</a>), <a href="http://www.dcc.uchile.cl/~gnavarro/software/">nrgrep</a> (gets good reviews), <a href="http://wilbur.redtree.com/">Wilbur</a>, <a href="http://www.mythicsoft.com/agentransack/default.aspx">Agent Ransack</a>. Finally, you can try to <a href="http://support.microsoft.com/?id=309173">fix this piece-meal in Windows</a>. (Also see MS on <a href="http://msdn.microsoft.com/en-us/library/bb318649%28VS.85%29.aspx">extending the index</a>.)
+I suggest starting by getting <a href="http://gnuwin32.sourceforge.net/packages/coreutils.htm">CoreUtils for Windows</a>.
 </li>
 <li>
-Amazingly, in 2004 Microsoft made free what is essentially a Unix system for Windows, called <a href="http://technet.microsoft.com/en-us/library/bb463212.aspx">Windows Services for Unix (SFU)</a>. Add Interop Systems’ <a href="http://www.interopsystems.com/downloads.htm">open source tools for SFU</a> and you have a powerful combination (sort of like Cygwin but without an X server, and you can add the commercial Desktop-X).
+Amazingly, in 2004 Microsoft made free what is essentially a Unix system for Windows, now called <a href="http://technet.microsoft.com/en-us/library/bb463212.aspx">Windows Subsystem for Linux</a>.
 </li>
 <li id="diff">
 <a href="http://kdiff3.sourceforge.net/">KDiff3</a> is a good cross-platform solution. <a href="http://meld.sourceforge.net/">Meld</a> if a useful visual diff and merge tool written in Python. You may come to prefer it over <a href="http://www.gnu.org/software/diffutils/diffutils.html">gnu diffutils</a>. <a href="http://xxdiff.sourceforge.net/">xxdiff</a> is amazing but only for Un*x users. <a href="http://www.openetwork.com/delta.html">Delta</a> is a sophisticated implementation of the Unix “diff” command for Windows users.
@@ -6604,27 +6489,12 @@ Amazingly, in 2004 Microsoft made free what is essentially a Unix system for Win
 <li>
 Microsoft bought <a href="http://technet.microsoft.com/en-us/sysinternals/default.aspx">Sysinternals</a> but continues to offer their remarkable utilities free for non-commercial Windows users, incuding the wonderful ProcessExplorer process monitor (which replaces the older Filemon and Regmon utilities).
 </li>
-<li>
-<a href="http://www.tinyapps.org/">Tiny Apps</a> for Windows users.
-</li>
-<li>
-<a href="http://unxutils.sourceforge.net/">Unix Utilities for Windows</a>, along with many useful links. Includes grep, sed, and <a href="http://www.gnu.org/software/gawk/gawk.html">gawk</a>. (You can find <a href="http://www.fsf.org/manual/manual.html">man pages online</a>.) Many of these can be found individually at <a href="http://gnuwin32.sourceforge.net/packages.html">GnuWin32</a>, along with much else. Also see <a href="http://www.research.att.com/sw/tools/uwin/">U/Win</a>, which provides a Korn shell for Windows along with standard unix utilities to run in this shell. (Btw, <a href="http://www.well.ox.ac.uk/~johnb/comp/awk/awk.html">Awk Introduction</a> is a useful very brief introduction to Awk.)
-</li>
-<li>
-<a href="http://www.snippets.org/">Snippets</a> offers a free toolkit of utilities.
-</li>
-<li>
-<a href="http://www.nicemice.net/par/">par</a> is a useful paragraph formatting utility. (See the <a href="http://www.nicemice.net/par/par-doc.var">documentation</a>.) Yingwei Peng complied <a href="http://www.math.mun.ca/~ypeng/other/Par.exe">par.exe</a> for Win32, which I last saw here at v.1.51. Stanislav Sitar compiled <a href="http://www.nicemice.net/par/par152ex.zip">par.exe</a> version 1.52 as a DOS executable.
-</li>
 </ul>
 </section>
-<section id="unix-tools-for-macintosh" class="level5">
-<h5 class="anchored" data-anchor-id="unix-tools-for-macintosh">Unix Tools for MacIntosh</h5>
-<p><a href="http://fink.sourceforge.net/">Fink</a> has an extensive collection of Unix tools for Mac users.</p>
 </section>
 </section>
-<section id="view-and-manipulate-pdf" class="level4">
-<h4 class="anchored" data-anchor-id="view-and-manipulate-pdf">View and Manipulate PDF</h4>
+<section id="view-and-manipulate-pdf" class="level3">
+<h3 class="anchored" data-anchor-id="view-and-manipulate-pdf">View and Manipulate PDF</h3>
 <section id="pdf-maniuplation" class="level5">
 <h5 class="anchored" data-anchor-id="pdf-maniuplation">PDF Maniuplation</h5>
 <ul>
@@ -6663,7 +6533,6 @@ You can edit PDFs with <a href="http://sourceforge.net/projects/pdfedit/">pdfedi
 <li><a href="http://www.cs.wisc.edu/~ghost/">GhostView</a> is a cross platform viewer for PostScript and PDF. (License: Aladdin Free Public Licence) It depends on the <a href="http://pages.cs.wisc.edu/~ghost/">GhostScript</a> interpreter. (License: GPL)</li>
 </ul>
 </div>
-</section>
 </section>
 <section id="other" class="level4">
 <h4 class="anchored" data-anchor-id="other">Other</h4>
@@ -6709,9 +6578,8 @@ You can edit PDFs with <a href="http://sourceforge.net/projects/pdfedit/">pdfedi
 <section id="data-exchange" class="level3">
 <h3 class="anchored" data-anchor-id="data-exchange">Data Exchange</h3>
 <p>Please let us stop playing nationalist games with number formats before someone gets badly hurt as a result. For scientific data exchange, the decimal separator is a point (ASCII 46). It is <em>not</em> a comma (ASCII 44). Neither is it any other UTF code point. It is just that simple. Pretending otherwise is like pretending that science does not use the metric system.</p>
+<p>For those not working with big data, the most widely used data exchange format is comma-separated values (CSV). There actually is a standard, in the form of <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>. Sadly, many files with the <code>.csv</code> extension do not conform to this standard, so caveat emptor.</p>
 <p>Possibly the simplest open standard for fixed periodicity time-series data is the <a href="http://htmlpreview.github.io/?https://github.com/alan-isaac/econpy/blob/master/pytrix/opendatabank.htm">open-databank standard</a>. Most time series econometrics packages support some version of this.</p>
-<p>The most widely used data exchange format is comma-separated values (CSV). There actually is a standard, in the form of <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>. Sadly, many files with the <kbd>.csv</kbd> extension do not conform to this standard, so caveat emptor.</p>
-<p><a href="http://www.stecf.org/software/PYTHONtools/astroasciidata/">AstroAsciiData</a> provides simple database functionality for ASCII tables.</p>
 <p><a href="https://www.hdfgroup.org/HDF5/whatishdf5.html">HDF5</a> “is a general purpose library and file format for storing scientific data”. Some support can be found in the econometrics community, both in commercial and free packages. Python users have excellent support via <a href="http://www.pytables.org/">PyTables</a>. (To use PyTables with Python 2.4 in Windows platforms, you will need to get the <a href="https://www.hdfgroup.org/HDF5/release/obtain5.html">Windows binaries</a>.) <a href="#octave">Octave</a> and <a href="#Rproject">R</a> provide HDF5 support. Commercial applications supporting HDF5 include Mathematica and MATLAB version 6.5+, among many others.</p>
 <p>The <a href="http://www.unidata.ucar.edu/software/netcdf/">netCDF</a> libraries “support a machine-independent format for representing scientific data”. The netCDF distribution includes interfaces for C, Fortran77, Fortran90, and C++, and interfaces are reportedly available for Ada, IDL, Java, MATLAB, perl, Python, R, Ruby, Tcl/Tk. The interface provided by <a href="http://starship.python.net/~hinsen/ScientificPython/">ScientificPython</a> is supposed to be excellent. <a href="http://www.pyngl.ucar.edu/Nio.shtml">PyNIO</a> adds to this support of additional formats. Another possibly faster way to read the netCDF format is <a href="http://cheeseshop.python.org/pypi/pupynere/">pupynere</a>, a pure Python solution. (License: MIT)</p>
 <hr>
@@ -6737,18 +6605,10 @@ Thunderbird Hints
 <div class="default">
 <p>External Editor <br> Using your own editor when writing email is strongly recommended. Get the <a href="https://github.com/exteditor/exteditor">“External Editor” extension</a>. For example, use <a href="#vim">Vim</a> with Thunderbird as follows. Define the External Editor command to load Vim as: <code>\pathto\gvim --nofork -c &quot;setf mail&quot;</code>, so you will get ‘mail’ syntax highlighting and ftplugins loaded. Or if you have defined say <code>mail.vim</code>, a file of useful macro, you can instead use e.g., <code>\pathto\gvim.exe --nofork -c &quot;so $VIM\vimfiles\mail.vim&quot;</code>. After installing the extension, edit the composition toolbar (the one for replying to email, <em>not</em> the main application toolbar) and add a button for the external editor. You can then click that button and your current email reply will be opened in Vim. <br> By the way, you may find my <a href="http://econpy.googlecode.com/svn/trunk/text/vimfiles/ai_mail.vim">ai_mail.vim</a> to contain some useful abbreviations and commands for email. Just drop it in your <code>%VIM%\vimfiles</code> folder, and change your External Editor command to, e.g., <code>&quot;C:\Program Files (x86)\Vim\vim82\gvim.exe&quot; --nofork -c &quot;so $VIM\vimfiles\ai_mail.vim&quot;</code>.</p>
 </div>
-<div class="default">
 <p>Thunderbird and Acrobat: Acrobat will not attach PDFs to Thunderbird emails, unless you you set Thunderbird as your default client in a very specific way. Open the Control Panel and double click Default Programs. Pick “Set program access and computer defaults/Custom (expand this)/Choose a default e-mail program, and then, click on Thunderbird. (As of Windows 7 and Acrobat 9.)</p>
-</div>
-<div class="default">
 <p>Make sure your ‘textwidth’ when editing the email is no larger than Thunderbird’s “Wrap plain text messages at” option (in your Composition options); otherwise when Thunderbird receives your text it may wrap it to a smaller size.</p>
-</div>
-<div class="default">
 <p>Gmail allows IMAP access, Google provides detailed instructions for configuring Thunderbird, and Thunderbird automates the process of adding your Gmail account.</p>
-</div>
-<div class="default">
 <p>Key Configurations: <br> The <a href="http://mozilla.dorando.at/">keyconfig.xpi</a> extension allows you to easily change your key bindings. Carefully follow the <a href="http://kb.mozillazine.org/Keyconfig_extension:_Thunderbird#Simple_built-in_commands">instructions</a>. I like to associate the <code>d</code> key with <code>goDoCommand(&#39;cmd_delete&#39;);</code> and the <code>x</code> key with <code>goDoCommand(&#39;cmd_MsgCompactFolder&#39;);</code>.</p>
-</div>
 </section>
 <section id="pine-hint" class="level4">
 <h4 class="anchored" data-anchor-id="pine-hint">Pine Hint</h4>
@@ -6759,13 +6619,6 @@ Thunderbird Hints
 <h3 class="anchored" data-anchor-id="scipy-user-hints">SciPy user hints</h3>
 <p>Use the Lapack routines if you need speed. E.g., for a QR decomposition use scipy.linalg.flapack.dgeqrf instead of scipy.linalg.qr.</p>
 <div class="default">
-For numarray &lt;= version 1, there is a matrixmultiply (dot) bug: <a href="http://sourceforge.net/mailarchive/forum.php?thread_id=5307744&amp;forum_id=4890">http://sourceforge.net/mailarchive/forum.php?thread_id=5307744&amp;forum_id=4890</a>. The multiplication is done correctly, but the post-multiplying matrix may be changed after the multiplication is performed. David Cooke suggests that quick fix is to define your own matrixmultiply (or dot). E.g.,
-<pre>def dot(a, b):
-    return numarray.dot(a, b.view())
-</pre>
-<p>The original b is then not touched, and the screwed-up matrix is discarded.</p>
-</div>
-<div class="default">
 Suppose you find you need to import a module with the same name as your script. First best is to change the name of your script, but you can also
 <pre>import sys
 sys.path.remove(&#39;&#39;)
@@ -6774,7 +6627,6 @@ import sets
 <p>to remove the current directory from Python’s search path.<br>
 If you then need access to any modules in the current directory, use <code>sys.path.insert(0,&#39;&#39;)&quot;</code> first.</p>
 </div>
-<p>As late as 2004, the Numeric and numarray documentation incorrectly stated that <code>and</code>, <code>or</code>, and <code>not</code> would operate element-by-element on arrays.</p>
 <p>Lists are sorted in place, so <code>mylist.sort()</code> return <code>None</code>, but <code>mylist</code> is now sorted.</p>
 </section>
 <section id="r-hints" class="level3">
@@ -6782,19 +6634,12 @@ If you then need access to any modules in the current directory, use <code>sys.p
 <p>Rossiter wrote an accesible <a href="http://www.itc.nl/~rossiter/teach/R/RIntro_ITC.pdf">Introduction to the R Project</a>.</p>
 <p>Documentation: <br> Windows users may want to read <a href="http://wwwmaths.anu.edu.au/~wangk/personal/rinfo.php">R Guide for Windows Users by Kevin Wang</a>. Lund University offers some <a href="http://www.maths.lth.se/help/R/">supplementary documentation</a>; also <a href="http://www.maths.lth.se/help/R/.R/library/Hmisc/html/00Index.html">Harrell’s R utilities</a> along with his <a href="http://lib.stat.cmu.edu/S/Harrell/doc/summary.pdf">guide to LaTeX tables and S</a> may be useful. Ikaha offers some introductory discussion of <a href="http://www.stat.auckland.ac.nz/~ihaka/120/notes.html">generating graphics in R</a>.</p>
 <p>Be careful with the definition of R’s PRNG for the geometric distribution: <code>rgeom</code> has support on nonnegative integers, since R has <em>p(x) = p (1-p)^x</em>. A perhaps more common parameterization is <em>p(x) = p (1-p)^(x-1)</em>: which you can match by adding 1 to the values returned by <code>rgeom</code>.</p>
-<p>You can write LaTeX documents containing R code whose ouput is to be included in the document with <a href="http://www.ci.tuwien.ac.at/~leisch/Sweave/">Sweave</a>.</p>
-<div class="default">
-Windows users can access R from Python with the <a href="http://sunsite.univie.ac.at/rcom/">RDcom server/client</a>. This allows you to call R from Python as follows:
-<pre><code>
-&gt;&gt;&gt; from win32com.client import Dispatch
-&gt;&gt;&gt; sc=Dispatch(&quot;StatConnectorSrv.StatConnector&quot;)
-&gt;&gt;&gt; sc.Init(&quot;R&quot;)
-&gt;&gt;&gt; print(sc.Evaluate(&quot;2+3&quot;))
-5.0
-&gt;&gt;&gt; 
-</code></pre>
+<p>Windows users can access R from Python with the <a href="http://sunsite.univie.ac.at/rcom/">RDcom server/client</a>. This allows you to call R from Python as follows:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> win32com.client <span class="im">import</span> Dispatch</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sc<span class="op">=</span>Dispatch(<span class="st">&quot;StatConnectorSrv.StatConnector&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sc.Init(<span class="st">&quot;R&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sc.Evaluate(<span class="st">&quot;2+3&quot;</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Other approaches to R/Python interaction include the following. <a href="http://rpy.sf.net">Walter Moreira’s RPy module</a> (requires <a href="http://sourceforge.net/pywin32/">pyWin32</a> under Windows) allows you to “embed” R in Python and transparently send data to it. (You can easily pass objects in <em>both directions</em> using OmegaHat’s <a href="http://www.omegahat.org/RSPython/index.html">R/S Plus Python Interface</a>.) <a href="http://pypi.python.org/pypi/pyRserve">pyRserve</a> is a simpler solution, which nevertheless allows running R on a remote server.</p>
-</div>
 </section>
 <section id="bounding-box-hints" class="level3">
 <h3 class="anchored" data-anchor-id="bounding-box-hints">Bounding Box Hints</h3>
@@ -6841,9 +6686,8 @@ By setting KeyBindingsCycle=“1” (1 is on, 0 the default is off) you will be 
 <section id="acrobat-hints" class="level3">
 <h3 class="anchored" data-anchor-id="acrobat-hints">Acrobat hints</h3>
 <p>When you add comments to a document, the comments are stamped with a name, a date, and a time. This may well be more information than you want to provide. You can remove the name stamp from all your comments as follows. Show the comment list: pick Comments » Show Comment List from the menus. Select all comments: click on one, and then press <code>ctrl-a</code>. Change the comment properties: right click on your selection, click <code>Properties</code>, pick the <code>General</code> tab, and change the Author field (e.g., nothing). Unfortunately, you cannot remove the date and time stamps this way. However, only the “modified” stamp shows to the reader, when you change the author this way, it should update the modified time on all the comments.</p>
-<h3 id="aspellhints" class="anchored">
-Aspell user hints.
-</h3>
+<section id="aspellhints" class="level4">
+<h4 class="anchored" data-anchor-id="aspellhints">Aspell user hints</h4>
 <div class="boxed">
 Installation hints for Windows users: Go to <a href="http://aspell.net/win32/">http://aspell.net/win32/</a> and get the setup program, available as a complete installer. Run the setup program. Next get and install the a dictionary (e.g., the English dictionary). Now you are read to run aspell. E.g., at a command window type <code>c:\programs\aspell\bin\aspell check c:\temp.tex</code> (assuming that’s where you put it, of course). You may want to change your path so that aspell is in it. <br> Running Aspell from Vim: To run aspell from Vim, just add a mapping to your _vimrc or .vimrc file. Here are two examples. The first assigns spell checking to the familiar F7 key.
 <pre><code>
@@ -6854,11 +6698,12 @@ map &lt;Leader&gt;s &lt;esc&gt;:w&lt;cr&gt;:!aspell --dont-backup -c %&lt;cr&gt;
 <p>To understand these, see the Aspell and Vim helpfiles! In either case, make sure aspell is in your path or use the fully qualified file name.</p>
 </div>
 </section>
+</section>
 <section id="windows-command-shell-hints." class="level3">
 <h3 class="anchored" data-anchor-id="windows-command-shell-hints.">Windows command shell hints.</h3>
 <div class="default">
 Redirection: see <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/redirection.mspx?mfr=true">Microsoft’s documentation</a>. I often need to redirect all script output to a text file, both stdout and stderr. Example:
-<pre>c:\Python27\python.exe -c &quot;import scipy;scipy.test()&quot; &gt;c:\file.txt 2&gt;&amp;1
+<pre>python -c &quot;import scipy;scipy.test()&quot; &gt;c:\file.txt 2&gt;&amp;1
 </pre>
 <p>In PowerShell, use the <code>out-file</code> commandlet.</p>
 </div>
@@ -6866,139 +6711,14 @@ Redirection: see <a href="http://www.microsoft.com/resources/documentation/windo
 </section>
 <section id="pyx-user-hints." class="level3">
 <h3 class="anchored" data-anchor-id="pyx-user-hints.">PyX user hints.</h3>
-<div class="default">
 <p>Installing PyX from <a href="#vcs">SVN</a> gets you the most recent changes and is trivially easy. (Preliminary: install <a href="#vcs">SVN</a>.) At the command line, create a build directory with <code>svn co https://pyx.svn.sourceforge.net/svnroot/pyx/trunk/pyx pyx</code> and then change to your new <kbd>pyx</kbd> directory and enter <code>setup.py install</code>.</p>
-</div>
-<div class="default">
-PyX will produce EPS files with negative bounding box parameters. This is perfectly legal but confuses some applications. In particular, LaTeX users of dvipdfm may see a clipped figure. Fixing this is simple: ask PyX to write your figure with a specified <a href="http://pyx.sourceforge.net/manual/node20.html">paperformat</a>. E.g.,
-<pre><code>
-mygraph.writeEPSfile(&quot;c:/mydir/myfig.eps&quot;,paperformat=pyx.document.paperformat.Letter)
-</code></pre>
-</div>
-<div class="default">
+<p>PyX will produce EPS files with negative bounding box parameters. This is perfectly legal but confuses some applications. In particular, LaTeX users of dvipdfm may see a clipped figure. Fixing this is simple: ask PyX to write your figure with a specified <a href="http://pyx.sourceforge.net/manual/node20.html">paperformat</a>. E.g.,</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mygraph.writeEPSfile(<span class="st">&quot;c:/mydir/myfig.eps&quot;</span>,paperformat<span class="op">=</span>pyx.document.paperformat.Letter)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>One lovely use of PyX is to <a href="http://pyx.sourceforge.net/manual/epsfile.html">include an existing EPS file</a> and add things to it (e.g., LaTeX text, or JPEG graphics). When you write out the result with <a href="http://pyx.sourceforge.net/manual/node20.html">writeEPSfile</a> method of your canvas, be sure to set <code>bboxenlarge=False</code> to ensure a “tight” bounding box.</p>
-</div>
 <p>For 2-D data plots, Titus Winters has written a nice <a href="http://www.cs.ucr.edu/~titus/pyxTutorial/">PyX tutorial</a>.</p>
 <p>Be sure to see the <a href="http://pyx.sourceforge.net/examples/index.html">examples</a> and <a href="http://pyx.sourceforge.net/gallery/index.html">gallery</a> on the PyX website. I provide a <a href="http://www.american.edu/econ/notes/pyx_shadedintegral.py">heavily commented elaboration of the shaded integral example</a>.</p>
+<!-- chkchkchk -->
 <p>For a simplified interface to PyX, you can add <a href="http://www.physik.tu-dresden.de/~baecker/python/pyxgraph.html">PyXgraph</a> or, if you would like an interactive command line interface, <a href="http://www.pyxplot.org.uk/">PyXPlot</a>. For geometry, <a href="http://kib2.free.fr/geoPyX/geoPyX.html">geoPyX</a> is limited but useful.)</p>
-</section>
-<section id="miktex-user-hints." class="level3">
-<h3 class="anchored" data-anchor-id="miktex-user-hints.">MiKTeX user hints.</h3>
-<div class="default">
-MiKTeX comes with dvipdfm configured as
-<pre>D &quot;mgs.exe -q -sPAPERSIZE=a0 -sDEVICE=pdfwrite -dCompatibilityLevel=1.2 -dUseFlateCompression=true -dNOPAUSE -sOutputFile=\&quot;%o\&quot; \&quot;%i\&quot; -c quit&quot;
-</pre>
-Some applications (e.g., PyX) produce negative bounding boxes. (See <a href="#pyx_hints">Pyx hints</a> for a PyX solution.) While perfectly legal, this creates a problem for dvipdfm. During conversion to PDF, the EPS files are clipped at the papersize boundary rather than the figure boundary. I don’t know how to force pdfwrite to behave nicely, and epstopdf does not work because it intentionally alters the bounding box for the PDF file. You can try it though by changing the MiKTeX configuration to:
-<pre>D &quot;epstopdf --outfile=\&quot;%o\&quot; \&quot;%i\&quot; &quot;
-</pre>
-</div>
-<div class="default">
-If you are generating PDF files directly, you can also feed PDF images directly to dvipdfm using specials:
-<pre><code>
-\begin{figure}[ht]
-    \special{pdf:image (mydir/myfile.pdf)}
-\end{figure}
-</code></pre>
-</div>
-</section>
-<section id="textpad-user-hints." class="level3">
-<h3 class="anchored" data-anchor-id="textpad-user-hints.">TextPad user hints.</h3>
-<section id="adding-a-program-as-a-tool" class="level4">
-<h4 class="anchored" data-anchor-id="adding-a-program-as-a-tool">Adding a program as a Tool:</h4>
-<ol>
-<li>
-From TextPad’s <kbd>Configure</kbd> menu, select <kbd>Preferences</kbd>.
-</li>
-<li>
-Click on <kbd>Tools</kbd>, then click on the <kbd>Add</kbd> button, then select <kbd>Program…</kbd>
-</li>
-<li>
-The “Select a File” window pops up. Select the executable file (.exe) that you want to add as a tool.
-</li>
-<li>
-Click on <kbd>Apply</kbd>. Double click on “Tools” and you should see your executable file listed as a tool. Click on it, and you will see some dialog boxes. Make sure they are correctly filled, being especially careful with the “Parameters” box. (You will find it useful to look at TextPad’s help on Tool Parameter Macros.)
-</li>
-</ol>
-<h4 class="anchored">
-Adding TeX as a Tool (thanks to Alan Cibils):
-</h4>
-<ul>
-<li>
-Add TeX to your Tools by following the directions for adding a program as a Tool.
-<ul>
-<li>
-emTeX users will add tex386.exe, which they will find in the <kbd>emtex/bin</kbd> folder.
-</li>
-<li>
-MikTeX users will add <kbd>texify.exe</kbd> (recommended) or <kbd>latex.exe</kbd> which should be in the <kbd>texmf</kbd> folder
-</li>
-<li>
-TrueTeX users will add <kbd>Initex32.exe</kbd> which should be in the <kbd>SWP3</kbd> folder.
-</li>
-</ul>
-</li>
-<li>
-In the dialog boxes of the final step, replace <code>$File</code> in the <kbd>Parameters</kbd> box with <code>&amp;amp;latex $FileName</code>. (MikTeX users can simply use <code>$FileName</code>.) Click on “Apply”
-</li>
-</ul>
-<p>To LaTeX (the disk copy of!) your current document, select your TeX from the “Tools” pull-down menu. <br> IMPORTANT: When you LaTeX a document in TextPad, a <kbd>Command Results</kbd> document is opened. When LaTeX finishes executing, it displays the message: Process completed with exit code 1. <strong> YOU MUST CLOSE THIS WINDOW AFTER EVERY RUN.</strong> Failure to do this will cause subsequent LaTeX or BibTeX runs to hang.</p>
-<p>To avoid the afore mentioned problem, I recommend running MikTeX as a DOS command, which can also be done as a TextPad tool. If you decide on this option, go to the TextPad menus <kbd>Configure, Preferences, Tools</kbd>. Click on <kbd>add</kbd> and select <kbd>DOS Command</kbd>. A window will appear in which you type the full path to the command you wish to execute. For example, for MiKTeX type: <br> <code> c:.exe $BaseName </code> (If you use the default MiKTeX installation, you do not need a fully qualified path name.) <br> Click <kbd>OK</kbd>, then <kbd>Apply</kbd>, then go to the tool you just added (it should be listed under Tools when you expand it) and make sure to <em>UNcheck</em> the “capture output” box. <br> If you do all of this, then when you select the tool, a DOS window will pop open and show you the execution results. This is useful for when you have compilation errors, you can hit enter, “X” or whatever, whereas the other way you can’t. <br> Older versions of TextPad have a small bug: the DOS window closes upon the end of execution of your tool, whether the close window box is clicked or not.</p>
-<h4 class="anchored">
-Adding <a href="ftp://tug.ctan.org/tex-archive/biblio/bibtex/8-bit/">BibTeX</a> as a Tool:
-</h4>
-<p>Note that the <kbd>texify</kbd> command offered in MikTeX automatically runs BibTex for you.</p>
-<ul>
-<li>
-Add bibtex.exe or Bibtex32.exe to your Tools by following the directions for adding a program as a Tool.
-</li>
-<li>
-In the dialog boxes of the final step, replace <code>$File</code> in the <kbd>Parameters</kbd> box with <code>$BaseName</code>. Click on “Apply”
-</li>
-</ul>
-<p>To LaTeX your current document, select Bibtex32 from the “Tools” pull-down menu. <br> IMPORTANT: When you LaTeX a document in TextPad, a <kbd>Command Results</kbd> document is opened. When LaTeX finishes executing, it displays the message: Process completed with exit code 1. <strong> YOU MUST CLOSE THIS WINDOW AFTER EVERY RUN. </strong> Failure to do this will cause subsequent LaTeX or BibTeX runs to hang.</p>
-<h4 class="anchored">
-Add a .dvi viewer to your Tools, to view your LaTeXed document:
-</h4>
-<ul>
-<li>
-Add your .dvi viewer to your Tools by following the directions for adding a program as a Tool.
-<ul>
-<li>
-emTeX users will probably choose to add dviwin2.exe.
-</li>
-<li>
-MikTeX users will probably choose to add <kbd>yap.exe</kbd>.
-</li>
-<li>
-TrueTeX users will probably choose to add <kbd>Dvigdi32.exe</kbd> which should be in the <kbd>SWP3</kbd> folder.
-</li>
-<li>
-Mac users may use <a href="http://docenti.ing.unipi.it/~d9615/homepage/mac.html">TeXniscope</a>, MacDviX, or Mxdvi.
-</li>
-</ul>
-</li>
-<li>
-In the dialog boxes of the final step, replace <code>$File</code> in the <kbd>Parameters</kbd> box with <code>$BaseName</code>. (TrueTeX users will need to use <code>$UNIXDir/$BaseName</code>.) Click on “Apply”
-</li>
-</ul>
-<p>To view your LaTeXed document, select your viewer from the <kbd>Tools</kbd> pull-down menu.</p>
-<h4 class="anchored">
-Since you can choose to have MikTeX produce .pdf files instead of .dvi files, you may wish to add the Adobe .pdf viewer to your Tools, to view your LaTeXed document:
-</h4>
-<ul>
-<li>
-Download and install the free Acrobat Reader, and add it to your Tools by following the directions for adding a program as a Tool.
-</li>
-<li>
-In the dialog boxes of the final step, replace <code>$File</code> in the <kbd>Parameters</kbd> box with <code>$BaseName.pdf</code>. Click on “Apply”
-</li>
-</ul>
-<p>To view your LaTeXed document, select your viewer from the <kbd>Tools</kbd> pull-down menu.</p>
-</section>
-<section id="reassign-keyboard-short-cuts" class="level4">
-<h4 class="anchored" data-anchor-id="reassign-keyboard-short-cuts">Reassign Keyboard Short-Cuts</h4>
-<p>Reassign Ctrl-e to WordRightEnd as follows: choose Customize from the Configure menu, select the Keyboard tab, choose Cursor from the Categories list, choose WordRightEnd from the Commands list, type Ctrl+e in the Press New Shortcut box, click Assign, and click OK. You will then want to assign Ctrl+Shift+E to WordRightEndExtend.</p>
-</section>
 </section>
 <section id="user-hints-mathematica" class="level3">
 <h3 class="anchored" data-anchor-id="user-hints-mathematica">User Hints: Mathematica</h3>
@@ -7007,15 +6727,12 @@ In the dialog boxes of the final step, replace <code>$File</code> in the <kbd>Pa
  CurrentValue[cell, ShowGroupOpener] = True,
  {cell, Cells[CellStyle → {&quot;Section&quot;}]}
 ]</code></pre>
-<div class="default">
-Using version control with Mma notebooks is a bit messy but can be made fairly workable. In a Mathematica notebook that you want to put under version control, go to <code>Format » Option Inspector...</code> in the menu. In the top-left dropdown, set the option scope <code>Selected Notebook</code>. Find <code>FileOutlineCache</code> under <code>Notebook Options » Private Notebook Options</code>, and set this option to <code>False</code>. (This may make opening the notebooks a bit slower.) Similarly, under <code>Editing Options</code>, set <code>TrackCellChangeTimes</code> to <code>False</code> <br> Command approach:
-<pre>SetOptions[InputNotebook[],
+<p>Using version control with Mma notebooks is a bit messy but can be made fairly workable. In a Mathematica notebook that you want to put under version control, go to <code>Format » Option Inspector...</code> in the menu. In the top-left dropdown, set the option scope <code>Selected Notebook</code>. Find <code>FileOutlineCache</code> under <code>Notebook Options » Private Notebook Options</code>, and set this option to <code>False</code>. (This may make opening the notebooks a bit slower.) Similarly, under <strong>Editing Options</strong>, set <code>TrackCellChangeTimes</code> to <code>False</code> <br> Command approach:</p>
+<pre class="mma"><code>SetOptions[InputNotebook[],
  PrivateNotebookOptions → {&quot;FileOutlineCache&quot; → False},
   TrackCellChangeTimes → False
-   ]
-</pre>
+   ]</code></pre>
 <p>Save your notebook and it will save with much less clutter and many fewer changes. To do even better, as a preliminary to committing your changes, delete all your output cells and then save your notebook. (You can use the menus or <code>FrontEndTokenExecute[&quot;DeleteGeneratedCells&quot;]</code> for this.)</p>
-</div>
 <div class="default">
 You may find <a href="http://scidraw.nd.edu/">SciDraw</a> helpful for better looking Mathematica drawings. In order to make your Mathematica plots more stylistically compatible with a LaTeX document, consider using:
 <ul>
@@ -7030,23 +6747,22 @@ You may find <a href="http://scidraw.nd.edu/">SciDraw</a> helpful for better loo
 </section>
 <section id="scientific-notebook-and-scientific-word-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="scientific-notebook-and-scientific-word-user-hints">Scientific Notebook and Scientific Word user hints</h3>
-<p>On campus: To fix font problems on the display, make sure the Windows Multilingual Support is installed. If that is not an option, go to Tools, User Setup, Font Mapping and check the Use Symbol Font mapping box.</p>
+<p>On Windows, to fix font problems on the display, make sure the Windows Multilingual Support is installed. If that is not an option, go to Tools, User Setup, Font Mapping and check the Use Symbol Font mapping box.</p>
 <p>Be sure to learn the keyboard short-cuts: see especially the help for Key Prefixes. For example, you can logical negation as <kbd>ctrl-s,N</kbd> and the partial derivative sign (∂) as <kbd>ctrl-s,d</kbd>. (See the Help search.) Also, I strongly recommend changing the default settings under Tools, UserSetup, Math: set it so that two spaces switches to math and a space at the end of math switches to text.</p>
-<p>Be sure to visit Yngve Svendsen’s <a href="http://swp.yngve.com/"> Scientific WorkPlace Unofficial Homepage</a> (although I have had some connection difficulties).</p>
 <p><b>Graphics:</b> When using the JPGs or TIFFs, edit the file tcispech.ini and change the setting for MaxGraphicsMemoryUsage. Try doubling or tripling the default setting of 4000.</p>
 <p>When using <acronym class="help" title="Encapsulated PostScript">EPS</acronym> graphics, save your document using the Portable LaTeX filter and change the options for the graphicx package to use dvips. The graphics will only appear when printing, but they should appear.</p>
-<p>To use Scientific Word on the EagleNet, you will first need to install some (non-executable) files on your computer (which ought to have say 30Meg free disk space and 8Meg RAM); do this by entering “enetupgr sword” (without the quotes) at the DOS prompt. (Note: be sure to keep your macros in a <em>separate</em> file, which you in your preamble.) Be sure to see the <a href="http://swp.yngve.com/index.html">Scientific Workplace Unofficial Homepage</a>, which include <a href="http://swp.yngve.com/technical/miktex01.html">instructions</a> on how to use MiKTeX with SWP.</p>
-<p>You can get all the functionality of Scientific Word except for the typesetting and associated TeX functions in <a href="http://www.mackichan.com/snbk/default.htm"> Scientific Notebook</a> for Windows 9x and NT. Many useful functions are in the <a href="http://www.mackichan.com/products/freedwnld.html"> free Demo version</a>, although this version cannot print, save, or copy from read/write documents. While you are on the AU campus, you are in luck: Scientific Notebook is available as an EagleNet Application. <br> Users must first open EagleNet Applications. (If you don’t have EagleNet on your Start menu, just pick Start, Run and the type `nal’ in the dialog box.) You should see a Math/Statistics/Research folder on the left, in which you will find the Scientific Notebook icon. Double click the icon to run the program. <br> The first time you run the program, several system files will be copied down to your hard drive before the program opens. Each time after that initial setup the program will run as soon as the icon is double-clicked. The program is accessible to the major academic user groups and all student users. Since it is a 5-user license, you may occasionally find you have to wait until someone logs off to use Scientific Notebook. I do not expect this to happen, but if it happens to you let me know and I will apply for more copies.</p>
 </section>
 <section id="subversion-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="subversion-user-hints">Subversion User hints</h3>
 <p>Subversion is easy to use and excellent for individuals and small groups. Here is a <a href="http://www.clear.rice.edu/comp314/svn.html">ten minute tutorial</a>. Windows users who prefer to avoid the command line can just use <a href="http://tortoisesvn.net/">TortoiseSVN</a>.</p>
-<div class="default">
-<p>Remember your work cycle must be a very rigid UMUC sequence: 1. before you start work, <em>update</em> 2. <em>modify</em> your working copy (do your work, and test it) 3. <em>update</em> again (and resolve any conflicts) 4. as soon as possible, <em>commit</em> your changes</p>
-</div>
-<div class="default">
+<p>Remember your work cycle must be a very rigid UMUC sequence:</p>
+<ol type="1">
+<li>before you start work, <em>update</em></li>
+<li><em>modify</em> your working copy (do your work, and test it)</li>
+<li><em>update</em> again (and resolve any conflicts)</li>
+<li>as soon as possible, <em>commit</em> your changes</li>
+</ol>
 <p>To work across platforms, you must not use file or folder names that are illegal on any of the platforms. Windows users cannot use the following (which are reserved device names): CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9. They also cannot use these names followed by an extension, for example, NUL.txt or com1.png. <br> Suppose a contributor creates com1.png on a Mac and commits it to the Subversion repository. When Windows users try to update, the update fails horribly. (How horribly? Unfixably. They will have to get a new checkout after the problem is fixed.) The contributor of the file should <code>svn rename</code> it to a name legal for Windows, and commit that change. Then the problem for Windows users will go away. <br> Bottom line: never ever use such file or folder names!</p>
-</div>
 <p><a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a></p>
 <div class="default">
 <p>Suppose you want to add a directory <kbd>mydir</kbd> under version control, but it contains a bunch of files you do <em>not</em> wish to track. You can add the directory but not the files as follows: <code>svn add --non-recursive mydir</code>.</p>
@@ -7054,13 +6770,12 @@ You may find <a href="http://scidraw.nd.edu/">SciDraw</a> helpful for better loo
 <p>One disappointing thing: it would be nice to add a directory and all its files <em>except</em> those matching the <code>svn:ignore</code> property. Subversion does not currently support this. Here is one <a href="http://svn.haxx.se/users/archive-2006-02/0678.shtml">work around</a>.</p>
 <p>You can set an editor (e.g., for commit messages and property editing) in the Subversion <code>config</code> file. On Windows you should be able (after installing Subversion) to find it here: <code>\Users\YourUserName\AppData\Roaming\Subversion</code>. Search for <kbd>editor-cmd</kbd> and follow the instructions. (On Windows, I am currently using <code>editor-cmd = C:/programs/Vim/vim74/gvim.exe -f</code>. If you use a path with spaces in it, you will have to quote it.)</p>
 <p>Once you ensure that Subversion has access to a text editor, you can edit the list of patterns it will ignore in any directory. E.g., <code>svn propedit svn:ignore .</code> (note the final period) will edit the patterns for the current directory.</p>
-<p><code>svn diff -r HEAD myfile</code> shows differences between <kbd>myfile</kbd> and the repository. <code>svn status --show-updates</code> shows you which files in the repository have changed.</p>
+<p><code>svn diff -r HEAD myfile</code> shows differences between <em>myfile</em> and the repository. <code>svn status --show-updates</code> shows you which files in the repository have changed.</p>
 <p>It is useful (and probably best practice) for any plain text files to <code>svn propset svn:eol-style=native *filename*</code>. This is not the default, but each user can make it a personal default by editing the <code>[autoprops]</code> of their Subversion <code>config</code> file. From Subversion 1.8 onwards, it can be set as a default at the repository level with <a href="http://blogs.collab.net/subversion/the-road-to-repository-dictated-configuration-day-2-autoprops">Repository Dictated Configuration</a>.</p>
 <p>It is a good idea to lock binary files, to help ensure only one person changes them at a time: <code>svn propset:needs-lock yes *filename*</code>.</p>
 </section>
 <section id="docutils-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="docutils-user-hints">Docutils User hints</h3>
-<div class="default">
 If you are using rst2latex, it will include the following in your header: <code>\usepackage[T1]{fontenc}</code>. Unfortunately, on its own, this will probably lead to the use of bitmap fonts and thus “fuzzy” screen output. According to Guenter Milde, there are several reasons for this choice.
 <ul>
 <li>
@@ -7073,13 +6788,13 @@ Using the advantage of the several output options for a common source, documents
 While the bad look will be visible at first glance, use of the traditional OT1 encoding will make text extraction faulty. (That is, it creates problems with search and extraction of text that contains characters outside the ASCII range.)
 </li>
 </ul>
-The real question is what to do about it. The recommended workaround is to select a T1-encoded “Type 1” (vector) font. For example you can use Latin Modern either by adding it to your LaTeX style sheet (<code>\usepackage{lmodern}</code>) or by using a Docutils command line argument (<code>--stylesheet=lmodern</code>). Another popular solution is the “Times/Helvetica/Courier” combination, which you can get by adding the following to your style sheet:
-<pre>\usepackage{mathptmx}            % Times for serif and math
-\usepackage[scaled=.90]{helvet}  % downscaled Helvetica for sans serif
-\usepackage{courier}             % Courier for teletype (mono-space)
-</pre>
-<p>or with the following Docutils command line options: <code>--documentoptions=&quot;scaled=.90&quot; --stylesheet=&quot;mathptmx,helvet,courier&quot;</code>. <br> You can also just turn it off with the following Docutils command line option: <code>--font-encoding=OT1</code> (or even <code>--font-encoding=&quot;&quot;</code>).</p>
-</div>
+<p>The real question is what to do about it. The recommended workaround is to select a T1-encoded “Type 1” (vector) font. For example you can use Latin Modern either by adding it to your LaTeX style sheet (<code>\usepackage{lmodern}</code>) or by using a Docutils command line argument (<code>--stylesheet=lmodern</code>). Another popular solution is the “Times/Helvetica/Courier” combination, which you can get by adding the following to your style sheet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">mathptmx</span>}            <span class="co">% Times for serif and math</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[scaled=.90]{<span class="ex">helvet</span>}  <span class="co">% downscaled Helvetica for sans serif</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">courier</span>}             <span class="co">% Courier for teletype (mono-space)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>or with the following Docutils command line options:</p>
+<pre><code>--documentoptions=&quot;scaled=.90&quot; --stylesheet=&quot;mathptmx,helvet,courier&quot;</code></pre>
+<p>You can also just turn it off with the following Docutils command line option: <code>--font-encoding=OT1</code> (or even <code>--font-encoding=&quot;&quot;</code>).</p>
 </section>
 <section id="jabref-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="jabref-user-hints">JabRef User hints</h3>
@@ -7117,104 +6832,90 @@ If you are missing information for any Required fields, you can often get the mi
 <h3 class="anchored" data-anchor-id="matplotlib-user-hints">Matplotlib User Hints</h3>
 <p>Matplotlib is included in many Python distributions, including Enthought Canopy. If you install it your self, be sure to read the <a href="http://matplotlib.org/users/installing.html">installation instructions</a>. Before installing Matplotlib, you will certainly need to install <a href="#numpy">NumPy</a>.</p>
 <p>To get the most from Matplotlib, you need to clearly understand the difference between a figure instance and an axes instance. <br> A figure instance the basic container for an entire chart, like a figure in a journal article. A figure instance can contain multiple axes instances, each of which can be used for plotting or drawing. <br> We can call the <code>add_subplot</code> method to add non-overlapping axes instances to our figure. (But if you call <code>add_subplot</code> again in a way that overlaps your previous subplot, this <strong>replaces</strong> your previous axes in the current figure.)</p>
-<pre> 
-import matplotlib.pyplot as plt
-fig1 = plt.figure()
-ax1 = fig1.add_subplot(1,1,1)
-#now draw on ax1
-fig2 = plt.figure()
-ax2a = fig2.add_subplot(2,1,1)
-#now draw on ax2a
-ax2b = fig2.add_subplot(2,1,2)
-#now draw on ax2b
-</pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig1 <span class="op">=</span> plt.figure()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig1.add_subplot(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#now draw on ax1</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>fig2 <span class="op">=</span> plt.figure()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ax2a <span class="op">=</span> fig2.add_subplot(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#now draw on ax2a</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ax2b <span class="op">=</span> fig2.add_subplot(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#now draw on ax2b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can use the <code>subplots</code> convenience function to do figure and axes creation at one go.</p>
-<pre>fig, ((ax1,ax2),(ax3,ax4)) = plt.subplots(2,2)
-</pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fig, ((ax1,ax2),(ax3,ax4)) <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here is a simple example for creating a figure and displaying it onscreen. (For completeness, we illustrate the explicit choce of a GUI “back end”, although this is usually not necessary.) Note the hierarchical approach: the <kbd>pyplot</kbd> interface creates the figure object, the figure object creates the axes objects, and the axes objects create the other objects (including, implicitly, the axis objects).</p>
-<pre># preliminaries
-import matplotlib
-matplotlib.use(&#39;TkAgg&#39;)  #note choice of GUI backend!
-import matplotlib.pyplot as plt
-# create a new figure
-fig = plt.figure(1)
-ax = fig.add_subplot(1,1,1)
-ax.plot([1,2,3],&#39;r-&#39;)
-ax.set_title(&#39;Easy Line Plot&#39;)
-# display your figure onscreen
-plt.show() 
-</pre>
-<p id="mpl_no_gui">
-</p><p>Here is a simple example for creating a figure and saving it, without displaying it onscreen. (I.e., no GUI.)</p>
-<pre># preliminaries
-import numpy
-import matplotlib
-matplotlib.use(&#39;Agg&#39;)  #note choice of backend: no GUI!
-import matplotlib.pyplot as plt
-
-#create some artificial data for this example
-x, y = numpy.random.rand(2,50)  #the data (50 points)
-# create a new figure 
-fig = pyplot.figure()
-#add an axes instance to draw on
-ax = fig.add_subplot(111)
-#do your drawing
-ax.plot(x, y, marker=&#39;.&#39;, linestyle=&#39;&#39;, markerfacecolor=&#39;blue&#39;)
-ax.set_title(&#39;Scatter dots&#39;)
-ax.set_xlabel(&#39;x&#39;)
-ax.set_ylabel(&#39;y&#39;)
-# save figure to file
-fig.savefig(&#39;/temp/myfig.png&#39;, dpi=96)
-</pre>
-<p id="mpl_no_plt">
-</p><p>Matplotlib’s pyplot facilities are convenience facilities for the user with modest needs. For some examples (e.g., embedding Matplotlib in other applications) it is important not to use these facilities. In this case, you can altogether avoid using pyplot, but you will need to handle figure and canvas creation yourself.</p>
-<pre># example by John Hunter.
-from matplotlib.backends.backend_svg import FigureCanvasSVG
-from matplotlib.figure import Figure
-fig = Figure()
-ax = fig.add_subplot(211)
-ax.plot([1,2,3])
-ax.set_xlabel(&#39;time&#39;)
-canvas = FigureCanvasSVG(fig)
-canvas.print_figure(&#39;myfile.svg&#39;)
-</pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preliminaries</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>matplotlib.use(<span class="st">&#39;TkAgg&#39;</span>)  <span class="co">#note choice of GUI backend!</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new figure</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],<span class="st">&#39;r-&#39;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">&#39;Easy Line Plot&#39;</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># display your figure onscreen</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>plt.show() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here is a simple example for creating a figure and saving it, without displaying it onscreen. (I.e., no GUI.)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preliminaries</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>matplotlib.use(<span class="st">&#39;Agg&#39;</span>)  <span class="co">#note choice of backend: no GUI!</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#create some artificial data for this example</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> numpy.random.rand(<span class="dv">2</span>,<span class="dv">50</span>)  <span class="co">#the data (50 points)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new figure </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> pyplot.figure()</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#add an axes instance to draw on</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#do your drawing</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>ax.plot(x, y, marker<span class="op">=</span><span class="st">&#39;.&#39;</span>, linestyle<span class="op">=</span><span class="st">&#39;&#39;</span>, markerfacecolor<span class="op">=</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">&#39;Scatter dots&#39;</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># save figure to file</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">&#39;/temp/myfig.png&#39;</span>, dpi<span class="op">=</span><span class="dv">96</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Matplotlib’s pyplot facilities are convenience facilities for the user with modest needs. For some examples (e.g., embedding Matplotlib in other applications) it is important not to use these facilities. In this case, you can altogether avoid using pyplot, but you will need to handle figure and canvas creation yourself.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example by John Hunter.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.backends.backend_svg <span class="im">import</span> FigureCanvasSVG</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.figure <span class="im">import</span> Figure</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> Figure()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">211</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">&#39;time&#39;</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>canvas <span class="op">=</span> FigureCanvasSVG(fig)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>canvas.print_figure(<span class="st">&#39;myfile.svg&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>As another example, here is our earlier example redone to be more fully object oriented.</p>
-<pre># preliminaries
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-# create a new figure
-fig = Figure()
-ax = fig.add_subplot(111)
-ax.plot([1,2,3],&#39;r-&#39;)
-ax.set_title(&#39;Easy OO Line Plot&#39;)
-ax.set_xlabel(&#39;x&#39;)
-ax.set_ylabel(&#39;y&#39;)
-canvas = FigureCanvas(fig)
-canvas.print_figure(&#39;temp.eps&#39;)
-</pre>
-<p>All Matplotlib plotting functions trigger autoscaling. This affect, e.g., setting the axes limits. To prevent your limits from being overridden, call xlim/ylim <em>after</em> any plotting functions. Alternatively, you can turn autoscaling off: <br> <code>gca().set_autoscale_on(False)</code></p>
-<div class="default">
-Subplots are pretty close to each other: if you stack two and label both horizontal axes, the top plot’s label overlaps the bottom plot’s axis. Fix this by using <a href="http://matplotlib.sourceforge.net/matplotlib.figure.html#Figure-subplots_adjust"><code>Figure.subplots_adjust</code></a>, like this:
-<pre>figure()
-subplots_adjust(hspace=0.4)  # default: 0.2
-subplot(211)
-subplot(212)
-</pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preliminaries</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.backends.backend_agg <span class="im">import</span> FigureCanvasAgg <span class="im">as</span> FigureCanvas</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.figure <span class="im">import</span> Figure</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new figure</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> Figure()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],<span class="st">&#39;r-&#39;</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">&#39;Easy OO Line Plot&#39;</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>canvas <span class="op">=</span> FigureCanvas(fig)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>canvas.print_figure(<span class="st">&#39;temp.eps&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>All Matplotlib plotting functions trigger autoscaling. This affect, e.g., setting the axes limits. To prevent your limits from being overridden, call xlim/ylim <em>after</em> any plotting functions. Alternatively, you can turn autoscaling off:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gca().set_autoscale_on(<span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Subplots are pretty close to each other: if you stack two and label both horizontal axes, the top plot’s label overlaps the bottom plot’s axis. Fix this by using <a href="http://matplotlib.sourceforge.net/matplotlib.figure.html#Figure-subplots_adjust"><code>Figure.subplots_adjust</code></a>, like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>figure()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>subplots_adjust(hspace<span class="op">=</span><span class="fl">0.4</span>)  <span class="co"># default: 0.2</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>subplot(<span class="dv">211</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>subplot(<span class="dv">212</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Fans of Edward Tufte may wish to look at <a href="http://hupp.org/adam/weblog/2007/09/03/etframes-applying-the-ideas-of-edward-tufte-to-matplotlib/">etframes</a>.</p>
 <p id="mpl_set_aspect">
 </p><p>Note that if you <code>set_aspect</code> on a axes instance you will still need to <code>apply_aspect</code> as well (or call <code>draw</code>).</p>
 <p id="mpl_oo">
 </p><p>Matplotlib is capable of fully object oriented graphics programming. There is a very useful <a href="http://matplotlib.sourceforge.net/leftwich_tut.txt">tutorial</a>. If you want to embed Matplotlib in a GUI, you must use the object oriented API and <em>not</em> pyplot. The Matplotlib website includes <a href="http://matplotlib.sourceforge.net/examples/">examples of embedding</a>. (For example, <a href="http://matplotlib.sourceforge.net/examples/embedding_in_qt.py">embedding_in_qt.py</a>.)</p>
-<p><a href="http://agni.phys.iit.edu/~kmcivor/wxmpl/">wxmpl</a> is supposed to be the best way to integrate Matplotlib into wx.</p>
-<div class="default">
-Changing Matplotlib backends: you have to call ‘use’ before importing matplotlib.pyplot; the backend choice must be set at the time of the matplotlib.pyplot import. For example,
-<pre>import matplotlib
-matplotlib.use(&#39;GTKAgg&#39;)
-from matplotlib.pyplot import *
-</pre>
-</div>
-<div class="default">
+<section id="changing-matplotlib-backends" class="level5">
+<h5 class="anchored" data-anchor-id="changing-matplotlib-backends">Changing Matplotlib backends:</h5>
+<p>You have to call ‘use’ before importing matplotlib.pyplot; the backend choice must be set at the time of the matplotlib.pyplot import. For example,</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>matplotlib.use(<span class="st">&#39;GTKAgg&#39;</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.pyplot <span class="im">import</span> <span class="op">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 If you need to control the placement of a Matplotlib figure, you need to work a bit because it is “back end” dependent. According to John Hunter, “the matplotlib Figure is embedded in a FigureCanvas which is typically a GUI widget embedded in a GUI Window. In the pylab interface, the canvas is managed by a FigureManager, which has a window attribute on most of the backends.” He provides some examples.
 <pre><code>
 # GTK backend 
@@ -7253,8 +6954,6 @@ Todd Miller offered a TkAgg example:
 get_current_fig_manager().window.wm_geometry(&quot;+200+300&quot;)
 </code>
 </pre>
-</div>
-<div class="default">
 To get the equivalent of gnuplot’s <code>set xzeroaxis</code> and <code>set yzeroaxis</code>, use <code>axhline()</code> and <code>axyline()</code>. Prior to version 0.63, Matplotlib does not have an equivalent of gnuplot’s <code>set xzeroaxis</code>. (This draws a horizontal line across the xrange at y=0.) John Hunter explains how to achieve the same effect, and it provides many insights into matplotlib. “What you want to do is plot a line where the y coord is in data units and equal to zero, and the x coord is in axes units and spans the xrange. The line stretches from left to right regardless of the xlimits. Each axes provides a data transform and an axes transform, so that you can specify lines/text/etc in either coord system; axes coords are 0,0 for lower left and 1,1 for upper right. But what you want to do is mix the data and axes transforms for x and y. The transforms module provides a helper function for this. The following code is freestyle (untested) but should work:
 <pre><code>
 from matplotlib.transforms import blend_xy_sep_transform
@@ -7262,24 +6961,16 @@ ax = gca()
 trans = blend_xy_sep_transform( ax.transAxes, ax.transData)
 plot([0,1], [0,0], transform=trans)
 </code></pre>
-</div>
-<div class="default">
 <p>You can set an arbitrary color for any matplotlib plot. E.g., <code>pyplot.plot(d, f(d), color = (1,0,0))</code>.</p>
-</div>
-<div class="default">
 To get rid of the redundant ticks on the top and right edges:
 <pre>ax = pyplot.gca()
 ax.get_xaxis().set_ticks_postion(&#39;bottom&#39;) 
 ax.get_yaxis().set_ticks_postion(&#39;left&#39;) 
 </pre>
-</div>
-<div class="default">
 <p>Note that you should call <code>show</code> only once in a script. But sometimes you want to alternate seeing plots and doing computations. See <a href="http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-matplotlib-plots-so-that-the-computation-can-continue
 ">http://stackoverflow.com/questions/458209/is-there-a-way-to-detach-matplotlib-plots-so-that-the-computation-can-continue </a> for a discussion.</p>
-</div>
-<div class="default">
 <p>In an Axes3D object, the .xaxis and .yaxis refer to the axis for the draw space, <em>not</em> to the the 3d projected axis. The latter are .w_xaxis, .w_yaxis, and .w_zaxis. (Thanks to Ben Root for pointing this out.)</p>
-</div>
+</section>
 </section>
 <section id="eviews-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="eviews-user-hints">EViews User hints</h3>
@@ -7303,12 +6994,9 @@ Text objects have no useful methods.
 </li>
 </ul>
 </div>
-<p>Kawa offers a very useful collection of <a href="http://aris.ss.uci.edu/econ/personnel/kawa/codes/eviews.html">supplemental programs and data in EViews format</a>, including the NBER historical series and the PENN World Tables.</p>
-<p>EViews 5 can read and write <a href="http://www.eviews.com/eviews5/eviews5/ev5over.html#Formats">many data formats</a>.</p>
 <p>Up to version 4, the <code>save</code> command is not correctly documented in the EViews documentation. If you provide a filename as an argument, it is really equivalent to <kbd>File.SaveAs</kbd>. That is, it saves under the new name <em>and</em> changes the name of the current workfile. In fact, as of version 4, this is the only way to change the name of a workfile in RAM.</p>
 <p>In Eviews3, you could use <code>scat(r)</code> to get in a single graph multiple scatter plots with their regression lines. This is not possible in EViews4, where the replacement <code>linefit</code> command only uses the first two members of its group argument.</p>
 <p>missing observations: <span class="citation" data-cites="obs">@obs</span>(x[,s]) gives you the number of non-missing observations in x in the current sample or in sample “s” if the option is listed. One can access the number of non-missing observations for a group with <span class="citation" data-cites="comobs">@comobs</span>.</p>
-<div class="default">
 String substitution is very useful in EViews. For example, you might write set a string variable, say <code>%param1</code>, equal to a complicated function of parameters, which recurs in a system estimation. As a simple example:
 <pre>%param1 = &quot;c(1) + c(2)&quot;
 system1.add y = c(1)* x1 + x2/({%param1})
@@ -7317,30 +7005,18 @@ Oddly, string substitution only works for procs (commands) and not for assignmen
 <pre>scalar trythis = ({%param1})
 </pre>
 <p>doesn’t work. (In this case, EViews will look for an object named c(1)+c(2) without evaluating the expression.)</p>
-</div>
-<p>Backwards compatibility: Eviews 3 and EViews 4 are not fully compatible. See the version 4 User’s Guide page 532: “A Note on EViews Backward Compatibility” and page 580/581: “Converting from Version 3 Sspace” for some changes from version 3 to version 4. Briefly:</p>
-<ol>
-<li>
-“makeendog” is changed to “makegroup”
-</li>
-<li>
-“makestat” is changed to “makestats” (do not confuse with “makestate”)
-</li>
-<li>
-with solving models the assign statement is replaced by scenarios, and the default scenario operates as if you had specified “assign <span class="citation" data-cites="all">@all</span> _0” in version 3; hence in version 4 endogenous variables are not overwritten but new variables are created instead.
-</li>
-<li>
-<code>legend(s)</code> becomes <code>legend columns(1)</code>
-</li>
-<li>
-the r option for <code>scat</code> is not supported.
-</li>
-</ol>
 </section>
 <section id="ffmpeg-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="ffmpeg-user-hints">ffmpeg User hints</h3>
-<p>To reduce the image image resolution, use a video filter. E.g., <code>ffmpeg -i myinfinle.mp4 -vf scale=iw/2:ih/2 myoutfile.mp4</code> (Here <code>iw</code> and <code>ih</code> hold the input resolution width and height. See the <a href="https://ffmpeg.org/ffmpeg-filters.html">filters documentation</a>.) <!-- ffmpeg -i video1429831824.mp4 -vf scale=iw/2:ih/2 ..\..\econ372s2022\recordings\zoom-20220204.mp4 --> <!-- ffmpeg -i video1718443938.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220125.mp4 --> <!-- ffmpeg -i video1995210725.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220405.mp4 --> <!-- ffmpeg -i zoom-20220405.mp4 -ss 3510 -c:v copy -c:a copy zoom-20220405-trimmed.mp4 --> <!-- ffmpeg -i zoom-20250415.mp4 -vf "crop=in_w:in_h-187:0:0, scale=iw/2:ih/2" .\zoom-20250415crop.mp4 --></p>
-<p>To extract part of an MP4 file, copy the audio (<code>acodec</code>) and video (<code>vcodec</code>) for a stime range. E.g., <code>ffmpeg -ss 00:00:00 -to 00:10:00 -i myinfile.mp4 -acodec copy -vcodec copy myoutfile.mp4</code> extracts the first 10 minutes. (See the <a href="https://ffmpeg.org/ffmpeg-utils.html#time-duration-syntax">documentation of time durations</a>.)</p>
+<p>To reduce the image image resolution, use a video filter. E.g., <code>ffmpeg -i myinfinle.mp4 -vf scale=iw/2:ih/2 myoutfile.mp4</code> (Here <code>iw</code> and <code>ih</code> hold the input resolution width and height. See the <a href="https://ffmpeg.org/ffmpeg-filters.html">filters documentation</a>.)</p>
+<!-- ffmpeg -i video1429831824.mp4 -vf scale=iw/2:ih/2 ..\..\econ372s2022\recordings\zoom-20220204.mp4 -->
+<!-- ffmpeg -i video1718443938.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220125.mp4 -->
+<!-- ffmpeg -i video1995210725.mp4 -vf scale=iw/2:ih/2 ..\..\econ672s2022\recordings\zoom-20220405.mp4 -->
+<!-- ffmpeg -i zoom-20220405.mp4 -ss 3510 -c:v copy -c:a copy zoom-20220405-trimmed.mp4 -->
+<!-- ffmpeg -i zoom-20250415.mp4 -vf "crop=in_w:in_h-187:0:0, scale=iw/2:ih/2" .\zoom-20250415crop.mp4 -->
+<p>To extract part of an MP4 file, copy the audio (<code>acodec</code>) and video (<code>vcodec</code>) for a stime range. E.g.,</p>
+<pre class="shell"><code>ffmpeg -ss 00:00:00 -to 00:10:00 -i myinfile.mp4 -acodec copy -vcodec copy myoutfile.mp4</code></pre>
+<p>extracts the first 10 minutes. (See the <a href="https://ffmpeg.org/ffmpeg-utils.html#time-duration-syntax">documentation of time durations</a>.)</p>
 <!-- ffmpeg -ss 00:03:15 -to 00:04:00  -i video1648072430.mp4 -vf "crop=in_w:in_-70:0:0, scale=iw/2:ih/2" $home\dpt\courses\econ705\2024f\test.mp4 -->
 <p>You can pipe a series of frames (e.g., Matplotlib graphs) to FFMPEG to produce an animated graph.</p>
 <p>You can create PNG files named (frame000.png, frame001.png, etc) and do <code>ffmpeg -b 8000 -f mpeg2video -r 30 -i frame%03d.png movie.mpeg</code>. You can also produce an AVI like this: <code>ffmpeg -r 10 -i frame%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi</code>. <!-- l:\software\ffmpeg\ffmpeg.exe -r 2 -i temp%03d.png -f avi -vcodec msmpeg4v2 -y movie.avi --> Works great! Note that AVI supports very low framerates; MPEG does not.</p>
@@ -7348,27 +7024,46 @@ the r option for <code>scat</code> is not supported.
 <section id="vim-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="vim-user-hints">Vim User hints</h3>
 <p>Vim is free and open source software; get it here: https://www.vim.org/. If you are new to Vim, get some <a href="https://www.vim.org/docs.php">documentation</a>. Be sure to do the Vim tutorial and to read the help for “navigation”. If you want additional documentation, consider <em>Vi Improved—Vim</em> by Steve Oualline or <em>Vim ge-packt</em> by Reinhard Wobst.</p>
-<p>Windows installation hints: <br> Installation creats a <code>vim</code> directory. Below that is a <code>vimfiles</code> directory. For Windows users who are new to Vim, i. copy my <a href="https://github.com/alan-isaac/econpy/blob/master/text/vimfiles/share_vimrc.vim">share_vimrc.vim</a> file to your vimfiles directory, and then ii. look for the <code>_vimrc</code> file in your <code>vim</code> directory and add at the bottom of that <code>_vimrc</code> file the following command: <code>source $VIM/vimfiles/share_vimrc</code></p>
+<section id="windows-installation-hints" class="level4">
+<h4 class="anchored" data-anchor-id="windows-installation-hints">Windows installation hints:</h4>
+<p>Installation creats a <code>vim</code> directory. Below that is a <code>vimfiles</code> directory. For Windows users who are new to Vim, i. copy my <a href="https://github.com/alan-isaac/econpy/blob/master/text/vimfiles/share_vimrc.vim">share_vimrc.vim</a> file to your vimfiles directory, and then ii. look for the <code>_vimrc</code> file in your <code>vim</code> directory and add at the bottom of that <code>_vimrc</code> file the following command: <code>source $VIM/vimfiles/share_vimrc</code></p>
 <p>Getting started: <br> Look for a file called <code>vimtutor</code> or <code>vimtutor.bat</code>. Set aside 20 minutes for the tutorial, and then run the tutorial (e.g., by clicking the file icon). When you want to go deeper, look at the <a href="http://vimcasts.org/">Vimcasts videos</a>.</p>
 <p>The Vim cursor stays in the viewing window, in contrast with some Windows applications. If you want to cursor down and then return to where you started, set a mark before moving. (See <code>:h marks</code>.) But, if you want to be able to page down and then page back up to where you started, use <code>ctrl-d</code> and <code>ctrl-u</code> rather than <code>Pg-Dn</code> and <code>Pg-Up</code>.</p>
 <p>Digraphs allow simple and intuitive keyboard entry of unicode characters. Vim digraphs are based on <a href="http://www.faqs.org/rfcs/rfc1345.html">RFC 1345</a>. See <code>:h digraph-table</code>.</p>
 <p>To find the non-ASCII characters in a file, use a regular expression. To search for characters outside of the ASCII range, search for <code>[^\x00-\x7F]</code>. (Alternatively, use decimal values: <code>[^\d0-\d127]</code>.) However to search for individual non-ASCII characters, see the help for <code>%o</code>.</p>
-<p>Colorscheme: <br> Vim provides excellent syntax highlighting in various color schemes. There is an <a href="http://cocopon.me/app/vim-color-gallery/">online gallery</a>. You can get a list of all the installed colorschemes by entering <code>colorscheme &amp;lt;ctrl+d&amp;gt;</code> at the Vim command line. (Do not forget the space.) I particularly like <code>koehler</code>, a rather dark color scheme. (<a href="https://github.com/rodnaph/vim-color-schemes/blob/master/colors/koehler.vim">Download from GitHub.</a>) You can set this by entering <code>colorscheme koehler</code> at the Vim commmand line. Another popular dark color scheme is <code>solarized</code>. (<a href="https://github.com/altercation/vim-colors-solarized">Download from GitHub.</a>) To determine your current color scheme, enter <code>echo g:colors_name</code> at the command line. (If you did the tutorial, you know you can reach the command line by pressing <code>Esc</code></p>
-<p>Buffers: <br> A buffer is a file open for editing. Use the <code>:ls</code> command to list your current buffers. This list is <em>not</em> interactive. However, while looking at this list, you can e.g. enter <code>:b10</code> to switch to buffer 10.</p>
-<p>Tabs: <br> Vim uses tabs in a unique way. They are called tab pages, and they are essentially an arrangement of windows open on some of your buffers. (A buffer is a file that has been opened for editing; a window is an area to view a buffer, and a tab page is a collection of windows.</p>
-<p>Vim has excellent syntax highlighting. However, by default it does not use a lot of context. In many settings, I find it useful to set <code>syn sych minlines=300</code>. When necessary, you can <code>syn sych fromstart</code>, but this may cause a slowdown in very large files. (See the help for <code>syn-sync</code>.</p>
-<div class="default">
+<p>Colorscheme: <br> Vim provides excellent syntax highlighting in various color schemes. There is an <a href="http://cocopon.me/app/vim-color-gallery/">online gallery</a>. You can get a list of all the installed colorschemes by entering <code>colorscheme &amp;lt;ctrl+d&amp;gt;</code> at the Vim command line. (Do not forget the space.) I particularly like <code>koehler</code>, a rather dark color scheme. (<a href="https://github.com/rodnaph/vim-color-schemes/blob/master/colors/koehler.vim">Download from GitHub.</a>) You can set this by entering <code>colorscheme koehler</code> at the Vim commmand line. Another popular dark color scheme is <code>solarized</code>. (<a href="https://github.com/altercation/vim-colors-solarized">Download from GitHub.</a>) To determine your current color scheme, enter <code>echo g:colors_name</code> at the command line. (If you did the tutorial, you know you can reach the command line by pressing <code>Esc</code>.)</p>
+<section id="buffers" class="level5">
+<h5 class="anchored" data-anchor-id="buffers">Buffers:</h5>
+<p>A buffer is a file open for editing. Use the <code>:ls</code> command to list your current buffers. This list is <em>not</em> interactive. However, while looking at this list, you can e.g. enter <code>:b10</code> to switch to buffer 10.</p>
+</section>
+<section id="tabs" class="level5">
+<h5 class="anchored" data-anchor-id="tabs">Tabs:</h5>
+<p>Vim uses tabs in a unique way. They are called tab pages, and they are essentially an arrangement of windows open on some of your buffers. (A buffer is a file that has been opened for editing; a window is an area to view a buffer, and a tab page is a collection of windows.)</p>
+</section>
+<section id="syntax-highlighting" class="level5">
+<h5 class="anchored" data-anchor-id="syntax-highlighting">Syntax Highlighting</h5>
+<p>Vim has excellent syntax highlighting. However, by default it does not use a lot of context. In many settings, I find it useful to set <code>syn sych minlines=300</code>. When necessary, you can <code>syn sych fromstart</code>, but this may cause a slowdown in very large files. (See the help for <code>syn-sync</code>.)</p>
 Python: <br> Vim cooperates with some scipting languages, including Python. See <code>:help :python</code>, <code>:help python-examples</code>, and especially <code>:help python-vim</code>. Start with
 <pre>:python import vim
 :py cb = vim.current.buffer
 </pre>
 <p>Note that cb is now an iterable container of strings. You can assign to the i-th line by assigning to cb[i].</p>
-</div>
 <p>Exiting a buffer: it is usually recommended to exit a buffer using bnext. However I sometimes prefer to delete a buffer as I leave it. Examining the help for <code>bar</code>, we see that <code>:w|bd</code> can be used to write and then delete a buffer.</p>
-<p>MiKTeX: <br> With minimal effort, Vim cooperates wonderfully with LaTeX. Windows users should install MiKTEX, and then perhaps add my <a href="https://raw.githubusercontent.com/alan-isaac/econpy/master/text/vimfiles/ai_texmenus.vim">MiKTeX menus</a> to the <kbd>_gvimrc</kbd> file.</p>
+</section>
+<section id="spell-checking" class="level5">
+<h5 class="anchored" data-anchor-id="spell-checking">Spell Checking</h5>
 <p>Vim 7+ includes spell checking. Spell checking is affected by syntax highlighting, which identifies groups (e.g., comments). For spell-checking longer LaTeX documents, I find I need to <code>setl spell syntax spell toplevel</code>. This ensures spellchecking of text that is not in a syntax item. To make this permanent, you can include it in <code>~/.vim/after/syntax/tex.vim</code>. You can also the values of <code>syn sync maxlines</code> and <code>syn sync minlines</code> in the same file. (See the help for <code>:syn-sync</code>.) If the file is not too big, you can even always start from the top with <code>syntax sync fromstart</code>.</p>
+</section>
+<section id="registers" class="level5">
+<h5 class="anchored" data-anchor-id="registers">Registers</h5>
 <p>Learn to yank to registers. For example, to yank (i.e., copy) the entire buffer you are working on into the clipboard, use <code>:%y+</code>. (The colon move to command mode, the percent sign picks all lines, the <code>y</code> is to yank, and the plus sign picks the clipboard register.)</p>
+</section>
+<section id="bom" class="level5">
+<h5 class="anchored" data-anchor-id="bom">BOM</h5>
 <p>To remove the BOM from a file, <code>set nobomb</code>.</p>
+</section>
+<section id="learning" class="level5">
+<h5 class="anchored" data-anchor-id="learning">Learning</h5>
 <p>There is a nice book devoted to learning Vim: <a href="http://www.iccf.nl/click5.html">Vi IMproved by Steve Oualline</a>, also called the VIM book. You can view the <a href="http://www.truth.sk/vim/vimbook-OPL.pdf">Vim book online</a>.</p>
 <p>Be sure to try <a href="http://lanzarotta.tripod.com/">Jeff Lanzarotta’s bufexplorer.vim</a>. (One warning: as of early 2001, the buffer delete command in bufexplorer uses bd!, so changed buffers will be deleted upon request without a warning. Change this to bd.)</p>
 <p>Thesaurus: You can adapt the <a href="http://www.dcs.shef.ac.uk/research/ilash/Moby/mthes.html">Moby thesaurus</a> for use with Vim.</p>
@@ -7377,32 +7072,31 @@ Python: <br> Vim cooperates with some scipting languages, including Python. See 
 <p>Vim supports folding! You may find it useful to begin your writing with an <a href="http://bike-nomad.com/vim/vimoutliner.html">outliner</a>.</p>
 <p>For user questions you can turn to the <a href="http://www.vim.org/mail.html">Vim mailing list</a>. There is an <a href="http://www.egroups.com/group/vim">archive</a>.</p>
 <p>Note that for all systems the Vim distribution is split into an archive with runtime files (documentation, syntax files, etc.) and a binary and/or source archive. You should download at least two archives!</p>
-<p>You can find many useful hints at <a href="http://www.softpanorama.org/Editors/vim.shtml">Softpanorama Western Orthodox Editors Page</a>.</p>
-<p>Count the occurences of a pattern with <code>:%s/pattern//ng</code>. Count the number of words in a file with <code>g ctrl-g</code>.</p>
 <p>To change line spacing see the help for <kbd>linespace</kbd>. To change the font in gvim, you can use the menu dialog <kbd>Edit/SelectFont</kbd>, or you can include your selection in your <kbd>_gvimrc</kbd> file. (I use <code>set guifont=andale_mono:h9,courier_new:h10</code>.) Text editors should only use <a href="#monospace">monospace fonts</a>.</p>
 <p>If you type very slowly, you need to slow down Vim’s macro recognition. See the help for <kbd>map-typing</kbd>. I recommend resetting timeoutlen according to the example in the help for <var>timeoutlen</var>.</p>
-<p><code>&#39;.</code> takes you to your last edit</p>
+<ul>
+<li><code>&#39;.</code> takes you to your last edit</li>
+<li>Count the occurences of a pattern with <code>:%s/pattern//ng</code>.</li>
+<li>Count the number of words in a file with <code>g ctrl-g</code>.</li>
+</ul>
+</section>
+</section>
 </section>
 <section id="postscript-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="postscript-user-hints">PostScript User hints</h3>
 <p>If you want to fill an entire page with background color, you do not need to know the dimension of the page. Just start your PostScript program by setting the color and then giving the command <code>clippath fill</code>. (Of course few printers can print to the exact edge of the page.)</p>
 <p>Transparency: PostScript uses an opaque imaging model. It does not support transparency. However, there is a workaround available if you have Adobe Distiller. You can add a “PDFMark” to your Postscript file to set the transparency for an object. When Adobe Distiller processes this PDFMark, it will set the transparency for the object.<br>
-Lancaster offered an <a href="http://www.tinaja.com/glib/pstrans.pdf ">early discussion</a>. (Start there rather than with the <a href="http://partners.adobe.com/public/developer/en/acrobat/sdk/pdf/pdf_creation_apis_and_specs/pdfmarkReference.pdf">pdfmark Reference Manual</a>.) Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.htm#Transparency">GhostScript supports transparency</a>.</p>
+Lancaster offered an <a href="http://www.tinaja.com/glib/pstrans.pdf">early discussion</a>. (Start there rather than with the <a href="http://partners.adobe.com/public/developer/en/acrobat/sdk/pdf/pdf_creation_apis_and_specs/pdfmarkReference.pdf">pdfmark Reference Manual</a>.) Also, note that <a href="http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.50/Language.htm#Transparency">GhostScript supports transparency</a>.</p>
 </section>
 <section id="latex-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="latex-user-hints">LaTeX User hints</h3>
-<p>Use <code>pdflatex</code> to compile your documents. Use <code>tikz</code> for your drawings.</p>
+<p>Use <strong>pdflatex</strong> (or possibly <strong>luatex</strong>) to compile your documents. Use <strong>tikz</strong> for your drawings.</p>
 <p>To get double spacing, use <code>\usepackage{setspace} \doublespacing</code>. This should leave your figures and tables alone.</p>
-<div class="default">
 <p>Do not use the eqnarray environment. <a href="http://www.tug.org/pracjourn/2006-4/madsen/">Lars Madsen explains why.</a> Instead use one of the beautiful amsmath environments.</p>
-</div>
-<p>For nice theorem and proof formatting, consider combining the following three packages: <code>amsthm</code>, <code>thmtools</code>, and <code>thmbox</code>. (The last is just to redefine the <code>proof</code> environment.</p>
-<p>If you use linerange markers with the <kbd>listings</kbd> package, make sure your markers do not include hyphens. (These will be treated as indicating the linerange break.)</p>
-<div class="default">
-<p>See Voss’s <a href="http://tug.org/TeXnik/mainFAQ.cgi">FAQ supplement</a>.</p>
-</div>
-<p>The <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/pict2e/?action=/tex-archive/macros/latex/contrib/">pict2e</a> package provides much needed additional functionality to the LaTeX picture environment. As of June 2004, however, there is a small bug: be sure to end <code>qbezier</code> and <code>cbezier</code> commands with an immediate comment character, to avoid breaks in line continuity.</p>
-<div class="default">
+<p>For nice theorem and proof formatting, consider combining the following three packages: <code>amsthm</code>, <code>thmtools</code>, and <code>thmbox</code>. (The last is just to redefine the <code>proof</code> environment.)</p>
+<section id="listings" class="level5">
+<h5 class="anchored" data-anchor-id="listings">Listings</h5>
+<p>If you use linerange markers with the <strong>listings</strong> package, make sure your markers do not include hyphens. (These will be treated as indicating the linerange break.)</p>
 <p>Using LaTeX to produce PDF files with graphics is pretty easy as long as you are producing <a href="http://silas.psfc.mit.edu/elec_fig/">clean graphics</a>. But you need to pay attention to some details.</p>
 <p>If you are producing your PDF files with dvipdfm, then you will find it easiest to use EPS graphics. (EPS is also the primary standard for publishers.) Historically this has been my preference, but lately I’ve been working more with pdflatex.</p>
 <ol>
@@ -7448,9 +7142,7 @@ In any case, use the <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=imp
     \end{document}
 </code></pre>
 <p>Note the forward slash in the path name, as always with TeX. (You can omit the path if you i. keep your graphics files in the same folder as your .tex file, or ii. configure your LaTeX to look in the folder containing your graphics files.)</p>
-</div>
 <p>On the one hand it is easy enough to zip up all your <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files with the embedding LaTeX document. On the other hand, one of the attractions of the LaTeX picture environment was that your drawings were present in your <kbd>.tex</kbd> file. Here is a way to get almost the same thing with <acronym class="help" title="Encapsulated PostScript">EPS</acronym> files. Add the <kbd>moreverb</kbd> package. Put your <acronym class="help" title="Encapsulated PostScript">EPS</acronym> file in a <kbd>verbatimwrite</kbd> environment in your <kbd>.tex</kbd> file. You will have to provide a file name that it will be written to, but once it is written you can read it into a figure as usual. (An alternatie is to generate your figures with embedded gnuplot commands, using the <a href="http://www.tug.org/tex-archive/macros/latex/contrib/egplot/">egplot</a> package.)</p>
-<div class="default">
 If you need to wrap text around a figure, use the <kbd>wrapfig</kbd> package. Include the package (in your preamble) and then the syntax is almost like that for the figure environment.
 <pre>\begin{wrapfigure}{R}{2in}
 \includegraphics[width=2in]{example.eps}
@@ -7458,7 +7150,7 @@ If you need to wrap text around a figure, use the <kbd>wrapfig</kbd> package. In
 \label{fig:xmpl}
 \end{wrapfigure}
 </pre>
-</div>
+</section>
 </section>
 <section id="bibtex-user-hints" class="level3">
 <h3 class="anchored" data-anchor-id="bibtex-user-hints">BibTeX User hints</h3>
@@ -7496,7 +7188,8 @@ Please be sure you have an official release before doing this.</p>
 <p>Remember that gnuplot distinguishes integers and floats by the presence of a decimal point. Make sure your real numbers are recognized as real by including a decimal point. Integer division produces an integer result. For example, <span class="math inline">\(3/2=1\)</span> but <span class="math inline">\(3./2=1.5\)</span>.</p>
 <p>To easily plot a cobweb plot (i.e., Verhulst diagram with gnuplot, see <a href="http://www.jaist.ac.jp/~s1060005/article/?gnuplot_cobweb">this article</a>.</p>
 <p>Setting the color of plots is not well documented. Do it by setting the linetype variable. To see the linetypes, type <kbd>test</kbd> at the gnuplot command line.</p>
-<p>To draw a 3-D scatterplot, try <br> splot ‘data.asc’ with points palette</p>
+<p>To draw a 3-D scatterplot, try</p>
+<pre class="gnuplot"><code>splot &#39;data.asc&#39; with points palette</code></pre>
 <p>You can draw a line segment by setting an arrow with the “nohead” parameter.</p>
 <div class="default">
 Suppose you want a log scale on the y axis but you want to display the numbers as base raised to an exponent.
@@ -7518,10 +7211,6 @@ e
 <p>Up to version 3.8j, <kbd>gnuplot</kbd> arrowheads are not offset to account for their miter. This means they generally extend past the point where you expect them to stop. There is no satisfactory workaround, but you can try drawing a filled arrow with a very narrow pen and then redrawing just the tail (as a headless “arrow”) with a thicker pen.</p>
 <p>Kawano offers a brief overview of how to generate <a href="http://t16web.lanl.gov/Kawano/gnuplot/intro/plotcalc-e.html">numerical plots</a> using gnuplot.</p>
 </section>
-<section id="firefox-hints" class="level3">
-<h3 class="anchored" data-anchor-id="firefox-hints">FireFox hints</h3>
-<p>I consider one extension to be indispensible: <a href="https://addons.mozilla.org/en-us/firefox/addon/session-manager/">Session Manager</a>. Another interesting extension is <a href="https://addons.mozilla.org/en-us/firefox/addon/taboo/">Taboo</a> which allows you to replace the practice of keeping many tabs open with a single page of site links.</p>
-</section>
 <section id="windows-hints" class="level3">
 <h3 class="anchored" data-anchor-id="windows-hints">Windows hints</h3>
 <p id="windows-hints-extensions">
@@ -7534,37 +7223,9 @@ e
 </div>
 <p>Windows 10 <a href="https://github.com/microsoft/PowerToys/blob/master/README.md">PowerToys</a> includes a Keyboard Manager, for key remapping. This is useful for mapping <code>CapsLock</code> to <code>Ctrl</code>.</p>
 </section>
-<section id="opera-hints" class="level3">
-<h3 class="anchored" data-anchor-id="opera-hints">Opera hints</h3>
-<div class="boxed">
-Opera hints: <br> You can disable the Opera splash screen by adding/editing this line in your opera.ini file, [user prefs] section.<br>
-
-<pre>SHOW SPLASH SCREEN=0</pre>
-You can pre-empt certain misconfigured servers that do not correctly handle <a href="http://www.faqs.org/rfcs/rfc2616.html">RFC2616</a> add the following to the [Adv User Prefs] section of opera6.ini:
-<pre style="font-size: smaller">HTTP Accept Charset=windows-1252, utf-8, utf-16, iso-8859-1, iso-8859-15;q=0.6, *;q=0.1
-</pre>
-</div>
-</section>
-<section id="gretl-hints" class="level3">
-<h3 class="anchored" data-anchor-id="gretl-hints">gretl hints</h3>
-<div class="default">
-To install gretl on an Intel Mac, make sure you do a 3-step install:
-<li>
-Make sure X11 is installed. (On Tiger you will need to install from your system disk. On Leopard, update your X11 from <a href="http://xquartz.macosforge.org/trac/wiki">http://xquartz.macosforge.org/trac/wiki</a>.
-</li>
-<li>
-install the GTK+ Framework,
-</li>
-<li>
-install the <strong>intel</strong> disk image.
-</li>
-<p>The last two are at <a href="http://gretl.sourceforge.net/osx.html">http://gretl.sourceforge.net/osx.html</a>.</p>
-</div>
-</section>
 <section id="latex-hints" class="level3">
 <h3 class="anchored" data-anchor-id="latex-hints">LaTeX hints</h3>
 <p>New LaTeX users on Windows may wish to read <a href="http://www.pinteric.com/miktex.html">these hints</a></p>
-<div class="default">
 Suppose you want to use a non-standard document class, say a thesis class to format your LaTeX thesis. You need LaTeX to be able to find the class (.cls) and class option (.clo) files. Here are some options for providing this information. (For more information, see the <a href="http://docs.miktex.org/manual/localadditions.html">MiKTeX documentation</a>.)
 <ul>
 <li>
@@ -7580,7 +7241,6 @@ Put them in an arbitrary folder that you point to by using the <code>--include-d
 Put them in a properly (TDS) structured <kbd>localtexmf</kbd> folder, and then refresh your LaTeX database.
 </li>
 </ul>
-</div>
 <p>To include graphics in your document, use the <kbd>graphicx</kbd> package. Keep your images grouped together, and point to them with the <code>\graphicspath</code> command. (Some knowledgeable users suggest setting <var>TEXINPUTS</var> instead, e.g., <a href="http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618">http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2618</a>.) Note the odd syntax for <code>\graphicspath</code>: each path must be in braces and must end with a forward slash. If you want an images directory searched recursively (say because you put each chapters images a separate folder), end the path with a double slash. E.g., <code>\graphicspath{{images-eps//}{images-pdf//}}</code>.</p>
 <section id="tikz-hints" class="level4">
 <h4 class="anchored" data-anchor-id="tikz-hints">TikZ hints</h4>
@@ -7612,12 +7272,12 @@ Put them in a properly (TDS) structured <kbd>localtexmf</kbd> folder, and then r
 </section>
 <section id="unicode-hints" class="level3">
 <h3 class="anchored" data-anchor-id="unicode-hints">Unicode hints</h3>
-<p>To enter arbitrary Unicode characters on a Windows platform, see <a href="http://www.fileformat.info/tip/microsoft/enter_unicode.htm">http://www.fileformat.info/tip/microsoft/enter_unicode.htm</a>. On Linux, consider the <a href="http://code.google.com/p/ibus/]">IBus</a> input bus. If you use Vim on either platform, see <code>help utf-8-typing</code> (and <code>help digraphs-default</code>).</p>
+<p>To enter arbitrary Unicode characters on a Windows platform, see <a href="http://www.fileformat.info/tip/microsoft/enter_unicode.htm">http://www.fileformat.info/tip/microsoft/enter_unicode.htm</a>. On Linux, consider the <a href="http://code.google.com/p/ibus/%5D">IBus</a> input bus. If you use Vim on either platform, see <code>help utf-8-typing</code> (and <code>help digraphs-default</code>).</p>
 </section>
 <section id="windows-10-hints" class="level3">
 <h3 class="anchored" data-anchor-id="windows-10-hints">Windows 10 hints</h3>
 <p>To see your recent files, open the Run Dialog Box (keyboard shortcut Windows Key+R) and enter <code>shell:recent</code>. You can open (or delete) files here.</p>
-<p>To search for a phrase in a given type of file in FileExplorer, use the search bar on the upper right hand corner with the <tt>type:</tt> and <tt>content:</tt> prefixes. E.g., <tt>content:“my phrase” type:.tex</tt>. (First, make sure you are <a href="https://support.microsoft.com/en-us/help/4098843/windows-10-search-indexing-faq">indexing the contents</a>.)</p>
+<p>To search for a phrase in a given type of file in FileExplorer, use the search bar on the upper right hand corner with the <code>type:</code> and <code>content:</code> prefixes. E.g., <code>content:&quot;my phrase&quot; type:.tex</code>. (First, make sure you are <a href="https://support.microsoft.com/en-us/help/4098843/windows-10-search-indexing-faq">indexing the contents</a>.)</p>
 </section>
 <section id="lyx-hints" class="level3">
 <h3 class="anchored" data-anchor-id="lyx-hints">LyX hints</h3>
@@ -7626,7 +7286,7 @@ Put them in a properly (TDS) structured <kbd>localtexmf</kbd> folder, and then r
 </section>
 <section id="google-drive-hints" class="level3">
 <h3 class="anchored" data-anchor-id="google-drive-hints">Google Drive hints</h3>
-<p>It is possible to provide a direct download link for items on your Google drive by making a small change in the URL. Here is an example for a Google spreadsheet. In a browser, open the file to edit and you’ll see an address like <tt>https://docs.google.com/spreadsheets/d/ID/edit</tt>, where the <tt>ID</tt> will be specific to your document. Just change the end of this to specify <tt>export</tt> and a format argument. For example, <tt>https://docs.google.com/spreadsheets/d/ID/export?format=xlsx</tt>.</p>
+<p>It is possible to provide a direct download link for items on your Google drive by making a small change in the URL. Here is an example for a Google spreadsheet. In a browser, open the file to edit and you’ll see an address like <code>https://docs.google.com/spreadsheets/d/ID/edit</code>, where the <code>ID</code> will be specific to your document. Just change the end of this to specify <code>export</code> and a format argument. For example, <code>https://docs.google.com/spreadsheets/d/ID/export?format=xlsx</code>.</p>
 </section>
 <section id="gnuwin32-hints" class="level3">
 <h3 class="anchored" data-anchor-id="gnuwin32-hints">GnuWin32 hints</h3>
@@ -7665,7 +7325,7 @@ Delete your temp folder. You do not need it any more.
 <div class="smaller">
 <p>Adobe, PostScript, and Acrobat are registered trademarks of Adobe Systems, Incorporated. Apple and Macintosh are registered trademarks of Apple Computer, Incorporated. Windows and MS-DOS are trademarks of Microsoft Corporation.</p>
 </div>
-<p>Copyright © 1998 &amp; 2020 by Alan G. Isaac</p>
+<p>Copyright © 1998 &amp; 2026 by Alan G. Isaac</p>
 <p><strong>Some Rights Reserved:</strong> The content on this page is subject to the <a href="http://creativecommons.org/licenses/by/2.0/">Creative Commons Attribution License version 2.0</a></p>
 
 
