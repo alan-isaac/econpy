@@ -8,7 +8,7 @@
 
 <meta name="author" content="Alan G. Isaac">
 <meta name="keywords" content="software, economists, software for economists, editors, text editors, matrix programming, agent-based simulation, agent-based economics, Python, LaTeX, PostScript, Vim, graphics, symbolic mathematics">
-<meta name="description" content="some commonly needed software resources for economists">
+<meta name="description" content="Some commonly needed software resources for economists.">
 
 <title>software4econ</title>
 <style>
@@ -3930,6 +3930,11 @@ font-family: inherit;
     "search-label": "Search"
   }
 }</script>
+<style>
+.description {display: none;}
+.quarto-title-meta-{display: none;}
+.keywords {display: none;}
+</style>
 
   <script>/*
  * Polyfill service v3.111.0
@@ -4151,12 +4156,12 @@ window.Quarto = {
   <li><a href="#julia" id="toc-julia" class="nav-link" data-scroll-target="#julia">Julia</a></li>
   <li><a href="#java-for-scientific-programming" id="toc-java-for-scientific-programming" class="nav-link" data-scroll-target="#java-for-scientific-programming">Java for Scientific Programming</a></li>
   <li><a href="#other-free-matrix-programming-languages" id="toc-other-free-matrix-programming-languages" class="nav-link" data-scroll-target="#other-free-matrix-programming-languages">Other Free Matrix Programming Languages</a></li>
-  <li><a href="#support-for-matrix-programming-in-other-languages" id="toc-support-for-matrix-programming-in-other-languages" class="nav-link" data-scroll-target="#support-for-matrix-programming-in-other-languages">Support for Matrix Programming in Other Languages</a></li>
   </ul></li>
   <li><a href="#general-purpose-programming-languages-for-economists" id="toc-general-purpose-programming-languages-for-economists" class="nav-link" data-scroll-target="#general-purpose-programming-languages-for-economists">General Purpose Programming Languages for Economists</a>
   <ul class="collapse">
   <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
-  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c">C</a></li>
+  <li><a href="#go" id="toc-go" class="nav-link" data-scroll-target="#go">Go</a></li>
+  <li><a href="#clang" id="toc-clang" class="nav-link" data-scroll-target="#clang">C</a></li>
   <li><a href="#other-free-languages" id="toc-other-free-languages" class="nav-link" data-scroll-target="#other-free-languages">Other Free Languages</a></li>
   </ul></li>
   <li><a href="#other-useful-statistical-software" id="toc-other-useful-statistical-software" class="nav-link" data-scroll-target="#other-useful-statistical-software">Other Useful Statistical Software</a>
@@ -4167,8 +4172,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#CASs" id="toc-CASs" class="nav-link" data-scroll-target="#CASs">Symbolic Mathematics/Computer Algebra Systems</a>
   <ul class="collapse">
+  <li><a href="#open-source-cass" id="toc-open-source-cass" class="nav-link" data-scroll-target="#open-source-cass">Open Source CASs</a></li>
   <li><a href="#commercial-cass" id="toc-commercial-cass" class="nav-link" data-scroll-target="#commercial-cass">Commercial CASs</a></li>
-  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a></li>
   <li><a href="#math-on-the-web" id="toc-math-on-the-web" class="nav-link" data-scroll-target="#math-on-the-web">Math on the Web</a></li>
   <li><a href="#browsers" id="toc-browsers" class="nav-link" data-scroll-target="#browsers">Browsers</a></li>
   <li><a href="#ebooks" id="toc-ebooks" class="nav-link" data-scroll-target="#ebooks">Ebooks</a></li>
@@ -4177,7 +4182,7 @@ window.Quarto = {
   <li><a href="#transport-neutral-encoding-format-tnef" id="toc-transport-neutral-encoding-format-tnef" class="nav-link" data-scroll-target="#transport-neutral-encoding-format-tnef">Transport Neutral Encoding Format (TNEF)</a></li>
   <li><a href="#email-scripts" id="toc-email-scripts" class="nav-link" data-scroll-target="#email-scripts">Email Scripts</a></li>
   <li><a href="#news-readers" id="toc-news-readers" class="nav-link" data-scroll-target="#news-readers">News Readers</a></li>
-  <li><a href="#antivirus" id="toc-antivirus" class="nav-link" data-scroll-target="#antivirus">AntiVirus</a></li>
+  <li><a href="#email-1" id="toc-email-1" class="nav-link" data-scroll-target="#email-1">Email</a></li>
   <li><a href="#multimedia-resources" id="toc-multimedia-resources" class="nav-link" data-scroll-target="#multimedia-resources">Multimedia Resources</a></li>
   </ul></li>
   <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming">Programming</a>
@@ -4271,7 +4276,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    some commonly needed software resources for economists
+    Some commonly needed software resources for economists.
   </div>
 </div>
 
@@ -4885,7 +4890,7 @@ S5 or <a href="http://www.netzgesta.de/S5/">S5 Reloaded</a>. (License: GPL)
 <a href="https://github.com/projectmesa/mesa">Mesa</a>
 </dd>
 <dd>
-<a href="https://github.com/alan-isaac/econpy/tree/master/abm/gridworld">gridworld</a> is a Python module providing some of toolkit functionality of NetLogo. (E.g., spatial and stationary agents; simple GUI construction with button, sliders, plots; etc.) Examples of the use of gridworld can be found in a <a href="http://jasss.soc.surrey.ac.uk/14/2/5.html">supporting paper</a>, along with a set of template models for exploring agent-based modeling.
+<p><a href="https://github.com/alan-isaac/econpy/tree/master/abm/gridworld">gridworld</a> is a Python module providing some of toolkit functionality of NetLogo. (E.g., spatial and stationary agents; simple GUI construction with button, sliders, plots; etc.) Examples of the use of gridworld can be found in a <a href="http://jasss.soc.surrey.ac.uk/14/2/5.html">supporting paper</a>, along with a set of template models for exploring agent-based modeling.</p>
 </dd>
 <dt>Julia:</dt>
 <dd>
@@ -4910,32 +4915,31 @@ After NetLogo, perhaps the most popular multi-agent simulation toolkit is <a hre
 <section id="netlogo-resources" class="level3">
 <h3 class="anchored" data-anchor-id="netlogo-resources">NetLogo Resources</h3>
 <p>Here are some useful NetLogo books:</p>
-<li>
-Best overview and general introduction: <br> <a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl"> Wilensky, Uri and William Rand (2015). An introduction to agent-based modeling: Modeling natural, social and engineered complex systems with NetLogo. Cambridge: MIT Press. </a>
-</li>
-<li>
-Best applied introduction: <br> <a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl"> Steven F. Railsback; Volker Grimm (2011). Agent-Based and Individual-Based Modeling: A Practical Introduction. Cambridge: Princeton University Press. ISBN 978-0-691-13674-5. </a>
-</li>
-<li>
-Best short introduction: <br> <a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl"> Gilbert, Nigel and Klaus G. Troitzsch (2005). Simulation for the Social Scientist, Second Edition. London: McGraw Hill. </a>
-</li>
-<li>
-Most focused on Economics: <br> <a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl"> Hamill, Lynne and Nigel Gilbert (2016), Agent-Based Modelling in Economics, Wiley. </a>
-</li>
-<li>
-David O’Sullivan; George L.W. Perry (2013). Spatial Simulation: Exploring Pattern and Process. Wiley-Blackwell. ISBN 978-1-119-97079-8.
+<ul>
+<li><p><a href="https://www.amazon.com/gp/product/0262731894/ref=as_li_qf_sp_asin_il_tl">An introduction to agent-based modeling: Modeling natural, social and engineered complex systems with NetLogo. Cambridge: MIT Press</a> (2015) by Uri Wilensky and William Rand is the best overview and general introduction.</p></li>
+<li><p><a href="https://www.amazon.com/gp/product/0691136742/ref=as_li_qf_sp_asin_il_tl">Agent-Based and Individual-Based Modeling: A Practical Introduction</a> (2011) by Steven F. Railsback and Volker Grimm is the best applied introduction.</p></li>
+<li><p><a href="https://www.amazon.com/gp/product/0335216005/ref=as_li_qf_sp_asin_il_tl">Simulation for the Social Scientist</a> (2005, Second Edition) by Nigel Gilbert and Klaus G. Troitzsch is the best short introduction.</p></li>
+<li><p><a href="https://www.amazon.com/gp/product/1118456076/ref=as_li_qf_sp_asin_il_tl">Agent-Based Modelling in Economics</a></p>
+<ol start="2016" type="1">
+<li>by Lynne Hamill and Nigel Gilbert is the most focused on economics.</li>
+</ol></li>
+</ul>
+<!--
+David O'Sullivan; George L.W. Perry (2013). Spatial Simulation: Exploring Pattern and Process. Wiley-Blackwell. ISBN 978-1-119-97079-8.
 </li>
 <li>
 Britt Anderson (2014). Computational Neuroscience and Cognitive Modeling. London: Sage. ISBN 978-1-4462-4930-7.
 </li>
 <li>
-<a href="http://multiagent.com/p/fundamentals-of-multiagent-systems.html"> José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo. </a>
-</li>
+<a href="http://multiagent.com/p/fundamentals-of-multiagent-systems.html">
+José M. Vidal (2010). Fundamentals of Multiagent Systems Using NetLogo.
+</a>
+-->
 </section>
 </section>
 <section id="scientific-programming-languages" class="level2">
 <h2 class="anchored" data-anchor-id="scientific-programming-languages">Scientific Programming Languages</h2>
-<p>Most scientific programming is done in very high level languages. Two factors to consider in making a language choice are what software in your area is already written in the language, and how much original coding you plan to do.</p>
+<p>Most day-to-day scientific programming is done in very high level languages. Two factors to consider in making a language choice are what software in your area is already written in the language, and how much original coding you plan to do.</p>
 <section id="julia-for-scientific-programming" class="level3">
 <h3 class="anchored" data-anchor-id="julia-for-scientific-programming">Julia for Scientific Programming</h3>
 <p><a href="https://julialang.org/downloads/">Julia</a> is probably the right choice for those looking for an alternative to Python and R.</p>
@@ -4944,7 +4948,7 @@ Britt Anderson (2014). Computational Neuroscience and Cognitive Modeling. London
 <h3 class="anchored" data-anchor-id="python-numpy-matplotlib-scipy">Python + NumPy + Matplotlib + SciPy</h3>
 <p>A key reason <a href="http://www.stat.washington.edu/~hoytak/_static/papers/why-python.pdf">why Python rocks for research</a> is the NumPy array multi-dimensional library (License: BSD). NumPy is a very high quality library, and it has become my favorite approach to matrix (and multi-dimesional array) programming. This <a href="#python">Python</a> package is written as a C extension, so it is very fast. This means you can have full access to the ease of use and to the object-oriented power of the <a href="#python">Python</a> programming language while doing serious scientific programming.</p>
 <p>Additionally, an extensive scientific computing environment is provided by <a href="http://www.scipy.org/">SciPy</a>. (License: BSD; Dependency: NumPy.) For publication quality graphics, add the excellent graphics package <a href="#matplotlib">Matplotlib</a>. (License: BSD; Dependency: NumPy.)</p>
-<p>Most Python users will be best served by a Python distribution that packages together everything they need as a single install. For example: NumPy, SciPy, and Matplotlib (as well as much more) are included in the following distributions.</p>
+<p>Nowadays, best practice often involves creating a virtual environment for each Python project, often using the <a href="https://docs.astral.sh/uv/">uv</a> package and project manage. Nevertheless, many Python users will be well served by a Python distribution that packages together everything they need as a single install. For example: NumPy, SciPy, and Matplotlib (as well as much more) are included in the following distributions.</p>
 <ul>
 <li>
 <a href="https://support.enthought.com/enthought-deployment-manager-edm">Enthough Deployment Managet</a>
@@ -4971,17 +4975,16 @@ Britt Anderson (2014). Computational Neuroscience and Cognitive Modeling. London
 </section>
 <section id="java-for-scientific-programming" class="level3">
 <h3 class="anchored" data-anchor-id="java-for-scientific-programming">Java for Scientific Programming</h3>
-<p>Java does not seem to have any eqivalent of Python’s <a href="#scipy">SciPy</a> package for scientific programming. Pieces of the functionality can be obtained as follows. (But stick with SciPy if you can.)</p>
+<p>Java does not seem to have any eqivalent of Python’s <a href="#scipy">SciPy</a> package for scientific programming. Pieces of the functionality can be obtained as follows. (But stick with Python’s SciPy if you can.)</p>
 <ul>
-<li>
-<a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a> for some basic linear-algebra and optimization functionality.
-</li>
-<li>
-<a href="http://acs.lbl.gov/ACSSoftware/colt/">Colt</a> for multi-dimensional arrays and basic statistics.
-</li>
-<li>
-NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolkit</a>.
-</li>
+<li><p><a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a> for some basic linear-algebra and optimization functionality.</p></li>
+<li><p><a href="http://acs.lbl.gov/ACSSoftware/colt/">Colt</a> for multi-dimensional arrays and basic statistics.</p></li>
+<li><p>NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolkit</a>.</p></li>
+<li><p><a href="http://math.nist.gov/javanumerics/">Java Numerics</a> includes a <a href="http://math.nist.gov/javanumerics/jama/">Java Matrix package</a>.</p></li>
+<li><p>The <a href="http://sourceforge.net/projects/f2j/">Fortran to Java</a> project offers a Java version of the LAPACK routines.</p></li>
+<li><p><a href="https://github.com/mikera/vectorz">VectorZ</a> provides fast double-precision vector and matrix math and supports n-dimensional arrays.</p></li>
+<li><p><a href="https://github.com/rwl/ParallelColt">Parallel Colt</a> provides support for dense and sparse linear algebra. This is a dependency of <a href="http://incanter.org/">Incanter</a>, which provides statistical data processing and visualization functionality.</p></li>
+<li><p><a href="https://deeplearning4j.konduit.ai/">Deeplearning4J</a> suite includes ND4J, a library for scientific computing on the JVM. (License: Apache 2.0) Emphasizes Python interoperability.</p></li>
 </ul>
 </section>
 <section id="other-free-matrix-programming-languages" class="level3">
@@ -4991,16 +4994,19 @@ NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolki
 <a href="http://pdl.perl.org/">Perl Data Language</a> introduces a new data structure: the “PDL numerical array,” often referred to as a “piddle.” A piddle can contain a large block of efficiently-stored numbers for manipulation with normal mathematical expressions. Each operation is implemented via compiled C code, so it’s nearly as fast as a C program.
 </li>
 <li>
-<a href="http://www.simunova.com/de/node/24">Matrix Template Language 4 (MTL4)</a> provide matrix manipulations for C++ users.
+Verson 3.12 and prior of the LAPACK numerical linear algebra subroutine library is available from the <a href="https://netlib.org/lapack/">Netlib Repository</a> at Oak Ridge National Laboratory.
 </li>
 <li>
-<a href="http://root.cern.ch/">ROOT</a> is an extremely capable “object-oriented data analysis package” developed at <a href="http://public.web.cern.ch/public/">CERN</a>. (License: LGPL; Language: C++)
+<a href="https://github.com/simunova/mtl4">Matrix Template Language 4 (MTL4)</a> provide matrix manipulations for C++ users.
+</li>
+<li>
+<a href="http://root.cern.ch/">ROOT</a> is an extremely capable “object-oriented data analysis package” developed at <a href="http://public.web.cern.ch/public/">CERN</a>. (License: LGPL; Language: C++) Root offers a Python interface to all its components!
 </li>
 <li>
 <a href="http://scilabsoft.inria.fr/">SciLab</a>, a free MatLab-like numerical computation package. (It also has capabilities in <a href="#CAS">symbolic mathematics</a>, especially polynomials and polynomial matrices.)
 </li>
 <li>
-<a href="http://dhmunro.github.io/yorick-doc/">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is primarily used in physics. (License: BSD) Yorick includes the Gist graphics package, which can be used separately. For example, <a href="http://hifweb.lbl.gov/public/software/gist/pygist_html/pygist.html">PyGist</a> provides a Python interface to the Gist graphics package. This allows extremely fast graphics plotting.
+<a href="https://github.com/LLNL/yorick">Yorick</a> is a fast, cross-platform, interpreted matrix programming language that is primarily used in physics. (License: BSD) Yorick includes the Gist graphics package, which can be used separately. For example, <a href="https://bitbucket.org/dpgrote/pygist/src/master/">PyGist</a> provides a Python interface to the Gist graphics package. This allows extremely fast graphics plotting.
 </li>
 <li id="octave">
 <a href="http://www.octave.org/">Octave</a> is a high-level language, resembling MatLab, primarily intended for numerical computations. Octave is free and open source software. It provides a convenient command line interface for solving linear and nonlinear problems numerically. It is possible to <a href="http://octave.sourceforge.net/">install Octave under Windows</a>, but the Windows installation of Octave is a bit large since it includes an installation of Cygwin. Octave uses <a href="#gnuplot">gnuplot</a> for plotting.
@@ -5009,91 +5015,66 @@ NOAA’s <a href="http://www.epic.noaa.gov/java/sgt/">Scientific Graphics Toolki
 <a href="http://euler.rene-grothmann.de/">Euler Math Toolbox (EMT)</a> supports matrix computations with a focus on the production of high quality graphics. Euler also provides symbolic math via Maxima and offers a notebook interface. (License: GPL)
 </li>
 <li>
-Related languages: <a href="http://www.sbcl.org/">Steel Bank Common Lisp</a> with <a href="http://nikodemus.github.io/sb-cga/">SB-CGA</a>; <a href="http://lush.sourceforge.net/index.html">Lush</a> (Lisp based); <a href="http://www.aplusdev.org/">A+</a> (APL derivative); <a href="http://www.hakank.org/k/">K/Kona</a>. <a href="https://kx.com/connect-with-us/download/">Q</a>.
+<a href="https://www.doornik.com/ox/">Ox</a> is similar to C++ and the econometric implementations resemble GAUSS. Ox comes with a Gauss-to-Ox translater called OxGAUSS.
 </li>
 <li>
 <a href="http://www.jsoftware.com/">J</a> is a powerful array-oriented functional language. (License: GPL) The APL-influenced syntax is rather unusual.
 </li>
-<li>
-The DOS, UNIX, and now Windows console versions of the matrix programming language <a href="https://www.doornik.com/ox/">Ox</a> are freeware. Ox is similar to C++ and the econometric implementations resemble GAUSS. Ox comes with a gauss-to-ox interpreter called OxGAUSS, which translates GAUSS codes into Ox programs.
-</li>
-<li>
-<a href="http://www.geo.fmi.fi/prog/tela.html">Tela (the TEnsor LAnguage)</a> is a numerical computing environment emphasizing numerical simulation pre- and postprocessing work. Graphics support appears strong.
-</li>
-<li>
-The <a href="http://math.nist.gov/tnt/">Template Numerical Toolkit (TNT)</a> “is a collection of interfaces and reference implementations of numerical objects useful for scientific computing in C++” offered free by the NIST. <a href="http://www.crb.ses.man.ac.uk/matclass/index.htm">MatClass</a> is a C++ matrix class written by Chris Birchenhall. <a href="http://webnz.com/robert/download.html">newmat</a> is a C++ matrix class written by Robert B Davies. Both can also be found at <a href="http://netec.mcc.ac.uk/CodEc/C_Cpp.html">CodEc</a>. Dirk Eddelbuettel’s review of using C++ and the newmat08 matrix classes for econometric purposes notes that it is free and portable (as is the gnu C and C++ compiler), being real C++ it can be linked with other C, C++, or Fortran (using f2c) libraries you happen to use, and once it is compiled it runs faster than the obvious alternatives. Also, the <a href="http://www.gnu.org/software/gsl/">GNU Scientific Library (GSL)</a> includes linear algebra components. (<a href="http://pygsl.sourceforge.net/">PyGSL</a> provides a Python interface to GSL.)
-</li>
-<li>
-<a href="http://math.nist.gov/javanumerics/">Java Numerics</a> includes a <a href="http://math.nist.gov/javanumerics/jama/">Java Matrix package</a>. <a href="http://opsresearch.com/">OpsResearch</a> has much useful free code.
-</li>
-<li>
-Verson 3 of the LAPACK numerical linear algebra subroutine library is now available from the Netlib Repository at Oak Ridge National Laboratory. Also, the <a href="http://sourceforge.net/projects/f2j/">Fortran to Java</a> project offers a Java version of the LAPACK routines.
-</li>
 </ul>
-</section>
-<section id="support-for-matrix-programming-in-other-languages" class="level3">
-<h3 class="anchored" data-anchor-id="support-for-matrix-programming-in-other-languages">Support for Matrix Programming in Other Languages</h3>
-<p>I mention only a couple important items from the endless possibilities.</p>
-<div class="default">
-<p>Java: <br> <a href="https://github.com/mikera/vectorz">VectorZ</a> provides fast double-precision vector and matrix math and supports n-dimensional arrays. <br> <a href="https://sites.google.com/site/piotrwendykier/software/parallelcolt">Parallel Colt</a> provides support for dense and sparse linear algebra. This is a dependency of <a href="http://incanter.org/">Incanter</a>, which provides statistical data processing and visualization functionality. <br> <a href="http://nd4j.org/">ND4J</a> is a library for scientific computing on the JVM. (License: Apache 2.0) A very promising project, but (as of 2015) it is far from mature.</p>
-</div>
-<div class="default">
-<p>C: <br> <a href="http://www.cs.utexas.edu/~flame/web/">FLAME</a> is a high-performance dense linear algebra library.</p>
-</div>
-<p>Jens Peter Steffen offers a detailed <a href="http://www.ku-eichstaett.de/docs/WWF/STA/download.htm">comparison of GAUSS with MatLab and Ox</a>.</p>
+<dl>
+<dt>C and C++:</dt>
+<dd>
+<p><a href="https://libeigen.gitlab.io/">eigen</a> is a widely used “C++ template library for linear algebra”.</p>
+</dd>
+<dd>
+<p><a href="https://github.com/flame/libflame">FLAME</a> is a high-performance dense linear algebra library. A C-based alternative to LAPACK and BLAS.</p>
+</dd>
+<dd>
+<p><a href="https://github.com/rzr/newmat">newmat</a> is a C++ matrix class written by Robert B Davies. Dirk Eddelbuettel’s review of using C++ and the newmat08 matrix classes for econometric purposes notes that it is free and portable (as is the gnu C and C++ compiler), being real C++ it can be linked with other C, C++, or Fortran (using f2c) libraries you happen to use, and once it is compiled it runs faster than the obvious alternatives.</p>
+</dd>
+<dd>
+<p><a href="http://www.gnu.org/software/gsl/">GNU Scientific Library (GSL)</a> includes linear algebra components. (Note: <a href="http://pygsl.sourceforge.net/">PyGSL</a> provides a Python interface to GSL.)</p>
+</dd>
+<dd>
+<p>The <a href="http://math.nist.gov/tnt/">Template Numerical Toolkit (TNT)</a> is “a collection of interfaces and reference implementations of numerical objects useful for scientific computing” offered free by the NIST.</p>
+</dd>
+</dl>
 </section>
 </section>
 <section id="general-purpose-programming-languages-for-economists" class="level2">
 <h2 class="anchored" data-anchor-id="general-purpose-programming-languages-for-economists">General Purpose Programming Languages for Economists</h2>
 <p>This is an extremely short selection of possibly useful free programming languages.</p>
-<p>If your emphasis is computational, you will want to visit <a href="http://gams.nist.gov/serve.cgi/Packages">NIST’s Guide to Available Mathematical Software</a> and the <a href="http://www.netlib.org/master/expanded_liblist.html">Netlib repository</a>. Also, see Jack and Hatem’s <a href="http://www.netlib.org/utk/people/JackDongarra/la-sw.html">list of free linear algebra software</a>.</p>
+<p>If your emphasis is computational, you will want to visit <a href="http://gams.nist.gov/serve.cgi/Packages">NIST’s Guide to Available Mathematical Software</a> and the <a href="http://www.netlib.org/master/expanded_liblist.html">Netlib repository</a>.</p>
 <section id="python" class="level3">
 <h3 class="anchored" data-anchor-id="python">Python</h3>
-<p id="python">
-</p><p>I use <a href="http://www.python.org">Python</a> whenever possible, which is almost always. (The main exception is when execution speed is at an absolute premium in computationally intensive projects.) Traditionally thought of as a scripting language, Python has evolved into an extremely powerful very high level general purpose programming language. It is still useful (indeed, a first choice) for scripting. Use it to find out why. In addition, Python has <a href="#scipy">excellent support</a> for scientific computing. The <a href="http://docs.python.org/">online documentation</a> is excellent. If you lack programming experience, try <a href="http://www-uxsup.csx.cam.ac.uk/courses/PythonAB/">Python for the Absolute Beginner</a> and <a href="http://swaroopch.info/text/Byte_of_Python:Main_Page">Byte of Python</a> before trying the Python tutorial. Also, if you prefer video tutorials, Microsoft has assembled <a href="https://www.youtube.com/playlist?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6">a multipart video introduction</a>.</p>
+<p>I use <a href="http://www.python.org">Python</a> whenever possible, which is almost always. (The main exception is when execution speed is at an absolute premium in computationally intensive projects.) Once thought of as primarily a scripting language, Python has evolved into an extremely powerful very high level general purpose programming language. It is still useful (indeed, a first choice) for scripting. (Use it to find out why.) In addition, Python has <a href="#scipy">excellent support</a> for scientific computing. The <a href="http://docs.python.org/">online documentation</a> is excellent. If you lack programming experience, try <a href="https://python.swaroopch.com/">Byte of Python</a> before trying the Python tutorial. Also, if you prefer video tutorials, Microsoft has assembled <a href="https://www.youtube.com/playlist?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6">a multipart video introduction</a>.</p>
 <p>One other note: although it is an interpreted language, you can <a href="http://effbot.org/zone/python-compile.htm">compile Python</a>. Interesting <a href="#psmeta">graphics</a> and <a href="#matrixlanguages">numerical</a> libraries have been developed for Python.</p>
-<section id="l3" class="level4">
-<h4 class="anchored" data-anchor-id="l3">L3</h4>
-<p><a href="http://l3lang.sourceforge.net/">L3</a> is a large subset of Python along with a GUI interface that provides a “worksheet” like environment. (License: BSD.) Easy and powerful.</p>
 </section>
+<section id="go" class="level3">
+<h3 class="anchored" data-anchor-id="go">Go</h3>
+<p>Whenever you find Python too slow, which is probably because you need either extremely loop-intensive algorithms or enormous concurrency, try out <a href="https://go.dev/">Go</a>. Go includes very basic linear algebra support via <a href="https://www.gonum.org/">gonum</a> and some <a href="https://www.gonum.org/post/intro_to_stats_with_gonum/">statistics</a>.</p>
 </section>
-<section id="c" class="level3">
-<h3 class="anchored" data-anchor-id="c">C</h3>
-<div id="clang">
-For C/C++ see <a href="http://www.research.att.com/~bs/compilers.html">Bjarne Stroustrup’s list</a>. However, I will list a few free C and C++ compilers that are reputed to be quite good. If you are new to C, see <a href="http://www-ccs.ucsd.edu/c/">Standard C</a> by Plauger and Brodie. <br> Btw, if you program in C/C++, you should probably be using the <a href="http://cscope.sourceforge.net/">Cscope</a> code browser; there is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>, which works with Vim’s Cscope interface.
+<section id="clang" class="level3">
+<h3 class="anchored" data-anchor-id="clang">C</h3>
+<p>If you are new to C, consider <a href="http://www-ccs.ucsd.edu/c/">Standard C</a> by Plauger and Brodie. <a href="https://www.codeblocks.org/">Code Blocks</a> is a “free C/C++ and Fortran IDE” that targets new programmers and works with your existing compiler installation. (Windows users should install MinGW <em>before</em> installing Code Blocks.)</p>
+<p>For C/C++ compilers, you probably want <code>gcc</code> or <code>clang</code>. (Windows users: see <a href="https://www.mingw-w64.org/">Mingw-w64</a>.) However, see <a href="https://www.stroustrup.com/compilers.html">Bjarne Stroustrup’s list</a> compilers list.</p>
+<p>Btw, if you program in C/C++, you should probably be using the <a href="https://sourceforge.net/projects/cscope/">Cscope</a> code browser. (There is a native <a href="http://iamphet.nm.ru/cscope/index.html">Win32 port of Cscope</a>, which works with Vim’s Cscope interface.)</p>
+<p>Notable Additional Compiler Resources:</p>
 <ul>
-<li>
-There is a <a href="http://www.cygnus.com/misc/gnu-win32/">Windows port</a> of the GNU gcc compiler. (I assume you can use the GNU debugger via <a href="http://clewn.sourceforge.net/">Clewn</a> with Vim under Windows, but I haven’t tried.) <a href="http://www.mingw.org/">MinGW</a> is another, possibly better choice. To get started with MinGW read <a href="http://www.spacejack.org/games/mingw/">Linkovitch’s MinGW Starter Guide</a> and some <a href="http://www.mingw.org/docs.shtml">basic documentation</a>. Windows users may also want to look at <a href="http://www.delorie.com/djgpp/doc/eli-m17n99.html">DJGPP</a>.
-</li>
-<li>
-The <a href="http://www.openwatcom.org/">Watcom compiler</a> is being released as open source.
-</li>
-<li>
-<a href="http://www.intel.com">Intel</a> offers its excellent Math Kernel Library free for noncommercial use.
-</li>
-<li>
-<a href="http://www.digitalmars.com/">Digital Mars</a> offers a good, fast compiler. (Formally Zortech and then Symantec’s compiler.) You need to buy the CD to get the debugger.
-</li>
-<li>
-<a href="http://www.borland.com/bcppbuilder/freecompiler/">Borland’s C++ compiler</a> is now free.
-</li>
-<li>
-<a href="http://www.cs.virginia.edu/~lcc-win32/">LCC-Win32</a> is a free C compiler and programming environment for Windows users.
-</li>
-<li>
-SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/Interpreter</a> available free for academic users: you can run C/C++ code in an interpreter and get many Unix utilities in addition.
-</li>
+<li><p>The <a href="http://www.openwatcom.org/">Watcom compiler</a> is being released as open source.</p></li>
+<li><p><a href="http://www.intel.com">Intel</a> offers its excellent Math Kernel Library free for noncommercial use.</p></li>
+<li><p>Borland’s C++ compiler is now the <a href="https://www.embarcadero.com/free-tools/ccompiler">Embarcadero compiler</a> and is free.</p></li>
+<li><p>SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/Interpreter</a> available free for academic users: you can run C/C++ code in an interpreter and get many Unix utilities in addition.</p></li>
 </ul>
 <p>There is <a href="http://www.ulib.org/webRoot/Books/Numerical_Recipes/">online access to <em>Numerical Recipes in C</em></a>, but I have had occasional trouble getting through.</p>
-</div>
 <p>Hackable Games in C: <a href="https://www.nethack.org/">NetHack</a>, derived from the venerable Hack game. Read about in in <a href="https://spectrum.ieee.org/games-nethack-and-the-joy-of-text">IEEE Spectrum</a>. See the <a href="https://github.com/NetHack/NetHack">GitHub repository</a> if you want to hack it.</p>
 </section>
 <section id="other-free-languages" class="level3">
 <h3 class="anchored" data-anchor-id="other-free-languages">Other Free Languages</h3>
 <section id="scripting-languages" class="level4">
 <h4 class="anchored" data-anchor-id="scripting-languages">Scripting Languages</h4>
-<p>For scripting, the most popular choices currently seem to be <a href="#python">Python</a>, <a href="http://www.perl.org/">Perl</a>, and <a href="http://www.ruby-lang.org/en/">Ruby</a>. There have also been some interesting applications of the embeddable <a href="http://www.s-lang.org/">S-Lang</a> interpreter and programmers library. <a href="http://www.lua.org/">Lua</a> is especially small and portable, and is used in the up and coming <a href="http://www.luatex.org/">LuaTeX</a> extension of pdfTeX. (See my <a href="#luatex_hints">LuaTeX hints</a>.) <br> It is also worth mention that <a href="http://www.jython.org/">Jython</a> implements Python as Java, allowing the ease of Python scripting to be combined with the power of Java. (As a very cool plus, <a href="#vim">Vim</a> supports scripting with Perl, Python, and Ruby.)</p>
-<p>More Scripting: <br> <a href="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/">Active Perl</a> is available for many platforms and is getting excellent reviews. <a href="http://www.python.org/">Python</a> is growing in popularity, as is <a href="http://www.ruby-lang.org/en/index.html">Ruby</a> (which finally has a <a href="http://www.pragmaticprogrammer.com/ruby/downloads/ruby-install.html">Windows installer</a>).</p>
+<p>For scripting, the most popular choices currently seem to be <a href="#python">Python</a>, <a href="http://www.perl.org/">Perl</a>, and <a href="http://www.ruby-lang.org/en/">Ruby</a>. There have also been some interesting applications of the embeddable <a href="http://www.s-lang.org/">S-Lang</a> interpreter and programmers library. <a href="http://www.lua.org/">Lua</a> is especially small and portable, and is used in the up and coming <a href="http://www.luatex.org/">LuaTeX</a> extension of pdfTeX. (See my <a href="#luatex_hints">LuaTeX hints</a>.)</p>
+<p>It is also worth mention that <a href="http://www.jython.org/">Jython</a> implements Python as Java, allowing the ease of Python scripting to be combined with the power of Java.</p>
 </section>
 <section id="languages-for-scientific-computing" class="level4">
 <h4 class="anchored" data-anchor-id="languages-for-scientific-computing">Languages for Scientific Computing</h4>
@@ -5105,16 +5086,26 @@ SoftIntegration has made its <a href="http://www.softintegration.com/">Ch Shell/
 <p><a href="http://www.freepascal.org/">FreePascal</a> includes very substantial Delphi compatibility. (License: LGPL and GPL)</p>
 <p><a href="http://www.gnu.org/software/gnat/gnat.html">Ada</a>, which is a preferred languge for the security conscious.</p>
 <p><a href="http://www.eiffel.com/">Eiffel</a> supports desing by contract. There is now open source licensing of Eiffel Studio. (License: GPL)</p>
-<p><a href="http://www.swiss.ai.mit.edu/projects/scheme/">Scheme</a>. <br> <a href="http://www.plt-scheme.org/software/mzscheme/">MzScheme</a> is a free and open source implementation for Linux, Mac, and Windows. (As a very cool plus, as of version 7 <a href="#vim">Vim</a> supports MzScheme scripting.)</p>
-<p><a href="http://www.scheme.com/">Scheme</a>, and R. Kent Dybvig’s <a href="http://www.scheme.com/tspl2d/index.html"> The Scheme Programming Language, Second Edition</a> is now online.</p>
-<p><a href="http://www.info.uni-karlsruhe.de/~sather/index_engl.html">Sather-K</a> is Eiffel based but adds innovations (and is free).</p>
-<p><a href="http://www.object-tools.com/">Visual Eiffel Lite</a> is free. Documentation is in <a href="http://www.doc.mmu.ac.uk/library/notes/ajt/">Eiffel: Object Oriented Programming</a></p>
+<dl>
+<dt><a href="https://groups.csail.mit.edu/mac/projects/scheme/">Scheme</a>:</dt>
+<dd>
+<p>See R. Kent Dybvig’s <a href="http://www.scheme.com/tspl2d/index.html">The Scheme Programming Language, 4th Edition</a>, which is now online.</p>
+</dd>
+<dd>
+<p><a href="https://racket-lang.org/">Racket</a> is a more feature-rich Scheme dialect. (Probably the right choice for most users.)</p>
+</dd>
+<dd>
+<p><a href="http://www.plt-scheme.org/software/mzscheme/">MzScheme</a> is a free and open source implementation for Linux, Mac, and Windows.</p>
+</dd>
+<dd>
+<p><a href="http://www.scheme.com/">Chez Scheme</a> is open source</p>
+</dd>
+</dl>
 </section>
 </section>
 </section>
 <section id="other-useful-statistical-software" class="level2">
 <h2 class="anchored" data-anchor-id="other-useful-statistical-software">Other Useful Statistical Software</h2>
-<p>See the free stat software pages by <a href="http://statpages.org/javasta2.html">John C. Pezzullo</a> and <a href="http://gsociology.icaap.org/methods/soft.html">Gene Shackman</a>. (The latter offers some package comparisons.) Also see the <a href="http://dge.repec.org/software.html">QM&amp;RBC Software</a> page, <a href="http://www.statistical.org/">Spatial Statistical Resources</a>, the <a href="https://eml.berkeley.edu/elsa">Econometrics Laboratory Software Archive (ELSA)</a> at Berkeley, and many others.</p>
 <ul>
 <li>
 <a href="http://www.jmulti.de/">JMulTi</a> “is an interactive software designed for univariate and multivariate time series analysis. It has a Java graphical user interface that uses an external engine for statistical computations.” (License: GPL) (The only external engine support I know of is GAUSS, but presumably this could be adapted to e.g. NumPy.)
@@ -5147,17 +5138,27 @@ OK, OK, <a href="https://github.com/gambitproject/gambit">Gambit</a> is not stat
 <section id="build-systems" class="level3">
 <h3 class="anchored" data-anchor-id="build-systems">Build Systems</h3>
 <ul>
-<li id="scons">
-A popular alternative to <a href="https://cmake.org">CMake</a> (<a href="http://purplekarrot.net/blog/cmake-introduction-and-best-practices.html">overview</a>) is <a href="http://www.scons.org/">scons</a>. (License: MIT; Language: Python.)
-</li>
-<li>
-A newer and very promising alternative is <a href="http://waf.googlecode.com/svn/docs/wafbook/single.html#_introduction">Waf</a>.
-</li>
+<li>The <a href="https://just.systems/">just</a> command runner will probably meet your needs. Recommended.</li>
+<li><a href="https://cmake.org">CMake</a> is the classic and extensive (and correspondingly complicated) build system. (See this <a href="http://purplekarrot.net/blog/cmake-introduction-and-best-practices.html">CMake presenation</a>.)</li>
+<li><a href="http://www.scons.org/">scons</a> is a popular alternative to CMake. (License: MIT; Language: Python.)</li>
 </ul>
 </section>
 <section id="optimization" class="level3">
 <h3 class="anchored" data-anchor-id="optimization">Optimization</h3>
-<p>Resources in this area are extensive. I will only mention a few idiosyncratically selected items. (For linear and non-linear programming, see also the separate list of <a href="#solvers">solvers</a>.) Do not forget to think about scaling issues. (Here is one discussion of scaling: go to <a href="http://www.aptech.com/">the Aptech web site</a>, click on Resource Library, then click on White Papers, and download <a href="http://www.aptech.com/papers/qnewton.pdf">Optimization with the Quasi-Newton Method</a>.)</p>
+<p>Resources in this area are extensive. I will only mention a few idiosyncratically selected items. (For linear and non-linear programming, see also the separate list of <a href="#solvers">solvers</a>.) Do not forget to think about scaling issues. (Here is one discussion of scaling: <a href="https://www.researchgate.net/profile/Ronald-Schoenberg/publication/267970914_Optimization_with_the_Quasi-Newton_Method/links/55ef3b6308aef559dc44c218/Optimization-with-the-Quasi-Newton-Method.pdf">Optimization with the Quasi-Newton Method</a>.)</p>
+<section id="python-specific" class="level4">
+<h4 class="anchored" data-anchor-id="python-specific">Python Specific</h4>
+<ul>
+<li>
+<a href="http://www.scipy.org/">SciPy</a> includes the scipy.optimize module. (Along with many other unidimensional and multi-dimensional optimization functions, this module includes fmin_l_bfgs_b for constrained optimization, which takes an optional bounds argument that is a list of min/max values for each parameter.) Since the code is free and open source, you can adapt these to the language of your choice.
+</li>
+<li>
+Dahl and Vandenberghe’s <a href="http://cvxopt.org/">CVXOPT (convex optimization)</a> code, which includes Python classes for storing and manipulating dense and sparse matrices.
+</li>
+</ul>
+</section>
+<section id="other" class="level4">
+<h4 class="anchored" data-anchor-id="other">Other</h4>
 <ul>
 <li>
 Most matrix languages include one or more optimization modules or libraries.
@@ -5208,31 +5209,24 @@ The <a href="http://www.nag.com/">Numerical Algorithms Group</a> offers a variet
 <a href="http://www.geuz.org/getdp/">GetDP</a> “is a general finite element solver using mixed elements to discretize de Rham-type complexes in one, two and three dimensions.”
 </li>
 <li>
-<a href="http://www.norg.uminho.pt/aivaz/pswarm/">PSwarm</a> looks very useful for global optimization. (License: LGPL) (Someone add Python bindings please!)
+<a href="http://www.norg.uminho.pt/aivaz/pswarm/">PSwarm</a> looks very useful for global optimization. (License: LGPL)
 </li>
 </ul>
-<section id="python-specific" class="level4">
-<h4 class="anchored" data-anchor-id="python-specific">Python Specific</h4>
-<ul>
-<li>
-<a href="http://www.scipy.org/">SciPy</a> includes the scipy.optimize module. (Along with many other unidimensional and multi-dimensional optimization functions, this module includes fmin_l_bfgs_b for constrained optimization, which takes an optional bounds argument that is a list of min/max values for each parameter.) Since the code is free and open source, you can adapt these to the language of your choice.
-</li>
-<li>
-Dahl and Vandenberghe’s <a href="http://cvxopt.org/">CVXOPT (convex optimization)</a> code, which includes Python classes for storing and manipulating dense and sparse matrices.
-</li>
-</ul>
+<p>For difficult global optimization problems, look into Swarm Optimization, surveyed by <a href="http://dx.doi.org/10.1371/journal.pone.0122827">Ab Wahab et al (2015)</a>.</p>
 </section>
 </section>
 <section id="visualizing-data" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-data">Visualizing Data</h3>
-<p>Visual analysis of data remains very useful, and some innovations in this area are recent. Classic texts include: <em>The Visual Display of Quantitative Information</em> by <a href="http://www.edwardtufte.com/tufte/">Edward Tufte</a> and <em>Visualizing Data</em> by <a href="http://www.stat.purdue.edu/~wsc/">William S. Cleveland</a>. You can get the <a href="http://www.stat.purdue.edu/~wsc/visualizing.html">data and S scripts for Cleveland’s book</a>. Cleveland (with Becker and Shyu) developed <a href="http://netlib.bell-labs.com/cm/ms/departments/sia/project/trellis/">Trellis Graphics</a>™ for data visualization, which has been implemented for a number of platforms including S-Plus and R. (The name <em>Trellis</em> is trade-marked, so these are often referred to as lattice plots.) <br> Other resources: <a href="http://www.galaxy.gmu.edu/~dcarr/">Daniel Carr’s page</a>.</p>
-<p>For interactive data visualizations, you must consider <a href="https://vega.github.io/vega/about/">Vega</a> and Vega-Lite. These visualization tools implement a grammar of graphics and a grammar of interactivity, mostly using declarative specifications in JSON. Vega-Lite provides a convenient, very high level access to this grammar. Many languages now support this, including JavaScript, Python (Altair), Julia (VegaLite.jl), and Haskell (hvega). Voyager 2 is an interactive data exploration tool built on top of Vega. Some languages support this, including JavaScript, Python (Altair), Julia (DataVoyager.jl). <!-- https://medium.com/brown-ccv/prototyping-visualizations-for-the-web-with-vega-and-julia-64affa9d80ba --></p>
+<p>Data analysis almost always involves data visualization. Classic texts include: <em>The Visual Display of Quantitative Information</em> by <a href="http://www.edwardtufte.com/tufte/">Edward Tufte</a> and <em>Visualizing Data</em> by <a href="http://www.stat.purdue.edu/~wsc/">William S. Cleveland</a>. You can get the <a href="http://www.stat.purdue.edu/~wsc/visualizing.html">data and S scripts for Cleveland’s book</a>. Cleveland (with Becker and Shyu) developed <a href="http://netlib.bell-labs.com/cm/ms/departments/sia/project/trellis/">Trellis Graphics</a>™ for data visualization, which has been implemented for a number of platforms including Gnu R and Python (e.g., via <a href="https://plotly.com/python/facet-plots/">Plotly</a>. (The name is trade-marked, so these are often referred to as lattice plots.) <br> Other resources: <a href="http://www.galaxy.gmu.edu/~dcarr/">Daniel Carr’s page</a>.</p>
+<p>For interactive data visualizations, must consider <a href="https://vega.github.io/vega/about/">Vega</a> and Vega-Lite. These visualization tools implement a grammar of graphics and a grammar of interactivity, mostly using declarative specifications in JSON. Vega-Lite provides a convenient, very high level access to this grammar. Many languages now support this, including JavaScript, Python (Altair), Julia (VegaLite.jl), and Haskell (hvega). Voyager 2 is an interactive data exploration tool built on top of Vega. Some languages support this, including JavaScript, Python (Altair), Julia (DataVoyager.jl). <!-- https://medium.com/brown-ccv/prototyping-visualizations-for-the-web-with-vega-and-julia-64affa9d80ba --></p>
 <p><a href="http://www.theusrus.de/Mondrian/">Modrian</a> “is a statistical data-visualization system written in JAVA.” Good for categorical data and for maps. Plots are interactive. There is a <a href="https://www.jstatsoft.org/article/view/v007i11">supporting paper</a> by Martin Theus.</p>
 </section>
 </section>
 <section id="CASs" class="level2">
 <h2 class="anchored" data-anchor-id="CASs">Symbolic Mathematics/Computer Algebra Systems</h2>
-<p>Find a more list of Computer Algebra Systems (CASs) on <a href="https://en.wikipedia.org/wiki/List_of_computer_algebra_systems">Wikipedia</a>. This section discusses only a few particularly interesting applications. For most users, commercial CASs will be the right choice, but some interesting FOSS solutions exist.</p>
+<p>Find a more list of Computer Algebra Systems (CASs) on <a href="https://en.wikipedia.org/wiki/List_of_computer_algebra_systems">Wikipedia</a>. This section mentions only a few particularly interesting options. For most users, commercial CASs remain the right choice, but some interesting FOSS solutions exist.</p>
+<section id="open-source-cass" class="level3">
+<h3 class="anchored" data-anchor-id="open-source-cass">Open Source CASs</h3>
 <ul>
 <li>
 <a href="https://mathics.org/">Mathics</a> implements a very useful subset of the Wolfram Language, which is the language of Mathematica.
@@ -5244,7 +5238,7 @@ Dahl and Vandenberghe’s <a href="http://cvxopt.org/">CVXOPT (convex optimizati
 <a href="http://maxima.sourceforge.net/">Maxima</a> (License: GPL; Language: Lisp) is is a free cross-platform solution. (A windows binary is available.) It is distributed with a notebook interface: <a href="https://wxmaxima-developers.github.io/wxmaxima/">wxMaxima</a> (License: GPL2). (Applications for economists, with a supporting text, can be found at <a href="http://www.wxmaximaecon.com/">http://www.wxmaximaecon.com/</a>.) The notebook can be used to produce beautiful PDF documents via LaTeX; see <a href="http://facultyweb.berry.edu/wmixon/maxima/Typesetting/Intro.html">Typesetting in wxMaxima</a> for details.
 </li>
 <li>
-<a href="https://www.sympy.org/en/index.html">SymPy</a> (License: new BSD) is a Python-based CAS that <em>very</em> easily extensible. (It too is included with Sage.)
+<a href="https://www.sympy.org/en/index.html">SymPy</a> (License: new BSD) is a Python-based CAS that <em>very</em> easily extensible. It is included with <a href="https://www.sagemath.org/">Sage</a>.
 </li>
 <li>
 <a href="https://github.com/daly/axiom#readme">Axiom</a> (once known as ScratchPad) is free and open source. “Axiom … defines a strongly typed, mathematically correct type hierarchy. It has a programming language and a built-in compiler.”
@@ -5259,31 +5253,44 @@ Dahl and Vandenberghe’s <a href="http://cvxopt.org/">CVXOPT (convex optimizati
 <a href="http://www.gap-system.org/">Groups, Algorithms, Programming (GAP)</a> “is a system for computational discrete algebra, with particular emphasis on Computational Group Theory.” (License: GPL2)
 </li>
 </ul>
+</section>
 <section id="commercial-cass" class="level3">
-<h3 class="anchored" data-anchor-id="commercial-cass">Commercial CASs</h3>
+<h3 class="anchored">Commercial CASs</h3>
+<section id="mathematica-wolfram-language" class="level4">
+<h4 class="anchored" data-anchor-id="mathematica-wolfram-language">Mathematica (Wolfram Language)</h4>
+<p>Mathematica justifiably remains the most popular symbolic math program. Mathematica is also a bit expensive, although Mathematica for Students is available for full-time students at a big discount.</p>
+<p>Mathematica is excellent for both teaching and research. It has an unfortunate weakness in document production, where it lacks easy and intuition solutions for many facilities needed for professional books and journal articles. (Noteworthy missing features are footnotes, floating tables and figures, and bibliograph management.) Nevertheless, many researchers use it directly for report and document production.</p>
 <ul>
-<li>
-Mathematica justifiably remains the most popular symbolic math program. It is excellent for both teaching and research. (See my <a href="#mma-hints">Mathematica hints</a>.) It has an unfortunate weakness in document production, where it lacks many facilities needed for professional books and journal articles. (Noteworthy missing features are footnotes, floating tables and figures, and bibliograph management.) Nevertheless, some researchers apparently use it directly for report and document production. Mathematica is also a bit expensive, although Mathematica for Students is available for full-time students at a big discount. <br> Check out the <a href="http://www.wolfram.com/mathsource/">MathSource</a> code for Mathematica. Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a> and the new <a href="https://reference.wolfram.com/language/ref/externalevaluationsystem/Python.html">external evaluation system</a>. For support, see the active and helpful <a href="http://mathematica.stackexchange.com/">Mathematica StackExchange Group</a>. Finally, <a href="http://www.thomascool.eu/TheEconomicsPack/">Thomas Cool’s page</a> offers a collection of economics programs written in Mathematica. <br> Interesting Mathematica books for economists: <br> <a href="http://www.amazon.com/gp/product/0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>, <a href="http://www.amazon.com/gp/product/0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a> <br> Introductory Mathematica books: <br> <a href="http://www.wolfram.com/language/elementary-introduction">Stephen Wolfram’s Elementary Introduction</a>. <br> Wofram’s <a href="https://reference.wolfram.com/language/tutorial/VirtualBookOverview.html">Virtual Book</a> aggregates a collection of tutorials. <br> <a href="http://amzn.to/1ej2oq0">Torrence, Bruce F. (2009), The Student’s Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a> (A useful and example oriented introduction.) <br> <a href="http://www.amazon.com/gp/product/0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a>
-</li>
-<li>
-<a href="http://www.maplesoft.com/">Maple</a> is also very popular. (Note that you can select Maple as the math kernel when you buy Scientific Notebook.) <br> Introductions to Maple: <a href="http://www.amazon.com/gp/product/0470455543">Getting Started with Maple by Chi Keung Cheung</a>, <a href="http://www.amazon.com/gp/product/0387002308">Introduction to Maple by Andre Heck</a>.
-</li>
-<li>
-<a href="http://education.ti.com/product/software/derive/features/features.html">Derive</a> is inexpensive and powerful.
-</li>
-<li>
-<a href="http://www.sciface.com/products/index.shtml">MuPad</a> is professional and cross-platform. This is the CAS used by (and included with) Scientific Workplace, MathCAD, and MATLAB’s Symbolic Math Toolkit.
-</li>
+<li><p>The <a href="https://library.wolfram.com/">Wolfram Libary Archive</a> is extensive.</p></li>
+<li><p>Python users can readily interact with Mathematica using <a href="http://library.wolfram.com/infocenter/MathSource/6622/">Pythonika</a> and the new <a href="https://reference.wolfram.com/language/ref/externalevaluationsystem/Python.html">external evaluation system</a>.</p></li>
+<li><p>The <a href="http://mathematica.stackexchange.com/">Mathematica StackExchange Group</a> and active and helpful.</p></li>
+<li><p><a href="http://www.thomascool.eu/TheEconomicsPack/">Thomas Cool’s page</a> offers a collection of economics programs written in Mathematica.</p></li>
+<li><p><a href="https://www.federalreserve.gov/econres/ama-index.htm">Anderson-Moore Algorithm in Mathematica</a></p></li>
+</ul>
+<section id="interesting-mathematica-books-for-economists" class="level5">
+<h5 class="anchored" data-anchor-id="interesting-mathematica-books-for-economists">Interesting Mathematica Books for Economists:</h5>
+<ul>
+<li><a href="http://www.amazon.com/gp/product/0387945180">Computational Economics and Finance: Modeling and Analysis with Mathematica by Hal Varian</a>,</li>
+<li><a href="http://www.amazon.com/gp/product/0817641971">Computational Financial Mathematics using Mathematica by Srdjan Stojanovic</a></li>
+<li><a href="http://www.amazon.com/gp/product/0521846781">An Introduction to Programming with Mathematica by Paul Wellin</a></li>
 </ul>
 </section>
-<section id="applications" class="level3">
-<h3 class="anchored">Applications</h3>
+<section id="introductory-mathematica-books" class="level5">
+<h5 class="anchored" data-anchor-id="introductory-mathematica-books">Introductory Mathematica books:</h5>
 <ul>
-<li>
-<a href="https://www.federalreserve.gov/econres/ama-index.htm">Anderson-Moore Algorithm in Mathematica</a>
-</li>
+<li><p>Stephen Wolfram’s <a href="https://www.wolfram.com/language/elementary-introduction/3rd-ed/">Elementary Introduction</a>.</p></li>
+<li><p>Stephen Wofram’s <a href="https://reference.wolfram.com/language/tutorial/VirtualBookOverview.html">Virtual Book</a> aggregates a collection of tutorials.</p></li>
+<li><p><a href="http://amzn.to/1ej2oq0">The Student’s Introduction to MATHEMATICA: A Handbook for Precalculus, Calculus, and Linear Algebra</a> (2009) by Torrence and Torrence provides a useful and example oriented introduction.</p></li>
 </ul>
-<h2 id="WWW" class="anchored" data-anchor-id="applications">
+</section>
+</section>
+<section id="other-commercial-cass" class="level4">
+<h4 class="anchored">Other Commercial CASs</h4>
+<ul>
+<li><p><a href="http://www.maplesoft.com/">Maple</a> is very popular and very powerful. (There is a Maple Kernel for Jupyter!) As introductions to Maple, try <a href="http://www.amazon.com/gp/product/0470455543">Getting Started with Maple</a> by Chi Keung Cheung, and <a href="http://www.amazon.com/gp/product/0387002308">Introduction to Maple</a> by Andre Heck.</p></li>
+<li><p>MATLAB’s <a href="https://www.mathworks.com/products/symbolic.html">Symbolic Math Toolkit</a> (based on MuPad, which was the CAS that was included with Scientific Workplace).</p></li>
+</ul>
+<h2 id="WWW" class="anchored" data-anchor-id="other-commercial-cass">
 Web Resources
 </h2>
 <ul class="menu">
@@ -5297,15 +5304,13 @@ Web Resources
 <a href="#email">Email</a>
 </li>
 <li>
-<a href="#AV">Anti-Virus</a>
-</li>
-<li>
 <a href="#html">HTML</a>
 </li>
 <li>
 <a href="#multimedia">Multimedia Resources</a>
 </li>
 </ul>
+</section>
 </section>
 <section id="math-on-the-web" class="level3">
 <h3 class="anchored" data-anchor-id="math-on-the-web">Math on the Web</h3>
@@ -5316,8 +5321,6 @@ Web Resources
 <section id="browsers" class="level3">
 <h3 class="anchored" data-anchor-id="browsers">Browsers</h3>
 <p>If you want to test your browser for standards compliance, start with the <a href="http://acid3.acidtests.org/">Acid 3 tests</a>. You might also want to look at handling of <a href="http://www.w3.org/Math/testsuite/">MathMl</a>, <a href="http://www.w3.org/Graphics/SVG/WG/wiki/Test_Suite_Overview">SVG graphics</a>, or even a very simple <a href="http://tantek.com/XHTML/Test/minimal.html">XHTML</a>. (Be sure to look at the tests where the document is <a href="http://tantek.com/XHTML/Test/xhtmlwithprolog.xml">served as XML</a>.)</p>
-<p>I like three browsers: <a href="http://www.mozilla.com/en-US/firefox">FireFox</a>, <a href="http://www.opera.com/">Opera</a>, and <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a>. Of these, I give FireFox the nod for being both open source and mature, but Chrome is also open source and is considered faster. Microsoft Edge is slowly becoming usable; it is certainly much more standards compliant than the old Internet Explorer. Try them all on the <a href="http://en.wikipedia.org/wiki/Acid3#Desktop_browsers">Acid 3 tests</a>. An interesting “new kid on the block” is <a href="http://uzbl.org/">uzbl</a>, which emphasizes speedy browsing but is highly extensible.</p>
-<p>See the <a href="#opera-hints">Opera hints</a> below. See the <a href="#firefoxhints">FireFox hints</a> below.</p>
 </section>
 <section id="ebooks" class="level3">
 <h3 class="anchored" data-anchor-id="ebooks">Ebooks</h3>
@@ -5354,7 +5357,7 @@ The <a href="http://www.chami.com/free/html-kit/">HTML Kit</a> offers syntax col
 There are very good tutorials at <a href="http://www.w3schools.com/">HTML Schools</a>, including XHTML tutorials.
 </li>
 <li id="validate">
-<b>Validate your code!</b> Try the <a href="http://validator.w3.org/">W3C HTML Validation Service</a>. Also, the <a href="http://www.htmlhelp.org/tools/validator/">WDG Validator</a> has fans because i. it validates your HTML pages without requiring a DTD, and it can ``spider’’ an entire site (validating up to 100 pages). You can overpaste the DTD if it isn’t the one you want. You can also check your Cascading Style Sheets using W3C’s <a href="http://jigsaw.w3.org/css-validator/">CSS Validation Service</a> or HTML Help’s <a href="http://htmlhelp.org/tools/csscheck/">CSS validator</a>, which will also warns of possible usability problems with your style sheets. Just paste the CSS code or the URL of the style sheet into a field. Finallay, there is also a highly rated commercial validator: <a href="http://www.htmlvalidator.com/">CSE HTML Validator</a>.
+<b>Validate your code!</b> Try the <a href="http://validator.w3.org/">W3C HTML Validation Service</a>. Also, the <a href="http://www.htmlhelp.org/tools/validator/">WDG Validator</a> has fans because i. it validates your HTML pages without requiring a DTD, and it can “spider’’ an entire site (validating up to 100 pages). You can overpaste the DTD if it isn’t the one you want. You can also check your Cascading Style Sheets using W3C’s <a href="http://jigsaw.w3.org/css-validator/">CSS Validation Service</a> or HTML Help’s <a href="http://htmlhelp.org/tools/csscheck/">CSS validator</a>, which will also warns of possible usability problems with your style sheets. Just paste the CSS code or the URL of the style sheet into a field. Finallay, there is also a highly rated commercial validator: <a href="http://www.htmlvalidator.com/">CSE HTML Validator</a>.
 </li>
 <li>
 <a href="http://www.htmlhelp.com/">The Web Design Group</a>tutorials, references, FAQs
@@ -5402,22 +5405,10 @@ Look at <a href="http://www.w3.org/TR/REC-html40/index/elements.html">the index 
 <p>Cross platform: <a href="http://pan.rebelbase.com/">Pan</a> (GPL) or <a href="http://slrn.sourceforge.net/">slrn</a> or <a href="http://www.gnus.org/">Gnus</a>.</p>
 <p>Free for Windows: <a href="http://xnews.newsguy.com/">Xnews</a> and <a href="http://www.forteinc.com/main/homepage.php">Forté Free Agent</a>.</p>
 </section>
-<section id="antivirus" class="level3">
-<h3 class="anchored" data-anchor-id="antivirus">AntiVirus</h3>
-<p>First let me offer an apparently outrageous suggestion: individual users can often substitute good habits for AV software, and even if you install AV software these good habits are crucial defenses. That said, whatever software you choose, you may wish to test it on the <a href="http://www.eicar.org/">EICAR</a> test file.</p>
-<ul>
-<li>
-The only free and open source AV software that I know of is the very interesting <a href="http://www.clamav.net/">ClamAV</a>. (License: GPL) There is a <a href="http://www.clamwin.com/">ClamWin</a> project for Windows users.
-</li>
-<li>
-<a href="http://www.avast.com/">avast! Home</a> is free for noncommercial use. And <a href="http://www.grisoft.com/">AVG</a> currently offers a “free edition” that looks reasonably good and customer satisfaction at AVG seems quite high (at least in the email forums I frequent).
-</li>
-<li>
-Commercial: There are many: do a web search. Here are a couple with short comments. <a href="http://www.f-prot.com/">F-Prot</a> is no longer free but it is cheap. <a href="http://www.norman.com/">Norman Virus Control</a> is available on many platforms. <a href="http://www.kaspersky.com/">Kaspersky AV</a> gets good marks for not interfering with other programs. <a href="http://www.symantec.com">Norton Anti-Virus</a> seems thorough but I have heard reports of conflicts with other programs. Many people are reporting obnoxious marketing practices at <a href="http://www.mcafee.com/">McAfee Security</a>, including restricting the set of browsers usable for downloading antivirus updates by using unnecessary and incompatible ActiveX controls, automatically enrolling new purchasers in a paid update program using the credit card information provided during an initial purchase and at the same time providing no easy way to change this, and hitting you with pop-up ads every time you visit their site.
-</li>
-</ul>
-<p>TO AVOID SENDING AND RECEIVING VIRUSES: <br> SENDING <br> i. use plain text to send and receive information whenever possible. All word processors and spread sheets can save as .txt. There is seldom a real need for using anything except plain text for email. <br> ii. When plain text is not possible (because special formatting is required) you can almost always use HTML. All modern word processors and spread sheets can save as HTML. This is almost risk free, but to be really safe you can turn off Java and JavaScript in your browser preferences. <br> iii. When page formatting is crucial, which it almost never is, use Adobe’s <acronym class="help" title="Portable Document Format">PDF</acronym> format. You may need a PDF “printer driver” to do this (such as Adobe Acrobat, Jaws, or some <a href="#freepdf">free alternatives</a> such as <a href="http://sourceforge.net/projects/pdfcreator/">PDFCreator</a>). <br> RECEIVING: <br> i. Many viruses are received as part of email attachments. Other malware (known as worms) will email themselves from an infected computer to many others. So the best practice would be to not open <em>any</em> email attachments. Unforunately, sometimes we need to open attachments. ii. If you must open an attachment, view the file extension. The default in Windows is to turn off your ability to do this, which means you can be tricked into thinking a dangerous Visual Basic script <code>filename.jpg.vbs</code> is really a safe <code>.jpg</code> file. You can fix by following <a href="#windows-hints-extensions">this windows hint</a>. For Windows users, especially dangerous extensions are <code>.exe</code>, <code>.com</code>, <code>.pif</code>, <code>.vbs</code>. Also dangerous are <code>.doc</code> and <code>.xls</code>. (Comment: dangerous file types can be included as `<code>attachments&#39;&#39; to</code>.pdf` files as well, which means you should not open such attachments with Adobe Acrobat either.) <br> iii. When possible, avoid the use of susceptible proprietary file formats (such as Word or Excel). Related to this, avoid the use of Outlook unless you know how to turn off all its dangerous features. And if you simply <strong>must</strong> open a document in a MS format (e.g., because that’s what a work colleague sent you), learn how to turn off the availability of macros. You should also be cautious with any other format that supports macros, which basically means you should avoid exchanging information in word processor formats (see i. and ii. above). <br> iii. <strong>Never</strong> run a program file unless you <strong>know</strong> it came from an <strong>impeccable</strong> source. (For Windows users, this includes file extenstions .exe, .com, .pif, .bat, and .vbs.) <br> iv. Windows users should <strong>disable</strong> autoplay, since it allows arbitary executable to run automatically on your computer.</p>
-<p><b>Additional Comment:</b> Many new viruses are not detected by anti-virus software. Safe practices are necessary. Furthermore, if the recipient wishes to read what you send in their word processor, all modern word processors also import plain text (very safe), HTML (pretty safe), and PDF (usually safe) very simply.</p>
+<section id="email-1" class="level3">
+<h3 class="anchored" data-anchor-id="email-1">Email</h3>
+<p>TO AVOID SENDING AND RECEIVING VIRUSES: <br> SENDING <br> i. use plain text to send and receive information whenever possible. All word processors and spread sheets can save as .txt. There is seldom a real need for using anything except plain text for email. <br> ii. When plain text is not possible (because special formatting is required) you can almost always use HTML. All modern word processors and spread sheets can save as HTML. This is almost risk free, but to be really safe you can turn off Java and JavaScript in your browser preferences. <br> iii. When page formatting is crucial, which it almost never is, use Adobe’s <acronym class="help" title="Portable Document Format">PDF</acronym> format. You may need a PDF “printer driver” to do this (such as Adobe Acrobat, Jaws, or some <a href="#freepdf">free alternatives</a> such as <a href="http://sourceforge.net/projects/pdfcreator/">PDFCreator</a>). <br> RECEIVING: <br> i. Many viruses are received as part of email attachments. Other malware (known as worms) will email themselves from an infected computer to many others. So the best practice would be to not open <em>any</em> email attachments. Unforunately, sometimes we need to open attachments. ii. If you must open an attachment, view the file extension. The default in Windows is to turn off your ability to do this, which means you can be tricked into thinking a dangerous Visual Basic script <code>filename.jpg.vbs</code> is really a safe <code>.jpg</code> file. You can fix by following <a href="#windows-hints-extensions">this windows hint</a>. For Windows users, especially dangerous extensions are <code>.exe</code>, <code>.com</code>, <code>.pif</code>, <code>.vbs</code>. Also dangerous are <code>.doc</code> and <code>.xls</code>. (Comment: dangerous file types can be included as “attachments’’ to <code>.pdf</code> files as well, which means you should not open such attachments with Adobe Acrobat either.) <br> iii. When possible, avoid the use of susceptible proprietary file formats (such as Word or Excel). Related to this, avoid the use of Outlook unless you know how to turn off all its dangerous features. And if you simply <strong>must</strong> open a document in a MS format (e.g., because that’s what a work colleague sent you), learn how to turn off the availability of macros. You should also be cautious with any other format that supports macros, which basically means you should avoid exchanging information in word processor formats (see i. and ii. above). <br> iii. <strong>Never</strong> run a program file unless you <strong>know</strong> it came from an <strong>impeccable</strong> source. (For Windows users, this includes file extenstions .exe, .com, .pif, .bat, and .vbs.) <br> iv. Windows users should <strong>disable</strong> autoplay, since it allows arbitary executable to run automatically on your computer.</p>
+<p><b>Additional Comment:</b> Many new viruses are not detected by anti-virus software. Safe practices are necessary. Furthermore, if the recipient wishes to read what you send in their word processor, all modern word processors also import plain text (safe), HTML (safe if no JavaScript), and PDF (usually safe if no JavaScript) very simply.</p>
 </section>
 <section id="multimedia-resources" class="level3">
 <h3 class="anchored" data-anchor-id="multimedia-resources">Multimedia Resources</h3>
@@ -5442,14 +5433,11 @@ The cross-platform <a href="http://pymedia.org/">PyMedia</a> Python module provi
 <h3 class="anchored" data-anchor-id="modeling-languages-and-solvers">Modeling Languages and Solvers</h3>
 <section id="modeling-languages" class="level4">
 <h4 class="anchored" data-anchor-id="modeling-languages">Modeling Languages</h4>
-<p>The modeling languages most widely used by economists are commercial: <a href="http://www.gams.com/">GAMS</a> (with <a href="http://www.gams.com/docs/document.htm">online documenation</a>) and <a href="http://www.copsmodels.com/gempack.htm">GEMPACK</a> (with <a href="http://www.copsmodels.com/gpmanual.htm">online documentation</a>). Economists use these primarily for CGE modeling. (See these helpful <a href="http://www.ifpri.org/sites/default/files/publications/gamsexer.pdf">CGE exercises</a> with <a href="http://www.ifpri.org/publication/key-exercises-cge-modeling-using-gams">solutions</a>.)</p>
+<p>The modeling languages most widely used by economists are commercial: <a href="http://www.gams.com/">GAMS</a> (with <a href="http://www.gams.com/docs/document.htm">online documenation</a>) and <a href="http://www.copsmodels.com/gempack.htm">GEMPACK</a> (with <a href="http://www.copsmodels.com/gpmanual.htm">online documentation</a>). Economists use these primarily for CGE modeling. (See these helpful <a href="http://www.ifpri.org/sites/default/files/publications/gamsexer.pdf">CGE exercises</a> with <a href="http://www.ifpri.org/publication/key-exercises-cge-modeling-using-gams">solutions</a>.) Mathematica supports <a href="http://www.modelica.org/index.shtml">Modelica</a>, an entity (object) oriented modeling language that may prove useful to economists.</p>
 <p>Other alternatives are listed at <a href="http://plato.la.asu.edu/topics/tools.html">http://plato.la.asu.edu/topics/tools.html</a>. A few are listed below.</p>
 <ul>
 <li>
 <a href="http://ascend.cheme.cmu.edu/">ASCEND</a> is an object-oriented mathematical modeling environment and a strongly typed mathematical modeling language. (License: GPL.)
-</li>
-<li>
-It looks like an interesting alternative may be <a href="http://www.modelica.org/index.shtml">Modelica</a>, an entity (object) oriented modeling language that may prove useful to economists. There is a promising <a href="http://www.ida.liu.se/~pelab/modelica/OpenModelica.html">open source Modelica project</a>. (Currently you need CygWin to run this.)
 </li>
 <li>
 <a href="http://www.jeannot.org/~js/code/index.en.html#PuLP">PuLP</a> “is an LP modeler written in Python. PuLP can generate .LP and .MPS files and call GLPK, COIN CLP/SBB, CPLEX or XPRESS to solve linear problems.”
@@ -5510,7 +5498,7 @@ You can use the solvers on the <a href="http://www-neos.mcs.anl.gov/neos/solvers
 </section>
 <section id="integrated-development-environments" class="level3">
 <h3 class="anchored" data-anchor-id="integrated-development-environments">Integrated Development Environments</h3>
-<p>For Python, <a href="http://mmm-experts.com/Products.aspx?ProductId=4">PyScripter</a> has an excellent reputation. But it has limited support for threading. (Windows only; license unknown.)</p>
+<p>For Python, <a href="https://www.spyder-ide.org/">Spyder</a> has an excellent reputation.</p>
 <p>For Java, consider the <a href="http://www.eclipse.org/">Eclipse</a> IDE. (Eclipse is a “general purpose” IDE.) Python users can also use Eclipse via the <a href="http://pydev.sourceforge.net/">Pydev</a> plugin.</p>
 <p>For C and C++, consider the <a href="http://www.a-a-p.org/index.html">Agide</a> IDE. You can use Vim as your editor! On Linux/KDE, you can alternatively use <a href="http://www.kdevelop.org/">KDevelop</a>, which also support Vim as an editor.</p>
 <p><a href="http://vimmate.rubyforge.org/">VimMate</a> is a light GTK-based IDE that embeds the Vim editor.</p>
@@ -6574,8 +6562,8 @@ You can edit PDFs with <a href="http://sourceforge.net/projects/pdfedit/">pdfedi
 </ul>
 </div>
 </section>
-<section id="other" class="level4">
-<h4 class="anchored" data-anchor-id="other">Other</h4>
+<section id="other-1" class="level4">
+<h4 class="anchored" data-anchor-id="other-1">Other</h4>
 <ul>
 <li>
 <a href="https://numerical.recipes/">Numerical Recipes online</a> is still available in 2026!
@@ -6725,7 +6713,7 @@ By setting KeyBindingsCycle=“1” (1 is on, 0 the default is off) you will be 
 </section>
 <section id="acrobat-hints" class="level3">
 <h3 class="anchored" data-anchor-id="acrobat-hints">Acrobat hints</h3>
-<p>When you add comments to a document, the comments are stamped with a name, a date, and a time. This may well be more information than you want to provide. You can remove the name stamp from all your comments as follows. Show the comment list: pick Comments » Show Comment List from the menus. Select all comments: click on one, and then press <code>ctrl-a</code>. Change the comment properties: right click on your selection, click <code>Properties</code>, pick the <code>General</code> tab, and change the Author field (e.g., nothing). Unfortunately, you cannot remove the date and time stamps this way. However, only the “modified” stamp shows to the reader, when you change the author this way, it should update the modified time on all the comments.</p>
+<p>When you add comments to a document, the comments are stamped with a name, a date, and a time. This may well be more information than you want to provide. You can remove the name stamp from all your comments as follows. Show the comment list: pick Comments » Show Comment List from the menus. Select all comments: click on one, and then press “ctrl-a<code>. Change the comment properties: right click on your selection, click “Properties</code>, pick the “General” tab, and change the Author field (e.g., nothing). Unfortunately, you cannot remove the date and time stamps this way. However, only the “modified” stamp shows to the reader, when you change the author this way, it should update the modified time on all the comments.</p>
 <section id="aspellhints" class="level4">
 <h4 class="anchored" data-anchor-id="aspellhints">Aspell user hints</h4>
 <div class="boxed">
@@ -6802,7 +6790,7 @@ You may find <a href="http://scidraw.nd.edu/">SciDraw</a> helpful for better loo
 <li><em>update</em> again (and resolve any conflicts)</li>
 <li>as soon as possible, <em>commit</em> your changes</li>
 </ol>
-<p>To work across platforms, you must not use file or folder names that are illegal on any of the platforms. Windows users cannot use the following (which are reserved device names): CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9. They also cannot use these names followed by an extension, for example, NUL.txt or com1.png. <br> Suppose a contributor creates com1.png on a Mac and commits it to the Subversion repository. When Windows users try to update, the update fails horribly. (How horribly? Unfixably. They will have to get a new checkout after the problem is fixed.) The contributor of the file should <code>svn rename</code> it to a name legal for Windows, and commit that change. Then the problem for Windows users will go away. <br> Bottom line: never ever use such file or folder names!</p>
+<p>To work across platforms, you must not use file or folder names that are illegal on any of the platforms. Windows users cannot use the following (which are reserved device names): CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9. They also cannot use these names followed by an extension, for example, NUL.txt or com1.png. <br> Suppose a contributor creates com1.png on a Mac and commits it to the Subversion repository. When Windows users try to update, the update fails horribly. (How horribly? Unfixably. They will have to get a new checkout after the problem is fixed.) The contributor of the file should “svn rename” it to a name legal for Windows, and commit that change. Then the problem for Windows users will go away. <br> Bottom line: never ever use such file or folder names!</p>
 <p><a href="http://ariejan.net/2007/07/04/how-to-resolve-subversion-conflicts/">How to resolve Subversion Conflicts</a></p>
 <div class="default">
 <p>Suppose you want to add a directory <kbd>mydir</kbd> under version control, but it contains a bunch of files you do <em>not</em> wish to track. You can add the directory but not the files as follows: <code>svn add --non-recursive mydir</code>.</p>
@@ -7087,8 +7075,8 @@ Python: <br> Vim cooperates with some scipting languages, including Python. See 
 <pre>:python import vim
 :py cb = vim.current.buffer
 </pre>
-<p>Note that cb is now an iterable container of strings. You can assign to the i-th line by assigning to cb[i].</p>
-<p>Exiting a buffer: it is usually recommended to exit a buffer using bnext. However I sometimes prefer to delete a buffer as I leave it. Examining the help for <code>bar</code>, we see that <code>:w|bd</code> can be used to write and then delete a buffer.</p>
+<p>Note that cb is now an iterable container of strings. You can assign to the i-th line by assigning to <code>cb[i]</code>.</p>
+<p>Exiting a buffer: it is usually recommended to exit a buffer using bnext. However I sometimes prefer to delete a buffer as I leave it. Examining the help for <strong>bar</strong>, we see that <code>:w|bd</code> can be used to write and then delete a buffer.</p>
 </section>
 <section id="spell-checking" class="level5">
 <h5 class="anchored" data-anchor-id="spell-checking">Spell Checking</h5>
