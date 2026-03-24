@@ -1,10 +1,12 @@
 '''
 Statistical module to supplement SciPy.
 '''
-__author__ = 'Alan G. Isaac if not specified (and others as specified)'
+__author__ = 'Alan G. Isaac (and others as specified)'
 
 import logging, math, random
 from itertools import groupby
+from bisect import bisect_right as countLTE #for the ecdf
+
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -98,13 +100,13 @@ class Dstat1(object):
         # var is standard def of sample variance, not MLE estimate
         try: self.var =  self.m2*self.nobs/(self.nobs-1)
         except ZeroDivisionError: self.var = 0
-        self.std =  math.sqrt(self.var) #based on sample variance
+        self.std =  math.sqrt(self.var) #based on **sample** variance
         self.skew = self.m3/math.sqrt(self.m2)**3
         self.kurtosis = self.m4/self.m2**2            #NOT kurtosis excess (=kurtosis-3)
         #Jarque-Bera: JB(X)=\frac{T}{6}\left[S^{2}(X) + \frac{[K(X)-3]^{2}}{4}\right]
         self.jb = (self.skew**2 + (self.kurtosis-3)**2/4)*self.nobs/6
         if have_scipy:
-            self.jbpval = sp.stats.stats.chisqprob(self.jb,2) #check TODO
+            self.jbpval = sp.stats.distributions.chi2.sf(self.jb,2) #check TODO
         else:
             self.jbpval = None
         self.min , self.max = self.get_range()
@@ -197,7 +199,7 @@ class Dstat1(object):
             ecdf = list(xsteps), list(psteps)
         return ecdf
     """
-    def get_median(self,data1d):
+    def get_median(self):
         if self._median is None:
             nobs = self.nobs
             idx = nobs//2
@@ -311,7 +313,6 @@ def welchs_approximate_ttest(n1, mean1, sem1, n2, mean2, sem2, alpha):
 
 
 
-from bisect import bisect_right as countLTE
 #Data are assumed to be sorted!
 #BEGIN ecdf
 def ecdf(data):
