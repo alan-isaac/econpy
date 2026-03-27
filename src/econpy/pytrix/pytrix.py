@@ -26,16 +26,12 @@ __docformat__ = "restructuredtext en"
 
 import random, math, operator
 import types
-import sys,os
+import sys,os, math
 import logging
 
-have_numpy = False
-try:
-    import numpy as np
-    from numpy import linalg
-    have_numpy = True
-except ImportError:
-    logging.info("numpy not available")
+import numpy as np
+from numpy import linalg
+
 
 # Polynomials in poly.py
 
@@ -379,12 +375,12 @@ def norm(seq, p=2):
     elif (p in ('max','infty')) : # ||x||oo
         result = max([abs(xi) for xi in seq])
     elif (p < 1):
-        raise ValueError('p=%s<1 does not define a norm'%p)
+        raise ValueError(f"p={p}<1 does not define a norm")
     else:
         try:
             result = math.pow(sum(abs(xi)**p for xi in seq), 1./p)
         except:
-            raise ValueError, 'unknown norm type: %s'%p
+            raise ValueError(f"unknown norm type: {p}")
     return result
 
 
@@ -778,7 +774,7 @@ def bitrev(x):
     :author: William Park
     """
     N, x = len(x), x[:]
-    if N != nextpow2(N): raise ValueError, 'N is not power of 2'
+    if N != nextpow2(N): raise ValueError('N is not power of 2')
     for i in range(N):
         k, b, a = 0, N>>1, 1
         while b >= a:
@@ -1397,7 +1393,7 @@ class interp2:
      - add nearest method
      - supply an option for clipping the values outside the range. (in fill_value = Clip will return reduced grid of interpolated, plus the new grid)
 """
-    from numpy import sometrue, asarray, transpose, atleast_1d
+    from numpy import transpose, atleast_1d
     # need masked arrays if stuff gets too big.
     #import MA
     
@@ -1435,27 +1431,29 @@ class interp2:
             self.fill_value = fill_value
 
         if kind not in self.avail_methods:
-            raise NotImplementedError, "Only "+ \
+            raise NotImplementedError("Only "+ \
                 str(self.avail_methods)+ \
-                "supported for now."
+                "supported for now.")
 
         ## not sure if the rest of method is kosher
         # checking the input ranks
         # shape z:
         #   x: columns, y: rows
         if rank(z) != 2:
-            raise ValueError, "z Grid values is not a 2-d array."
+            raise ValueError("z Grid values is not a 2-d array.")
         (rz, cz) = shape(z)
         if min(shape(z)) < 3:
-            raise ValueError, "2d fitting a Grid with one extension < 3"+\
-                    "doesn't make too much of a sense, don't you think?"
+            raise ValueError(
+                  "2d fitting a Grid with one extension < 3"
+                  "doesn't make too much of a sense, don't you think?"
+                  )
         if (rank(x) > 1) or (rank(y) > 1):
-            raise ValueError, "One of the input arrays is not 1-d."
+            raise ValueError("One of the input arrays is not 1-d.")
         if (len(x) != rz) or (len(y) != cz):
             print("len of x: ", len(x))
             print("len of y: ", len(y))
             print("shape of z: ", shape(z))
-            raise ValueError, "Length of X and Y must match the size of Z."
+            raise ValueError("Length of X and Y must match the size of Z.")
 
         # TODO: could check for x,y input as grids, and check dimensions
 
@@ -1487,9 +1485,9 @@ class interp2:
         """
         
         if mode not in self.op_modes:
-            raise NotImplementedError, "Only "+ \
+            raise NotImplementedError("Only "+ \
                 str(self.op_modes)+ \
-                "operation modes are supported for now."
+                "operation modes are supported for now.")
 
         # save some space
         # TODO: is this typing good?
@@ -1606,20 +1604,20 @@ class interp2:
         above_xbounds = greater(x_new,self.x[-1])
         below_ybounds = less(y_new, self.y[0])
         above_ybounds = greater(y_new,self.y[-1])
-        #  Note: sometrue has been redefined to handle length 0 arrays
+        #  Note: any has been redefined to handle length 0 arrays
         # !! Could provide more information about which values are out of bounds
-        if self.bounds_error and sometrue(below_xbounds):
-            raise ValueError, " A value in x_new is below the"\
-                              " interpolation range."
-        if self.bounds_error and sometrue(above_xbounds):
-            raise ValueError, " A value in x_new is above the"\
-                              " interpolation range."
-        if self.bounds_error and sometrue(below_ybounds):
-            raise ValueError, " A value in y_new is below the"\
-                              " interpolation range."
-        if self.bounds_error and sometrue(above_ybounds):
-            raise ValueError, " A value in y_new is above the"\
-                              " interpolation range."
+        if self.bounds_error and np.any(below_xbounds):
+            raise ValueError(" A value in x_new is below the"\
+                              " interpolation range.")
+        if self.bounds_error and np.any(above_xbounds):
+            raise ValueError(" A value in x_new is above the"\
+                              " interpolation range.")
+        if self.bounds_error and np.any(below_ybounds):
+            raise ValueError(" A value in y_new is below the"\
+                              " interpolation range.")
+        if self.bounds_error and np.any(above_ybounds):
+            raise ValueError(" A value in y_new is above the"\
+                              " interpolation range.")
         # !! Should we emit a warning if some values are out of bounds.
         # !! matlab does not.
         out_of_xbounds = logical_or(below_xbounds,above_xbounds)
@@ -1628,11 +1626,11 @@ class interp2:
         return (out_of_xbounds, out_of_ybounds)
 
     # The following are clues to fix brain-deadness of take and
-    # sometrue when dealing with 0 dimensional arrays.
+    # np.any when dealing with 0 dimensional arrays.
 
-    _sometrue = sometrue
+    _sometrue = np.any
     def sometrue(a,axis=0):    
-        x = asarray(a)
+        x = np.asarray(a)
         if shape(x) == (): x = x.flat
         return _sometrue(x)
     sometrue=staticmethod(sometrue)
@@ -1646,8 +1644,8 @@ class interp2:
 
     ## indices does that too in some way
     def meshgrid( a, b):
-        a = asarray(a)
-        b = asarray(b)
+        a = np.asarray(a)
+        b = np.asarray(b)
         return resize(a,(len(b),len(a))), \
             transpose(resize(b,(len(a),len(b))))
     meshgrid=staticmethod(meshgrid)
@@ -1828,17 +1826,17 @@ def geneigsympos(A, B):
     :author: Sven Schreiber <svetosch gmx.net>
     :since: 30 Jan 2006
     """
-    from numpy import asmatrix, asarray, linalg
+    from numpy import asmatrix
     #fixme: input checks on the matrices
     LI = asmatrix(linalg.cholesky(B)).I
     C = LI * asmatrix(A) * LI.T
     evals, evecs = linalg.eigh(C)
-    if type(A) == type(asarray(A)): output = "array"
+    if type(A) == type(np.asarray(A)): output = "array"
     # A was passed as numpy-array
     else: output = "matrix"
     #but the evecs need to be transformed back:
     evecs = LI.T * asmatrix(evecs)
-    if output == "array": return evals, asarray(evecs)
+    if output == "array": return evals, np.asarray(evecs)
     else:   return asmatrix(evals), evecs
 
 
@@ -1898,20 +1896,20 @@ def stinemanInterp(xi,x,y,yp=None):
                  Meteorological Office, March 2006 halldor at vedur.is)
     """
 
-    from pylab import asarray, zeros
+    from pylab import zeros
 
     # Cast key variables as float.
-    x=asarray(x,'d')
-    y=asarray(y,'d')
+    x=np.asarray(x,'d')
+    y=np.asarray(y,'d')
     assert x.shape == y.shape
     N=len(y)
 
     if yp is None:
         yp = slopes(x,y)
     else:
-        yp=asarray(yp,'d')
+        yp=np.asarray(yp,'d')
 
-    xi=asarray(xi,'d')
+    xi=np.asarray(xi,'d')
     yi=zeros(xi.shape,'d')
 
     # calculate linear slopes
@@ -1967,11 +1965,11 @@ def slopes(x,y):
                  Meteorological Office, March 2006 halldor at vedur.is)
     """
 
-    from pylab import asarray, zeros
+    from pylab import zeros
 
     # Cast key variables as float.
-    x=asarray(x,dtype='d')
-    y=asarray(y,dtype='d')
+    x=np.asarray(x,dtype='d')
+    y=np.asarray(y,dtype='d')
 
     yp=zeros(y.shape,dtype='d')
 
@@ -2003,9 +2001,6 @@ def chebyu(N,x):
         previous, current = current, 2*x*current - previous
     return current
 
-
-import sys, math
-import numpy.linalg.linalg as la
 
 
 def fnnls(XtX, Xty, tol = 0) :
@@ -2234,10 +2229,10 @@ class Histogram(object):
         
     def __delete_value(self):
         """Delete method."""
-        raise TypeError, 'Cannot delete attribute.'
+        raise TypeError('Cannot delete attribute.')
     
     def __set_value(self):
-        raise TypeError, 'Cannot set attribute.'
+        raise TypeError('Cannot set attribute.')
     
     def range(): #---- range object ----
         doc = """A tuple of two values defining the lower and upper ends of the bin span. 
@@ -2250,7 +2245,7 @@ class Histogram(object):
             else:
                 value = atleast_1d(value)        
                 if len(value) != 2:
-                    raise TypeError, 'Range must have two elements (min, max).'
+                    raise TypeError('Range must have two elements (min, max).')
                 self.__range = value 
                 if self.__Init is False:
                     self.__compute()
@@ -2284,7 +2279,7 @@ class Histogram(object):
         def fset(self, value):
             """Set method for Nbins."""
             if (size(value) != 1):
-                raise TypeError, 'Nbin must be a scalar.'
+                raise TypeError('Nbin must be a scalar.')
             else:
                 self.__Nbins = value
                 self.__bins = linspace(self.__range[0], self.__range[1], self.__Nbins+1) 
@@ -2311,7 +2306,7 @@ class Histogram(object):
                 if self.__Init is False:
                     self.__compute()
             else:
-                raise TypeError, 'weighted must be a boolean (True/False).'
+                raise TypeError('weighted must be a boolean (True/False).')
         return locals()
     weighted = property(**weighted())
         
@@ -2328,7 +2323,7 @@ class Histogram(object):
     
         def fset(self, value):             
             if size(value) != 1:
-                raise TypeError, 'normed must be a boolean (True/False) or a scalar.'
+                raise TypeError('normed must be a boolean (True/False) or a scalar.')
             if value:
                 self.__normed = value*1.
             else:
@@ -2354,7 +2349,7 @@ class Histogram(object):
                     if not self.normed:
                         self.normed = True
                 else:
-                    raise TypeError, 'The size of the weight array (%d) must be identical to the data size (%d).' % (size(weights), size(self.__data))
+                    raise TypeError('The size of the weight array (%d) must be identical to the data size (%d).' % (size(weights), size(self.__data)))
                 if self.__Init is False:
                     self.__compute()
             
@@ -2523,8 +2518,8 @@ def locate_minima(x):
 
     :date: 2006-06-19
     """
-    from numpy import empty, asarray
-    x = asarray(x)
+    from numpy import empty
+    x = np.asarray(x)
     dx =  x[1:]-x[:-1]
     minima =  empty((len(x),),dtype=bool)
     minima[1:-1] = (dx[:-1]<=0) & (dx[1:]>=0)

@@ -18,17 +18,8 @@ Some are lightweight, in the sense that they do not depend on an array package.
 .. _`Simple Recipes in Python`: http://www.phys.uu.nl/~haque/computing/WPark_recipes_in_python.html
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 """
-from __future__ import division, absolute_import
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2007-09-10'
-
-from .utilities import have_numpy, have_scipy
-if have_numpy:
-	import numpy as np
-	import numpy.linalg as la
-if have_scipy:
-	from scipy import stats as Sstats
 
 import random, math, operator
 import types
@@ -36,6 +27,10 @@ import sys,os
 import logging
 logging.basicConfig(level=logging.WARN)
 import time
+
+import numpy as np
+import numpy.linalg as la
+from scipy import stats as Sstats
 
 
 
@@ -49,8 +44,8 @@ class OLS(object):
 	Example use::
 
 		result = OLS(dep, indep)
-		print result
-		print result.resids
+		print(result)
+		print(result.resids)
 	
 	:Ivariables:
 		`nobs` : int
@@ -95,10 +90,9 @@ class OLS(object):
 				(T x 1) array, the LHS variable
 			`indep` : array
 				(T x K) array, the RHS variables, in columns
+        note: NumPy required for OLS
 		"""
 		assert isinstance(dep_name,str), "Names must be strings."
-		if not have_numpy:
-			raise NotImplementedError('NumPy required for OLS.')
 		Y = np.asarray(dep)  #allow lists
 		if len(Y.shape) != 2:
 			Y = Y.reshape(-1,1)  #TODO single equation only
@@ -253,7 +247,7 @@ class OLS(object):
 	def print_results(self):
 		"""Return None.  Print results.
 		"""
-		print self
+		print(self)
 	def __str__(self):
 		# use to print output
 		header_template = """
@@ -376,7 +370,7 @@ def linreg(X, Y):
 	:author: William Park
 	"""
 	from math import sqrt
-	if len(X) != len(Y):  raise ValueError, 'unequal length'
+	if len(X) != len(Y):  raise ValueError('unequal length')
 
 	N = len(X)
 	Sx = Sy = Sxx = Syy = Sxy = 0.0
@@ -397,12 +391,15 @@ def linreg(X, Y):
 	ss = residual / (N-2)
 	Var_a, Var_b = ss * N / det, ss * Sxx / det
 	 
-	print "y=ax+b"
-	print "N= %d" % N
-	print "a= %g \\pm t_{%d;\\alpha/2} %g" % (a, N-2, sqrt(Var_a))
-	print "b= %g \\pm t_{%d;\\alpha/2} %g" % (b, N-2, sqrt(Var_b))
-	print "R^2= %g" % RR
-	print "s^2= %g" % ss
+	toprint = f"""
+	y=ax+b
+	N= {N}
+	a= {a} \\pm t_({N-2};\\alpha/2) {sqrt(Var_a)}
+	b= {b} \\pm t_({N-2};\\alpha/2) {sqrt(Var_b)}
+	R^2= {RR}
+	s^2= {ss}
+	"""
+	print(toprint)
 	 
 	return a, b
 
@@ -452,9 +449,9 @@ class OLSvn:
 		Step 2: Get specific metrics
 
 			To print the coefficients: 
-				>>> print m.b
+				>>> print(m.b)
 			To print the coefficients p-values: 
-				>>> print m.p
+				>>> print(m.p)
 	
 	"""
 
@@ -554,29 +551,33 @@ class OLSvn:
 		omni, omnipv = self.omni()
 
 		# printing output to screen
-		print '\n=============================================================================='
-		print "Dependent Variable: " + self.y_varnm
-		print "Method: Least Squares"
-		print "Date: ", time.strftime("%a, %d %b %Y",t)
-		print "Time: ", time.strftime("%H:%M:%S",t)
-		print '# obs:				%5.0f' % self.nobs
-		print '# variables:		%5.0f' % self.ncoef 
-		print '=============================================================================='
-		print 'variable		coefficient		std. Error		t-statistic		prob.'
-		print '=============================================================================='
-		for i in range(len(self.x_varnm)):
-			print """% -5s			% -5.6f		% -5.6f		% -5.6f		% -5.6f""" % tuple([self.x_varnm[i],self.b[i],self.se[i],self.t[i],self.p[i]]) 
-		print '=============================================================================='
-		print 'Models stats							Residual stats'
-		print '=============================================================================='
-		print 'R-squared			% -5.6f			Durbin-Watson stat	% -5.6f' % tuple([self.R2, self.dw()])
-		print 'Adjusted R-squared	% -5.6f			Omnibus stat		% -5.6f' % tuple([self.R2adj, omni])
-		print 'F-statistic			% -5.6f			Prob(Omnibus stat)	% -5.6f' % tuple([self.F, omnipv])
-		print 'Prob (F-statistic)	% -5.6f			JB stat				% -5.6f' % tuple([self.Fpv, JB])
-		print 'Log likelihood		% -5.6f			Prob(JB)			% -5.6f' % tuple([ll, JBpv])
-		print 'AIC criterion		% -5.6f			Skew				% -5.6f' % tuple([aic, skew])
-		print 'BIC criterion		% -5.6f			Kurtosis			% -5.6f' % tuple([bic, kurtosis])
-		print '=============================================================================='
+		print(f"""\n=============================================================================='
+		Dependent Variable: {self.y_varnm}
+		Method: Least Squares"
+		Date: {time.strftime("%a, %d %b %Y",t)}
+		Time: {time.strftime("%H:%M:%S",t)}
+		# obs:				{self.nobs:5.0f}
+		# variables:		{self.ncoef:5.0f}
+		==============================================================================
+		variable		coefficient		std. Error		t-statistic		prob.
+		==============================================================================
+		""")
+
+		for tpl in zip(self.x_varm,self.b,self.se,self.t,self.p):
+			print("% -5s			% -5.6f		% -5.6f		% -5.6f		% -5.6f".format(tpl))
+
+		print(f"""=============================================================================='
+		Models stats							Residual stats
+		=============================================================================='
+		R-squared			{self.R2:-5.6f}			Durbin-Watson stat	{self.dw():-5.6f}
+		Adjusted R-squared	{self.R2adj:-5.6f}			Omnibus stat		{omni:-5.6f}
+		F-statistic			{self.F:-5.6f}			Prob(Omnibus stat)	{omnipv:-5.6f}
+		Prob (F-statistic)	{self.Fpv:-5.6f}			JB stat				{JB:-5.6f}
+		Log likelihood		{self.ll:-5.6f}			Prob(JB)			{JBpv:-5.6f}
+		AIC criterion		{aic:-5.6f}			Skew				{skew:-5.6f}
+		BIC criterion		{bic:-5.6f}			Kurtosis			{kurtosis:-5.6f}
+		==============================================================================
+		""")
 
 
 def rolsf(x, y, p, th, lam):

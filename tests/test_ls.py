@@ -5,13 +5,8 @@ Unit tests for ls.py.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import absolute_import
-from __future__ import division
-
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 
-from itertools import izip
 import random
 import numpy as np
 import numpy.linalg as la
@@ -31,8 +26,8 @@ class testPytrix(unittest.TestCase):
 		y = b0 + b1*x + e
 		model = OLS(dep=y, indep=x)
 		b1hat, b0hat = model.coefs #constant comes last
-		self.assert_(abs(b1hat-b1)<0.1)
-		self.assert_(abs(b0hat-b0)<0.1)
+		self.assertTrue(abs(b1hat-b1)<0.1)
+		self.assertTrue(abs(b0hat-b0)<0.1)
 
 # +++++++++++++++++++++++++++++++++++++++++++
 #                rolsftest.py
