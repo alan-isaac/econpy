@@ -5,13 +5,11 @@ Unit tests for Pestieau replication.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import absolute_import
 import unittest
 import random
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
-from econpy.abs.pestieau1984oep import agents
-from econpy.pytrix import utilities, iterate, fmath
+from econpy.abms.pestieau1984oep import agents
 
 
 
@@ -38,7 +36,7 @@ class testPestieau(unittest.TestCase):
 	def test_random2sexer(self):
 		s = blindermodel.random2sexer(10)
 		for si in s:
-			self.assert_(si in ['MM','MF','FM','FF'])
+			self.assertTrue(si in ['MM','MF','FM','FF'])
 	'''
 	def test_ability(self):
 		indiv = self.indivs[0]
@@ -49,12 +47,12 @@ class testPestieau(unittest.TestCase):
 		cohort = agents.PestieauCohort(indivs)
 		self.assertEqual(len(cohort),len(indivs))
 		for i in indivs:
-			self.assert_(i.sex in "MF")
+			self.assertTrue(i.sex in "MF")
 	def test_Fund(self):
-		fund = agents.Fund(None)  #usu want association w economy
+		fund = agents.PestieauFund(None,None)  #usu want association w economy
 		fund._accounts = [agents.FundAcct(fund, self.indivs[i], self.wealths[i]) for i in range(self.N)]
 		for i in range(self.N):
-			self.assertEqual(fund._accounts[i]._value, self.wealths[i])
+			self.assertEqual(fund._accounts[i]._cash, self.wealths[i])
 
 if __name__=="__main__":
 	unittest.main()

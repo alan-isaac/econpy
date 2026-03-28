@@ -43,13 +43,10 @@ State
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
-from __future__ import division
-from __future__ import absolute_import
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '20070622'
 
-import random, itertools
+import random
 from collections import defaultdict
 from econpy.pytrix import utilities, fmath
 from econpy.abms.utilities import impose_gini
@@ -231,7 +228,7 @@ class PestieauCohort(agents001.Cohort):
 	Assuming Pestieau economy is unisex, like Pryor.
 	'''
 	def __init__(self, seq):
-		Cohort.__init__(self, seq)
+		super().__init__(seq)
 		self._locked = True  #see: __setattr__
 	def __setattr__(self, attr, val):
 		'''Override __setattr__:
@@ -274,8 +271,8 @@ class PestieauFund(agents001.Fund):
 		assert fmath.feq(self.net_worth, 0, 0.01)  #this chk is currently pointless
 
 class FundAcct(agents001.FundAccount):
-	def __init__(self, economy):
-		agents001.FundAccount.__init__(self, economy)
+	def __init__(self, fund, indiv, amt):
+		super().__init__(fund, indiv, amt)
 		self._locked = False
 		#only capital services contracts
 		self.contracts = dict(capital=[])
@@ -670,7 +667,7 @@ def compute_ability_pestieau(indiv, beta, nbar):
 		z = random.normalvariate(0.0,0.15)  #Pestieau p.413-414
 		#Pestieau formula (note: role of nbar is peculiar)
 		ability = beta*parents_ability + (1-beta)*nbar/sibsize + z
-	except (TypeError, AttributeError):  #if indiv.parents is None
+	except (TypeError, AttributeError,ValueError):  #if indiv.parents is None
 		ability = random.normalvariate(1.0,0.15) #for initial cohort
 	return ability
 #END compute_ability_pestieau
