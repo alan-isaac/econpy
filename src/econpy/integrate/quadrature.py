@@ -7,14 +7,10 @@
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
-from __future__ import absolute_import
-from __future__ import division
-
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2008-08-12'
 
-from ..optimize.iterate import IterativeProcess, AbsDiff
+from ..optimize.optimize import IterativeProcess, AbsDiff
 
 
 def riemann_p(f, p, tags):

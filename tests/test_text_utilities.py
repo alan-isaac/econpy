@@ -2,16 +2,12 @@
 Unit tests for econpy.utilities.text.
 
 '''
-from __future__ import absolute_import
-from __future__ import division
-
-__docformat__ = "restructuredtext en"
 
 import unittest
 import random
 
 from tests_config import econpy  #tests_config.py modifies sys.path to find econpy
-from econpy.utilities.text import SimpleTable
+from econpy.utilities.table import SimpleTable
 
 mydata = [[11,12],[21,22]]
 myheaders = "Column 1", "Column 2"
@@ -42,7 +38,8 @@ class testUtilities(unittest.TestCase):
 		pass
 	def test_simple_table_text(self):
 		tbl = SimpleTable(mydata, myheaders, mystubs, title="Title")
-		self.assertEqual(str(tbl), txt_result[1:])
+		self.assertEqual(str(tbl), txt_result[1:],
+		msg=f"Problem:\n{str(tbl)}\nis not identical to\n{txt_result[1:]}")
 
 if __name__=="__main__":
 	unittest.main()

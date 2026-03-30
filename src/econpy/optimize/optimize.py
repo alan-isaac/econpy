@@ -7,13 +7,8 @@
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 '''
-from __future__ import absolute_import
-from __future__ import division
-
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 __lastmodified__ = '2007-07-04'
-
 
 
 class IterativeProcess(object):

@@ -13,8 +13,6 @@
 
 .. _`MIT license`: http://www.opensource.org/licenses/mit-license.php
 """
-from __future__ import division, absolute_import
-__docformat__ = "restructuredtext en"
 
 #standard library imports
 import logging
@@ -28,11 +26,11 @@ matplotlib.use('TkAgg')
 import pylab
 from matplotlib.dates import date2num, MONTHLY, YEARLY
 import datetime
-import Tkinter as Tk
+import tkinter as Tk
 
 #package imports
 from .pytrix import Vector, Vplus   #`Series` subclasses `Vector`
-from .io import freq2num, Sample, fetch, write_db
+from .pytrixIO import freq2num, Sample, fetch, write_db
 from .stat import Dstat1
 
 try:
