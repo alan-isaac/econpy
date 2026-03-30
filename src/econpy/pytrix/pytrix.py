@@ -135,8 +135,8 @@ def step_pts(x, y, use_numpy=True):
         xnew = np.repeat(x,2)[1:]
         ynew = np.repeat(y,2)[:-1]
     else:
-        xnew = [ x[(idx+1)//2] for idx in xrange(2*nobs-1) ]
-        ynew = [ y[idx//2] for idx in xrange(2*nobs-1) ]
+        xnew = [ x[(idx+1)//2] for idx in range(2*nobs-1) ]
+        ynew = [ y[idx//2] for idx in range(2*nobs-1) ]
     return xnew, ynew
 
 
@@ -232,7 +232,7 @@ def ordered_subpartitions(n, nparts):
 def sinc(x):
     """Sinus cardinalus. ::
     
-        sinc(x) = sin(\pi x) / (\pi x),  if x != 0
+        sinc(x) = sin(π x) / (π x),  if x != 0
                 = 1,                     if x = 0
 
     :param `x`: real number
@@ -334,7 +334,7 @@ vector = Vector
 def dot(x, y):
     """Return float, the vector dot (inner) product. ::
 
-        dot(x, y) = \sum_i x_i y_i
+        dot(x, y) = sum_i x_i y_i
 
     Parameters
     ----------
@@ -350,15 +350,15 @@ def dot(x, y):
 def norm(seq, p=2):
     """Vector norm. ::
 
-        ||x||1 = \sum_i |x_i|
-        ||x||2 = \sqrt{\sum_i x_i^2}
-        ||x||infty = \max |x_i|
+        ||x||1 = sum_i |x_i|
+        ||x||2 = sqrt[sum_i x_i^2]
+        ||x||infty = max |x_i|
 
     Parameters
     ----------
 
     `p` : float (>0) or str (in infty, max, taxi, euclid)
-        the normtype: ``||x||p = (\sum_i |x_i|^p)^(1/p)``
+        the normtype: ``||x||p = (sum_i |x_i|^p)^(1/p)``
     `normtype` : string
         the normtype: 'taxi' (p=1) or 'euclid' (p=2) or 'max' (p=infty)
 
@@ -465,7 +465,7 @@ def rect2circ2d(xy, in_degrees=False):
     :see: http://www.python.org/doc/current/lib/module-math.html#hypot
     :see: http://www.python.org/doc/current/lib/module-math.html#atan2
     :see: http://en.wikipedia.org/wiki/Coordinates_%28mathematics%29
-    :note: atan2(y/x) always in [-\pi,\pi] radians (i.e., [-180,180] degrees)
+    :note: atan2(y/x) always in [-π,π] radians (i.e., [-180,180] degrees)
     :contact: alan DOT isaac AT gmail DOT com
     """
     (x,y) = xy
@@ -646,7 +646,7 @@ def closedpoints(func, a, b, TOL=1e-6):        # f(x)=func(x)
 
 
 
-    Closed Simpson's rule for ``\int_a^b f(x) dx``:
+    Closed Simpson's rule for ``int_a^b f(x) dx``:
     Divide [a,b] iteratively into h, h/2, h/4, h/8, ... step sizes; and,
     for each step size, evaluate f(x) at a+h, a+3h, a+5h, a+7h, ..., b-3h,
     b-h, noting that other points have already been sampled.
@@ -696,7 +696,7 @@ def openpoints(func, a, b, TOL=1e-6):        # f(x)=func(x)
         real = func(real) 
         real = openpoints(func, real, real [, TOL=real])
 
-    Open Simpson's rule (excluding end points) for ``\int_a^b f(x) dx``
+    Open Simpson's rule (excluding end points) for ``int_a^b f(x) dx``
     Divide ``[a,b]`` iteratively into ``h, h/3, h/9, h/27, ...`` step sizes; and,
     for each step size, evaluate f(x) at
     ``a+h/2, a+2h+h/2, a+3h+h/2, a+5h+h/2, a+6h+h/2, ... , b-3h-h/2, b-2h-h/2, b-h/2``,
@@ -794,7 +794,7 @@ def fft(x, sign=-1):
     :author: William Park
     :see: `ifft` for inverse Fast Fourier Transform
     :note: FFT using Cooley-Tukey algorithm where N = 2^n.  The choice of
-        e^{-j2\pi/N} or e^{j2\pi/N} is made by 'sign=-1' or 'sign=1'
+        e^{-j2π/N} or e^{j2π/N} is made by 'sign=-1' or 'sign=1'
         respectively.  Since I prefer Engineering convention, I chose
         'sign=-1' as the default.
     :note: FFT is performed as follows:
@@ -848,7 +848,7 @@ def ifft(X):
     :see: `fft` for Fast Fourier Transform
     :author: William Park
     """
-    N, x = len(X), fft(X, sign=1)    # e^{j2\pi/N}
+    N, x = len(X), fft(X, sign=1)    # e^{j2π/N}
     for i in range(N):
         x[i] = x[i] / float(N)
     return x
@@ -859,10 +859,10 @@ def dft(x, sign=-1):
     """DFT using direct summation. ::
 
         list = dft(list [, sign=1]) 
-        X(n) = \sum_k W^{nk} x(k),  W = e^{-j2\pi/N}
+        X(n) = sum_k W^{nk} x(k),  W = e^{-j2π/N}
 
-    where N need not be power of 2.  The choice of e^{-j2\pi/N} or
-    e^{j2\pi/N} is made by "sign=-1" or "sign=1" respectively.
+    where N need not be power of 2.  The choice of e^{-j2π/N} or
+    e^{j2π/N} is made by "sign=-1" or "sign=1" respectively.
     :see: `idft` for inverse
     :author: William Park
     """
@@ -890,7 +890,7 @@ def idft(X):
     only be used for small data size (less than 64).  
     :author: William Park
     """
-    N, x = len(X), dft(X, sign=1)    # e^{j2\pi/N}
+    N, x = len(X), dft(X, sign=1)    # e^{j2π/N}
     for i in range(N):
         x[i] = x[i] / float(N)
     return x
@@ -909,7 +909,7 @@ def conv(x, y):
     ``x(t<0) = y(t<0) = 0``,
     using discrete summation. ::
 
-        x*y(t) = \int_{u=0}^t x(u) y(t-u) du = y*x(t)
+        x*y(t) = int_{u=0}^t x(u) y(t-u) du = y*x(t)
 
     where the size of x[], y[], x*y[] are P, Q, N=P+Q-1 respectively.
     :see: `corr` for correlation
@@ -929,7 +929,7 @@ def corr(x, y):
     Correlation of 2 casual signals, x(t<0) = y(t<0) = 0, using discrete
     summation::
 
-        Rxy(t) = \int_{u=0}^{\infty} x(u) y(t+u) du = Ryx(-t)
+        Rxy(t) = int_{u=0}^{∞} x(u) y(t+u) du = Ryx(-t)
 
     where the size of x[], y[], Rxy[] are P, Q, N=P+Q-1 respectively.
 
@@ -1012,8 +1012,8 @@ def meanstdv(x):
 
     Calculate mean and standard deviation of data x[]::
     
-         mean = {\sum_i x_i \over n}
-         std = sqrt(\sum_i (x_i - mean)^2 \over n-1)
+         mean = sum_i x_i / n
+         std = sqrt[sum_i (x_i - mean)^2 / n-1]
 
     :author: William Park
     """
@@ -1720,11 +1720,11 @@ def combinations(s,n):
     if n==1: return list([si] for si in s) #list containing lists containing s items
     if depth == 0:
         return [s]
-    return list( [s[i]]+list(r) for i in xrange(depth+1) for r in combinations(s[i+1:], n-1) )
+    return list( [s[i]]+list(r) for i in range(depth+1) for r in combinations(s[i+1:], n-1) )
     """
     #old version
     all = []
-    for i in xrange(depth+1):
+    for i in range(depth+1):
          print(i)
          for r in combinations(s[i+1:], n-1) :
             print("concatenate:", [s[i]], r)
@@ -1740,7 +1740,7 @@ def pascal_row(n):
     :since: 2005-11-17
     """
     row = [1]*(n+1)
-    for i in xrange(1,(n+1)//2):
+    for i in range(1,(n+1)//2):
         row[i] = n_take_k(n,i)
         row[n-i] = row[i]
     if (n+1)%2:
@@ -1759,7 +1759,7 @@ def n_take_k(n,k):
     k = min(k,n-k)
     c = 1
     if k>0:
-        for i in xrange(k):
+        for i in range(k):
             c *= n-i
             c //= i+1
     return c    
@@ -1768,7 +1768,7 @@ def stirling(x):
     """Return real number:
     the value of Stirling's formula::
 
-        \sqrt{2 \pi x} (x/e)^x
+        sqrt[2 π x] (x/e)^x
 
     :note: can be used to approximate factorial
     """
@@ -1781,7 +1781,7 @@ def gosper(x):
     """Return real number:
     Gosper's modification of Stirling's formula::
 
-        \sqrt{(2x+1/3)\pi} (x/e)^x
+        sqrt[(2x+1/3)π] (x/e)^x
 
     :note: Used to compute factorial.
     :see: http://mathworld.wolfram.com/StirlingsApproximation.html
@@ -1803,7 +1803,7 @@ def factorial(n, exact=False):
     assert (n==int(n) and n>=0), "%s is not a positive integer"%(n)
     if n<15 or exact:
         fac = 1
-        for i in xrange(n):
+        for i in range(n):
             fac *= i+1
     else:
         fac = gosper(n)

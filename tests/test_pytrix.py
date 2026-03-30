@@ -5,14 +5,9 @@ Unit tests for pytrix.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import absolute_import
-from __future__ import division
-
-__docformat__ = "restructuredtext en"
 __author__ = 'Alan G. Isaac (and others as specified)'
 
 import math, random, unittest
-from itertools import izip
 import numpy as np
 import numpy.linalg as la
 
@@ -51,9 +46,9 @@ class testPytrix(unittest.TestCase):
         v1 = Vplus(self.list2) #no zeros!
         v2 = Vplus(2*x for x in self.list2)
         self.assertEqual(2*v1, v2)
-        mul1 = Vplus(x1*x2 for x1,x2 in izip(v1,v2))
+        mul1 = Vplus(x1*x2 for x1,x2 in zip(v1,v2))
         self.assertEqual(v1 * v2, mul1)
-        div1 = Vplus(x1/x2 for x1,x2 in izip(v1,v2))
+        div1 = Vplus(x1/x2 for x1,x2 in zip(v1,v2))
         self.assertEqual(v1 / v2, div1)
     def test_combinations(self):
         self.assertEqual(n_take_k(5,3), 10)
@@ -67,7 +62,7 @@ class testPytrix(unittest.TestCase):
     def test_ordered_partitions(self):
         self.assertEqual(ordered_partitions(2,1),[[2]])
         self.assertEqual(ordered_partitions(2,2),[[0,2],[1,1],[2,0]])
-        ap22 = map(tuple,ordered_subpartitions(2,2))
+        ap22 = list(map(tuple,ordered_subpartitions(2,2)))
         self.assertEqual(len(ap22),len(set(ap22)))
         self.assertEqual(ap22,[(0,0),(0,1),(1,0),(0,2),(1,1),(2,0)])
         nbins = random.randint(1, 9)
