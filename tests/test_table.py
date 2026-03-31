@@ -5,20 +5,14 @@ Unit tests table.py.
 :see: http://agiletesting.blogspot.com/2005/01/python-unit-testing-part-1-unittest.html
 :see: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/305292
 '''
-from __future__ import absolute_import
 import unittest
 
-try:
-	import numpy as np
-	has_numpy = True
-except ImportError:
-	has_numpy = False
 
-__docformat__ = "restructuredtext en"
-
-from table import Cell, Row, SimpleTable
-from table import default_latex_fmt
-from table import default_html_fmt
+from econpy.utilities.table import (
+  Cell, Row, SimpleTable,
+  default_latex_fmt,
+  default_html_fmt,
+  )
 
 ltx_fmt1 = default_latex_fmt.copy()
 html_fmt1 = default_html_fmt.copy()

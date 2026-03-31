@@ -7,7 +7,8 @@ Todo: pull out Newton-Raphson method into it's own function for reuse
 """
 
 import numpy as np
-from numpy.testing import *
+from numpy_financial import pmt
+from numpy_financial._financial import _convert_when
 
 def _discf(rate, pmts, dates):
     '''
@@ -51,19 +52,19 @@ def xirr(pmts, dates, guess=.10, maxiter=100, tol=1.48e-8):
     for i, dt in enumerate(dates):
         dates[i]=date(*dt) 
     pmts=[-2750,1000,2000]
-    print xirr(pmts,dates)
+    print(xirr(pmts,dates))
  
     or
 
     dates==[151,335]
     pmt=[-2750,100,2000]
-    print xirr(pmts,dates)
+    print(xirr(pmts,dates))
 
     Notes
     -----
     In general the xirr is the solution to
 
-    .. math:: \sum_{t=0}^M{\frac{v_t}{(1+xirr)^{(date_t-date_0)/365}}} = 0
+    .. math:: sum_{t=0}^M{ frac{v_t}{(1+xirr)^{(date_t-date_0)/365}}} = 0
 
     To Do
     -----
@@ -76,7 +77,7 @@ def xirr(pmts, dates, guess=.10, maxiter=100, tol=1.48e-8):
 #    f = lambda x: _discf(x, pmts, dates)
 #    try: 
 #        from scipy.optimize import newton
-#        print "scipy did it"
+#        print("scipy did it")
 #        return newton(f, guess)
 #    except:
 #        pass
@@ -87,14 +88,14 @@ def xirr(pmts, dates, guess=.10, maxiter=100, tol=1.48e-8):
     for iter in range(maxiter):
         func,funcp = _discf(x0,pmts,dates)
         if funcp == 0:
-            print "Warning: Stopped on zero-derivative.\n"
-            print "Solution set to current guess %s." % (x0)
+            print("Warning: Stopped on zero-derivative.\n")
+            print("Solution set to current guess %s." % (x0))
             return x0
         x = x0 - func/funcp
         if abs(x-x0) < tol:
             return x
         x0 = x
-    raise RuntimeError, "Failed to converge after %d iterations, returnging %s." % (maxiter, x)
+    raise RuntimeError("Failed to converge after %d iterations, returnging %s." % (maxiter, x))
 
 
 #if __name__=="__main__":
@@ -103,7 +104,6 @@ def xirr(pmts, dates, guess=.10, maxiter=100, tol=1.48e-8):
 
 ##############################################
 
-from numpy.lib.financial import _when_to_num,_convert_when,pmt
 
 #_when_to_num = {'end':0, 'begin':1,
 #                'e':0, 'b':1,
@@ -298,13 +298,13 @@ def mirr(values, finance_rate, reinvest_rate):
         return ((numer / (-initial + denom)))**(1.0/n)*(1+reinvest_rate) - 1
     
 #if __name__=="__main__":
-#    print "xirr functions"    
+#    print("xirr functions")
 #    dates=[[2008,2,5],[2008,7,5],[2009,1,5]]
 #    from datetime import date
 #    for i,dt in enumerate(dates):
 #         dates[i]=date(*dt)
 #    pmts=[-2750,1000,2000]
-#    print xirr(pmts,dates)
-#    print
+#    print(xirr(pmts,dates))
+#    print()
 #    dates2=[151,335]
-#    print xirr(pmts,dates2) 
+#    print(xirr(pmts,dates2))
