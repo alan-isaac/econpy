@@ -308,7 +308,7 @@ class Indiv(Transactor):
 		acct = fund.create_account(self, amt=amt)
 		self._accounts.append(acct)
 
-class Fund(Transactor):
+class Fund(Transactor): #chkchkchk
 	"""Provide a basic financial institution.
 	Often just for accounting (e.g., handling transfers)
 	Currently only individuals should hold fund accounts.
