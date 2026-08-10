@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "econ-ark>=0.17.1",
     "matplotlib>=3.10.8",
     "numpy>=2.4.3",
     "numpy-financial>=1.0.0",
